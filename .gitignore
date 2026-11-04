@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+*.log
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# 本地测试/截图
+.local-*

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#101522">
+  <link rel="icon" type="image/x-icon" href="media/graphics/misc/favicon.ico">
+  <title>Idle Mining Empire - 选择模式</title>
+  <style>
+    :root {
+      --gold: #f5b73d;
+      --gold-deep: #c97a19;
+      --ink: #171223;
+      --cream: #fff3ca;
+      --line: rgba(255,255,255,.14);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      color: var(--cream);
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,184,61,.15), transparent 24rem),
+        radial-gradient(circle at 80% 80%, rgba(51,172,220,.13), transparent 28rem),
+        linear-gradient(160deg, #1a1523 0%, #101725 55%, #0a0d15 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .3;
+      background-image:
+        radial-gradient(ellipse at 8% 22%, #2a2939 0 24px, transparent 25px),
+        radial-gradient(ellipse at 92% 12%, #232333 0 34px, transparent 35px),
+        radial-gradient(ellipse at 76% 88%, #282638 0 44px, transparent 45px),
+        radial-gradient(ellipse at 18% 86%, #20304a 0 30px, transparent 31px);
+    }
+    .launcher {
+      position: relative;
+      z-index: 1;
+      width: min(900px, 100%);
+      padding: clamp(22px, 5vw, 52px);
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #7dd6ec;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(34px, 8vw, 72px);
+      line-height: .95;
+      letter-spacing: -.04em;
+      text-shadow: 0 5px 0 #10131e, 0 8px 24px rgba(0,0,0,.5);
+    }
+    h1 span { color: var(--gold); }
+    .lead {
+      max-width: 660px;
+      margin: 18px 0 28px;
+      color: #d9cfe3;
+      font-size: clamp(15px, 2.4vw, 18px);
+      line-height: 1.65;
+    }
+    .modes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .mode-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 230px;
+      padding: 24px;
+      overflow: hidden;
+      color: var(--cream);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(155deg, rgba(59,61,83,.96), rgba(29,33,49,.96));
+      box-shadow: 0 18px 50px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.08);
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .mode-card::after {
+      content: "";
+      position: absolute;
+      right: -46px;
+      bottom: -60px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,183,61,.18), transparent 67%);
+    }
+    .mode-card:hover, .mode-card:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(245,183,61,.68);
+      box-shadow: 0 24px 64px rgba(0,0,0,.36), 0 0 0 3px rgba(245,183,61,.12);
+      outline: none;
+    }
+    .mode-card.creative {
+      background: linear-gradient(155deg, rgba(65,56,91,.98), rgba(29,34,59,.98));
+      border-color: rgba(91,204,235,.34);
+    }
+    .mode-card.creative::after { background: radial-gradient(circle, rgba(58,191,235,.22), transparent 67%); }
+    .tag {
+      align-self: flex-start;
+      margin-bottom: 34px;
+      padding: 6px 10px;
+      color: #b9c9d9;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 99px;
+    }
+    .creative .tag { color: #8ae8ff; border-color: rgba(89,214,247,.35); }
+    h2 { margin: 0 0 9px; font-size: clamp(24px, 4vw, 34px); color: #fff; }
+    .mode-card p { margin: 0 0 26px; color: #c7c4d1; line-height: 1.65; }
+    .play {
+      margin-top: auto;
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 20px;
+      color: var(--ink);
+      font-weight: 900;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #ffd568, var(--gold));
+      box-shadow: 0 5px 0 var(--gold-deep), 0 9px 20px rgba(0,0,0,.25);
+    }
+    .creative .play { color: #07232d; background: linear-gradient(180deg, #8feaff, #46c6e8); box-shadow: 0 5px 0 #2189a8, 0 9px 20px rgba(0,0,0,.25); }
+    .notes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      margin-top: 24px;
+      color: #8f9aaa;
+      font-size: 13px;
+    }
+    .notes span::before { content: "●"; margin-right: 8px; color: #57c894; font-size: 9px; }
+    @media (max-width: 640px) {
+      .launcher { padding: 22px 18px 30px; }
+      .modes { grid-template-columns: 1fr; }
+      .mode-card { min-height: 190px; padding: 20px; }
+      .tag { margin-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="launcher">
+    <p class="eyebrow">本地离线版 · 选择游戏模式</p>
+    <h1>Idle Mining <span>Empire</span></h1>
+    <p class="lead">两个模式使用各自独立的本地存档，可随时返回本页切换。</p>
+    <section class="modes" aria-label="游戏模式">
+      <a class="mode-card normal" href="game.html?mode=normal">
+        <span class="tag">标准玩法</span>
+        <h2>普通模式</h2>
+        <p>从 10 元开始，逐步购买矿区、招募经理并升级设备。现金有限，保留完整的离线收益机制。</p>
+        <span class="play">开始普通模式</span>
+      </a>
+      <a class="mode-card creative" href="game.html?mode=creative">
+        <span class="tag">无限资金 · 免费建造</span>
+        <h2>创造模式</h2>
+        <p>和普通模式一样从头经营，但现金无限，购买矿区、雇佣经理和升级设备全部免费。</p>
+        <span class="play">开始创造模式</span>
+      </a>
+    </section>
+    <div class="notes">
+      <span>完全离线</span><span>无广告</span><span>无账号</span><span>本地独立存档</span>
+    </div>
+  </main>
+</body>
+</html>

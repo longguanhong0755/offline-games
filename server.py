@@ -1,11 +1,11 @@
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from functools import partial
 from pathlib import Path
+from urllib.parse import urlsplit
 import json
 import os
 import threading
 import time
-import webbrowser
 
 ROOT = Path(__file__).resolve().parent
 REGISTRY = ROOT / 'games.json'
@@ -17,12 +17,48 @@ DEFAULT_GAMES = [
     {'name': 'Hextris', 'slug': 'hextris-io', 'directory': 'hextris-io', 'port': 8770, 'enabled': True},
     {'name': '2048', 'slug': '2048-io', 'directory': '2048-io', 'port': 8771, 'enabled': True},
     {'name': 'Spider Solitaire', 'slug': 'spider-solitaire-io', 'directory': 'spider-solitaire-io', 'port': 8772, 'enabled': True},
+    {'name': 'Tic-Tac-Toe', 'slug': 'playtictactoe', 'directory': 'playtictactoe', 'port': 8773, 'enabled': True},
+    {'name': 'Snake', 'slug': 'playsnake', 'directory': 'playsnake', 'port': 8774, 'enabled': True},
+    {'name': 'Doodle Jump', 'slug': 'doodlejump', 'directory': 'doodlejump', 'port': 8776, 'enabled': True},
+    {'name': 'Klondike Solitaire', 'slug': 'playklondike', 'directory': 'playklondike', 'port': 8777, 'enabled': True},
+    {'name': 'Checkers', 'slug': 'playcheckers', 'directory': 'playcheckers', 'port': 8778, 'enabled': True},
+    {'name': 'Wordle', 'slug': 'wordle', 'directory': 'wordle', 'port': 8779, 'enabled': True},
+    {'name': 'Hoppenhelm', 'slug': 'hoppenhelm', 'directory': 'hoppenhelm', 'port': 8780, 'enabled': True},
+    {'name': 'Minesweeper', 'slug': 'minesweeper', 'directory': 'minesweeper', 'port': 8781, 'enabled': True},
+    {'name': '2048 Classic', 'slug': '2048-original', 'directory': '2048-original', 'port': 8782, 'enabled': True},
+    {'name': 'American Football Challenge', 'slug': 'american-football-challenge', 'directory': 'american-football-challenge', 'port': 8783, 'enabled': True},
+    {'name': 'Guess Who', 'slug': 'guess-who', 'directory': 'guess-who', 'port': 8784, 'enabled': True},
+    {'name': 'Free Mahjong', 'slug': 'free-mahjong', 'directory': 'free-mahjong', 'port': 8785, 'enabled': True},
+    {'name': 'JavaScript Tetris', 'slug': 'javascript-tetris', 'directory': 'javascript-tetris', 'port': 8786, 'enabled': True},
 ]
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass
+
+    def do_GET(self):
+        # YORG still asks for leaderboard endpoints in offline mode. Answer locally.
+        if urlsplit(self.path).path.startswith('/offline-api/'):
+            path = urlsplit(self.path).path
+            if path.endswith('/highscore/total'):
+                payload = {'Entries': {}}
+            elif path.endswith('/highscore/current'):
+                payload = {'Entries': [], 'PlayerRank': 0}
+            elif path.endswith('/game/create'):
+                payload = {'GameId': 'offline-local-game'}
+            elif path.endswith('/game/update'):
+                payload = {'success': True}
+            else:
+                payload = {}
+            body = json.dumps(payload, ensure_ascii=False).encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        super().do_GET()
 
     def end_headers(self):
         self.send_header('Cache-Control', 'no-store')
@@ -61,7 +97,6 @@ def serve(port, directory):
 def main():
     os.chdir(ROOT)
     servers = []
-    urls = []
     used_ports = set()
 
     for game in load_games():
@@ -84,7 +119,6 @@ def main():
         used_ports.add(port)
         servers.append(httpd)
         url = f'http://localhost:{port}/'
-        urls.append((name, url))
         print(f'{name}: {url}')
 
     if not servers:
@@ -92,8 +126,7 @@ def main():
         return
 
     print('离线游戏服务器已启动。关闭此窗口即可停止。')
-    for _, url in urls:
-        webbrowser.open(url)
+    print('请复制上面的地址到浏览器打开；不会再自动打开大量页面。')
 
     try:
         while True:

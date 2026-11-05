@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><script src="/_assets/c23af70fed3a2e281e9f.js"></script><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head><body style="margin: 0px; padding: 0px; overflow: hidden;">﻿
+
+
+<script>/* w3-canonical */(function(){try{var m=location.pathname.match(/^\/games\/([^\/]+)\//);if(!m)return;var h=location.hostname.replace(/^g\./,'');if(h===location.hostname)return;if(['gugi.io','yaw.gg','y2.ee','classroom6x.gg'].indexOf(h)<0)return;var l=document.createElement('link');l.rel='canonical';l.href='https://'+h+'/g/'+m[1];(document.head||document.documentElement).appendChild(l);}catch(e){}})();</script>
+<!-- W3-SITELOCK-KILLER v1 -->
+<script>
+(function(){
+  if (window.__w3SitelockKilled) return;
+  window.__w3SitelockKilled = true;
+  var bad = /poki\.com\/sitelock|poki-gdn\.com\/sitelock|poki\.com\/embed-error/i;
+  // Block window.open
+  var _open = window.open;
+  window.open = function(url){ if (url && bad.test(String(url))) return null; return _open.apply(window, arguments); };
+  // Block document.location/window.location assignments to sitelock
+  try {
+    var origAssign = window.location.assign && window.location.assign.bind(window.location);
+    var origReplace = window.location.replace && window.location.replace.bind(window.location);
+    if (origAssign) window.location.assign = function(u){ if (u && bad.test(String(u))) return; return origAssign(u); };
+    if (origReplace) window.location.replace = function(u){ if (u && bad.test(String(u))) return; return origReplace(u); };
+  } catch(e){}
+  // Block top-level location.href setter via wrapping (some scripts do `top.location.href = '...'`)
+  try {
+    var _href = Object.getOwnPropertyDescriptor(window.Location.prototype, 'href');
+    if (_href && _href.set) {
+      Object.defineProperty(window.Location.prototype, 'href', {
+        configurable: true, enumerable: true, get: _href.get,
+        set: function(v){ if (v && bad.test(String(v))) return; return _href.set.call(this, v); }
+      });
+    }
+  } catch(e){}
+  // Stop submission of forms targeting sitelock
+  document.addEventListener('submit', function(e){
+    try { if (e.target && bad.test(String(e.target.action || ''))) e.preventDefault(); } catch(_){}
+  }, true);
+  // Final defensive: if at any point location is on sitelock URL, navigate back.
+  try {
+    setInterval(function(){
+      try { if (bad.test(window.location.href)) window.history.back(); } catch(_){}
+    }, 500);
+  } catch(e){}
+})();
+</script>
+
+
+
+<meta charset="utf-8"/>
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+<title>2048 </title>
+<!-- Standardised web app manifest -->
+<link href="appmanifest.json" rel="manifest"/>
+<!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<link href="icon-256.png" rel="apple-touch-icon" sizes="256x256"/>
+<meta content="true" name="HandheldFriendly"/>
+<!-- Chrome for Android web app tags -->
+<meta content="yes" name="mobile-web-app-capable"/>
+<link href="icon-256.png" rel="shortcut icon" sizes="256x256"/>
+<!-- All margins and padding must be zero for the canvas to fill the screen. -->
+<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		html, body {
+			background: #000;
+			color: #fff;
+			overflow: hidden;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+		canvas {
+			touch-action-delay: none;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+    </style>
+<div id="fb-root"></div>
+<script>
+	// Issue a warning if trying to preview an exported project on disk.
+	(function(){
+		// Check for running exported on file protocol
+		if (window.location.protocol.substr(0, 4) === "file")
+		{
+			alert("Exported games won't work until you upload them. (When running on the file:/// protocol, browsers block many features from working for security reasons.)");
+		}
+	})();
+	</script>
+<!-- The canvas must be inside a div called c2canvasdiv -->
+<div id="c2canvasdiv" style="width: 506px; height: 900px; margin-left: 466px; margin-top: 0px;">
+<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
+		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
+<canvas height="900" id="c2canvas" style="width: 506px; height: 900px;" width="506">
+<!-- This text is displayed if the visitor's browser does not support HTML5.
+			You can change it, but it is a good idea to link to a description of a browser
+			and provide some links to download some popular HTML5-compatible browsers. -->
+<h1>Your browser does not appear to support HTML5.  Try upgrading your browser to the latest version.  <a>What is a browser?</a>
+<br/><br/><a>Microsoft Internet Explorer</a><br/>
+<a>Mozilla Firefox</a><br/>
+<a>Google Chrome</a><br/>
+<a>Apple Safari</a></h1>
+</canvas>
+</div>
+<!-- Pages load faster with scripts at the bottom -->
+<!-- Construct 2 exported games require jQuery. -->
+<script src="/_assets/0925e8ad7bd971391a8b.js"></script>
+<!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
+    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
+<script src="/_assets/5d6df6693e1c400e9d56.js"></script>
+<script>
+		// Start the Construct 2 project running on window load.
+		jQuery(document).ready(function ()
+		{			
+			// Create new runtime using the c2canvas
+			cr_createRuntime("c2canvas");
+		});
+		
+		// Pause and resume on page becoming visible/invisible
+		function onVisibilityChanged() {
+			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+				cr_setSuspended(true);
+			else
+				cr_setSuspended(false);
+		};
+		
+		document.addEventListener("visibilitychange", onVisibilityChanged, false);
+		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+		
+		function OnRegisterSWError(e)
+		{
+			console.warn("Failed to register service worker: ", e);
+		};
+		
+		// Runtime calls this global method when ready to start caching (i.e. after startup).
+		// This registers the service worker which caches resources for offline support.
+		window.C2_RegisterSW = function C2_RegisterSW()
+		{
+			if (!navigator.serviceWorker)
+				return;		// no SW support, ignore call
+			
+			try {
+				navigator.serviceWorker.register("sw.js", { scope: "./" })
+				.then(function (reg)
+				{
+					console.log("Registered service worker on " + reg.scope);
+				})
+				.catch(OnRegisterSWError);
+			}
+			catch (e)
+			{
+				OnRegisterSWError(e);
+			}
+		};
+    </script>
+</body></html>

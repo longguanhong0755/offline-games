@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><script>/*w3-brand-links*/(function(){try{var B=/^(www\.|m\.|[a-z]{2}\.)?(lagged\.com|1games\.io|azgames?\.io|poki\.com|crazygames\.com|kizi\.com|agame\.com|y8\.com|coolmathgames\.com|famobi\.com|gamedistribution\.com|miniclip\.com|kongregate\.com|armorgames\.com|gamemonetize\.com)$/i;function P(){var r='';try{r=new URL(document.referrer).origin}catch(e){}return /(^|\.)(yaw\.gg|y2\.ee|gugi\.io|classroom6x\.gg)$/.test(r.replace(/^https?:\/\//,''))?r+'/':'https://yaw.gg/'}function F(u){try{var x=new URL(String(u),location.href);return B.test(x.hostname)?P():u}catch(e){return u}}window.__w3brand=F;var o=window.open;window.open=function(u){var a=[].slice.call(arguments);if(a.length)a[0]=F(u);return o.apply(window,a)};document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(a){var n=F(a.href);if(n!==a.href){a.href=n;a.target='_blank'}}},true)}catch(e){}})();</script>
+<script>/* w3-canonical */(function(){try{var m=location.pathname.match(/^\/games\/([^\/]+)\//);if(!m)return;var h=location.hostname.replace(/^g\./,'');if(h===location.hostname)return;if(['gugi.io','yaw.gg','y2.ee','classroom6x.gg'].indexOf(h)<0)return;var l=document.createElement('link');l.rel='canonical';l.href='https://'+h+'/g/'+m[1];(document.head||document.documentElement).appendChild(l);}catch(e){}})();</script>
+<!-- W3-SITELOCK-KILLER v1 -->
+<script>
+(function(){
+  if (window.__w3SitelockKilled) return;
+  window.__w3SitelockKilled = true;
+  var bad = /poki\.com\/sitelock|poki-gdn\.com\/sitelock|poki\.com\/embed-error/i;
+  // Block window.open
+  var _open = window.open;
+  window.open = function(url){ if (url && bad.test(String(url))) return null; return _open.apply(window, arguments); };
+  // Block document.location/window.location assignments to sitelock
+  try {
+    var origAssign = window.location.assign && window.location.assign.bind(window.location);
+    var origReplace = window.location.replace && window.location.replace.bind(window.location);
+    if (origAssign) window.location.assign = function(u){ if (u && bad.test(String(u))) return; return origAssign(u); };
+    if (origReplace) window.location.replace = function(u){ if (u && bad.test(String(u))) return; return origReplace(u); };
+  } catch(e){}
+  // Block top-level location.href setter via wrapping (some scripts do `top.location.href = '...'`)
+  try {
+    var _href = Object.getOwnPropertyDescriptor(window.Location.prototype, 'href');
+    if (_href && _href.set) {
+      Object.defineProperty(window.Location.prototype, 'href', {
+        configurable: true, enumerable: true, get: _href.get,
+        set: function(v){ if (v && bad.test(String(v))) return; return _href.set.call(this, v); }
+      });
+    }
+  } catch(e){}
+  // Stop submission of forms targeting sitelock
+  document.addEventListener('submit', function(e){
+    try { if (e.target && bad.test(String(e.target.action || ''))) e.preventDefault(); } catch(_){}
+  }, true);
+  // Final defensive: if at any point location is on sitelock URL, navigate back.
+  try {
+    setInterval(function(){
+      try { if (bad.test(window.location.href)) window.history.back(); } catch(_){}
+    }, 500);
+  } catch(e){}
+})();
+</script>
+<!-- /W3-SITELOCK-KILLER -->
+<meta charset="utf-8"/>
+<title>Doodle Jump Unblocked - ClassRoom6x</title>
+<meta content="classroom6x.gitlab.io" name="website"/>
+<link href="/_assets/11d5e3ab7f9c9357e488.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body style="overflow:hidden;">
+<div class="container">
+<canvas height="552" id="canvas" width="422">Aww, your browser doesn't support HTML5!</canvas>
+<div id="mainMenu">
+<h1>doodle jump</h1>
+<h3>using HTML5,</h3>
+<h3>...by <a href="#" target="_blank">topVAZ</a></h3>
+<p class="info">use <span class="key left">←</span> <span class="key right">→</span> to move and space to (re) start...</p>
+<a class="button" href="javascript:init()">Play</a>
+</div>
+<div id="gameOverMenu">
+<h1>game over!</h1>
+<h3 id="go_score">you scored 0 points</h3>
+<a class="button" href="javascript:reset()">Restart</a>
+</div>
+<img id="sprite" src="/_assets/9c912ba1a572b22a1ff0.webp"/>
+<div id="scoreBoard">
+<p id="score">0</p>
+</div>
+</div>
+<script src="/_assets/237c1c3d2d0f009ff87f.js"></script>
+<script src="/_assets/d7a66bb03f317d888c00.js"></script>
+</body></html>

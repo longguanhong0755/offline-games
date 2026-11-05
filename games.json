@@ -42,6 +42,97 @@
       "directory": "spider-solitaire-io",
       "port": 8772,
       "enabled": true
+    },
+    {
+      "name": "Tic-Tac-Toe",
+      "slug": "playtictactoe",
+      "directory": "playtictactoe",
+      "port": 8773,
+      "enabled": true
+    },
+    {
+      "name": "Snake",
+      "slug": "playsnake",
+      "directory": "playsnake",
+      "port": 8774,
+      "enabled": true
+    },
+    {
+      "name": "Doodle Jump",
+      "slug": "doodlejump",
+      "directory": "doodlejump",
+      "port": 8776,
+      "enabled": true
+    },
+    {
+      "name": "Klondike Solitaire",
+      "slug": "playklondike",
+      "directory": "playklondike",
+      "port": 8777,
+      "enabled": true
+    },
+    {
+      "name": "Checkers",
+      "slug": "playcheckers",
+      "directory": "playcheckers",
+      "port": 8778,
+      "enabled": true
+    },
+    {
+      "name": "Wordle",
+      "slug": "wordle",
+      "directory": "wordle",
+      "port": 8779,
+      "enabled": true
+    },
+    {
+      "name": "Hoppenhelm",
+      "slug": "hoppenhelm",
+      "directory": "hoppenhelm",
+      "port": 8780,
+      "enabled": true
+    },
+    {
+      "name": "Minesweeper",
+      "slug": "minesweeper",
+      "directory": "minesweeper",
+      "port": 8781,
+      "enabled": true
+    },
+    {
+      "name": "2048 Classic",
+      "slug": "2048-original",
+      "directory": "2048-original",
+      "port": 8782,
+      "enabled": true
+    },
+    {
+      "name": "American Football Challenge",
+      "slug": "american-football-challenge",
+      "directory": "american-football-challenge",
+      "port": 8783,
+      "enabled": true
+    },
+    {
+      "name": "Guess Who",
+      "slug": "guess-who",
+      "directory": "guess-who",
+      "port": 8784,
+      "enabled": true
+    },
+    {
+      "name": "Free Mahjong",
+      "slug": "free-mahjong",
+      "directory": "free-mahjong",
+      "port": 8785,
+      "enabled": true
+    },
+    {
+      "name": "JavaScript Tetris",
+      "slug": "javascript-tetris",
+      "directory": "javascript-tetris",
+      "port": 8786,
+      "enabled": true
     }
   ]
 }

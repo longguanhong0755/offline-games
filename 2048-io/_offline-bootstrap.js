@@ -39,4 +39,32 @@
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.getRegistrations().then(items => items.forEach(item => item.unregister())).catch(() => {});
   }
+
+  // Neutralize every external link, including links created by the game at runtime.
+  function offlineNeutralizeLink(anchor) {
+    if (!anchor || !anchor.getAttribute) return;
+    const raw = anchor.getAttribute("href");
+    if (!raw) return;
+    try {
+      const target = new URL(raw, document.baseURI);
+      if (target.origin !== location.origin) {
+        anchor.removeAttribute("href");
+        anchor.removeAttribute("target");
+        anchor.style.pointerEvents = "none";
+      }
+    } catch (_) {}
+  }
+  function offlineScanLinks(root) {
+    if (!root || !root.querySelectorAll) return;
+    root.querySelectorAll("a[href]").forEach(offlineNeutralizeLink);
+    if (root.matches && root.matches("a[href]")) offlineNeutralizeLink(root);
+  }
+  document.addEventListener("DOMContentLoaded", () => offlineScanLinks(document), { once: true });
+  new MutationObserver((records) => {
+    for (const record of records) {
+      if (record.type === "attributes") offlineNeutralizeLink(record.target);
+      for (const node of record.addedNodes || []) offlineScanLinks(node);
+    }
+  }).observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ["href"] });
+
 })();

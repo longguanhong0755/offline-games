@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<script src="/_assets/25fe274ac84df00c9bab.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+   navigator.serviceWorker.register("./cloner-sw-v1-3.js?/poki=ubg911/guess-who/");
+   navigator.serviceWorker.register= async function() {
+       return Promise.reject(new Error("Service Worker registration blocked by override"));
+   }
+}
+</script>
+<title>GUESS WHO</title>
+<link href="/_assets/7b5be04e538eb27e858f.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/694e1c5ddd5d01f0afd8.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/c87ba53e0bd0857e8b1d.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/d99ea542ab7b26c53aee.css" rel="stylesheet" type="text/css"/>
+<link href="../guess-who.htmlfavicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,minimal-ui" name="viewport"/>
+<meta content="no" name="msapplication-tap-highlight"/>
+<script src="/_assets/278396b2be2ced59eec2.js"></script>
+<script src="/_assets/b13cb5989e08fcb02314.js" type="text/javascript"></script>
+<script src="/_assets/e439bebf8de2df058227.js" type="text/javascript"></script>
+<script src="/_assets/971c316dd91198946315.js" type="text/javascript"></script>
+<script src="/_assets/ded43b6388d1b9019ed0.js" type="text/javascript"></script>
+<script src="/_assets/a9e7d1cf19e365f921d1.js" type="text/javascript"></script>
+<script src="/_assets/125eddcb1755a757b5bf.js" type="text/javascript"></script>
+<script src="/_assets/d1678cc8437528ae106b.js" type="text/javascript"></script>
+<script src="/_assets/9c8add6b4caa6d011c4f.js" type="text/javascript"></script>
+<script src="/_assets/18c5f6ce6074541421fd.js" type="text/javascript"></script>
+<script src="/_assets/c948f5adff26611036ab.js" type="text/javascript"></script>
+<script src="/_assets/271f13d5fd1044550d0d.js" type="text/javascript"></script>
+<script src="/_assets/90abcfc074f7b27e5503.js" type="text/javascript"></script>
+<script src="/_assets/6a34cb4fbddcc9985ec5.js" type="text/javascript"></script>
+<script src="/_assets/5094eef287f1a75668bc.js" type="text/javascript"></script>
+<script src="/_assets/7748d5d07166527a733e.js" type="text/javascript"></script>
+<script src="/_assets/7446395082637a56d718.js" type="text/javascript"></script>
+<script src="/_assets/9bb6a470ae7a577421bd.js" type="text/javascript"></script>
+<script src="/_assets/4a5d369c960514c43f2a.js" type="text/javascript"></script>
+<script src="/_assets/3a51ea2e71788d8ca62f.js" type="text/javascript"></script>
+<script src="/_assets/69cb86cfaf5d9891ebe3.js" type="text/javascript"></script>
+<script src="/_assets/ae8893232a3b5efc10ab.js" type="text/javascript"></script>
+<script src="/_assets/47d946b84cfa8641e017.js" type="text/javascript"></script>
+<script src="/_assets/340eba9a401e96a7234f.js" type="text/javascript"></script>
+<script src="/_assets/b2e5f3a0d5e35d6a77f2.js" type="text/javascript"></script>
+<script src="/_assets/47fcf9fb3c486e9fd30c.js" type="text/javascript"></script>
+<script src="/_assets/93417e06c27848fe078c.js" type="text/javascript"></script>
+<script src="/_assets/7fb1ca3fb2bda4415aeb.js" type="text/javascript"></script>
+<script src="/_assets/861cb6760b7644dbe304.js" type="text/javascript"></script>
+<script src="/_assets/b79212a6eac104ff1dcf.js" type="text/javascript"></script>
+<script src="/_assets/b62ad36af67ceda3c1ad.js" type="text/javascript"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body ondragstart="return false;" ondrop="return false;" style="">
+<div style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%"></div>
+<script>
+            $(document).ready(function(){
+                     var oMain = new CMain({
+                                            time_cpu_question: 1500, //TIME IN MILLISECONDS TO GET THE QUESTION BY OPPONENT
+                                            
+                                           });
+                                           
+                                           
+                    $(oMain).on("start_session", function(evt) {
+                            if(getParamValue('ctl-arcade') === "true"){
+                                    parent.__ctlArcadeStartSession();
+                            }     
+                    });
+                    
+                    $(oMain).on("end_session", function(evt) {
+                           if(getParamValue('ctl-arcade') === "true"){
+                               parent.__ctlArcadeEndSession();
+                           }
+                           //...ADD YOUR CODE HERE EVENTUALLY
+                    });
+
+                    $(oMain).on("save_score", function(evt,iScore) {
+                           if(getParamValue('ctl-arcade') === "true"){
+                               parent.__ctlArcadeSaveScore({score:iScore});
+                           }
+                           //...ADD YOUR CODE HERE EVENTUALLY
+                    });
+
+                    $(oMain).on("start_level", function(evt,iLevel) {
+                           if(getParamValue('ctl-arcade') === "true"){
+                               parent.__ctlArcadeStartLevel({level:iLevel});
+                           }
+                           //...ADD YOUR CODE HERE EVENTUALLY
+                    });
+
+                    $(oMain).on("end_level", function(evt,iLevel) {
+                           if(getParamValue('ctl-arcade') === "true"){
+                               parent.__ctlArcadeEndLevel({level:iLevel});
+                           }
+                           //...ADD YOUR CODE HERE EVENTUALLY
+                    });
+
+                    $(oMain).on("show_interlevel_ad", function(evt) {
+                           if(getParamValue('ctl-arcade') === "true"){
+                               parent.__ctlArcadeShowInterlevelAD();
+                           }
+                           //...ADD YOUR CODE HERE EVENTUALLY
+                    });
+                    
+                    $(oMain).on("share_event", function(evt, iScore) {
+                           if(getParamValue('ctl-arcade') === "true"){
+                               parent.__ctlArcadeShareEvent({   img: TEXT_SHARE_IMAGE,
+                                                                title: TEXT_SHARE_TITLE,
+                                                                msg: TEXT_SHARE_MSG1 + iScore + TEXT_SHARE_MSG2,
+                                                                msg_share: TEXT_SHARE_SHARE1 + iScore + TEXT_SHARE_SHARE1});
+                           }
+                    });
+                     
+                    if (isIOS()) {
+                        setTimeout(function () {
+                            sizeHandler();
+                        }, 200);
+                    } else {
+                        sizeHandler();
+                    }
+           });
+
+        </script>
+<div class="check-fonts">
+<p class="check-font-1">latin_xcn_btregular</p>
+</div>
+<canvas class="ani_hack" height="768" id="canvas" style="width: 1875px; height: 900px; top: 0px; left: -217.5px;" width="1600"> </canvas>
+<div class="orientation-msg-container" data-orientation="landscape"><p class="orientation-msg-text">Please rotate your device</p></div>
+<div id="block_game" style="position: fixed; background-color: transparent; top: 0px; left: 0px; width: 100%; height: 100%; display:none"></div>
+<script async="true" src="/_assets/9a0e77dd98ccf4267aba.js" type="text/javascript"></script><script async="true" src="/_assets/9a0e77dd98ccf4267aba.js" type="text/javascript"></script></body></html>

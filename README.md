@@ -1,6 +1,6 @@
 # 离线网页游戏合集
 
-一个用于集中存放可离线运行的网页游戏的项目。每款游戏使用独立子目录，统一由根目录的 `server.py` 提供本地静态服务。
+一个用于集中存放可离线运行的网页游戏的项目。每款游戏使用独立子目录，统一由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
 
 ## 当前包含
 
@@ -9,12 +9,13 @@
 | YORG.io 经典版 | `yorg.io/` | <http://localhost:8766/> |
 | YORG.io 3 | `yorg3.io/` | <http://localhost:8767/> |
 | Idle Mining Empire | `idle-mining-empire/` | <http://localhost:8768/>（选择模式） |
+| Hextris | `hextris-io/` | <http://localhost:8770/> |
 
 ## 运行方式
 
 运行环境：Windows + Chrome / Edge + Python 3。
 
-双击 `启动游戏.cmd`，脚本会启动本地服务并打开全部游戏页面。关闭启动器打开的终端窗口即可停止服务。
+双击 `启动游戏.cmd`，脚本会启动本地服务并打开游戏页面。关闭启动器打开的终端窗口即可停止服务。
 
 也可以手动运行：
 
@@ -31,6 +32,8 @@ python -B server.py
 ├─ yorg.io/                 # YORG.io 经典版
 ├─ yorg3.io/                # YORG.io 3
 ├─ idle-mining-empire/      # Idle Mining Empire
+├─ hextris-io/              # Hextris
+├─ games.json               # 游戏目录、端口和启用状态
 ├─ server.py                # 本地静态服务器
 ├─ 启动游戏.cmd             # 一键启动脚本
 ├─ README.md
@@ -54,17 +57,26 @@ python -B server.py
 - 普通模式：<http://localhost:8768/game.html?mode=normal>
 - 创造模式：<http://localhost:8768/game.html?mode=creative>
 
+## Hextris 离线版
+
+启动页面：<http://localhost:8770/>
+
+- 完整的单人消除玩法和本地最高分存档。
+- 已移除 Google Analytics、AdSense、社交分享、应用商店入口、排行榜上报和第三方分享样式。
+- 不显示广告、分享按钮或额外悬浮面板。
+- 已验证外部网络请求为 0，页面和控制台无 JavaScript 错误。
+
 ## 后续添加游戏
 
 1. 在仓库根目录新建一个独立的游戏目录，例如 `new-game/`。
-2. 在 `server.py` 中为新目录分配一个未使用的本地端口。
-3. 在启动脚本和启动器说明中增加对应入口。
+2. 在 `games.json` 中登记名称、目录、未使用的本地端口和启用状态。
+3. 按需在启动器说明中增加对应入口。
 
 ## 离线与安全说明
 
 - 游戏只通过 `localhost` 访问，不向局域网开放。
 - 已移除或停用不必要的在线、支付、账号、多人、排行榜、广告、云同步和社交功能。
-- 当前端口为 `8766`、`8767`、`8768`，不恢复已占用的 `8765`。
+- 当前端口为 `8766`、`8767`、`8768`、`8770`，不恢复已占用的 `8765`。
 
 ## 版权
 
@@ -75,3 +87,4 @@ python -B server.py
 - <https://yorg.io/>
 - <https://yorg3.io/>
 - <https://brainrotclicker.io/idle-mining-empire>
+- <https://hextris.io/>

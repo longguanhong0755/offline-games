@@ -3,10 +3,11 @@
 
 启动方法
 --------
-双击“启动游戏.cmd”。程序会同时打开三个独立页面：
+双击“启动游戏.cmd”。程序会同时打开四个独立页面：
   http://localhost:8766/  （YORG.io 经典版）
   http://localhost:8767/  （YORG.io 3）
   http://localhost:8768/  （Idle Mining Empire，选择普通/创造模式）
+  http://localhost:8770/  （Hextris）
 
 游玩结束后，关闭启动后出现的命令窗口即可停止本地服务。
 
@@ -30,6 +31,13 @@ Idle Mining Empire 离线双模式版
 - 竖屏或窄屏窗口会自动加边居中，保持原始宽高比，不再压缩画面。
 - 不额外显示创造模式面板。
 
+Hextris 离线版
+--------------
+- 从 http://localhost:8770/ 进入游戏。
+- 保留完整单人玩法和本地最高分存档。
+- 已移除广告、统计、社交分享、应用商店入口和排行榜上报。
+- 不显示广告、分享按钮或额外悬浮面板。
+
 离线说明
 --------
 - 不需要联网，只使用本机 localhost 静态服务。
@@ -40,7 +48,7 @@ Idle Mining Empire 离线双模式版
 运行要求
 --------
 Windows + Chrome / Edge + Python 3。
-第三方脚本、广告和统计已阻断；游戏只需本机静态服务。
+第三方脚本、广告和统计已移除；游戏只需本机静态服务。
 服务只监听本机，不会向局域网开放。
 
 版权说明
@@ -51,3 +59,4 @@ Windows + Chrome / Edge + Python 3。
   https://yorg.io/
   https://yorg3.io/
   https://brainrotclicker.io/idle-mining-empire
+  https://hextris.io/

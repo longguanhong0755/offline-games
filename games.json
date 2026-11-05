@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "games": [
+    {
+      "name": "YORG.io 经典版",
+      "slug": "yorg.io",
+      "directory": "yorg.io",
+      "port": 8766,
+      "enabled": true
+    },
+    {
+      "name": "YORG.io 3",
+      "slug": "yorg3.io",
+      "directory": "yorg3.io",
+      "port": 8767,
+      "enabled": true
+    },
+    {
+      "name": "Idle Mining Empire",
+      "slug": "idle-mining-empire",
+      "directory": "idle-mining-empire",
+      "port": 8768,
+      "enabled": true
+    },
+    {
+      "name": "Hextris",
+      "slug": "hextris-io",
+      "directory": "hextris-io",
+      "port": 8770,
+      "enabled": true
+    }
+  ]
+}

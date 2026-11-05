@@ -15,6 +15,8 @@ DEFAULT_GAMES = [
     {'name': 'YORG.io 3', 'slug': 'yorg3.io', 'directory': 'yorg3.io', 'port': 8767, 'enabled': True},
     {'name': 'Idle Mining Empire', 'slug': 'idle-mining-empire', 'directory': 'idle-mining-empire', 'port': 8768, 'enabled': True},
     {'name': 'Hextris', 'slug': 'hextris-io', 'directory': 'hextris-io', 'port': 8770, 'enabled': True},
+    {'name': '2048', 'slug': '2048-io', 'directory': '2048-io', 'port': 8771, 'enabled': True},
+    {'name': 'Spider Solitaire', 'slug': 'spider-solitaire-io', 'directory': 'spider-solitaire-io', 'port': 8772, 'enabled': True},
 ]
 
 

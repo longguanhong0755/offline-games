@@ -28,6 +28,20 @@
       "directory": "hextris-io",
       "port": 8770,
       "enabled": true
+    },
+    {
+      "name": "2048",
+      "slug": "2048-io",
+      "directory": "2048-io",
+      "port": 8771,
+      "enabled": true
+    },
+    {
+      "name": "Spider Solitaire",
+      "slug": "spider-solitaire-io",
+      "directory": "spider-solitaire-io",
+      "port": 8772,
+      "enabled": true
     }
   ]
 }

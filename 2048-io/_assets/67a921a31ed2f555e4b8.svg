@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 16">
+  <defs>
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6f6f6" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#f3f3f3" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#cloud)">
+    <rect x="3" y="9.4" width="20" height="5.6" rx="2.8"/>
+    <circle cx="8.6" cy="9.4" r="3.5"/>
+    <circle cx="13.8" cy="6.9" r="4.4"/>
+    <circle cx="18.6" cy="9.6" r="3.6"/>
+  </g>
+  <g fill="url(#cloud)" opacity="0.72">
+    <rect x="21.5" y="2.8" width="9" height="2.7" rx="1.35"/>
+    <circle cx="24.6" cy="2.9" r="1.8"/>
+    <circle cx="27.4" cy="2.3" r="2.2"/>
+  </g>
+</svg>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en"><head><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<!-- Apply the saved/system theme before first paint (no flash). Must use the
+       same storage key + resolution logic as src/theme.ts. -->
+<script>
+    (function () {
+      try {
+        var pref = localStorage.getItem("theme");
+        var dark =
+          pref === "dark" ||
+          (pref !== "light" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      } catch (e) {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
+<title>2048.io</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23faf8ef'/%3E%3C/svg%3E"/>
+<!-- iPhone 5+ -->
+<!-- iPhone, retina -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="320" name="MobileOptimized"/>
+<meta content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui" name="viewport"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="2048" property="og:title"/>
+<meta content="2048" property="og:site_name"/>
+<meta content="Join the numbers and get to the 2048 tile! Careful: this game is extremely addictive!" property="og:description"/>
+<script src="_assets/6b9ab9cfd0243d083d3a.js" type="module"></script>
+<link href="_assets/4724ec53a7c4b41205a7.css" rel="stylesheet"/>
+<meta content="#faf8ef" name="theme-color"/></head>
+<body>
+<div class="container">
+<div class="heading">
+<h1 class="title">
+<a class="title-link">2048<span class="title-link-shade">.io</span></a>
+</h1>
+<div class="scores-container">
+<div class="score-container">0</div>
+<div class="best-container">0</div>
+</div>
+</div>
+<div class="above-game">
+<p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+<button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" type="button"><span aria-hidden="true" class="theme-toggle-track"><span class="theme-toggle-stars"></span><span class="theme-toggle-clouds"></span><span class="theme-toggle-thumb"><span class="theme-toggle-sun"></span><span class="theme-toggle-moon"></span></span></span></button><a class="restart-button">New Game</a>
+</div>
+<div class="game-container">
+<div class="game-message">
+<p></p>
+<div class="lower">
+<a class="keep-playing-button">Keep going</a>
+<a class="retry-button">Try again</a>
+<div class="score-sharing"></div>
+</div>
+</div>
+<div class="grid-container">
+<div class="grid-row">
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+</div>
+<div class="grid-row">
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+</div>
+<div class="grid-row">
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+</div>
+<div class="grid-row">
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+<div class="grid-cell"></div>
+</div>
+</div>
+<div class="tile-container"><div class="tile tile-2 tile-position-2-4 tile-new"><div class="tile-inner">2</div></div><div class="tile tile-2 tile-position-4-3 tile-new"><div class="tile-inner">2</div></div></div>
+</div>
+<p class="game-explanation">
+<strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+</p>
+<hr/>
+<p>
+    Created by <a>Gabriele Cirulli.</a> Based on <a>1024 by Veewo Studio</a> and conceptually similar to <a>Threes by Asher Vollmer.</a>
+</p>
+</div>
+</body></html>

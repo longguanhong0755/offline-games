@@ -3,11 +3,13 @@
 
 启动方法
 --------
-双击“启动游戏.cmd”。程序会同时打开四个独立页面：
+双击“启动游戏.cmd”。程序会按 games.json 打开所有已启用游戏页面：
   http://localhost:8766/  （YORG.io 经典版）
   http://localhost:8767/  （YORG.io 3）
   http://localhost:8768/  （Idle Mining Empire，选择普通/创造模式）
   http://localhost:8770/  （Hextris）
+  http://localhost:8771/  （2048）
+  http://localhost:8772/  （Spider Solitaire）
 
 游玩结束后，关闭启动后出现的命令窗口即可停止本地服务。
 
@@ -38,6 +40,20 @@ Hextris 离线版
 - 已移除广告、统计、社交分享、应用商店入口和排行榜上报。
 - 不显示广告、分享按钮或额外悬浮面板。
 
+2048 离线版
+-----------
+- 从 http://localhost:8771/ 进入游戏。
+- 保留方向键移动、合并、计分、最高分、新游戏和明暗主题。
+- 已移除统计、社交分享、错误上报、离线缓存和捐赠入口。
+- 已验证可实际移动并加分，外部请求与本地错误均为 0。
+
+Spider Solitaire 离线版
+----------------------
+- 从 http://localhost:8772/ 进入游戏。
+- 保留单套、双套、四套难度和完整纸牌玩法。
+- 已移除统计、外部链接和未使用的在线弹窗组件。
+- 已验证可进入主菜单、选择难度并加载牌桌，外部请求与本地 404 均为 0。
+
 离线说明
 --------
 - 不需要联网，只使用本机 localhost 静态服务。
@@ -60,3 +76,5 @@ Windows + Chrome / Edge + Python 3。
   https://yorg3.io/
   https://brainrotclicker.io/idle-mining-empire
   https://hextris.io/
+  https://2048.io/
+  https://spider-solitaire.io/

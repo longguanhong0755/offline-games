@@ -10,6 +10,8 @@
 | YORG.io 3 | `yorg3.io/` | <http://localhost:8767/> |
 | Idle Mining Empire | `idle-mining-empire/` | <http://localhost:8768/>（选择模式） |
 | Hextris | `hextris-io/` | <http://localhost:8770/> |
+| 2048 | `2048-io/` | <http://localhost:8771/> |
+| Spider Solitaire | `spider-solitaire-io/` | <http://localhost:8772/> |
 
 ## 运行方式
 
@@ -33,6 +35,8 @@ python -B server.py
 ├─ yorg3.io/                # YORG.io 3
 ├─ idle-mining-empire/      # Idle Mining Empire
 ├─ hextris-io/              # Hextris
+├─ 2048-io/                 # 2048
+├─ spider-solitaire-io/     # Spider Solitaire
 ├─ games.json               # 游戏目录、端口和启用状态
 ├─ server.py                # 本地静态服务器
 ├─ 启动游戏.cmd             # 一键启动脚本
@@ -66,6 +70,22 @@ python -B server.py
 - 不显示广告、分享按钮或额外悬浮面板。
 - 已验证外部网络请求为 0，页面和控制台无 JavaScript 错误。
 
+## 2048 离线版
+
+启动页面：<http://localhost:8771/>
+
+- 保留了完整的方向键移动、合并、计分、最高分、新游戏和明暗主题切换。
+- 已移除 Yandex 统计、Twitter 分享组件、Sentry 上报、Workbox 缓存和捐赠入口。
+- 已验证外部网络请求为 0，页面、控制台和本地资源均无错误，实际移动可正常加分。
+
+## Spider Solitaire 离线版
+
+启动页面：<http://localhost:8772/>
+
+- 保留单套、双套、四套三种难度及完整纸牌玩法、音效和本地存档。
+- 已移除 Google Analytics、Cloudflare 统计、外部页面链接和未使用的在线弹窗组件。
+- 已验证可进入主菜单、选择难度并加载完整牌桌；外部网络请求和本地 404 均为 0。
+
 ## 后续添加游戏
 
 1. 在仓库根目录新建一个独立的游戏目录，例如 `new-game/`。
@@ -76,7 +96,7 @@ python -B server.py
 
 - 游戏只通过 `localhost` 访问，不向局域网开放。
 - 已移除或停用不必要的在线、支付、账号、多人、排行榜、广告、云同步和社交功能。
-- 当前端口为 `8766`、`8767`、`8768`、`8770`，不恢复已占用的 `8765`。
+- 当前端口为 `8766`、`8767`、`8768`、`8770`、`8771`、`8772`，不恢复已占用的 `8765`。
 
 ## 版权
 
@@ -88,3 +108,5 @@ python -B server.py
 - <https://yorg3.io/>
 - <https://brainrotclicker.io/idle-mining-empire>
 - <https://hextris.io/>
+- <https://2048.io/>
+- <https://spider-solitaire.io/>

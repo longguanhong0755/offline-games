@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><script>/*w3-brand-links*/(function(){try{var B=/^(www\.|m\.|[a-z]{2}\.)?(lagged\.com|1games\.io|azgames?\.io|poki\.com|crazygames\.com|kizi\.com|agame\.com|y8\.com|coolmathgames\.com|famobi\.com|gamedistribution\.com|miniclip\.com|kongregate\.com|armorgames\.com|gamemonetize\.com)$/i;function P(){var r='';try{r=new URL(document.referrer).origin}catch(e){}return /(^|\.)(yaw\.gg|y2\.ee|gugi\.io|classroom6x\.gg)$/.test(r.replace(/^https?:\/\//,''))?r+'/':'https://yaw.gg/'}function F(u){try{var x=new URL(String(u),location.href);return B.test(x.hostname)?P():u}catch(e){return u}}window.__w3brand=F;var o=window.open;window.open=function(u){var a=[].slice.call(arguments);if(a.length)a[0]=F(u);return o.apply(window,a)};document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href]');if(a){var n=F(a.href);if(n!==a.href){a.href=n;a.target='_blank'}}},true)}catch(e){}})();</script>
+<script>/* w3-canonical */(function(){try{var m=location.pathname.match(/^\/games\/([^\/]+)\//);if(!m)return;var h=location.hostname.replace(/^g\./,'');if(h===location.hostname)return;if(['gugi.io','yaw.gg','y2.ee','classroom6x.gg'].indexOf(h)<0)return;var l=document.createElement('link');l.rel='canonical';l.href='https://'+h+'/g/'+m[1];(document.head||document.documentElement).appendChild(l);}catch(e){}})();</script>
+<!-- W3-MOCKLOC-SHIM --><script src="/_assets/6a6d9ac66ed948ca5351.js"></script>
+<!-- W3-SITELOCK-KILLER v1 -->
+<script>
+(function(){
+  if (window.__w3SitelockKilled) return;
+  window.__w3SitelockKilled = true;
+  var bad = /poki\.com\/sitelock|poki-gdn\.com\/sitelock|poki\.com\/embed-error/i;
+  // Block window.open
+  var _open = window.open;
+  window.open = function(url){ if (url && bad.test(String(url))) return null; return _open.apply(window, arguments); };
+  // Block document.location/window.location assignments to sitelock
+  try {
+    var origAssign = window.location.assign && window.location.assign.bind(window.location);
+    var origReplace = window.location.replace && window.location.replace.bind(window.location);
+    if (origAssign) window.location.assign = function(u){ if (u && bad.test(String(u))) return; return origAssign(u); };
+    if (origReplace) window.location.replace = function(u){ if (u && bad.test(String(u))) return; return origReplace(u); };
+  } catch(e){}
+  // Block top-level location.href setter via wrapping (some scripts do `top.location.href = '...'`)
+  try {
+    var _href = Object.getOwnPropertyDescriptor(window.Location.prototype, 'href');
+    if (_href && _href.set) {
+      Object.defineProperty(window.Location.prototype, 'href', {
+        configurable: true, enumerable: true, get: _href.get,
+        set: function(v){ if (v && bad.test(String(v))) return; return _href.set.call(this, v); }
+      });
+    }
+  } catch(e){}
+  // Stop submission of forms targeting sitelock
+  document.addEventListener('submit', function(e){
+    try { if (e.target && bad.test(String(e.target.action || ''))) e.preventDefault(); } catch(_){}
+  }, true);
+  // Final defensive: if at any point location is on sitelock URL, navigate back.
+  try {
+    setInterval(function(){
+      try { if (bad.test(window.location.href)) window.history.back(); } catch(_){}
+    }, 500);
+  } catch(e){}
+})();
+</script>
+<script>
+    window.addEventListener('error', function(e) {
+        fetch('/log-error', { method: 'POST', body: e.message + ' at ' + (e.filename || 'unknown') + ':' + e.lineno });
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+        fetch('/log-error', { method: 'POST', body: 'Unhandled Rejection: ' + (e.reason ? (e.reason.stack || e.reason) : 'unknown') });
+    });
+
+    try {
+        Object.defineProperty(document, 'domain', { get: function() { return 'poki.com'; }, set: function(v){} });
+        Object.defineProperty(document, 'referrer', { get: function() { return 'https://poki.com/'; }, set: function(v){} });
+        window.open = function(){ return null; };
+    } catch(e) {}
+    
+    // Intercept dynamic script loading to block real Poki SDK
+    const scriptSrcDesc = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tagName) {
+        const el = originalCreateElement.call(document, tagName);
+        if (tagName.toLowerCase() === 'script') {
+            Object.defineProperty(el, 'src', {
+                set: function(val) {
+                    if (val && typeof val === 'string' && val.includes('poki-sdk')) {
+                        console.log('[Proxy] Blocked real Poki SDK from loading:', val);
+                        setTimeout(() => { try { el.dispatchEvent(new Event('load')); } catch (e) { if (el.onload) el.onload(); } }, 10);
+                        return;
+                    }
+                    scriptSrcDesc.set.call(this, val);
+                },
+                get: function() { return scriptSrcDesc.get.call(this); },
+                configurable: true
+            });
+        }
+        return el;
+    };
+    
+    // Fake Poki SDK via Proxy to avoid missing method errors (e.g. gameLoadingProgress)
+    const basePokiSDK = {
+        init: function() { return Promise.resolve(); },
+        adBreak: function() { return Promise.resolve(); },
+        commercialBreak: function() { return Promise.resolve(); },
+        rewardedBreak: function() { return Promise.resolve(true); },
+        shareableURL: function() { return Promise.resolve(location.href); },
+        getURLParam: function(name) { return new URLSearchParams(window.location.search).get(name); }
+    };
+    window.PokiSDK = new Proxy(basePokiSDK, {
+        get: function(target, prop) {
+            if (prop in target) return target[prop];
+            return function() { return Promise.resolve(); };
+        }
+    });
+</script>
+<script src="/_assets/8f44434938f1657449bf.js" type="text/javascript"></script><link href="/_assets/fb82cac33044081ca949.css" rel="stylesheet"/><script src="/_assets/d00c2c89cca027aee0b5.js" type="text/javascript"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<canvas height="1200" style="display: block; touch-action: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 1200px; height: 900px; cursor: inherit;" width="1600"></canvas></body></html>

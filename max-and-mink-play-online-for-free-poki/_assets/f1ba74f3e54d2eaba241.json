@@ -1,0 +1,57 @@
+{
+	"gameId"            : "maxandmink",
+	"googleAnalyticsKey": "UA-68704721-8",
+	"flurryKey"         : null,
+	"renderer"          : "canvas",
+	"assetFolder"       : "assets",
+	"forcedAssetType"   : null,
+	"debugPhysics"      : false,
+	"simpleCompile"     : true,
+
+	"assetTypes": {
+		"hd": {
+			"scale":  1,
+			"minRes": 800
+		},
+		"normal": {
+			"scale": 0.5,
+			"minRes": 400,
+			"maxRes": 800,
+			"desktop": false
+		},
+		"small": {
+			"scale": 0.25,
+			"maxRes": 400,
+			"desktop": false
+		}
+	},
+
+	"forcedOrientation": "landscape",
+	"orientationSettings": {
+		"landscape": {
+			"workingHeight": 1200,
+			"minResolution": {
+				"width": 320,
+				"height": 240
+			},
+			"minRatio": 0.75,
+			"maxRatio": 0.75
+		}
+	},
+
+	"pokiSDKVersions": {
+		"ads"      : "1.1.12",
+		"gameScore": "1.0.15"
+	},
+
+	"spriteSheets": [
+		"preroll",
+		"splash",
+		"ui",
+		"assets",
+		"map"
+	],
+
+	"libraries": [
+	]
+}

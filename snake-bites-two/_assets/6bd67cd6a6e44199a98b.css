@@ -1,0 +1,90 @@
+@import "1e698c458cb90f98e2ae.css";
+@import "d175756e77df09aaf679.css";
+@import "3a54c975dd21cf682a97.css";
+
+:root {
+	--cell-x-count: 23;
+	--cell-y-count: 13;
+	--max-w-copy: 600px;
+	/* will be set at runtime */
+	--cell-size: 20px;
+}
+body {
+	height: 100vh;
+	max-height: 100vh;
+	overflow: hidden;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-family: var(--bs-font-monospace);
+	background: cyan;
+	background: radial-gradient(
+		circle,
+		rgba(0,255,255,1) 33%,
+		rgba(0,172,172,1) 100%
+	);
+	padding: 20px;
+}
+
+h1, h2, h3 {
+	font-family: 'Luckiest Guy', var(--bs-font-sans-serif);
+}
+
+h1 {
+	-webkit-text-stroke: 2px white;
+}
+a {
+	color: black;
+}
+a:hover {
+	color: deeppink;
+}
+button {
+	border: 3px solid black;
+	padding: 4px 8px;
+	background: white;
+	color: black;
+}
+button:focus,
+button:hover {
+	outline: none;
+	box-shadow: 3px 3px white;
+}
+
+/********************************************************************************/
+#top {
+	margin: 20px 0;
+	text-align: center;
+	max-width: var(--max-w-copy);
+}
+
+#bottom {
+	margin-top: 20px;
+	text-align: center;
+	max-width: var(--max-w-copy);
+}
+
+#bottom .cpr {
+	margin-top: 20px; opacity: .6; border-top: 1px solid rgba(0, 0, 0, .3);
+	padding-top: 20px;
+	font-size: .9rem;
+}
+
+
+#game-wrap {
+	flex: 1;
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#game {
+	position: relative;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title>Document</title>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- CSS only -->
+<link href="/_assets/847280dddfc7b6d0bc39.css" rel="stylesheet"/>
+<link href="/_assets/02f1130ea156284dae4c.css" rel="stylesheet"/>
+<script>
+        function iniciarJogo() {
+            let nivel = document.getElementById('nivel').value
+
+            if (nivel === '') {
+                alert('Selecione um nível valido.')
+                return false
+            }
+
+            window.location.href = "app.html?" + nivel
+        }
+    </script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container">
+<div class="row">
+<div class="col">
+<div class="d-flex justify-content-center">
+<img src="/_assets/e7d9fc63c3d2724234bf.png"/>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col">
+<div class="d-flex justify-content-center">
+<div class="mb-2">
+<select class="form-control" id="nivel">
+<option value="">---Select level---</option>
+<option value="normal">Beginner</option>
+<option value="dificil">Intermediate</option>
+<option value="extremo">Hard</option>
+<option value="insano">Extreme</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col">
+<div class="d-flex justify-content-center">
+<button class="btn btn-danger btn-lg" onclick="iniciarJogo()" type="button">Play Game</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

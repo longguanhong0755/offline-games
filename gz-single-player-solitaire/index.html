@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Solitaire</title>
+<link href="/_assets/08d4e92e5ee7f5a83fd8.css" rel="stylesheet"/>
+<style>
+    .highlight {
+        border: 3px solid yellow;
+        box-shadow: 0 0 10px yellow;
+    }
+</style><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="game-board">
+<div class="card-pile" id="stock"></div>
+<div class="card-pile" id="waste"></div>
+<div id="foundations">
+<div class="foundation card-pile"></div>
+<div class="foundation card-pile"></div>
+<div class="foundation card-pile"></div>
+<div class="foundation card-pile"></div>
+</div>
+<div id="tableau">
+<div class="tableau-pile card-pile"><div class="card black face-up" data-rank="Q" data-suit="clubs" draggable="true"><div class="rank">Q</div><div class="suit">♣</div></div></div>
+<div class="tableau-pile card-pile"><div class="card black face-down" data-rank="K" data-suit="spades" draggable="true"><div class="rank">K</div><div class="suit">♠</div></div><div class="card red face-up" data-rank="10" data-suit="diamonds" draggable="true"><div class="rank">10</div><div class="suit">♦</div></div></div>
+<div class="tableau-pile card-pile"><div class="card black face-down" data-rank="8" data-suit="clubs" draggable="true"><div class="rank">8</div><div class="suit">♣</div></div><div class="card black face-down" data-rank="K" data-suit="clubs" draggable="true"><div class="rank">K</div><div class="suit">♣</div></div><div class="card black face-up" data-rank="A" data-suit="clubs" draggable="true"><div class="rank">A</div><div class="suit">♣</div></div></div>
+<div class="tableau-pile card-pile"><div class="card red face-down" data-rank="8" data-suit="diamonds" draggable="true"><div class="rank">8</div><div class="suit">♦</div></div><div class="card red face-down" data-rank="3" data-suit="diamonds" draggable="true"><div class="rank">3</div><div class="suit">♦</div></div><div class="card black face-down" data-rank="2" data-suit="spades" draggable="true"><div class="rank">2</div><div class="suit">♠</div></div><div class="card red face-up" data-rank="2" data-suit="diamonds" draggable="true"><div class="rank">2</div><div class="suit">♦</div></div></div>
+<div class="tableau-pile card-pile"><div class="card red face-down" data-rank="6" data-suit="diamonds" draggable="true"><div class="rank">6</div><div class="suit">♦</div></div><div class="card red face-down" data-rank="7" data-suit="diamonds" draggable="true"><div class="rank">7</div><div class="suit">♦</div></div><div class="card red face-down" data-rank="A" data-suit="hearts" draggable="true"><div class="rank">A</div><div class="suit">♥</div></div><div class="card red face-down" data-rank="9" data-suit="diamonds" draggable="true"><div class="rank">9</div><div class="suit">♦</div></div><div class="card black face-up" data-rank="4" data-suit="spades" draggable="true"><div class="rank">4</div><div class="suit">♠</div></div></div>
+<div class="tableau-pile card-pile"><div class="card black face-down" data-rank="J" data-suit="spades" draggable="true"><div class="rank">J</div><div class="suit">♠</div></div><div class="card black face-down" data-rank="Q" data-suit="spades" draggable="true"><div class="rank">Q</div><div class="suit">♠</div></div><div class="card black face-down" data-rank="6" data-suit="clubs" draggable="true"><div class="rank">6</div><div class="suit">♣</div></div><div class="card black face-down" data-rank="9" data-suit="spades" draggable="true"><div class="rank">9</div><div class="suit">♠</div></div><div class="card black face-down" data-rank="9" data-suit="clubs" draggable="true"><div class="rank">9</div><div class="suit">♣</div></div><div class="card red face-up" data-rank="4" data-suit="hearts" draggable="true"><div class="rank">4</div><div class="suit">♥</div></div></div>
+<div class="tableau-pile card-pile"><div class="card red face-down" data-rank="10" data-suit="hearts" draggable="true"><div class="rank">10</div><div class="suit">♥</div></div><div class="card black face-down" data-rank="10" data-suit="clubs" draggable="true"><div class="rank">10</div><div class="suit">♣</div></div><div class="card black face-down" data-rank="2" data-suit="clubs" draggable="true"><div class="rank">2</div><div class="suit">♣</div></div><div class="card red face-down" data-rank="K" data-suit="hearts" draggable="true"><div class="rank">K</div><div class="suit">♥</div></div><div class="card red face-down" data-rank="Q" data-suit="diamonds" draggable="true"><div class="rank">Q</div><div class="suit">♦</div></div><div class="card black face-down" data-rank="7" data-suit="spades" draggable="true"><div class="rank">7</div><div class="suit">♠</div></div><div class="card black face-up" data-rank="4" data-suit="clubs" draggable="true"><div class="rank">4</div><div class="suit">♣</div></div></div>
+</div>
+</div>
+<div id="controls">
+<button id="new-game-button">New Game</button>
+<button id="hint-button">Hint</button>
+<div class="hidden" id="win-message">Congratulations, you won!</div>
+</div>
+<script src="/_assets/cb836eb929affd1ede43.js"></script>
+</body></html>

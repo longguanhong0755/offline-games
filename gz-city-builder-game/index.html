@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>City Builder Game</title>
+<link href="/_assets/e95cc7072b0fbca7554d.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="instruct">
+<h1># Instructions</h1>
+<h3>This game is about building a sustainable city</h3>
+<ol>
+<li>Filling all the boxes with increasing money <br/> and decreasing pollution and happiness &gt; 100 is a Win</li>
+<li>Filling all boxes with happiness less than 100 and <br/> money decreasing over time and pollution increasing in city is loss</li>
+<li>A factory 
+                <ul>
+<li>Creating costs = 200</li>
+<li>generates = 50 unit money per 20sec</li>
+<li>decreases happiness by 20 units</li>
+<li>generates 15 unit pollution per 20sec</li>
+</ul>
+</li>
+<li>A house
+                <ul>
+<li>Creating costs = 100</li>
+<li>maintainance = 20 unit money per 20sec</li>
+<li>Increases happiness by 10 units</li>
+<li>Generates 1 unit pollution per 20sec</li>
+</ul>
+</li>
+<li>A park
+                <ul>
+<li>Creating costs = 120</li>
+<li>maintainance = 15 unit money per 20sec</li>
+<li>Increases happiness by 20 units</li>
+<li>Decreases pollution by 13 unit per 20sec</li>
+</ul>
+</li>
+</ol>
+<h3>How to play</h3>
+<ol>
+<li>Select the building type</li>
+<li>Fill as many boxes as you like with that building (unchangeable)</li>
+<li>Creating a building will cost money and also impact happiness and pollution</li>
+</ol>
+</div>
+<div id="gameContainer">
+<div id="gameBoard">
+<!-- here goes the divs of each element in the grid -->
+<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+<div id="controls">
+<div>
+<button id="placeHouse">House</button>
+<button id="placeFactory">Factory</button>
+<button id="placePark">Park</button>
+<button id="restart" onclick="location.reload();">Restart</button>
+</div>
+<div id="info">
+<p>Money: <span id="money">1000</span><span id="debtornot"></span></p>
+<p>Happiness: <span id="happiness">100</span></p>
+<p>Pollution: <span id="pollution">0</span></p>
+</div>
+</div>
+</div>
+<div id="final-result" style="display: none;">
+<h1>You Won the Game !</h1>
+<h3>calculated result:</h3>
+<ol>
+<li id="factory-result"></li>
+<li id="house-result"></li>
+<li id="park-result"></li>
+<li id="money-result"></li>
+<li id="pollution-result"></li>
+<li id="happiness-result"></li>
+</ol>
+<button id="restart-final" onclick="location.reload();">Restart</button>
+</div>
+<script src="/_assets/8f4fe5eec0aa1640597c.js"></script>
+</body></html>

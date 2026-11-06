@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>PENDULUM - the game</title>
+<link href="touch-icon-192x192.png" rel="icon" sizes="192x192"/>
+<link href="apple-touch-icon-180x180.png" rel="apple-touch-icon" sizes="180x180"/>
+<script src="/_assets/68f5e6a9497672303851.js" type="text/javascript"></script>
+<script src="/_assets/6c4a3ecbb6563cb83656.js"></script>
+<script src="/_assets/56c217067fdc97b550d6.js"></script>
+<script src="/_assets/894ebd9272463e37f29b.js"></script>
+<script src="/_assets/037ab7ea5d48cdecb6b5.js"></script>
+<script src="/_assets/d3fc31a3c2d337dafa7d.js"></script>
+<script src="/_assets/ac248c1a4aa0f201dee4.js"></script>
+<script src="/_assets/f25b562d4b79ad0d0e3b.js"></script>
+<script src="/_assets/f8c187f582da3bed8e51.js"></script>
+<script src="/_assets/39df1202702c978b05e3.js"></script>
+<script src="/_assets/fd2c4fdd72503256e728.js"></script>
+<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+<script type="text/javascript">
+		window.cookieconsent_options = {"message": "This website uses cookies and similar techniques (HTML5 local storage) to save your progress in the game PENDULUM. By continuing to use the site, you are agreeing to our use of cookies and similar techniques.", "dismiss":"I understand!", "learnMore":"Learn more about cookies.", "link":"http://ec.europa.eu/ipg/basics/legal/cookies/index_en.htm", "theme":"dark-floating"};
+	</script>
+<script src="/_assets/2cfd819fbd75277ef9c7.js" type="text/javascript"></script>
+<!-- End Cookie Consent plugin -->
+<link href="/_assets/ff15095a70ada9f7cf88.css" rel="stylesheet" type="text/css"/><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body bgcolor="#000000"><div class="cc_banner-wrapper"><div class="cc_banner cc_container cc_container--open"><a class="cc_btn cc_btn_accept_all" data-cc-event="click:dismiss" href="#null" target="_blank">I understand!</a><p class="cc_message">This website uses cookies and similar techniques (HTML5 local storage) to save your progress in the game PENDULUM. By continuing to use the site, you are agreeing to our use of cookies and similar techniques. <a class="cc_more_info" data-cc-if="options.link" target="_self">Learn more about cookies.</a></p><a class="cc_logo" target="_blank">Cookie Consent plugin for the EU cookie law</a></div></div>
+<div id="gameContainer"><canvas height="768" style="display: block; touch-action: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 1366px; height: 768px; cursor: inherit; margin-left: 21px; margin-right: -37px;" width="1366"></canvas></div>
+<div><p style="color:#7f7f7f; font-family:Arial, sans-serif; text-align:center;">© 2017 CHRISTOPH MARK</p></div>
+<div><p style="color:#7f7f7f; font-family:Arial, sans-serif; text-align:center; width:70%; margin-left:15%;">THE WEBSITE/GAME IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE WEBSITE/GAME OR THE USE OR OTHER DEALINGS IN THE WEBSITE/GAME.</p></div>
+<script type="text/javascript">
+
+window.onload = function() {
+	var game = new Phaser.Game(1366, 768, Phaser.CANVAS, 'gameContainer');
+
+	game.state.add('Boot', BasicGame.Boot);
+	game.state.add('Preloader', BasicGame.Preloader);
+	game.state.add('MainMenu', BasicGame.MainMenu);
+	game.state.add('Level', BasicGame.Level);
+
+	game.state.start('Boot');
+};
+
+</script>
+</body></html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html data-i18n-title="meta.title" data-lang="zh-Hant" lang="zh-Hant" style="--kb: 0px;"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="#F4EEFF" name="theme-color"/>
+<title>你畫我猜｜免費線上多人畫圖猜謎</title>
+<!--SEO:HEAD-->
+<script>window.GAME_ANALYTICS_CONFIG={"measurement_id":"G-PG79WZK8QY","game_id":"draw-guess","page_location":"https://pjh-eric.github.io/draw-guess/"};</script>
+<meta content="免費免下載的你畫我猜，輪流當畫家，用畫筆、形狀與油漆桶畫出題目，猜中答案搶積分。單機練習或開房間邀朋友同樂，支援觀戰與猜題紀錄，手機平板都能作畫。" data-i18n-content="meta.desc" name="description"/>
+
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="zh_TW" property="og:locale"/>
+<meta content="你畫我猜｜免費線上多人畫圖猜謎" property="og:title"/>
+<meta content="免費免下載的你畫我猜，輪流當畫家，用畫筆、形狀與油漆桶畫出題目，猜中答案搶積分。單機練習或開房間邀朋友同樂，支援觀戰與猜題紀錄，手機平板都能作畫。" property="og:description"/>
+<meta content="https://pjh-eric.github.io/draw-guess/" property="og:url"/>
+<meta content="https://pjh-eric.github.io/draw-guess/assets/images/seo.webp" property="og:image"/>
+<meta content="image/webp" property="og:image:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="675" property="og:image:height"/>
+<meta content="你畫我猜 遊戲封面" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="你畫我猜｜免費線上多人畫圖猜謎" name="twitter:title"/>
+<meta content="免費免下載的你畫我猜，輪流當畫家，用畫筆、形狀與油漆桶畫出題目，猜中答案搶積分。單機練習或開房間邀朋友同樂，支援觀戰與猜題紀錄，手機平板都能作畫。" name="twitter:description"/>
+<meta content="https://pjh-eric.github.io/draw-guess/assets/images/seo.webp" name="twitter:image"/>
+<meta content="你畫我猜 遊戲封面" name="twitter:image:alt"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"你畫我猜","url":"https://pjh-eric.github.io/draw-guess/","description":"免費免下載的你畫我猜，輪流當畫家，用畫筆、形狀與油漆桶畫出題目，猜中答案搶積分。單機練習或開房間邀朋友同樂，支援觀戰與猜題紀錄，手機平板都能作畫。","applicationCategory":"GameApplication","operatingSystem":"Any","inLanguage":"zh-Hant","genre":"畫圖猜謎","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"},"image":"https://pjh-eric.github.io/draw-guess/assets/images/seo.webp","thumbnailUrl":"https://pjh-eric.github.io/draw-guess/assets/images/seo.webp","isPartOf":{"@type":"WebSite","url":"https://pjh-eric.github.io/game-lobby/"}}</script>
+<!--SEO:END-->
+<link href="/_assets/2204c43cc786bc84d399.css" rel="stylesheet"/>
+<link href="/_assets/60c6e85ff4afc09228f9.css" rel="stylesheet"/>
+<link href="favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="favicon.svg" rel="icon" sizes="any" type="image/svg+xml"/>
+<link href="favicon.ico" rel="shortcut icon"/>
+<link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/_assets/64bead66d2c2262ccf74.css" rel="stylesheet"/>
+<script src="/_assets/9bfe81918ce343785cbb.js"></script>
+<style class="" id="result-share-style">.result-share{box-sizing:border-box;flex:0 0 100%;width:100%;min-width:0;margin:12px 0 4px;font:inherit;color:inherit;text-align:center}.result-share *{box-sizing:border-box}.result-share-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.result-share button,.result-share-dialog-layer button:not(.tk){appearance:none;position:static;display:inline-flex;align-items:center;justify-content:center;min-height:48px;max-width:100%;padding:10px 16px;border:2px solid currentColor;border-radius:12px;background:var(--paper,#fffaf0);color:var(--ink,#28354b);font:inherit;font-weight:700;line-height:1.4;white-space:normal;overflow-wrap:anywhere;cursor:pointer;touch-action:manipulation;box-shadow:0 3px 0 #0002}.result-share button:hover,.result-share-dialog-layer button:not(.tk):hover{filter:brightness(.96)}.result-share button:active,.result-share-dialog-layer button:not(.tk):active{transform:translateY(1px)}.result-share button:focus-visible,.result-share-dialog-layer button:focus-visible{outline:3px solid #2575cf;outline-offset:3px}.result-share button:disabled,.result-share-dialog-layer button:disabled{opacity:.6;cursor:wait}.result-share-status{font-size:.9em;margin:6px 0;white-space:normal;overflow-wrap:anywhere}.result-share-status:empty{display:none}.result-share-dialog-layer{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:16px;background:rgba(29,24,48,.68);backdrop-filter:blur(8px)}.result-share-dialog-layer[hidden]{display:none!important}.result-share-dialog{box-sizing:border-box;display:flex;flex-direction:column;gap:16px;width:min(620px,100%);max-height:min(92vh,920px);overflow:auto;padding:20px;border:1px solid #e4dff4;border-radius:24px;background:linear-gradient(155deg,#fff,#f6f4ff);box-shadow:0 26px 90px #17112870;color:#2d2745;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#a9a0d2 #eeeaf8}.result-share-dialog-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 12px;border-bottom:1px solid #ebe7f6}.result-share-dialog-title{margin:0;font-size:1.25rem;line-height:1.3;font-weight:850;letter-spacing:.01em}.result-share-dialog-close:not(.tk){appearance:none;display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border:1px solid #e3dff0;border-radius:16px;background:#f6f4fc;color:#514976;font:500 30px/1 system-ui;cursor:pointer}.result-share-dialog-close:not(.tk):hover{background:#ece8fa}.result-share-dialog .result-share-status:not(:empty){display:block;margin:0;padding:10px 14px;border:1px solid #e5e0f6;border-radius:14px;background:#f5f2ff;color:#514786;text-align:center;font-weight:650}.result-share-image{display:block;width:auto;height:auto;max-width:100%;max-height:58vh;object-fit:contain;margin:0 auto;border:1px solid #e4e0ef;border-radius:16px;background:#fff;box-shadow:0 10px 28px #30225f20}.result-share-dialog-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.result-share button.result-share-image-send,.result-share-dialog-layer button.result-share-image-send:not(.tk){background:linear-gradient(135deg,#6558d8,#8270e6)!important;border-color:#5146bc!important;color:#fff!important;box-shadow:0 4px 0 #413897,0 8px 18px #6558d838}.result-share button.result-share-image-download,.result-share-dialog-layer button.result-share-image-download:not(.tk){background:#fff!important;border-color:#cbc5e5!important;color:#453c70!important}.result-share button.result-share-image-send::before,.result-share-dialog-layer button.result-share-image-send:not(.tk)::before{content:"↗";margin-inline-end:8px;font-size:1.1em}.result-share button.result-share-image-download::before,.result-share-dialog-layer button.result-share-image-download:not(.tk)::before{content:"↓";margin-inline-end:8px;font-size:1.15em}.result-share button.result-share-trigger:not(.tk){min-width:160px;background:linear-gradient(135deg,#6558d8,#8b68dc)!important;border-color:#5146bc!important;color:#fff!important;font-weight:800!important;box-shadow:0 4px 0 #413897,0 8px 18px #6558d838}.result-share button.result-share-trigger::before{content:"✦";margin-inline-end:8px}.result-share-dialog button:focus-visible{outline:3px solid #897bdf;outline-offset:3px}.result-share-dialog::-webkit-scrollbar{width:10px}.result-share-dialog::-webkit-scrollbar-track{border-radius:8px;background:#eeeaf8}.result-share-dialog::-webkit-scrollbar-thumb{border:2px solid #eeeaf8;border-radius:8px;background:#a9a0d2}@media(max-width:520px){.result-share-dialog-layer{padding:10px}.result-share-dialog{gap:12px;padding:14px;border-radius:20px}.result-share-dialog-actions{gap:8px}.result-share-dialog-actions button{flex:1 1 145px}}</style><style>.language-controls{display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;vertical-align:middle;max-width:100%}.language-controls:has(>[data-language-settings][hidden]),.language-controls:has(>[data-language-settings].hidden){display:none!important}.language-controls[data-floating]{top:calc(10px + env(safe-area-inset-top));right:calc(12px + env(safe-area-inset-right));z-index:2147483000}.language-controls[data-floating="fixed"]{position:fixed}.language-controls[data-floating="absolute"]{position:absolute}.language-controls>.lang-toggle{position:relative!important;inset:auto!important;margin:0!important;box-sizing:border-box;flex:0 0 48px;width:48px!important;min-width:48px!important;height:48px!important;min-height:48px!important;display:inline-grid;place-items:center;padding:0!important}.language-controls>[data-language-settings]{position:relative!important;inset:auto!important;margin:0!important;flex-shrink:0}.language-badge{position:absolute;right:3px;bottom:2px;font:800 10px/1.15 system-ui,sans-serif;letter-spacing:0;padding:1px 2px;border-radius:3px;pointer-events:none;background:inherit;color:inherit}.language-menu{box-sizing:border-box;position:fixed;inset:auto;margin:0;width:188px;max-width:calc(100vw - 16px);padding:6px;gap:4px;z-index:2147483001;display:none;overflow:visible}.language-menu[data-open]{display:grid}.language-menu .language-option{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:46px;padding:10px 12px;border:2px solid transparent;border-radius:inherit;color:inherit;font-family:inherit;font-weight:700;font-size:15px;line-height:1.3;cursor:pointer;touch-action:manipulation}.language-menu .language-option[aria-checked="true"]{background:color-mix(in srgb,currentColor 12%,transparent)}.language-menu .language-option:hover,.language-menu .language-option:focus-visible{outline:0;border-color:currentColor;background:color-mix(in srgb,currentColor 16%,transparent)}</style><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div aria-hidden="true" id="bgdeco"><span style="left:0%;top:0%;width:28px;height:28px;background:#FFE3A0;animation-duration:10s;animation-delay:-0s"></span><span style="left:83%;top:47%;width:65px;height:65px;background:#C9B6F5;animation-duration:13s;animation-delay:-1.7s"></span><span style="left:66%;top:94%;width:38px;height:38px;background:#A9E7D2;animation-duration:16s;animation-delay:-3.4s"></span><span style="left:49%;top:41%;width:75px;height:75px;background:#FFB8CF;animation-duration:19s;animation-delay:-5.1s"></span><span style="left:32%;top:88%;width:48px;height:48px;background:#AED9F5;animation-duration:22s;animation-delay:-6.8s"></span><span style="left:15%;top:35%;width:85px;height:85px;background:#FFE3A0;animation-duration:25s;animation-delay:-8.5s"></span><span style="left:98%;top:82%;width:58px;height:58px;background:#C9B6F5;animation-duration:28s;animation-delay:-10.2s"></span><span style="left:81%;top:29%;width:31px;height:31px;background:#A9E7D2;animation-duration:10s;animation-delay:-11.9s"></span><span style="left:64%;top:76%;width:68px;height:68px;background:#FFB8CF;animation-duration:13s;animation-delay:-13.6s"></span><span style="left:47%;top:23%;width:41px;height:41px;background:#AED9F5;animation-duration:16s;animation-delay:-15.299999999999999s"></span><span style="left:30%;top:70%;width:78px;height:78px;background:#FFE3A0;animation-duration:19s;animation-delay:-17s"></span><span style="left:13%;top:17%;width:51px;height:51px;background:#C9B6F5;animation-duration:22s;animation-delay:-18.7s"></span></div>
+<div id="app">
+<!-- 右上角固定系統設定入口：所有畫面共用，位置在安全區內 -->
+<span class="language-controls" data-floating="fixed"><button aria-controls="b-lang-menu" aria-expanded="false" aria-haspopup="menu" aria-label="語言：繁體中文" class="lang-toggle" data-language-settings-for="language-settings-0" id="b-lang" lang="zh-Hant" title="語言：繁體中文" type="button"><svg aria-hidden="true" fill="none" focusable="false" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" style="display:block;margin:auto;transform:translate(-3px,-3px);pointer-events:none" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><ellipse cx="12" cy="12" rx="5" ry="10"></ellipse><path d="M12 2v20M2 12h20M4 6c4 3 12 3 16 0M4 18c4-3 12-3 16 0"></path></svg><span aria-hidden="true" class="language-badge">繁</span></button><button aria-controls="settings-modal" aria-expanded="false" aria-haspopup="dialog" aria-label="開啟系統設定" class="btn3d icononly settings-fab" data-b3="1" data-color="cream" data-i18n-attr="aria-label=text.443;title=text.443" data-language-settings="language-settings-0" id="b-settings" title="開啟系統設定" type="button"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 48 48"><rect fill="#E6D2B4" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="44" x="2" y="8"></rect><g class="b3-face"><rect fill="#FFF0DE" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="44" x="2" y="2"></rect><rect fill="#FFFFFF" height="13.68" opacity="0.45" rx="8.636363636363635" width="21" x="13.5" y="7"></rect></g></svg><span class="b3-lbl"><span class="ico" data-ico="gear" data-ico-done="1"><svg aria-label="設定" role="img" viewbox="0 0 100 100"><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(0 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(45 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(90 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(135 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(180 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(225 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(270 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(315 50 50)" width="14" x="43" y="4"></rect><circle cx="50" cy="50" fill="#FFF0DE" r="28" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle><circle cx="50" cy="50" fill="#C9B6F5" r="11" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle></svg></span></span></button></span>
+<!-- ============================== 主選單 ============================== -->
+<section aria-label="主選單" class="screen flexcenter" data-i18n-attr="aria-label=text.444" id="s-home">
+<a aria-label="回遊戲大廳" class="lobby-home-link" data-i18n-attr="aria-label=text.445"><span data-i18n="text.333">← 回遊戲大廳</span></a>
+<div class="home-wrap">
+<div class="logo" id="logo"><svg aria-label="你畫我猜" role="img" viewbox="0 0 520 190"><defs><lineargradient id="dgSky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFF6E8"></stop><stop offset="1" stop-color="#FFE9F2"></stop></lineargradient></defs><rect fill="url(#dgSky)" height="162" rx="40" stroke="#4A3B55" stroke-width="7" width="492" x="14" y="14"></rect><rect fill="#FFFDF8" height="76" rx="10" stroke="#4A3B55" stroke-width="6" width="96" x="44" y="48"></rect><path d="M58 106 q16 -34 30 -18 q10 12 22 -10" fill="none" stroke="#E88CAA" stroke-linecap="round" stroke-width="7"></path><circle cx="74" cy="70" fill="#7FB4DA" r="7"></circle><g transform="rotate(30 138 108)"><rect fill="#FFE3A0" height="48" rx="4" stroke="#4A3B55" stroke-width="5" width="16" x="130" y="62"></rect><path d="M130 110 L138 128 L146 110 Z" fill="#FFF0DE" stroke="#4A3B55" stroke-linejoin="round" stroke-width="5"></path></g><text fill="#6E4FBF" font-family="Yuanti TC, PingFang TC, Microsoft JhengHei, Noto Sans TC, sans-serif" font-size="70" font-weight="900" paint-order="stroke" stroke="#4A3B55" stroke-width="7" text-anchor="middle" x="288" y="118">你畫我猜</text><path d="M406 44 H486 V96 H448 L430 112 V96 H406 Z" fill="#C9B6F5" stroke="#4A3B55" stroke-linejoin="round" stroke-width="6"></path><text fill="#FFFDF8" font-family="system-ui, sans-serif" font-size="40" font-weight="900" paint-order="stroke" stroke="#4A3B55" stroke-width="5" text-anchor="middle" x="446" y="84">?</text></svg></div>
+<div class="home-btns">
+<button class="btn3d big" data-b3="1" data-color="mint" id="b-solo"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 430 66"><rect fill="#79C6AC" height="52" rx="20" stroke="#4A3B55" stroke-width="3" width="426" x="2" y="12"></rect><g class="b3-face"><rect fill="#A9E7D2" height="52" rx="20" stroke="#4A3B55" stroke-width="3" width="426" x="2" y="2"></rect><rect fill="#FFFFFF" height="18.72" opacity="0.45" rx="10" width="400" x="15" y="7"></rect></g></svg><span class="b3-lbl"><span class="ico" data-ico="board" data-ico-done="1"><svg aria-label="畫板" role="img" viewbox="0 0 100 100"><rect fill="#FFFDF8" height="56" rx="6" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" width="72" x="14" y="18"></rect><path d="M26 60 q12 -26 22 -14 q8 10 16 -6" fill="none" stroke="#E88CAA" stroke-linecap="round" stroke-width="6"></path><path d="M40 74 V86 M60 74 V86 M32 86 H68" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span><span data-i18n="text.334">單機練習（自己畫著玩）</span></span></button>
+<button class="btn3d big" data-b3="1" data-color="grape" id="b-online"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 430 66"><rect fill="#A48FDB" height="52" rx="20" stroke="#4A3B55" stroke-width="3" width="426" x="2" y="12"></rect><g class="b3-face"><rect fill="#C9B6F5" height="52" rx="20" stroke="#4A3B55" stroke-width="3" width="426" x="2" y="2"></rect><rect fill="#FFFFFF" height="18.72" opacity="0.45" rx="10" width="400" x="15" y="7"></rect></g></svg><span class="b3-lbl"><span class="ico" data-ico="people" data-ico-done="1"><svg aria-label="玩家" role="img" viewbox="0 0 100 100"><circle cx="36" cy="36" fill="#FFE3A0" r="16" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle><circle cx="68" cy="42" fill="#AED9F5" r="12" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle><path d="M12 84 q4 -24 24 -24 q20 0 24 24 Z" fill="#FFE3A0" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M60 84 q4 -18 16 -18 q12 0 14 18 Z" fill="#AED9F5" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span><span data-i18n="text.335">線上對戰（找朋友）</span></span></button>
+<div class="home-row">
+<button class="btn3d" data-b3="1" data-color="sky" id="b-help"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 209 54"><rect fill="#7FB4DA" height="42" rx="19.09090909090909" stroke="#4A3B55" stroke-width="3" width="205" x="2" y="10"></rect><g class="b3-face"><rect fill="#AED9F5" height="42" rx="19.09090909090909" stroke="#4A3B55" stroke-width="3" width="205" x="2" y="2"></rect><rect fill="#FFFFFF" height="15.12" opacity="0.45" rx="9.545454545454545" width="180" x="14.5" y="7"></rect></g></svg><span class="b3-lbl"><span data-i18n="text.336">玩法教學</span></span></button>
+<button class="btn3d" data-b3="1" data-color="lemon" id="b-stats"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 209 54"><rect fill="#E7C263" height="42" rx="19.09090909090909" stroke="#4A3B55" stroke-width="3" width="205" x="2" y="10"></rect><g class="b3-face"><rect fill="#FFE3A0" height="42" rx="19.09090909090909" stroke="#4A3B55" stroke-width="3" width="205" x="2" y="2"></rect><rect fill="#FFFFFF" height="15.12" opacity="0.45" rx="9.545454545454545" width="180" x="14.5" y="7"></rect></g></svg><span class="b3-lbl"><span class="ico" data-ico="trophy" data-ico-done="1"><svg aria-label="獎盃" role="img" viewbox="0 0 100 100"><path d="M32 18 H68 V44 a18 18 0 0 1 -36 0 Z" fill="#FFE3A0" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M32 24 H20 a12 12 0 0 0 12 14 M68 24 H80 a12 12 0 0 1 -12 14" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M50 62 V74 M36 74 H64 M30 86 H70 V74 H30 Z" fill="#E7C263" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span><span data-i18n="text.337">我的戰績</span></span></button>
+</div>
+</div>
+<p class="home-note" id="home-note"><span data-i18n="text.338">輪流當畫家：畫家從三個題目挑一個畫出來，其他人把答案打進猜題框。猜得越快分數越高，畫得越好懂畫家也拿越多分。</span></p>
+</div>
+</section>
+<!-- ============================== 單機設定 ============================== -->
+<section aria-label="單機練習設定" class="screen" data-i18n-attr="aria-label=text.446" id="s-solo">
+<div class="panel">
+<div class="panel-head">
+<button class="btn3d small" data-b3="1" data-back="s-home" data-color="cream"><span class="b3-lbl"><span data-i18n="text.339">◀ 返回</span></span></button>
+<h2><span data-i18n="text.212">單機練習</span></h2>
+<span class="spacer"></span>
+</div>
+<p class="hint-note"><span data-i18n="text.340">挑一個題目，想畫多久都可以。按「換題」練習下一題，練夠了直接離開。只有你自己作畫，不限時，也不計分。</span></p>
+<h3 class="lbl"><span data-i18n="text.341">題目難度</span></h3>
+<div aria-label="題目難度" class="chiprow" data-i18n-attr="aria-label=text.341" id="opt-worddiff" role="radiogroup"><button aria-checked="true" class="pillbtn" role="radio" type="button">混合</button><button aria-checked="false" class="pillbtn" role="radio" type="button">簡單</button><button aria-checked="false" class="pillbtn" role="radio" type="button">普通</button><button aria-checked="false" class="pillbtn" role="radio" type="button">困難</button></div>
+<div class="panel-foot">
+<button class="btn3d big" data-b3="1" data-color="grape" id="b-solo-start"><span class="b3-lbl"><span data-i18n="text.342">開始畫！ ▶</span></span></button>
+<button class="btn3d" data-b3="1" data-color="sky" id="b-solo-load-home" type="button"><span class="b3-lbl"><span data-i18n="text.181">載入作品</span></span></button>
+</div>
+</div>
+</section>
+<!-- ============================== 玩法教學（純文字） ============================== -->
+<section aria-label="玩法教學" class="screen active" data-i18n-attr="aria-label=text.336" id="s-help">
+<div class="panel">
+<div class="panel-head">
+<button class="btn3d small" data-b3="1" data-back="s-home" data-color="cream"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 74 48"><rect fill="#E6D2B4" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="70" x="2" y="8"></rect><g class="b3-face"><rect fill="#FFF0DE" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="70" x="2" y="2"></rect><rect fill="#FFFFFF" height="13.68" opacity="0.45" rx="8.636363636363635" width="47" x="13.5" y="7"></rect></g></svg><span class="b3-lbl"><span data-i18n="text.339">◀ 返回</span></span></button>
+<h2><span data-i18n="text.336">玩法教學</span></h2>
+<span class="spacer"></span>
+</div>
+<p aria-live="polite" class="tut-progress" id="tut-progress" role="status">第 1 段 / 共 7 段</p>
+<div class="tut-box" id="tut-box" tabindex="-1"><h3>這個遊戲在玩什麼</h3><p>大家輪流當「畫家」。輪到你當畫家時，你會從三個題目裡挑一個，把它畫在畫布上；其他人看著你的線條，把答案打進下面的猜題框。</p><p>一局裡每個人都會當到畫家。全部畫完之後，分數最高的人獲勝。</p><p>下一段會說明畫家可以用哪些工具。</p></div>
+<div class="tut-nav">
+<button class="btn3d small" data-b3="1" data-color="cream" disabled="" id="b-tut-prev"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 275 48"><rect fill="#E6D2B4" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="271" x="2" y="8"></rect><g class="b3-face"><rect fill="#FFF0DE" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="271" x="2" y="2"></rect><rect fill="#FFFFFF" height="13.68" opacity="0.45" rx="8.636363636363635" width="248" x="13.5" y="7"></rect></g></svg><span class="b3-lbl"><span data-i18n="text.344">◀ 上一段</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="lemon" id="b-tut-skip"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 273 48"><rect fill="#E7C263" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="269" x="2" y="8"></rect><g class="b3-face"><rect fill="#FFE3A0" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="269" x="2" y="2"></rect><rect fill="#FFFFFF" height="13.68" opacity="0.45" rx="8.636363636363635" width="246" x="13.5" y="7"></rect></g></svg><span class="b3-lbl"><span data-i18n="text.345">跳過教學</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="mint" id="b-tut-next"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 275 48"><rect fill="#79C6AC" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="271" x="2" y="8"></rect><g class="b3-face"><rect fill="#A9E7D2" height="38" rx="17.27272727272727" stroke="#4A3B55" stroke-width="3" width="271" x="2" y="2"></rect><rect fill="#FFFFFF" height="13.68" opacity="0.45" rx="8.636363636363635" width="248" x="13.5" y="7"></rect></g></svg><span class="b3-lbl">下一段 ▶</span></button>
+</div>
+<div class="panel-foot">
+<button class="btn3d" data-b3="1" data-color="grape" id="b-tut-practice"><svg aria-hidden="true" class="b3-svg" preserveaspectratio="none" viewbox="0 0 110 53"><rect fill="#A48FDB" height="41" rx="18.636363636363633" stroke="#4A3B55" stroke-width="3" width="106" x="2" y="10"></rect><g class="b3-face"><rect fill="#C9B6F5" height="41" rx="18.636363636363633" stroke="#4A3B55" stroke-width="3" width="106" x="2" y="2"></rect><rect fill="#FFFFFF" height="14.76" opacity="0.45" rx="9.318181818181817" width="81.5" x="14.249999999999998" y="7"></rect></g></svg><span class="b3-lbl"><span data-i18n="text.346">立即練習</span></span></button>
+</div>
+</div>
+</section>
+<!-- ============================== 我的戰績 ============================== -->
+<section aria-label="我的戰績" class="screen" data-i18n-attr="aria-label=text.337" id="s-stats">
+<div class="panel">
+<div class="panel-head">
+<button class="btn3d small" data-b3="1" data-back="s-home" data-color="cream"><span class="b3-lbl"><span data-i18n="text.339">◀ 返回</span></span></button>
+<h2><span data-i18n="text.337">我的戰績</span></h2>
+<span class="spacer"></span>
+</div>
+<div class="statgrid" id="statgrid"></div>
+<p class="hint-note"><span data-i18n="text.347">戰績只存在這台裝置的瀏覽器裡，不會上傳，也不會跟別人共用。清除瀏覽器資料就會歸零。</span></p>
+</div>
+</section>
+<!-- ============================== 線上大廳 ============================== -->
+<section aria-label="線上大廳" class="screen" data-i18n-attr="aria-label=text.447" id="s-lobby">
+<div class="panel">
+<div class="panel-head">
+<button class="btn3d small" data-b3="1" data-back="s-home" data-color="cream"><span class="b3-lbl"><span data-i18n="text.339">◀ 返回</span></span></button>
+<h2><span data-i18n="text.211">線上對戰</span></h2>
+<span class="spacer"></span>
+</div>
+<!-- 沒有伺服器時：講清楚原因與怎麼開，不做假的房間列表 -->
+<div class="lobby-off" hidden="" id="lobby-off">
+<div aria-hidden="true" class="state-face">🔌</div>
+<h3 id="lobby-off-title"><span data-i18n="text.348">目前連不到遊戲伺服器</span></h3>
+<p id="lobby-off-note"><span data-i18n="text.019">線上對戰需要一台開著的伺服器。單機練習完全不受影響，可以直接玩。</span></p>
+<details class="lobby-help">
+<summary><span data-i18n="text.349">要怎麼開啟線上對戰？</span></summary>
+<div>
+<p><span data-i18n="text.350">1. 自己跑一台：在電腦上執行</span> <code>npm start</code><span data-i18n="text.351">（或雙擊「啟動遊戲.bat」），畫面會印出這台電腦的區網網址，例如</span> <code>http://192.168.1.20:3030</code><span data-i18n="text.352">。同一個 Wi-Fi 的另一台裝置直接用瀏覽器開那個網址就能一起玩。</span></p>
+<p><span data-i18n="text.353">2. 部署到雲端：把整個專案推到 Git，用 Render 之類的免費方案部署，兩台不同網路的裝置就都能連。</span></p>
+<p><span data-i18n="text.354">3. 前端和伺服器不在同一台時，用</span> <code><span data-i18n="text.355">?server=（伺服器網址）</span></code> <span data-i18n="text.356">指定，例如</span> <code><span data-i18n="text.357">index.html?server=https://你的服務網址</span></code>。</p>
+<p><span data-i18n="text.358">詳細步驟寫在專案的 README。</span></p>
+</div>
+</details>
+<div class="state-btns">
+<button class="btn3d" data-b3="1" data-color="mint" id="b-lobby-retry"><span class="b3-lbl"><span data-i18n="text.359">🔄 再試一次</span></span></button>
+<button class="btn3d" data-b3="1" data-back="s-home" data-color="cream"><span class="b3-lbl"><span data-i18n="text.360">🏠 回主選單</span></span></button>
+</div>
+</div>
+<div id="lobby-live">
+<div class="lobby-me">
+<label class="lobby-nick" for="lobby-nick">
+<span><span data-i18n="text.361">你的暱稱</span></span>
+<input autocomplete="off" data-i18n-attr="placeholder=text.448" id="lobby-nick" maxlength="12" placeholder="路過的畫家" spellcheck="false"/>
+</label>
+<div class="lobby-me-btns">
+<button class="btn3d" data-b3="1" data-color="mint" id="b-lobby-host"><span class="b3-lbl"><span data-i18n="text.362">開一間房</span></span></button>
+</div>
+</div>
+<!-- 邀請連結落地：先停在這裡讓被邀請者確認暱稱，自己選要當玩家還是觀戰，
+             選好才送出加入——連結本身不綁身分，身分由被邀請的人自己決定。 -->
+<div class="lobby-help invitebox-land" hidden="" id="lobby-invite">
+<strong id="lobby-invite-title"><span data-i18n="text.363">收到房間邀請</span></strong>
+<p id="lobby-invite-note"><span data-i18n="text.364">請先確認上面的暱稱，再選要當玩家還是觀戰。</span></p>
+<div class="state-btns">
+<button class="btn3d" data-b3="1" data-color="mint" id="b-lobby-invite-player"><span class="b3-lbl"><span data-i18n="text.365">加入當玩家</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="sky" id="b-lobby-invite-spectator"><span class="b3-lbl"><span data-i18n="text.366">加入觀戰</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="cream" id="b-lobby-invite-cancel"><span class="b3-lbl"><span data-i18n="text.367">先不要</span></span></button>
+</div>
+</div>
+<div class="lobby-join">
+<label class="sr-only" for="lobby-code"><span data-i18n="text.368">房號</span></label>
+<input aria-describedby="lobby-join-note" autocomplete="off" data-i18n-attr="placeholder=text.449" id="lobby-code" maxlength="4" placeholder="有房號？直接輸入" spellcheck="false"/>
+<button class="btn3d small" data-b3="1" data-color="grape" id="b-lobby-join"><span class="b3-lbl"><span data-i18n="text.369">加入</span></span></button>
+</div>
+<p class="hint-note" id="lobby-join-note"><span data-i18n="text.370">房號是 4 個英數字，不會用到容易看錯的 I、O、0、1。也可以直接開朋友傳來的邀請連結。</span></p>
+<div class="lobby-bar">
+<h3 class="lbl"><span data-i18n="text.371">目前開著的房間</span></h3>
+<button class="btn3d small" data-b3="1" data-color="cream" id="b-lobby-refresh"><span class="b3-lbl"><span data-i18n="text.372">🔄 重新整理</span></span></button>
+</div>
+<p aria-live="polite" class="lobby-state" id="lobby-state" role="status"><span data-i18n="text.018">正在連線…</span></p>
+<p aria-live="polite" class="lobby-state" hidden="" id="lobby-online-count"></p>
+<div class="roomlist" id="roomlist"></div>
+<p class="hint-note"><span data-i18n="text.373">房間只存在伺服器的記憶體裡：伺服器重新部署或重啟，房間就會消失。房間裡沒有任何真人玩家時會立刻關閉（只剩觀戰者也一樣）。線上房間一律是真人，沒有電腦對手。</span></p>
+</div>
+</div>
+</section>
+<!-- ============================== 開房間設定彈窗 ============================== -->
+<div aria-hidden="true" aria-labelledby="room-create-title" aria-modal="true" class="settings-modal" id="room-create-modal" role="dialog">
+<div class="settings-backdrop" data-room-create-close=""></div>
+<section class="settings-panel room-create-panel" id="room-create-panel" tabindex="-1">
+<div class="settings-head">
+<span aria-hidden="true" class="settings-badge">🏠</span>
+<h2 id="room-create-title"><span data-i18n="text.374">開房間設定</span></h2>
+<button aria-label="關閉開房間設定" class="settings-close" data-i18n-attr="aria-label=text.450" id="room-create-close" type="button">✕</button>
+</div>
+<div aria-label="新房間設定" class="settings-body" data-i18n-attr="aria-label=text.451" id="room-create-body" role="group" tabindex="0">
+<div class="settings-group">
+<h3><span aria-hidden="true" class="gico">🏷️</span><span data-i18n="text.375">房間資料</span></h3>
+<label class="setting-text" for="lobby-room-name">
+<span><b><span data-i18n="text.376">房間名稱</span></b><small><span data-i18n="text.377">讓朋友在房間列表裡一眼認出來</span></small></span>
+<input autocomplete="off" data-i18n-attr="placeholder=text.452" id="lobby-room-name" maxlength="16" placeholder="大家的畫畫房" spellcheck="false" type="text"/>
+</label>
+</div>
+<div class="settings-group">
+<h3><span aria-hidden="true" class="gico">📏</span><span data-i18n="text.378">房主規則</span></h3>
+<div class="create-choice">
+<span><b><span data-i18n="text.379">每人當幾次畫家</span></b><small><span data-i18n="text.380">輪數越多，整局越久</span></small></span>
+<div aria-label="新房間每人當幾次畫家" class="chiprow" data-i18n-attr="aria-label=text.453" id="room-create-rounds" role="radiogroup"></div>
+</div>
+<div class="create-choice">
+<span><b><span data-i18n="text.381">每題可以畫多久</span></b><small><span data-i18n="text.382">時間到就公布答案</span></small></span>
+<div aria-label="新房間每題作畫秒數" class="chiprow" data-i18n-attr="aria-label=text.454" id="room-create-drawsec" role="radiogroup"></div>
+</div>
+<div class="create-choice">
+<span><b><span data-i18n="text.341">題目難度</span></b><small><span data-i18n="text.383">混合以簡單題為主，偶爾出困難題</span></small></span>
+<div aria-label="新房間題目難度" class="chiprow" data-i18n-attr="aria-label=text.455" id="room-create-diff" role="radiogroup"></div>
+</div>
+</div>
+<p class="settings-note room-create-invite-note"><span data-i18n="text.384">房間建立後，邀請連結會放在等待畫面的「房間設定」裡；不會塞進右上角的對局設定。</span></p>
+</div>
+<div class="settings-foot">
+<button class="btn3d small" data-b3="1" data-color="gray" id="room-create-cancel" type="button"><span class="b3-lbl"><span data-i18n="text.367">先不要</span></span></button>
+<button class="btn3d settings-done" data-b3="1" data-color="mint" id="room-create-submit" type="button"><span class="b3-lbl"><span data-i18n="text.385">建立房間</span></span></button>
+</div>
+</section>
+</div>
+<!-- ============================== 對戰畫面 ============================== -->
+<section aria-label="對戰畫面" class="screen" data-i18n-attr="aria-label=text.456" id="s-game">
+<div class="game aside-open" id="game">
+<div class="game-main">
+<!-- 對局抬頭：上排狀態 + 題目提示列。橫向時兩者合併成同一列，把高度還給畫布 -->
+<div class="game-head">
+<header class="game-top">
+<button aria-label="離開這一局" class="btn3d small icononly" data-b3="1" data-color="cream" data-i18n-attr="aria-label=text.279;title=text.279" id="b-game-back" title="離開這一局"><span class="b3-lbl">◀</span></button>
+<div class="statusbar">
+<span aria-live="polite" class="chip chip-phase" id="phase-chip" role="status"><span data-i18n="text.386">準備中</span></span>
+<span class="chip chip-round" id="round-chip"><span data-i18n="text.387">第 0 / 0 題</span></span>
+<span class="chip chip-timer" hidden="" id="timer-chip"><span class="ico" data-ico="clock" data-ico-done="1"><svg aria-label="倒數" role="img" viewbox="0 0 100 100"><circle cx="50" cy="52" fill="#FFF0DE" r="34" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle><path d="M50 52 V32 M50 52 L66 60" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span><b id="timer-text">0</b></span>
+</div>
+<div aria-label="對局工具" class="game-top-actions" data-i18n-attr="aria-label=text.457">
+<button aria-controls="game-aside" aria-expanded="true" aria-label="開啟左側操作摘要" class="btn3d small icononly aside-toggle" data-b3="1" data-color="lemon" data-i18n-attr="aria-label=text.458;title=text.458" id="b-aside-toggle" title="開啟左側操作摘要"><span class="b3-lbl">📋</span></button>
+<button aria-controls="game-settings-modal" aria-expanded="false" aria-haspopup="dialog" aria-label="開啟對局設定" class="btn3d small icononly game-settings-toggle" data-b3="1" data-color="sky" data-i18n-attr="aria-label=text.459;title=text.459" id="b-game-settings" title="開啟對局設定"><span class="b3-lbl">🎮</span></button>
+</div>
+</header>
+<!-- 題目提示：字數（底線）、種類與被揭開的那個字，都要等畫家按提示才會出現。
+             畫家看到的是真正的題目。這一列是全畫面最該看清楚的東西，字級刻意放到最大。 -->
+<div class="wordbar" id="wordbar">
+<span class="wordbar-label" id="wordbar-label"><span data-i18n="text.156">題目</span></span>
+<b class="wordbar-mask" id="wordbar-mask">— — —</b>
+<span class="wordbar-meta" id="wordbar-meta"></span>
+<button aria-controls="reference-modal" aria-expanded="false" aria-haspopup="dialog" class="pillbtn reference-toggle" hidden="" id="b-reference" type="button"><span data-i18n="reference.open">查看範本</span></button>
+</div>
+<!-- 畫布上方一列：玩家名稱與分數，旁邊接著畫家的三張提示（橫式，小張就好）。
+             提示以前絕對定位壓在畫布上，窄螢幕會蓋掉一大塊畫圖區，所以搬到這裡；
+             一行放不下就自己掉到下一行，橫向時則排到名稱左邊（右上角有固定按鈕）。 -->
+<div class="canvastop" id="canvastop">
+<div aria-label="玩家與分數" class="playerstrip" data-i18n-attr="aria-label=text.460" id="playerstrip"></div>
+<!-- 提示區塊：畫家專用，橫式擺在畫布正上方 -->
+<div aria-label="給猜題者的提示" class="hintdock" data-i18n-attr="aria-label=text.461" hidden="" id="hintrow">
+<span class="hintrow-label"><span data-i18n="text.388">提示</span></span>
+<button class="btn3d small hintbtn" data-b3="1" data-color="sky" data-i18n-attr="title=text.462" id="b-hint-1" title="公開題目有幾個字" type="button"><span class="b3-lbl"><span data-i18n="text.389">①字數</span></span></button>
+<button class="btn3d small hintbtn" data-b3="1" data-color="sky" data-i18n-attr="title=text.463" id="b-hint-2" title="公開題目的種類" type="button"><span class="b3-lbl"><span data-i18n="text.390">②種類</span></span></button>
+<button class="btn3d small hintbtn" data-b3="1" data-color="sky" data-i18n-attr="title=text.464" id="b-hint-3" title="在底線上翻開其中一個字" type="button"><span class="b3-lbl"><span data-i18n="text.391">③一個字</span></span></button>
+<span class="hintrow-note" id="hintrow-note"></span>
+</div>
+</div>
+</div>
+<!-- 遊戲主區：畫布 + 操作列。
+             直向時操作列在畫布下方；橫向／寬螢幕時移到畫布右側，
+             把寶貴的高度全部留給畫布（畫布是正方形，高度就是它的邊長）。 -->
+<div class="playarea" id="playarea">
+<div class="stage" id="stage">
+<div class="stage-canvas" id="stage-canvas">
+<canvas aria-label="畫布：畫家在這裡作畫，其他人看著猜" data-i18n-attr="aria-label=text.465" height="1" id="board" width="1"></canvas>
+</div>
+</div>
+<div class="playbar" id="playbar">
+<!-- 猜題列：輪到別人畫的時候，這是你的主要操作 -->
+<form autocomplete="off" class="guessbar" hidden="" id="guessbar">
+<label class="sr-only" for="guess-input"><span data-i18n="text.392">你的猜測</span></label>
+<input data-i18n-attr="placeholder=text.077" enterkeyhint="send" id="guess-input" maxlength="24" placeholder="猜猜看這是什麼？"/>
+<button class="btn3d big" data-b3="1" data-color="mint" id="b-guess" type="submit"><span class="b3-lbl"><span data-i18n="text.393">猜！</span></span></button>
+</form>
+<!-- 工具列：只有輪到自己當畫家時才出現 -->
+<div class="toolbar" hidden="" id="toolbar">
+<div class="paint-controls">
+<div aria-label="畫圖工具" class="toolrow toolrow-tools" data-i18n-attr="aria-label=text.466" id="tool-list" role="radiogroup"><button aria-checked="true" aria-label="鉛筆" class="toolbtn" data-tool="pen" role="radio" title="鉛筆：按住拖曳畫線" type="button"><span class="ico"><svg aria-label="鉛筆" role="img" viewbox="0 0 100 100"><path d="M22 78 L30 58 L68 20 L80 32 L42 70 Z" fill="#FFE3A0" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M30 58 L42 70" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M22 78 L28 72" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span></button><button aria-checked="false" aria-label="筆刷" class="toolbtn" data-tool="brush" role="radio" title="筆刷：比鉛筆粗一級" type="button"><span class="ico"><svg aria-label="筆刷" role="img" viewbox="0 0 100 100"><path d="M20 80 q4 -22 18 -26 q10 -3 12 8 q2 12 -12 16 q-12 4 -18 2 Z" fill="#FFB8CF" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M46 58 L82 22 L70 12 L38 46 Z" fill="#AED9F5" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span></button><button aria-checked="false" aria-label="直線" class="toolbtn" data-tool="line" role="radio" title="直線：按住拖到終點放開" type="button"><span class="ico"><svg aria-label="直線" role="img" viewbox="0 0 100 100"><path d="M20 80 L80 20" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><circle cx="20" cy="80" fill="#A9E7D2" r="9" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle><circle cx="80" cy="20" fill="#A9E7D2" r="9" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle></svg></span></button><button aria-checked="false" aria-label="矩形" class="toolbtn" data-tool="rect" role="radio" title="矩形：拖出對角線" type="button"><span class="ico"><svg aria-label="矩形" role="img" viewbox="0 0 100 100"><rect fill="#AED9F5" height="48" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" width="64" x="18" y="26"></rect></svg></span></button><button aria-checked="false" aria-label="橢圓" class="toolbtn" data-tool="ellipse" role="radio" title="橢圓：拖出外框" type="button"><span class="ico"><svg aria-label="橢圓" role="img" viewbox="0 0 100 100"><ellipse cx="50" cy="50" fill="#C9B6F5" rx="34" ry="26" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></ellipse></svg></span></button><button aria-checked="false" aria-label="橡皮擦" class="toolbtn" data-tool="erase" role="radio" title="橡皮擦：擦掉畫錯的地方" type="button"><span class="ico"><svg aria-label="橡皮擦" role="img" viewbox="0 0 100 100"><path d="M18 68 L50 36 q6 -6 12 0 L84 58 q6 6 0 12 L66 88 L34 88 Z" fill="#FFC2B4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M40 46 L74 76" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M22 88 L88 88" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span></button><button aria-checked="false" aria-label="油漆桶" class="toolbtn" data-tool="fill" role="radio" title="油漆桶：點一下填滿封閉區域" type="button"><span class="ico"><svg aria-label="油漆桶" role="img" viewbox="0 0 100 100"><path d="M30 26 L66 62 L44 84 q-6 6 -12 0 L14 66 q-6 -6 0 -12 Z" fill="#A9E7D2" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M30 26 L24 16" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M80 46 q10 16 10 22 a10 10 0 0 1 -20 0 q0 -6 10 -22 Z" fill="#7FB4DA" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span></button></div>
+<div aria-label="顏色" class="toolrow toolrow-colors" data-i18n-attr="aria-label=text.467" id="color-list" role="radiogroup"><button aria-checked="true" aria-label="顏色 1" class="colorbtn" data-color-index="0" role="radio" style="background: rgb(74, 59, 85);" title="顏色 1" type="button"></button><button aria-checked="false" aria-label="顏色 2" class="colorbtn" data-color-index="1" role="radio" style="background: rgb(210, 68, 79);" title="顏色 2" type="button"></button><button aria-checked="false" aria-label="顏色 3" class="colorbtn" data-color-index="2" role="radio" style="background: rgb(240, 145, 63);" title="顏色 3" type="button"></button><button aria-checked="false" aria-label="顏色 4" class="colorbtn" data-color-index="3" role="radio" style="background: rgb(231, 194, 99);" title="顏色 4" type="button"></button><button aria-checked="false" aria-label="顏色 5" class="colorbtn" data-color-index="4" role="radio" style="background: rgb(95, 191, 149);" title="顏色 5" type="button"></button><button aria-checked="false" aria-label="顏色 6" class="colorbtn" data-color-index="5" role="radio" style="background: rgb(62, 143, 107);" title="顏色 6" type="button"></button><button aria-checked="false" aria-label="顏色 7" class="colorbtn" data-color-index="6" role="radio" style="background: rgb(127, 180, 218);" title="顏色 7" type="button"></button><button aria-checked="false" aria-label="顏色 8" class="colorbtn" data-color-index="7" role="radio" style="background: rgb(74, 111, 165);" title="顏色 8" type="button"></button><button aria-checked="false" aria-label="顏色 9" class="colorbtn" data-color-index="8" role="radio" style="background: rgb(164, 143, 219);" title="顏色 9" type="button"></button><button aria-checked="false" aria-label="顏色 10" class="colorbtn" data-color-index="9" role="radio" style="background: rgb(232, 140, 170);" title="顏色 10" type="button"></button><button aria-checked="false" aria-label="顏色 11" class="colorbtn" data-color-index="10" role="radio" style="background: rgb(139, 94, 60);" title="顏色 11" type="button"></button><button aria-checked="false" aria-label="顏色 12" class="colorbtn" data-color-index="11" role="radio" style="background: rgb(255, 253, 248);" title="顏色 12" type="button"></button></div>
+<!-- 粗細、填滿與編輯動作放同一條；窄版時這一條可以橫向捲動，
+                 但「畫完了／跳過這題」固定在右邊不會被捲走。 -->
+<div class="toolrow toolrow-misc">
+<div class="toolscroll" id="toolscroll">
+<div aria-label="筆的粗細" class="widthgroup" data-i18n-attr="aria-label=text.468" id="width-list" role="radiogroup"><button aria-checked="false" aria-label="筆寬 1" class="widthbtn" data-width-index="0" role="radio" title="筆寬 1" type="button"><i style="width: 5px; height: 5px;"></i></button><button aria-checked="true" aria-label="筆寬 2" class="widthbtn" data-width-index="1" role="radio" title="筆寬 2" type="button"><i style="width: 5px; height: 5px;"></i></button><button aria-checked="false" aria-label="筆寬 3" class="widthbtn" data-width-index="2" role="radio" title="筆寬 3" type="button"><i style="width: 11px; height: 11px;"></i></button><button aria-checked="false" aria-label="筆寬 4" class="widthbtn" data-width-index="3" role="radio" title="筆寬 4" type="button"><i style="width: 20px; height: 20px;"></i></button></div>
+<label class="fillbox" id="fillbox" style="display: none;">
+<input id="opt-filled" type="checkbox"/>
+<span><span data-i18n="text.394">填滿</span></span>
+</label>
+<button aria-label="復原" class="toolbtn" data-i18n-attr="aria-label=text.323;title=tool.undoTitle" id="b-undo" title="復原（Ctrl+Z）" type="button"><span class="ico" data-ico="undo" data-ico-done="1"><svg aria-label="復原" role="img" viewbox="0 0 100 100"><path d="M30 42 H62 a20 20 0 0 1 0 40 H40" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M44 26 L26 42 L44 58" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span></button>
+<button aria-label="重做" class="toolbtn" data-i18n-attr="aria-label=text.322;title=tool.redoTitle" disabled="" id="b-redo" title="重做（Ctrl+Y）" type="button"><span class="ico" data-ico="redo" data-ico-done="1"><svg aria-label="重做" role="img" viewbox="0 0 100 100"><path d="M70 42 H38 a20 20 0 0 0 0 40 H60" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M56 26 L74 42 L56 58" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span></button>
+<button aria-label="全部清除" class="toolbtn danger" data-i18n-attr="aria-label=text.321;title=text.321" id="b-clear" title="全部清除" type="button"><span class="ico" data-ico="trash" data-ico-done="1"><svg aria-label="全部清除" role="img" viewbox="0 0 100 100"><path d="M24 30 H76" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M40 30 V20 H60 V30" fill="#FFC2B4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M30 30 L34 84 H66 L70 30 Z" fill="#FFF0DE" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path><path d="M44 42 V72 M56 42 V72" fill="none" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path></svg></span></button>
+</div>
+<!-- 「畫完了」只是告訴大家可以猜了，不會結束這一題；真的要結束是下面的「跳過這題」 -->
+<div class="donebox">
+<button class="btn3d small tool-done" data-b3="1" data-color="lemon" data-i18n-attr="title=text.469" disabled="" id="b-done" title="告訴大家你畫完了（這一題還會繼續，時間也照跑）" type="button"><span class="b3-lbl">畫完了</span></button>
+<button class="btn3d small tool-skip" data-b3="1" data-color="peach" data-i18n-attr="title=text.470" disabled="" id="b-skip" title="直接結束這一題並公布答案" type="button"><span class="b3-lbl"><span data-i18n="text.395">跳過這題</span></span></button>
+</div>
+</div>
+</div><!-- /.paint-controls -->
+<div aria-label="作品與題目操作" class="solo-file-actions" data-i18n-attr="aria-label=text.471" hidden="" id="solo-file-actions" role="group">
+<button class="btn3d small" data-b3="1" data-color="mint" data-i18n-attr="title=text.472" id="b-solo-save" title="下載可繼續編輯的作品存檔" type="button"><span class="b3-lbl"><span data-i18n="text.396">存檔</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="lemon" id="b-solo-image" type="button"><span class="b3-lbl"><span data-i18n="text.397">下載圖片</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="sky" id="b-solo-load" type="button"><span class="b3-lbl"><span data-i18n="text.398">載入</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="peach" data-i18n-attr="title=text.473" id="b-solo-next" title="跳過這題，換一個題目" type="button"><span class="b3-lbl"><span data-i18n="text.399">換題</span></span></button>
+</div>
+<p aria-live="polite" class="tool-hint" id="tool-hint" role="status"></p>
+</div>
+</div><!-- /.playbar -->
+</div><!-- /.playarea -->
+<!-- 房間設定／選題／結算／房間結束都疊在遊戲主區上。
+             蓋住整個主區（不只畫布），房間設定這種內容比較多的面板才有地方放。 -->
+<div class="stage-overlay" hidden="" id="stage-overlay">
+<div class="overlay-card" id="overlay-card" tabindex="-1"></div>
+</div>
+</div>
+<!-- 左側資訊欄：操作 Summary、比分，以及包含每一則猜題的「猜題紀錄」 -->
+<aside aria-label="左側操作摘要" class="game-aside open" data-i18n-attr="aria-label=text.474" id="game-aside">
+<div class="aside-head">
+<h3><span data-i18n="text.400">📋 操作摘要</span></h3>
+<button aria-label="收起操作摘要" class="aside-close" data-i18n-attr="aria-label=text.475" id="b-aside-close" type="button">✕</button>
+</div>
+<div class="aside-body">
+<div class="sumcard">
+<div class="sum-line"><span><span data-i18n="text.401">目前階段</span></span><b id="sum-phase">—</b></div>
+<div class="sum-line"><span><span data-i18n="text.035">這一題的畫家</span></span><b id="sum-drawer">—</b></div>
+<div class="sum-line"><span><span data-i18n="text.402">你的角色</span></span><b id="sum-role">—</b></div>
+<div class="sum-line"><span><span data-i18n="text.403">你可以做什麼</span></span><b id="sum-can">—</b></div>
+<div class="sum-line"><span><span data-i18n="text.404">題目提示</span></span><b id="sum-hint">—</b></div>
+<div class="sum-line"><span><span data-i18n="text.405">剩餘時間</span></span><b id="sum-timer">—</b></div>
+<div class="sum-line"><span><span data-i18n="text.406">連線</span></span><b id="sum-conn">—</b></div>
+</div>
+<h4 class="sum-h"><span data-i18n="text.407">目前比分</span></h4>
+<ol class="scorelist" id="scorelist"></ol>
+<h4 class="sum-h"><span data-i18n="text.315">猜題紀錄</span></h4>
+<ol aria-live="polite" class="sum-list" id="sum-list" role="log"></ol>
+<p class="sum-empty" id="sum-empty"><span data-i18n="text.408">還沒有任何紀錄。猜題（包含猜錯的）都會列在這裡。</span></p>
+</div>
+</aside>
+</div>
+</section>
+<!-- ============================== 畫家參考範本 ============================== -->
+<div aria-describedby="reference-note" aria-hidden="true" aria-labelledby="reference-title" aria-modal="true" class="settings-modal reference-modal" id="reference-modal" role="dialog">
+<div class="settings-backdrop" id="reference-backdrop"></div>
+<section class="settings-panel reference-panel" id="reference-panel" tabindex="-1">
+<div class="settings-head">
+<h2 id="reference-title"><span data-i18n="reference.title">畫家參考範本</span></h2>
+<button aria-label="關閉範本" class="settings-close" data-i18n-attr="aria-label=reference.close" id="reference-close" type="button">✕</button>
+</div>
+<div class="reference-body">
+<b class="reference-word" id="reference-word"></b>
+<div class="reference-picture" id="reference-picture" role="img"></div>
+<p class="reference-empty" data-i18n="reference.empty" hidden="" id="reference-empty">範本暫時無法顯示，請稍後再試。</p>
+<div aria-label="範本步驟" class="reference-steps" data-i18n-attr="aria-label=reference.steps" id="reference-steps" role="group">
+<button aria-pressed="false" class="pillbtn" data-i18n="reference.step1" data-reference-step="1" type="button">① 起筆</button>
+<button aria-pressed="false" class="pillbtn" data-i18n="reference.step2" data-reference-step="2" type="button">② 加細節</button>
+<button aria-pressed="true" class="pillbtn" data-i18n="reference.step3" data-reference-step="3" type="button">③ 完整圖</button>
+</div>
+<p class="reference-note" data-i18n="reference.note" id="reference-note">看輪廓與特徵就好，不必畫得一模一樣。範本不會放進你的畫布；線上回合仍會繼續計時。</p>
+</div>
+<div class="settings-foot">
+<button class="btn3d settings-done" data-b3="1" data-color="mint" id="reference-done" type="button"><span class="b3-lbl"><span data-i18n="reference.back">回去畫畫</span></span></button>
+</div>
+</section>
+</div>
+<!-- ============================== 系統設定彈窗 ============================== -->
+<div aria-hidden="true" aria-labelledby="settings-title" aria-modal="true" class="settings-modal" id="settings-modal" role="dialog">
+<div class="settings-backdrop" data-settings-close=""></div>
+<section class="settings-panel" id="settings-panel" tabindex="-1">
+<div class="settings-head">
+<span aria-hidden="true" class="settings-badge"><span class="ico" data-ico="gear" data-ico-done="1"><svg aria-label="設定" role="img" viewbox="0 0 100 100"><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(0 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(45 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(90 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(135 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(180 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(225 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(270 50 50)" width="14" x="43" y="4"></rect><rect fill="#FFF0DE" height="20" rx="4" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" transform="rotate(315 50 50)" width="14" x="43" y="4"></rect><circle cx="50" cy="50" fill="#FFF0DE" r="28" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle><circle cx="50" cy="50" fill="#C9B6F5" r="11" stroke="#4A3B55" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></circle></svg></span></span>
+<h2 id="settings-title"><span data-i18n="text.409">系統設定</span></h2>
+<button aria-label="關閉系統設定" class="settings-close" data-i18n-attr="aria-label=text.476" id="settings-close" type="button">✕</button>
+</div>
+<div aria-label="設定項目" class="settings-body" data-i18n-attr="aria-label=text.477" id="settings-body" role="group" tabindex="0">
+<div class="settings-group">
+<h3><span aria-hidden="true" class="gico">🎵</span><span data-i18n="text.410">聲音</span></h3>
+<label class="setting-toggle" for="settings-music">
+<span><b><span data-i18n="text.411">背景音樂</span></b><small id="settings-music-status"><span data-i18n="text.265">開啟</span></small></span>
+<input checked="" id="settings-music" type="checkbox"/>
+</label>
+<label class="setting-range" for="settings-music-volume">
+<span><span data-i18n="text.412">音樂音量</span> <output id="settings-music-volume-value">55%</output></span>
+<input id="settings-music-volume" max="100" min="0" step="5" type="range" value="55"/>
+</label>
+<label class="setting-toggle" for="settings-sfx">
+<span><b><span data-i18n="text.413">遊戲音效</span></b><small id="settings-sfx-status"><span data-i18n="text.265">開啟</span></small></span>
+<input checked="" id="settings-sfx" type="checkbox"/>
+</label>
+<label class="setting-range" for="settings-sfx-volume">
+<span><span data-i18n="text.414">音效音量</span> <output id="settings-sfx-volume-value">100%</output></span>
+<input id="settings-sfx-volume" max="100" min="0" step="5" type="range" value="100"/>
+</label>
+<label class="setting-toggle" for="settings-pencue">
+<span><b><span data-i18n="text.415">下筆沙沙聲</span></b><small><span data-i18n="text.416">畫線時的鉛筆摩擦聲</span></small></span>
+<input checked="" id="settings-pencue" type="checkbox"/>
+</label>
+<label class="setting-toggle" for="settings-chatcue">
+<span><b><span data-i18n="text.417">猜題提示音</span></b><small><span data-i18n="text.418">有人猜題時輕輕響一聲</span></small></span>
+<input checked="" id="settings-chatcue" type="checkbox"/>
+</label>
+<p class="settings-note"><span data-i18n="text.419">聲音會在你第一次點畫面之後才開始播放，這是瀏覽器的規定。全部靜音也能完整遊玩，重要資訊都有文字。</span></p>
+</div>
+<div class="settings-group">
+<h3><span aria-hidden="true" class="gico">🎮</span><span data-i18n="text.420">操作與顯示</span></h3>
+<label class="setting-toggle" for="settings-haptic">
+<span><b><span data-i18n="text.421">震動回饋</span></b><small><span data-i18n="text.422">猜對與無效操作時輕震一下（需裝置支援）</span></small></span>
+<input checked="" id="settings-haptic" type="checkbox"/>
+</label>
+<label class="setting-toggle" for="settings-motion">
+<span><b><span data-i18n="text.423">減少動態</span></b><small><span data-i18n="text.424">關掉浮動裝飾與轉場動畫</span></small></span>
+<input id="settings-motion" type="checkbox"/>
+</label>
+<label class="setting-toggle" for="settings-bigtools">
+<span><b><span data-i18n="text.425">放大工具列</span></b><small><span data-i18n="text.426">工具與顏色的按鈕變大，手指比較好按</span></small></span>
+<input id="settings-bigtools" type="checkbox"/>
+</label>
+</div>
+<div class="settings-group">
+<h3><span aria-hidden="true" class="gico">🌐</span><span data-i18n="text.427">個人與連線</span></h3>
+<label class="setting-text" for="settings-nick">
+<span><b><span data-i18n="text.428">我的暱稱</span></b><small><span data-i18n="text.429">線上房間、猜題紀錄裡別人看到的名字；清空會自動幫你配一個</span></small></span>
+<input autocomplete="off" data-i18n-attr="placeholder=text.478" id="settings-nick" maxlength="12" placeholder="留空會自動配一個" spellcheck="false" type="text"/>
+</label>
+<div class="setting-static">
+<span><b><span data-i18n="text.430">遊戲伺服器</span></b><small id="settings-server-url">—</small></span>
+<span class="server-pill" data-state="unset" id="settings-server-pill"><span data-i18n="text.431">尚未連線</span></span>
+</div>
+<p class="settings-note"><span data-i18n="text.433">伺服器位址只能從網址參數</span> <code>?server=</code> <span data-i18n="text.434">或部署時注入的設定取得；進入線上模式時才會連線，程式裡沒有寫死任何網域。</span></p>
+</div>
+</div>
+<div class="settings-foot">
+<button class="btn3d small settings-reset" data-b3="1" data-color="gray" id="settings-reset" type="button"><span class="b3-lbl"><span data-i18n="text.435">恢復預設</span></span></button>
+<button class="btn3d settings-done" data-b3="1" data-color="mint" id="settings-done" type="button"><span class="b3-lbl"><span data-i18n="text.436">完成</span></span></button>
+</div>
+</section>
+</div>
+<!-- ============================== 確認彈窗 ============================== -->
+<!-- 通用的「再問一次」對話框：離開對局這種收不回來的動作都走這裡 -->
+<div aria-describedby="confirm-text" aria-hidden="true" aria-labelledby="confirm-title" aria-modal="true" class="settings-modal confirm-modal" id="confirm-modal" role="dialog">
+<div class="settings-backdrop" data-confirm-close=""></div>
+<section class="settings-panel confirm-panel" id="confirm-panel" tabindex="-1">
+<div class="settings-head">
+<span aria-hidden="true" class="settings-badge">❓</span>
+<h2 id="confirm-title"><span data-i18n="text.437">確認</span></h2>
+</div>
+<div class="settings-body">
+<p class="confirm-text" id="confirm-text"></p>
+</div>
+<div class="settings-foot">
+<button class="btn3d small" data-b3="1" data-color="gray" id="confirm-cancel" type="button"><span class="b3-lbl"><span data-i18n="text.367">先不要</span></span></button>
+<button class="btn3d settings-done" data-b3="1" data-color="peach" id="confirm-ok" type="button"><span class="b3-lbl"><span data-i18n="text.438">確定</span></span></button>
+</div>
+</section>
+</div>
+<!-- ============================== 對局設定彈窗 ============================== -->
+<div aria-hidden="true" aria-labelledby="game-settings-title" aria-modal="true" class="settings-modal" id="game-settings-modal" role="dialog">
+<div class="settings-backdrop" data-game-settings-close=""></div>
+<section class="settings-panel" id="game-settings-panel" tabindex="-1">
+<div class="settings-head">
+<span aria-hidden="true" class="settings-badge">🎮</span>
+<h2 id="game-settings-title"><span data-i18n="text.439">對局設定</span></h2>
+<button aria-label="關閉對局設定" class="settings-close" data-i18n-attr="aria-label=text.479" id="game-settings-close" type="button">✕</button>
+</div>
+<div aria-label="本局操作" class="settings-body" data-i18n-attr="aria-label=text.441" id="game-settings-body" role="group" tabindex="0">
+<div class="settings-group">
+<h3><span aria-hidden="true" class="gico">🙋</span><span data-i18n="text.402">你的角色</span></h3>
+<div class="setting-static">
+<span><b id="gs-role">—</b><small id="gs-role-note">—</small></span>
+<span class="roomcode-pill" id="gs-code">----</span>
+</div>
+<div class="setting-btns" id="gs-role-btns"></div>
+<p class="settings-note"><span data-i18n="text.440">房主規則與邀請連結只在尚未開始時的中央「房間設定」裡管理；右上角只處理你的角色與本局操作。</span></p>
+</div>
+<div class="settings-group">
+<h3><span aria-hidden="true" class="gico">🏳️</span><span data-i18n="text.441">本局操作</span></h3>
+<div class="setting-btns">
+<button class="btn3d small" data-b3="1" data-color="lemon" id="gs-skip" type="button"><span class="b3-lbl"><span data-i18n="text.442">跳過這一題（我畫不出來）</span></span></button>
+<button class="btn3d small" data-b3="1" data-color="peach" id="gs-quit" type="button"><span class="b3-lbl"><span data-i18n="text.279">離開這一局</span></span></button>
+</div>
+<p class="settings-note" id="gs-note"><span data-i18n="text.026">目前沒有進行中的對局。</span></p>
+</div>
+</div>
+<div class="settings-foot">
+<button class="btn3d settings-done" data-b3="1" data-color="mint" id="game-settings-done" type="button"><span class="b3-lbl"><span data-i18n="text.436">完成</span></span></button>
+</div>
+</section>
+</div>
+<!-- 全域提示（送出中、錯誤、成功） -->
+<input accept=".json,application/json" aria-label="選擇作品存檔" data-i18n-attr="aria-label=text.480" hidden="" id="solo-file-input" type="file"/>
+<div aria-live="assertive" class="toast" hidden="" id="toast" role="status"></div>
+</div>
+<script src="/_assets/507dbf3a32e23ca70ba3.js"></script>
+<script src="/_assets/ba529a660254276bb3f1.js"></script>
+<script src="/_assets/e231cfbc4a50aaeef7e5.js"></script>
+<script src="/_assets/97539c6c331e26c51c9c.js"></script>
+<script src="/_assets/8e559b68c045562655e6.js"></script>
+<script src="/_assets/42704ce3a9a4c52f5a3c.js"></script>
+<script src="/_assets/726c37e974b2387de766.js"></script>
+<script src="/_assets/047df9e456c34b963c3c.js"></script>
+<script src="/_assets/668cd1787d945b90e83e.js"></script>
+<script src="/_assets/6d59e12d94e2c20f136d.js"></script>
+<script src="/_assets/7e55d5f149b61ae3c2a9.js"></script>
+<script src="/_assets/619f4bee4ce81dcf6976.js"></script>
+<script src="/_assets/27093360f67200dd059b.js"></script>
+<script src="/_assets/c8389a646899213d8fb2.js"></script>
+<script src="/_assets/8d0d9deb46357bb63cd8.js"></script>
+<script src="/_assets/e6d37d0c0c152c530676.js"></script>
+<!-- js/ai.js 刻意不載入：單機已經沒有電腦對手，遊戲裡沒有任何程式用到它。
+     演算法保留在檔案裡供未來需要時取用，但不讓每個玩家白載一份。 -->
+<script src="/_assets/12a8c6c817a0da34c8b4.js"></script>
+<script src="/_assets/d7223f3354a39d12a08a.js"></script>
+<script src="/_assets/24d5d60ddda4d6406fcb.js"></script>
+<script src="/_assets/ed8bef09a1f05516859b.js"></script>
+<script data-skin="draw-guess" src="/_assets/b703cb2f788c2412417f.js"></script>
+<script src="/_assets/8d69d27fc423bcaaaa56.js"></script>
+<script src="/_assets/c10eea814d2052c31e1e.js"></script>
+<!--SEO:GAMEPLAY-->
+<noscript><div class="seo-gameplay"><section lang="zh-Hant">
+<h2>你畫我猜</h2>
+<p>單機自由畫畫、不限時也不計分；線上輪流當畫家，和朋友猜題搶分。</p>
+<p><strong>玩法模式：</strong>單機自由畫畫、線上房間、觀戰</p>
+<p><strong>操作方式：</strong>畫家用畫筆在畫布作畫，猜題者輸入答案</p>
+</section>
+<section lang="zh-Hans">
+<h2>你画我猜</h2>
+<p>单机自由画画、不限时也不计分；线上轮流当画家，和朋友猜题抢分。</p>
+<p><strong>玩法模式：</strong>单机自由画画、线上房间、观战</p>
+<p><strong>操作方式：</strong>画家用画笔在画布作画，猜题者输入答案</p>
+</section>
+<section lang="en">
+<h2>Draw &amp; Guess</h2>
+<p>Draw freely solo with no timer or scoring, or take turns drawing and guessing with friends online.</p>
+<p><strong>Game modes: </strong>Solo Free Drawing, Online Room, Spectate</p>
+<p><strong>How to play: </strong>The artist draws on the canvas; guessers type their answers</p>
+</section></div></noscript>
+<!--SEO:GAMEPLAY:END-->
+<script defer="" src="/_assets/1ad7d7f22d5858275dce.js"></script>
+<script defer="" src="/_assets/8b59b7eb53fb2a861332.js"></script>
+<div aria-live="off" class="latency-meter is-unknown" data-skin="draw-guess" hidden="" id="network-latency" role="status"><svg aria-hidden="true" class="latency-meter__icon" focusable="false" viewbox="0 0 32 32"><path d="m6 20 2-5L19 4l5 5-11 11-7 1Z"></path><path d="m17 6 5 5M8 15l5 5"></path></svg><span aria-hidden="true" class="latency-meter__light"></span><span class="latency-meter__value">--</span><span class="latency-meter__unit">ms</span></div><div aria-label="選擇語言" class="language-menu" hidden="" id="b-lang-menu" popover="manual" role="menu"><button aria-checked="true" class="language-option tk" data-language-option="zh-Hant" lang="zh-Hant" role="menuitemradio" type="button"><span>繁體中文</span><span aria-hidden="true">✓</span></button><button aria-checked="false" class="language-option tk" data-language-option="zh-Hans" lang="zh-Hans" role="menuitemradio" type="button"><span>简体中文</span><span aria-hidden="true"></span></button><button aria-checked="false" class="language-option tk" data-language-option="en" lang="en" role="menuitemradio" type="button"><span>English</span><span aria-hidden="true"></span></button></div></body></html>

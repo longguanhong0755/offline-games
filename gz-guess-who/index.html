@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guess Who</title>
+<link href="/_assets/eedf469896f855562bfe.css" rel="stylesheet"/>
+
+
+<link href="/_assets/d4694d9c3deab40e15bd.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="welcome container">
+<div class="menu">
+<img alt="" src="/_assets/913aed7cd5a8c5dfab14.png"/>
+<div class="start container">
+<button id="get-started">Get Started!</button>
+</div>
+</div>
+</div>
+<div class="instructions container">
+<div id="modal-textbox">
+<div id="tutorial-title">How to play:</div>
+<p>Welcome to Guess Who? Gaming Edition! Just like the real life board-game,
+                your job is to find out which gaming character we are thinking of!
+            </p>
+<div class="instruction">
+<p>
+                    You will be given a set of questions that you can ask on the control panel. Just click on the "?" button 
+                    next to your desired question, and we will give you the answer. <br/>
+                    You may ask as many questions as you would like, but the least you ask, the better your score!
+                </p>
+<p>
+                    Just like in the board-game, you can eliminate characters from the board! Just go to the desired character,
+                    and double-click on his/her card. If you wish to add the desired character back, just double-click again 
+                    on the respective card <br/>
+</p>
+<p>
+                    You can make a guess at any point of the game! Just click on the "Guess Who?" button on the 
+                    right panel, and click on your desired character.<br/>
+                    
+
+                    If you would like to keep asking questions and not make the guess, you can simply click on the 
+                    "Cancel" button on the right panel.<br/>
+                    
+                    BUT THERE IS A CATCH!<br/>
+                    
+                    You only have 3 chances to guess. If you fail 3 times, you lose the game!
+                    
+                </p>
+</div>
+<button id="start-game">Start the game</button>
+</div>
+</div>
+<div class="modal-background">
+<div id="try-textbox">
+<div id="close-modal">X</div>
+<div id="try-title">Wrong guess.<br/> Try again!</div>
+</div>
+<div id="updates-textbox">
+<div id="score-total">
+<div id="result-title"></div>
+<div id="score-number"></div>
+<div id="stars"></div>
+<div id="score-text"></div>
+<button id="play-again">Play Again!</button>
+</div>
+</div>
+</div>
+<div class="board container">
+<div class="container" id="chris-board">
+<!-- Characters Area -->
+<div class="row container">
+<div class="square container" id="mario">
+<div class="image">
+<img alt="" src="/_assets/38920c3722cecf7f0c85.png"/>
+</div>
+<div class="name">Mario</div>
+</div>
+<div class="square container" id="luigi">
+<div class="image">
+<img alt="" src="/_assets/9762c2b958d94f96380d.png"/>
+</div>
+<div class="name">Luigi</div>
+</div>
+<div class="square container" id="bowser">
+<div class="image">
+<img alt="" src="/_assets/766e4f74357a41902ae6.png"/>
+</div>
+<div class="name">Bowser</div>
+</div>
+<div class="square container" id="cloud">
+<div class="image">
+<img alt="" src="/_assets/4a33a8e6b0099a6be816.png"/>
+</div>
+<div class="name">Cloud</div>
+</div>
+<div class="square container" id="donkeykong">
+<div class="image">
+<img alt="" src="/_assets/3c83581db9f303f697a2.png"/>
+</div>
+<div class="name">Donkey Kong</div>
+</div>
+<div class="square container" id="doom">
+<div class="image">
+<img alt="" src="/_assets/fb598d7170217ff1e6a8.png"/>
+</div>
+<div class="name">Doom Slayer</div>
+</div>
+</div>
+<div class="row container">
+<div class="square container" id="ganon">
+<div class="image"><img alt="" src="/_assets/a3589501b51770f7463a.png"/></div>
+<div class="name">Ganondorf</div>
+</div>
+<div class="square container" id="inkling">
+<div class="image">
+<img alt="" src="/_assets/c88bca4f706025d3580a.png"/>
+</div>
+<div class="name">Inkling</div>
+</div>
+<div class="square container" id="jinx">
+<div class="image">
+<img alt="" src="/_assets/eeb78c53fceb6c12f462.png"/>
+</div>
+<div class="name">Jinx</div>
+</div>
+<div class="square container" id="joker">
+<div class="image">
+<img alt="" src="/_assets/d23738dc69cf77c1af2d.png"/>
+</div>
+<div class="name">Joker</div>
+</div>
+<div class="square container" id="kratos">
+<div class="image">
+<img alt="" src="/_assets/8f7915db438ba7544f92.png"/>
+</div>
+<div class="name">Kratos</div>
+</div>
+<div class="square container" id="lara">
+<div class="image">
+<img alt="" src="/_assets/10f9d883b9360a132c71.png"/>
+</div>
+<div class="name">Lara Croft</div>
+</div>
+</div>
+<div class="row container">
+<div class="square container" id="leon">
+<div class="image">
+<img alt="" src="/_assets/c5a75ad3d1f67ec317e9.png"/>
+</div>
+<div class="name">Leon Kennedy</div>
+</div>
+<div class="square container" id="link">
+<div class="image">
+<img alt="" src="/_assets/2f139915fb09a7881097.png"/>
+</div>
+<div class="name">Link</div>
+</div>
+<div class="square container" id="masterchief">
+<div class="image">
+<img alt="" src="/_assets/7f8d48531ff528be7ad5.png"/>
+</div>
+<div class="name">Master Chief</div>
+</div>
+<div class="square container" id="nathan">
+<div class="image">
+<img alt="" src="/_assets/e8768991431263b69d67.png"/>
+</div>
+<div class="name">Nathan Drake</div>
+</div>
+<div class="square container" id="pacman">
+<div class="image">
+<img alt="" src="/_assets/417956c9eb3ff588af0a.png"/>
+</div>
+<div class="name">Pacman</div>
+</div>
+<div class="square container" id="pikachu">
+<div class="image">
+<img alt="" src="/_assets/c47bf95843dc165b45d9.png"/>
+</div>
+<div class="name">Pikachu</div>
+</div>
+</div>
+<div class="row container">
+<div class="square container" id="ryu">
+<div class="image">
+<img alt="" src="/_assets/92998df5e6b5dd639278.png"/>
+</div>
+<div class="name">Ryu</div>
+</div>
+<div class="square container" id="samus">
+<div class="image">
+<img alt="" src="/_assets/5b8185e1550c4a8b5dee.png"/>
+</div>
+<div class="name">Samus</div>
+</div>
+<div class="square container" id="snake">
+<div class="image">
+<img alt="" src="/_assets/b114c13860196141a078.png"/>
+</div>
+<div class="name">Snake</div>
+</div>
+<div class="square container" id="steve">
+<div class="image">
+<img alt="" src="/_assets/4d796fe4da1f020a23a7.png"/>
+</div>
+<div class="name">Steve</div>
+</div>
+<div class="square container" id="tracer">
+<div class="image">
+<img alt="" src="/_assets/dbc28917042beb48d1aa.png"/>
+</div>
+<div class="name">Tracer</div>
+</div>
+<div class="square container" id="zelda">
+<div class="image">
+<img alt="" src="/_assets/8df3a70ce4d55dff6070.png"/>
+</div>
+<div class="name">Zelda</div>
+</div>
+</div>
+</div>
+<div class="container" id="game-controls">
+<div class="container" id="logo">
+<img alt="" src="/_assets/913aed7cd5a8c5dfab14.png"/>
+</div>
+<div class="player-stats container">
+<div id="guess-count">
+                    Guesses Left:    <span>3</span>
+</div>
+<div id="question-count">
+                    Questions Asked: <span>0</span>
+</div>
+</div>
+<div class="titles container">
+                Ask a question!
+            </div>
+<!-- Questions Area -->
+<div class="questions container">
+<div class="question container">
+<div class="text">
+                        Is Character male?
+                    </div>
+<div class="ask">
+<button id="male">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character female?
+                    </div>
+<div class="ask">
+<button id="female">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character human?
+                    </div>
+<div class="ask">
+<button id="human">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily red?
+                    </div>
+<div class="ask">
+<button id="red">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily green?
+                    </div>
+<div class="ask">
+<button id="green">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily yellow?
+                    </div>
+<div class="ask">
+<button id="yellow">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily gray?
+                    </div>
+<div class="ask">
+<button id="gray">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily brown?
+                    </div>
+<div class="ask">
+<button id="brown">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily orange?
+                    </div>
+<div class="ask">
+<button id="orange">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily white?
+                    </div>
+<div class="ask">
+<button id="white">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily purple?
+                    </div>
+<div class="ask">
+<button id="purple">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily blue?
+                    </div>
+<div class="ask">
+<button id="blue">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character primarily black?
+                    </div>
+<div class="ask">
+<button id="black">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Nintendo?
+                    </div>
+<div class="ask">
+<button id="Nintendo">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Square Enix?
+                    </div>
+<div class="ask">
+<button id="Square Enix">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Bethesda?
+                    </div>
+<div class="ask">
+<button id="Bethesda">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Riot Games?
+                    </div>
+<div class="ask">
+<button id="Riot Games">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Sega?
+                    </div>
+<div class="ask">
+<button id="Sega">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Sony?
+                    </div>
+<div class="ask">
+<button id="Sony">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Capcom?
+                    </div>
+<div class="ask">
+<button id="Capcom">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Microsoft?
+                    </div>
+<div class="ask">
+<button id="Microsoft">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Bandai Namco?
+                    </div>
+<div class="ask">
+<button id="Bandai Namco">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Konami?
+                    </div>
+<div class="ask">
+<button id="Konami">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Does Character belong to Blizzard?
+                    </div>
+<div class="ask">
+<button id="Blizzard">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Characters's hair blond?
+                    </div>
+<div class="ask">
+<button id="blond">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Characters's hair brown?
+                    </div>
+<div class="ask">
+<button id="brunette">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Characters's hair red?
+                    </div>
+<div class="ask">
+<button id="red">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Characters's hair black?
+                    </div>
+<div class="ask">
+<button id="black">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Characters's hair orange?
+                    </div>
+<div class="ask">
+<button id="orange">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Characters's hair blue?
+                    </div>
+<div class="ask">
+<button id="blue">?</button>
+</div>
+</div>
+<div class="question container">
+<div class="text">
+                        Is Character bald?
+                    </div>
+<div class="ask">
+<button id="bald">?</button>
+</div>
+</div>
+</div>
+<div id="answers">
+                Answer: <span>???</span>
+</div>
+<div class="guess container">
+<button id="make-guess">Guess Who?</button>
+</div>
+<div class="guess container">
+<button id="cancel-guess">Cancel</button>
+</div>
+</div>
+</div>
+<script defer="" src="/_assets/de8c656c44bb26a7009c.js"></script>
+</body></html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>Build A Lighthouse Game.</title>
+<link href="/_assets/9a57de64a0c0e542dc81.css" rel="stylesheet"/>
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- partial:index.partial.html -->
+<input id="gfxmenu" type="checkbox"/>
+<input checked="" id="good" name="gfx" type="radio"/>
+<input id="poor" name="gfx" type="radio"/>
+<x id="graphics">
+<label class="gfx" for="gfxmenu">Graphics Quality</label>
+<label class="gfx" for="good">Very Pretty</label>
+<label class="gfx" for="poor">Quite Pretty</label>
+</x>
+<sky><time>
+<sun></sun>
+</time></sky>
+<stars><i></i></stars>
+<sunset></sunset>
+<colour>
+<input class="hs house row4 col1" id="cb23" name="r23" type="radio"/>
+<input class="hs shed row4 col1" id="cb23s" name="r23" type="radio"/>
+<input class="hs house row4 col2" id="cb24" name="r24" type="radio"/>
+<input class="hs shed row4 col2" id="cb24s" name="r24" type="radio"/>
+<input class="hs house row4 col3" id="cb25" name="r25" type="radio"/>
+<input class="hs shed row4 col3" id="cb25s" name="r23" type="radio"/>
+<input class="hs house row4 col4" id="cb26" name="r26" type="radio"/>
+<input class="hs shed row4 col4" id="cb26s" name="r26" type="radio"/>
+<br/>
+<input class="hs house row3 col1" id="cb19" name="r19" type="radio"/>
+<input class="hs shed row3 col1" id="cb19s" name="r19" type="radio"/>
+<input class="hs house row3 col2" id="cb20" name="r20" type="radio"/>
+<input class="hs shed row3 col2" id="cb20s" name="r20" type="radio"/>
+<input class="hs house row3 col3" id="cb21" name="r21" type="radio"/>
+<input class="hs shed row3 col3" id="cb21s" name="r21" type="radio"/>
+<input class="hs house row3 col4" id="cb22" name="r22" type="radio"/>
+<input class="hs shed row3 col4" id="cb22s" name="r22" type="radio"/>
+<br/>
+<input class="hs house row2 col1" id="cb15" name="r15" type="radio"/>
+<input class="hs shed row2 col1" id="cb15s" name="r15" type="radio"/>
+<input class="hs house row2 col2" id="cb16" name="r16" type="radio"/>
+<input class="hs shed row2 col2" id="cb16s" name="r16" type="radio"/>
+<input class="hs house row2 col3" id="cb17" name="r17" type="radio"/>
+<input checked="" class="hs shed row2 col3" id="cb17s" name="r17" type="radio"/>
+<input class="hs house row2 col4" id="cb18" name="r18" type="radio"/>
+<input class="hs shed row2 col4" id="cb18s" name="r18" type="radio"/>
+<br/>
+<input class="hs house row1 col1" id="cb11" name="r11" type="radio"/>
+<input class="hs shed row1 col1" id="cb11s" name="r11" type="radio"/>
+<input class="hs house row1 col2" id="cb12" name="r12" type="radio"/>
+<input class="hs shed row1 col2" id="cb12s" name="r12" type="radio"/>
+<input class="hs house row1 col3" id="cb13" name="r13" type="radio"/>
+<input class="hs shed row1 col3" id="cb13s" name="r13" type="radio"/>
+<input class="hs house row1 col4" id="cb14" name="r14" type="radio"/>
+<input class="hs shed row1 col4" id="cb14s" name="r14" type="radio"/>
+<br/>
+<input class="row4 col1" id="ncb23" name="r23" title="ncb23" type="radio"/>
+<input class="row4 col2" id="ncb24" name="r24" title="ncb24" type="radio"/>
+<input class="row4 col3" id="ncb25" name="r25" title="ncb25" type="radio"/>
+<input class="row4 col4" id="ncb26" name="r26" title="ncb26" type="radio"/>
+<br/>
+<input class="row3 col1" id="ncb19" name="r19" title="ncb19" type="radio"/>
+<input class="row3 col2" id="ncb20" name="r20" title="ncb20" type="radio"/>
+<input class="row3 col3" id="ncb21" name="r21" title="ncb21" type="radio"/>
+<input class="row3 col4" id="ncb22" name="r22" title="ncb22" type="radio"/>
+<br/>
+<input class="row2 col1" id="ncb15" name="r15" title="ncb15" type="radio"/>
+<input class="row2 col2" id="ncb16" name="r16" title="ncb16" type="radio"/>
+<input class="row2 col3" id="ncb17" name="r17" title="ncb17" type="radio"/>
+<input class="row2 col4" id="ncb18" name="r18" title="ncb18" type="radio"/>
+<br/>
+<input class="row1 col1" id="ncb11" name="r11" title="ncb11" type="radio"/>
+<input class="row1 col2" id="ncb12" name="r12" title="ncb12" type="radio"/>
+<input class="row1 col3" id="ncb13" name="r13" title="ncb13" type="radio"/>
+<input class="row1 col4" id="ncb14" name="r14" title="ncb14" type="radio"/>
+<br/>
+<input id="done" type="radio"/>
+<div class="lh">
+<light></light>
+</div>
+<div>
+<div class="main">
+<island></island>
+<tree><i></i><i></i></tree>
+<tree><i></i><i></i></tree>
+<shed>
+<label class="row1 col1 shedlabel" for="ncb11" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row1 col2 shedlabel" for="ncb12" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row1 col3 shedlabel" for="ncb13" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row1 col4 shedlabel" for="ncb14" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col1 shedlabel" for="ncb15" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col2 shedlabel" for="ncb16" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col3 shedlabel" for="ncb17" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col4 shedlabel" for="ncb18" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col1 shedlabel" for="ncb19" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col2 shedlabel" for="ncb20" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col3 shedlabel" for="ncb21" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col4 shedlabel" for="ncb22" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+</shed>
+<house>
+<label class="row1 col1 houselabel" for="ncb11" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row1 col2 houselabel" for="ncb12" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row1 col3 houselabel" for="ncb13" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row1 col4 houselabel" for="ncb14" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col1 houselabel" for="ncb15" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col2 houselabel" for="ncb16" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col3 houselabel" for="ncb17" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row2 col4 houselabel" for="ncb18" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col1 houselabel" for="ncb19" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col2 houselabel" for="ncb20" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col3 houselabel" for="ncb21" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row3 col4 houselabel" for="ncb22" title="Tap to build"><i></i><i></i><i></i><i></i><i></i></label>
+<label class="row4 col1 houselabel" for="ncb23" title="Tap to build"><i></i><i></i><i></i><i></i></label>
+<label class="row4 col2 houselabel" for="ncb24" title="Tap to build"><i></i><i></i><i></i><i></i></label>
+<label class="row4 col3 houselabel" for="ncb25" title="Tap to build"><i></i><i></i><i></i><i></i></label>
+<label class="row4 col4 houselabel" for="ncb26" title="Tap to build"><i></i><i></i><i></i><i></i></label>
+</house>
+<hbtn>
+<label class="row1 col1 buttons" for="cb11" title="Tap to build"></label>
+<label class="row1 col2 buttons" for="cb12" title="Tap to build"></label>
+<label class="row1 col3 buttons" for="cb13" title="Tap to build"></label>
+<label class="row1 col4 buttons" for="cb14" title="Tap to build"></label>
+<label class="row2 col1 buttons" for="cb15" title="Tap to build"></label>
+<label class="row2 col2 buttons" for="cb16" title="Tap to build"></label>
+<label class="row2 col3 buttons" for="cb17" title="Tap to build"></label>
+<label class="row2 col4 buttons" for="cb18" title="Tap to build"></label>
+<label class="row3 col1 buttons" for="cb19" title="Tap to build"></label>
+<label class="row3 col2 buttons" for="cb20" title="Tap to build"></label>
+<label class="row3 col3 buttons" for="cb21" title="Tap to build"></label>
+<label class="row3 col4 buttons" for="cb22" title="Tap to build"></label>
+<label class="row4 col1 buttons" for="cb23" title="Tap to build"></label>
+<label class="row4 col2 buttons" for="cb24" title="Tap to build"></label>
+<label class="row4 col3 buttons" for="cb25" title="Tap to build"></label>
+<label class="row4 col4 buttons" for="cb26" title="Tap to build"></label>
+</hbtn>
+<sbtn>
+<label class="row1 col1 buttons" for="cb11s" title="Tap to build"></label>
+<label class="row1 col2 buttons" for="cb12s" title="Tap to build"></label>
+<label class="row1 col3 buttons" for="cb13s" title="Tap to build"></label>
+<label class="row1 col4 buttons" for="cb14s" title="Tap to build"></label>
+<label class="row2 col1 buttons" for="cb15s" title="Tap to build"></label>
+<label class="row2 col2 buttons" for="cb16s" title="Tap to build"></label>
+<label class="row2 col3 buttons" for="cb17s" title="Tap to build"></label>
+<label class="row2 col4 buttons" for="cb18s" title="Tap to build"></label>
+<label class="row3 col1 buttons" for="cb19s" title="Tap to build"></label>
+<label class="row3 col2 buttons" for="cb20s" title="Tap to build"></label>
+<label class="row3 col3 buttons" for="cb21s" title="Tap to build"></label>
+<label class="row3 col4 buttons" for="cb22s" title="Tap to build"></label>
+</sbtn>
+<grass></grass>
+</div>
+</div>
+<water><i></i></water>
+<div class="lh">
+<lens></lens>
+</div>
+<text>
+<welldone>
+<label for="done">✕</label>
+<p>NICE ONE!</p>
+<p>You built a lighthouse before nightfall!</p>
+<p>The ships and islanders are safe!</p>
+</welldone>
+</text>
+<text>
+<gameover>
+<label for="done">✕</label>
+<p>GAME OVER!</p>
+<p>I'm afraid I have some very bad news...</p>
+<p>A ship has crashed into your beautiful island.</p>
+<p>Everybody is dead!</p>
+<p>Soz! You should build a lighthouse.</p>
+<a href="" title="Try Again">Try Again</a>
+</gameover>
+</text>
+</colour>
+<div class="ss">
+<lens></lens>
+</div>
+<sig><i></i></sig>
+<!-- partial -->
+<div style="text-align: left; margin-left: 60px;
+        margin-top: 70px;
+        font-size: 30px;
+        padding: 5px; "><a><i class="fas fa-home home-icon" style="color:black;"></i></a></div>
+<script src="/_assets/6fe82890059722c6b11e.js"></script>
+</body></html>

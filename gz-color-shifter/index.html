@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Color Shift</title>
+<link href="/_assets/e5d864a6d5bf0247980c.css" rel="stylesheet"/>
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="game-container">
+<div style="text-align:center;
+        font-size: 30px; "><a><i class="fas fa-home home-icon" style="color:rgb(85, 82, 82);"></i></a></div>
+<h1>Color Shift</h1>
+<h2 id="stage">Stage 1</h2>
+<div id="color-container">
+<div id="target-color" style="background-color: rgb(43, 217, 64);"></div>
+<div id="user-color"></div>
+</div>
+<div id="sliders-container">
+<label for="red-slider">R</label>
+<input id="red-slider" max="255" min="0" type="range" value="0"/>
+<label for="green-slider">G</label>
+<input id="green-slider" max="255" min="0" type="range" value="0"/>
+<label for="blue-slider">B</label>
+<input id="blue-slider" max="255" min="0" type="range" value="0"/>
+</div>
+<button id="submit-color">Submit Color</button>
+<div id="game-over" style="display: none;">
+<p class="game-over-text">Game Over</p>
+<p class="high-score-text" id="new-high-score" style="display: none;">Congratulations, New High Score!</p>
+<button id="restart-button">Restart</button>
+</div>
+<p>Time remaining: <span id="timer">19</span></p>
+<p>Accuracy: <span id="accuracy">0%</span></p>
+<p>Score: <span id="score">0</span></p>
+<p>High Score: <span id="high-score">0</span></p>
+</div>
+<script src="/_assets/385d6e316e32394d861b.js"></script>
+</body></html>

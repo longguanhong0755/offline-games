@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>TetrisGL</title>
+<link href="textures/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
+
+<link href="/_assets/87d1d8a8741544694acd.css" rel="stylesheet"/>
+<script src="/_assets/b9ae9cfee7b6eaf4a1c6.js" type="module"></script>
+<link href="/_assets/7b31cbc1d1775a6378dc.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- ==================== Game Screen (Interactable) ========================= -->
+<div class="container">
+<div class="canvasSpace">
+<canvas height="720" id="canvas" width="576"> The tetris game board! If you see this text, the canvas displaying the game could not load. If you'd like to try, maybe a different browser would work. </canvas>
+<div class="blockGestures" id="heldPiece"></div>
+<div id="heldPieceText">
+                    HOLD [<span class="cd_hold">E</span>]
+                </div>
+</div>
+<div id="underHoldSpace">
+<div class="guiInfoBox">
+                    Lines Cleared: 
+                    <br/> <span id="linesCleared">0</span>
+<br/> Speed Level:
+                    <br/> <span id="speedLevel">1</span>
+<br/> Score: <span id="score">
+                0</span></div>
+<div class="guiInfoBox hide">
+                    Controls:
+                    <br/> Pause - Escape
+                    <br/> Move - <span class="cd_moveLeft">A</span> / <span class="cd_moveRight">D</span>
+<br/> Rotate - <span class="cd_rotateAnticlockwise">ArrowLeft</span> / <span class="cd_rotateClockwise">ArrowRight</span>
+<br/> Hold piece - <span class="cd_hold">E</span>
+<br/> Hard drop - <span class="cd_hardDrop">W</span>
+<br/> Soft drop - <span class="cd_softDrop">S</span>
+</div>
+</div>
+<div class="controller hide">
+<div class="small-grid left-item">
+<button class="controlButton blockGestures west" id="tib_moveLeft">
+<img src="/_assets/b5586a8e43c97c26c117.png"/>
+</button>
+<button class="controlButton blockGestures east" id="tib_moveRight">
+<img src="/_assets/b5586a8e43c97c26c117.png"/>
+</button>
+<button class="controlButton blockGestures north" id="tib_hardDrop">
+<img src="/_assets/414d3482d5462f2a0bda.png"/>
+</button>
+<button class="controlButton blockGestures south" id="tib_softDrop">
+<img src="/_assets/527846e8f67318a197f6.png"/>
+</button>
+</div>
+<div class="small-grid right-item">
+<button class="controlButton blockGestures southeast" id="tib_hold">
+<img src="/_assets/ab02d122cacd5e00e593.png"/>
+</button>
+<button class="controlButton blockGestures east" id="tib_rotateClockwise">
+<img src="/_assets/2405ed480d75454e7c41.png"/>
+</button>
+<button class="controlButton blockGestures south" id="tib_rotateAnticlockwise">
+<img src="/_assets/2405ed480d75454e7c41.png"/>
+</button>
+</div>
+</div>
+<button id="pauseButton">
+<img src="/_assets/66b09b6e35941468dfb9.png"/>
+</button>
+</div>
+<!-- ==================== Pause Screen ==================== -->
+<div class="screen hide" id="pauseScreen">
+<h1><i>Game Paused</i></h1>
+<button id="unpauseButton">Continue Game
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<br/>
+<br/>
+<button class="settingsButton">Settings
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<br/>
+<br/>
+<button class="howToButton">How to Play 
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+</div>
+<!-- ==================== Title Screen ==================== -->
+<div class="screen" id="titleScreen">
+<h1>Quadtris</h1>
+            A JavaScript + WebGL implementation of the popular block-falling game 
+            <br/>(<i>it rhymes with "Fortress"!</i>)
+            <!-- <br> -->
+<!-- <br> <span id="debug">Status: </span> -->
+<br/>
+<br/><button id="startButton">Start Game
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<br/>
+<br/>
+<br/><button class="settingsButton">Settings 
+                <!-- <br>    (under construction) -->
+<div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<br/>
+<br/>
+<br/><button class="howToButton">How to Play 
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<br/>
+<br/><span>View the code on <a target="_blank">GitHub</a>!</span>
+</div>
+<!-- ==================== How To Play Screen ==================== -->
+<div class="screen hide" id="howToScreen">
+<br/>
+<button class="closeHowTo">Go back 
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<h2>How to Play</h2>
+            ★ Move and rotate the falling blocks to fill up lines!
+            <br/> ★ When you fill a line, it will disappear, and you will get points.
+            <br/> ★ If the blocks reach the top, game over! How many points can you get?
+            <br/>
+<h2>Controls</h2>
+<i> This game has different controls for different devices. You can enable/disable different controls in the settings. </i>
+<h3> Keyboard controls: </h3>
+<i>These keys can be customized in the settings.</i>
+<div class="leftAlign middleBox spaceBetweenLines">
+<br/> <b>Pause</b> - Escape
+                <br/> <b>Move left/right</b> - <span class="cd_moveLeft">A</span> / <span class="cd_moveRight">D</span>
+<br/> <b>Rotate left/right</b> - <span class="cd_rotateAnticlockwise">ArrowLeft</span> / <span class="cd_rotateClockwise">ArrowRight</span>
+<br/> <b>Hold piece</b> - <span class="cd_hold">E</span>
+<br/> <b>Hard drop</b> - <span class="cd_hardDrop">W</span>
+<br/> <b>Soft drop</b> - <span class="cd_softDrop">S</span>
+</div>
+<h3> Swipe controls (touchscreen): </h3>
+<div class="leftAlign middleBox spaceBetweenLines">
+<b>Move left/right</b> - swipe left/right
+                <br/> <b>Rotate left/right</b> - tap the left/right side of the screen
+                <br/> <b>Hold piece</b> - tap the "hold" square at the top of the screen (next to the game board)
+                <br/> <b>Hard drop</b> - quickly swipe down and let go
+                <br/> <b>Soft drop</b> - swipe down gently
+            </div>
+<h3> Button controls (touchscreen):</h3>
+<div class="leftAlign middleBox spaceBetweenLines">
+<b>Move left/right</b> - <img class="flip" src="/_assets/b5586a8e43c97c26c117.png"/> / <img src="/_assets/b5586a8e43c97c26c117.png"/>
+<br/> <b>Rotate left/right</b> - <img src="/_assets/2405ed480d75454e7c41.png"/> / <img class="flip" src="/_assets/2405ed480d75454e7c41.png"/>
+<br/> <b>Hold piece</b> - <img src="/_assets/ab02d122cacd5e00e593.png"/>
+<br/> <b>Hard drop</b> - <img src="/_assets/414d3482d5462f2a0bda.png"/>
+<br/> <b>Soft drop</b> - <img src="/_assets/527846e8f67318a197f6.png"/>
+</div>
+<button class="closeHowTo">Go back 
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+</div>
+<!-- ==================== Game Over Screen ==================== -->
+<div class="screen hide" id="gameOverScreen">
+<h1>Game Over!</h1>
+<p>Final score: <span id="finalScore">0</span></p>
+<p>Lines cleared: <span id="finalLines">0</span></p>
+<button id="replayButton">Play Again
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<br/>
+<br/>
+<button id="returnToTitleButton">Return to Title
+                    <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<br/>
+<br/>
+</div>
+<!-- ==================== Settings Screen ==================== -->
+<div class="screen hide" id="settingsScreen">
+<h1>Settings</h1>
+<!-- Control settings -->
+<div class="columnContainer wideButtons">
+<!-- Keyboard settings -->
+<button class="keyboardSettings">Keyboard Settings
+                    <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<div class="keyboardSettings menu hide">
+<!-- Rebind controls -->
+<div class="menuItem">
+                        Rebind controls<br/>
+<span class="message">
+                            To change a control, click on its blue box, then press the new key you want to use for it.<br/>
+<i><span id="settingsConsoleText"></span></i><br/>
+</span>
+<div id="controlMapArea">
+<div>← Move Left <span class="controlRebind ready" id="c_moveLeft">A</span></div>
+<div>→ Move Right <span class="controlRebind ready" id="c_moveRight">D</span></div>
+<div>↺ Rotate Left <span class="controlRebind ready" id="c_rotateAnticlockwise">ArrowLeft</span></div>
+<div>↻ Rotate Right <span class="controlRebind ready" id="c_rotateClockwise">ArrowRight</span></div>
+<div>Hold Piece <span class="controlRebind ready" id="c_hold">E</span></div>
+<div>Soft Drop <span class="controlRebind ready" id="c_softDrop">S</span></div>
+<div>Hard Drop <span class="controlRebind ready" id="c_hardDrop">W</span></div>
+</div>
+</div>
+<!-- Repeat delay (0 - 20 frames, default 5) -->
+<div class="menuItem">
+                        Repeat Delay [<span class="keyboardRepeatDelay">5</span> frames]
+                        <input class="slider keyboardRepeatDelay" max="20" min="0" type="range" value="5"/>
+</div>
+</div>
+<br/>
+<!-- Touch Gesture settings -->
+<button class="gestureSettings">Touch (Swipe) Settings
+                    <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<div class="gestureSettings menu hide disabled">
+<div class="menuItem">
+                    	Enable Swipe Controls
+                    	<input class="checkbox gestureEnable" type="checkbox" value="true"/>
+</div>
+<!-- Left/Right/Down sensitivity (10 - 100 pixels, default 40) -->
+<div class="menuItem">
+                    	Left/Right/Down Sensitivity [<span class="gestureGridIncrement">40</span> pixels]
+                    	<input class="slider gestureGridIncrement" max="100" min="10" type="range" value="40"/>
+</div>
+<!-- Turn-around sensitivity (0 - 80%, default 0) -->
+<div class="menuItem">
+                    	Changing Direction Sensitivity [<span class="gestureDirectionSwapAssist">0</span>%]
+                    	<input class="slider gestureDirectionSwapAssist" max="80" min="0" type="range" value="0"/>
+</div>
+<!-- Slam (hard drop) sensitivity (100 - 400 pixels, default 150) -->
+<div class="menuItem">
+                    	Hard Drop Sensitivity [<span class="gestureHardDropDistance">150</span> pixels]
+                    	<input class="slider gestureHardDropDistance" max="400" min="100" type="range" value="150"/>
+</div>
+<!-- Slam (hard drop) timing sensitivity (100 - 600 ms, default 400) -->
+<div class="menuItem">
+                    	Hard Drop Timing [<span class="gestureHardDropTimer">200</span> ms]
+                    	<input class="slider gestureHardDropTimer" max="600" min="100" type="range" value="400"/>
+</div>
+</div>
+<br/>
+<!-- Touch Button settings -->
+<button class="buttonSettings">Touch (Button) Settings
+                    <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<div class="buttonSettings menu hide disabled">
+<div class="menuItem">
+                    	Enable Touch Button Controls
+                    	<input class="checkbox buttonEnable" type="checkbox" value="true"/>
+</div>
+<!-- Size override -->
+<!-- Repeat delay (0 - 20 frames, default 5) -->
+<div class="menuItem">
+                        Repeat Delay [<span class="buttonRepeatDelay">5</span> frames]
+                        <input class="slider buttonRepeatDelay" max="20" min="0" type="range" value="5"/>
+</div>
+</div>
+</div>
+<button id="resetDefaultSettings">Reset to Default Settings
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+<button id="exitSettingsButton">Exit Settings
+                <div class="buttonBackground"></div>
+<div class="buttonFadeIn"></div>
+</button>
+</div>
+<script id="vertex-shader-2d" type="notjs">
+     
+            // an attribute will receive data from a buffer
+            attribute vec4 a_Position;
+            attribute vec2 a_GridPos;
+            attribute float a_ShaderID;
+            attribute float a_QueueID;
+
+            varying float v_ShaderID;
+            varying vec4 v_Position;
+            varying vec2 v_GridPos;
+            varying float v_QueueID;
+            
+            // all shaders have a main function
+            void main() {
+                vec4 scaledPos = a_Position;
+                
+                // Convert the position from the range (0, 0), (400, 500) to (-1, -1), (+1, +1)
+                // This changes the aspect ratio from 4:3 to 1:1
+                scaledPos /= vec4(200, 250, 1, 1);
+                scaledPos -= vec4(1, 1, 0, 0);
+                scaledPos.y *= -1.;
+
+                gl_Position = scaledPos;
+
+                v_GridPos = a_GridPos;
+                v_ShaderID = a_ShaderID;
+                float border = 0.5;
+                if (a_ShaderID == 1.) {
+                    v_QueueID = a_QueueID;
+                    v_GridPos = v_GridPos * (2. + border) / 2. - border;
+                }
+            }
+           
+        </script>
+<script id="fragment-shader-2d" type="notjs">
+            #version 100
+            // fragment shaders don't have a default precision so we need
+            // to pick one. mediump is a good default
+            precision highp float;
+
+            uniform sampler2D u_GridData;
+            uniform sampler2D u_BlockTexture;
+            uniform sampler2D u_QueueData;
+            uniform sampler2D u_OutlineTexture;
+
+            varying vec4 v_Position;
+            varying vec2 v_GridPos;
+            varying float v_ShaderID;
+            varying float v_QueueID;
+
+
+            void main() {
+
+
+                if (v_ShaderID == 0.) {
+                    float p = 0.025;
+                    // Background color
+                    vec4 bgColor = vec4(0.4, 0.4, 0.4, 1);
+    
+    
+                    gl_FragColor = bgColor;
+    
+                    vec2 gridLoc = v_GridPos / vec2(10., 20.);
+                    vec4 thisSquareData = texture2D(u_GridData, gridLoc);
+                    if (thisSquareData !=  vec4(0, 0, 0, 1)) {
+                        vec4 color = thisSquareData;
+                        vec2 texCoord = vec2(fract(v_GridPos.x), 1. - fract(v_GridPos.y));
+                        gl_FragColor = texture2D(u_BlockTexture, texCoord) * color;
+
+                        // Block outline for projected pieces
+                        if (thisSquareData.r == thisSquareData.g && thisSquareData.g == thisSquareData.b) {
+                            vec4 texColor = texture2D(u_OutlineTexture, texCoord);
+                            if (texColor.a < 1.) {
+                                gl_FragColor = bgColor;
+                            } else {
+                                gl_FragColor = texture2D(u_OutlineTexture, texCoord) * color;
+                            }
+                        }
+                    }
+                    
+    
+                    // Grid lines
+                    if (fract(v_GridPos.x) <= p || fract(v_GridPos.y) <= p || fract(v_GridPos.x) >= 1. - p || fract(v_GridPos.y) >= 1. - p) {
+                        gl_FragColor = vec4(0, 0, 0, 1);
+                    }
+    
+                } else if (v_ShaderID == 1.) {
+                    gl_FragColor = vec4(vec3(0.35), 1);
+
+                    float borderSize = 0.2;
+
+                    // If we are within the border
+                    if (v_GridPos.y >= -borderSize && v_GridPos.y < 4. + borderSize && v_GridPos.x >= -borderSize && v_GridPos.x < 4. + borderSize) {
+
+                        vec2 offsetGridPos = v_GridPos;
+
+                        // Shift the blocks over to center the 3-wide pieces or the I piece
+                        vec2 dataPixel = vec2(0.9, 0.15);
+                        dataPixel.y += ((2. * v_QueueID)/10.);
+                        if (texture2D(u_QueueData, dataPixel).r == 1.) {
+                            offsetGridPos.x = offsetGridPos.x - 0.5;
+                        }
+                        if (texture2D(u_QueueData, dataPixel).g == 1.) {
+                            offsetGridPos.y -= 0.5;
+                        }
+
+                        // If we are in the space to draw a block
+                        if (offsetGridPos.y >= 1. && offsetGridPos.y < 3. && offsetGridPos.x >= 0. && offsetGridPos.x < 4.
+                            && (offsetGridPos.x < 3. || offsetGridPos.y < 2.)) {    // Ignore the top right block (it's used to encode the offset information)
+                            vec2 dataLocation = offsetGridPos / vec2(4., 10.);
+                            dataLocation.y += ((2. * v_QueueID - 1.)/10.);
+                            vec4 blockData = texture2D(u_QueueData, dataLocation);
+                            if (blockData != vec4(0, 0, 0, 1)) {
+    
+                                vec2 texCoord = fract(offsetGridPos);
+                                texCoord.y = 1. - texCoord.y;
+                                vec4 texColor = texture2D(u_BlockTexture, texCoord);
+                                gl_FragColor = blockData * texColor;
+                            }
+                        }
+                        
+                        // If we are in the border area, where a border should be
+                    } else if ((v_QueueID == 0. || v_GridPos.x < -borderSize || v_GridPos.x >= 4. + borderSize) 
+                        || (v_QueueID == 1. && v_GridPos.y >= 4. + borderSize)
+                        || (v_QueueID == 3. && v_GridPos.y < -borderSize))
+                    {
+                        gl_FragColor = vec4(0.424, 0.447, 0.580, 1);
+                    }
+                } 
+
+            }
+        
+        </script>
+</body></html>

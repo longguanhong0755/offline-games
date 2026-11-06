@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+<title>Yahtzee! JS</title>
+<link href="/_assets/9736fab39652d3b5acf5.css" rel="stylesheet"/>
+<link href="/_assets/ddd92f10ad162c7449ef.css" rel="stylesheet"/>
+<link href="/_assets/2652700f1872a124e433.css" rel="stylesheet" type="text_assets/2652700f1872a124e433.css"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="site-wrapper">
+<div id="site-canvas">
+<div id="rules-menu">
+<button id="closeRulesButton"><i class="fa fa-close fa-2x"></i></button>
+<ul class="tabs">
+<li>
+<input checked="" id="tab1" name="tabs" type="radio"/>
+<label for="tab1">Rules</label>
+<div class="tab-content" id="tab-content1">
+<p><strong>The objective of Yahtzee is to get as many points as possible by rolling five dice and getting certain dice combinations.</strong></p>
+<p>The game consists of 13 rounds. The round starts by rolling all the dice. After this either score the current roll, or re-roll any or all of the five dice. The dice can be rolled a total of three times — the initial roll, plus two re-rolls of any or all dice. After rolling three times, the roll must be scored. Any roll can be scored in any category at any time, even if the resulting score is zero.</p>
+<p>The game continues until all 13 score categories have been filled.</p>
+</div>
+</li>
+<li>
+<input id="tab2" name="tabs" type="radio"/>
+<label for="tab2">Scoring</label>
+<div class="tab-content" id="tab-content2">
+<p>All upper section categories score a sum of the specified die face. If the total score of all upper section categories is 63 or more, an extra bonus of 35 is added.</p>
+<p><strong>3 of a kind</strong>: Get three dice with the same number. Scores the sum of <u>all</u> dice.<br/>
+<strong>4 of a kind</strong>: Get four dice with the same number. Scores the sum of <u>all</u> dice.<br/>
+<strong>Full House</strong>: Get three of a kind and a pair. Scores 25 points.<br/>
+<strong>Small Straight</strong>: Get four sequential dice. Scores 30 points.<br/>
+<strong>Large Straight</strong>: Get five sequential dice. Scores 40 points.<br/>
+<strong>Chance</strong>: You can put anything into chance. Scores the sum of the dice.<br/>
+<strong>YAHTZEE</strong>: Five of a kind. Scores 50 points. Each additional Yahtzee scores 100 extra points.<br/></p>
+</div>
+</li>
+</ul>
+</div>
+<div id="scoresheet-menu">
+<button id="closeScoreSheetButton"><i class="fa fa-close fa-2x"></i></button>
+<div id="scoreSheet">
+<table>
+<thead>
+<tr>
+<th class="section-heading">Upper section</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aces</td>
+<td id="1-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Twos</td>
+<td id="2-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Threes</td>
+<td id="3-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Fours</td>
+<td id="4-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Fives</td>
+<td id="5-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Sixes</td>
+<td id="6-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr id="upper-bonus">
+<td>Bonus</td>
+<td id="upper-bonus-score"></td>
+</tr>
+<tr>
+<th class="section-heading">Lower section</th>
+<th>Score</th>
+</tr>
+<tr>
+<td>3 of a kind</td>
+<td id="7-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>4 of a kind</td>
+<td id="8-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Full House</td>
+<td id="9-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Small Straight</td>
+<td id="10-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Large Straight</td>
+<td id="11-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Yahtzee</td>
+<td id="12-score"></td>
+<td class="speculative-score"></td>
+</tr>
+<tr>
+<td>Chance</td>
+<td id="13-score"></td>
+<td class="speculative-score"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div aria-labelledby="game-mode-title" aria-modal="true" id="game-mode-dialog" role="dialog">
+<div class="game-mode-card">
+<p class="eyebrow">Choose your table</p>
+<h2 id="game-mode-title">How do you want to play?</h2>
+<div class="game-mode-actions">
+<button id="soloModeButton" type="button">Solo game</button>
+<button id="computerModeButton" type="button">Play computer</button>
+</div>
+</div>
+</div>
+<button class="" id="rollDiceButton"><i class="fa fa-hand-rock-o fa-2x"></i> ROLL<span class="extra-roll-button-text"> THE DICE</span></button>
+<div id="round-number-wrapper">
+<span class="round-number" id="round-number">1</span><span class="round-number-separator"></span><span class="total-rounds">13</span>
+</div>
+<h1 id="logo">Yahtzee! <span>. JS</span></h1>
+<button id="openScoreSheetButton"><i class="fa fa-pencil-square-o fa-2x"></i> SCORES</button>
+<h1 id="scoreMessage">Game over!<br/>Your total score is <span class="score-total"><i class="fa fa-trophy"></i> <span id="finalScore"></span></span><span id="winnerMessage"></span></h1>
+<div aria-atomic="true" aria-live="polite" id="opponent-status">
+<span class="opponent-label">Computer</span>
+<span id="opponent-status-text">Waiting</span>
+<strong id="opponent-score">0</strong>
+</div>
+<div id="diceArea"></div>
+<div id="selectedDiceArea"></div>
+<button id="openRulesButton"><i class="fa fa-question-circle"></i> Rules &amp; scoring info</button>
+</div>
+</div>
+<script src="/_assets/55ffe374e08045960134.js"></script>
+<script src="/_assets/55bd04adbac13f9906b1.js"></script>
+<script src="/_assets/df94afb4c1b6892de2e8.js"></script>
+<script src="/_assets/62ebf94368f61be8b7a3.js"></script>
+</body></html>

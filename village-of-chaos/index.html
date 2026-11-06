@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="autoRotate:disabled" http-equiv="ScreenOrientation"/>
+<!-- Meta -->
+<meta content="A short idle game about management." name="description"/>
+<meta content="#768c38" name="theme-color"/>
+<title>Village of Chaos</title>
+<!-- Favicon -->
+<link href="apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="site.webmanifest" rel="manifest"/>
+<!-- CSS -->
+<link href="/_assets/f851aaf33f64b06b852d.css" rel="stylesheet"/>
+<!-- Fonts -->
+
+
+<link href="/_assets/afa2ec6722247a6028a3.css" rel="stylesheet"/>
+<!-- Scripts. Do not reorder! -->
+<script defer="" src="/_assets/4cdf9779d261e4c8637c.js"></script>
+<script defer="" src="/_assets/ef3ac8ae2d6bb2f1f869.js"></script>
+<script defer="" src="/_assets/377a43b91397542fc24d.js"></script>
+<script defer="" src="/_assets/f6379f45d9dd197e893a.js"></script>
+<script defer="" src="/_assets/065725117ba9dbac70ab.js"></script>
+<script defer="" src="/_assets/3cb49d7265e75f38b952.js"></script>
+<script defer="" src="/_assets/2044ffdd08c7698952ca.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- Javascript is required -->
+<noscript>
+<h1>Village of Chaos</h1>
+<p>
+				This game requires Javascript to function. Please enable
+				Javascript for this website, or use a supported browser to play
+				Village of Chaos.
+			</p>
+</noscript>
+<!-- The square area covering most of the window -->
+<section id="main">
+<!-- Background - game world display -->
+<section id="world" style="--scale: 1.40625; margin-top: 0px; margin-left: 0px;">
+<img alt="Game terrain" id="terrain-img" src="/_assets/83947d6e46e4abe766ca.webp"/>
+<img alt="Villager tents" id="tent-img" src="/_assets/89876c21c888d7ed6b2a.webp"/>
+<img alt="A standing animated villager" id="villager-img" src="/_assets/65369b8145d0009c1528.gif"/>
+<img alt="Fishing pier" id="pier-img" src="/_assets/74c604ed7d52933a8d23.webp"/>
+<img alt="A standing animated fisherman" id="fisherman-1-img" src="/_assets/d4d7b18538f29af1323f.gif"/>
+<img alt="A standing animated fisherman" id="fisherman-2-img" src="/_assets/d4d7b18538f29af1323f.gif"/>
+<img alt="Quarry entrance" id="quarry-img" src="/_assets/c25d5f640a8d23c7df7c.webp"/>
+<img alt="A standing animated miner" id="miner-1-img" src="/_assets/5a22227d17b5f9704885.gif"/>
+<img alt="A standing animated miner" id="miner-2-img" src="/_assets/5a22227d17b5f9704885.gif"/>
+<img alt="Smithing workshop" id="smithy-img" src="/_assets/53a66eccdeba204f2b85.webp"/>
+<img alt="A working animated blacksmith" id="blacksmith-img" src="/_assets/eb5f79ec1fb6a70fda21.gif"/>
+<img alt="Village academy area" id="academy-img" src="/_assets/7d5154d6748accf38816.webp"/>
+<img alt="A working animated herbalist" id="professor-1-img" src="/_assets/8a2864a3f2a55f4003a2.gif"/>
+<img alt="A working animated potion maker" id="professor-2-img" src="/_assets/cb63dc98a1d6c39340e1.gif"/>
+</section>
+<!-- Controls for manual resource gathering -->
+<section id="gathering" style="z-index: 1000; pointer-events: none;">
+<button id="gather-wood">Gather wood</button>
+<button id="gather-food">Gather food</button>
+</section>
+</section>
+<!-- Side area with primary controls and upgrades -->
+<section id="side">
+<!-- Header with title and system controls -->
+<header>
+<h1>Village of Chaos</h1>
+<p>ver. 1.0</p>
+<button id="save">Save</button>
+<button id="load">Load</button>
+<button id="reset">Reset</button>
+</header>
+<!-- Information section about current resources and multipliers -->
+<section id="warehouse">
+<div>
+<p class="resource wood">
+<span class="resource-name">Wood:</span>
+<span class="resource-amount" id="wood-amount">0</span>
+<br/>
+<span class="income">
+							(+<span id="wood-income">0.0</span>/s)
+						</span>
+</p>
+<p class="resource food">
+<span class="resource-name">Food:</span>
+<span class="resource-amount" id="food-amount">0</span>
+<br/>
+<span class="income">
+							(+<span id="food-income">0.0</span>/s)
+						</span>
+</p>
+<p class="resource stone">
+<span class="resource-name">Stone:</span>
+<span class="resource-amount" id="stone-amount">0</span>
+<br/>
+<span class="income">
+							(+<span id="stone-income">0.0</span>/s)
+						</span>
+</p>
+</div>
+<div>
+<p class="multiplier craft-speed">
+<span class="multiplier-name">Crafting:</span>
+<span class="multiplier-amount" id="craft-speed">1.0</span>x
+					</p>
+<p class="multiplier research-speed">
+<span class="multiplier-name">Research:</span>
+<span class="multiplier-amount" id="research-speed">1.0</span>x
+					</p>
+</div>
+</section>
+<!-- Game control panel -->
+<section id="controls">
+<!-- Assign tab - assign villagers to jobs -->
+<div id="assign" style="display: none;">
+<div class="job tent">
+<h2>Tent</h2>
+<p class="job-details">
+							Lv.
+							<span class="job-level" id="tent-level">0</span>
+</p>
+<div class="villager">
+<p>
+<span class="job-count" id="lumberjack">0</span>
+								villagers chopping down trees
+							</p>
+</div>
+</div>
+<div class="job pier">
+<h2>Pier</h2>
+<p class="job-details">
+							Lv. <span class="job-level" id="pier-level">0</span>
+<span class="chaos">(<span id="pier-chaos">0</span>% chaos)</span>
+</p>
+<div class="assignment villager">
+<p>
+								Villagers:
+								<span class="job-count" id="fisherman-villager">0</span>
+</p>
+<div class="buttons">
+<button id="fisherman-villager-up">+</button>
+<button id="fisherman-villager-down">‒</button>
+</div>
+</div>
+<div class="assignment mentor">
+<p>
+								Mentors:
+								<span class="job-count" id="fisherman-mentor">0</span>
+</p>
+<div class="buttons">
+<button id="fisherman-mentor-up">+</button>
+<button id="fisherman-mentor-down">‒</button>
+</div>
+</div>
+<div class="assignment manager">
+<p>
+								Managers:
+								<span class="job-count" id="fisherman-manager">0</span>
+</p>
+<div class="buttons">
+<button id="fisherman-manager-up">+</button>
+<button id="fisherman-manager-down">‒</button>
+</div>
+</div>
+</div>
+<div class="job quarry">
+<h2>Quarry</h2>
+<p class="job-details">
+							Lv.
+							<span class="job-level" id="quarry-level">0</span>
+<span class="chaos">(<span id="quarry-chaos">0</span>% chaos)</span>
+</p>
+<div class="assignment villager">
+<p>
+								Villagers:
+								<span class="job-count" id="miner-villager">0</span>
+</p>
+<div class="buttons">
+<button id="miner-villager-up">+</button>
+<button id="miner-villager-down">‒</button>
+</div>
+</div>
+<div class="assignment mentor">
+<p>
+								Mentors:
+								<span class="job-count" id="miner-mentor">0</span>
+</p>
+<div class="buttons">
+<button id="miner-mentor-up">+</button>
+<button id="miner-mentor-down">‒</button>
+</div>
+</div>
+<div class="assignment manager">
+<p>
+								Managers:
+								<span class="job-count" id="miner-manager">0</span>
+</p>
+<div class="buttons">
+<button id="miner-manager-up">+</button>
+<button id="miner-manager-down">‒</button>
+</div>
+</div>
+</div>
+<div class="job smithy">
+<h2>Smithy</h2>
+<p class="job-details">
+							Lv.
+							<span class="job-level" id="smithy-level">0</span>
+<span class="chaos">(<span id="smithy-chaos">0</span>% chaos)</span>
+</p>
+<div class="assignment villager">
+<p>
+								Villagers:
+								<span class="job-count" id="blacksmith-villager">0</span>
+</p>
+<div class="buttons">
+<button id="blacksmith-villager-up">+</button>
+<button id="blacksmith-villager-down">‒</button>
+</div>
+</div>
+<div class="assignment mentor">
+<p>
+								Mentors:
+								<span class="job-count" id="blacksmith-mentor">0</span>
+</p>
+<div class="buttons">
+<button id="blacksmith-mentor-up">+</button>
+<button id="blacksmith-mentor-down">‒</button>
+</div>
+</div>
+<div class="assignment manager">
+<p>
+								Managers:
+								<span class="job-count" id="blacksmith-manager">0</span>
+</p>
+<div class="buttons">
+<button id="blacksmith-manager-up">+</button>
+<button id="blacksmith-manager-down">‒</button>
+</div>
+</div>
+</div>
+<div class="job academy">
+<h2>Academy</h2>
+<p class="job-details">
+							Lv.
+							<span class="job-level" id="academy-level">0</span>
+<span class="chaos">(<span id="academy-chaos">0</span>% chaos)</span>
+</p>
+<div class="assignment villager">
+<p>
+								Villagers:
+								<span class="job-count" id="professor-villager">0</span>
+</p>
+<div class="buttons">
+<button id="professor-villager-up">+</button>
+<button id="professor-villager-down">‒</button>
+</div>
+</div>
+<div class="assignment mentor">
+<p>
+								Mentors:
+								<span class="job-count" id="professor-mentor">0</span>
+</p>
+<div class="buttons">
+<button id="professor-mentor-up">+</button>
+<button id="professor-mentor-down">‒</button>
+</div>
+</div>
+<div class="assignment manager">
+<p>
+								Managers:
+								<span class="job-count" id="professor-manager">0</span>
+</p>
+<div class="buttons">
+<button id="professor-manager-up">+</button>
+<button id="professor-manager-down">‒</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Craft tab - upgrades -->
+<div id="craft" style="display: block;"><div class="upgrade inactive"><h2>Build a tent</h2><p class="description">Has space for two villagers.</p><p>Cost: <span class="cost-wood"><span class="cost">10</span> wood</span>, <span class="cost-food"><span class="cost">10</span> food</span></p></div></div>
+<!-- Research tab - late-game upgrades -->
+<div class="tab" id="research" style="display: none;"></div>
+</section>
+<!-- Buttons for switching between tabs -->
+<nav>
+<button class="tab-button" id="assign-button">Assign</button>
+<button class="tab-button active" id="craft-button">Craft</button>
+<button class="tab-button" id="research-button">
+					Research
+				</button>
+</nav>
+</section>
+<!-- Log display with recent events -->
+<section id="log">
+<button id="log-expand">
+				Log hide/expand
+				<!-- Text replaced via CSS -->
+</button>
+<div id="message-area"><p class="info">Welcome to Village of Chaos!</p>
+<!-- Filled in by JS -->
+</div>
+</section>
+<!-- Tutorial pop-up overlay -->
+<div id="popup-shroud" style="display: block;">
+<div id="popup" style="left: 867.625px; top: 32px;">
+<p id="popup-text">Welcome to Village of Chaos! In this game you will collect
+				resources, invite villagers and build new structures. To start
+				with, use these buttons to collect 10 units of food and wood,
+				allowing you to build a tent for your first villagers.</p>
+<button id="popup-dismiss">Okay</button>
+</div>
+</div>
+<!-- Opaque overlay for major story events -->
+<div id="story-shroud" style="display: flex;">
+<p id="story-text">It's a bright sunny day, and you are standing in the middle of a
+				forest clearing. To your left is a glistening river full of fish,
+				and the nearby mountain promises to provide bountiful building
+				material. What attracted you to this place? Was it the prospect
+				of escaping the hustle of city life? Or maybe you were curious
+				about the giant black structure in the distance? Regardless of
+				your reasons, you disembark. It's time to begin your work on
+				the settlement.</p>
+<button id="story-dismiss">Begin</button>
+</div>
+</body></html>

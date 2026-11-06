@@ -1,6 +1,6 @@
 # 离线网页游戏合集
 
-这是一个集中存放可离线运行网页游戏的项目。当前共收录 **478 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
+这是一个集中存放可离线运行网页游戏的项目。当前共收录 **557 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
 
 ## 运行方式
 
@@ -520,6 +520,85 @@ python -B server.py
 | 476 | Xonix Js | `xonix-js/` | <http://localhost:9456/> |
 | 477 | Zombie Shooter | `gz-zombie-shooter/` | <http://localhost:9457/> |
 | 478 | Zurbo | `gz-zurbo/` | <http://localhost:9458/> |
+| 479 | Aaagario | `aaagario/` | <http://localhost:9459/> |
+| 480 | Afterglow | `afterglow/` | <http://localhost:9460/> |
+| 481 | Alwaysfreshaqua | `alwaysfreshaqua/` | <http://localhost:9461/> |
+| 482 | Anno2018 | `anno2018/` | <http://localhost:9462/> |
+| 483 | Ball Game | `ball-game/` | <http://localhost:9463/> |
+| 484 | Binding Of Isaac Webgame | `binding-of-isaac-webgame/` | <http://localhost:9464/> |
+| 485 | Bitcoin Clicker | `bitcoin-clicker/` | <http://localhost:9465/> |
+| 486 | Blockcatcher | `blockcatcher/` | <http://localhost:9466/> |
+| 487 | Candyclicker Web | `candyclicker-web/` | <http://localhost:9467/> |
+| 488 | Canvas Td | `canvas-td/` | <http://localhost:9468/> |
+| 489 | Chain Drop Lab | `chain-drop-lab/` | <http://localhost:9469/> |
+| 490 | Chromacoil | `chromacoil/` | <http://localhost:9470/> |
+| 491 | Clickerultimate.Github.Io | `clickerultimate-github-io/` | <http://localhost:9471/> |
+| 492 | Contra Remake | `contra-remake/` | <http://localhost:9472/> |
+| 493 | Crossy Road | `crossy-road/` | <http://localhost:9473/> |
+| 494 | Cube Composer | `cube-composer/` | <http://localhost:9474/> |
+| 495 | Cursorball | `cursorball/` | <http://localhost:9475/> |
+| 496 | Dogeminerce | `dogeminerce/` | <http://localhost:9476/> |
+| 497 | Drone Simulator | `drone-simulator/` | <http://localhost:9477/> |
+| 498 | Eightqueens | `eightqueens/` | <http://localhost:9478/> |
+| 499 | Fazenda Inteligente Cbr | `fazenda-inteligente-cbr/` | <http://localhost:9479/> |
+| 500 | Flopsed | `flopsed/` | <http://localhost:9480/> |
+| 501 | Frogmania | `frogmania/` | <http://localhost:9481/> |
+| 502 | Gddemo | `gddemo/` | <http://localhost:9482/> |
+| 503 | Giantshaftenterprises | `giantshaftenterprises/` | <http://localhost:9483/> |
+| 504 | Glorr | `glorr/` | <http://localhost:9484/> |
+| 505 | Google Chrome Dino | `google-chrome-dino/` | <http://localhost:9485/> |
+| 506 | Gravitywell | `gravitywell/` | <http://localhost:9486/> |
+| 507 | Gta Vice City Wasm | `gta-vice-city-wasm/` | <http://localhost:9487/> |
+| 508 | Hexsweep | `hexsweep/` | <http://localhost:9488/> |
+| 509 | Hormuz Minesweeper | `hormuz-minesweeper/` | <http://localhost:9489/> |
+| 510 | Idle Traveller | `idle-traveller/` | <http://localhost:9490/> |
+| 511 | Incremental V2.0.0 | `incremental-v2-0-0/` | <http://localhost:9491/> |
+| 512 | Inert | `inert/` | <http://localhost:9492/> |
+| 513 | Invaders | `invaders/` | <http://localhost:9493/> |
+| 514 | Isocitysim | `isocitysim/` | <http://localhost:9494/> |
+| 515 | Js Hero | `js-hero/` | <http://localhost:9495/> |
+| 516 | Konterball | `konterball/` | <http://localhost:9496/> |
+| 517 | Librecorsa | `librecorsa/` | <http://localhost:9497/> |
+| 518 | Maimai Restaurant Huiyan | `maimai-restaurant-huiyan/` | <http://localhost:9498/> |
+| 519 | Material Snake | `material-snake/` | <http://localhost:9499/> |
+| 520 | Mazebert Simulation | `mazebert-simulation/` | <http://localhost:9500/> |
+| 521 | Mineworld | `mineworld/` | <http://localhost:9501/> |
+| 522 | Neon Mayhem | `neon-mayhem/` | <http://localhost:9502/> |
+| 523 | Neon Serpent | `neon-serpent/` | <http://localhost:9503/> |
+| 524 | Ngx Snake | `ngx-snake/` | <http://localhost:9504/> |
+| 525 | Parachuting Robots | `parachuting-robots/` | <http://localhost:9505/> |
+| 526 | Pawpaw Arena | `pawpaw-arena/` | <http://localhost:9506/> |
+| 527 | Petripals | `petripals/` | <http://localhost:9507/> |
+| 528 | Phaser Catch The Cat | `phaser-catch-the-cat/` | <http://localhost:9508/> |
+| 529 | Ping Pong Game | `ping-pong-game/` | <http://localhost:9509/> |
+| 530 | Pk2 | `pk2/` | <http://localhost:9510/> |
+| 531 | Quick Dungeon Crawler Rpg Od | `quick-dungeon-crawler-rpg-od/` | <http://localhost:9511/> |
+| 532 | Quickclick | `quickclick/` | <http://localhost:9512/> |
+| 533 | Rbg | `rbg/` | <http://localhost:9513/> |
+| 534 | Retroflightsim | `retroflightsim/` | <http://localhost:9514/> |
+| 535 | Roguelike Idle | `roguelike-idle/` | <http://localhost:9515/> |
+| 536 | Rubiks Cube | `rubiks-cube/` | <http://localhost:9516/> |
+| 537 | Server Survival | `server-survival/` | <http://localhost:9517/> |
+| 538 | Snack Hole Game | `snack-hole-game/` | <http://localhost:9518/> |
+| 539 | Snake Remake | `snake-remake/` | <http://localhost:9519/> |
+| 540 | Snakeball | `snakeball/` | <http://localhost:9520/> |
+| 541 | Sokoban | `sokoban/` | <http://localhost:9521/> |
+| 542 | Stalker Clicker | `stalker-clicker/` | <http://localhost:9522/> |
+| 543 | Star Battle | `star-battle/` | <http://localhost:9523/> |
+| 544 | Summer Cycle | `summer-cycle/` | <http://localhost:9524/> |
+| 545 | Tactix Mind Game | `tactix-mind-game/` | <http://localhost:9525/> |
+| 546 | Territory Clash | `territory-clash/` | <http://localhost:9526/> |
+| 547 | Threecraft | `threecraft/` | <http://localhost:9527/> |
+| 548 | Tictactoe | `tictactoe/` | <http://localhost:9528/> |
+| 549 | Tinydefence2 | `tinydefence2/` | <http://localhost:9529/> |
+| 550 | Top Trumps | `top-trumps/` | <http://localhost:9530/> |
+| 551 | Tower Bloxx | `tower-bloxx/` | <http://localhost:9531/> |
+| 552 | Typer | `typer/` | <http://localhost:9532/> |
+| 553 | Village Of Chaos | `village-of-chaos/` | <http://localhost:9533/> |
+| 554 | Webtetris | `webtetris/` | <http://localhost:9534/> |
+| 555 | Yahtzee | `yahtzee/` | <http://localhost:9535/> |
+| 556 | Yoalphabet | `yoalphabet/` | <http://localhost:9536/> |
+| 557 | Yt Rock Paper Scissors Game | `yt-rock-paper-scissors-game/` | <http://localhost:9537/> |
 
 ## 离线与安全说明
 

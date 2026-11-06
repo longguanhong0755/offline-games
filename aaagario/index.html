@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="A fast single-player browser arena game inspired by Agar.io growth and Hole.io routing." name="description"/>
+<meta content="#f7f4ea" name="theme-color"/>
+<meta content="AAAgario" property="og:title"/>
+<meta content="https://hubertlim.github.io/AAAgario/" property="og:url"/>
+<meta content="Eat motes, absorb rivals, unlock bigger objects, and chase the best short-session route." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://hubertlim.github.io/AAAgario/docs/social-preview.svg" property="og:image"/>
+<title>AAAgario</title>
+
+<link href='data:image/svg+xml,&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"&gt;&lt;rect width="64" height="64" rx="12" fill="%23f7f4ea"/&gt;&lt;circle cx="32" cy="32" r="20" fill="none" stroke="%231d211d" stroke-width="4"/&gt;&lt;circle cx="32" cy="32" r="10" fill="none" stroke="%23df3f2d" stroke-width="6"/&gt;&lt;/svg&gt;' rel="icon"/>
+<link href="/_assets/612183ed9f5a2fb02726.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<main class="shell" id="app">
+<canvas aria-label="AAAgario playfield" height="900" id="game" style="width: 1440px; height: 900px;" width="1440"></canvas>
+<section aria-label="Start menu" class="menu" id="menu">
+<div class="brand">
+<span aria-hidden="true" class="brand-mark"></span>
+<div>
+<p class="eyebrow">Single-player arena</p>
+<h1>AAAgario</h1>
+</div>
+</div>
+<div class="panel menu-panel">
+<div class="menu-columns">
+<section class="setup-column">
+<p class="mode-label">Round length</p>
+<div aria-label="Round length" class="segmented" role="group">
+<button class="duration is-active" data-minutes="3" type="button">3 min</button>
+<button class="duration" data-minutes="5" type="button">5 min</button>
+<button class="duration" data-minutes="10" type="button">10 min</button>
+</div>
+<div class="menu-actions">
+<button class="start" id="start" type="button">
+<span aria-hidden="true" class="play-icon"></span>
+                  New round
+                </button>
+<button class="secondary-action surprise-action" id="surprise" type="button">Surprise me</button>
+</div>
+<details class="option-group option-group-run" open="">
+<summary>
+<span>Run Setup</span>
+<strong id="run-summary">Rush / City / Clean / Boosts</strong>
+</summary>
+<div class="option-group-body">
+<div aria-label="Run setup" class="run-lab">
+<div>
+<p class="mode-label">Mode</p>
+<div aria-label="Game mode" class="choice-grid" role="group">
+<button class="choice mode-choice is-active" data-mode="classic" type="button">Rush</button>
+<button class="choice mode-choice" data-mode="boss" type="button">Boss</button>
+<button class="choice mode-choice" data-mode="hunt" type="button">Hunt</button>
+<button class="choice mode-choice" data-mode="swarm" type="button">Swarm</button>
+<button class="choice mode-choice" data-mode="chain" type="button">Chain</button>
+<button class="choice mode-choice" data-mode="tiny" type="button">Tiny</button>
+</div>
+<select aria-label="Game mode" class="compact-select" id="mode-select">
+<option value="classic">Rush</option>
+<option value="boss">Boss</option>
+<option value="hunt">Hunt</option>
+<option value="swarm">Swarm</option>
+<option value="chain">Chain</option>
+<option value="tiny">Tiny</option>
+</select>
+</div>
+<div>
+<p class="mode-label">Map</p>
+<div aria-label="Map" class="choice-grid" role="group">
+<button class="choice map-choice is-active" data-map="city" type="button">City</button>
+<button class="choice map-choice" data-map="desk" type="button">Desk</button>
+<button class="choice map-choice" data-map="kitchen" type="button">Kitchen</button>
+<button class="choice map-choice" data-map="arcade" type="button">Arcade</button>
+<button class="choice map-choice" data-map="garden" type="button">Garden</button>
+<button class="choice map-choice" data-map="toy" type="button">Toy</button>
+</div>
+<select aria-label="Map" class="compact-select" id="map-select">
+<option value="city">City</option>
+<option value="desk">Desk</option>
+<option value="kitchen">Kitchen</option>
+<option value="arcade">Arcade</option>
+<option value="garden">Garden</option>
+<option value="toy">Toy</option>
+</select>
+</div>
+<div>
+<p class="mode-label">Twist</p>
+<div aria-label="Round twist" class="choice-grid" role="group">
+<button class="choice modifier-choice is-active" data-modifier="none" type="button">Clean</button>
+<button class="choice modifier-choice" data-modifier="magnet" type="button">Magnet</button>
+<button class="choice modifier-choice" data-modifier="panic" type="button">Panic</button>
+<button class="choice modifier-choice" data-modifier="gold" type="button">Gold</button>
+<button class="choice modifier-choice" data-modifier="shrink" type="button">Storm</button>
+<button class="choice modifier-choice" data-modifier="combo" type="button">Combo</button>
+</div>
+<select aria-label="Round twist" class="compact-select" id="modifier-select">
+<option value="none">Clean</option>
+<option value="magnet">Magnet</option>
+<option value="panic">Panic</option>
+<option value="gold">Gold</option>
+<option value="shrink">Storm</option>
+<option value="combo">Combo</option>
+</select>
+</div>
+<div>
+<p class="mode-label">Power ups</p>
+<div aria-label="Power ups" class="binary-grid" role="group">
+<button class="choice powerup-choice is-active" data-powerups="on" type="button">On</button>
+<button class="choice powerup-choice" data-powerups="off" type="button">Off</button>
+</div>
+</div>
+</div>
+</div>
+</details>
+</section>
+<section class="custom-column">
+<details class="option-group option-group-style" open="">
+<summary>
+<span>Cell Style</span>
+<strong id="style-summary">YOU / Red / Orbit</strong>
+</summary>
+<div class="option-group-body">
+<div aria-label="Character customization" class="customizer">
+<label class="name-field" for="player-name">
+<span>Tag</span>
+<input autocomplete="off" id="player-name" maxlength="8" value="YOU"/>
+</label>
+<div>
+<p class="mode-label">Color</p>
+<div aria-label="Cell color" class="swatches" role="group">
+<button aria-label="Red" class="swatch is-active" data-color="#df3f2d" style="--swatch: #df3f2d" type="button"></button>
+<button aria-label="Mint" class="swatch" data-color="#1d9a78" style="--swatch: #1d9a78" type="button"></button>
+<button aria-label="Blue" class="swatch" data-color="#2774a9" style="--swatch: #2774a9" type="button"></button>
+<button aria-label="Gold" class="swatch" data-color="#c99821" style="--swatch: #c99821" type="button"></button>
+</div>
+</div>
+<div>
+<p class="mode-label">Mark</p>
+<div aria-label="Cell mark" class="marks" role="group">
+<button aria-label="Orbit mark" class="mark is-active" data-mark="orbit" type="button">
+<span aria-hidden="true" class="mark-orbit"></span>
+</button>
+<button aria-label="Spark mark" class="mark" data-mark="spark" type="button">
+<span aria-hidden="true" class="mark-spark"></span>
+</button>
+<button aria-label="Core mark" class="mark" data-mark="core" type="button">
+<span aria-hidden="true" class="mark-core"></span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</details>
+<div aria-label="Concept ideas" class="concepts">
+<article>
+<strong>Cell Rush</strong>
+<span>Eat motes, rivals, and city marks in a fast route puzzle.</span>
+</article>
+<article>
+<strong>Gravity Bloom</strong>
+<span>Cleaner input, automatic nearby pulls, bigger object cascades.</span>
+</article>
+</div>
+</section>
+</div>
+</div>
+</section>
+<section aria-label="Game status" class="hud is-hidden" id="hud">
+<div class="hud-card mass-card">
+<span>Mass</span>
+<strong id="mass">12</strong>
+</div>
+<div class="hud-card rank-card">
+<span>Rank</span>
+<strong id="rank">1</strong>
+</div>
+<div class="hud-card time-card">
+<span>Time</span>
+<strong id="time">03:00</strong>
+</div>
+<div class="hud-card run-card">
+<span>Run</span>
+<strong id="run-info">Rush</strong>
+</div>
+<div class="hud-card boost-card is-hidden" id="boost-card">
+<span>Boost</span>
+<strong id="boost-status">Seeding</strong>
+</div>
+<button class="stop-button" id="stop" type="button">
+<span aria-hidden="true" class="stop-icon"></span>
+          Stop
+        </button>
+</section>
+<section aria-label="Paused" class="pause-menu is-hidden" id="pause-menu">
+<div class="panel">
+<p class="eyebrow">Run paused</p>
+<h2>Stopped</h2>
+<div class="pause-actions">
+<button class="start" id="resume" type="button">
+<span aria-hidden="true" class="play-icon"></span>
+              Resume
+            </button>
+<button class="secondary-action strong-action" id="restart" type="button">
+<span aria-hidden="true" class="replay-icon"></span>
+              Restart
+            </button>
+<button class="secondary-action" id="main-menu" type="button">Main menu</button>
+</div>
+</div>
+</section>
+<section aria-label="Round summary" class="summary is-hidden" id="summary">
+<div class="panel">
+<p class="eyebrow">Round complete</p>
+<h2 id="result-title">Clean sweep</h2>
+<p id="result-copy"></p>
+<div class="stats">
+<div>
+<span>Mass</span>
+<strong id="final-mass">0</strong>
+</div>
+<div>
+<span>Best chain</span>
+<strong id="final-chain">0</strong>
+</div>
+</div>
+<button class="start" id="again" type="button">
+<span aria-hidden="true" class="replay-icon"></span>
+            Play again
+          </button>
+<button class="secondary-action" id="summary-menu" type="button">Main menu</button>
+</div>
+</section>
+</main>
+<noscript>AAAgario needs JavaScript enabled to run the canvas game.</noscript>
+<script src="/_assets/024ea1b60152175261ae.js" type="module"></script>
+</body></html>

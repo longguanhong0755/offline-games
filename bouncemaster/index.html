@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>弹跳大师：霓虹冒险</title>
+
+<style>
+        /* --- 核心基础设置 --- */
+        body {
+            overflow: hidden;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a; 
+        }
+        canvas {
+            display: block;
+            touch-action: none;
+        }
+
+        /* --- 界面与UI --- */
+        .game-ui {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            display: flex; flex-direction: column; justify-content: space-between;
+            z-index: 10;
+        }
+        .btn {
+            pointer-events: auto;
+            touch-action: manipulation;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none; -webkit-user-select: none;
+        }
+        .btn:active { transform: scale(0.95); }
+
+        /* --- 视觉特效 --- */
+        
+        /* 蓄力条 */
+        .power-bar-container {
+            position: absolute; right: 30px; top: 50%;
+            transform: translateY(-50%);
+            width: 16px; height: 180px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 20px; overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .power-bar-fill {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
+            background: linear-gradient(to top, #fbbf24, #ef4444);
+            transition: height 0.05s linear;
+        }
+
+        /* 玻璃拟态面板 */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 首页超级标题特效 */
+        .title-container {
+            position: relative;
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .title-text {
+            font-size: 5rem;
+            font-weight: 900;
+            font-style: italic;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255,255,255,0.8);
+            background: linear-gradient(to bottom, #fff 0%, #a5f3fc 100%);
+            -webkit-background-clip: text;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.4));
+            letter-spacing: -2px;
+        }
+        
+        .title-text::after {
+            content: "弹跳大师";
+            position: absolute;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, #22d3ee, #818cf8, #c084fc, #22d3ee);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            color: transparent;
+            z-index: -1;
+            opacity: 0.7;
+            filter: blur(5px);
+            animation: glowMove 3s linear infinite;
+        }
+
+        @keyframes glowMove {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .title-sub {
+            font-size: 1.2rem;
+            letter-spacing: 1em;
+            color: #93c5fd;
+            margin-top: 10px;
+            margin-left: 1em;
+            text-transform: uppercase;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        /* 小球跳跃装饰动画 */
+        .title-bouncer-container {
+            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 60px; pointer-events: none;
+        }
+        .title-ball {
+            position: absolute; width: 24px; height: 24px;
+            background: #fbbf24; border-radius: 50%;
+            box-shadow: 0 0 10px #fbbf24;
+            animation: bounceAcrossTitle 3s infinite ease-in-out;
+        }
+        @keyframes bounceAcrossTitle {
+            0% { left: 20%; top: 30px; transform: scaleY(1.1); animation-timing-function: ease-out; }
+            25% { left: 35%; top: -10px; transform: scaleY(0.9); animation-timing-function: ease-in; }
+            50% { left: 50%; top: 30px; transform: scaleY(1.1); animation-timing-function: ease-out; }
+            75% { left: 65%; top: -10px; transform: scaleY(0.9); animation-timing-function: ease-in; }
+            100% { left: 80%; top: 30px; transform: scaleY(1.1); animation-timing-function: ease-out; }
+        }
+
+        /* 模式卡片 */
+        .mode-card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out backwards;
+        }
+        .mode-card:nth-child(1) { animation-delay: 0.1s; }
+        .mode-card:nth-child(2) { animation-delay: 0.2s; }
+        .mode-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .mode-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent);
+            opacity: 0.5;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
+            background: rgba(30, 41, 59, 0.7);
+        }
+        
+        .mode-card:hover .mode-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .mode-icon { transition: transform 0.3s ease; }
+
+        .ai-meta {
+            display: none;
+            font-size: 0.72rem;
+            line-height: 1.1;
+            color: #a7f3d0;
+            max-width: min(52vw, 360px);
+            white-space: normal;
+        }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+        .bg-gradient-overlay {
+            background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15) 0%, rgba(15, 23, 42, 0) 60%);
+            animation: pulseBg 5s ease-in-out infinite alternate;
+        }
+        @keyframes pulseBg { from { opacity: 0.5; } to { opacity: 1; } }
+
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.pointer-events-auto{pointer-events:auto}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.z-30{z-index:30}.z-50{z-index:50}.mt-1{margin-top:0.25rem}.mt-8{margin-top:2rem}.flex{display:flex}.hidden{display:none}.h-6{height:1.5rem}.w-6{width:1.5rem}.w-full{width:100%}.max-w-lg{max-width:32rem}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.space-x-2 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.5rem * var(--tw-space-x-reverse));margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-l-4{border-left-width:4px}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.border-l-cyan-400{--tw-border-opacity:1;border-left-color:rgb(34 211 238 / var(--tw-border-opacity, 1))}.border-l-emerald-400{--tw-border-opacity:1;border-left-color:rgb(52 211 153 / var(--tw-border-opacity, 1))}.border-l-fuchsia-500{--tw-border-opacity:1;border-left-color:rgb(217 70 239 / var(--tw-border-opacity, 1))}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-blue-600{--tw-gradient-from:#2563eb var(--tw-gradient-from-position);--tw-gradient-to:rgb(37 99 235 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-slate-900\/60{--tw-gradient-from:rgb(15 23 42 / 0.6) var(--tw-gradient-from-position);--tw-gradient-to:rgb(15 23 42 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-slate-900\/80{--tw-gradient-to:rgb(15 23 42 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), rgb(15 23 42 / 0.8) var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-indigo-600{--tw-gradient-to:#4f46e5 var(--tw-gradient-to-position)}.to-slate-900\/95{--tw-gradient-to:rgb(15 23 42 / 0.95) var(--tw-gradient-to-position)}.p-3{padding:0.75rem}.p-6{padding:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-cyan-300\/70{color:rgb(103 232 249 / 0.7)}.text-cyan-50{--tw-text-opacity:1;color:rgb(236 254 255 / var(--tw-text-opacity, 1))}.text-emerald-300\/70{color:rgb(110 231 183 / 0.7)}.text-emerald-50{--tw-text-opacity:1;color:rgb(236 253 245 / var(--tw-text-opacity, 1))}.text-fuchsia-300\/70{color:rgb(240 171 252 / 0.7)}.text-fuchsia-50{--tw-text-opacity:1;color:rgb(253 244 255 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity, 1))}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-\[3px\]{--tw-backdrop-blur:blur(3px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-white\/10:hover{background-color:rgb(255 255 255 / 0.1)}.hover\:from-blue-500:hover{--tw-gradient-from:#3b82f6 var(--tw-gradient-from-position);--tw-gradient-to:rgb(59 130 246 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.hover\:to-indigo-500:hover{--tw-gradient-to:#6366f1 var(--tw-gradient-to-position)}</style><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="text-white">
+<!-- 游戏画布 -->
+<canvas height="900" id="gameCanvas" width="1440"></canvas>
+<!-- 游戏UI层 -->
+<div class="game-ui" id="uiLayer">
+<!-- 顶部栏 -->
+<div class="flex justify-between items-start p-6 w-full pointer-events-none">
+<div class="glass-panel px-4 py-2 rounded-full text-lg font-bold shadow-lg flex items-center gap-3" id="topInfoBar" style="display: none;">
+<span class="text-xs uppercase tracking-wider text-gray-400" id="modeDisplay">MODE</span>
+<span class="text-xl text-white" id="levelDisplay">1</span>
+<span class="ai-meta" id="aiMetaDisplay"></span>
+</div>
+<div class="flex space-x-2 pointer-events-auto" id="topControls" style="display: none;">
+<!-- 修复: 确保点击后能正常回到主菜单，并可以重新点击模式按钮 -->
+<button class="btn glass-panel hover:bg-white/10 text-white p-3 rounded-full shadow-lg" onclick="event.stopPropagation(); game.showScreen('START')">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<button class="btn glass-panel hover:bg-white/10 text-white p-3 rounded-full shadow-lg" onclick="event.stopPropagation(); game.resetLevel()">
+<svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- 蓄力条 -->
+<div class="power-bar-container" id="powerBarContainer" style="display: none;">
+<div class="power-bar-fill" id="powerBar"></div>
+</div>
+</div>
+<!-- 主菜单遮罩层 -->
+<div class="fixed inset-0 flex flex-col items-center justify-center z-50 pointer-events-none" id="overlay" style="display: flex; pointer-events: auto;">
+<!-- 动态氛围背景 -->
+<div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/80 to-slate-900/95 backdrop-blur-[3px]"></div>
+<div class="absolute inset-0 bg-gradient-overlay pointer-events-none"></div>
+<div class="relative z-30 flex flex-col items-center w-full max-w-lg px-6 pointer-events-auto">
+<div class="title-container">
+<div class="title-bouncer-container">
+<div class="title-ball"></div>
+</div>
+<h1 class="title-text" id="overlayTitle">弹跳大师</h1>
+<p class="title-sub">BOUNCE MASTER</p>
+</div>
+<div class="w-full flex flex-col gap-4 px-2" id="startMenuButtons" style="display: flex;">
+<button class="mode-card btn w-full py-4 rounded-2xl shadow-lg flex items-center justify-between px-8 group border-l-4 border-l-cyan-400" onclick="event.stopPropagation(); game.startMode('easy')">
+<div class="flex flex-col items-start">
+<span class="text-2xl font-bold tracking-widest text-cyan-50">简单模式</span>
+<span class="text-xs text-cyan-300/70 font-medium mt-1">20关 • 休闲闯关</span>
+</div>
+<span class="text-4xl mode-icon">🌱</span>
+</button>
+<button class="mode-card btn w-full py-4 rounded-2xl shadow-lg flex items-center justify-between px-8 group border-l-4 border-l-fuchsia-500" onclick="event.stopPropagation(); game.startMode('hard')">
+<div class="flex flex-col items-start">
+<span class="text-2xl font-bold tracking-widest text-fuchsia-50">困难模式</span>
+<span class="text-xs text-fuchsia-300/70 font-medium mt-1">2关 • 史诗挑战</span>
+</div>
+<span class="text-4xl mode-icon">🔥</span>
+</button>
+<button class="mode-card btn w-full py-4 rounded-2xl shadow-lg flex items-center justify-between px-8 group border-l-4 border-l-emerald-400" onclick="event.stopPropagation(); game.startMode('ai')">
+<div class="flex flex-col items-start">
+<span class="text-2xl font-bold tracking-widest text-emerald-50">AI生成挑战</span>
+<span class="text-xs text-emerald-300/70 font-medium mt-1">动态关卡 • 可复现Seed</span>
+</div>
+<span class="text-4xl mode-icon">🤖</span>
+</button>
+</div>
+<button class="btn hidden w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-full text-xl font-bold shadow-lg mt-8 border border-white/20 transform transition-transform hover:scale-105" id="actionBtn" style="display: none;">
+                下一步
+            </button>
+</div>
+</div>
+<script>
+        // --- 游戏内核 ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // DOM 引用
+        const overlay = document.getElementById('overlay');
+        const overlayTitle = document.getElementById('overlayTitle');
+        const startMenuButtons = document.getElementById('startMenuButtons');
+        const actionBtn = document.getElementById('actionBtn');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const modeDisplay = document.getElementById('modeDisplay');
+        const powerBar = document.getElementById('powerBar');
+        const powerBarContainer = document.getElementById('powerBarContainer');
+        const topInfoBar = document.getElementById('topInfoBar');
+        const topControls = document.getElementById('topControls');
+        const aiMetaDisplay = document.getElementById('aiMetaDisplay');
+
+        // 物理常量
+        const GRAVITY = 0.5; 
+        const FRICTION = 0.85; 
+        const AIR_RESISTANCE = 0.98; 
+        const MOVE_SPEED = 0.8; 
+        const MAX_SPEED_X = 7; 
+        const JUMP_CHARGE_RATE = 0.5; 
+        const MAX_JUMP_FORCE = 19; 
+        const MIN_JUMP_FORCE = 5; 
+        const AI_PROFILE_KEY = 'bouncemaster.aiProfile.v1';
+        
+        // 游戏全局状态
+        const gameState = {
+            screen: 'START', // START, PLAYING, GAMEOVER, WIN, LEVEL_COMPLETE
+            mode: 'easy', 
+            currentLevel: 0,
+            aiChallenge: null,
+            charging: false,
+            chargePower: 0,
+            keys: { left: false, right: false, space: false },
+            time: 0,
+            touchStartX: 0, 
+            touchCurrentX: 0
+        };
+
+        // --- 摄像机系统 (智能运镜 4.0 - 平滑视野预判, 减弱垂直预测) ---
+        const camera = {
+            x: 0, y: 0, width: 0, height: 0,
+            targetX: 0, targetY: 0,
+            currentRatioY: 0.55, // 垂直比例，用于平滑过渡
+            
+            follow: function(target) {
+                // 演示模式
+                if (gameState.screen === 'START') {
+                    this.targetX = target.x - this.width / 2;
+                    this.targetY = target.y - this.height / 2;
+                    this.x += (this.targetX - this.x) * 0.1;
+                    this.y += (this.targetY - this.y) * 0.05;
+                    return;
+                }
+
+                // 游戏模式：平滑构图
+                
+                // 1. 水平跟随
+                const lookAheadX = target.vx * 20; 
+                this.targetX = target.x + lookAheadX - this.width * 0.4; 
+                
+                // 2. 垂直跟随 (减弱预测效果)
+                let targetRatioY = 0.55; // 默认：球在屏幕中间略偏下
+                const vyThreshold = 3;
+
+                if (target.vy < -vyThreshold) {
+                    // 向上跳：球在屏幕下方 70% 处，看天 (减弱至 0.7)
+                    targetRatioY = 0.7; 
+                } else if (target.vy > vyThreshold) {
+                    // 向下落：球在屏幕上方 35% 处，看地 (减弱至 0.35)
+                    targetRatioY = 0.35; 
+                }
+                
+                // 平滑过渡 Ratio，使用更小的 lerp 值，减弱跟随速度
+                const ratioLerp = 0.08; 
+                this.currentRatioY += (targetRatioY - this.currentRatioY) * ratioLerp;
+                
+                // 计算目标Y
+                const idealY = target.y - (this.height * this.currentRatioY);
+                this.targetY = idealY;
+
+                // 3. 摄像机移动
+                this.x += (this.targetX - this.x) * 0.1;
+                this.y += (this.targetY - this.y) * 0.1; 
+                
+                if(this.x < -200) this.x = -200;
+            }
+        };
+
+        // --- 背景系统 ---
+        const background = {
+            stars: [],
+            init: function() {
+                this.stars = [];
+                for(let i=0; i<60; i++) {
+                    this.stars.push({
+                        x: Math.random() * 2000, 
+                        y: Math.random() * 1000, 
+                        size: Math.random() * 2 + 0.5,
+                        alpha: Math.random()
+                    });
+                }
+            },
+            draw: function(ctx, camX, camY) {
+                const w = canvas.width;
+                const h = canvas.height;
+                
+                const grd = ctx.createLinearGradient(0, 0, 0, h);
+                grd.addColorStop(0, '#020617'); 
+                grd.addColorStop(1, '#1e293b'); 
+                
+                if (gameState.screen === 'START') {
+                    grd.addColorStop(1, '#172554');
+                }
+                
+                ctx.fillStyle = grd;
+                ctx.fillRect(0, 0, w, h);
+
+                ctx.save();
+                ctx.translate(-camX * 0.05, -camY * 0.05);
+                ctx.fillStyle = 'white';
+                this.stars.forEach(s => {
+                    const flicker = Math.sin(gameState.time * 0.05 + s.x) * 0.3;
+                    ctx.globalAlpha = Math.max(0.1, s.alpha + flicker);
+                    ctx.beginPath();
+                    ctx.arc((s.x + camX * 0.1) % 2000, s.y, s.size, 0, Math.PI*2);
+                    ctx.fill();
+                });
+                ctx.restore();
+
+                if (gameState.screen === 'START') {
+                    // 简化的网格，减少绘制消耗
+                    ctx.save();
+                    const perspectiveY = h * 0.4; 
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'rgba(236, 72, 153, 0.15)'; 
+                    ctx.lineWidth = 1;
+                    
+                    const spacing = 150;
+                    const moveX = -camX * 0.5 % spacing;
+                    
+                    // 仅绘制视野内的线条
+                    const totalLines = Math.ceil(w / spacing) + 2;
+                    
+                    for(let i = -1; i < totalLines; i++) {
+                        const x = i * spacing + moveX;
+                        ctx.moveTo(x, h);
+                        ctx.lineTo(x + (x - w/2) * 0.5, perspectiveY); 
+                    }
+                    
+                    const gridTime = (gameState.time * 2) % 100;
+                    for(let i = 0; i < 15; i++) { // 减少横线条数
+                        const y = h - (i * i * 4) + (gridTime * (i*0.1)); 
+                        if (y < perspectiveY) continue;
+                        ctx.moveTo(0, y);
+                        ctx.lineTo(w, y);
+                    }
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
+        };
+
+        // --- 游戏对象 ---
+        class Ball {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.radius = 14;
+                this.vx = 0; this.vy = 0;
+                this.isGrounded = false;
+                this.canDoubleJump = true; 
+                this.squashX = 1; this.squashY = 1;
+                this.dead = false;
+                this.trail = []; 
+                this.autoMode = false;
+            }
+            update() {
+                // 状态卫兵
+                if (gameState.screen !== 'PLAYING' && !this.autoMode) return;
+
+                if (this.dead) {
+                    if (this.autoMode) this.resetDemo();
+                    return;
+                }
+
+                // 性能优化：限制拖尾数量和更新频率
+                if (gameState.time % 3 === 0 && (Math.abs(this.vx) > 1 || Math.abs(this.vy) > 1)) {
+                    this.trail.push({x: this.x, y: this.y, alpha: 0.5, r: this.radius});
+                    if (this.trail.length > 6) this.trail.shift(); // 减少最大拖尾数
+                }
+
+                if (this.autoMode) {
+                    this.vx = 4;
+                    if (this.isGrounded) this.jump(13);
+                    if (this.x > 5000) this.resetDemo();
+                } else {
+                    if (gameState.keys.left) this.vx -= MOVE_SPEED;
+                    if (gameState.keys.right) this.vx += MOVE_SPEED;
+
+                    if (gameState.keys.space && (this.isGrounded || this.canDoubleJump)) {
+                        gameState.charging = true;
+                        
+                        // 减少粒子生成频率
+                        if (!this.isGrounded) {
+                            if (Math.random() < 0.3) createParticles(this.x + (Math.random()-0.5)*20, this.y + this.radius, 1, '#60a5fa'); 
+                        } else {
+                            if (Math.random() < 0.2) createParticles(this.x + (Math.random()-0.5)*20, this.y + this.radius, 1, '#fbbf24');
+                        }
+                        if (gameState.chargePower < MAX_JUMP_FORCE) gameState.chargePower += JUMP_CHARGE_RATE;
+                        const squashFactor = 1 - (gameState.chargePower / MAX_JUMP_FORCE) * 0.4;
+                        this.squashY = squashFactor;
+                        this.squashX = 1 + (1 - squashFactor) * 0.8;
+                    } else {
+                        if (gameState.charging) {
+                            if (!this.isGrounded) {
+                                this.canDoubleJump = false;
+                                createParticles(this.x, this.y, 8, '#3b82f6'); // 减少粒子数
+                            }
+                            this.jump(Math.max(MIN_JUMP_FORCE, gameState.chargePower));
+                            gameState.charging = false;
+                            gameState.chargePower = 0;
+                        }
+                        this.squashX += (1 - this.squashX) * 0.15;
+                        this.squashY += (1 - this.squashY) * 0.15;
+                    }
+                }
+
+                this.vy += GRAVITY;
+                this.vx *= this.isGrounded ? FRICTION : AIR_RESISTANCE;
+                
+                if (this.vx > MAX_SPEED_X) this.vx = MAX_SPEED_X;
+                if (this.vx < -MAX_SPEED_X) this.vx = -MAX_SPEED_X;
+
+                this.x += this.vx; this.y += this.vy;
+                
+                if (this.y > camera.y + camera.height + 300 || this.y > 3000) {
+                    if (this.autoMode) this.resetDemo();
+                    else game.gameOver("坠入深渊");
+                }
+            }
+            
+            resetDemo() {
+                this.x = 0; this.y = 400; this.vx = 0; this.vy = 0; this.dead = false; camera.x = -200;
+            }
+
+            jump(force) {
+                this.vy = -force;
+                this.isGrounded = false;
+                createParticles(this.x, this.y + this.radius, 6, '#fff'); // 减少粒子数
+            }
+
+            draw(ctx) {
+                if (this.dead) return;
+                
+                // 绘制拖尾 (无阴影)
+                this.trail.forEach(t => {
+                    t.alpha -= 0.08; t.r *= 0.85;
+                    if(t.alpha > 0) {
+                        ctx.fillStyle = `rgba(56, 189, 248, ${t.alpha})`; 
+                        ctx.beginPath(); ctx.arc(t.x, t.y, t.r, 0, Math.PI*2); ctx.fill();
+                    }
+                });
+                this.trail = this.trail.filter(t => t.alpha > 0);
+
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.scale(this.squashX, this.squashY);
+                
+                // 使用半透明圆代替 shadowBlur 提升性能
+                if (!this.isGrounded && this.canDoubleJump) {
+                    ctx.fillStyle = "rgba(96, 165, 250, 0.3)";
+                    ctx.beginPath(); ctx.arc(0, 0, this.radius + 5, 0, Math.PI*2); ctx.fill();
+                }
+                
+                const grd = ctx.createRadialGradient(-4, -4, 2, 0, 0, this.radius);
+                grd.addColorStop(0, '#e0f2fe'); grd.addColorStop(0.5, '#38bdf8'); grd.addColorStop(1, '#0ea5e9'); 
+                
+                ctx.fillStyle = gameState.charging ? `rgb(255, ${200 * (1-gameState.chargePower / MAX_JUMP_FORCE)}, 100)` : grd;
+                
+                ctx.beginPath(); ctx.arc(0, 0, this.radius, 0, Math.PI * 2); ctx.fill();
+                
+                // 眼睛
+                ctx.fillStyle = 'white';
+                ctx.beginPath(); ctx.arc(5, -3, 4, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(-5, -3, 4, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#0f172a';
+                const lookX = this.vx * 0.3; const lookY = this.vy * 0.3;
+                ctx.beginPath(); ctx.arc(5 + lookX, -3 + lookY, 1.5, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(-5 + lookX, -3 + lookY, 1.5, 0, Math.PI*2); ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+
+        class Platform {
+            constructor(x, y, w, h, type, props = {}) {
+                this.x = x; this.y = y; this.w = w; this.h = h; this.type = type;
+                this.active = true;
+                this.initialX = x;
+                this.crumbleTimer = 0;
+                this.isCrumbling = false;
+                this.angle = 0;
+                this.radius = props.radius || 30; 
+            }
+            
+            update() {
+                if (this.isCrumbling) {
+                    this.crumbleTimer++;
+                    if (this.crumbleTimer > 60) {
+                        this.active = false;
+                        createParticles(this.x + this.w/2, this.y + this.h/2, 8, '#94a3b8');
+                    }
+                }
+                if (this.type === 'saw') this.angle += 0.1;
+            }
+
+            draw(ctx) {
+                if (!this.active) return;
+                
+                // 性能优化：移除所有 shadowBlur，用颜色层代替
+                if (this.type === 'normal' || this.type === 'fragile') {
+                    if (this.type === 'fragile') {
+                        if (this.isCrumbling) {
+                            const shake = (Math.random() - 0.5) * 4;
+                            ctx.translate(shake, shake);
+                            ctx.fillStyle = '#ef4444'; 
+                        } else {
+                            ctx.fillStyle = '#64748b'; 
+                        }
+                    } else {
+                        ctx.fillStyle = '#1e293b'; 
+                    }
+
+                    ctx.fillRect(this.x, this.y, this.w, this.h);
+                    ctx.lineWidth = 2; ctx.strokeStyle = '#334155'; ctx.strokeRect(this.x, this.y, this.w, this.h);
+                    
+                    if (this.type !== 'fragile') {
+                        ctx.fillStyle = '#4ade80'; ctx.fillRect(this.x, this.y, this.w, 4);
+                        // 模拟光晕
+                        ctx.fillStyle = 'rgba(74, 222, 128, 0.3)'; ctx.fillRect(this.x, this.y-2, this.w, 2);
+                    } else {
+                         ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.moveTo(this.x + 10, this.y + 10); ctx.lineTo(this.x + this.w - 10, this.y + this.h - 10); ctx.stroke();
+                    }
+                    if (this.isCrumbling && this.type === 'fragile') ctx.translate(0, 0); 
+
+                } else if (this.type === 'spike') {
+                    ctx.fillStyle = '#991b1b'; 
+                    const spikeWidth = 20; const spikeCount = Math.floor(this.w / spikeWidth);
+                    ctx.beginPath();
+                    for(let i=0; i<spikeCount; i++) {
+                        ctx.moveTo(this.x + i * spikeWidth, this.y + this.h);
+                        ctx.lineTo(this.x + i * spikeWidth + spikeWidth/2, this.y);
+                        ctx.lineTo(this.x + i * spikeWidth + spikeWidth, this.y + this.h);
+                    }
+                    const grd = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.h);
+                    grd.addColorStop(0, '#fca5a5'); grd.addColorStop(1, '#7f1d1d'); 
+                    ctx.fillStyle = grd; ctx.fill();
+
+                } else if (this.type === 'saw') {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.fillStyle = '#b91c1c';
+                    ctx.beginPath();
+                    const teeth = 8; const outerRadius = this.radius; const innerRadius = this.radius * 0.5;
+                    for (let i = 0; i < teeth * 2; i++) {
+                        const r = (i % 2 === 0) ? outerRadius : innerRadius;
+                        const a = (Math.PI * 2 * i) / (teeth * 2);
+                        ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+                    }
+                    ctx.closePath(); ctx.fill();
+                    ctx.fillStyle = '#450a0a'; ctx.beginPath(); ctx.arc(0,0, innerRadius/2, 0, Math.PI*2); ctx.fill();
+                    ctx.restore();
+
+                } else if (this.type === 'goal') {
+                    ctx.save();
+                    const cx = this.x + this.w/2; const cy = this.y + this.h/2;
+                    ctx.translate(cx, cy); ctx.rotate(gameState.time * 0.05);
+                    ctx.strokeStyle = '#10b981'; ctx.lineWidth = 4; ctx.setLineDash([10, 10]);
+                    ctx.beginPath(); ctx.arc(0, 0, 30, 0, Math.PI*2); ctx.stroke();
+                    ctx.fillStyle = 'rgba(16, 185, 129, 0.2)'; // 替代阴影
+                    ctx.beginPath(); ctx.arc(0, 0, 15, 0, Math.PI*2); ctx.fill();
+                    ctx.fillStyle = '#ecfdf5';
+                    ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI*2); ctx.fill();
+                    ctx.restore();
+                } else if (this.type === 'text') {
+                    ctx.save();
+                    ctx.fillStyle = "rgba(255,255,255,0.7)";
+                    ctx.font = "bold 20px 'Segoe UI'";
+                    ctx.fillText(this.w, this.x, this.y);
+                    ctx.restore();
+                }
+            }
+        }
+
+        // 优化粒子系统：对象池或限制数量
+        let particles = [];
+        function createParticles(x, y, count, color) {
+            // 限制总粒子数
+            if (particles.length > 50) particles.splice(0, 20); 
+            for(let i=0; i<count; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 8, vy: (Math.random() - 1) * 8,
+                    size: Math.random() * 3 + 1, life: 1.0, color: color, gravity: 0.2
+                });
+            }
+        }
+
+        // --- AI Director: 本地关卡生成和玩家画像 ---
+        const aiDirector = {
+            strategies: ['precision', 'rhythm', 'recovery', 'endurance'],
+
+            createDefaultProfile: function() {
+                return {
+                    attempts: 0,
+                    clears: 0,
+                    falls: 0,
+                    hazardHits: 0,
+                    lastReasons: [],
+                    currentDifficulty: 1
+                };
+            },
+
+            loadProfile: function() {
+                try {
+                    const raw = localStorage.getItem(AI_PROFILE_KEY);
+                    if (!raw) return this.createDefaultProfile();
+                    return Object.assign(this.createDefaultProfile(), JSON.parse(raw));
+                } catch (error) {
+                    return this.createDefaultProfile();
+                }
+            },
+
+            saveProfile: function(profile) {
+                try {
+                    localStorage.setItem(AI_PROFILE_KEY, JSON.stringify(profile));
+                } catch (error) {
+                    // 存储不可用时不阻塞游戏。
+                }
+            },
+
+            noteAttempt: function() {
+                const profile = this.loadProfile();
+                profile.attempts += 1;
+                this.saveProfile(profile);
+                return profile;
+            },
+
+            noteFailure: function(reason) {
+                const profile = this.loadProfile();
+                if (reason.includes('深渊')) profile.falls += 1;
+                if (reason.includes('锯齿') || reason.includes('尖刺')) profile.hazardHits += 1;
+                profile.lastReasons = [reason].concat(profile.lastReasons || []).slice(0, 5);
+                profile.currentDifficulty = Math.max(1, profile.currentDifficulty - 0.35);
+                this.saveProfile(profile);
+                return profile;
+            },
+
+            noteClear: function() {
+                const profile = this.loadProfile();
+                profile.clears += 1;
+                profile.currentDifficulty = Math.min(10, profile.currentDifficulty + 0.65);
+                this.saveProfile(profile);
+                return profile;
+            },
+
+            makeSeed: function(profile) {
+                const base = Date.now().toString(36).slice(-5).toUpperCase();
+                return `AI-${base}-${profile.attempts + profile.clears + 1}`;
+            },
+
+            hashSeed: function(seed) {
+                let hash = 2166136261;
+                for (let i = 0; i < seed.length; i++) {
+                    hash ^= seed.charCodeAt(i);
+                    hash = Math.imul(hash, 16777619);
+                }
+                return hash >>> 0;
+            },
+
+            makeRandom: function(seed) {
+                let state = this.hashSeed(seed) || 1;
+                return function() {
+                    state = Math.imul(1664525, state) + 1013904223;
+                    return (state >>> 0) / 4294967296;
+                };
+            },
+
+            pickStrategy: function(profile, random) {
+                const recent = (profile.lastReasons || []).join(' ');
+                if (recent.includes('深渊') || profile.attempts > profile.clears + 3) return 'recovery';
+                if (profile.currentDifficulty >= 6.5) return random() > 0.5 ? 'precision' : 'endurance';
+                if (profile.hazardHits > profile.falls + 1) return 'rhythm';
+                return this.strategies[Math.floor(random() * this.strategies.length)];
+            },
+
+            getTuning: function(profile, strategy) {
+                const difficulty = Math.max(1, Math.min(10, profile.currentDifficulty || 1));
+                const relief = strategy === 'recovery' ? 0.45 : 1;
+                return {
+                    difficulty,
+                    platformCount: Math.round(7 + difficulty * 1.25 + (strategy === 'endurance' ? 4 : 0)),
+                    gapBase: strategy === 'precision' ? 150 : 125,
+                    gapScale: (10 + difficulty * 7) * relief,
+                    hazardChance: Math.min(0.36, (0.06 + difficulty * 0.025) * relief),
+                    fragileChance: Math.min(0.38, (0.08 + difficulty * 0.03) * (strategy === 'precision' ? 1.35 : relief)),
+                    sawChance: Math.min(0.28, (0.03 + difficulty * 0.018) * (strategy === 'rhythm' ? 1.4 : relief)),
+                    verticalDrift: strategy === 'rhythm' ? 95 : 70
+                };
+            },
+
+            buildLocalChallenge: function(seed, profile) {
+                const random = this.makeRandom(seed);
+                const strategy = this.pickStrategy(profile, random);
+                const tuning = this.getTuning(profile, strategy);
+                const platforms = [
+                    {x: -120, y: 500, w: 420, h: 200, type: 'normal'},
+                    {x: 50, y: 330, w: `AI Seed: ${seed}`, h: 0, type: 'text'},
+                    {x: 50, y: 365, w: `难度 ${tuning.difficulty.toFixed(1)} / 策略 ${strategy}`, h: 0, type: 'text'}
+                ];
+
+                let x = 320;
+                let y = 490;
+                for (let i = 0; i < tuning.platformCount; i++) {
+                    const gap = tuning.gapBase + random() * tuning.gapScale;
+                    const width = Math.max(70, 170 - tuning.difficulty * 6 + random() * 80);
+                    y += (random() - 0.5) * tuning.verticalDrift;
+                    y = Math.max(210, Math.min(560, y));
+
+                    const hazardRoll = random();
+                    if (hazardRoll < tuning.sawChance && i > 1) {
+                        platforms.push({x: x + gap * 0.55, y: y - 70, w: 0, h: 0, type: 'saw', radius: 18 + tuning.difficulty * 1.4});
+                    }
+
+                    const type = random() < tuning.fragileChance && i > 0 ? 'fragile' : 'normal';
+                    platforms.push({x: x + gap, y, w: width, h: 44, type});
+
+                    if (random() < tuning.hazardChance && strategy !== 'recovery') {
+                        platforms.push({x: x + gap * 0.45, y: Math.min(650, y + 115), w: Math.max(90, gap * 0.7), h: 42, type: 'spike'});
+                    }
+
+                    x += gap + width;
+                }
+
+                platforms.push({x: x + 160, y: Math.max(180, y - 95), w: 60, h: 80, type: 'goal'});
+                return {
+                    title: 'AI Challenge',
+                    seed,
+                    strategy,
+                    difficulty: tuning.difficulty,
+                    source: 'local',
+                    level: { start: {x: 50, y: 400}, platforms }
+                };
+            },
+
+            validateChallenge: function(challenge) {
+                if (!challenge || !challenge.level || !challenge.level.start || !Array.isArray(challenge.level.platforms)) return false;
+                if (typeof challenge.seed !== 'string' || typeof challenge.strategy !== 'string') return false;
+                const allowed = new Set(['normal', 'fragile', 'spike', 'saw', 'goal', 'text']);
+                const strategies = new Set(this.strategies);
+                const hasGoal = challenge.level.platforms.some(p => p && p.type === 'goal');
+                const hasGround = challenge.level.platforms.some(p => p && p.type === 'normal' && p.w >= 200);
+                return strategies.has(challenge.strategy) && hasGoal && hasGround && challenge.level.platforms.every(p => p && allowed.has(p.type));
+            },
+
+            requestRemoteChallenge: async function(seed, profile) {
+                const endpoint = window.BOUNCEMASTER_AI_ENDPOINT;
+                if (!endpoint) return null;
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            seed,
+                            playerProfile: {
+                                attempts: profile.attempts,
+                                clears: profile.clears,
+                                falls: profile.falls,
+                                hazardHits: profile.hazardHits,
+                                currentDifficulty: profile.currentDifficulty
+                            }
+                        })
+                    });
+                    if (!response.ok) return null;
+                    const challenge = await response.json();
+                    if (!this.validateChallenge(challenge)) return null;
+                    return Object.assign(challenge, {source: 'remote'});
+                } catch (error) {
+                    return null;
+                }
+            },
+
+            nextChallenge: async function() {
+                const profile = this.noteAttempt();
+                const seed = this.makeSeed(profile);
+                const remote = await this.requestRemoteChallenge(seed, profile);
+                if (remote) return remote;
+                return this.buildLocalChallenge(seed, profile);
+            }
+        };
+
+        // --- 关卡数据 ---
+        const demoLevel = {
+             start: {x: 0, y: 400},
+             platforms: [
+                 {x: -200, y: 500, w: 10000, h: 200, type: 'normal'},
+                 {x: 600, y: 450, w: 50, h: 50, type: 'normal'},
+                 {x: 1200, y: 400, w: 50, h: 100, type: 'normal'},
+                 {x: 1800, y: 450, w: 50, h: 50, type: 'normal'},
+                 {x: 2400, y: 400, w: 50, h: 100, type: 'normal'},
+                 {x: 3000, y: 450, w: 50, h: 50, type: 'normal'},
+                 {x: 3600, y: 400, w: 50, h: 100, type: 'normal'},
+                 {x: 4200, y: 450, w: 50, h: 50, type: 'normal'},
+             ]
+        };
+
+        const generateEasyLevels = () => {
+            const levels = [];
+            levels.push({
+                start: {x: 50, y: 300},
+                platforms: [
+                    {x: -100, y: 400, w: 500, h: 200, type: 'normal'},
+                    {x: 50, y: 300, w: "简单模式 - 教学关", h: 0, type: 'text'},
+                    {x: 50, y: 340, w: "按住屏幕蓄力，左右滑动移动，松开起跳", h: 0, type: 'text'},
+                    {x: 400, y: 350, w: 300, h: 200, type: 'normal'}, 
+                    {x: 800, y: 300, w: 200, h: 200, type: 'normal'}, 
+                    {x: 1100, y: 220, w: 60, h: 80, type: 'goal'}
+                ]
+            });
+            let baseLength = 1500;
+            for(let i=2; i<=20; i++) {
+                const len = baseLength * Math.pow(1.3, i - 1);
+                const spikeProb = Math.min(0.5, 0.2 + i * 0.02);
+                const sawProb = i > 5 ? Math.min(0.3, 0.1 + i * 0.01) : 0;
+                const fragileProb = i > 3 ? Math.min(0.3, 0.1 + i * 0.01) : 0;
+                
+                let plats = [
+                    {x: -100, y: 500, w: 400, h: 200, type: 'normal'},
+                    {x: 50, y: 350, w: `第 ${i} 关`, h: 0, type: 'text'}
+                ];
+                let cx = 350;
+                while(cx < len) {
+                    const gap = 120 + Math.random() * 80;
+                    const heightVar = (Math.random() - 0.5) * 80;
+                    const w = 100 + Math.random() * 100;
+                    if (Math.random() < sawProb) plats.push({x: cx + gap/2, y: 450 + heightVar, w: 0, h: 0, type: 'saw', radius: 25});
+                    if (Math.random() < fragileProb) plats.push({x: cx + gap, y: 500 + heightVar, w: w, h: 50, type: 'fragile'});
+                    else {
+                        plats.push({x: cx + gap, y: 500 + heightVar, w: w, h: 50, type: 'normal'});
+                        if (Math.random() < spikeProb) plats.push({x: cx + gap/2, y: 600, w: gap, h: 50, type: 'spike'});
+                    }
+                    cx += gap + w;
+                }
+                plats.push({x: cx + 100, y: 450, w: 60, h: 80, type: 'goal'});
+                levels.push({ start: {x: 50, y: 400}, platforms: plats });
+            }
+            return levels;
+        };
+        const easyLevels = generateEasyLevels();
+
+        const hardLevels = [
+            {
+                start: {x: 50, y: 300},
+                platforms: [
+                    {x: -100, y: 400, w: 500, h: 200, type: 'normal'},
+                    {x: 50, y: 300, w: "困难模式 - 教学关", h: 0, type: 'text'},
+                    {x: 50, y: 340, w: "尖刺侧面和底部是安全的，可以反弹", h: 0, type: 'text'},
+                    {x: 400, y: 350, w: 200, h: 50, type: 'normal'}, 
+                    {x: 650, y: 350, w: 250, h: 50, type: 'normal'},
+                    {x: 950, y: 300, w: 60, h: 20, type: 'fragile'},
+                    {x: 1050, y: 250, w: 60, h: 20, type: 'fragile'},
+                    {x: 1150, y: 200, w: 60, h: 20, type: 'fragile'},
+                    {x: 1100, y: 150, w: 0, h: 0, type: 'saw', radius: 20},
+                    {x: 1300, y: 300, w: 200, h: 200, type: 'normal'}, 
+                    {x: 1550, y: 220, w: 60, h: 80, type: 'goal'}
+                ]
+            },
+            {
+                start: {x: 50, y: 400},
+                platforms: [
+                    {x: -200, y: 500, w: 500, h: 500, type: 'normal'},
+                    {x: 300, y: 700, w: 600, h: 50, type: 'spike'}, 
+                    {x: 350, y: 400, w: 80, h: 20, type: 'fragile'}, 
+                    {x: 550, y: 300, w: 80, h: 20, type: 'fragile'}, 
+                    {x: 750, y: 450, w: 80, h: 20, type: 'fragile'}, 
+                    {x: 900, y: 500, w: 300, h: 50, type: 'normal'},
+                    {x: 1050, y: 450, w: 0, h: 0, type: 'saw', radius: 40},
+                    {x: 1250, y: 450, w: 0, h: 0, type: 'saw', radius: 40},
+                    {x: 1450, y: 450, w: 0, h: 0, type: 'saw', radius: 40},
+                    {x: 1650, y: 600, w: 800, h: 50, type: 'spike'}, 
+                    {x: 1750, y: 400, w: 60, h: 20, type: 'normal'},
+                    {x: 1950, y: 300, w: 60, h: 20, type: 'normal'},
+                    {x: 2150, y: 400, w: 60, h: 20, type: 'normal'},
+                    {x: 2350, y: 300, w: 60, h: 20, type: 'normal'},
+                    {x: 2500, y: 500, w: 200, h: 50, type: 'normal'},
+                    {x: 2750, y: 400, w: 50, h: 20, type: 'normal'},
+                    {x: 2750, y: 250, w: 50, h: 20, type: 'normal'},
+                    {x: 2900, y: 150, w: 50, h: 20, type: 'normal'},
+                    {x: 3100, y: 150, w: 100, h: 20, type: 'normal'},
+                    {x: 3300, y: 600, w: 200, h: 50, type: 'normal'},
+                    {x: 3200, y: 350, w: 0, h: 0, type: 'saw', radius: 50}, 
+                    {x: 3600, y: 500, w: 100, h: 20, type: 'normal'},
+                    {x: 3800, y: 400, w: 100, h: 20, type: 'normal'},
+                    {x: 4000, y: 300, w: 100, h: 20, type: 'normal'},
+                    {x: 4200, y: 200, w: 200, h: 50, type: 'normal'},
+                    {x: 4300, y: 120, w: 60, h: 80, type: 'goal'}
+                ]
+            }
+        ];
+
+        // --- 游戏循环 ---
+        const game = {
+            ball: null, platforms: [],
+            
+            init: function() {
+                background.init();
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                this.setupInputs();
+                this.startDemoMode();
+            },
+            
+            resize: function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                camera.width = canvas.width; camera.height = canvas.height;
+            },
+
+            startDemoMode: function() {
+                // FIX: 确保在主菜单状态下，覆盖层是可点击的
+                gameState.screen = 'START';
+                this.loadLevelData(demoLevel); 
+                this.ball.autoMode = true;
+                topInfoBar.style.display = 'none';
+                topControls.style.display = 'none';
+                overlay.style.display = 'flex';
+                
+                // 关键修复: 启用覆盖层的指针事件，让菜单按钮可点击
+                overlay.style.pointerEvents = 'auto'; 
+                
+                // 确保菜单组件是可见的
+                document.getElementById('overlayTitle').textContent = "弹跳大师"; 
+                startMenuButtons.style.display = 'flex';
+                actionBtn.style.display = 'none'; 
+            },
+
+            startMode: function(mode) {
+                gameState.mode = mode; 
+                overlay.style.display = 'none'; 
+                topInfoBar.style.display = 'flex';
+                topControls.style.display = 'flex';
+                aiMetaDisplay.style.display = 'none';
+                this.loadLevel(0);
+            },
+
+            loadLevel: async function(levelIndex) {
+                if (gameState.mode === 'ai') {
+                    await this.loadAiChallenge();
+                    return;
+                }
+
+                const levels = (gameState.mode === 'easy' ? easyLevels : hardLevels);
+                if (levelIndex >= levels.length) {
+                    this.showScreen('WIN', "通关！");
+                    return;
+                }
+                gameState.currentLevel = levelIndex;
+                levelDisplay.textContent = levelIndex + 1;
+                modeDisplay.textContent = gameState.mode === 'easy' ? '简单' : '困难';
+                aiMetaDisplay.style.display = 'none';
+                
+                this.loadLevelData(levels[levelIndex]);
+                
+                // 摄像机重置
+                camera.x = this.ball.x - camera.width * 0.4;
+                camera.y = this.ball.y - camera.height * 0.55; // 使用新的默认比例
+                camera.targetX = camera.x;
+                camera.targetY = camera.y;
+                camera.currentRatioY = 0.55; // 重置平滑参数
+
+                this.showScreen('PLAYING');
+            },
+
+            loadAiChallenge: async function() {
+                modeDisplay.textContent = 'AI生成';
+                levelDisplay.textContent = '∞';
+                aiMetaDisplay.style.display = 'inline-block';
+                aiMetaDisplay.textContent = 'AI Director 正在生成...';
+
+                const fallbackProfile = aiDirector.noteAttempt();
+                let challenge;
+                try {
+                    const seed = aiDirector.makeSeed(fallbackProfile);
+                    const remote = await aiDirector.requestRemoteChallenge(seed, fallbackProfile);
+                    challenge = remote || aiDirector.buildLocalChallenge(seed, fallbackProfile);
+                } catch (error) {
+                    const seed = aiDirector.makeSeed(fallbackProfile);
+                    challenge = aiDirector.buildLocalChallenge(seed, fallbackProfile);
+                }
+                gameState.aiChallenge = challenge;
+                gameState.currentLevel = 0;
+                aiMetaDisplay.textContent = `AI Seed ${challenge.seed} · 难度 ${(challenge.difficulty || aiDirector.loadProfile().currentDifficulty).toFixed(1)} · ${challenge.strategy} · ${challenge.source === 'remote' ? 'remote' : 'local'}`;
+
+                this.loadLevelData(challenge.level);
+                camera.x = this.ball.x - camera.width * 0.4;
+                camera.y = this.ball.y - camera.height * 0.55;
+                camera.targetX = camera.x;
+                camera.targetY = camera.y;
+                camera.currentRatioY = 0.55;
+                this.showScreen('PLAYING');
+            },
+
+            loadLevelData: function(levelData) {
+                this.ball = new Ball(levelData.start.x, levelData.start.y);
+                this.platforms = levelData.platforms.map(p => new Platform(p.x, p.y, p.w, p.h, p.type, p));
+                gameState.charging = false; gameState.chargePower = 0;
+                gameState.keys.space = false; gameState.keys.left = false; gameState.keys.right = false;
+            },
+
+            resetLevel: function() { this.loadLevel(gameState.currentLevel); },
+
+            gameOver: function(reason) {
+                if (gameState.mode === 'ai') aiDirector.noteFailure(reason);
+                createParticles(this.ball.x, this.ball.y, 30, '#38bdf8');
+                this.ball.dead = true;
+                setTimeout(() => this.showScreen('GAMEOVER', reason), 600);
+            },
+
+            showScreen: function(screenName, msg = "") {
+                gameState.screen = screenName;
+                if (screenName === 'START') { this.startDemoMode(); return; }
+                if (screenName === 'PLAYING') {
+                    overlay.style.display = 'none'; 
+                    // 在PLAYING状态下，禁用覆盖层的指针事件，让游戏画布可交互
+                    overlay.style.pointerEvents = 'none';
+                    powerBarContainer.style.display = 'block';
+                } else {
+                    overlay.style.display = 'flex'; 
+                    overlay.style.pointerEvents = 'auto'; // 启用覆盖层的指针事件
+                    powerBarContainer.style.display = 'none'; 
+                    
+                    if (screenName === 'GAMEOVER') {
+                        document.getElementById('overlayTitle').textContent = "破碎"; 
+                        actionBtn.style.display = 'block'; actionBtn.textContent = gameState.mode === 'ai' ? "生成新挑战" : "重试";
+                        actionBtn.onclick = (e) => { e.stopPropagation(); this.resetLevel(); };
+                        startMenuButtons.style.display = 'none';
+                    } else if (screenName === 'WIN') {
+                        document.getElementById('overlayTitle').textContent = "传奇";
+                        actionBtn.style.display = 'block'; actionBtn.textContent = "返回主菜单";
+                        actionBtn.onclick = (e) => {
+                             e.stopPropagation();
+                             this.showScreen('START');
+                        };
+                        startMenuButtons.style.display = 'none';
+                    } else if (screenName === 'LEVEL_COMPLETE') {
+                        if (gameState.mode === 'ai') aiDirector.noteClear();
+                        document.getElementById('overlayTitle').textContent = "完成";
+                        actionBtn.style.display = 'block'; actionBtn.textContent = gameState.mode === 'ai' ? "生成下一关" : "下一关";
+                        actionBtn.onclick = (e) => { e.stopPropagation(); this.loadLevel(gameState.currentLevel + 1); };
+                        startMenuButtons.style.display = 'none';
+                    }
+                }
+            },
+
+            checkCollisions: function() {
+                if (gameState.screen !== 'PLAYING' && !this.ball.autoMode) return;
+
+                const ball = this.ball;
+                if (ball.dead) return;
+                ball.isGrounded = false;
+
+                for (let p of this.platforms) {
+                    if (!p.active) continue;
+                    if (p.type === 'text') continue;
+
+                    if (p.type === 'saw') {
+                        const dx = ball.x - p.x; const dy = ball.y - p.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < ball.radius + p.radius) {
+                             if (!ball.autoMode) this.gameOver("被锯齿撕裂");
+                             else ball.dead = true;
+                        }
+                        continue;
+                    }
+
+                    let closestX = Math.max(p.x, Math.min(ball.x, p.x + p.w));
+                    let closestY = Math.max(p.y, Math.min(ball.y, p.y + p.h));
+                    let dx = ball.x - closestX; let dy = ball.y - closestY;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < ball.radius) {
+                        if (p.type === 'spike') {
+                            const hitTop = ball.vy > 0 && ball.y < p.y + 15; 
+                            if (hitTop) {
+                                if (!ball.autoMode) this.gameOver("接触危险尖刺");
+                                else ball.dead = true;
+                                return;
+                            } else {
+                                if (Math.abs(dx) > Math.abs(dy)) {
+                                    ball.vx *= -0.8;
+                                    ball.x += dx > 0 ? 2 : -2;
+                                } else {
+                                    ball.vy *= -0.8;
+                                    ball.y += dy > 0 ? 2 : -2;
+                                }
+                            }
+                        } else if (p.type === 'goal') {
+                            if (!ball.autoMode) this.showScreen('LEVEL_COMPLETE');
+                            else this.ball.resetDemo();
+                            return;
+                        } else if (p.type === 'normal' || p.type === 'fragile') {
+                            const isFalling = ball.vy >= 0;
+                            const isAbove = ball.y < p.y + p.h / 2; 
+                            const isAligned = ball.x > p.x - ball.radius * 0.5 && ball.x < p.x + p.w + ball.radius * 0.5;
+
+                            if (isFalling && isAbove && isAligned) {
+                                ball.y = p.y - ball.radius; ball.vy = 0;
+                                ball.isGrounded = true; ball.canDoubleJump = true; 
+                                if (p.type === 'fragile') p.isCrumbling = true; 
+                                if (Math.abs(ball.vy) > 2) createParticles(ball.x, ball.y + ball.radius, 3, '#4ade80');
+                            } else if (ball.vy < 0 && ball.y > p.y + p.h - ball.radius && isAligned) {
+                                ball.y = p.y + p.h + ball.radius; ball.vy *= -0.5;
+                            } else {
+                                 if (ball.x < p.x + p.w / 2) { 
+                                    ball.x = p.x - ball.radius; ball.vx = -Math.abs(ball.vx) * 0.5; 
+                                 } else { 
+                                    ball.x = p.x + p.w + ball.radius; ball.vx = Math.abs(ball.vx) * 0.5; 
+                                 }
+                            }
+                        }
+                    }
+                }
+            },
+
+            // 新增: 查找下一个非可见平台
+            findNextPlatform: function() {
+                if (!this.ball || this.ball.isGrounded || this.ball.dead) return null;
+                
+                // 过滤掉当前关卡中在球右侧、且未死亡的平台
+                let candidates = this.platforms.filter(p => 
+                    p.active && 
+                    p.type !== 'text' && 
+                    p.x + p.w / 2 > this.ball.x
+                );
+
+                if (candidates.length === 0) return null;
+
+                // 找到最近的平台（按X轴距离）
+                candidates.sort((a, b) => a.x - b.x);
+
+                const nextPlatform = candidates[0];
+                
+                // 检查平台是否在视野内
+                const camRight = camera.x + camera.width;
+                const camBottom = camera.y + camera.height;
+                const camTop = camera.y;
+                
+                const isVisible = (
+                    nextPlatform.x < camRight && 
+                    nextPlatform.x + nextPlatform.w > camera.x && 
+                    nextPlatform.y < camBottom && 
+                    nextPlatform.y + nextPlatform.h > camTop
+                );
+                
+                return isVisible ? null : nextPlatform; // 只有非可见的才返回
+            },
+
+            // 新增: 绘制非可见平台提示
+            drawOffScreenHint: function() {
+                const nextPlatform = this.findNextPlatform();
+                if (!nextPlatform) return; 
+                
+                ctx.save();
+
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+                const platCenterY = nextPlatform.y + nextPlatform.h / 2;
+                
+                // 1. 将世界 Y 坐标转换为屏幕 Y 坐标
+                let screenY = platCenterY - camera.y;
+
+                // 2. 钳制 screen Y，使其停留在屏幕边缘内 (50 像素安全边距)
+                const margin = 50;
+                screenY = Math.max(margin, Math.min(canvasHeight - margin, screenY));
+
+                const hintSize = 10;
+                const indicatorX = canvasWidth - 15; // 屏幕右侧边缘
+
+                // 绘制指示器光晕背景 (Screen Space)
+                ctx.fillStyle = 'rgba(255, 165, 0, 0.15)'; // 柔和的橙色光晕
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = 'rgba(255, 165, 0, 0.8)';
+                ctx.beginPath();
+                ctx.arc(indicatorX, screenY, hintSize * 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 绘制箭头 (Screen Space)
+                ctx.fillStyle = '#facc15'; // 亮黄色箭头
+                ctx.shadowBlur = 0;
+                ctx.beginPath();
+                ctx.moveTo(indicatorX - hintSize * 1.5, screenY);
+                ctx.lineTo(indicatorX - hintSize * 0.2, screenY - hintSize);
+                ctx.lineTo(indicatorX - hintSize * 0.2, screenY + hintSize);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 绘制中心点 (Screen Space)
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(indicatorX - hintSize * 0.2, screenY, hintSize / 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            },
+
+            update: function() {
+                gameState.time++;
+                this.platforms.forEach(p => p.update()); 
+                if (this.ball) this.ball.update();
+                this.checkCollisions();
+                for(let i = particles.length - 1; i >= 0; i--) {
+                    let p = particles[i];
+                    p.x += p.vx; p.y += p.vy; p.vy += p.gravity; 
+                    p.life -= 0.03; p.size *= 0.95;
+                    if(p.life <= 0) particles.splice(i, 1);
+                }
+                if (this.ball) camera.follow(this.ball);
+                if (gameState.screen === 'PLAYING') {
+                     powerBar.style.height = gameState.charging ? (gameState.chargePower / MAX_JUMP_FORCE * 100) + '%' : '0%';
+                }
+            },
+
+            draw: function() {
+                // 1. 绘制背景 (World Space)
+                background.draw(ctx, camera.x, camera.y);
+                
+                // 2. 绘制世界对象 (World Space)
+                ctx.save();
+                ctx.translate(-camera.x, -camera.y);
+                this.platforms.forEach(p => p.draw(ctx));
+                if (this.ball) this.ball.draw(ctx);
+                particles.forEach(p => {
+                    ctx.fillStyle = p.color; ctx.globalAlpha = p.life;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+                    ctx.globalAlpha = 1.0;
+                });
+                ctx.restore(); // 结束世界坐标转换
+
+                // 3. 绘制屏幕提示 (Screen Space)
+                if (gameState.screen === 'PLAYING') {
+                    this.drawOffScreenHint();
+                }
+            },
+
+            setupInputs: function() {
+                window.addEventListener('keydown', (e) => {
+                    if (e.code === 'ArrowLeft') gameState.keys.left = true;
+                    if (e.code === 'ArrowRight') gameState.keys.right = true;
+                    if (e.code === 'Space') gameState.keys.space = true;
+                });
+                window.addEventListener('keyup', (e) => {
+                    if (e.code === 'ArrowLeft') gameState.keys.left = false;
+                    if (e.code === 'ArrowRight') gameState.keys.right = false;
+                    if (e.code === 'Space') gameState.keys.space = false;
+                });
+                
+                const handleTouchStart = (e) => {
+                    if (e.target.closest('.btn') || e.target.tagName === 'BUTTON') return;
+                    if (gameState.screen === 'PLAYING') {
+                        e.preventDefault(); e.stopPropagation();
+                    }
+                    if (gameState.screen !== 'PLAYING') return; 
+                    gameState.keys.space = true;
+                    if(e.touches.length > 0) {
+                        gameState.touchStartX = e.touches[0].clientX;
+                        gameState.touchCurrentX = gameState.touchStartX;
+                    }
+                };
+                const handleTouchMove = (e) => {
+                    if (!gameState.keys.space) return;
+                    e.preventDefault();
+                    if(e.touches.length > 0) {
+                        gameState.touchCurrentX = e.touches[0].clientX;
+                        const delta = gameState.touchCurrentX - gameState.touchStartX;
+                        const threshold = 15; 
+                        if (delta < -threshold) { gameState.keys.left = true; gameState.keys.right = false; }
+                        else if (delta > threshold) { gameState.keys.right = true; gameState.keys.left = false; }
+                        else { gameState.keys.left = false; gameState.keys.right = false; }
+                    }
+                };
+                const handleTouchEnd = (e) => {
+                    if (gameState.keys.space) {
+                        e.preventDefault();
+                        gameState.keys.space = false; gameState.keys.left = false; gameState.keys.right = false;
+                    }
+                };
+                window.addEventListener('touchstart', handleTouchStart, {passive: false});
+                window.addEventListener('touchmove', handleTouchMove, {passive: false});
+                window.addEventListener('touchend', handleTouchEnd, {passive: false});
+            }
+        };
+
+        function loop() {
+            game.update();
+            game.draw();
+            requestAnimationFrame(loop);
+        }
+
+        game.init();
+        loop();
+
+    </script>
+</body></html>

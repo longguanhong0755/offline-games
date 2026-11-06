@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"/>
+<title>APEX SYNDICATE — Street Racing Tycoon</title>
+<meta content="Build a street racing empire: buy and tune cars, win physics-driven drag races, hire a crew, sign sponsors, and spin the Fortune Machine. Free browser game, no install." name="description"/>
+<meta content="#0a0f1a" name="theme-color"/>
+<meta content="Apex Syndicate — Street Racing Tycoon" property="og:title"/>
+<meta content="Drag racing meets business empire. Tune, race, hire, expand." property="og:description"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0f1a'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' font-family='Arial Black' font-style='italic' font-weight='900' fill='%23ffb020'%3EA%3C/text%3E%3C/svg%3E" rel="icon"/>
+<style>
+:root{
+  --bg:#0a0f1a; --bg2:#0f1626; --panel:#141d31; --panel2:#1a2540;
+  --edge:#263453; --edge-hi:#3a4d78;
+  --ink:#e9eefb; --ink-dim:#8b99b8; --ink-faint:#5a6885;
+  --amber:#ffb020; --amber-deep:#e08900; --red:#ff4757; --green:#3ddc84;
+  --cyan:#38d6e8; --purple:#b06bff;
+  --gold-grad:linear-gradient(160deg,#ffd44d,#ff9a1f);
+  --shadow:0 10px 30px rgba(0,0,0,.45); --r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(1200px 500px at 70% -10%, rgba(56,214,232,.06), transparent 60%),
+    radial-gradient(900px 500px at 10% 110%, rgba(255,176,32,.05), transparent 60%),
+    var(--bg);
+  color:var(--ink);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  overflow:hidden;user-select:none;
+}
+.disp{font-family:"Arial Black","Segoe UI",system-ui,sans-serif;font-style:italic;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+#app{height:100%;display:flex;flex-direction:column;max-width:1180px;margin:0 auto;position:relative}
+
+/* HEADER */
+#hud{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  background:linear-gradient(180deg,rgba(20,29,49,.95),rgba(15,22,38,.9));
+  border-bottom:1px solid var(--edge);z-index:20;flex-wrap:wrap}
+.hud-brand{display:flex;flex-direction:column;line-height:1;margin-right:6px}
+.hud-brand .t{font-size:17px;color:var(--amber)}
+.hud-brand .s{font-size:9px;letter-spacing:.28em;color:var(--ink-faint);text-transform:uppercase;margin-top:3px}
+.pill{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--edge);
+  border-radius:999px;padding:5px 12px 5px 8px;font-weight:700;font-size:13px;white-space:nowrap}
+.pill .ic{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-style:normal}
+.pill.cash .ic{background:rgba(61,220,132,.15);color:var(--green)} .pill.cash{color:var(--green)}
+.pill.gold .ic{background:rgba(255,176,32,.15);color:var(--amber)} .pill.gold{color:var(--amber)}
+.pill.keys .ic{background:rgba(56,214,232,.14);color:var(--cyan)} .pill.keys{color:var(--cyan)}
+.pill.rep .ic{background:rgba(176,107,255,.14);color:var(--purple)} .pill.rep{color:var(--purple)}
+.hud-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.shop-badge{font-size:11px;color:var(--ink-dim);text-align:right;line-height:1.25}
+.shop-badge b{color:var(--ink);display:block;font-size:12px}
+.icon-btn{background:var(--panel);border:1px solid var(--edge);color:var(--ink-dim);border-radius:10px;width:34px;height:34px;font-size:15px;cursor:pointer}
+.icon-btn:hover{border-color:var(--edge-hi);color:var(--ink)}
+
+/* NAV */
+#nav{display:flex;gap:6px;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--edge);z-index:19;overflow-x:auto}
+.nav-btn{flex:1;min-width:86px;padding:9px 8px;border-radius:10px;border:1px solid transparent;background:transparent;
+  color:var(--ink-dim);font-size:12px;font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;transition:all .15s}
+.nav-btn:hover{color:var(--ink)}
+.nav-btn.on{background:var(--panel2);border-color:var(--edge-hi);color:var(--amber)}
+
+/* MAIN */
+#main{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 14px 90px;position:relative;scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+#main::-webkit-scrollbar{width:8px} #main::-webkit-scrollbar-thumb{background:var(--edge);border-radius:4px}
+.screen{display:none;animation:fadein .25s ease} .screen.on{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h2.sec{font-size:15px;color:var(--ink);margin:18px 0 10px;display:flex;align-items:center;gap:10px}
+h2.sec::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
+h2.sec .tag{font-size:10px;color:var(--ink-faint);font-style:normal;letter-spacing:.15em;font-weight:600}
+.card{background:var(--panel);border:1px solid var(--edge);border-radius:var(--r);padding:14px}
+.grid{display:grid;gap:12px}
+.grid.g2{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.grid.g3{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+button.act{background:var(--gold-grad);color:#231400;border:none;border-radius:10px;padding:10px 16px;font-weight:900;
+  font-size:13px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;font-style:italic;
+  transition:transform .1s,filter .15s;box-shadow:0 4px 14px rgba(255,160,20,.25)}
+button.act:hover{filter:brightness(1.08)} button.act:active{transform:scale(.97)}
+button.act:disabled{background:var(--panel2);color:var(--ink-faint);box-shadow:none;cursor:not-allowed}
+button.ghost{background:var(--panel2);color:var(--ink);border:1px solid var(--edge-hi);border-radius:10px;padding:9px 14px;font-weight:700;font-size:12px;cursor:pointer}
+button.ghost:hover{border-color:var(--amber);color:var(--amber)}
+button.ghost:disabled{opacity:.4;cursor:not-allowed}
+button.danger{background:rgba(255,71,87,.12);border:1px solid rgba(255,71,87,.4);color:var(--red);border-radius:10px;padding:9px 14px;font-weight:700;font-size:12px;cursor:pointer}
+.bar{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;border:1px solid var(--edge)}
+.bar > i{display:block;height:100%;border-radius:99px;background:var(--gold-grad);transition:width .3s}
+.bar.green > i{background:linear-gradient(90deg,#3ddc84,#19b06a)}
+.stat-row{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-dim);margin:7px 0 3px}
+.stat-row b{color:var(--ink);font-size:13px}
+
+/* GARAGE */
+#car-stage{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--edge);
+  background:linear-gradient(180deg,#101a30 0%,#0c1424 55%,#070b14 56%,#0d1322 100%);
+  min-height:300px;display:flex;align-items:center;justify-content:center}
+#car-stage .floorline{position:absolute;left:0;right:0;top:56%;height:1px;background:rgba(120,150,220,.15)}
+#car-stage .glow{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:65%;height:120px;
+  background:radial-gradient(ellipse at center,rgba(255,214,120,.16),transparent 70%);pointer-events:none}
+#car-svg-wrap{width:min(560px,86%);filter:drop-shadow(0 24px 22px rgba(0,0,0,.55))}
+#car-stage .name-plate{position:absolute;top:14px;left:16px;z-index:3}
+.name-plate .tier{font-size:10px;background:var(--panel2);border:1px solid var(--edge-hi);color:var(--cyan);
+  display:inline-block;padding:2px 8px;border-radius:6px;font-weight:800;letter-spacing:.1em;font-style:normal}
+.name-plate h3{font-size:22px;margin-top:5px}
+.name-plate .pp{color:var(--amber);font-size:13px;font-weight:800;margin-top:2px}
+#car-arrows{position:absolute;bottom:12px;right:14px;display:flex;gap:8px;align-items:center;z-index:3}
+#car-arrows span{font-size:11px;color:var(--ink-faint);font-weight:700}
+#garage-actions{position:absolute;top:14px;right:14px;display:flex;flex-direction:column;gap:8px;z-index:3}
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.stat-cell{background:var(--panel);border:1px solid var(--edge);border-radius:10px;padding:10px 12px}
+.stat-cell .l{font-size:10px;letter-spacing:.12em;color:var(--ink-faint);text-transform:uppercase;font-weight:700}
+.stat-cell .v{font-size:18px;font-weight:900;font-style:italic;margin-top:2px}
+.stat-cell.et .v{color:var(--cyan)}
+.upg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:10px;margin-top:10px}
+.upg{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.upg .top{display:flex;justify-content:space-between;align-items:center}
+.upg .nm{font-weight:800;font-size:13px}
+.upg .stg{font-size:11px;color:var(--ink-dim)}
+.upg .pips{display:flex;gap:4px}
+.upg .pips i{width:16px;height:6px;border-radius:3px;background:var(--bg);border:1px solid var(--edge)}
+.upg .pips i.f{background:var(--amber);border-color:var(--amber-deep)}
+.upg .pips i.elite{background:var(--purple);border-color:var(--purple);box-shadow:0 0 6px rgba(176,107,255,.7)}
+.upg .fx{font-size:11px;color:var(--cyan)}
+/* fusion slots */
+.fslots{display:flex;gap:6px;align-items:center}
+.fslots .lbl{font-size:9px;letter-spacing:.14em;color:var(--ink-faint);font-weight:700}
+.fslot{width:22px;height:22px;transform:rotate(45deg);border-radius:5px;border:1.5px dashed var(--edge-hi);
+  background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.fslot:hover{border-color:var(--cyan)}
+.fslot.locked{border-style:solid;border-color:var(--edge);opacity:.35;cursor:not-allowed}
+.fslot.f-c{border:1.5px solid #9aa7c4;background:linear-gradient(135deg,#7e8aa6,#4d5871)}
+.fslot.f-r{border:1.5px solid var(--cyan);background:linear-gradient(135deg,#41d9ea,#1587a0);box-shadow:0 0 8px rgba(56,214,232,.5)}
+.fslot.f-e{border:1.5px solid var(--purple);background:linear-gradient(135deg,#c08bff,#6f2fd8);box-shadow:0 0 8px rgba(176,107,255,.6)}
+.carsvg{width:100%;height:auto;display:block}
+/* cosmetics */
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:34px;height:34px;border-radius:9px;border:2px solid var(--edge);cursor:pointer;transition:transform .12s}
+.swatch:hover{transform:scale(1.12)} .swatch.on{border-color:var(--amber);box-shadow:0 0 10px rgba(255,176,32,.5)}
+.wheel-opt{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px;border:1px solid var(--edge);
+  border-radius:10px;background:var(--bg2);cursor:pointer;font-size:10px;color:var(--ink-dim);font-weight:700}
+.wheel-opt.on{border-color:var(--amber);color:var(--amber)}
+.wheel-opt svg{width:44px;height:44px}
+
+/* TUNING */
+.tune-row{margin:16px 0}
+.tune-row .th{display:flex;justify-content:space-between;font-size:12px;font-weight:800;margin-bottom:4px}
+.tune-row .th .val{color:var(--cyan)}
+.tune-row .hint{font-size:10px;color:var(--ink-faint);margin-top:3px}
+input[type=range]{-webkit-appearance:none;width:100%;height:26px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--edge)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--gold-grad);margin-top:-8px;border:2px solid #1a1000;box-shadow:0 0 10px rgba(255,176,32,.4)}
+input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--edge)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--amber);border:2px solid #1a1000}
+#tune-et{background:var(--bg2);border:1px solid var(--edge-hi);border-radius:12px;padding:12px;text-align:center;margin-top:8px}
+#tune-et .l{font-size:9px;letter-spacing:.25em;color:var(--ink-faint)}
+#tune-et .v{font-size:26px;color:var(--cyan)}
+#tune-et .d{font-size:11px;font-weight:800;height:14px}
+
+/* DEALER */
+.dealer-card{background:var(--panel);border:1px solid var(--edge);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.dealer-card .viz{background:linear-gradient(180deg,#121c33,#0b1120);padding:18px 16px 6px;position:relative}
+.dealer-card .viz .tier{position:absolute;top:10px;left:10px;font-size:10px;background:rgba(10,15,26,.8);
+  border:1px solid var(--edge-hi);color:var(--cyan);padding:2px 8px;border-radius:6px;font-weight:800;z-index:2}
+.dealer-card .viz .owned{position:absolute;top:10px;right:10px;font-size:10px;background:rgba(61,220,132,.15);
+  border:1px solid rgba(61,220,132,.5);color:var(--green);padding:2px 8px;border-radius:6px;font-weight:800;z-index:2}
+.dealer-card .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.dealer-card h4{font-size:15px}
+.dealer-card .mini{display:flex;gap:12px;font-size:11px;color:var(--ink-dim)}
+.dealer-card .mini b{color:var(--ink)}
+.dealer-card .buy-row{margin-top:auto;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.price{font-weight:900;font-style:italic;font-size:15px;color:var(--green)}
+.lock-note{font-size:11px;color:var(--ink-faint)}
+
+/* RACE LIST */
+.event-tier{margin-bottom:14px}
+.event-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.event-head .badge{font-size:11px;padding:3px 10px;border-radius:6px;background:var(--panel2);border:1px solid var(--edge-hi);color:var(--cyan);font-weight:800}
+.event-head h3{font-size:14px}
+.event-head .prog{font-size:11px;color:var(--ink-faint);margin-left:auto}
+.race-list{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.race-row{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:11px 13px;display:flex;align-items:center;gap:12px}
+.race-row.done{opacity:.55} .race-row.locked{opacity:.4}
+.race-row .who{flex:1;min-width:0}
+.race-row .who .nm{font-weight:800;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.race-row .who .sub{font-size:11px;color:var(--ink-dim)} .race-row .who .sub b{color:var(--amber)}
+.race-row.boss{border-color:rgba(255,71,87,.5);background:linear-gradient(180deg,rgba(255,71,87,.07),var(--panel))}
+.race-row.boss .nm{color:var(--red)}
+.chip{font-size:10px;padding:2px 7px;border-radius:5px;font-weight:800}
+.chip.et{background:rgba(56,214,232,.12);color:var(--cyan)}
+.chip.win{background:rgba(61,220,132,.15);color:var(--green)}
+
+/* RACE OVERLAY */
+#race-ov{position:fixed;inset:0;background:#05080f;z-index:60;display:none;flex-direction:column}
+#race-ov.on{display:flex}
+#race-track{flex:1;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#0e1830 0%,#0a1122 34%,#151b2b 35%,#1c2336 49%,#232c44 50%,#1c2336 51%,#151b2b 65%,#0d1220 66%,#0a0e19 100%)}
+.lane-line{position:absolute;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 40px,transparent 40px 80px)}
+#finish-line{position:absolute;top:34%;bottom:34%;width:10px;background:repeating-linear-gradient(0deg,#fff 0 8px,#111 8px 16px);right:6%}
+.race-car{position:absolute;width:170px;will-change:transform;transition:filter .2s}
+.race-car.nitro{filter:drop-shadow(-14px 0 16px rgba(56,214,232,.85))}
+#race-hud-top{position:absolute;top:12px;left:0;right:0;display:flex;justify-content:center;gap:18px;font-weight:900;z-index:5}
+#race-hud-top .box{background:rgba(8,12,22,.8);border:1px solid var(--edge);border-radius:10px;padding:7px 14px;text-align:center;min-width:96px}
+#race-hud-top .box .l{font-size:9px;letter-spacing:.2em;color:var(--ink-faint)}
+#race-hud-top .box .v{font-size:19px;font-style:italic}
+#race-pause{position:absolute;top:12px;right:12px;z-index:8;width:40px;height:40px;border-radius:10px;
+  background:rgba(8,12,22,.85);border:1px solid var(--edge-hi);color:var(--ink);font-size:16px;cursor:pointer}
+#race-msg{position:absolute;top:26%;left:0;right:0;text-align:center;font-size:44px;z-index:6;
+  color:var(--amber);text-shadow:0 0 30px rgba(255,176,32,.5);pointer-events:none}
+#race-panel{background:linear-gradient(180deg,#0c1220,#080c15);border-top:1px solid var(--edge);
+  padding:14px;display:flex;align-items:center;gap:14px;justify-content:center;min-height:158px}
+#tacho{position:relative;width:230px;height:120px}
+#tacho svg{width:100%;height:100%}
+.big-btn{width:112px;height:112px;border-radius:50%;border:4px solid var(--amber);
+  background:radial-gradient(circle at 35% 30%,#2a3550,#141d31);color:var(--amber);
+  font-weight:900;font-size:16px;font-style:italic;cursor:pointer;letter-spacing:.05em;
+  box-shadow:0 0 24px rgba(255,176,32,.25),inset 0 0 22px rgba(0,0,0,.5);transition:transform .06s;text-transform:uppercase}
+.big-btn:active{transform:scale(.93)}
+#nitro-btn{width:84px;height:84px;border-color:var(--cyan);color:var(--cyan);font-size:13px;
+  box-shadow:0 0 24px rgba(56,214,232,.3),inset 0 0 22px rgba(0,0,0,.5)}
+#nitro-btn:disabled{border-color:var(--edge);color:var(--ink-faint);box-shadow:none;cursor:not-allowed}
+#nitro-btn.armed{animation:npulse 1.2s infinite}
+@keyframes npulse{0%,100%{box-shadow:0 0 14px rgba(56,214,232,.3)}50%{box-shadow:0 0 34px rgba(56,214,232,.75)}}
+#gear-box{text-align:center;width:70px}
+#gear-box .g{font-size:44px;font-weight:900;font-style:italic;color:var(--ink)}
+#gear-box .l{font-size:9px;letter-spacing:.25em;color:var(--ink-faint)}
+#shift-fb{position:absolute;left:0;right:0;top:-26px;text-align:center;font-weight:900;font-size:15px;font-style:italic;height:20px;transition:opacity .3s}
+#pause-veil{position:absolute;inset:0;background:rgba(4,7,13,.82);backdrop-filter:blur(4px);z-index:12;display:none;align-items:center;justify-content:center}
+#pause-veil.on{display:flex}
+#pause-menu{background:var(--panel);border:1px solid var(--edge-hi);border-radius:16px;padding:26px;width:300px;display:flex;flex-direction:column;gap:10px;text-align:center}
+#pause-menu h3{font-size:20px;margin-bottom:6px}
+
+/* MODAL / TOASTS */
+#modal-veil{position:fixed;inset:0;background:rgba(4,7,13,.75);backdrop-filter:blur(3px);z-index:80;display:none;align-items:center;justify-content:center;padding:18px}
+#modal-veil.on{display:flex}
+#modal{background:var(--panel);border:1px solid var(--edge-hi);border-radius:16px;max-width:480px;width:100%;
+  padding:22px;box-shadow:var(--shadow);max-height:86vh;overflow-y:auto;animation:pop .22s ease}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+#modal h3{font-size:20px;margin-bottom:6px}
+#modal .sub{color:var(--ink-dim);font-size:13px;margin-bottom:14px}
+.reward-line{display:flex;justify-content:space-between;padding:8px 2px;border-bottom:1px dashed var(--edge);font-size:13px}
+.reward-line b{font-style:italic}
+#modal .btn-row{display:flex;gap:10px;margin-top:16px}
+#modal .btn-row button{flex:1}
+#toasts{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:90;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--panel2);border:1px solid var(--edge-hi);color:var(--ink);border-radius:10px;
+  padding:9px 16px;font-size:13px;font-weight:700;box-shadow:var(--shadow);animation:toastin .25s ease}
+.toast.good{border-color:rgba(61,220,132,.5)} .toast.bad{border-color:rgba(255,71,87,.5)}
+@keyframes toastin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* BUSINESS */
+#biz-scene-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--edge);background:linear-gradient(180deg,#0d1526,#0a0f1a)}
+#biz-scene-wrap svg{width:100%;height:auto;display:block}
+.biz-hero{display:flex;gap:14px;align-items:center;background:linear-gradient(120deg,var(--panel2),var(--panel));
+  border:1px solid var(--edge-hi);border-radius:14px;padding:16px;margin-top:12px;flex-wrap:wrap}
+.biz-hero .info{flex:1;min-width:200px}
+.biz-hero h3{font-size:17px}
+.biz-hero .lvl{font-size:11px;color:var(--cyan);font-weight:800;letter-spacing:.1em}
+.biz-hero .inc{font-size:12px;color:var(--ink-dim);margin-top:3px} .biz-hero .inc b{color:var(--green)}
+.staff-card{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:12px;display:flex;gap:11px;align-items:center}
+.staff-card .avatar{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;background:var(--panel2);border:1px solid var(--edge-hi);flex-shrink:0}
+.staff-card .nm{font-weight:800;font-size:13px}
+.staff-card .role{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.staff-card .role.mech{color:var(--amber)} .staff-card .role.driver{color:var(--cyan)}
+.staff-card .out{font-size:11px;color:var(--ink-dim);margin-top:2px} .staff-card .out b{color:var(--green)}
+.staff-card .lvl-pips{display:flex;gap:3px;margin-top:4px}
+.staff-card .lvl-pips i{width:10px;height:4px;background:var(--bg);border-radius:2px;border:1px solid var(--edge)}
+.staff-card .lvl-pips i.f{background:var(--cyan);border-color:var(--cyan)}
+.staff-card .side{margin-left:auto;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.contract{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:13px;display:flex;flex-direction:column;gap:8px}
+.contract .t{display:flex;justify-content:space-between;align-items:center}
+.contract .nm{font-weight:800;font-size:13px}
+.contract .pay{font-size:12px;color:var(--green);font-weight:800}
+.contract .desc{font-size:11px;color:var(--ink-dim)}
+.contract .meta{display:flex;gap:12px;font-size:10px;color:var(--ink-faint)}
+.sponsor{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:13px}
+.sponsor.active{border-color:rgba(61,220,132,.5)}
+.sponsor .t{display:flex;align-items:center;gap:8px}
+.sponsor .logo{font-size:20px} .sponsor .nm{font-weight:800;font-size:13px}
+.sponsor .req{font-size:10px;color:var(--purple);margin-left:auto;font-weight:700}
+.sponsor .offer{font-size:11px;color:var(--ink-dim);margin:8px 0} .sponsor .offer b{color:var(--cyan)}
+
+/* FORTUNE */
+#fortune-box{max-width:640px;margin:0 auto}
+#machine{background:linear-gradient(180deg,#1b2438,#101828);border:1px solid var(--edge-hi);border-radius:18px;padding:20px;position:relative;overflow:hidden}
+#machine::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 200px at 50% 0%,rgba(176,107,255,.12),transparent 70%);pointer-events:none}
+#machine h3{text-align:center;font-size:20px;color:var(--purple);text-shadow:0 0 18px rgba(176,107,255,.5)}
+#machine .tag{text-align:center;font-size:10px;letter-spacing:.3em;color:var(--ink-faint);margin:4px 0 16px;text-transform:uppercase}
+#reel-window{position:relative;height:120px;border-radius:12px;border:2px solid var(--edge-hi);background:#0a0f1a;overflow:hidden}
+#reel-window::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;background:var(--amber);transform:translateX(-50%);box-shadow:0 0 12px var(--amber);z-index:3}
+#reel-window .fade{position:absolute;top:0;bottom:0;width:110px;z-index:2;pointer-events:none}
+#reel-window .fade.l{left:0;background:linear-gradient(90deg,#0a0f1a,transparent)}
+#reel-window .fade.r{right:0;background:linear-gradient(-90deg,#0a0f1a,transparent)}
+#reel{display:flex;gap:8px;position:absolute;top:10px;left:0;will-change:transform}
+.prize-card{width:104px;height:100px;flex-shrink:0;border-radius:10px;border:1px solid var(--edge);
+  background:var(--panel);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.prize-card .ic{font-size:28px;font-style:normal}
+.prize-card .nm{font-size:9px;font-weight:800;text-align:center;padding:0 4px;line-height:1.25;color:var(--ink-dim)}
+.prize-card.rar-c{border-color:var(--edge-hi)}
+.prize-card.rar-r{border-color:rgba(56,214,232,.6);box-shadow:inset 0 0 18px rgba(56,214,232,.08)}
+.prize-card.rar-e{border-color:rgba(176,107,255,.7);box-shadow:inset 0 0 18px rgba(176,107,255,.12)}
+.prize-card.rar-l{border-color:rgba(255,176,32,.8);box-shadow:inset 0 0 20px rgba(255,176,32,.15)}
+#spin-row{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap}
+#fortune-note{text-align:center;font-size:11px;color:var(--ink-faint);margin-top:10px}
+.inv-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--edge);
+  border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;margin:3px}
+
+/* TICKER */
+#ticker{position:fixed;bottom:0;left:0;right:0;background:rgba(8,12,20,.92);border-top:1px solid var(--edge);
+  padding:7px 0;z-index:15;overflow:hidden;font-size:11px;color:var(--ink-dim)}
+#ticker .inner{display:inline-block;white-space:nowrap;animation:tick 40s linear infinite;padding-left:100%}
+@keyframes tick{to{transform:translateX(-100%)}}
+#ticker b{color:var(--amber)}
+
+@media(max-width:640px){
+  .stats-strip{grid-template-columns:repeat(2,1fr)}
+  #race-panel{gap:8px;padding:10px;flex-wrap:wrap}
+  #tacho{width:170px;height:92px}
+  .big-btn{width:90px;height:90px;font-size:13px}
+  #nitro-btn{width:70px;height:70px;font-size:11px}
+  #hud{gap:6px} .pill{font-size:11px;padding:4px 9px 4px 6px}
+  .hud-brand .t{font-size:14px} #race-msg{font-size:32px} .race-car{width:120px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  #ticker .inner{animation:none;padding-left:12px}
+}
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="app">
+<header id="hud">
+<div class="hud-brand disp"><span class="t">Apex Syndicate</span><span class="s">Street Racing Tycoon</span></div>
+<div class="pill cash"><span class="ic">$</span><span id="hud-cash">$45K</span></div>
+<div class="pill gold"><span class="ic">◆</span><span id="hud-gold">60</span></div>
+<div class="pill keys"><span class="ic">⚿</span><span id="hud-keys">3</span></div>
+<div class="pill rep"><span class="ic">★</span><span id="hud-rep">0</span></div>
+<div class="hud-right">
+<div class="shop-badge"><b id="hud-shop">Backstreet Lockup</b><span id="hud-income">No passive income yet</span></div>
+<button class="icon-btn" id="btn-settings" title="Settings">⚙</button>
+</div>
+</header>
+<nav id="nav">
+<button class="nav-btn on" data-s="garage">Garage</button>
+<button class="nav-btn" data-s="dealer">Dealership</button>
+<button class="nav-btn" data-s="race">Race</button>
+<button class="nav-btn" data-s="biz">Business</button>
+<button class="nav-btn" data-s="fortune">Fortune</button>
+</nav>
+<main id="main">
+<section class="screen on" id="s-garage">
+<div id="car-stage">
+<div class="glow"></div><div class="floorline"></div>
+<div class="name-plate">
+<span class="tier">TIER 1</span>
+<h3 class="disp">Vulpes GTi</h3>
+<div class="pp disp">PP 477</div>
+</div>
+<div id="garage-actions">
+<button class="ghost" id="btn-tune">🔧 Tune</button>
+<button class="ghost" id="btn-cosmetic">🎨 Customize</button>
+</div>
+<div id="car-svg-wrap"><svg class="carsvg" viewbox="0 0 560 200" xmlns="http://www.w3.org/2000/svg">
+<lineargradient id="shu0" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0" stop-color="#fff" stop-opacity=".38"></stop><stop offset=".35" stop-color="#fff" stop-opacity=".06"></stop>
+<stop offset=".36" stop-color="#000" stop-opacity=".05"></stop><stop offset="1" stop-color="#000" stop-opacity=".28"></stop></lineargradient>
+<g>
+<ellipse cx="270" cy="176" fill="#000" opacity=".4" rx="220" ry="12"></ellipse>
+<path d="M60 148 L64 118 Q70 96 108 88 L150 62 Q160 54 185 52 L305 52 Q330 54 345 70 L390 100 Q440 106 462 118 Q474 126 474 140 L470 148 L430 150 A34 34 0 0 0 362 150 L168 150 A34 34 0 0 0 100 150 Z" fill="#d8dce4"></path>
+<path d="M158 88 L186 64 Q192 60 204 60 L232 60 L232 88 Z" fill="#0e1622" opacity=".92"></path>
+<path d="M244 60 L300 60 Q318 62 330 74 L344 88 L244 88 Z" fill="#0e1622" opacity=".92"></path>
+<path d="M250 92 L252 146" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="1.6"></path>
+<rect fill="rgba(0,0,0,.45)" height="4" rx="2" width="16" x="262" y="104"></rect>
+<rect fill="rgba(0,0,0,.5)" height="4" rx="2" width="406" x="66" y="144"></rect>
+<circle cx="462" cy="146" fill="#2a2f3c" r="3.4" stroke="#565f74" stroke-width="1.4"></circle>
+<path d="M168 74 l-9 -7 l-4 4 z" fill="#c0392b"></path>
+<path d="M50 150 L474 150 L474 118 Q300 96 60 122 Z" fill="url(#shu0)" opacity=".8" pointer-events="none" style="mix-blend-mode:screen"></path>
+<rect fill="#ffd9a0" height="9" opacity=".95" rx="4" width="26" x="60" y="128"></rect>
+<rect fill="#ff5a5a" height="9" rx="4" width="18" x="452" y="126"></rect>
+<circle cx="134" cy="150" fill="#0b0d12" r="30"></circle>
+<circle cx="134" cy="150" fill="#14171f" r="29" stroke="#000" stroke-width="2"></circle>
+<circle cx="134" cy="150" fill="#20242e" r="17"></circle>
+<line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="134" x2="149" y1="150" y2="150"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="134" x2="141.5" y1="150" y2="162.99038105676658"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="134" x2="126.5" y1="150" y2="162.99038105676658"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="134" x2="119" y1="150" y2="150"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="134" x2="126.5" y1="150" y2="137.00961894323342"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="134" x2="141.5" y1="150" y2="137.00961894323342"></line>
+<circle cx="134" cy="150" fill="#c9d2e2" r="5"></circle> <circle cx="404" cy="150" fill="#0b0d12" r="30"></circle>
+<circle cx="404" cy="150" fill="#14171f" r="29" stroke="#000" stroke-width="2"></circle>
+<circle cx="404" cy="150" fill="#20242e" r="17"></circle>
+<line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="404" x2="419" y1="150" y2="150"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="404" x2="411.5" y1="150" y2="162.99038105676658"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="404" x2="396.5" y1="150" y2="162.99038105676658"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="404" x2="389" y1="150" y2="150"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="404" x2="396.5" y1="150" y2="137.00961894323342"></line><line stroke="#8b93a5" stroke-linecap="round" stroke-width="3" x1="404" x2="411.5" y1="150" y2="137.00961894323342"></line>
+<circle cx="404" cy="150" fill="#c9d2e2" r="5"></circle>
+</g></svg></div>
+<div id="car-arrows">
+<button class="ghost" id="car-prev">‹</button>
+<span>1 / 1</span>
+<button class="ghost" id="car-next">›</button>
+</div>
+</div>
+<div class="stats-strip">
+<div class="stat-cell"><div class="l">Power</div><div class="v disp">180 hp</div></div>
+<div class="stat-cell"><div class="l">Grip</div><div class="v disp">5,200</div></div>
+<div class="stat-cell"><div class="l">Shift</div><div class="v disp">520 ms</div></div>
+<div class="stat-cell"><div class="l">Weight</div><div class="v disp">2,900 lb</div></div>
+<div class="stat-cell et"><div class="l">Est ¼ mile</div><div class="v disp">14.38s</div></div>
+</div>
+<h2 class="sec disp">Upgrades <span class="tag">STAGE 6 ELITE FROM FORTUNE · ◇ FUSION SLOTS UNLOCK AT STAGE 1 / 3 / 5</span></h2>
+<div class="upg-grid"><div class="upg">
+<div class="top"><span class="nm">Engine</span><span class="stg">Stage 0/6</span></div>
+<div class="pips"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="fslots"><span class="lbl">FUSION</span><div class="fslot locked" data-cat="engine" data-i="0" title="Unlocks at stage 1"></div><div class="fslot locked" data-cat="engine" data-i="1" title="Unlocks at stage 3"></div><div class="fslot locked" data-cat="engine" data-i="2" title="Unlocks at stage 5"></div></div>
+<div class="fx">+ Power</div><button class="act" data-upg="engine">Stage 1 — $1,600</button></div><div class="upg">
+<div class="top"><span class="nm">Turbo</span><span class="stg">Stage 0/6</span></div>
+<div class="pips"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="fslots"><span class="lbl">FUSION</span><div class="fslot locked" data-cat="turbo" data-i="0" title="Unlocks at stage 1"></div><div class="fslot locked" data-cat="turbo" data-i="1" title="Unlocks at stage 3"></div><div class="fslot locked" data-cat="turbo" data-i="2" title="Unlocks at stage 5"></div></div>
+<div class="fx">+ Power</div><button class="act" data-upg="turbo">Stage 1 — $1,600</button></div><div class="upg">
+<div class="top"><span class="nm">Intake</span><span class="stg">Stage 0/6</span></div>
+<div class="pips"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="fslots"><span class="lbl">FUSION</span><div class="fslot locked" data-cat="intake" data-i="0" title="Unlocks at stage 1"></div><div class="fslot locked" data-cat="intake" data-i="1" title="Unlocks at stage 3"></div><div class="fslot locked" data-cat="intake" data-i="2" title="Unlocks at stage 5"></div></div>
+<div class="fx">+ Power</div><button class="act" data-upg="intake">Stage 1 — $1,600</button></div><div class="upg">
+<div class="top"><span class="nm">Nitrous</span><span class="stg">Stage 0/6</span></div>
+<div class="pips"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="fslots"><span class="lbl">FUSION</span><div class="fslot locked" data-cat="nitrous" data-i="0" title="Unlocks at stage 1"></div><div class="fslot locked" data-cat="nitrous" data-i="1" title="Unlocks at stage 3"></div><div class="fslot locked" data-cat="nitrous" data-i="2" title="Unlocks at stage 5"></div></div>
+<div class="fx">+ Nitro boost</div><button class="act" data-upg="nitrous">Stage 1 — $1,600</button></div><div class="upg">
+<div class="top"><span class="nm">Body</span><span class="stg">Stage 0/6</span></div>
+<div class="pips"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="fslots"><span class="lbl">FUSION</span><div class="fslot locked" data-cat="body" data-i="0" title="Unlocks at stage 1"></div><div class="fslot locked" data-cat="body" data-i="1" title="Unlocks at stage 3"></div><div class="fslot locked" data-cat="body" data-i="2" title="Unlocks at stage 5"></div></div>
+<div class="fx">− Weight</div><button class="act" data-upg="body">Stage 1 — $1,600</button></div><div class="upg">
+<div class="top"><span class="nm">Tires</span><span class="stg">Stage 0/6</span></div>
+<div class="pips"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="fslots"><span class="lbl">FUSION</span><div class="fslot locked" data-cat="tires" data-i="0" title="Unlocks at stage 1"></div><div class="fslot locked" data-cat="tires" data-i="1" title="Unlocks at stage 3"></div><div class="fslot locked" data-cat="tires" data-i="2" title="Unlocks at stage 5"></div></div>
+<div class="fx">+ Grip</div><button class="act" data-upg="tires">Stage 1 — $1,600</button></div><div class="upg">
+<div class="top"><span class="nm">Transmission</span><span class="stg">Stage 0/6</span></div>
+<div class="pips"><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+<div class="fslots"><span class="lbl">FUSION</span><div class="fslot locked" data-cat="trans" data-i="0" title="Unlocks at stage 1"></div><div class="fslot locked" data-cat="trans" data-i="1" title="Unlocks at stage 3"></div><div class="fslot locked" data-cat="trans" data-i="2" title="Unlocks at stage 5"></div></div>
+<div class="fx">− Shift time</div><button class="act" data-upg="trans">Stage 1 — $1,600</button></div></div></section>
+<section class="screen" id="s-dealer"></section>
+<section class="screen" id="s-race"></section>
+<section class="screen" id="s-biz"></section>
+<section class="screen" id="s-fortune"></section>
+</main>
+<div id="ticker"><div class="inner" id="ticker-inner">Reputation <b>0★</b>   ·   Garage: <b>1</b> car   ·   Best PP <b>477</b>   ·   Crew: <b>0</b> mechanics, <b>0</b> drivers   ·   GripKing Tires: “Traction is a lifestyle.”   ·   </div></div>
+</div>
+<div id="race-ov">
+<div id="race-track">
+<div id="race-hud-top">
+<div class="box disp"><div class="l">You</div><div class="v" id="rh-you">0.00s</div></div>
+<div class="box disp"><div class="l">MPH</div><div class="v" id="rh-speed">0</div></div>
+<div class="box disp"><div class="l">Rival</div><div class="v" id="rh-rival">0.00s</div></div>
+</div>
+<button id="race-pause" title="Pause">⏸</button>
+<div class="disp" id="race-msg"></div>
+<div id="finish-line"></div>
+<div class="lane-line" style="top:41.5%"></div>
+<div class="lane-line" style="top:58%"></div>
+<div class="race-car" id="rc-rival"></div>
+<div class="race-car" id="rc-you"></div>
+<div id="pause-veil">
+<div id="pause-menu">
+<h3 class="disp">Paused</h3>
+<button class="act" id="pm-resume">Resume race</button>
+<button class="ghost" id="pm-restart">Restart race</button>
+<button class="danger" id="pm-quit">Quit to events</button>
+</div>
+</div>
+</div>
+<div id="race-panel">
+<div id="gear-box"><div class="g disp" id="gear-num">N</div><div class="l">GEAR</div></div>
+<div id="tacho">
+<div id="shift-fb"></div>
+<svg id="tacho-svg" viewbox="0 0 230 120"></svg>
+</div>
+<button class="big-btn" disabled="" id="nitro-btn">NITRO</button>
+<button class="big-btn disp" id="shift-btn">Launch</button>
+</div>
+</div>
+<div class="on" id="modal-veil"><div id="modal"><h3 class="disp">Welcome to the Syndicate</h3>
+<div class="sub">You've got a beat-up <b>Vulpes GTi</b>, a rented lockup, and $45K. The loop:</div>
+<div class="reward-line"><span>🏁 Race</span><b>Win cash + reputation</b></div>
+<div class="reward-line"><span>🔧 Upgrade &amp; tune</span><b>Cut your quarter-mile</b></div>
+<div class="reward-line"><span>🏢 Business</span><b>Staff earn while you race</b></div>
+<div class="reward-line"><span>🎰 Fortune</span><b>Elite parts &amp; fusion crates</b></div>
+<div class="btn-row"><button class="act" onclick="closeModal()">Let's work</button></div></div></div>
+<div id="toasts"></div>
+<script>
+/* =====================================================================
+   APEX SYNDICATE v2 — data
+===================================================================== */
+const fmt = n => {
+  n = Math.floor(n);
+  if (n >= 1e9) return (n/1e9).toFixed(n%1e9?1:0)+'B';
+  if (n >= 1e6) return (n/1e6).toFixed(n%1e6?1:0)+'M';
+  if (n >= 1e4) return (n/1e3).toFixed(n%1e3?1:0)+'K';
+  return n.toLocaleString('en-US');
+};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+const CARS = [
+ {id:'vulpes',  tier:1, name:'Vulpes GTi',      style:'hatch', color:'#d8dce4', accent:'#c0392b', price:32000,  pow:180, grip:5200, shift:520, weight:2900},
+ {id:'kestrel', tier:1, name:'Kestrel Coupe',   style:'coupe', color:'#3d7bd8', accent:'#1b2a44', price:48000,  pow:210, grip:5400, shift:500, weight:3050},
+ {id:'aria',    tier:1, name:'Aria Sport S',    style:'coupe', color:'#e8b12c', accent:'#111',    price:65000,  pow:235, grip:5600, shift:480, weight:2980},
+ {id:'bandit',  tier:2, name:'Bandit RS',       style:'muscle',color:'#8d33d6', accent:'#0f0f14', price:120000, pow:340, grip:6100, shift:450, weight:3400},
+ {id:'tanto',   tier:2, name:'Tanto Turbo IV',  style:'coupe', color:'#e74c3c', accent:'#101820', price:165000, pow:380, grip:6400, shift:430, weight:3150},
+ {id:'corsair', tier:2, name:'Corsair S-Line',  style:'coupe', color:'#20b2aa', accent:'#0d1b2a', price:210000, pow:420, grip:6600, shift:410, weight:3200},
+ {id:'falke',   tier:3, name:'Falke M-Sport',   style:'coupe', color:'#4da3ff', accent:'#0d1522', price:380000, pow:520, grip:7200, shift:380, weight:3300},
+ {id:'ronin',   tier:3, name:'Ronin ZX-R',      style:'coupe', color:'#f5f6f8', accent:'#c0392b', price:520000, pow:580, grip:7500, shift:360, weight:3100},
+ {id:'vector',  tier:3, name:'Vector V8 Nera',  style:'muscle',color:'#22262e', accent:'#e8b12c', price:700000, pow:650, grip:7700, shift:350, weight:3450},
+ {id:'tempesta',tier:4, name:'Tempesta GT-S',   style:'super', color:'#ff5e3a', accent:'#14100e', price:1300000,pow:760, grip:8300, shift:320, weight:3050},
+ {id:'wraith',  tier:4, name:'Wraith R Carbon', style:'super', color:'#33e0c8', accent:'#0a1418', price:1900000,pow:850, grip:8600, shift:300, weight:2950},
+ {id:'kaiser',  tier:4, name:'Kaiser Neun',     style:'super', color:'#dfe4ee', accent:'#25344e', price:2600000,pow:930, grip:8900, shift:285, weight:3000},
+ {id:'aurora',  tier:5, name:'Aurora Hyperion', style:'hyper', color:'#7f7fff', accent:'#0b0b1c', price:4800000,pow:1150,grip:9600, shift:250, weight:2800},
+ {id:'valkyrie',tier:5, name:'Valkyrie X-01',   style:'hyper', color:'#ff2e63', accent:'#0e0a12', price:7500000,pow:1350,grip:10100,shift:230, weight:2700},
+ {id:'solaris', tier:5, name:'Solaris One',     style:'hyper', color:'#ffd76e', accent:'#161006', price:12000000,pow:1600,grip:10800,shift:210,weight:2600},
+ {id:'phantom', tier:5, name:'Phantom Legend',  style:'hyper', color:'#c9a2ff', accent:'#120a1e', price:0, wheelOnly:true, pow:1800, grip:11400, shift:195, weight:2500},
+];
+const CARS_BY_ID = Object.fromEntries(CARS.map(c=>[c.id,c]));
+
+const UPGRADES = [
+ {id:'engine', name:'Engine',       fx:'+ Power',        pow:.060},
+ {id:'turbo',  name:'Turbo',        fx:'+ Power',        pow:.075},
+ {id:'intake', name:'Intake',       fx:'+ Power',        pow:.030},
+ {id:'nitrous',name:'Nitrous',      fx:'+ Nitro boost',  nitro:true},
+ {id:'body',   name:'Body',         fx:'− Weight',       weight:.035},
+ {id:'tires',  name:'Tires',        fx:'+ Grip',         grip:.055},
+ {id:'trans',  name:'Transmission', fx:'− Shift time',   shift:.055},
+];
+const CAT_IDS = UPGRADES.map(u=>u.id);
+const UPG_COST = (car, stage) => Math.round(car.price * 0.05 * Math.pow(1.85, stage) / 100) * 100 || (2000*Math.pow(2,stage));
+const FUSION_SLOT_REQ=[1,3,5];               // stage needed to unlock slot 1/2/3
+const FUSION_VAL={c:.25,r:.5,e:1.0};         // fraction of a stage each rarity adds
+const RARITY_NAME={c:'Common',r:'Rare',e:'Epic'};
+const RARITY_ICON={c:'🔩',r:'🔷',e:'🟣'};
+const PAINTS=['#d8dce4','#22262e','#e74c3c','#e8b12c','#3d7bd8','#20b2aa','#8d33d6','#ff5e3a','#3ddc84','#ff2e63','#f5f6f8','#7f7fff'];
+const WHEEL_STYLES=['6-Spoke','Y-Split','Mesh','Turbofan'];
+const DEFAULT_TUNE=()=>({tp:50,nos:50,fd:50});
+const blankUpg=()=>({engine:0,turbo:0,intake:0,nitrous:0,body:0,tires:0,trans:0});
+const blankSlots=()=>Object.fromEntries(CAT_IDS.map(c=>[c,[null,null,null]]));
+const blankParts=()=>Object.fromEntries(CAT_IDS.map(c=>[c,{c:0,r:0,e:0}]));
+const newOwnedCar=id=>({id, upg:blankUpg(), cos:{paint:null,wheels:0}, tune:DEFAULT_TUNE(), fslots:blankSlots()});
+
+/* ---- business (unchanged core) ---- */
+const SHOP_LEVELS=[
+ {name:'Backstreet Lockup',   cost:0,       mechSlots:1, driverSlots:0, contractTier:1, ic:'🔧', mult:1.0, desc:'A rented lockup with one bay and a leaky roof.'},
+ {name:'Tuning Bay',          cost:90000,   mechSlots:2, driverSlots:1, contractTier:2, ic:'🏚️', mult:1.4, desc:'Two lifts, real signage, and walk-in clients.'},
+ {name:'Performance Workshop',cost:450000,  mechSlots:3, driverSlots:2, contractTier:3, ic:'🏢', mult:2.0, desc:'Dyno-equipped workshop trusted by serious tuners.'},
+ {name:'Speed Emporium',      cost:2200000, mechSlots:4, driverSlots:3, contractTier:4, ic:'🏬', mult:3.0, desc:'A showroom floor, a race shop, and a waiting list.'},
+ {name:'Velocity Empire HQ',  cost:9500000, mechSlots:6, driverSlots:4, contractTier:5, ic:'🏙️', mult:4.5, desc:'The name every high-value client asks for first.'},
+];
+const EQUIPMENT=[
+ {id:'lift',   name:'Hydraulic Lifts', ic:'🛠️', base:25000,  fx:'Mechanic income +20% per level', maxLvl:5},
+ {id:'dyno',   name:'Dyno Cell',       ic:'📈', base:60000,  fx:'Contracts complete 12% faster per level', maxLvl:5},
+ {id:'paint',  name:'Paint Booth',     ic:'🎨', base:45000,  fx:'Contract payouts +15% per level', maxLvl:5},
+ {id:'printer',name:'Parts Fabricator',ic:'⚙️', base:150000, fx:'+1 Fortune key every 10 min per level', maxLvl:3},
+];
+const STAFF_FIRST=['Priya','Marco','Tess','Yusuf','Anya','Cole','Renata','Hiro','Bex','Otto','Sana','Leo','Wren','Dmitri','Carmen','Ade','Nora','Felix','Zia','Gus'];
+const STAFF_LAST=['Okafor','Reyes','Lindqvist','Tanaka','Moreau','Bishop','Kaur','Volkov','Achebe','Delgado','Novak','Marsh','Ito','Quinn','Haas'];
+const MECH_HIRE = n => Math.round(15000*Math.pow(3.1,n));
+const DRIVER_HIRE = n => Math.round(40000*Math.pow(3.4,n));
+const TRAIN_COST = lvl => Math.round(8000*Math.pow(2.6,lvl));
+const CONTRACTS=[
+ {tier:1,name:'Commuter Tune-Up',     desc:'A tired hatchback needs new plugs and a remap.', time:45,  pay:4000,   rep:8,  mechs:1},
+ {tier:1,name:'Brake Overhaul',       desc:'Full pads, rotors and lines for a daily driver.',time:70,  pay:7000,   rep:12, mechs:1},
+ {tier:2,name:'Stage 2 Street Build', desc:'Turbo swap and supporting mods for a local racer.',time:110,pay:20000,  rep:30, mechs:2},
+ {tier:2,name:'Show Car Respray',     desc:'Concours-grade paint for a collector.',           time:150,pay:34000,  rep:45, mechs:2},
+ {tier:3,name:'Track Day Prep',       desc:'Cage, coilovers and slicks for a club racer.',    time:200,pay:85000,  rep:110,mechs:3},
+ {tier:3,name:'Classic Restomod',     desc:'A barn-find muscle car reborn with modern guts.', time:260,pay:140000, rep:170,mechs:3},
+ {tier:4,name:'Supercar Service',     desc:'A skittish exotic owner wants white-glove work.', time:320,pay:340000, rep:380,mechs:4},
+ {tier:4,name:'One-Off Widebody',     desc:'Custom carbon widebody for a magazine feature.',  time:400,pay:520000, rep:520,mechs:4},
+ {tier:5,name:'Hypercar Homologation',desc:'Certify a limited-run hypercar for street use.',  time:520,pay:1400000,rep:1300,mechs:5},
+];
+const SPONSORS=[
+ {id:'sp1', rep:600,     name:'GripKing Tires',    ic:'🛞', a:{t:'+15% race winnings',k:'race',v:.15},  b:{t:'+15% shop income',k:'shop',v:.15}},
+ {id:'sp2', rep:4000,    name:'Nitrolux Fuels',    ic:'🧪', a:{t:'+20% race winnings',k:'race',v:.20},  b:{t:'Contracts pay +25%',k:'contract',v:.25}},
+ {id:'sp3', rep:18000,   name:'Helix Streaming',   ic:'📺', a:{t:'+2× rep on wins',k:'rep',v:1.0},      b:{t:'+25% shop income',k:'shop',v:.25}},
+ {id:'sp4', rep:70000,   name:'Titanium Bank',     ic:'🏦', a:{t:'+30% race winnings',k:'race',v:.30},  b:{t:'Driver income +40%',k:'driver',v:.40}},
+ {id:'sp5', rep:250000,  name:'Orbital Motorsport',ic:'🛰️', a:{t:'+40% ALL income',k:'all',v:.40},      b:{t:'1 free Fortune key per 5 min',k:'keys',v:1}},
+];
+const RIVAL_FIRST=['Nyx','Dax','Rico','Mala','Juno','Kade','Suki','Bram','Ivy','Ozzy','Lena','Turk','Nova','Rush','Echo','Vex','Miko','Sable','Jett','Rook'];
+const RIVAL_CREW=['Night Owls','Redline Saints','Vandal Kings','Chrome Circus','Low Orbit','Ghost Mile','Static Crew','Iron Halo','Neon Cartel','Blacktop Union'];
+
+const PRIZES=[
+ {id:'c1', ic:'💵', nm:'Cash Stack',      rar:'c', w:22},
+ {id:'c2', ic:'💰', nm:'Cash Crate',      rar:'c', w:13},
+ {id:'g1', ic:'◆',  nm:'Gold ×20',        rar:'c', w:12},
+ {id:'k1', ic:'⚿',  nm:'Fortune Key',     rar:'c', w:9},
+ {id:'f1', ic:'📦', nm:'Fusion Crate',    rar:'r', w:18},
+ {id:'r2', ic:'💎', nm:'Gold ×120',       rar:'r', w:8},
+ {id:'e1', ic:'🧬', nm:'Stage-6 Elite',   rar:'e', w:7},
+ {id:'e2', ic:'🏆', nm:'Jackpot Cash',    rar:'e', w:5},
+ {id:'l1', ic:'🔮', nm:'PHANTOM LEGEND',  rar:'l', w:1},
+ {id:'l2', ic:'👑', nm:'Gold ×600',       rar:'l', w:2},
+];
+
+/* =====================================================================
+   state + save/migrate
+===================================================================== */
+const DEFAULT_STATE = () => ({
+  v:4,
+  cash:45000, gold:60, keys:3, rep:0,
+  cars:[newOwnedCar('vulpes')],
+  activeCar:0,
+  racesWon:{},
+  shopLvl:0,
+  equip:{lift:0,dyno:0,paint:0,printer:0},
+  mechs:[], drivers:[],
+  contract:null,
+  sponsors:{},
+  parts:blankParts(),
+  stats:{races:0, wins:0, spins:0, earned:0},
+  lastSeen:Date.now(),
+  sfx:true,
+  tutorial:{garage:false, race:false, biz:false, fortune:false},
+});
+let S = DEFAULT_STATE();
+let storageOK = true;
+
+function migrate(d){
+  if(!d) return null;
+  if(d.v===3){
+    d.v=4;
+    d.parts=blankParts();
+    for(const c of (d.cars||[])){
+      c.cos=c.cos||{paint:null,wheels:0};
+      c.tune=c.tune||DEFAULT_TUNE();
+      c.fslots=c.fslots||blankSlots();
+      const n=c.fused||0; delete c.fused;
+      for(let i=0;i<n;i++) d.parts[pick(CAT_IDS)].e++;
+    }
+  }
+  if(d.v===4){
+    for(const c of d.cars){ // defensive fill
+      c.upg=Object.assign(blankUpg(),c.upg);
+      c.cos=c.cos||{paint:null,wheels:0};
+      c.tune=Object.assign(DEFAULT_TUNE(),c.tune);
+      c.fslots=Object.assign(blankSlots(),c.fslots);
+    }
+    return d;
+  }
+  return null;
+}
+/* Universal persistence: works inside Claude (artifact storage), on any
+   normal web host (localStorage), and degrades to session memory. */
+const store={
+  _m:{}, mode:'memory',
+  async get(k){
+    try{ if(window.storage&&window.storage.get){ const r=await window.storage.get(k);
+      if(r&&r.value!=null){ this.mode='cloud'; return r.value; } } }catch(e){}
+    try{ if(window.localStorage){ const v=localStorage.getItem(k);
+      if(v!=null){ this.mode='local'; return v; } } }catch(e){}
+    return (k in this._m)? this._m[k] : null;
+  },
+  async set(k,v){
+    let ok=false;
+    try{ if(window.storage&&window.storage.set){ await window.storage.set(k,v); ok=true; this.mode='cloud'; } }catch(e){}
+    if(!ok){ try{ if(window.localStorage){ localStorage.setItem(k,v); ok=true; this.mode='local'; } }catch(e){} }
+    this._m[k]=v;
+    return ok;
+  },
+  async del(k){
+    try{ if(window.storage&&window.storage.delete) await window.storage.delete(k); }catch(e){}
+    try{ if(window.localStorage) localStorage.removeItem(k); }catch(e){}
+    delete this._m[k];
+  }
+};
+async function saveGame(){
+  S.lastSeen=Date.now();
+  storageOK = await store.set('apex-save', JSON.stringify(S));
+}
+async function loadGame(){
+  try{
+    const v=await store.get('apex-save');
+    if(v){
+      const d=migrate(JSON.parse(v));
+      if(d){ S=Object.assign(DEFAULT_STATE(), d); return true; }
+    }
+  }catch(e){}
+  return false;
+}
+
+/* =====================================================================
+   car stats (feeds physics)
+===================================================================== */
+function effStage(owned, uid){
+  const base=owned.upg[uid]||0;
+  const slots=(owned.fslots&&owned.fslots[uid])||[];
+  return base + slots.reduce((a,r)=>a+(FUSION_VAL[r]||0),0);
+}
+function tpOptOf(defId){ let h=0; for(const ch of defId) h+=ch.charCodeAt(0); return 30+(h%41); }
+function carStats(owned){
+  const base=CARS_BY_ID[owned.id];
+  let pow=base.pow, grip=base.grip, shift=base.shift, weight=base.weight;
+  for(const u of UPGRADES){
+    const st=effStage(owned,u.id);
+    if(u.pow)    pow    += base.pow*u.pow*st;
+    if(u.grip)   grip   += base.grip*u.grip*st;
+    if(u.shift)  shift  -= base.shift*u.shift*st*0.9;
+    if(u.weight) weight -= base.weight*u.weight*st;
+  }
+  const nstage=effStage(owned,'nitrous');
+  const pp=Math.round(pow*0.9 + grip*0.05 + (900-shift)*0.45 - weight*0.04 + nstage*30);
+  return {pow:Math.round(pow), grip:Math.round(grip), shift:Math.max(90,Math.round(shift)),
+          weight:Math.round(weight), nstage, tpOpt:tpOptOf(base.id), pp};
+}
+const activeCar=()=>S.cars[S.activeCar];
+const activeStats=()=>carStats(activeCar());
+const bestCarPP=()=>Math.max(...S.cars.map(c=>carStats(c).pp));
+
+/* =====================================================================
+   PHYSICS — shared by the live race, the dyno estimate, and event balance
+   Force model: engine power vs traction cap, aero drag, gear ratios.
+===================================================================== */
+const QUARTER=402;                       // meters
+const G_FRAC=[0.15,0.25,0.38,0.53,0.72,1.0];
+function fdMult(tune){ return 1.15 - (tune.fd/100)*0.30; }   // right = shorter gears
+function makeSim(st, tune){
+  const vTop=Math.max(45, 22*Math.log(st.pow)-57) * fdMult(tune);
+  return {v:0,x:0,t:0,gear:1,rpm:2600,deadUntil:-1,
+    nitroUsed:false,nitroUntil:-1,nitroPow:0,
+    spinUntil:-1,bogUntil:-1,vTop,done:false,et:0};
+}
+const gearTop=(s,g)=>s.vTop*G_FRAC[g-1];
+const rpmOf=s=>1200 + 7800*clamp(s.v/gearTop(s,s.gear),0,1.03);
+function engineEff(rpm){
+  if(rpm<1500) return .5;
+  if(rpm<=7200) return .5 + .5*(rpm-1500)/5700;
+  if(rpm<=8400) return 1.0;
+  return .62;                                  // banging the limiter
+}
+function tracMult(st,tune){ return Math.max(.90, 1.05 - .003*Math.abs(tune.tp-st.tpOpt)); }
+function stepSim(s, st, tune, dt){
+  if(s.done) return;
+  s.t+=dt;
+  let F=0;
+  if(s.t>=s.deadUntil){
+    let eff=engineEff(s.rpm);
+    if(s.t<s.bogUntil) eff*=.45;
+    let hp=st.pow*eff;
+    if(s.t<s.nitroUntil) hp+=s.nitroPow;
+    F=hp*745.7/Math.max(s.v,5);
+  }
+  const Ftrac=st.grip*3.2*tracMult(st,tune)*(s.t<s.spinUntil?.62:1);
+  F=Math.min(F,Ftrac) - .45*s.v*s.v - 180;
+  s.v=Math.max(0, s.v + (F/(st.weight*.4536))*dt);
+  s.x+=s.v*dt;
+  s.rpm=rpmOf(s);
+  if(s.x>=QUARTER){ s.done=true; s.et=s.t - (s.x-QUARTER)/Math.max(s.v,1); }
+}
+function simShift(s, st, quality){        // 'perfect' | 'good' | 'poor'
+  if(s.gear>=6) return;
+  s.gear++;
+  s.deadUntil=s.t + (st.shift/1000)*(quality==='perfect'?.45:quality==='good'?.8:1.15);
+  s.rpm=rpmOf(s);
+}
+function fireNitro(s, st, tune){
+  if(s.nitroUsed || st.nstage<=0) return false;
+  s.nitroUsed=true;
+  const p=.6+(tune.nos/100)*1.2;
+  s.nitroPow=st.pow*(.08+.05*st.nstage)*p;
+  s.nitroUntil=s.t + 3.5*(.6+((100-tune.nos)/100)*1.2);
+  return true;
+}
+function simulateET(st, tune, mode){      // autopilot: 'good' | 'perfect'
+  const s=makeSim(st,tune);
+  if(mode==='perfect') s.v=1.5;
+  const dt=1/120;
+  while(!s.done && s.t<30){
+    if(s.t>=s.deadUntil && s.gear<6 && s.rpm>=7600) simShift(s,st, mode==='perfect'?'perfect':'good');
+    if(!s.nitroUsed && st.nstage>0 && s.gear>=3) fireNitro(s,st,tune);
+    stepSim(s,st,tune,dt);
+  }
+  return s.done? s.et : 30;
+}
+const stockStats=id=>carStats(newOwnedCar(id));
+function stage5Stats(id){ const c=newOwnedCar(id); for(const k of CAT_IDS) c.upg[k]=5; return carStats(c); }
+
+/* ---- events, self-calibrated against the physics ---- */
+let EVENTS=[];
+function buildEvents(){
+  EVENTS=[];
+  for(let t=1;t<=5;t++){
+    const tierCars=CARS.filter(c=>c.tier===t && !c.wheelOnly);
+    const entry=tierCars.reduce((a,b)=>a.price<b.price?a:b);          // cheapest = entry car
+    const best =tierCars.reduce((a,b)=>simulateET(stockStats(a.id),DEFAULT_TUNE(),'good')<simulateET(stockStats(b.id),DEFAULT_TUNE(),'good')?a:b);
+    const entryPerfect=simulateET(stockStats(entry.id),DEFAULT_TUNE(),'perfect');
+    const maxedPerfect=simulateET(stage5Stats(best.id),DEFAULT_TUNE(),'perfect');
+    const race0=entryPerfect+0.15, bossET=maxedPerfect+0.12, lastReg=bossET+0.30;
+    const n=8, races=[];
+    for(let i=0;i<n;i++){
+      races.push({
+        id:`t${t}r${i}`, tier:t, idx:i,
+        name:`${RIVAL_FIRST[(t*7+i*3)%RIVAL_FIRST.length]} “${RIVAL_CREW[(t*3+i)%RIVAL_CREW.length]}”`,
+        et:+(race0+(lastReg-race0)*i/(n-1)).toFixed(2), boss:false,
+        cash:Math.round((t===1?2600:t===2?9000:t===3?26000:t===4?70000:190000)*(1+i*0.28)/100)*100,
+        rep:Math.round(t*t*14*(1+i*0.3)),
+      });
+    }
+    races.push({
+      id:`t${t}boss`, tier:t, idx:n, boss:true,
+      name:`${['“Wrench” Marta','Deacon Cross','Yumi Kurogane','Baron Volt','The Architect'][t-1]} — Tier Boss`,
+      et:+bossET.toFixed(2),
+      cash:Math.round((t===1?18000:t===2?60000:t===3?170000:t===4?450000:1200000)/100)*100,
+      rep:t*t*140, keys:2, gold:t*25,
+    });
+    EVENTS.push({tier:t, races});
+  }
+  for(const c of CARS) c.stockET=simulateET(stockStats(c.id),DEFAULT_TUNE(),'good');
+}
+
+/* =====================================================================
+   income + multipliers
+===================================================================== */
+function sponsorMult(kind){
+  let m=1;
+  for(const sp of SPONSORS){
+    const ch=S.sponsors[sp.id]; if(!ch) continue;
+    const deal=sp[ch];
+    if(deal.k===kind || deal.k==='all') m+=deal.v;
+  }
+  return m;
+}
+function mechIncome(){
+  const shop=SHOP_LEVELS[S.shopLvl];
+  let inc=0;
+  for(const m of S.mechs) inc+=14*(1+m.lvl*0.6);
+  return inc*shop.mult*(1+S.equip.lift*0.20)*sponsorMult('shop');
+}
+function driverIncome(){
+  let inc=0;
+  const pp=S.cars.length?bestCarPP():0;
+  for(const d of S.drivers) inc+=(pp*0.055)*(1+d.lvl*0.5);
+  return inc*sponsorMult('driver')*sponsorMult('shop');
+}
+function driverRep(){ return S.drivers.reduce((a,d)=>a+0.05*(1+d.lvl*0.4),0); }
+
+/* =====================================================================
+   CAR RENDERER — detailed side profiles, cosmetics, stage-based mods
+   Cars face LEFT by default (headlights at x≈60). flip=true for racing.
+===================================================================== */
+let svgUid=0;
+const DECOR={ // per-style anchor points for visual mods
+  hatch: {hood:[78,88], wing:[448,96],  stripe:[70,120,468], skirtY:142, exhX:462},
+  coupe: {hood:[84,94], wing:[452,98],  stripe:[64,122,470], skirtY:142, exhX:466},
+  muscle:{hood:[92,96], wing:[452,100], stripe:[60,124,472], skirtY:144, exhX:468},
+  super: {hood:[100,104],wing:[446,90], stripe:[52,126,470], skirtY:144, exhX:470},
+  hyper: {hood:[104,102],wing:[440,84], stripe:[48,128,476], skirtY:144, exhX:474},
+};
+function wheelSVG(x, style, big, lipColor){
+  const R = big?32:30, rim=big?19:17;
+  let spokes='';
+  if(style===1){ // Y-split 5-spoke
+    spokes=[0,72,144,216,288].map(d=>{const a=d*Math.PI/180;
+      return `<path d="M${x} 150 L${x+rim*Math.cos(a-.18)} ${150+rim*Math.sin(a-.18)} L${x+rim*Math.cos(a+.18)} ${150+rim*Math.sin(a+.18)} Z" fill="#9aa5ba"/>`;}).join('');
+  } else if(style===2){ // mesh
+    spokes=Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180;
+      return `<line x1="${x}" y1="150" x2="${x+rim*Math.cos(a)}" y2="${150+rim*Math.sin(a)}" stroke="#8b93a5" stroke-width="1.6"/>`;}).join('');
+  } else if(style===3){ // turbofan disc
+    spokes=`<circle cx="${x}" cy="150" r="${rim-1}" fill="#2c3242"/>
+      <circle cx="${x}" cy="150" r="${rim-1}" fill="none" stroke="#9aa5ba" stroke-width="1"/>
+      ${[30,150,270].map(d=>{const a=d*Math.PI/180;return `<circle cx="${x+(rim-7)*Math.cos(a)}" cy="${150+(rim-7)*Math.sin(a)}" r="2.4" fill="#0b0d12"/>`;}).join('')}`;
+  } else { // 6-spoke
+    spokes=[0,60,120,180,240,300].map(d=>{const a=d*Math.PI/180;
+      return `<line x1="${x}" y1="150" x2="${x+(rim-2)*Math.cos(a)}" y2="${150+(rim-2)*Math.sin(a)}" stroke="#8b93a5" stroke-width="3" stroke-linecap="round"/>`;}).join('');
+  }
+  return `<circle cx="${x}" cy="150" r="${R}" fill="#0b0d12"/>
+    <circle cx="${x}" cy="150" r="${R-1}" fill="#14171f" stroke="#000" stroke-width="2"/>
+    ${lipColor?`<circle cx="${x}" cy="150" r="${rim+3}" fill="none" stroke="${lipColor}" stroke-width="2"/>`:''}
+    <circle cx="${x}" cy="150" r="${rim}" fill="#20242e"/>
+    ${spokes}
+    <circle cx="${x}" cy="150" r="5" fill="#c9d2e2"/>`;
+}
+function carSVG(def, owned, opts={}){
+  const upg = owned? owned.upg : blankUpg();
+  const cos = owned? owned.cos : {paint:null,wheels:0};
+  const c = (cos&&cos.paint)||def.color, a=def.accent||'#111';
+  const uid='u'+(svgUid++);
+  const flip = opts.flip? 'transform="translate(560,0) scale(-1,1)"':'';
+  const D=DECOR[def.style]||DECOR.coupe;
+  const bigTires=(upg.tires||0)>=3;
+  const lip=bigTires? '#ffb020':null;
+  const shine=`<linearGradient id="sh${uid}" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".35" stop-color="#fff" stop-opacity=".06"/>
+    <stop offset=".36" stop-color="#000" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>`;
+  let body='';
+  if(def.style==='hatch') body=`
+    <path d="M60 148 L64 118 Q70 96 108 88 L150 62 Q160 54 185 52 L305 52 Q330 54 345 70 L390 100 Q440 106 462 118 Q474 126 474 140 L470 148 L430 150 A34 34 0 0 0 362 150 L168 150 A34 34 0 0 0 100 150 Z" fill="${c}"/>
+    <path d="M158 88 L186 64 Q192 60 204 60 L232 60 L232 88 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M244 60 L300 60 Q318 62 330 74 L344 88 L244 88 Z" fill="#0e1622" opacity=".92"/>`;
+  else if(def.style==='coupe') body=`
+    <path d="M52 146 L58 122 Q66 108 112 100 L158 66 Q172 54 200 52 L300 52 Q334 54 356 74 L392 102 Q450 108 468 122 Q478 130 476 142 L470 148 L436 150 A34 34 0 0 0 368 150 L166 150 A34 34 0 0 0 98 150 Z" fill="${c}"/>
+    <path d="M168 96 L200 66 Q206 60 220 60 L252 60 L252 96 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M264 60 L306 60 Q330 62 348 80 L364 96 L264 96 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M52 146 L58 122 Q60 116 70 112 L76 146 Z" fill="${a}" opacity=".85"/>`;
+  else if(def.style==='muscle') body=`
+    <path d="M48 146 L52 120 Q58 106 100 102 L146 72 Q160 58 196 56 L316 56 Q352 58 372 78 L402 104 Q456 110 472 122 Q482 132 478 144 L470 150 L438 150 A34 34 0 0 0 370 150 L164 150 A34 34 0 0 0 96 150 Z" fill="${c}"/>
+    <rect x="196" y="46" width="130" height="12" rx="4" fill="${a}"/>
+    <path d="M158 100 L194 70 Q200 64 214 64 L246 64 L246 100 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M258 64 L312 64 Q338 66 356 86 L368 100 L258 100 Z" fill="#0e1622" opacity=".92"/>`;
+  else if(def.style==='super') body=`
+    <path d="M40 148 L46 128 Q54 116 110 110 L164 76 Q186 58 226 56 L318 58 Q360 62 386 86 L412 108 Q462 112 476 124 Q486 134 480 146 L470 150 L440 150 A32 32 0 0 0 376 150 L162 150 A32 32 0 0 0 98 150 Z" fill="${c}"/>
+    <path d="M176 104 L222 70 Q230 64 246 64 L282 64 L282 104 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M294 64 L322 66 Q352 70 374 94 L384 104 L294 104 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M418 96 L470 96 L478 112 L424 106 Z" fill="${a}"/>
+    <rect x="392" y="84" width="8" height="26" fill="${a}"/>`;
+  else body=`
+    <path d="M36 148 L44 130 Q54 118 116 114 L176 80 Q202 60 246 58 L330 62 Q372 68 396 92 L418 112 Q466 116 478 128 Q488 138 480 148 L470 150 L442 150 A32 32 0 0 0 378 150 L160 150 A32 32 0 0 0 96 150 Z" fill="${c}"/>
+    <path d="M190 108 L242 72 Q252 66 268 66 L300 68 L298 108 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M310 68 L336 70 Q366 76 388 100 L394 108 L310 108 Z" fill="#0e1622" opacity=".92"/>
+    <path d="M404 88 L482 92 L488 106 L410 102 Z" fill="${a}"/>
+    <rect x="386" y="76" width="9" height="30" fill="${a}"/>
+    <path d="M36 148 L44 130 Q46 126 56 124 L60 148 Z" fill="${a}"/>`;
+
+  /* --- detail layer: door seam, handle, mirror, splitter, exhaust --- */
+  let detail=`
+    <path d="M250 ${def.style==='hyper'||def.style==='super'?'108':'92'} L252 146" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none"/>
+    <rect x="262" y="${def.style==='hyper'||def.style==='super'?'116':'104'}" width="16" height="4" rx="2" fill="rgba(0,0,0,.45)"/>
+    <rect x="${D.stripe[0]-4}" y="${D.skirtY+2}" width="${D.stripe[2]-D.stripe[0]+8}" height="4" rx="2" fill="rgba(0,0,0,.5)"/>
+    <circle cx="${D.exhX}" cy="146" r="3.4" fill="#2a2f3c" stroke="#565f74" stroke-width="1.4"/>
+    ${(carStatsPow(def,upg)>500)?`<circle cx="${D.exhX-10}" cy="146" r="3.4" fill="#2a2f3c" stroke="#565f74" stroke-width="1.4"/>`:''}
+    <path d="M168 ${def.style==='hyper'?'86':'74'} l-9 -7 l-4 4 z" fill="${a}"/>`;
+
+  /* --- stage-based visual mods --- */
+  let mods='';
+  if((upg.turbo||0)>=3) mods+=`<path d="M${D.hood[0]} ${D.hood[1]} h46 l-7 -11 h-32 Z" fill="${a}" stroke="rgba(0,0,0,.4)"/>`; // hood scoop
+  if((upg.engine||0)>=5) mods+=`<path d="M62 ${D.hood[1]+18} L${D.hood[0]+66} ${D.hood[1]+14} L${D.hood[0]+62} ${D.hood[1]-4} L84 ${D.hood[1]+2} Z" fill="#171a21" opacity=".88"/>`; // carbon hood
+  if((upg.body||0)>=2) mods+=`<rect x="${D.stripe[0]}" y="${D.stripe[1]}" width="${D.stripe[2]-D.stripe[0]}" height="6" rx="3" fill="${a}" opacity=".9"/>`; // side stripe
+  if((upg.body||0)>=4) mods+=`
+    <rect x="${D.wing[0]-4}" y="${D.wing[1]-16}" width="6" height="18" fill="#171a21"/>
+    <rect x="${D.wing[0]+26}" y="${D.wing[1]-16}" width="6" height="18" fill="#171a21"/>
+    <path d="M${D.wing[0]-18} ${D.wing[1]-16} L${D.wing[0]+52} ${D.wing[1]-20} L${D.wing[0]+52} ${D.wing[1]-13} L${D.wing[0]-18} ${D.wing[1]-9} Z" fill="${a}"/>`; // GT wing
+  if((upg.nitrous||0)>=1) mods+=`<g><rect x="292" y="120" width="9" height="17" rx="4" fill="#1e9fb5"/><rect x="294" y="117" width="5" height="4" fill="#38d6e8"/></g>`; // NOS bottle decal
+
+  return `<svg class="carsvg" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg">
+    ${shine}
+    <g ${flip}>
+      <ellipse cx="270" cy="176" rx="220" ry="12" fill="#000" opacity=".4"/>
+      ${body}${detail}${mods}
+      <path d="M50 150 L474 150 L474 118 Q300 96 60 122 Z" fill="url(#sh${uid})" opacity=".8" style="mix-blend-mode:screen" pointer-events="none"/>
+      <rect x="60" y="128" width="26" height="9" rx="4" fill="#ffd9a0" opacity=".95"/>
+      <rect x="452" y="126" width="18" height="9" rx="4" fill="#ff5a5a"/>
+      ${wheelSVG(134, cos.wheels||0, bigTires, lip)} ${wheelSVG(404, cos.wheels||0, bigTires, lip)}
+    </g></svg>`;
+}
+function carStatsPow(def,upg){ return def.pow*(1+.06*(upg.engine||0)+.075*(upg.turbo||0)+.03*(upg.intake||0)); }
+
+/* =====================================================================
+   BUSINESS SCENE — the shop you can watch grow
+===================================================================== */
+function bizSVG(){
+  const lvl=S.shopLvl, shop=SHOP_LEVELS[lvl];
+  const W=960,H=300, ground=252;
+  const bw=300+lvl*130, bx=(W-bw-170)/2>30?(W-bw-170)/2:30, bh=182, by=ground-bh;
+  const bays=shop.mechSlots;
+  let g='';
+  // sky details
+  g+=`<circle cx="${W-90}" cy="52" r="17" fill="#f4f0dc" opacity=".9"/><circle cx="${W-97}" cy="48" r="15" fill="#0d1526"/>`;
+  for(let i=0;i<5;i++) g+=`<circle cx="${60+i*190}" cy="${26+(i%3)*14}" r="1.4" fill="#8b99b8" opacity=".7"/>`;
+  // ground
+  g+=`<rect x="0" y="${ground}" width="${W}" height="${H-ground}" fill="#131a2b"/>
+      <line x1="0" y1="${ground}" x2="${W}" y2="${ground}" stroke="#2a3a5c" stroke-width="2"/>`;
+  // building shell
+  g+=`<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" fill="#1a2540" stroke="#3a4d78" stroke-width="2" rx="4"/>
+      <rect x="${bx}" y="${by}" width="${bw}" height="26" fill="#141d31" stroke="#3a4d78" stroke-width="2" rx="4"/>
+      <text x="${bx+bw/2}" y="${by+18}" fill="#ffb020" font-size="14" font-weight="900" font-style="italic" text-anchor="middle" letter-spacing="2">${shop.name.toUpperCase()}</text>`;
+  // windows on upper band for bigger shops
+  if(lvl>=2){ for(let i=0;i<Math.floor(bw/70)-1;i++)
+    g+=`<rect x="${bx+22+i*70}" y="${by+34}" width="44" height="16" rx="2" fill="#22314f" stroke="#3a4d78"/>`; }
+  // service bays with lifts
+  const bayW=Math.min(120,(bw-160)/bays);
+  for(let i=0;i<bays;i++){
+    const x=bx+18+i*bayW;
+    const hasLift=S.equip.lift>0;
+    const postCol=hasLift?'#ffb020':'#3a4d78';
+    const working=i<S.mechs.length;
+    const platY=working?ground-52:ground-14;
+    g+=`<rect x="${x}" y="${by+58}" width="${bayW-14}" height="${bh-64}" fill="#101828" stroke="#263453" rx="3"/>`;
+    g+=`<rect x="${x+8}" y="${by+66}" width="6" height="${ground-by-72}" fill="${postCol}"/>
+        <rect x="${x+bayW-28}" y="${by+66}" width="6" height="${ground-by-72}" fill="${postCol}"/>`;
+    g+=`<rect x="${x+6}" y="${platY}" width="${bayW-24}" height="5" fill="${hasLift?'#e08900':'#4a5877'}"/>`;
+    if(working){ // client car on the lift + mechanic
+      const cy=platY-14;
+      g+=`<g><path d="M${x+12} ${cy+10} q4 -9 16 -10 l22 -1 q13 1 17 11 z" fill="${['#7d8aa8','#a85c5c','#5c84a8','#8aa85c','#a88a5c','#8a5ca8'][i%6]}"/>
+          <circle cx="${x+22}" cy="${cy+11}" r="4.6" fill="#0b0d12"/><circle cx="${x+52}" cy="${cy+11}" r="4.6" fill="#0b0d12"/></g>`;
+      g+=`<text x="${x+bayW/2-6}" y="${ground-6}" font-size="17" text-anchor="middle">🧑‍🔧</text>`;
+      g+=`<text x="${x+bayW-34}" y="${by+80}" font-size="10" opacity=".8">💨</text>`;
+    } else {
+      g+=`<text x="${x+bayW/2-6}" y="${ground-10}" font-size="9" fill="#5a6885" text-anchor="middle" font-weight="700">EMPTY BAY</text>`;
+    }
+  }
+  // equipment corner (right side of interior)
+  let ex=bx+bw-136;
+  const eqY=by+62;
+  const drawEq=(owned,lvlN,maxN,label,inner)=>{
+    const col=owned?'#3a4d78':'#263453';
+    let s=`<g opacity="${owned?1:.35}"><rect x="${ex}" y="${eqY}" width="56" height="44" rx="4" fill="#101828" stroke="${col}" stroke-width="1.6" ${owned?'':'stroke-dasharray="4 3"'}/>${inner}
+      <text x="${ex+28}" y="${eqY+58}" font-size="8" fill="#8b99b8" text-anchor="middle" font-weight="700">${label}</text>`;
+    if(owned){ for(let i=0;i<maxN;i++) s+=`<rect x="${ex+6+i*10}" y="${eqY-8}" width="7" height="4" rx="1" fill="${i<lvlN?'#ffb020':'#263453'}"/>`; }
+    s+='</g>'; ex+=66; return s;
+  };
+  const dynoInner=`<polyline points="${ex+8},${eqY+30} ${ex+16},${eqY+16} ${ex+26},${eqY+34} ${ex+36},${eqY+12} ${ex+48},${eqY+26}" fill="none" stroke="#38d6e8" stroke-width="2"/>`;
+  g+=drawEq(S.equip.dyno>0,S.equip.dyno,5,'DYNO',dynoInner);
+  const paintInner=`<text x="${ex+28}" y="${eqY+32}" font-size="19" text-anchor="middle">🎨</text>`;
+  g+=drawEq(S.equip.paint>0,S.equip.paint,5,'PAINT',paintInner);
+  if(lvl>=1){
+    const fabInner=`<text x="${ex+28}" y="${eqY+32}" font-size="19" text-anchor="middle">⚙️</text>`;
+    g+=drawEq(S.equip.printer>0,S.equip.printer,3,'FABRICATOR',fabInner);
+  }
+  // driver crew outside with your best car
+  if(S.drivers.length){
+    const dx=bx+bw+26;
+    g+=`<g><path d="M${dx} ${ground-14} q6 -14 24 -15 l34 -2 q20 2 26 17 z" fill="#ffb020"/>
+      <circle cx="${dx+16}" cy="${ground-12}" r="7" fill="#0b0d12"/><circle cx="${dx+64}" cy="${ground-12}" r="7" fill="#0b0d12"/></g>`;
+    const dn=Math.min(3,S.drivers.length);
+    for(let i=0;i<dn;i++)
+      g+=`<text x="${dx+92+i*22}" y="${ground-6}" font-size="17">🏎️</text>`;
+    if(S.drivers.length>3) g+=`<text x="${dx+92+dn*22}" y="${ground-10}" font-size="10" fill="#8b99b8" font-weight="800">+${S.drivers.length-3}</text>`;
+    g+=`<text x="${dx+40}" y="${ground-38}" font-size="9" fill="#38d6e8" font-weight="800" text-anchor="middle">RACE CREW</text>`;
+  }
+  // contract activity banner
+  if(S.contract!==null){
+    g+=`<text x="${bx+bw/2}" y="${by-8}" font-size="10" fill="#3ddc84" font-weight="800" text-anchor="middle">● JOB IN PROGRESS — ${CONTRACTS[S.contract.idx].name.toUpperCase()}</text>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Your workshop">${g}</svg>`;
+}
+
+/* =====================================================================
+   generic UI
+===================================================================== */
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+function toast(msg, kind=''){
+  const t=document.createElement('div');
+  t.className='toast '+kind; t.textContent=msg;
+  $('#toasts').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0'; t.style.transition='opacity .4s'; setTimeout(()=>t.remove(),400)},2600);
+}
+function modal(html){ $('#modal').innerHTML=html; $('#modal-veil').classList.add('on'); }
+function closeModal(){ $('#modal-veil').classList.remove('on'); }
+$('#modal-veil').addEventListener('click',e=>{ if(e.target.id==='modal-veil') closeModal(); });
+
+let AC=null;
+function sfx(type){
+  if(!S.sfx) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(), g=AC.createGain();
+    o.connect(g); g.connect(AC.destination);
+    const now=AC.currentTime;
+    const conf={
+      click:[520,.05,'square',.05], buy:[760,.12,'triangle',.09], win:[880,.4,'triangle',.12],
+      lose:[180,.35,'sawtooth',.08], shift:[980,.06,'square',.07], bad:[140,.12,'sawtooth',.09],
+      spin:[420,.08,'square',.05], jackpot:[1200,.5,'triangle',.14]
+    }[type]||[440,.1,'sine',.06];
+    o.type=conf[2]; o.frequency.setValueAtTime(conf[0],now);
+    if(type==='win'||type==='jackpot') o.frequency.exponentialRampToValueAtTime(conf[0]*1.8,now+conf[1]);
+    if(type==='lose') o.frequency.exponentialRampToValueAtTime(90,now+conf[1]);
+    g.gain.setValueAtTime(conf[3],now); g.gain.exponentialRampToValueAtTime(.0001,now+conf[1]);
+    o.start(now); o.stop(now+conf[1]+.02);
+  }catch(e){}
+}
+
+function renderHUD(){
+  $('#hud-cash').textContent='$'+fmt(S.cash);
+  $('#hud-gold').textContent=fmt(S.gold);
+  $('#hud-keys').textContent=fmt(S.keys);
+  $('#hud-rep').textContent=fmt(S.rep);
+  $('#hud-shop').textContent=SHOP_LEVELS[S.shopLvl].name;
+  const inc=mechIncome()+driverIncome();
+  $('#hud-income').textContent = inc>0 ? '$'+fmt(inc)+'/s passive' : 'No passive income yet';
+}
+let curScreen='garage';
+function show(screen){
+  curScreen=screen;
+  $$('.nav-btn').forEach(b=>b.classList.toggle('on', b.dataset.s===screen));
+  $$('.screen').forEach(s=>s.classList.toggle('on', s.id==='s-'+screen));
+  ({garage:renderGarage, dealer:renderDealer, race:renderRace, biz:renderBiz, fortune:renderFortune})[screen]();
+  $('#main').scrollTop=0;
+}
+$$('.nav-btn').forEach(b=>b.addEventListener('click',()=>{sfx('click'); show(b.dataset.s);}));
+$('#btn-settings').addEventListener('click',()=>{
+  modal(`<h3 class="disp">Settings</h3>
+  <div class="sub">Progress saves automatically${storageOK?(store.mode==='cloud'?' to your Claude account':' in this browser'):' — storage unavailable, progress lasts this session only'}.</div>
+  <div class="reward-line"><span>Sound effects</span><b>${S.sfx?'On':'Off'}</b></div>
+  <div class="reward-line"><span>Races won</span><b>${S.stats.wins} / ${S.stats.races}</b></div>
+  <div class="reward-line"><span>Fortune spins</span><b>${S.stats.spins}</b></div>
+  <div class="reward-line"><span>Lifetime earnings</span><b>$${fmt(S.stats.earned)}</b></div>
+  <div class="btn-row">
+    <button class="ghost" onclick="S.sfx=!S.sfx;saveGame();closeModal();toast('Sound '+(S.sfx?'on':'off'))">Toggle sound</button>
+    <button class="danger" onclick="confirmReset()">Reset save</button>
+    <button class="act" onclick="closeModal()">Close</button>
+  </div>`);
+});
+function confirmReset(){
+  modal(`<h3 class="disp">Reset everything?</h3><div class="sub">Your garage, business and cash are wiped. This can't be undone.</div>
+  <div class="btn-row"><button class="ghost" onclick="closeModal()">Keep playing</button>
+  <button class="danger" onclick="doReset()">Wipe save</button></div>`);
+}
+async function doReset(){
+  S=DEFAULT_STATE();
+  await store.del('apex-save');
+  closeModal(); renderHUD(); show('garage'); toast('Fresh start. Welcome back to the lockup.','good');
+}
+
+/* =====================================================================
+   GARAGE
+===================================================================== */
+function renderGarage(){
+  const owned=activeCar(), def=CARS_BY_ID[owned.id], st=carStats(owned);
+  const et=simulateET(st, owned.tune, 'good');
+  const el=$('#s-garage');
+  el.innerHTML=`
+  <div id="car-stage">
+    <div class="glow"></div><div class="floorline"></div>
+    <div class="name-plate">
+      <span class="tier">TIER ${def.tier}</span>
+      <h3 class="disp">${def.name}</h3>
+      <div class="pp disp">PP ${st.pp}</div>
+    </div>
+    <div id="garage-actions">
+      <button class="ghost" id="btn-tune">🔧 Tune</button>
+      <button class="ghost" id="btn-cosmetic">🎨 Customize</button>
+      ${S.cars.length>1?`<button class="danger" id="btn-strip">✂ Strip</button>`:''}
+    </div>
+    <div id="car-svg-wrap">${carSVG(def,owned)}</div>
+    <div id="car-arrows">
+      <button class="ghost" id="car-prev">‹</button>
+      <span>${S.activeCar+1} / ${S.cars.length}</span>
+      <button class="ghost" id="car-next">›</button>
+    </div>
+  </div>
+  <div class="stats-strip">
+    ${statCell('Power', st.pow+' hp')}
+    ${statCell('Grip', fmt(st.grip))}
+    ${statCell('Shift', st.shift+' ms')}
+    ${statCell('Weight', fmt(st.weight)+' lb')}
+    `+`<div class="stat-cell et"><div class="l">Est ¼ mile</div><div class="v disp">${et.toFixed(2)}s</div></div>`+`
+  </div>
+  <h2 class="sec disp">Upgrades <span class="tag">STAGE 6 ELITE FROM FORTUNE · ◇ FUSION SLOTS UNLOCK AT STAGE 1 / 3 / 5</span></h2>
+  <div class="upg-grid">${UPGRADES.map(u=>upgCard(owned,def,u)).join('')}</div>`;
+  $('#car-prev').onclick=()=>{S.activeCar=(S.activeCar-1+S.cars.length)%S.cars.length; sfx('click'); renderGarage(); saveGame();};
+  $('#car-next').onclick=()=>{S.activeCar=(S.activeCar+1)%S.cars.length; sfx('click'); renderGarage(); saveGame();};
+  $('#btn-tune').onclick=openTuning;
+  $('#btn-cosmetic').onclick=openCosmetics;
+  const bs=$('#btn-strip'); if(bs) bs.onclick=confirmStrip;
+  el.querySelectorAll('[data-upg]').forEach(b=>b.onclick=()=>buyUpgrade(b.dataset.upg));
+  el.querySelectorAll('.fslot').forEach(b=>b.onclick=()=>clickFusionSlot(b.dataset.cat,+b.dataset.i));
+  if(!S.tutorial.garage){ S.tutorial.garage=true; saveGame();
+    modal(`<h3 class="disp">Welcome to the Syndicate</h3>
+    <div class="sub">You've got a beat-up <b>Vulpes GTi</b>, a rented lockup, and $45K. The loop:</div>
+    <div class="reward-line"><span>🏁 Race</span><b>Win cash + reputation</b></div>
+    <div class="reward-line"><span>🔧 Upgrade & tune</span><b>Cut your quarter-mile</b></div>
+    <div class="reward-line"><span>🏢 Business</span><b>Staff earn while you race</b></div>
+    <div class="reward-line"><span>🎰 Fortune</span><b>Elite parts & fusion crates</b></div>
+    <div class="btn-row"><button class="act" onclick="closeModal()">Let's work</button></div>`);
+  }
+}
+function statCell(l,v){return `<div class="stat-cell"><div class="l">${l}</div><div class="v disp">${v}</div></div>`;}
+function upgCard(owned,def,u){
+  const st=owned.upg[u.id]||0;
+  const pips=Array.from({length:6},(_,i)=>`<i class="${i<st?(i===5?'f elite':'f'):''}"></i>`).join('');
+  const slots=owned.fslots[u.id].map((r,i)=>{
+    const locked=st<FUSION_SLOT_REQ[i];
+    return `<div class="fslot ${locked?'locked':r?('f-'+r):''}" data-cat="${u.id}" data-i="${i}"
+      title="${locked?'Unlocks at stage '+FUSION_SLOT_REQ[i]:r?RARITY_NAME[r]+' fusion part':'Empty fusion slot'}"></div>`;
+  }).join('');
+  let btn;
+  if(st>=6) btn=`<button class="ghost" disabled>Maxed — Elite</button>`;
+  else if(st>=5) btn=`<button class="ghost" disabled>Stage 6: Fortune only</button>`;
+  else{
+    const cost=UPG_COST(def,st);
+    btn=`<button class="act" data-upg="${u.id}" ${S.cash<cost?'disabled':''}>Stage ${st+1} — $${fmt(cost)}</button>`;
+  }
+  return `<div class="upg">
+    <div class="top"><span class="nm">${u.name}</span><span class="stg">Stage ${st}/6</span></div>
+    <div class="pips">${pips}</div>
+    <div class="fslots"><span class="lbl">FUSION</span>${slots}</div>
+    <div class="fx">${u.fx}${effStage(owned,u.id)>st?` <b style="color:var(--purple)">+${((effStage(owned,u.id)-st)*100/1).toFixed(0)}% fused</b>`:''}</div>${btn}</div>`;
+}
+function buyUpgrade(id){
+  const owned=activeCar(), def=CARS_BY_ID[owned.id];
+  const st=owned.upg[id]||0;
+  if(st>=5) return;
+  const cost=UPG_COST(def,st);
+  if(S.cash<cost){toast('Not enough cash','bad'); sfx('bad'); return;}
+  S.cash-=cost; owned.upg[id]=st+1;
+  sfx('buy'); toast(`${UPGRADES.find(u=>u.id===id).name} → Stage ${st+1}`,'good');
+  renderHUD(); renderGarage(); saveGame();
+}
+
+/* ---- fusion slots (CSR2-style: fit parts from inventory into category slots) ---- */
+function clickFusionSlot(cat,i){
+  const owned=activeCar();
+  const st=owned.upg[cat]||0;
+  if(st<FUSION_SLOT_REQ[i]){ toast(`Slot unlocks at ${UPGRADES.find(u=>u.id===cat).name} stage ${FUSION_SLOT_REQ[i]}`,'bad'); return; }
+  const fitted=owned.fslots[cat][i];
+  const inv=S.parts[cat];
+  const catName=UPGRADES.find(u=>u.id===cat).name;
+  modal(`<h3 class="disp">${catName} — Fusion slot ${i+1}</h3>
+    <div class="sub">${fitted?`Fitted: <b>${RARITY_ICON[fitted]} ${RARITY_NAME[fitted]}</b> (+${FUSION_VAL[fitted]*100}% of a stage). Remove to swap.`:
+      'Fit a fusion part to boost this category beyond its stage. Parts come from race wins, Fortune crates, and stripping cars.'}</div>
+    ${fitted?`<div class="btn-row"><button class="ghost" onclick="closeModal()">Keep</button>
+      <button class="danger" onclick="unfitFusion('${cat}',${i})">Remove part</button></div>`
+    :`
+    ${['c','r','e'].map(r=>`<div class="reward-line"><span>${RARITY_ICON[r]} ${RARITY_NAME[r]} ${catName} part <small style="color:var(--ink-faint)">(+${FUSION_VAL[r]*100}% stage)</small></span>
+      <b>×${inv[r]} ${inv[r]>0?`&nbsp;<button class="act" style="padding:4px 12px;font-size:11px" onclick="fitFusion('${cat}',${i},'${r}')">Fit</button>`:''}</b></div>`).join('')}
+    <div class="btn-row"><button class="ghost" onclick="closeModal()">Close</button></div>`}`);
+}
+function fitFusion(cat,i,r){
+  if(S.parts[cat][r]<1) return;
+  S.parts[cat][r]--; activeCar().fslots[cat][i]=r;
+  sfx('buy'); toast(`${RARITY_NAME[r]} fusion part fitted to ${UPGRADES.find(u=>u.id===cat).name}`,'good');
+  closeModal(); renderGarage(); saveGame();
+}
+function unfitFusion(cat,i){
+  const r=activeCar().fslots[cat][i];
+  if(!r) return;
+  activeCar().fslots[cat][i]=null; S.parts[cat][r]++;
+  sfx('click'); closeModal(); renderGarage(); saveGame();
+}
+function grantParts(n, weights){ // returns summary lines
+  const lines=[];
+  for(let i=0;i<n;i++){
+    const cat=pick(CAT_IDS);
+    const roll=Math.random()*100;
+    const r = roll<weights.e? 'e' : roll<weights.e+weights.r? 'r':'c';
+    S.parts[cat][r]++;
+    lines.push(`${RARITY_ICON[r]} ${RARITY_NAME[r]} ${UPGRADES.find(u=>u.id===cat).name}`);
+  }
+  return lines;
+}
+
+/* ---- strip a car for fusion parts (CSR2-style) ---- */
+function confirmStrip(){
+  const owned=activeCar(), def=CARS_BY_ID[owned.id];
+  modal(`<h3 class="disp" style="color:var(--red)">Strip the ${def.name}?</h3>
+    <div class="sub">The car is destroyed and its drivetrain is broken down into <b>${def.tier+2} fusion parts</b>. Upgrades and fitted parts are lost. This can't be undone.</div>
+    <div class="btn-row"><button class="ghost" onclick="closeModal()">Keep it</button>
+    <button class="danger" onclick="doStrip()">Strip for parts</button></div>`);
+}
+function doStrip(){
+  const owned=activeCar(), def=CARS_BY_ID[owned.id];
+  S.cars.splice(S.activeCar,1);
+  S.activeCar=Math.max(0,S.activeCar-1);
+  const lines=grantParts(def.tier+2,{e:4+def.tier*3, r:26+def.tier*3});
+  sfx('lose');
+  modal(`<h3 class="disp">Stripped for parts</h3>
+    <div class="sub">The ${def.name} is gone. Recovered:</div>
+    ${lines.map(l=>`<div class="reward-line"><span>${l}</span><b>+1</b></div>`).join('')}
+    <div class="btn-row"><button class="act" onclick="closeModal()">Done</button></div>`);
+  renderGarage(); renderHUD(); saveGame();
+}
+
+/* ---- cosmetics ---- */
+function openCosmetics(){
+  const owned=activeCar(), def=CARS_BY_ID[owned.id];
+  const cur=owned.cos.paint||def.color;
+  modal(`<h3 class="disp">Customize — ${def.name}</h3>
+    <div class="sub">Respray $5,000 · Wheel set $10,000. Performance mods add their own visuals automatically (scoop at Turbo 3, stripe at Body 2, wing at Body 4, carbon hood at Engine 5, gold-lip wide rims at Tires 3).</div>
+    <div style="font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--ink-faint);margin-bottom:6px">PAINT</div>
+    <div class="swatches">${PAINTS.map(p=>`<div class="swatch ${p===cur?'on':''}" style="background:${p}" data-paint="${p}"></div>`).join('')}</div>
+    <div style="font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--ink-faint);margin:14px 0 6px">WHEELS</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${WHEEL_STYLES.map((w,i)=>`
+      <div class="wheel-opt ${owned.cos.wheels===i?'on':''}" data-wheel="${i}">
+        <svg viewBox="100 116 68 68">${wheelSVG(134,i,false,null)}</svg>${w}</div>`).join('')}
+    </div>
+    <div class="btn-row"><button class="act" onclick="closeModal()">Done</button></div>`);
+  $$('#modal [data-paint]').forEach(sw=>sw.onclick=()=>{
+    const p=sw.dataset.paint;
+    if((owned.cos.paint||def.color)===p) return;
+    if(S.cash<5000){toast('Respray costs $5,000','bad');return;}
+    S.cash-=5000; owned.cos.paint=p;
+    sfx('buy'); renderHUD(); renderGarage(); saveGame(); openCosmetics();
+  });
+  $$('#modal [data-wheel]').forEach(w=>w.onclick=()=>{
+    const i=+w.dataset.wheel;
+    if(owned.cos.wheels===i) return;
+    if(S.cash<10000){toast('Wheel sets cost $10,000','bad');return;}
+    S.cash-=10000; owned.cos.wheels=i;
+    sfx('buy'); renderHUD(); renderGarage(); saveGame(); openCosmetics();
+  });
+}
+
+/* ---- tuning: CSR2-style dyno with live estimate ---- */
+function openTuning(){
+  const owned=activeCar(), def=CARS_BY_ID[owned.id], st=carStats(owned);
+  const t={...owned.tune};
+  const baseET=simulateET(st, owned.tune, 'good');
+  modal(`<h3 class="disp">Dyno tuning — ${def.name}</h3>
+    <div class="sub">Slide, watch the estimate, chase the sweet spot. Every car likes a different setup.</div>
+    <div class="tune-row"><div class="th"><span>🛞 Tire pressure</span><span class="val" id="tv-tp"></span></div>
+      <input type="range" id="tn-tp" min="0" max="100" value="${t.tp}">
+      <div class="hint">Low PSI bites off the line, high PSI frees up the roll — find this car's window.</div></div>
+    <div class="tune-row"><div class="th"><span>🧪 Nitrous mix</span><span class="val" id="tv-nos"></span></div>
+      <input type="range" id="tn-nos" min="0" max="100" value="${t.nos}">
+      <div class="hint">Left: long, gentle burn. Right: one violent hit. ${st.nstage>0?'':'(Fit a Nitrous upgrade to use it.)'}</div></div>
+    <div class="tune-row"><div class="th"><span>⚙️ Final drive</span><span class="val" id="tv-fd"></span></div>
+      <input type="range" id="tn-fd" min="0" max="100" value="${t.fd}">
+      <div class="hint">Left: taller gears, higher top end. Right: shorter gears, harder pull.</div></div>
+    <div id="tune-et"><div class="l">ESTIMATED ¼ MILE</div><div class="v disp" id="tv-et">—</div><div class="d" id="tv-d"></div></div>
+    <div class="btn-row">
+      <button class="ghost" id="tn-reset">Reset 50/50/50</button>
+      <button class="act" id="tn-save">Save setup</button>
+    </div>`);
+  const upd=()=>{
+    t.tp=+$('#tn-tp').value; t.nos=+$('#tn-nos').value; t.fd=+$('#tn-fd').value;
+    $('#tv-tp').textContent=(15+t.tp*0.3).toFixed(1)+' PSI';
+    $('#tv-nos').textContent=t.nos<34?'Endurance burn':t.nos>66?'Big hit':'Balanced';
+    $('#tv-fd').textContent=(2.5+t.fd/100*2).toFixed(2)+' : 1';
+    const et=simulateET(st,t,'good');
+    $('#tv-et').textContent=et.toFixed(3)+'s';
+    const d=et-baseET;
+    const de=$('#tv-d');
+    de.textContent=Math.abs(d)<0.0005?'— same as saved setup':(d<0?'▼ ':'▲ ')+Math.abs(d).toFixed(3)+'s vs saved';
+    de.style.color=d<-0.0005?'var(--green)':d>0.0005?'var(--red)':'var(--ink-faint)';
+  };
+  ['tn-tp','tn-nos','tn-fd'].forEach(id=>$('#'+id).addEventListener('input',upd));
+  upd();
+  $('#tn-reset').onclick=()=>{$('#tn-tp').value=50;$('#tn-nos').value=50;$('#tn-fd').value=50;upd();};
+  $('#tn-save').onclick=()=>{
+    owned.tune={...t};
+    sfx('buy'); toast('Setup saved to the car','good');
+    closeModal(); renderGarage(); saveGame();
+  };
+  if(!S.tutorial.tune){S.tutorial=Object.assign({tune:false},S.tutorial);S.tutorial.tune=true;saveGame();
+    toast('Tip: creep the tire pressure slider until the dyno time drops.');}
+}
+
+/* =====================================================================
+   DEALER
+===================================================================== */
+function renderDealer(){
+  const el=$('#s-dealer');
+  const maxTierUnlocked=maxUnlockedTier();
+  el.innerHTML=`<h2 class="sec disp">Dealership <span class="tag">BEAT A TIER BOSS TO UNLOCK THE NEXT SHOWROOM FLOOR</span></h2>
+  <div class="grid g3">
+  ${CARS.filter(c=>!c.wheelOnly).map(c=>{
+    const ownedN=S.cars.filter(x=>x.id===c.id).length;
+    const locked=c.tier>maxTierUnlocked;
+    const st=stockStats(c.id);
+    return `<div class="dealer-card" style="${locked?'opacity:.55':''}">
+      <div class="viz"><span class="tier">T${c.tier}</span>${ownedN?`<span class="owned">OWNED ×${ownedN}</span>`:''}${carSVG(c,null)}</div>
+      <div class="body">
+        <h4 class="disp">${c.name}</h4>
+        <div class="mini"><span>PP <b>${st.pp}</b></span><span>¼mi <b>${c.stockET.toFixed(2)}s</b></span><span>${c.pow} hp</span></div>
+        <div class="buy-row">
+          ${locked
+            ? `<span class="lock-note">🔒 Beat the Tier ${c.tier-1} boss</span>`
+            : `<span class="price">$${fmt(c.price)}</span><button class="act" data-buy="${c.id}" ${S.cash<c.price?'disabled':''}>Buy</button>`}
+        </div>
+      </div></div>`;
+  }).join('')}
+  <div class="dealer-card" style="border-color:rgba(176,107,255,.5)">
+    <div class="viz"><span class="tier" style="color:var(--purple)">T5 · MYTHIC</span>${carSVG(CARS_BY_ID.phantom,null)}</div>
+    <div class="body"><h4 class="disp" style="color:var(--purple)">Phantom Legend</h4>
+    <div class="mini"><span>PP <b>${stockStats('phantom').pp}</b></span><span>¼mi <b>${CARS_BY_ID.phantom.stockET.toFixed(2)}s</b></span><span>1800 hp</span></div>
+    <div class="buy-row"><span class="lock-note">🎰 Fortune Machine exclusive — 1% drop</span></div></div></div>
+  </div>`;
+  el.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buyCar(b.dataset.buy));
+}
+function maxUnlockedTier(){
+  let t=1;
+  for(let i=1;i<=4;i++){ if(S.racesWon['t'+i+'boss']) t=i+1; }
+  return t;
+}
+function buyCar(id){
+  const c=CARS_BY_ID[id];
+  if(S.cash<c.price){toast('Not enough cash','bad'); sfx('bad'); return;}
+  S.cash-=c.price;
+  S.cars.push(newOwnedCar(id)); S.activeCar=S.cars.length-1;
+  sfx('buy'); toast(`${c.name} delivered to your garage!`,'good');
+  renderHUD(); renderDealer(); saveGame();
+}
+
+/* =====================================================================
+   RACE LIST
+===================================================================== */
+function renderRace(){
+  const el=$('#s-race');
+  const maxT=maxUnlockedTier();
+  const owned=activeCar();
+  const myET=simulateET(activeStats(), owned.tune, 'good');
+  el.innerHTML=`
+  <div class="card" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+    <div style="width:150px">${carSVG(CARS_BY_ID[owned.id],owned)}</div>
+    <div style="flex:1;min-width:180px">
+      <div style="font-size:11px;color:var(--ink-faint);letter-spacing:.15em;font-weight:700">SELECTED CAR</div>
+      <div class="disp" style="font-size:16px">${CARS_BY_ID[owned.id].name}</div>
+      <div style="font-size:12px;color:var(--ink-dim)">Dyno ¼ mile: <b style="color:var(--cyan)">${myET.toFixed(2)}s</b> · perfect launch + shifts run quicker still</div>
+    </div>
+    <button class="ghost" onclick="show('garage')">Switch / tune</button>
+  </div>
+  ${EVENTS.map(ev=>{
+    const unlocked=ev.tier<=maxT;
+    const won=ev.races.filter(r=>S.racesWon[r.id]).length;
+    return `<div class="event-tier">
+      <div class="event-head">
+        <span class="badge disp">TIER ${ev.tier}</span>
+        <h3 class="disp">${['Backstreet Nights','Industrial Sprint','Harbor Circuit','Skyline Invitational','World Apex Finals'][ev.tier-1]}</h3>
+        <span class="prog">${unlocked?won+'/'+ev.races.length+' won':'🔒 Beat Tier '+(ev.tier-1)+' boss'}</span>
+      </div>
+      <div class="race-list">
+      ${ev.races.map((r,i)=>{
+        const done=!!S.racesWon[r.id];
+        const gated=unlocked && i>0 && !S.racesWon[ev.races[i-1].id];
+        const locked=!unlocked||gated;
+        return `<div class="race-row ${r.boss?'boss':''} ${done?'done':''} ${locked?'locked':''}">
+          <div class="who">
+            <div class="nm">${r.boss?'👑 ':''}${r.name}</div>
+            <div class="sub">Wins <b>$${fmt(r.cash)}</b> · ${r.rep} rep${r.keys?` · ${r.keys}⚿`:''}${r.gold?` · ${r.gold}◆`:''}</div>
+          </div>
+          <span class="chip et">${r.et.toFixed(2)}s</span>
+          ${done?'<span class="chip win">BEATEN</span>':
+            locked?'<span class="chip" style="color:var(--ink-faint)">🔒</span>':
+            `<button class="act" data-race="${r.id}">Race</button>`}
+        </div>`;
+      }).join('')}
+      </div></div>`;
+  }).join('')}`;
+  el.querySelectorAll('[data-race]').forEach(b=>b.onclick=()=>startRace(b.dataset.race));
+}
+
+/* =====================================================================
+   LIVE RACE — physics-driven, pausable, free nitro timing
+===================================================================== */
+const R={on:false};
+function findRace(id){ for(const ev of EVENTS){ const r=ev.races.find(x=>x.id===id); if(r) return r; } return null; }
+
+function startRace(id){
+  const race=findRace(id); if(!race) return;
+  const owned=activeCar();
+  R.race=race; R.on=true; R.paused=false; R.phase='launch';
+  R.st=carStats(owned); R.tune={...owned.tune};
+  R.sim=null; R.launch=null; R.finished=false; R.pDone=false; R.oDone=false;
+  R.oppT=0;
+  R.oET=race.et*rnd(.997,1.003);
+  R.launchNeedle=1400; R.launchDir=1; R.countdown=0;
+  $('#race-ov').classList.add('on');
+  $('#pause-veil').classList.remove('on');
+  $('#rc-you').innerHTML=carSVG(CARS_BY_ID[owned.id],owned,{flip:true});
+  const rivalDef=pick(CARS.filter(c=>c.tier===race.tier && !c.wheelOnly));
+  $('#rc-rival').innerHTML=carSVG(rivalDef,null,{flip:true});
+  $('#rc-you').classList.remove('nitro'); $('#rc-rival').classList.remove('nitro');
+  $('#rc-you').style.top='55%'; $('#rc-rival').style.top='36%';
+  setCarX('#rc-you',0); setCarX('#rc-rival',0);
+  $('#gear-num').textContent='N';
+  $('#shift-fb').textContent='';
+  $('#shift-btn').textContent='LAUNCH';
+  const nb=$('#nitro-btn');
+  nb.disabled=true; nb.classList.remove('armed'); nb.textContent=R.st.nstage>0?'NITRO':'NO NOS';
+  $('#rh-you').textContent='0.00s'; $('#rh-rival').textContent='0.00s'; $('#rh-speed').textContent='0';
+  $('#race-msg').textContent='HOLD THE REVS…';
+  R.lastFrame=0;
+  R.raf=requestAnimationFrame(raceFrame);
+  drawTacho(1400,'launch');
+  if(!S.tutorial.race){ S.tutorial.race=true; saveGame();
+    setTimeout(()=>toast('Tap LAUNCH in the green band. Nitro fires whenever YOU choose.'),300); }
+}
+function setCarX(sel,p){
+  const track=$('#race-track').getBoundingClientRect();
+  const finish=track.width*0.94-180;
+  $(sel).style.transform=`translateX(${20+clamp(p,0,1.02)*finish}px)`;
+}
+function drawTacho(rpm, mode){
+  const svg=$('#tacho-svg');
+  const cx=115, cy=112, rad=92, MAX=9000;
+  const a=r=>(200-(r/MAX)*220)*Math.PI/180;
+  const pt=(ang,rr)=>[cx+rr*Math.cos(ang), cy-rr*Math.sin(ang)];
+  const arc=(r1,r2,col,w)=>{const [x1,y1]=pt(a(r1),rad),[x2,y2]=pt(a(r2),rad);
+    return `<path d="M${x1} ${y1} A${rad} ${rad} 0 ${(r2-r1)/MAX>0.5?1:0} 1 ${x2} ${y2}" stroke="${col}" stroke-width="${w}" fill="none" stroke-linecap="round"/>`};
+  const gLo=mode==='launch'?5400:7200, gHi=mode==='launch'?7000:8400;
+  let ticks='';
+  for(let r=0;r<=MAX;r+=1000){
+    const [x1,y1]=pt(a(r),rad-6),[x2,y2]=pt(a(r),rad+4);
+    ticks+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#5a6885" stroke-width="2"/>
+    <text x="${pt(a(r),rad-20)[0]}" y="${pt(a(r),rad-20)[1]+3}" fill="#8b99b8" font-size="9" text-anchor="middle" font-weight="700">${r/1000}</text>`;
+  }
+  const [nx,ny]=pt(a(clamp(rpm,0,MAX)),rad-14);
+  svg.innerHTML=`
+    ${arc(0,MAX,'#263453',10)}
+    ${arc(gLo,gHi,'#3ddc84',10)}
+    ${mode==='launch'?arc(5900,6600,'#b7ff5e',10):''}
+    ${arc(8600,MAX,'#ff4757',10)}
+    ${ticks}
+    <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#ffb020" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="7" fill="#ffb020"/>
+    <text x="${cx}" y="${cy-34}" fill="#e9eefb" font-size="15" font-weight="900" font-style="italic" text-anchor="middle">${Math.round(rpm)}</text>
+    <text x="${cx}" y="${cy-22}" fill="#5a6885" font-size="8" text-anchor="middle" letter-spacing="2">RPM</text>`;
+}
+function raceFrame(ts){
+  if(!R.on) return;
+  if(!R.lastFrame) R.lastFrame=ts;
+  const dt=Math.min(1/30,(ts-R.lastFrame)/1000); R.lastFrame=ts;
+  if(R.paused){ R.raf=requestAnimationFrame(raceFrame); return; }
+
+  if(R.phase==='launch'){
+    R.launchNeedle+=R.launchDir*dt*5200;
+    if(R.launchNeedle>8600){R.launchNeedle=8600;R.launchDir=-1;}
+    if(R.launchNeedle<1400){R.launchNeedle=1400;R.launchDir=1;}
+    drawTacho(R.launchNeedle,'launch');
+  }
+  else if(R.phase==='count'){
+    R.countdown-=dt;
+    $('#race-msg').textContent = R.countdown<=0.45?'GO!':(Math.ceil(R.countdown/0.5)>=2?'READY':'SET');
+    if(R.countdown<=0) beginRun();
+    drawTacho(2600,'run');
+  }
+  else if(R.phase==='run'){
+    const s=R.sim;
+    if(!s.done) stepSim(s,R.st,R.tune,dt);
+    R.oppT+=dt;
+    // nitro visual state
+    $('#rc-you').classList.toggle('nitro', s.t<s.nitroUntil);
+    drawTacho(s.rpm,'run');
+    setCarX('#rc-you', s.x/QUARTER);
+    setCarX('#rc-rival', Math.pow(clamp(R.oppT/R.oET,0,1),1.5));
+    $('#rh-you').textContent=(s.done?s.et:s.t).toFixed(2)+'s';
+    $('#rh-rival').textContent=(R.oppT>=R.oET?R.oET:R.oppT).toFixed(2)+'s';
+    $('#rh-speed').textContent=Math.round(s.v*2.237);
+    if(s.done && !R.pDone){ R.pDone=true; flashFB(s.et.toFixed(2)+'s RUN', -1); }
+    if(R.oppT>=R.oET) R.oDone=true;
+    if(R.pDone && R.oDone && !R.finished){ R.finished=true; endRace(s.et<=R.oET); return; }
+    if(s.t>28 && !R.finished){ R.finished=true; endRace(false); return; }
+  }
+  R.raf=requestAnimationFrame(raceFrame);
+}
+$('#shift-btn').addEventListener('click',()=>{
+  if(!R.on||R.paused) return;
+  if(R.phase==='launch'){
+    const d=R.launchNeedle;
+    if(d>=5900&&d<=6600){R.launch='perfect';flashFB('PERFECT LAUNCH',-1);sfx('win');}
+    else if(d>=5400&&d<=7000){R.launch='clean';flashFB('CLEAN LAUNCH',-1);sfx('shift');}
+    else if(d>7000){R.launch='spin';flashFB('WHEELSPIN!',1);sfx('bad');}
+    else {R.launch='bog';flashFB('BOGGED DOWN',1);sfx('bad');}
+    R.phase='count'; R.countdown=1.4;
+    $('#gear-num').textContent='1';
+    $('#shift-btn').textContent='SHIFT';
+    $('#race-msg').textContent='READY';
+  }
+  else if(R.phase==='run'){
+    const s=R.sim;
+    if(s.gear>=6){flashFB('TOP GEAR',1);return;}
+    const r=s.rpm; let q;
+    if(r>=7200&&r<=8400){q='perfect';flashFB('PERFECT SHIFT',-1);sfx('shift');}
+    else if(r>=6400&&r<=8800){q='good';flashFB('GOOD',0);sfx('click');}
+    else if(r>8800){q='poor';flashFB('LATE!',1);sfx('bad');}
+    else {q='poor';flashFB('EARLY!',1);sfx('bad');}
+    simShift(s,R.st,q);
+    $('#gear-num').textContent=s.gear;
+  }
+});
+$('#nitro-btn').addEventListener('click',()=>{
+  if(!R.on||R.paused||R.phase!=='run') return;
+  const s=R.sim;
+  if(fireNitro(s,R.st,R.tune)){
+    flashFB('NITRO!',-1); sfx('jackpot');
+    const nb=$('#nitro-btn');
+    nb.disabled=true; nb.classList.remove('armed'); nb.textContent='SPENT';
+  }
+});
+function flashFB(txt,mood){
+  const fb=$('#shift-fb');
+  fb.textContent=txt;
+  fb.style.color = mood<0?'var(--cyan)':mood>0?'var(--red)':'var(--green)';
+  fb.style.opacity=1;
+  setTimeout(()=>fb.style.opacity=0,900);
+}
+function beginRun(){
+  R.phase='run';
+  $('#race-msg').textContent='';
+  const s=makeSim(R.st,R.tune);
+  if(R.launch==='perfect') s.v=1.5;
+  if(R.launch==='spin') s.spinUntil=1.1;
+  if(R.launch==='bog') s.bogUntil=0.9;
+  R.sim=s;
+  if(R.st.nstage>0){ const nb=$('#nitro-btn'); nb.disabled=false; nb.classList.add('armed'); }
+}
+/* pause menu */
+$('#race-pause').addEventListener('click',()=>{
+  if(!R.on||R.finished) return;
+  R.paused=true; $('#pause-veil').classList.add('on'); sfx('click');
+});
+$('#pm-resume').addEventListener('click',()=>{
+  R.paused=false; $('#pause-veil').classList.remove('on'); R.lastFrame=0; sfx('click');
+});
+$('#pm-restart').addEventListener('click',()=>{
+  const id=R.race.id;
+  cancelAnimationFrame(R.raf); R.on=false;
+  $('#pause-veil').classList.remove('on');
+  sfx('click'); startRace(id);
+});
+$('#pm-quit').addEventListener('click',()=>{
+  cancelAnimationFrame(R.raf); R.on=false;
+  $('#pause-veil').classList.remove('on');
+  $('#race-ov').classList.remove('on');
+  sfx('click'); show('race');
+});
+function endRace(won){
+  cancelAnimationFrame(R.raf);
+  R.on=false;
+  S.stats.races++;
+  const race=R.race, pET=R.sim&&R.sim.done?R.sim.et:99;
+  setTimeout(()=>{
+    $('#race-ov').classList.remove('on');
+    if(won){
+      sfx('win');
+      S.stats.wins++;
+      const firstTime=!S.racesWon[race.id];
+      const mult=sponsorMult('race'), repMult=sponsorMult('rep');
+      const cash=Math.round(race.cash*(firstTime?1:0.35)*mult);
+      const rep=Math.round(race.rep*(firstTime?1:0.3)*repMult);
+      S.cash+=cash; S.rep+=rep; S.stats.earned+=cash;
+      let extra='';
+      if(firstTime && race.keys){S.keys+=race.keys; extra+=`<div class="reward-line"><span>⚿ Fortune keys</span><b>+${race.keys}</b></div>`;}
+      if(firstTime && race.gold){S.gold+=race.gold; extra+=`<div class="reward-line"><span>◆ Gold</span><b>+${race.gold}</b></div>`;}
+      if(firstTime && race.boss){
+        const lines=grantParts(3,{e:8,r:50});
+        extra+=lines.map(l=>`<div class="reward-line"><span>${l} fusion part</span><b>+1</b></div>`).join('');
+      } else if(Math.random()<0.35){
+        const lines=grantParts(1,{e:2,r:18});
+        extra+=`<div class="reward-line"><span>${lines[0]} fusion part</span><b>+1</b></div>`;
+      }
+      S.racesWon[race.id]=true;
+      const bossNote=race.boss&&firstTime?`<div class="sub" style="margin-top:10px;color:var(--amber)">🏆 Tier ${race.tier} conquered — ${race.tier<5?'Tier '+(race.tier+1)+' showroom & events unlocked!':'you rule the Apex Finals.'}</div>`:'';
+      modal(`<h3 class="disp" style="color:var(--green)">You won!</h3>
+        <div class="sub">${race.name} — beaten by ${(R.oET-pET).toFixed(2)}s. Your run: <b>${pET.toFixed(2)}s</b></div>
+        <div class="reward-line"><span>💵 Winnings ${mult>1?`<small style="color:var(--cyan)">(sponsor ×${mult.toFixed(2)})</small>`:''}</span><b>+$${fmt(cash)}</b></div>
+        <div class="reward-line"><span>★ Reputation</span><b>+${fmt(rep)}</b></div>
+        ${extra}${bossNote}
+        <div class="btn-row"><button class="ghost" onclick="closeModal();show('garage')">Tune up</button>
+        <button class="act" onclick="closeModal();show('race')">Next race</button></div>`);
+    } else {
+      sfx('lose');
+      modal(`<h3 class="disp" style="color:var(--red)">Beaten.</h3>
+        <div class="sub">${race.name} ran <b>${R.oET.toFixed(2)}s</b> to your <b>${pET>=99?'DNF':pET.toFixed(2)+'s'}</b>. Upgrade, tune the dyno, or chase perfect shifts (green band) and a perfect launch (bright green sliver).</div>
+        <div class="btn-row"><button class="ghost" onclick="closeModal();show('garage')">Upgrade</button>
+        <button class="act" onclick="closeModal();startRace('${race.id}')">Rematch</button></div>`);
+    }
+    renderHUD(); saveGame();
+    if(curScreen==='race') renderRace();
+  }, 900);
+}
+
+/* =====================================================================
+   BUSINESS — tycoon layer with live scene
+===================================================================== */
+function newStaffName(){ return pick(STAFF_FIRST)+' '+pick(STAFF_LAST); }
+function renderBiz(){
+  const el=$('#s-biz');
+  const shop=SHOP_LEVELS[S.shopLvl], next=SHOP_LEVELS[S.shopLvl+1];
+  const mi=mechIncome(), di=driverIncome();
+  el.innerHTML=`
+  <div id="biz-scene-wrap">${bizSVG()}</div>
+  <div class="biz-hero">
+    <div class="info">
+      <div class="lvl disp">HQ LEVEL ${S.shopLvl+1}/5</div>
+      <h3 class="disp">${shop.name}</h3>
+      <div class="inc">${shop.desc}</div>
+      <div class="inc">Passive: <b>$${fmt(mi+di)}/s</b> (mechanics $${fmt(mi)}/s · drivers $${fmt(di)}/s${driverRep()>0?` · +${driverRep().toFixed(1)} rep/s`:''})</div>
+    </div>
+    ${next?`<div style="text-align:right">
+      <div style="font-size:11px;color:var(--ink-dim);margin-bottom:6px">Next: <b>${next.name}</b><br>+slots, ×${next.mult} income, T${next.contractTier} contracts</div>
+      <button class="act" id="btn-shop-up" ${S.cash<next.cost?'disabled':''}>Expand — $${fmt(next.cost)}</button>
+    </div>`:`<div style="font-size:12px;color:var(--amber);font-weight:800">MAX — the empire stands.</div>`}
+  </div>
+
+  <h2 class="sec disp">Crew <span class="tag">MECHANICS EARN FROM CLIENT WORK · DRIVERS RACE YOUR BEST CAR FOR CASH + REP</span></h2>
+  <div class="grid g2">
+    ${S.mechs.map((m,i)=>staffCard(m,i,'mech')).join('')}
+    ${S.mechs.length<shop.mechSlots
+      ?`<div class="staff-card" style="border-style:dashed;justify-content:center">
+        <button class="act" id="hire-mech" ${S.cash<MECH_HIRE(S.mechs.length)?'disabled':''}>Hire mechanic — $${fmt(MECH_HIRE(S.mechs.length))}</button></div>`:''}
+    ${S.drivers.map((d,i)=>staffCard(d,i,'driver')).join('')}
+    ${shop.driverSlots===0
+      ?`<div class="staff-card" style="border-style:dashed;justify-content:center;color:var(--ink-faint);font-size:12px">Drivers unlock at the Tuning Bay (HQ level 2)</div>`
+      : S.drivers.length<shop.driverSlots
+        ?`<div class="staff-card" style="border-style:dashed;justify-content:center">
+          <button class="act" id="hire-driver" ${S.cash<DRIVER_HIRE(S.drivers.length)?'disabled':''}>Hire driver — $${fmt(DRIVER_HIRE(S.drivers.length))}</button></div>`:''}
+  </div>
+
+  <h2 class="sec disp">Client contracts <span class="tag">ONE ACTIVE JOB · NEEDS MECHANICS · PAYS ON COMPLETION</span></h2>
+  ${S.contract!==null ? activeContractHTML() : `<div class="grid g2">${
+    CONTRACTS.map((c,i)=>({c,i})).filter(x=>x.c.tier<=shop.contractTier).map(({c,i})=>{
+      const canMech=S.mechs.length>=c.mechs;
+      const t=Math.round(c.time*Math.pow(0.88,S.equip.dyno));
+      const pay=Math.round(c.pay*(1+S.equip.paint*0.15)*sponsorMult('contract'));
+      return `<div class="contract">
+        <div class="t"><span class="nm">${c.name}</span><span class="pay">$${fmt(pay)}</span></div>
+        <div class="desc">${c.desc}</div>
+        <div class="meta"><span>⏱ ${t}s</span><span>🔧 ${c.mechs} mechanic${c.mechs>1?'s':''}</span><span>★ +${c.rep} rep</span><span>T${c.tier}</span></div>
+        <button class="ghost" data-contract="${i}" ${canMech?'':'disabled'}>${canMech?'Start job':'Need '+c.mechs+' mechanics'}</button>
+      </div>`;}).join('')
+  }</div>`}
+
+  <h2 class="sec disp">Equipment <span class="tag">PERMANENT MULTIPLIERS — WATCH THEM APPEAR IN THE SHOP ABOVE</span></h2>
+  <div class="grid g2">
+    ${EQUIPMENT.map(eq=>{
+      const lvl=S.equip[eq.id], max=lvl>=eq.maxLvl;
+      const cost=Math.round(eq.base*Math.pow(2.4,lvl));
+      return `<div class="card" style="display:flex;gap:12px;align-items:center">
+        <div style="font-size:26px">${eq.ic}</div>
+        <div style="flex:1"><b style="font-size:13px">${eq.name}</b>
+          <div style="font-size:11px;color:var(--ink-dim)">${eq.fx}</div>
+          <div style="display:flex;gap:3px;margin-top:5px">${Array.from({length:eq.maxLvl},(_,i)=>`<i style="width:14px;height:5px;border-radius:3px;${i<lvl?'background:var(--amber)':'background:var(--bg);border:1px solid var(--edge)'}"></i>`).join('')}</div>
+        </div>
+        <button class="ghost" data-equip="${eq.id}" ${max||S.cash<cost?'disabled':''}>${max?'MAX':'$'+fmt(cost)}</button>
+      </div>`;}).join('')}
+  </div>
+
+  <h2 class="sec disp">Sponsors & brand deals <span class="tag">EARN REPUTATION TO ATTRACT OFFERS · EACH DEAL IS A PERMANENT CHOICE</span></h2>
+  <div class="grid g2">
+    ${SPONSORS.map(sp=>{
+      const chosen=S.sponsors[sp.id];
+      const avail=S.rep>=sp.rep;
+      return `<div class="sponsor ${chosen?'active':''}">
+        <div class="t"><span class="logo">${sp.ic}</span><span class="nm">${sp.name}</span>
+          <span class="req">${chosen?'✓ SIGNED':avail?'OFFER OPEN':fmt(sp.rep)+' ★ REQ.'}</span></div>
+        ${chosen
+          ? `<div class="offer">Active deal: <b>${sp[chosen].t}</b></div>`
+          : avail
+            ? `<div class="offer">Pick one — this deal is exclusive:<br><b>A)</b> ${sp.a.t} &nbsp;·&nbsp; <b>B)</b> ${sp.b.t}</div>
+               <div style="display:flex;gap:8px"><button class="act" data-sp="${sp.id}" data-ch="a" style="flex:1">Sign A</button>
+               <button class="act" data-sp="${sp.id}" data-ch="b" style="flex:1">Sign B</button></div>`
+            : `<div class="offer" style="opacity:.6">Locked — build ${fmt(sp.rep)} reputation by winning races and finishing contracts.</div>`}
+      </div>`;}).join('')}
+  </div>`;
+  const up=$('#btn-shop-up'); if(up) up.onclick=()=>{
+    S.cash-=next.cost; S.shopLvl++;
+    sfx('jackpot'); toast(`Expanded into the ${SHOP_LEVELS[S.shopLvl].name}!`,'good');
+    renderHUD(); renderBiz(); saveGame();
+  };
+  const hm=$('#hire-mech'); if(hm) hm.onclick=()=>{
+    S.cash-=MECH_HIRE(S.mechs.length);
+    S.mechs.push({name:newStaffName(),lvl:0,av:pick(['🧑‍🔧','👨‍🔧','👩‍🔧'])});
+    sfx('buy'); toast(S.mechs[S.mechs.length-1].name+' joined the crew','good');
+    renderHUD(); renderBiz(); saveGame();
+  };
+  const hd=$('#hire-driver'); if(hd) hd.onclick=()=>{
+    S.cash-=DRIVER_HIRE(S.drivers.length);
+    S.drivers.push({name:newStaffName(),lvl:0,av:pick(['🏎️','🪖','🕶️'])});
+    sfx('buy'); toast(S.drivers[S.drivers.length-1].name+' is on the grid','good');
+    renderHUD(); renderBiz(); saveGame();
+  };
+  el.querySelectorAll('[data-train]').forEach(b=>b.onclick=()=>{
+    const [role,idx]=b.dataset.train.split(':');
+    const st=role==='mech'?S.mechs[+idx]:S.drivers[+idx];
+    const cost=TRAIN_COST(st.lvl);
+    if(S.cash<cost||st.lvl>=5) return;
+    S.cash-=cost; st.lvl++;
+    sfx('buy'); toast(st.name+' trained to level '+(st.lvl+1),'good');
+    renderHUD(); renderBiz(); saveGame();
+  });
+  el.querySelectorAll('[data-contract]').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.contract, c=CONTRACTS[i];
+    const t=Math.round(c.time*Math.pow(0.88,S.equip.dyno));
+    S.contract={idx:i, ends:Date.now()+t*1000, total:t*1000};
+    sfx('click'); toast('Job started: '+c.name);
+    renderBiz(); saveGame();
+  });
+  el.querySelectorAll('[data-equip]').forEach(b=>b.onclick=()=>{
+    const eq=EQUIPMENT.find(e=>e.id===b.dataset.equip);
+    const lvl=S.equip[eq.id];
+    const cost=Math.round(eq.base*Math.pow(2.4,lvl));
+    if(S.cash<cost||lvl>=eq.maxLvl) return;
+    S.cash-=cost; S.equip[eq.id]++;
+    sfx('buy'); toast(eq.name+' upgraded — check the shop floor','good');
+    renderHUD(); renderBiz(); saveGame();
+  });
+  el.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>{
+    const sp=SPONSORS.find(x=>x.id===b.dataset.sp);
+    S.sponsors[sp.id]=b.dataset.ch;
+    sfx('jackpot'); toast('Signed with '+sp.name+'!','good');
+    renderBiz(); renderHUD(); saveGame();
+  });
+  if(!S.tutorial.biz){ S.tutorial.biz=true; saveGame();
+    toast('Hire mechanics — the shop scene fills up as your empire grows.');
+  }
+}
+function staffCard(st,i,role){
+  const out = role==='mech'
+    ? '$'+fmt(14*(1+st.lvl*0.6)*SHOP_LEVELS[S.shopLvl].mult*(1+S.equip.lift*0.20)*sponsorMult('shop'))+'/s from client work'
+    : '$'+fmt((bestCarPP()*0.055)*(1+st.lvl*0.5)*sponsorMult('driver')*sponsorMult('shop'))+'/s + rep from street races';
+  const cost=TRAIN_COST(st.lvl);
+  return `<div class="staff-card">
+    <div class="avatar">${st.av}</div>
+    <div>
+      <div class="nm">${st.name}</div>
+      <div class="role ${role}">${role==='mech'?'Mechanic':'Crew driver'} · Lv ${st.lvl+1}</div>
+      <div class="out">${out}</div>
+      <div class="lvl-pips">${Array.from({length:6},(_,x)=>`<i class="${x<=st.lvl?'f':''}"></i>`).join('')}</div>
+    </div>
+    <div class="side">
+      <button class="ghost" data-train="${role}:${i}" ${st.lvl>=5||S.cash<cost?'disabled':''}>${st.lvl>=5?'MAX':'Train $'+fmt(cost)}</button>
+    </div>
+  </div>`;
+}
+function activeContractHTML(){
+  const c=CONTRACTS[S.contract.idx];
+  const left=Math.max(0,S.contract.ends-Date.now());
+  const pct=100*(1-left/S.contract.total);
+  return `<div class="contract" style="border-color:var(--edge-hi)">
+    <div class="t"><span class="nm">🔧 In progress: ${c.name}</span><span class="pay">$${fmt(Math.round(c.pay*(1+S.equip.paint*0.15)*sponsorMult('contract')))}</span></div>
+    <div class="desc">${c.desc}</div>
+    <div class="bar green"><i style="width:${pct}%"></i></div>
+    <div class="meta"><span id="contract-timer">⏱ ${Math.ceil(left/1000)}s remaining</span></div>
+  </div>`;
+}
+
+/* =====================================================================
+   FORTUNE
+===================================================================== */
+let spinning=false;
+function renderFortune(){
+  const el=$('#s-fortune');
+  const partChips=CAT_IDS.map(c=>{
+    const p=S.parts[c], tot=p.c+p.r+p.e;
+    if(!tot) return '';
+    return `<span class="inv-chip">${UPGRADES.find(u=>u.id===c).name}: ${p.c?`🔩${p.c} `:''}${p.r?`🔷${p.r} `:''}${p.e?`🟣${p.e}`:''}</span>`;
+  }).join('');
+  el.innerHTML=`
+  <div id="fortune-box">
+    <div id="machine">
+      <h3 class="disp">The Fortune Machine</h3>
+      <div class="tag">Elite parts · Fusion crates · One legend</div>
+      <div id="reel-window">
+        <div class="fade l"></div><div class="fade r"></div>
+        <div id="reel"></div>
+      </div>
+      <div id="spin-row">
+        <button class="act" id="spin-key" ${S.keys<1?'disabled':''}>Spin — 1 ⚿ key (${S.keys})</button>
+        <button class="ghost" id="spin-gold" ${S.gold<60?'disabled':''}>Spin — 60 ◆ gold</button>
+      </div>
+      <div id="fortune-note">Keys come from boss races${S.equip.printer?', your Parts Fabricator':''}${S.sponsors.sp5==='b'?', your Orbital deal':''}.
+      Stage-6 Elite installs on your selected car; Fusion Crates feed the ◇ slots in the garage.</div>
+    </div>
+    ${partChips?`<h2 class="sec disp">Fusion parts inventory <span class="tag">FIT THEM IN THE GARAGE ◇ SLOTS</span></h2>
+    <div class="card">${partChips}</div>`:''}
+    <h2 class="sec disp">Odds <span class="tag">FULL TRANSPARENCY, NO FUNNY BUSINESS</span></h2>
+    <div class="grid g3">
+      ${PRIZES.map(p=>{
+        const tot=PRIZES.reduce((a,x)=>a+x.w,0);
+        return `<div class="card" style="display:flex;gap:10px;align-items:center;padding:10px 12px">
+          <span style="font-size:20px">${p.ic}</span>
+          <div style="flex:1"><b style="font-size:12px">${p.nm}</b>
+          <div style="font-size:10px;color:var(--ink-faint)">${{c:'Common',r:'Rare',e:'Elite',l:'Legendary'}[p.rar]}</div></div>
+          <b style="font-size:12px;color:var(--ink-dim)">${(100*p.w/tot).toFixed(1)}%</b>
+        </div>`;}).join('')}
+    </div>
+  </div>`;
+  buildReel();
+  $('#spin-key').onclick=()=>doSpin('key');
+  $('#spin-gold').onclick=()=>doSpin('gold');
+  if(!S.tutorial.fortune){ S.tutorial.fortune=true; saveGame();
+    toast('Fusion Crates + Stage-6 Elites only drop here. Boss races pay keys.');
+  }
+}
+const prizeCardHTML=p=>`<div class="prize-card rar-${p.rar}"><span class="ic">${p.ic}</span><span class="nm">${p.nm}</span></div>`;
+let reelItems=[];
+function buildReel(){
+  const reel=$('#reel');
+  reelItems=[];
+  for(let i=0;i<60;i++) reelItems.push(pick(PRIZES));
+  reel.style.transition='none';
+  reel.style.transform='translateX(0px)';
+  reel.innerHTML=reelItems.map(prizeCardHTML).join('');
+}
+function weightedPrize(){
+  const tot=PRIZES.reduce((a,p)=>a+p.w,0);
+  let r=Math.random()*tot;
+  for(const p of PRIZES){ if((r-=p.w)<0) return p; }
+  return PRIZES[0];
+}
+function doSpin(payWith){
+  if(spinning) return;
+  if(payWith==='key'){ if(S.keys<1){toast('No keys — beat boss races!','bad');return;} S.keys--; }
+  else { if(S.gold<60){toast('Not enough gold','bad');return;} S.gold-=60; }
+  spinning=true; S.stats.spins++;
+  renderHUD(); sfx('spin');
+  const prize=weightedPrize();
+  const slot=46;
+  reelItems[slot]=prize;
+  const reel=$('#reel');
+  reel.innerHTML=reelItems.map(prizeCardHTML).join('');
+  reel.style.transition='none'; reel.style.transform='translateX(0px)';
+  const cardW=104+8;
+  const windowW=$('#reel-window').clientWidth;
+  const target=slot*cardW+52-windowW/2+rnd(-30,30);
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{
+    reel.style.transition='transform 4.2s cubic-bezier(.12,.65,.08,1)';
+    reel.style.transform=`translateX(${-target}px)`;
+  });});
+  setTimeout(()=>{ grantPrize(prize); spinning=false; }, 4500);
+}
+function spinAgain(){
+  closeModal(); renderFortune();
+  setTimeout(()=>{ if(S.keys>=1) doSpin('key'); else if(S.gold>=60) doSpin('gold'); },60);
+}
+function grantPrize(p){
+  let body='';
+  if(p.id==='c1'){const v=8000+S.shopLvl*14000;S.cash+=v;S.stats.earned+=v;body=rl('💵 Cash','+$'+fmt(v));sfx('buy');}
+  else if(p.id==='c2'){const v=30000+S.shopLvl*45000;S.cash+=v;S.stats.earned+=v;body=rl('💰 Cash','+$'+fmt(v));sfx('buy');}
+  else if(p.id==='g1'){S.gold+=20;body=rl('◆ Gold','+20');sfx('buy');}
+  else if(p.id==='k1'){S.keys+=1;body=rl('⚿ Key','+1');sfx('buy');}
+  else if(p.id==='r2'){S.gold+=120;body=rl('◆ Gold','+120');sfx('win');}
+  else if(p.id==='l2'){S.gold+=600;body=rl('👑 Gold','+600');sfx('jackpot');}
+  else if(p.id==='e2'){const v=220000+S.shopLvl*260000;S.cash+=v;S.stats.earned+=v;body=rl('🏆 Jackpot','+$'+fmt(v));sfx('jackpot');}
+  else if(p.id==='f1'){
+    const lines=grantParts(3,{e:6,r:30});
+    body=lines.map(l=>rl(l+' fusion part','+1')).join('')+
+      `<div class="sub" style="margin-top:8px;font-size:11px">Fit these in the ◇ slots under each upgrade in the garage.</div>`;
+    sfx('win');
+  }
+  else if(p.id==='e1'){
+    const car=activeCar();
+    const eligible=UPGRADES.filter(u=>(car.upg[u.id]||0)===5);
+    if(eligible.length){
+      const u=pick(eligible); car.upg[u.id]=6;
+      body=rl('🧬 '+u.name,'STAGE 6 ELITE')+`<div class="sub" style="margin-top:8px;font-size:11px">Installed on your ${CARS_BY_ID[car.id].name}.</div>`;
+    } else {
+      const lines=grantParts(2,{e:100,r:0});
+      body=lines.map(l=>rl(l+' fusion part','+1')).join('')+
+        `<div class="sub" style="margin-top:8px;font-size:11px">No stage-5 category to elevate, so the machine minted Epic fusion parts instead.</div>`;
+    }
+    sfx('win');
+  }
+  else if(p.id==='l1'){
+    if(S.cars.some(c=>c.id==='phantom')){
+      S.gold+=800; body=rl('Duplicate legend → converted','+800 ◆');
+    } else {
+      S.cars.push(newOwnedCar('phantom')); S.activeCar=S.cars.length-1;
+      body=rl('🔮 NEW CAR','Phantom Legend')+
+        `<div class="sub" style="margin-top:8px">The 1% pull. 1800 hp of myth is now parked in your garage.</div>`;
+    }
+    sfx('jackpot');
+  }
+  modal(`<h3 class="disp" style="color:${{c:'var(--ink)',r:'var(--cyan)',e:'var(--purple)',l:'var(--amber)'}[p.rar]}">${p.ic} ${p.nm}</h3>${body}
+    <div class="btn-row">
+      <button class="ghost" onclick="closeModal()">Done</button>
+      <button class="act" onclick="spinAgain()" ${S.keys<1&&S.gold<60?'disabled':''}>Spin again</button>
+    </div>`);
+  renderHUD(); renderFortune(); saveGame();
+}
+const rl=(a,b)=>`<div class="reward-line"><span>${a}</span><b>${b}</b></div>`;
+
+/* =====================================================================
+   loop / ticker / offline / boot
+===================================================================== */
+let lastTick=Date.now(), fabAcc=0, orbAcc=0;
+setInterval(()=>{
+  const now=Date.now();
+  const dt=(now-lastTick)/1000; lastTick=now;
+  const inc=(mechIncome()+driverIncome())*dt;
+  if(inc>0){ S.cash+=inc; S.stats.earned+=inc; }
+  const dr=driverRep()*dt;
+  if(dr>0) S.rep+=dr;
+  if(S.equip.printer>0){
+    fabAcc+=dt;
+    const per=600/S.equip.printer;
+    if(fabAcc>=per){fabAcc-=per; S.keys++; toast('⚙️ Parts Fabricator produced a Fortune key!','good');}
+  }
+  if(S.sponsors.sp5==='b'){
+    orbAcc+=dt;
+    if(orbAcc>=300){orbAcc-=300; S.keys++; toast('🛰️ Orbital Motorsport sent a Fortune key!','good');}
+  }
+  if(S.contract && now>=S.contract.ends){
+    const c=CONTRACTS[S.contract.idx];
+    const pay=Math.round(c.pay*(1+S.equip.paint*0.15)*sponsorMult('contract'));
+    S.cash+=pay; S.rep+=c.rep; S.stats.earned+=pay;
+    S.contract=null;
+    sfx('win'); toast(`✅ ${c.name} finished: +$${fmt(pay)}, +${c.rep} rep`,'good');
+    if(curScreen==='biz') renderBiz();
+    saveGame();
+  } else if(S.contract && curScreen==='biz'){
+    const t=$('#contract-timer');
+    if(t){ t.textContent='⏱ '+Math.ceil((S.contract.ends-now)/1000)+'s remaining';
+      const barEl=t.closest('.contract').querySelector('.bar i');
+      if(barEl) barEl.style.width=(100*(1-(S.contract.ends-now)/S.contract.total))+'%';
+    }
+  }
+  renderHUD();
+}, 500);
+setInterval(saveGame, 15000);
+
+function refreshTicker(){
+  const bits=[
+    `Reputation <b>${fmt(S.rep)}★</b>`,
+    `Garage: <b>${S.cars.length}</b> car${S.cars.length>1?'s':''}`,
+    `Best PP <b>${bestCarPP()}</b>`,
+    `Crew: <b>${S.mechs.length}</b> mechanics, <b>${S.drivers.length}</b> drivers`,
+    pick([
+      'Rumor: a Phantom Legend was spotted leaving the docks…',
+      'GripKing Tires: “Traction is a lifestyle.”',
+      'Tier bosses pay Fortune keys — bring your best build.',
+      'Perfect launch: the bright green sliver. Trust the needle.',
+      'Every car likes a different PSI. The dyno knows.',
+      "The Velocity Empire wasn't built in a day. It was built in quarter-miles.",
+    ]),
+  ];
+  $('#ticker-inner').innerHTML=bits.join(' &nbsp;&nbsp;·&nbsp;&nbsp; ')+' &nbsp;&nbsp;·&nbsp;&nbsp; ';
+}
+setInterval(refreshTicker, 40000);
+
+function offlineEarnings(){
+  const away=(Date.now()-S.lastSeen)/1000;
+  if(away<60) return;
+  const capped=Math.min(away, 8*3600);
+  const inc=(mechIncome()+driverIncome())*capped*0.5;
+  const rep=driverRep()*capped*0.5;
+  if(inc<1) return;
+  S.cash+=inc; S.rep+=rep; S.stats.earned+=inc;
+  modal(`<h3 class="disp">While you were away…</h3>
+    <div class="sub">Your crew kept the lights on for ${capped>=3600?Math.floor(capped/3600)+'h '+Math.floor((capped%3600)/60)+'m':Math.floor(capped/60)+'m'} (offline rate: 50%).</div>
+    <div class="reward-line"><span>💵 Shop & driver income</span><b>+$${fmt(inc)}</b></div>
+    ${rep>=1?`<div class="reward-line"><span>★ Reputation</span><b>+${fmt(rep)}</b></div>`:''}
+    <div class="btn-row"><button class="act" onclick="closeModal()">Collect</button></div>`);
+}
+
+(async function init(){
+  buildEvents();
+  await loadGame();
+  offlineEarnings();
+  refreshTicker();
+  renderHUD();
+  show('garage');
+  window.addEventListener('keydown',e=>{
+    if(!R.on) return;
+    if(e.code==='Space'||e.code==='Enter'){ e.preventDefault(); $('#shift-btn').click(); }
+    if(e.code==='KeyN'){ e.preventDefault(); $('#nitro-btn').click(); }
+    if(e.code==='Escape'){ e.preventDefault(); R.paused? $('#pm-resume').click() : $('#race-pause').click(); }
+  });
+})();
+</script>
+</body></html>

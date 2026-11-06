@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+
+<html lang="ja"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/>
+<title>Bloom Keeper - 花粉汚染庭園の再建</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a2a1a;font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,monospace;touch-action:none}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#13200f}
+#stage{position:relative}
+#game,#ui{position:absolute;left:0;top:0;width:100%;height:100%}
+#game{image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+#ui{pointer-events:none;z-index:5}
+.icimg{image-rendering:pixelated;vertical-align:-4px;width:20px;height:20px;margin-right:5px}
+@keyframes ic-pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.3);opacity:1}}
+@keyframes ic-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
+@keyframes ic-spin{to{transform:rotate(360deg)}}
+@keyframes ic-glow{0%,100%{filter:drop-shadow(0 0 1px #a0d0f8)}50%{filter:drop-shadow(0 0 6px #d0e8ff)}}
+@keyframes ic-sway{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+.ic{width:16px;height:16px;display:block;margin:0 auto 2px}
+.ic-purify{background:#fff8c0;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:ic-pulse 1.2s infinite}
+.ic-heal{background:#7ae09a;border-radius:50% 50% 55% 55%/35% 35% 65% 65%;animation:ic-bob 1.4s infinite}
+.ic-shield{background:#a0d0f8;clip-path:polygon(50% 0,100% 18%,100% 58%,50% 100%,0 58%,0 18%);animation:ic-glow 1.6s infinite}
+.ic-wind{border:3px solid #b0e8d0;border-top-color:transparent;border-radius:50%;background:transparent;animation:ic-spin 1s linear infinite}
+.ic-gear{background:#ffd966;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:ic-spin 4s linear infinite}
+.logo-flower{width:26px;height:26px;display:inline-block;position:relative;vertical-align:-4px;margin:0 8px}
+.logo-flower i{position:absolute;width:10px;height:10px;border-radius:50%;background:#f8a8c8}
+.logo-flower i:nth-child(1){left:8px;top:0}.logo-flower i:nth-child(2){left:8px;bottom:0}
+.logo-flower i:nth-child(3){left:0;top:8px}.logo-flower i:nth-child(4){right:0;top:8px}
+.logo-flower i:nth-child(5){left:8px;top:8px;background:#ffe98a}
+.logo-flower{animation:ic-sway 2.4s ease-in-out infinite}
+.ov{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:20;color:#e8f5d8;text-align:center;padding:12px;overflow-y:auto}
+.ov.show{display:flex}
+#title{background:linear-gradient(180deg,#0d1f12 0%,#1d3a22 45%,#2d5232 100%)}
+#charsel,#mapsel,#bestiary,#unlocks,#howto{background:rgba(10,24,12,.96)}
+#levelup,#pause{background:rgba(8,20,10,.82)}
+#result{background:rgba(8,18,10,.95)}
+h1.logo{font-size:clamp(34px,8vw,64px);letter-spacing:.06em;color:#ffe98a;text-shadow:0 3px 0 #b8862d,0 6px 14px rgba(0,0,0,.6);margin-bottom:4px}
+.sub{color:#a8d8a0;font-size:clamp(12px,2.5vw,16px);margin-bottom:22px}
+.btn{display:inline-block;background:#3f7a3a;border:2px solid #8fd072;color:#f2ffe6;padding:10px 26px;margin:5px;border-radius:8px;font-size:clamp(14px,3vw,18px);cursor:pointer;box-shadow:0 3px 0 #245020;font-family:inherit}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.small{padding:6px 14px;font-size:13px}
+.btn.gold{background:#8a6a20;border-color:#ffd966;box-shadow:0 3px 0 #5a4410}
+.btn:disabled{opacity:.45;cursor:default}
+.cards{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:980px;margin:8px 0}
+.card{background:#15301a;border:2px solid #4a7a44;border-radius:10px;padding:10px;width:150px;cursor:pointer;transition:transform .08s}
+.card:hover{transform:translateY(-3px);border-color:#a0e080}
+.card.sel{border-color:#ffe98a;background:#2a4520;box-shadow:0 0 12px rgba(255,233,138,.35)}
+.card.locked{opacity:.55}
+.card canvas{margin:4px auto;width:60px;height:70px}
+.card .nm{color:#ffe98a;font-size:15px;font-weight:bold}
+.card .rl{color:#9cc790;font-size:11px;margin:2px 0}
+.card .pk{color:#cfe8ff;font-size:11px;line-height:1.5}
+.card .wp{color:#ffc0cb;font-size:11px}
+.lvcards{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:880px}
+.lvcard{background:#1b3a20;border:2px solid #5a9a50;border-radius:12px;padding:14px;width:200px;cursor:pointer;text-align:left}
+.lvcard:hover{border-color:#ffe98a;background:#2a4e28;transform:translateY(-3px)}
+.lvcard .h{color:#ffe98a;font-size:15px;font-weight:bold;margin-bottom:4px}
+.lvcard .t{color:#8fd072;font-size:11px;margin-bottom:6px}
+.lvcard .d{color:#d8eccc;font-size:12px;line-height:1.55}
+.lvcard.evo{border-color:#ff9adf;background:#3a1f38}
+.lvcard.evo:hover{background:#532a50}
+.bestrow{display:flex;align-items:center;gap:10px;background:#15301a;border:1px solid #3a6034;border-radius:8px;padding:8px 12px;width:min(560px,92vw);text-align:left;margin:3px}
+.bestrow canvas{width:40px;height:40px;flex-shrink:0}
+.bestrow .bi{flex:1}
+.bestrow .bn{color:#ffe98a;font-size:14px;font-weight:bold}
+.bestrow .bd{color:#bcdcae;font-size:11px;line-height:1.5}
+.bestrow .bk{color:#88aa80;font-size:11px;white-space:nowrap}
+.bestrow.unknown{opacity:.5}
+.statline{color:#cfe8c0;font-size:14px;margin:3px;line-height:1.7}
+.big{font-size:clamp(26px,6vw,44px);font-weight:bold;margin-bottom:8px}
+.big.win{color:#ffe98a;text-shadow:0 0 18px rgba(255,233,138,.5)}
+.big.lose{color:#e89aa8}
+#pts{color:#ffd966;font-size:13px;margin-bottom:8px}
+.sect{color:#8fd072;font-size:13px;margin:12px 0 4px;letter-spacing:.2em}
+.howbox{max-width:620px;text-align:left;color:#d8eccc;font-size:13px;line-height:1.9;background:#15301a;border:1px solid #4a7a44;border-radius:10px;padding:16px 20px;margin:8px}
+.howbox b{color:#ffe98a}
+#touchui{position:fixed;inset:0;z-index:10;display:none;pointer-events:none}
+#touchui.show{display:block}
+.skbtn{position:absolute;width:54px;height:54px;border-radius:50%;background:rgba(40,80,40,.75);border:2px solid #8fd072;color:#fff;font-size:10px;pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
+.skbtn .ic{font-size:18px}
+.skbtn:active{background:rgba(120,180,90,.85)}
+.skbtn.cd{opacity:.4}
+#repbtn{position:absolute;width:64px;height:64px;border-radius:50%;background:rgba(150,110,30,.85);border:2px solid #ffd966;color:#fff;font-size:11px;pointer-events:auto;display:none;align-items:center;justify-content:center;flex-direction:column}
+.pill{display:inline-block;background:#234a22;border:1px solid #6aa860;color:#cfe8c0;border-radius:20px;padding:3px 12px;font-size:11px;margin:2px}
+footer.cr{position:fixed;bottom:6px;width:100%;text-align:center;color:#5a7a55;font-size:10px;z-index:21;pointer-events:none}
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="wrap"><div id="stage" style="width: 1440px; height: 810px;"><canvas height="270" id="game" width="480"></canvas><canvas height="810" id="ui" width="1440"></canvas></div></div>
+<div id="touchui">
+<div class="skbtn" id="sk0" style="right:14px;bottom:150px"><span class="ic ic-purify"></span>浄化</div>
+<div class="skbtn" id="sk1" style="right:76px;bottom:96px"><span class="ic ic-heal"></span>回復</div>
+<div class="skbtn" id="sk2" style="right:14px;bottom:84px"><span class="ic ic-shield"></span>守り</div>
+<div class="skbtn" id="sk3" style="right:76px;bottom:158px"><span class="ic ic-wind"></span>疾風</div>
+<div id="repbtn"><span class="ic ic-gear"></span>修復</div>
+</div>
+<div class="ov show" id="title">
+<h1 class="logo"><span class="logo-flower"><i></i><i></i><i></i><i></i><i></i></span>Bloom Keeper<span class="logo-flower"><i></i><i></i><i></i><i></i><i></i></span></h1>
+<div class="sub">— 花粉汚染された庭園を、もう一度咲かせよう —</div>
+<div id="pts">再建ポイント: 0 pt　／　<img alt="" class="icimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAUUlEQVR4AYSMwQkAIRADPSu4Uq6EK90SLMUOlFkc2IfgQtgwCall32jfzNq4RIFA4JdVzfv3x1BPFgsGp38v5DkXmMaTxQIGkCWLAgEgC4YWAAAA//8JvYt/AAAABklEQVQDAPASKBEYS4SPAAAAAElFTkSuQmCC"/>ゴールド: 0 G　／　プレイ回数: 0　／　再建完了: 0回</div>
+<div>
+<button class="btn" id="btStart">庭園へ出発</button>
+<button class="btn gold" id="btPower">永続強化</button>
+</div>
+<div>
+<button class="btn small" id="btHow">あそびかた</button>
+<button class="btn small" id="btBest">敵図鑑</button>
+<button class="btn small" id="btUnlock">再建ショップ</button>
+<button class="btn small" id="btTitles">称号</button>
+<button class="btn small" id="btMute">BGM: ON</button>
+</div>
+<div id="titleTitles" style="margin-top:10px"></div>
+</div>
+<div class="ov" id="power" style="background:rgba(10,24,12,.96)">
+<div class="big win" style="font-size:24px">永続強化 — 庭師の道具箱</div>
+<div class="sub" id="powerGold"></div>
+<div id="powerList" style="display:flex;flex-direction:column;align-items:center;max-height:60vh;overflow-y:auto;width:100%"></div>
+<button class="btn" id="btPowerBack" style="margin-top:10px">もどる</button>
+</div>
+<div class="ov" id="howto">
+<div class="big win" style="font-size:24px">あそびかた</div>
+<div class="howbox">
+<b>移動</b>：WASD / 矢印キー（スマホ：画面左をドラッグ）<br/>
+<b>攻撃</b>：自動。位置取りが全て。<br/>
+<b>花粉の結晶</b>を拾って<b>成長ゲージ</b>を貯め、レベルアップで3択強化。<br/>
+<b>花粉エネルギー</b>（黄ゲージ）はスキルに使う特殊資源：<br/>
+    　[1] 浄化バースト　[2] 回復の雫　[3] 花弁シールド　[4] 疾風<br/>
+    　※使用後は共通で8秒間使えない。<br/>
+<b>施設修復</b>：壊れた施設の近くで [E]（スマホ：修復ボタン）。エネルギーを消費して恒久的な恩恵を得る。<br/>
+<b>時間帯</b>は5分ごとに 朝→昼→夕→夜 と変化し、敵の挙動が変わる。夜は特殊な敵が現れる。<br/>
+<b>10分ごと</b>に中ボス、<b>30分</b>で最終ボス。倒せば「庭園再建完了」！<br/>
+<b>ゴールド</b>：敵が落とすコイン。タイトルの<b>永続強化</b>メニューで攻撃力・移動速度・復活などを購入。効果は次回以降ずっと有効・全キャラ共通。<br/>
+    稼ぐ → 強化する → さらに長く生き残る → もっと稼ぐ、のループで庭園を取り戻そう。<br/>
+<b>Esc / P</b>：ポーズ　<b>M</b>：BGM切替（BGMは庭園ごとに変わる）
+  </div>
+<button class="btn" id="btHowBack">もどる</button>
+</div>
+<div class="ov" id="charsel">
+<div class="big win" style="font-size:24px">管理人を選ぶ</div>
+<div class="cards" id="charCards"></div>
+<div>
+<button class="btn" disabled="" id="btCharNext">つぎへ →</button>
+<button class="btn small" id="btCharBack">もどる</button>
+</div>
+</div>
+<div class="ov" id="mapsel">
+<div class="big win" style="font-size:24px">庭園を選ぶ</div>
+<div class="cards" id="mapCards"></div>
+<div>
+<button class="btn gold" disabled="" id="btGo">再建開始</button>
+<button class="btn small" id="btMapBack">もどる</button>
+</div>
+</div>
+<div class="ov" id="levelup">
+<div class="big win" style="font-size:26px">レベルアップ！</div>
+<div class="sub" id="luLv"></div>
+<div class="lvcards" id="luCards"></div>
+</div>
+<div class="ov" id="pause">
+<div class="big win" style="font-size:26px">ひとやすみ</div>
+<div id="pauseInfo" style="margin-bottom:10px"></div>
+<button class="btn" id="btResume">さいかい</button>
+<button class="btn small" id="btQuit">あきらめる（タイトルへ）</button>
+</div>
+<div class="ov" id="result">
+<div class="big" id="resHead"></div>
+<div class="sub" id="resSub"></div>
+<div id="resStats"></div>
+<div class="sect">─ 庭園再建ポイント ─</div>
+<div id="resPts" style="color:#ffd966;font-size:22px;font-weight:bold;margin-bottom:6px"></div>
+<div id="resNew"></div>
+<div style="margin-top:12px">
+<button class="btn gold" id="btRetry">もう1回だけ</button>
+<button class="btn" id="btToTitle">タイトルへ</button>
+</div>
+</div>
+<div class="ov" id="bestiary">
+<div class="big win" style="font-size:24px">敵図鑑 — 花粉生物記録</div>
+<div class="sub" id="bestCount"></div>
+<div id="bestList" style="display:flex;flex-direction:column;align-items:center;max-height:62vh;overflow-y:auto;width:100%"></div>
+<button class="btn" id="btBestBack" style="margin-top:10px">もどる</button>
+</div>
+<div class="ov" id="unlocks">
+<div class="big win" style="font-size:24px">再建ショップ</div>
+<div class="sub" id="shopPts"></div>
+<div id="shopList" style="display:flex;flex-direction:column;align-items:center;max-height:60vh;overflow-y:auto;width:100%"></div>
+<button class="btn" id="btShopBack" style="margin-top:10px">もどる</button>
+</div>
+<footer class="cr">Bloom Keeper — original IP / 既存作品の流用なし</footer>
+<script>
+"use strict";
+/* =========================================================
+   Bloom Keeper — 花粉汚染庭園 再建サバイバル
+   single-file HTML5 game / PC + mobile
+   ========================================================= */
+
+// ---------- 基本定数 ----------
+const VW=480, VH=270;                 // 内部解像度(ゲーム描画)
+const K=3;                            // UIレイヤー解像度倍率(文字を高解像度で描く)
+const cv=document.getElementById('game');
+const cx=cv.getContext('2d');
+cv.width=VW; cv.height=VH;
+cx.imageSmoothingEnabled=false;
+const ui=document.getElementById('ui');
+const ux=ui.getContext('2d');
+ui.width=VW*K; ui.height=VH*K;
+function fitCanvas(){
+  const w=innerWidth,h=innerHeight;
+  const s=Math.max(1,Math.floor(Math.min(w/VW,h/VH)*4)/4);
+  const st=document.getElementById('stage');
+  st.style.width=(VW*s)+'px'; st.style.height=(VH*s)+'px';
+}
+addEventListener('resize',fitCanvas); fitCanvas();
+
+const TAU=Math.PI*2;
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const dist2=(ax,ay,bx,by)=>{const dx=ax-bx,dy=ay-by;return dx*dx+dy*dy};
+const rnd=(a=1,b)=>b===undefined?Math.random()*a:a+Math.random()*(b-a);
+const pick=a=>a[Math.random()*a.length|0];
+const lerp=(a,b,t)=>a+(b-a)*t;
+function hash2(x,y){let h=(x*374761393+y*668265263)|0;h=(h^(h>>13))*1274126177|0;return ((h^(h>>16))>>>0)/4294967296;}
+
+// ---------- セーブ ----------
+const SAVEKEY='bloomkeeper_v1';
+let SAVE={pts:0, gold:0, power:{}, chars:{leaf:1,dande:1,iris:1}, maps:{spring:1}, seen:{}, kills:{}, titles:{}, runs:0, bestTime:0, totalKills:0, bgm2:0, clears:0};
+function loadSave(){ try{const s=localStorage.getItem(SAVEKEY); if(s){const o=JSON.parse(s); SAVE=Object.assign(SAVE,o);} }catch(e){} }
+function saveSave(){ try{localStorage.setItem(SAVEKEY,JSON.stringify(SAVE));}catch(e){} }
+loadSave();
+
+// ---------- オーディオ ----------
+let AC=null, masterG=null, bgmOn=true, bgmTimer=null, bgmStep=0;
+function audioInit(){
+  if(AC) return;
+  try{
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    masterG=AC.createGain(); masterG.gain.value=.5; masterG.connect(AC.destination);
+  }catch(e){}
+}
+function tone(f,dur,type='square',vol=.12,slide=0,delay=0){
+  if(!AC) return;
+  const t=AC.currentTime+delay;
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type; o.frequency.setValueAtTime(f,t);
+  if(slide) o.frequency.exponentialRampToValueAtTime(Math.max(20,f+slide),t+dur);
+  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
+  o.connect(g); g.connect(masterG); o.start(t); o.stop(t+dur+.02);
+}
+const SFX={
+  shoot:()=>tone(620,.06,'square',.04,-200),
+  hit:()=>tone(220,.05,'sawtooth',.05,-80),
+  pickup:()=>tone(880,.07,'sine',.07,300),
+  level:()=>{tone(523,.1,'square',.09);tone(659,.1,'square',.09,0,.09);tone(784,.16,'square',.1,0,.18);},
+  hurt:()=>tone(140,.18,'sawtooth',.12,-60),
+  skill:()=>{tone(700,.12,'sine',.1,400);tone(1050,.18,'sine',.08,200,.08);},
+  repair:()=>{tone(392,.1,'triangle',.1);tone(494,.1,'triangle',.1,0,.1);tone(587,.2,'triangle',.1,0,.2);},
+  boss:()=>{tone(98,.4,'sawtooth',.14,-30);tone(110,.4,'sawtooth',.12,-30,.3);},
+  evo:()=>{[523,659,784,1047,1319].forEach((f,i)=>tone(f,.14,'triangle',.1,0,i*.08));},
+  box:()=>{tone(660,.1,'sine',.1,200);tone(990,.14,'sine',.1,200,.1);},
+  die:()=>{tone(300,.5,'sawtooth',.14,-260);},
+  win:()=>{[392,494,587,784,988,1175].forEach((f,i)=>tone(f,.22,'triangle',.11,0,i*.13));},
+};
+// シンプルBGM（自前のステップシーケンサ / マップごとに曲が変わる）
+const BGM_DEFAULT={
+  day:[262,294,330,392,440,523,587,659], night:[220,247,262,330,349,440,494,523],
+  tempo:165, lead:'sine', bass:'triangle', mel:[0,2,4,7,4,2,5,4,0,2,4,7,9,7,4,2], bassLine:[0,0,3,2],
+};
+function bgmConf(){
+  if(RUN&&RUN.map&&RUN.map.music&&(GAME.state==='play'||GAME.state==='levelup'||GAME.state==='pause'||GAME.state==='result'))return RUN.map.music;
+  return BGM_DEFAULT;
+}
+function bgmTick(){
+  if(!AC||!bgmOn) return;
+  const cfg=bgmConf();
+  const night=(GAME.state==='play'&&GAME.phase===3);
+  const sc=night?cfg.night:cfg.day;
+  const st=bgmStep++;
+  const bass=sc[cfg.bassLine[(st>>3)%cfg.bassLine.length]]/2;
+  if(st%4===0) tone(bass,.30,cfg.bass,.06);
+  const mel=cfg.mel[st%cfg.mel.length];
+  if(st%2===0) tone(sc[mel%sc.length]*(night?1:2),.16,cfg.lead,.035);
+  if(st%8===4) tone(sc[4]*2,.1,cfg.lead,.02);
+  if(SAVE.bgm2&&st%4===2) tone(sc[(mel+2)%sc.length]*2,.12,'triangle',.022);
+}
+let bgmTempo=165;
+function bgmStart(tempo){
+  if(tempo&&tempo!==bgmTempo){bgmStop();bgmTempo=tempo;}
+  if(bgmTimer) return;
+  bgmTimer=setInterval(bgmTick,bgmTempo);
+}
+function bgmStop(){ clearInterval(bgmTimer); bgmTimer=null; }
+
+// ---------- 入力 ----------
+const keys={};
+let joy={active:false,id:-1,ox:0,oy:0,dx:0,dy:0};
+const isTouch='ontouchstart' in window;
+addEventListener('keydown',e=>{
+  keys[e.key.toLowerCase()]=true;
+  if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(e.key.toLowerCase())) e.preventDefault();
+  if(GAME.state==='play'){
+    if(e.key==='1') useSkill(0); if(e.key==='2') useSkill(1);
+    if(e.key==='3') useSkill(2); if(e.key==='4') useSkill(3);
+    if(e.key.toLowerCase()==='e') tryRepair();
+    if(e.key==='Escape'||e.key.toLowerCase()==='p') pauseGame();
+  } else if(GAME.state==='pause'&&(e.key==='Escape'||e.key.toLowerCase()==='p')) resumeGame();
+  if(e.key.toLowerCase()==='m') toggleBGM();
+});
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+
+cv.addEventListener('touchstart',e=>{
+  audioInit();
+  for(const t of e.changedTouches){
+    if(t.clientX<innerWidth*.55&&!joy.active){
+      joy.active=true;joy.id=t.identifier;joy.ox=t.clientX;joy.oy=t.clientY;joy.dx=0;joy.dy=0;
+    }
+  }
+  e.preventDefault();
+},{passive:false});
+cv.addEventListener('touchmove',e=>{
+  for(const t of e.changedTouches){
+    if(joy.active&&t.identifier===joy.id){
+      let dx=t.clientX-joy.ox, dy=t.clientY-joy.oy;
+      const m=Math.hypot(dx,dy);
+      if(m>46){dx*=46/m;dy*=46/m;}
+      joy.dx=dx/46; joy.dy=dy/46;
+    }
+  }
+  e.preventDefault();
+},{passive:false});
+const endTouch=e=>{
+  for(const t of e.changedTouches){
+    if(joy.active&&t.identifier===joy.id){joy.active=false;joy.dx=0;joy.dy=0;}
+  }
+};
+cv.addEventListener('touchend',endTouch); cv.addEventListener('touchcancel',endTouch);
+
+function moveInput(){
+  let x=0,y=0;
+  if(keys['w']||keys['arrowup'])y-=1;
+  if(keys['s']||keys['arrowdown'])y+=1;
+  if(keys['a']||keys['arrowleft'])x-=1;
+  if(keys['d']||keys['arrowright'])x+=1;
+  if(joy.active){x=joy.dx;y=joy.dy;}
+  const m=Math.hypot(x,y);
+  if(m>1){x/=m;y/=m;}
+  return [x,y];
+}
+
+// ---------- スプライト生成 ----------
+function mkSpr(rows,pal){
+  const h=rows.length,w=rows[0].length;
+  const c=document.createElement('canvas'); c.width=w;c.height=h;
+  const g=c.getContext('2d');
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const ch=rows[y][x];
+    if(ch==='.'||ch===' ')continue;
+    g.fillStyle=pal[ch]||'#f0f';
+    g.fillRect(x,y,1,1);
+  }
+  return c;
+}
+function grayPal(pal){
+  const o={};
+  for(const k in pal){
+    const c=pal[k]; const n=parseInt(c.slice(1),16);
+    const r=n>>16,g=(n>>8)&255,b=n&255;
+    const v=Math.round((r*.3+g*.6+b*.1)*.55)+30;
+    o[k]='rgb('+v+','+v+','+v+')';
+  }
+  return o;
+}
+
+// プレイヤー基本形(12x14) — P:服 S:ズボン H:帽子/髪 のパレット差し替えで6人生成
+const P_BODY=[
+[ // frame A
+"....HHHH....",
+"...HHHHHH...",
+"..HHHHHHHH..",
+"...ffffff...",
+"...fwffwf...",
+"...ffffff...",
+"..PPPPPPPP..",
+".PpPPPPPPpP.",
+".P.PPPPPP.P.",
+"...SSSSSS...",
+"...SS..SS...",
+"...SS..SS...",
+"...bb..bb...",
+"...bb..bb..."],
+[ // frame B (歩き)
+"....HHHH....",
+"...HHHHHH...",
+"..HHHHHHHH..",
+"...ffffff...",
+"...fwffwf...",
+"...ffffff...",
+"..PPPPPPPP..",
+".PpPPPPPPpP.",
+".P.PPPPPP.P.",
+"...SSSSSS...",
+"...SS.SS....",
+"....SS.SS...",
+"...bb...bb..",
+"....bb.bb..."]
+];
+function mkChar(prim,sec,hat){
+  const pal={H:hat,f:'#f5cfa0',w:'#3a2a20',P:prim,p:shade(prim),S:sec,b:'#5a3a22'};
+  return [mkSpr(P_BODY[0],pal),mkSpr(P_BODY[1],pal)];
+}
+function shade(hex){
+  const n=parseInt(hex.slice(1),16);
+  const r=Math.max(0,(n>>16)-40),g=Math.max(0,((n>>8)&255)-40),b=Math.max(0,(n&255)-40);
+  return 'rgb('+r+','+g+','+b+')';
+}
+
+// 敵スプライト定義(役割別・花粉/植物変異テーマ)
+const E_ART={
+fuwa:{rows:[
+"...aaaa...",
+".aaAAAAaa.",
+".aAAAAAAa.",
+"aAAeAAeAAa",
+"aAAAAAAAAa",
+".aAAmmAAa.",
+".aaAAAAaa.",
+"...aaaa...",
+"..a....a..",
+".........."],
+pal:{a:'#d8c050',A:'#f0e080',e:'#403020',m:'#a08030'}},
+toge:{rows:[
+"..t..t..t.",
+".tAAAAAAt.",
+"tAAeAAeAAt",
+".AAAAAAAA.",
+"tAAAmmAAAt",
+".tAAAAAAt.",
+"..t.tt.t..",
+".........."],
+pal:{t:'#c06030',A:'#e8a050',e:'#402010',m:'#904820'}},
+kabi:{rows:[
+"...kkkk...",
+".kkKKKKkk.",
+"kKKsKKsKKk",
+"kKKKKKKKKk",
+".kkkKKkkk.",
+"...mMMm...",
+"...mMMm...",
+"..mMeeMm..",
+"...mMMm...",
+"...m..m..."],
+pal:{k:'#7050a0',K:'#9878c8',s:'#d8c8f0',m:'#c8b890',M:'#e8dcb0',e:'#403050'}},
+abu:{rows:[
+"w........w",
+"ww.AAAA.ww",
+".wwAeAeww.",
+"..AAAAAA..",
+".wwAAAAww.",
+"ww.ammma.ww".slice(0,10),
+"w...aa...w",
+".........."],
+pal:{w:'#b0d8e8',A:'#d8b040',e:'#302010',a:'#806020',m:'#403010'}},
+tsuru:{rows:[
+".g......g.",
+".gg....gg.",
+"..gGGGGg..",
+".gGeGGeGg.",
+".gGGGGGGg.",
+"..gGGGGg..",
+".gg.gg.gg.",
+"gg..gg..gg",
+".........."],
+pal:{g:'#508030',G:'#80b850',e:'#203010'}},
+tane:{rows:[
+"...nnnn...",
+"..nNNNNn..",
+".nNeNNeNn.",
+".nNNNNNNn.",
+"..nNooNn..",
+"...noon...",
+"..n.nn.n..",
+".n......n.",
+".........."],
+pal:{n:'#806840',N:'#b89860',e:'#302010',o:'#e85838'}},
+iga:{rows:[
+".i.i..i.i.",
+"iIIIIIIIIi",
+".IIeIIeII.",
+"iIIIIIIIIi",
+".IIImmIII.",
+"iIIIIIIIIi",
+".i.i..i.i.",
+".........."],
+pal:{i:'#604828',I:'#a07840',e:'#f0e060',m:'#503820'}},
+houshi:{rows:[
+"..s..s..s.",
+".shhhhhhs.",
+".hHHHHHHh.",
+"shHeHHeHhs",
+".hHHHHHHh.",
+".shhmmhhs.",
+"...hhhh...",
+"...h..h...",
+"..h....h..",
+".........."],
+pal:{s:'#e8a0d8',h:'#a05890',H:'#d088c0',e:'#401838',m:'#702858'}},
+gaku:{rows:[
+"..gggggg..",
+".gAAAAAAg.",
+"gAAGGGGAAg",
+"gAGeGGeGAg",
+"gAGGGGGGAg",
+"gAAGGGGAAg",
+".gAAAAAAg.",
+"..gggggg..",
+"...g..g...",
+".........."],
+pal:{g:'#385828',A:'#587838',G:'#88a858',e:'#e8e060'}},
+botaru:{rows:[
+".l......l.",
+".ll....ll.",
+"..lLLLLl..",
+".lLeLLeLl.",
+".lLLLLLLl.",
+"..lLooLl..",
+"...Loo L..".replace(' ','l'),
+"....ll....",
+".........."],
+pal:{l:'#3858a0',L:'#6080d0',e:'#e8f0ff',o:'#f0e858'}},
+tama:{rows:[
+"...oooo...",
+"..oOOOOo..",
+".oOOxxOOo.",
+".oOxeexOo.",
+".oOxeexOo.",
+".oOOxxOOo.",
+"..oOOOOo..",
+"...oooo...",
+".........."],
+pal:{o:'#c84830',O:'#e87850',x:'#f8b830',e:'#401008'}},
+nebari:{rows:[
+"..........",
+"..mmmmmm..",
+".mMMMMMMm.",
+"mMeMMMMeMm",
+"mMMMMMMMMm",
+".mMMmmMMm.",
+"mmMmmmmMmm",
+"m.m.mm.m.m",
+".........."],
+pal:{m:'#487858',M:'#70a880',e:'#183020'}},
+kama:{rows:[
+".k......k.",
+"..k....k..",
+"..kKKKKk..",
+".kKeKKeKk.",
+".kKKKKKKk.",
+"..kKKKKk..",
+".kk....kk.",
+"kk......kk",
+".........."],
+pal:{k:'#88a830',K:'#c0d860',e:'#283008'}},
+doku:{rows:[
+"...dddd...",
+"..dDDDDd..",
+".dDeDDeDd.",
+".dDDDDDDd.",
+".dDDppDDd.",
+"..dDDDDd..",
+"..d.dd.d..",
+".p......p.",
+".........."],
+pal:{d:'#6838a0',D:'#9860d0',e:'#e8d8f8',p:'#48e088'}},
+};
+// ボススプライト(18x18)
+const B_ART={
+tsubomi:{rows:[
+"......tttttt......",
+"....ttPPPPPPtt....",
+"...tPPpppppPPPt...",
+"..tPPpPPPPPPpPPt..",
+".tPPpPPePPePPpPPt.",
+".tPPpPPPPPPPPpPPt.",
+".tPPpPPmmmmPPpPPt.",
+".tPPpPPPPPPPPpPPt.",
+"..tPPppppppppPPt..",
+"...tPPPPPPPPPPt...",
+"....ttPPPPPPtt....",
+"......tttttt......",
+".....g.gggg.g.....",
+"....gggGGGGggg....",
+"......gGGGGg......",
+".......gGGg.......",
+".......gggg.......",
+".......g..g......."],
+pal:{t:'#a03868',P:'#e070a0',p:'#f8a8c8',e:'#481028',m:'#781848',g:'#406028',G:'#688840'}},
+nushi:{rows:[
+"....kkkkkkkkkk....",
+"..kkKKKKKKKKKKkk..",
+".kKKsKKKKKKKKsKKk.",
+"kKKKKKsKKKKsKKKKKk",
+"kKKKKKKKKKKKKKKKKk",
+".kkKKKKKKKKKKKKkk.",
+"...kkkkKKKKkkkk...",
+"....mmMMMMMMmm....",
+"...mMMeMMMMeMMm...",
+"...mMMMMMMMMMMm...",
+"...mMMMooooMMMm...",
+"...mMMMMMMMMMMm...",
+"....mmMMMMMMmm....",
+".....mm.mm.mm.....",
+"....mm..mm..mm....",
+"..................",
+"..................",
+".................."],
+pal:{k:'#503878',K:'#7858a8',s:'#d0c0e8',m:'#b0a070',M:'#d8cc98',e:'#302040',o:'#8848a0'}},
+queen:{rows:[
+"....w..wwww..w....",
+"...www.wWWw.www...",
+"..wWWwwWWWWwwWWw..",
+".wWWWWWWWWWWWWWWw.",
+".wWWqWWWWWWWWqWWw.",
+"..wWWWWqqqqWWWWw..",
+"...PPPPPPPPPPPP...",
+"..PPpPPPPPPPPpPP..",
+".PPpPPeePPeePPpPP.",
+".PPpPPPPPPPPPPpPP.",
+".PPpPPPmmmmPPPpPP.",
+".PPpPPPPPPPPPPpPP.",
+"..PPpppppppppPP...",
+"...PPPPPPPPPPPP...",
+"....gg.gggg.gg....",
+"...ggGGGGGGGGgg...",
+".....gGGGGGGg.....",
+"......gg..gg......"],
+pal:{w:'#e8d870',W:'#f8f0a8',q:'#c89828',P:'#e888b8',p:'#f8c0d8',e:'#501838',m:'#a03060',g:'#487030',G:'#70a050'}},
+};
+// 施設(14x14)
+const F_ART={
+fountain:{rows:[
+".....wWWw.....",
+"....wWwwWw....",
+"....ww..ww....",
+".....w..w.....",
+"...ssSSSSss...",
+"..sSSwwwwSSs..",
+".sSSwWWWWwSSs.",
+".sSSwWWWWwSSs.",
+"..sSSwwwwSSs..",
+"...ssSSSSss...",
+"..ssssssssss..",
+".sSSSSSSSSSSs.",
+".ssssssssssss.",
+".............."],
+pal:{s:'#8898a8',S:'#b8c8d8',w:'#58a8d8',W:'#a8e0f8'}},
+greenhouse:{rows:[
+"......gg......",
+".....gGGg.....",
+"....gGwwGg....",
+"...gGwwwwGg...",
+"..gGwwwwwwGg..",
+".gGwwwwwwwwGg.",
+"gGGGGGGGGGGGGg",
+"gGwwGwwwwGwwGg",
+"gGwwGwwwwGwwGg",
+"gGwwGwwwwGwwGg",
+"gGGGGGddGGGGGg",
+"gGwwGGddGGwwGg",
+"gGwwGGddGGwwGg",
+"gggggggggggggg"],
+pal:{g:'#487848',G:'#68a868',w:'#b8e0e8',d:'#805830'}},
+flowerbed:{rows:[
+"..............",
+".f..p..f..p...",
+"pFf.Pp.fFp.Pp.",
+".f..p...f..p..",
+"..bbbbbbbbbb..",
+".bBBBBBBBBBBb.",
+".bBddddddddBb.",
+".bBddddddddBb.",
+".bBBBBBBBBBBb.",
+"..bbbbbbbbbb..",
+"..............",
+"..............",
+"..............",
+".............."],
+pal:{f:'#f878a8',F:'#f8b8d0',p:'#f8e060',P:'#f8f0a8',b:'#906038',B:'#b88850',d:'#6a4828'}},
+tree:{rows:[
+"....gggggg....",
+"..ggGGGGGGgg..",
+".gGGGGGGGGGGg.",
+"gGGGfGGGGfGGGg",
+"gGGGGGGGGGGGGg",
+".gGGGGfGGGGGg.",
+"..ggGGGGGGgg..",
+"....gGGGGg....",
+".....tTTt.....",
+".....tTTt.....",
+".....tTTt.....",
+"....ttTTtt....",
+"...tttttttt...",
+".............."],
+pal:{g:'#386028',G:'#589840',f:'#f8a8c8',t:'#6a4828',T:'#8a6840'}},
+windmill:{rows:[
+"w.....ww.....w",
+".ww...ww...ww.",
+"..ww..ww..ww..",
+"...wwwWWwww...",
+"......WW......",
+"...wwwWWwww...",
+"..ww..ww..ww..",
+".ww...ss...ww.",
+"w....sSSs....w",
+"....sSSSSs....",
+"....sSddSs....",
+"....sSddSs....",
+"...ssssssss...",
+".............."],
+pal:{w:'#e8e0c8',W:'#c8b888',s:'#a08858',S:'#c8aa78',d:'#604830'}},
+};
+
+// 結晶・宝箱・その他
+const MISC={
+crystal1:mkSpr(["..y..",".yYy.","yYWYy",".yYy.","..y.."],{y:'#d8b830',Y:'#f8e060',W:'#fff8c0'}),
+crystal2:mkSpr(["..g..",".gGg.","gGWGg",".gGg.","..g.."],{g:'#38a868',G:'#60d890',W:'#d8ffe8'}),
+crystal3:mkSpr(["..p..",".pPp.","pPWPp",".pPp.","..p.."],{p:'#b048c8',P:'#d880e8',W:'#f8e0ff'}),
+box:mkSpr([
+".bbbbbbbb.",
+"bBBBfBBBBb",
+"bBBfFfBBBb",
+"bbbbfbbbbb",
+"bBBBBBBBBb",
+"bBBBBBBBBb",
+".bbbbbbbb."],{b:'#906030',B:'#c89048',f:'#f878a8',F:'#f8d0e0'}),
+energy:mkSpr(["..e..",".eEe.","eEWEe",".eEe.","..e.."],{e:'#d89020',E:'#f8c040',W:'#fff0b0'}),
+bee:mkSpr([".ww.","wbyw","ybyb",".yy."],{w:'#cfe8f8',b:'#403018',y:'#f0c030'}),
+};
+
+// ---------- アイコン(8x8ドット絵 / 絵文字の代わり) ----------
+const ICON_ART={
+pollen:{r:["...pp...",".pp..pp.",".p.yy.p.","..yyyy..","..yyyy..",".p.yy.p.",".pp..pp.","...pp..."],p:{p:'#f8a8c8',y:'#f8e060'}},
+boomer:{r:["....ww..","...www..","..www...",".www....",".ww.....",".www....","..ww....","........"],p:{w:'#f0ead8'}},
+vine:{r:["......g.",".....gg.","....gg..","..ggg...",".gg.t...","gg......","t.......","........"],p:{g:'#80b850',t:'#508030'}},
+bee:{r:["........",".w....w.","..wbbw..",".bybyb..",".ybybyb.","..byby..","...bb...","........"],p:{w:'#cfe8f8',b:'#403018',y:'#f0c030'}},
+seed:{r:["....g...","...gg...","..bbb...",".bbbbb..",".bbbbb..",".bbbbb..","..bbb...","........"],p:{g:'#80b850',b:'#806840'}},
+wind:{r:["..ccc...",".c...c..","....cc..","..ccc...",".c......","..ccccc.","........","........"],p:{c:'#b0e8d0'}},
+fert:{r:["..bbbb..",".b....b.",".bbbbbb.",".bggggb.",".bggggb.",".bggggb.",".bbbbbb.","........"],p:{b:'#906038',g:'#587838'}},
+glove:{r:["..g.g...",".ggggg..",".ggggg..",".ggggg..","..ggg...","..ggg...","..ggg...","........"],p:{g:'#68a868'}},
+boots:{r:["..bb....","..bb....","..bb....","..bbb...","..bbbb..",".bbbbbb.",".bbbbbb.","........"],p:{b:'#6a4828'}},
+pot:{r:["...s....","..ssss..",".s.ss.s.","s..ss...","..ssss..","..ssss..","..ssss..","........"],p:{s:'#58a8d8'}},
+soil:{r:["...gg...","..gg....","...g....",".bbbbb..",".bbbbb..","..bbb...","..bbb...","........"],p:{g:'#80b850',b:'#a05828'}},
+spray:{r:["..ss....",".ssss...","..pp....","..pppp..","..pppp..","..pppp..","..pppp..","........"],p:{s:'#a8c8e8',p:'#d8e8f0'}},
+sun:{r:["...y....",".y.y.y..","..yyy...","yyyyyyy.","..yyy...",".y.y.y..","...y....","........"],p:{y:'#f8e060'}},
+morning:{r:["........","...y....","..yyy...",".yyyyy..","ggggggg.","........","........","........"],p:{y:'#f8d878',g:'#80b850'}},
+dusk:{r:["........","...o....","..ooo...",".ooooo..","ddddddd.","........","........","........"],p:{o:'#f89048',d:'#604838'}},
+moon:{r:["..mm....",".mm.....",".mm.....",".mmm....","..mmmm..","...mmm..","........","........"],p:{m:'#d8d8f8'}},
+heart:{r:[".rr..rr.","rrrrrrrr","rrrrrrrr",".rrrrrr.","..rrrr..","...rr...","........","........"],p:{r:'#e85050'}},
+energy:{r:["...ee...","..ee....",".eeee...","...ee...","..ee....","..e.....","........","........"],p:{e:'#f8c040'}},
+coin:{r:["..gggg..",".gggggg.","gg.gg.gg","gg.gg.gg","gg.gg.gg",".gggggg.","..gggg..","........"],p:{g:'#f0c030'}},
+gear:{r:["..s..s..",".ssssss.","..s..s..",".s....s.","..s..s..",".ssssss.","..s..s..","........"],p:{s:'#ffd966'}},
+star:{r:["...y....","...yy...","yyyyyyy.",".yyyyy..","..yyy...",".yy.yy..","yy...yy.","........"],p:{y:'#ffe98a'}},
+crown:{r:["g..g..g.","gg.gg.gg","gggggggg",".gggggg.",".gggggg.","........","........","........"],p:{g:'#ffd966'}},
+lock:{r:["..ssss..",".s....s.",".s....s.","ssssssss","ssssssss","ss.ss.ss","ssssssss","........"],p:{s:'#a0a090'}},
+medal:{r:[".r....r.","..r..r..","..gggg..",".gggggg.",".gg..gg.",".gggggg.","..gggg..","........"],p:{r:'#e85050',g:'#f0c030'}},
+kill:{r:["w.....w.",".w...w..","..www...","..www...",".w...w..","w.....w.","........","........"],p:{w:'#e8e8d8'}},
+facil:{r:["...gg...","..gggg..",".gggggg.","gggggggg",".g.gg.g.",".g.gg.g.",".gggggg.","........"],p:{g:'#cfe8c0'}},
+};
+const ICONS={};
+for(const k in ICON_ART)ICONS[k]=mkSpr(ICON_ART[k].r,ICON_ART[k].p);
+const _iconURL={};
+function iconImg(k){
+  if(!_iconURL[k])_iconURL[k]=ICONS[k].toDataURL();
+  return '<img class="icimg" src="'+_iconURL[k]+'" alt="">';
+}
+
+// 敵スプライトを構築
+const E_SPR={}; for(const k in E_ART) E_SPR[k]=mkSpr(E_ART[k].rows,E_ART[k].pal);
+const B_SPR={}; for(const k in B_ART) B_SPR[k]=mkSpr(B_ART[k].rows,B_ART[k].pal);
+const F_SPR={}; for(const k in F_ART) F_SPR[k]={ok:mkSpr(F_ART[k].rows,F_ART[k].pal),broken:mkSpr(F_ART[k].rows,grayPal(F_ART[k].pal))};
+
+// ---------- キャラクター ----------
+const CHARS=[
+ {id:'leaf', name:'リーフ',  role:'庭園管理人',   weapon:'pollen', perk:'経験値取得範囲 +15%', note:'初心者向け', cost:0,   col:['#3a8f4a','#7a5a30','#3a7a30'], mod:s=>{s.magnet*=1.15;}},
+ {id:'dande',name:'ダンデ',  role:'旅する植物学者',weapon:'boomer', perk:'移動速度 +10%',       note:'',         cost:0,   col:['#c8a030','#604830','#e8d060'], mod:s=>{s.speed*=1.10;}},
+ {id:'iris', name:'アイリス',role:'花の研究者',   weapon:'seed',   perk:'範囲攻撃 +15%',       note:'',         cost:0,   col:['#8858c8','#404060','#b090e0'], mod:s=>{s.area*=1.15;}},
+ {id:'viola',name:'ビオラ',  role:'養蜂家',       weapon:'bee',    perk:'召喚物性能 +20%',     note:'',         cost:300, col:['#d8a020','#403018','#f0c040'], mod:s=>{s.summon*=1.20;}},
+ {id:'cedar',name:'シダー',  role:'森林監視員',   weapon:'vine',   perk:'最大HP +20%',         note:'',         cost:400, col:['#386838','#583828','#284828'], mod:s=>{s.maxhp*=1.20;}},
+ {id:'zephyr',name:'ゼファー',role:'風の庭師',    weapon:'wind',   perk:'クールダウン -10%',   note:'',         cost:500, col:['#58a8c8','#d8e8f0','#a8d8e8'], mod:s=>{s.cd*=0.90;}},
+];
+CHARS.forEach(c=>{c.spr=mkChar(c.col[0],c.col[2],c.col[1]);});
+
+// ---------- パッシブ ----------
+const PASSIVES={
+ fert:  {name:'肥料',           icon:'fert',  max:5, desc:l=>'攻撃力 +'+(8*l)+'%'},
+ glove: {name:'園芸手袋',       icon:'glove', max:5, desc:l=>'クールダウン -'+(6*l)+'%'},
+ boots: {name:'長靴',           icon:'boots', max:5, desc:l=>'移動速度 +'+(7*l)+'%'},
+ pot:   {name:'水やりポット',   icon:'pot',   max:5, desc:l=>'攻撃範囲 +'+(8*l)+'%'},
+ soil:  {name:'栄養土',         icon:'soil',  max:5, desc:l=>'最大HP +'+(12*l)+'% / 微再生'},
+ spray: {name:'虫よけスプレー', icon:'spray', max:5, desc:l=>'被ダメージ -'+(5*l)+'% / 取得範囲 +'+(10*l)+'%'},
+};
+
+// ---------- 永続強化(ゴールドで購入 / 全キャラ共通・次回以降も有効) ----------
+const POWERUPS=[
+ {id:'might',  name:'研いだ剪定バサミ', icon:'vine',   max:5, base:160, desc:l=>'攻撃力 +'+(5*l)+'%'},
+ {id:'cool',   name:'早咲きの種',       icon:'seed',   max:5, base:180, desc:l=>'攻撃間隔 -'+(4*l)+'%'},
+ {id:'amount', name:'ふたまた如雨露',   icon:'pot',    max:1, base:1500,desc:l=>'発射数 +'+l},
+ {id:'growth', name:'腐葉土の知恵',     icon:'soil',   max:5, base:140, desc:l=>'獲得経験値 +'+(5*l)+'%'},
+ {id:'magnet', name:'磁性花粉',         icon:'pollen', max:5, base:100, desc:l=>'回収範囲 +'+(10*l)+'%'},
+ {id:'speed',  name:'軽い長靴',         icon:'boots',  max:5, base:120, desc:l=>'移動速度 +'+(3*l)+'%'},
+ {id:'vital',  name:'強い根',           icon:'fert',   max:3, base:200, desc:l=>'最大HP +'+(10*l)+'%'},
+ {id:'revival',name:'再生の球根',       icon:'heart',  max:2, base:700, desc:l=>'倒れても '+l+'回 復活'},
+];
+function powerLv(id){return (SAVE.power&&SAVE.power[id])||0;}
+function powerCost(p){return p.base*(powerLv(p.id)+1);}
+
+// ---------- 武器 ----------
+const WEAPONS={
+ pollen:{name:'花粉ショット', evoName:'ブルームキャノン', pair:'fert', icon:'pollen',
+   desc:'最も近い敵へ花粉弾を自動発射', evoDesc:'貫通する大輪の花砲。着弾で花が爆ぜる', max:8},
+ boomer:{name:'タンポポブーメラン', evoName:'ストームダンデライオン', pair:'boots', icon:'boomer',
+   desc:'綿毛のブーメランを投げ、戻ってくる', evoDesc:'綿毛の嵐が常時周回し、巨大ブーメランを放つ', max:8},
+ vine:{name:'ツタウィップ', evoName:'エンシェントバイン', pair:'glove', icon:'vine',
+   desc:'左右交互にツタで薙ぎ払う近距離攻撃', evoDesc:'古代樹のイバラが全方位に荒れ狂う', max:8},
+ bee:{name:'ビーフレンド', evoName:'ロイヤルハイブ', pair:'soil', icon:'bee',
+   desc:'ミツバチを召喚。敵に突撃して戻る', evoDesc:'女王蜂の巣が出現し、蜂の大群と蜜弾で守る', max:8},
+ seed:{name:'フラワーシード', evoName:'ワイルドブルーム', pair:'pot', icon:'seed',
+   desc:'種爆弾を投げ、開花地帯でダメージ', evoDesc:'大開花。花畑が広がり追尾する花弁が舞う', max:8},
+ wind:{name:'ウィンドポーレン', evoName:'ハリケーンガーデン', pair:'spray', icon:'wind',
+   desc:'進行方向へ貫通する花粉の風を放つ', evoDesc:'自分を中心に花の竜巻が吹き荒れる', max:8},
+};
+
+// ---------- 敵データ ----------
+const ENEMIES={
+ fuwa:  {name:'コナフワ',     hp:10, spd:26, dmg:6,  xp:1, r:5, role:'群体型', desc:'汚染花粉のかたまり。1匹は弱いが、群れになると庭園を埋め尽くす。'},
+ toge:  {name:'トゲポレン',   hp:8,  spd:48, dmg:7,  xp:1, r:5, role:'高速型', desc:'トゲの生えた花粉粒。小さく素早く、チクチク刺さる。'},
+ kabi:  {name:'カビダケ',     hp:46, spd:17, dmg:11, xp:3, r:6, role:'耐久型', desc:'汚染で巨大化したキノコ。傘が硬く、のっそり迫る。'},
+ abu:   {name:'ハナアブレ',   hp:16, spd:58, dmg:8,  xp:2, r:5, role:'飛行型', desc:'蜜に酔った虻の変異体。ふらふらと波打つ軌道で飛ぶ。'},
+ tsuru: {name:'ツルハシリ',   hp:20, spd:56, dmg:9,  xp:2, r:5, role:'高速型', desc:'根から自由になったツル植物。短距離を全力疾走しては息切れする。'},
+ tane:  {name:'タネツブテ',   hp:18, spd:20, dmg:8,  xp:3, r:5, role:'遠距離型', desc:'距離を取って硬い種を撃ち出す。放置すると痛い。'},
+ iga:   {name:'イガグリン',   hp:34, spd:24, dmg:13, xp:3, r:6, role:'突進型', desc:'怒れるイガグリ。震えて溜めたあと、一直線に突っ込んでくる。'},
+ houshi:{name:'ホウシバラマキ',hp:40, spd:18, dmg:9,  xp:4, r:6, role:'召喚型', desc:'歩く胞子嚢。定期的にコナフワをまき散らす厄介者。'},
+ gaku:  {name:'ガクヅキ',     hp:140,spd:13, dmg:15, xp:6, r:7, role:'耐久型', desc:'閉じた巨大なガク。装甲のように硬く、押し潰しに来る。'},
+ botaru:{name:'ヨルボタル',   hp:24, spd:30, dmg:10, xp:4, r:5, role:'特殊型', desc:'夜にだけ現れる青い光。瞬間移動で距離を詰めてくる。', night:true},
+ tama:  {name:'カフンタマ',   hp:12, spd:34, dmg:5,  xp:2, r:5, role:'特殊型', desc:'パンパンに膨れた花粉袋。倒すと爆ぜて周囲を巻き込む。'},
+ nebari:{name:'ネバリゴケ',   hp:30, spd:22, dmg:9,  xp:3, r:6, role:'特殊型', desc:'這い回る粘つく苔。通り道に足を取られる粘液を残す。'},
+ kama:  {name:'ハナバッタ',   hp:18, spd:36, dmg:9,  xp:2, r:5, role:'突進型', desc:'花を食い荒らすバッタ。大きく跳ねて飛びかかる。'},
+ doku:  {name:'ドクポポ',     hp:26, spd:18, dmg:8,  xp:4, r:5, role:'遠距離型', desc:'毒の胞子を山なりに飛ばす紫のキノコ獣。着弾点に毒が残る。'},
+};
+const BOSSES={
+ tsubomi:{name:'オオツボミ', hp:1400, spd:22, dmg:18, r:13, desc:'閉じたまま汚染で肥大したツボミ。花弁の弾幕と体当たりで襲う。10分の番人。'},
+ nushi:  {name:'カビノヌシ', hp:3200, spd:18, dmg:22, r:13, desc:'汚染森林の主。胞子の輪を広げ、子分のキノコを呼び寄せる。20分の番人。'},
+ queen:  {name:'ポレンクイーン', hp:9000, spd:26, dmg:26, r:14, desc:'花粉汚染の根源たる女王。3つの姿に変じて庭園の再建を阻む。'},
+};
+
+// ---------- マップ ----------
+const MAPS=[
+ {id:'spring',name:'春の庭園', cost:0, desc:'バランスのよい基本の庭園。最初の再建地。',
+  ground:['#4a7a3a','#548444','#3f7034'], deco:['#f8b8d0','#f8e878','#e8e8f8'],
+  weights:{fuwa:30,toge:18,kabi:12,abu:10,tsuru:8,tane:8,iga:8,houshi:5,gaku:4,tama:6,nebari:4,kama:8,doku:4,botaru:8},
+  spawnMul:1, hpMul:1,
+  music:{day:[262,294,330,392,440,523,587,659],night:[220,247,262,330,349,440,494,523],tempo:165,lead:'sine',bass:'triangle',mel:[0,2,4,7,4,2,5,4,0,2,4,7,9,7,4,2],bassLine:[0,0,3,2]}},
+ {id:'green',name:'巨大温室', cost:250, desc:'ガラスの大温室。遠距離型が多く、立ち回りが問われる。',
+  ground:['#5a8a6a','#649474','#4f7f5f'], deco:['#f8d0a0','#c0e8d0','#f0f0f0'],
+  weights:{fuwa:20,toge:14,kabi:14,abu:8,tsuru:6,tane:20,iga:6,houshi:8,gaku:6,tama:6,nebari:6,kama:6,doku:16,botaru:8},
+  spawnMul:1, hpMul:1.08,
+  music:{day:[294,330,370,440,494,587,659,740],night:[247,277,294,370,392,494,554,587],tempo:140,lead:'triangle',bass:'sine',mel:[0,4,7,4,9,7,4,2,0,4,7,11,9,7,4,2],bassLine:[0,2,3,2]}},
+ {id:'field',name:'花畑平原', cost:400, desc:'見渡す限りの花畑。敵の数が多いが1体1体はやや脆い。',
+  ground:['#6a9a40','#74a44a','#5f8f38'], deco:['#f86888','#f8e060','#88b8f8'],
+  weights:{fuwa:42,toge:26,kabi:6,abu:16,tsuru:12,tane:5,iga:8,houshi:6,gaku:3,tama:10,nebari:3,kama:12,doku:3,botaru:10},
+  spawnMul:1.35, hpMul:0.88,
+  music:{day:[330,370,415,494,554,659,740,831],night:[277,311,330,415,440,554,622,659],tempo:122,lead:'square',bass:'triangle',mel:[0,2,4,5,7,5,4,2,4,5,7,9,7,5,4,0],bassLine:[0,3,2,3]}},
+ {id:'forest',name:'汚染森林', cost:600, desc:'汚染の最深部。光が薄く、特殊型と耐久型がうごめく。',
+  ground:['#3a5a38','#446444','#305030'], deco:['#9858b8','#688858','#404858'],
+  weights:{fuwa:18,toge:12,kabi:22,abu:8,tsuru:10,tane:8,iga:10,houshi:14,gaku:12,tama:8,nebari:14,kama:6,doku:12,botaru:16},
+  spawnMul:1.1, hpMul:1.18, dark:.25,
+  music:{day:[220,247,262,294,330,392,440,494],night:[196,220,233,262,294,311,392,440],tempo:200,lead:'triangle',bass:'sawtooth',mel:[0,3,2,0,5,3,2,0,0,3,5,7,5,3,2,0],bassLine:[0,0,5,3]}},
+];
+
+// ---------- 施設 ----------
+const FACILITIES={
+ fountain:  {name:'噴水',   cost:40, desc:'周囲で徐々にHP回復'},
+ greenhouse:{name:'温室',   cost:50, desc:'獲得経験値 +15%(恒久)'},
+ flowerbed: {name:'花壇',   cost:35, desc:'定期的に花粉の結晶が咲く'},
+ tree:      {name:'巨木',   cost:50, desc:'周囲で攻撃力 +20%'},
+ windmill:  {name:'風車',   cost:45, desc:'周囲の敵が30%減速'},
+};
+
+// ---------- スキル(花粉エネルギー) ----------
+const SKILLS=[
+ {name:'浄化バースト', cost:40, desc:'周囲を浄化し大ダメージ＋敵弾消去'},
+ {name:'回復の雫',     cost:30, desc:'HPを35%回復'},
+ {name:'花弁シールド', cost:35, desc:'4秒間 無敵'},
+ {name:'疾風',         cost:25, desc:'5秒間 移動速度+60%'},
+];
+const SKILL_LOCK=8; // 共通ロック秒
+
+// ---------- 称号 ----------
+const TITLES=[
+ {id:'first', name:'芽吹きの管理人', cond:'初めて庭園を再建する'},
+ {id:'allfac',name:'修復の達人',     cond:'1プレイで施設を5つ修復してクリア'},
+ {id:'night', name:'夜の見回り',     cond:'夜の時間帯を3回生き延びる'},
+ {id:'k1000', name:'浄化の嵐',       cond:'1プレイで1000体浄化'},
+ {id:'allchar',name:'庭園の仲間たち', cond:'全キャラクターで再建を完了'},
+ {id:'allmap',name:'世界を再び花で', cond:'全マップで再建を完了'},
+];
+
+// =========================================================
+//  ゲーム状態
+// =========================================================
+const GAME={state:'title', phase:0, selChar:null, selMap:null};
+let RUN=null;
+
+function newRun(charId,mapId){
+  const ch=CHARS.find(c=>c.id===charId);
+  const mp=MAPS.find(m=>m.id===mapId);
+  RUN={
+    char:ch, map:mp, t:0, frame:0,
+    px:0, py:0, hp:100, lv:1, xp:0, xpNeed:12,
+    face:[1,0], anim:0, moving:false, hurtT:0, flip:false,
+    weapons:[], passives:{},
+    enemies:[], bullets:[], ebullets:[], pickups:[], patches:[], parts:[], texts:[],
+    facilities:[], kills:0, energy:30, skillLock:0, shieldT:0, hasteT:0, slowT:0,
+    spawnAcc:0, eliteT:75, boxSpawned:0,
+    boss:null, bossesKilled:0, finalMode:false, arenaX:0, arenaY:0,
+    repaired:0, nightCount:0, lastPhase:0,
+    result:null, levelUpQueue:0,
+    gold:0, revives:powerLv('revival'),
+  };
+  // 初期武器
+  addWeapon(ch.weapon);
+  // 施設配置(各種1つ)
+  const kinds=Object.keys(FACILITIES);
+  const baseA=rnd(TAU);
+  kinds.forEach((k,i)=>{
+    const a=baseA+i*(TAU/kinds.length)+rnd(-.3,.3);
+    const d=rnd(240,420);
+    RUN.facilities.push({kind:k,x:Math.cos(a)*d,y:Math.sin(a)*d,repaired:false,t:0});
+  });
+  GAME.phase=0;
+}
+
+// ---------- ステータス合成 ----------
+function stats(){
+  const s={maxhp:100,speed:72,dmg:1,area:1,cd:1,magnet:36,summon:1,taken:1,xpmul:1,regen:0,amount:0};
+  RUN.char.mod(s);
+  // 永続強化(PowerUp)
+  s.dmg*=1+.05*powerLv('might');
+  s.cd*=1-.04*powerLv('cool');
+  s.xpmul*=1+.05*powerLv('growth');
+  s.magnet*=1+.10*powerLv('magnet');
+  s.speed*=1+.03*powerLv('speed');
+  s.maxhp*=1+.10*powerLv('vital');
+  s.amount=powerLv('amount');
+  const p=RUN.passives;
+  if(p.fert) s.dmg*=1+.08*p.fert;
+  if(p.glove) s.cd*=1-.06*p.glove;
+  if(p.boots) s.speed*=1+.07*p.boots;
+  if(p.pot) s.area*=1+.08*p.pot;
+  if(p.soil){ s.maxhp*=1+.12*p.soil; s.regen+=.25*p.soil; }
+  if(p.spray){ s.taken*=1-.05*p.spray; s.magnet*=1+.10*p.spray; }
+  // 施設オーラ
+  for(const f of RUN.facilities){
+    if(!f.repaired) continue;
+    const d2=dist2(RUN.px,RUN.py,f.x,f.y);
+    if(f.kind==='fountain'&&d2<90*90) s.regen+=2;
+    if(f.kind==='tree'&&d2<110*110) s.dmg*=1.2;
+    if(f.kind==='greenhouse') s.xpmul*=1.15;
+  }
+  if(RUN.hasteT>0) s.speed*=1.6;
+  if(RUN.slowT>0) s.speed*=.55;
+  return s;
+}
+
+function addWeapon(id){
+  RUN.weapons.push({id,lv:1,t:0,side:1,angle:rnd(TAU),bees:[],orbT:0,subT:0});
+}
+function getWeapon(id){return RUN.weapons.find(w=>w.id===id);}
+
+// =========================================================
+//  武器発射
+// =========================================================
+function nearestEnemy(x,y,maxD){
+  let best=null,bd=(maxD||1e9)*(maxD||1e9);
+  for(const e of RUN.enemies){
+    const d=dist2(x,y,e.x,e.y);
+    if(d<bd){bd=d;best=e;}
+  }
+  return best;
+}
+function fireWeapon(w,st,dt){
+  const W=WEAPONS[w.id];
+  const lv=w.lv, evo=lv>W.max;
+  const area=st.area, dmgM=st.dmg;
+  switch(w.id){
+  case 'pollen':{
+    w.t-=dt;
+    const cd=(evo?0.95:1.05-lv*0.03)*st.cd;
+    if(w.t>0)break;
+    const tgt=nearestEnemy(RUN.px,RUN.py,260);
+    if(!tgt)break;
+    w.t=cd;
+    const n=(evo?1:1+(lv>=3)+(lv>=5)+(lv>=7))+st.amount;
+    const a0=Math.atan2(tgt.y-RUN.py,tgt.x-RUN.px);
+    for(let i=0;i<n;i++){
+      const a=a0+(i-(n-1)/2)*.18;
+      if(evo){
+        RUN.bullets.push({x:RUN.px,y:RUN.py,vx:Math.cos(a)*150,vy:Math.sin(a)*150,r:11*area,dmg:46*dmgM,pierce:99,life:2.2,type:'flower',hits:{}});
+      }else{
+        RUN.bullets.push({x:RUN.px,y:RUN.py,vx:Math.cos(a)*190,vy:Math.sin(a)*190,r:3.5*area,dmg:(8+lv*2.4)*dmgM,pierce:lv>=6?2:1,life:1.6,type:'shot',hits:{}});
+      }
+    }
+    SFX.shoot();
+    break;}
+  case 'boomer':{
+    if(evo){
+      // 常時周回する綿毛
+      w.angle+=dt*3.2;
+      for(let i=0;i<2;i++){
+        const a=w.angle+i*Math.PI;
+        const bx=RUN.px+Math.cos(a)*52*area, by=RUN.py+Math.sin(a)*52*area;
+        w['ox'+i]=bx; w['oy'+i]=by;
+        if(RUN.frame%4===i*2) hitArea(bx,by,12*area,21*dmgM,null,.18);
+      }
+      w.t-=dt;
+      if(w.t<=0){
+        w.t=2.1*st.cd;
+        const dir=RUN.face;
+        RUN.bullets.push({x:RUN.px,y:RUN.py,vx:dir[0]*170,vy:dir[1]*170,r:10*area,dmg:34*dmgM,pierce:99,life:3,type:'boom',phase:0,maxd:150*area,sx:RUN.px,sy:RUN.py,hits:{},big:1});
+      }
+    }else{
+      w.t-=dt;
+      if(w.t>0)break;
+      w.t=(1.8-lv*0.05)*st.cd;
+      const n=1+(lv>=4)+(lv>=7)+st.amount;
+      const tgt=nearestEnemy(RUN.px,RUN.py,300);
+      const a0=tgt?Math.atan2(tgt.y-RUN.py,tgt.x-RUN.px):Math.atan2(RUN.face[1],RUN.face[0]);
+      for(let i=0;i<n;i++){
+        const a=a0+(i-(n-1)/2)*.5;
+        RUN.bullets.push({x:RUN.px,y:RUN.py,vx:Math.cos(a)*160,vy:Math.sin(a)*160,r:5.5*area,dmg:(10+lv*2.6)*dmgM,pierce:99,life:3,type:'boom',phase:0,maxd:(105+lv*6)*area,sx:RUN.px,sy:RUN.py,hits:{}});
+      }
+      SFX.shoot();
+    }
+    break;}
+  case 'vine':{
+    w.t-=dt;
+    if(w.t>0)break;
+    if(evo){
+      w.t=1.0*st.cd;
+      const r=72*area*(1+.08*st.amount);
+      hitArea(RUN.px,RUN.py,r,36*dmgM,null,0);
+      RUN.patches.push({x:RUN.px,y:RUN.py,r:r,dmg:8*dmgM,tickT:0,tick:.4,life:1.2,kind:'thorn'});
+      for(let i=0;i<14;i++){const a=rnd(TAU);spark(RUN.px+Math.cos(a)*r*rnd(.5,1),RUN.py+Math.sin(a)*r*rnd(.5,1),'#80c050',2);}
+      SFX.hit();
+    }else{
+      w.t=(1.3-lv*0.04)*st.cd;
+      w.side*=-1;
+      const baseA=Math.atan2(RUN.face[1],RUN.face[0])+(w.side>0?0:Math.PI);
+      const r=(42+lv*4)*area*(1+.08*st.amount);
+      // 半円ヒット
+      for(const e of RUN.enemies){
+        const d=dist2(RUN.px,RUN.py,e.x,e.y);
+        if(d>r*r)continue;
+        const ea=Math.atan2(e.y-RUN.py,e.x-RUN.px);
+        let da=Math.abs(((ea-baseA+Math.PI*3)%TAU)-Math.PI);
+        if(da<Math.PI/2+.3) damageEnemy(e,(12+lv*3.2)*dmgM,.15);
+      }
+      for(let i=0;i<7;i++){const a=baseA+rnd(-1.2,1.2);spark(RUN.px+Math.cos(a)*r*rnd(.6,1),RUN.py+Math.sin(a)*r*rnd(.6,1),'#90d060',2);}
+      RUN.parts.push({x:RUN.px,y:RUN.py,vx:0,vy:0,life:.16,col:'#a0e070',size:0,slash:{a:baseA,r:r}});
+    }
+    break;}
+  case 'bee':{
+    const sm=st.summon;
+    const want=(evo?6:1+(lv>=3)+(lv>=5)+(lv>=7))+st.amount;
+    while(w.bees.length<want) w.bees.push({a:rnd(TAU),st:0,x:RUN.px,y:RUN.py,tx:0,ty:0,t:rnd(1,3)});
+    while(w.bees.length>want) w.bees.pop();
+    const bdmg=(evo?16:6+lv*1.8)*dmgM*sm;
+    for(const b of w.bees){
+      if(b.st===0){ // 周回
+        b.a+=dt*2.6;
+        const tx=RUN.px+Math.cos(b.a)*(26+(evo?14:0)),ty=RUN.py+Math.sin(b.a)*(26+(evo?14:0));
+        b.x=lerp(b.x,tx,Math.min(1,dt*8)); b.y=lerp(b.y,ty,Math.min(1,dt*8));
+        b.t-=dt;
+        if(b.t<=0){
+          const tgt=nearestEnemy(b.x,b.y,110*sm);
+          if(tgt){b.st=1;b.tgt=tgt;} else b.t=.5;
+        }
+      }else if(b.st===1){ // 突撃
+        const tg=b.tgt;
+        if(!tg||tg.hp<=0){b.st=0;b.t=.4;continue;}
+        const dx=tg.x-b.x,dy=tg.y-b.y,m=Math.hypot(dx,dy)||1;
+        b.x+=dx/m*200*dt; b.y+=dy/m*200*dt;
+        if(m<7){damageEnemy(tg,bdmg,.1);spark(b.x,b.y,'#f0c030',2);b.st=0;b.t=evo?.8:1.6;}
+      }
+    }
+    if(evo){ // 巣：蜜弾
+      w.subT-=dt;
+      if(w.subT<=0){
+        w.subT=.8*st.cd;
+        const tgt=nearestEnemy(RUN.px,RUN.py,220);
+        if(tgt){
+          const a=Math.atan2(tgt.y-RUN.py,tgt.x-RUN.px);
+          RUN.bullets.push({x:RUN.px,y:RUN.py-14,vx:Math.cos(a)*140,vy:Math.sin(a)*140,r:4,dmg:18*dmgM*sm,pierce:1,life:2,type:'honey',hits:{}});
+        }
+      }
+    }
+    break;}
+  case 'seed':{
+    w.t-=dt;
+    if(w.t>0)break;
+    w.t=(evo?1.7:2.0-lv*0.06)*st.cd;
+    for(let s=0;s<=st.amount;s++){
+    const tgt=nearestEnemy(RUN.px,RUN.py,180);
+    let tx,ty;
+    if(tgt){tx=tgt.x+rnd(-15,15)+s*18;ty=tgt.y+rnd(-15,15);}
+    else{const a=rnd(TAU);tx=RUN.px+Math.cos(a)*rnd(50,130);ty=RUN.py+Math.sin(a)*rnd(50,130);}
+    RUN.bullets.push({x:RUN.px,y:RUN.py,tx,ty,r:3,dmg:0,life:.55,type:'lob',z:0,sx:RUN.px,sy:RUN.py,lt:0,
+      onland:()=>{
+        const r=(evo?58:34+lv*3)*area;
+        hitArea(tx,ty,r,(evo?42:14+lv*3.5)*dmgM,null,.2);
+        RUN.patches.push({x:tx,y:ty,r:r*.9,dmg:(evo?9:4+lv)*dmgM,tickT:0,tick:.5,life:evo?4:2.6,kind:'bloom'});
+        if(evo){
+          for(let i=0;i<5;i++){
+            const a=rnd(TAU);
+            RUN.bullets.push({x:tx,y:ty,vx:Math.cos(a)*60,vy:Math.sin(a)*60,r:3,dmg:13*dmgM,pierce:1,life:2.4,type:'petal',hits:{}});
+          }
+        }
+        for(let i=0;i<10;i++)spark(tx+rnd(-r,r)*.6,ty+rnd(-r,r)*.6,pick(['#f878a8','#f8e060','#f8b8d0']),2.5);
+        SFX.hit();
+      }});
+    }
+    break;}
+  case 'wind':{
+    if(evo){
+      w.subT-=dt;
+      if(w.subT<=0){
+        w.subT=.55*st.cd;
+        const r=82*area;
+        // 竜巻: 吸い寄せ+ダメージ
+        for(const e of RUN.enemies){
+          const d2=dist2(RUN.px,RUN.py,e.x,e.y);
+          if(d2<r*r&&d2>1){
+            const m=Math.sqrt(d2);
+            if(!e.boss){e.x-=(e.x-RUN.px)/m*26*dt*60*.25;e.y-=(e.y-RUN.py)/m*26*dt*60*.25;}
+            damageEnemy(e,11*dmgM,0);
+          }
+        }
+        for(let i=0;i<6;i++){const a=rnd(TAU),rr=rnd(r*.4,r);spark(RUN.px+Math.cos(a)*rr,RUN.py+Math.sin(a)*rr,'#b0e8d0',2);}
+      }
+      w.t-=dt;
+      if(w.t<=0){
+        w.t=1.4*st.cd;
+        for(let i=0;i<3;i++){
+          const a=w.angle+i*TAU/3;
+          RUN.bullets.push({x:RUN.px,y:RUN.py,vx:Math.cos(a)*130,vy:Math.sin(a)*130,r:7*area,dmg:20*dmgM,pierce:99,life:1.4,type:'gust',spiral:1,hits:{}});
+        }
+        w.angle+=.8;
+      }
+    }else{
+      w.t-=dt;
+      if(w.t>0)break;
+      w.t=(1.55-lv*0.05)*st.cd;
+      const n=1+(lv>=5)+st.amount;
+      const a0=Math.atan2(RUN.face[1],RUN.face[0]);
+      for(let i=0;i<n;i++){
+        const a=a0+(i?Math.PI:0);
+        RUN.bullets.push({x:RUN.px,y:RUN.py,vx:Math.cos(a)*150,vy:Math.sin(a)*150,r:(6+lv*.7)*area,dmg:(9+lv*2.4)*dmgM,pierce:99,life:1.3,type:'gust',push:14,hits:{}});
+      }
+      SFX.shoot();
+    }
+    break;}
+  }
+}
+// 範囲ヒット
+function hitArea(x,y,r,dmg,exclude,kb){
+  for(const e of RUN.enemies){
+    if(e===exclude)continue;
+    if(dist2(x,y,e.x,e.y)<r*r) damageEnemy(e,dmg,kb||0,x,y);
+  }
+}
+function spark(x,y,col,size){
+  if(RUN.parts.length>260)return;
+  RUN.parts.push({x,y,vx:rnd(-30,30),vy:rnd(-40,10),life:rnd(.25,.5),col,size:size||2});
+}
+function ftext(x,y,txt,col){
+  RUN.texts.push({x,y,txt,col:col||'#fff',life:1.4});
+}
+
+// =========================================================
+//  敵
+// =========================================================
+function spawnEnemy(type,ex,ey,opt){
+  const E=ENEMIES[type];
+  const tScale=(1+RUN.t/60*0.085)*(1+Math.max(0,RUN.t-1200)/60*0.05);
+  const e={
+    type, x:ex, y:ey, hp:E.hp*RUN.map.hpMul*tScale*(opt&&opt.elite?9:1),
+    maxhp:0, spd:E.spd*rnd(.92,1.08), dmg:E.dmg, r:E.r*(opt&&opt.elite?1.6:1),
+    xp:E.xp*(opt&&opt.elite?8:1), hitT:0, st:0, t:rnd(0,2), vx:0, vy:0,
+    elite:!!(opt&&opt.elite), boss:false, wob:rnd(TAU),
+  };
+  e.maxhp=e.hp;
+  RUN.enemies.push(e);
+  if(!SAVE.seen[type]){SAVE.seen[type]=1;saveSave();}
+  return e;
+}
+function pickEnemyType(){
+  const w=RUN.map.weights;
+  const night=GAME.phase===3;
+  let total=0;
+  const arr=[];
+  for(const k in w){
+    if(ENEMIES[k].night&&!night)continue;
+    let wt=w[k]*(ENEMIES[k].night&&night?3:1);
+    // 時間経過で強敵の比重UP
+    if(RUN.t>480&&(k==='kabi'||k==='gaku'||k==='houshi'))wt*=1.6;
+    if(RUN.t>900&&(k==='gaku'||k==='iga'||k==='doku'))wt*=1.7;
+    total+=wt;arr.push([k,wt]);
+  }
+  let r=Math.random()*total;
+  for(const [k,wt] of arr){r-=wt;if(r<=0)return k;}
+  return 'fuwa';
+}
+function damageEnemy(e,dmg,kb,fx,fy){
+  e.hp-=dmg;
+  e.hitT=.1;
+  if(kb&&!e.boss&&!e.elite){
+    const sx=fx===undefined?RUN.px:fx, sy=fy===undefined?RUN.py:fy;
+    const dx=e.x-sx,dy=e.y-sy,m=Math.hypot(dx,dy)||1;
+    e.x+=dx/m*kb*8; e.y+=dy/m*kb*8;
+  }
+  if(e.hp<=0) killEnemy(e);
+}
+function killEnemy(e){
+  if(e.dead)return;
+  e.dead=true;
+  RUN.kills++;
+  RUN.energy=Math.min(100,RUN.energy+(e.boss?20:e.elite?8:1.1));
+  SAVE.kills[e.type]=(SAVE.kills[e.type]||0)+1;
+  // ドロップ
+  if(e.boss){
+    dropBox(e.x,e.y);
+    for(let i=0;i<10;i++)RUN.pickups.push({x:e.x+rnd(-26,26),y:e.y+rnd(-26,26),xp:8,kind:'xp'});
+    RUN.bossesKilled++;
+    SFX.boss();
+    ftext(e.x,e.y-16,'浄化完了！','#ffe98a');
+  }else{
+    RUN.pickups.push({x:e.x,y:e.y,xp:e.xp,kind:'xp'});
+    if(e.elite){dropBox(e.x,e.y);RUN.pickups.push({x:e.x-8,y:e.y,kind:'gold',val:10});}
+    else{
+      if(Math.random()<.05)RUN.pickups.push({x:e.x+6,y:e.y,xp:0,kind:'energy'});
+      if(Math.random()<.09)RUN.pickups.push({x:e.x-6,y:e.y,kind:'gold',val:1});
+    }
+  }
+  if(e.boss)RUN.pickups.push({x:e.x+10,y:e.y,kind:'gold',val:50});
+  if(e.boss){
+    if(RUN.boss===e)RUN.boss=null;
+    if(e.bossKind==='queen'){winGame();return;}
+  }
+  if(e.type==='tama'){ // 爆発
+    RUN.patches.push({x:e.x,y:e.y,r:30,dmg:0,tickT:0,tick:9,life:.3,kind:'boomzone'});
+    if(dist2(e.x,e.y,RUN.px,RUN.py)<30*30)hurtPlayer(10);
+    hitArea(e.x,e.y,30,15,e,0);
+    for(let i=0;i<12;i++)spark(e.x,e.y,'#f8b830',3);
+  }
+  for(let i=0;i<5;i++)spark(e.x,e.y,'#e8e0a0',2);
+}
+function dropBox(x,y){
+  RUN.pickups.push({x,y,kind:'box'});
+}
+function enemyShoot(e,spd,dmg,arc){
+  const a=Math.atan2(RUN.py-e.y,RUN.px-e.x)+(arc?rnd(-.15,.15):0);
+  RUN.ebullets.push({x:e.x,y:e.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,r:3,dmg,life:3.5,poison:!!arc});
+}
+
+function updateEnemies(dt,st){
+  const phaseSpd=GAME.phase===1?1.25:1;
+  // 風車減速チェック準備
+  const mills=RUN.facilities.filter(f=>f.repaired&&f.kind==='windmill');
+  for(let i=RUN.enemies.length-1;i>=0;i--){
+    const e=RUN.enemies[i];
+    if(e.dead){RUN.enemies.splice(i,1);continue;}
+    e.hitT-=dt; e.t-=dt;
+    if(e.boss){updateBoss(e,dt);continue;}
+    let spd=e.spd*phaseSpd;
+    for(const m of mills){if(dist2(e.x,e.y,m.x,m.y)<110*110){spd*=.7;break;}}
+    const dx=RUN.px-e.x,dy=RUN.py-e.y,m=Math.hypot(dx,dy)||1;
+    switch(e.type){
+    case 'abu':
+      e.wob+=dt*6;
+      e.x+=(dx/m*spd+Math.cos(e.wob)*40*(-dy/m))*dt;
+      e.y+=(dy/m*spd+Math.cos(e.wob)*40*(dx/m))*dt;
+      break;
+    case 'iga':
+      if(e.st===0){ e.x+=dx/m*spd*dt; e.y+=dy/m*spd*dt; if(m<130){e.st=1;e.t=.8;} }
+      else if(e.st===1){ e.x+=rnd(-1,1);e.y+=rnd(-1,1); if(e.t<=0){e.st=2;e.t=.55;e.vx=dx/m*230;e.vy=dy/m*230;} }
+      else if(e.st===2){ e.x+=e.vx*dt;e.y+=e.vy*dt; if(e.t<=0){e.st=3;e.t=1.2;} }
+      else{ if(e.t<=0)e.st=0; }
+      break;
+    case 'kama':
+      if(e.st===0){ e.x+=dx/m*spd*.4*dt; e.y+=dy/m*spd*.4*dt; if(e.t<=0){e.st=1;e.t=.5;e.vx=dx/m*190;e.vy=dy/m*190;} }
+      else{ e.x+=e.vx*dt;e.y+=e.vy*dt; if(e.t<=0){e.st=0;e.t=2.2;} }
+      break;
+    case 'tsuru': // 全力疾走→息切れ(振り切れるように)
+      if(e.st===0){ e.x+=dx/m*spd*.45*dt; e.y+=dy/m*spd*.45*dt; if(e.t<=0){e.st=1;e.t=.7;} }
+      else{ e.x+=dx/m*spd*2.1*dt; e.y+=dy/m*spd*2.1*dt; if(e.t<=0){e.st=0;e.t=1.1;} }
+      break;
+    case 'tane':
+      if(m>150){e.x+=dx/m*spd*dt;e.y+=dy/m*spd*dt;}
+      else if(m<100){e.x-=dx/m*spd*.7*dt;e.y-=dy/m*spd*.7*dt;}
+      if(e.t<=0){e.t=3;enemyShoot(e,95,e.dmg);}
+      break;
+    case 'doku':
+      if(m>160){e.x+=dx/m*spd*dt;e.y+=dy/m*spd*dt;}
+      if(e.t<=0){e.t=3.6;enemyShoot(e,70,e.dmg,true);}
+      break;
+    case 'houshi':
+      e.x+=dx/m*spd*dt; e.y+=dy/m*spd*dt;
+      if(e.t<=0&&RUN.enemies.length<240){e.t=6;for(let k=0;k<3;k++)spawnEnemy('fuwa',e.x+rnd(-14,14),e.y+rnd(-14,14));spark(e.x,e.y,'#e8a0d8',3);}
+      break;
+    case 'botaru':
+      e.x+=dx/m*spd*dt; e.y+=dy/m*spd*dt;
+      if(e.t<=0&&m>50){e.t=3;
+        for(let k=0;k<6;k++)spark(e.x,e.y,'#6080d0',2);
+        e.x+=dx/m*Math.min(70,m-30); e.y+=dy/m*Math.min(70,m-30);
+        for(let k=0;k<6;k++)spark(e.x,e.y,'#a0c0f8',2);
+      }
+      break;
+    case 'nebari':
+      e.x+=dx/m*spd*dt; e.y+=dy/m*spd*dt;
+      if(e.t<=0){e.t=1.1;RUN.patches.push({x:e.x,y:e.y,r:12,dmg:0,tickT:0,tick:9,life:4,kind:'goo'});}
+      break;
+    default:
+      e.x+=dx/m*spd*dt; e.y+=dy/m*spd*dt;
+    }
+    // プレイヤー接触
+    if(dist2(e.x,e.y,RUN.px,RUN.py)<(e.r+5)*(e.r+5)){
+      hurtPlayer(e.dmg*(GAME.phase===3?1.1:1));
+    }
+    // 離れすぎたら再配置(処理軽減)
+    if(!e.elite&&dist2(e.x,e.y,RUN.px,RUN.py)>520*520){
+      const a=rnd(TAU);
+      e.x=RUN.px+Math.cos(a)*300; e.y=RUN.py+Math.sin(a)*300;
+    }
+  }
+}
+
+// =========================================================
+//  ボス
+// =========================================================
+function spawnBoss(kind){
+  const B=BOSSES[kind];
+  const a=rnd(TAU);
+  const tScale=kind==='queen'?1:(1+RUN.t/60*0.02);
+  const e={type:kind,bossKind:kind,x:RUN.px+Math.cos(a)*240,y:RUN.py+Math.sin(a)*240,
+    hp:B.hp*tScale*RUN.map.hpMul,maxhp:B.hp*tScale*RUN.map.hpMul,spd:B.spd,dmg:B.dmg,r:B.r,
+    xp:0,hitT:0,st:0,t:2,vx:0,vy:0,boss:true,elite:false,wob:0,ph:1,patT:0,dead:false};
+  RUN.enemies.push(e);
+  RUN.boss=e;
+  if(!SAVE.seen[kind]){SAVE.seen[kind]=1;saveSave();}
+  SFX.boss();
+  ftext(RUN.px,RUN.py-40,'!! '+B.name+' が現れた !!','#ff9090');
+  if(kind==='queen'){
+    RUN.finalMode=true; RUN.arenaX=RUN.px; RUN.arenaY=RUN.py;
+  }
+}
+function bossRing(e,n,spd,dmg,off){
+  for(let i=0;i<n;i++){
+    const a=(off||0)+i*TAU/n;
+    RUN.ebullets.push({x:e.x,y:e.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,r:3.5,dmg,life:4});
+  }
+}
+function bossFan(e,n,spread,spd,dmg){
+  const a0=Math.atan2(RUN.py-e.y,RUN.px-e.x);
+  for(let i=0;i<n;i++){
+    const a=a0+(i-(n-1)/2)*spread;
+    RUN.ebullets.push({x:e.x,y:e.y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,r:3.5,dmg,life:4});
+  }
+}
+function updateBoss(e,dt){
+  const dx=RUN.px-e.x,dy=RUN.py-e.y,m=Math.hypot(dx,dy)||1;
+  e.patT-=dt;
+  if(e.bossKind==='tsubomi'){
+    if(e.st===0){ // 追跡
+      e.x+=dx/m*e.spd*dt; e.y+=dy/m*e.spd*dt;
+      if(e.patT<=0){e.st=1;e.patT=.6;}
+    }else if(e.st===1){ // 花弁リング
+      if(e.patT<=0){bossRing(e,14,75,12,rnd(TAU));e.st=2;e.patT=1;}
+    }else if(e.st===2){ // 突進準備→突進
+      if(e.patT<=0){e.st=3;e.patT=.9;e.vx=dx/m*200;e.vy=dy/m*200;spark(e.x,e.y,'#f8a8c8',4);}
+    }else{
+      e.x+=e.vx*dt;e.y+=e.vy*dt;
+      if(e.patT<=0){e.st=0;e.patT=2.6;}
+    }
+  }
+  else if(e.bossKind==='nushi'){
+    e.x+=dx/m*e.spd*dt; e.y+=dy/m*e.spd*dt;
+    e.t-=dt;
+    if(e.patT<=0){e.patT=3.6;bossRing(e,9,55,13,rnd(TAU));}
+    if(e.t<=0){e.t=7;
+      if(RUN.enemies.length<240){spawnEnemy('kabi',e.x+rnd(-30,30),e.y+rnd(-30,30));spawnEnemy('houshi',e.x+rnd(-30,30),e.y+rnd(-30,30));}
+      e.wob-=1;
+      if(e.wob<=-3){e.wob=0;bossRing(e,16,40,13,0);bossRing(e,16,60,13,.2);}
+    }
+  }
+  else if(e.bossKind==='queen'){
+    const frac=e.hp/e.maxhp;
+    const ph=frac>.66?1:frac>.33?2:3;
+    if(ph!==e.ph){e.ph=ph;e.st=0;e.patT=1;
+      bossRing(e,20,70,14,0);
+      ftext(e.x,e.y-24,ph===2?'女王が翅を広げた！':'女王が最後の力を解き放つ！','#ff9adf');
+      SFX.boss();
+    }
+    if(ph===1){ // 花弁螺旋+追跡
+      e.x+=dx/m*e.spd*dt; e.y+=dy/m*e.spd*dt;
+      if(e.patT<=0){e.patT=.32;e.wob+=.5;
+        for(let k=0;k<2;k++){
+          const a=e.wob+k*Math.PI;
+          RUN.ebullets.push({x:e.x,y:e.y,vx:Math.cos(a)*68,vy:Math.sin(a)*68,r:3.5,dmg:13,life:4});
+        }
+      }
+    }else if(ph===2){ // 風のダッシュ + 扇弾
+      if(e.st===0){
+        e.x+=dx/m*e.spd*1.2*dt; e.y+=dy/m*e.spd*1.2*dt;
+        if(e.patT<=0){e.st=1;e.patT=.55;}
+      }else if(e.st===1){
+        if(e.patT<=0){e.st=2;e.patT=.8;e.vx=dx/m*230;e.vy=dy/m*230;bossFan(e,5,.22,90,14);}
+      }else{
+        e.x+=e.vx*dt;e.y+=e.vy*dt;
+        if(e.patT<=0){e.st=0;e.patT=1.6;bossFan(e,7,.18,85,14);}
+      }
+    }else{ // ph3 大開花
+      e.x+=dx/m*e.spd*.8*dt; e.y+=dy/m*e.spd*.8*dt;
+      if(e.patT<=0){e.patT=1.5;
+        bossRing(e,18,62,15,rnd(TAU));
+        if(RUN.enemies.length<240){for(let k=0;k<3;k++)spawnEnemy('tama',e.x+rnd(-40,40),e.y+rnd(-40,40));}
+      }
+      e.t-=dt;
+      if(e.t<=0){e.t=4;bossFan(e,9,.14,95,15);}
+    }
+  }
+  // 接触ダメージ
+  if(dist2(e.x,e.y,RUN.px,RUN.py)<(e.r+5)*(e.r+5)) hurtPlayer(e.dmg);
+  if(e.dead&&e.bossKind==='queen') winGame();
+  if(e.dead&&RUN.boss===e) RUN.boss=null;
+}
+
+// =========================================================
+//  プレイヤー被弾/スキル/施設
+// =========================================================
+function hurtPlayer(dmg){
+  if(RUN.hurtT>0||RUN.shieldT>0)return;
+  const st=stats();
+  RUN.hp-=dmg*st.taken;
+  RUN.hurtT=.65;
+  SFX.hurt();
+  for(let i=0;i<6;i++)spark(RUN.px,RUN.py,'#f08080',2);
+  if(RUN.hp<=0){
+    if(RUN.revives>0){ // 永続強化「再生の球根」
+      RUN.revives--;
+      RUN.hp=st.maxhp*.5;
+      RUN.shieldT=3;
+      hitArea(RUN.px,RUN.py,120,40*st.dmg,null,.5);
+      RUN.patches.push({x:RUN.px,y:RUN.py,r:120,dmg:0,tickT:0,tick:9,life:.4,kind:'purify'});
+      ftext(RUN.px,RUN.py-24,'再生の球根が芽吹いた！','#90f0a0');
+      SFX.evo();
+      return;
+    }
+    RUN.hp=0;endGame(false);
+  }
+}
+function useSkill(i){
+  if(GAME.state!=='play'||!RUN)return;
+  const sk=SKILLS[i];
+  if(RUN.skillLock>0||RUN.energy<sk.cost)return;
+  RUN.energy-=sk.cost; RUN.skillLock=SKILL_LOCK;
+  SFX.skill();
+  if(i===0){
+    hitArea(RUN.px,RUN.py,150,65*stats().dmg,null,.4);
+    RUN.ebullets.length=0;
+    RUN.patches.push({x:RUN.px,y:RUN.py,r:150,dmg:0,tickT:0,tick:9,life:.35,kind:'purify'});
+    for(let k=0;k<24;k++){const a=rnd(TAU);spark(RUN.px+Math.cos(a)*rnd(20,140),RUN.py+Math.sin(a)*rnd(20,140),'#fff8c0',3);}
+    ftext(RUN.px,RUN.py-20,'浄化バースト！','#fff8c0');
+  }else if(i===1){
+    const st=stats();
+    RUN.hp=Math.min(st.maxhp,RUN.hp+st.maxhp*.35);
+    ftext(RUN.px,RUN.py-20,'回復！','#90f0a0');
+  }else if(i===2){
+    RUN.shieldT=4;
+    ftext(RUN.px,RUN.py-20,'花弁シールド！','#a0d0f8');
+  }else if(i===3){
+    RUN.hasteT=5;
+    ftext(RUN.px,RUN.py-20,'疾風！','#b0e8d0');
+  }
+}
+function nearFacility(){
+  for(const f of RUN.facilities){
+    if(!f.repaired&&dist2(RUN.px,RUN.py,f.x,f.y)<45*45)return f;
+  }
+  return null;
+}
+function tryRepair(){
+  const f=nearFacility();
+  if(!f)return;
+  const c=FACILITIES[f.kind].cost;
+  if(RUN.energy<c){ftext(RUN.px,RUN.py-20,'花粉エネルギー不足…','#f0a0a0');return;}
+  RUN.energy-=c; f.repaired=true; RUN.repaired++;
+  SFX.repair();
+  ftext(f.x,f.y-20,FACILITIES[f.kind].name+'を修復した！','#ffe98a');
+  for(let i=0;i<20;i++)spark(f.x+rnd(-14,14),f.y+rnd(-14,14),pick(['#90f0a0','#f8e878','#a0d0f8']),3);
+}
+
+// =========================================================
+//  メイン更新
+// =========================================================
+function update(dt){
+  RUN.t+=dt; RUN.frame++;
+  const st=stats();
+  // 時間帯
+  const newPhase=Math.floor(RUN.t/300)%4;
+  if(newPhase!==GAME.phase){
+    GAME.phase=newPhase;
+    const names=['朝 — 敵がまばらに','昼 — 敵が活発に','夕 — 敵が増える','夜 — 特殊な気配…'];
+    ftext(RUN.px,RUN.py-34,names[newPhase],'#ffe98a');
+    if(newPhase===3)RUN.nightCount++;
+  }
+  RUN.lastPhase=newPhase;
+  // 移動
+  const [mx,my]=moveInput();
+  RUN.moving=(mx||my);
+  if(RUN.moving){
+    RUN.px+=mx*st.speed*dt; RUN.py+=my*st.speed*dt;
+    RUN.face=[mx,my]; RUN.anim+=dt*8;
+    if(mx<0)RUN.flip=true; else if(mx>0)RUN.flip=false;
+  }
+  // 最終決戦アリーナ
+  if(RUN.finalMode){
+    const d=Math.hypot(RUN.px-RUN.arenaX,RUN.py-RUN.arenaY);
+    if(d>250){RUN.px=RUN.arenaX+(RUN.px-RUN.arenaX)/d*250;RUN.py=RUN.arenaY+(RUN.py-RUN.arenaY)/d*250;}
+  }
+  // タイマー類
+  RUN.hurtT-=dt; RUN.shieldT-=dt; RUN.hasteT-=dt; RUN.skillLock-=dt; RUN.slowT-=dt;
+  // 再生
+  if(st.regen>0)RUN.hp=Math.min(st.maxhp,RUN.hp+st.regen*dt);
+  RUN.hp=Math.min(RUN.hp,st.maxhp);
+  // 武器
+  for(const w of RUN.weapons)fireWeapon(w,st,dt);
+  // 弾
+  updateBullets(dt);
+  // 敵スポーン
+  if(!RUN.finalMode){
+    const phaseMul=[0.65,1.0,1.6,1.15][GAME.phase];
+    const rate=(0.9+RUN.t/60*0.14)*RUN.map.spawnMul*phaseMul;
+    RUN.spawnAcc+=rate*dt;
+    while(RUN.spawnAcc>=1&&RUN.enemies.length<230){
+      RUN.spawnAcc-=1;
+      const a=rnd(TAU);
+      spawnEnemy(pickEnemyType(),RUN.px+Math.cos(a)*290,RUN.py+Math.sin(a)*290);
+    }
+    RUN.eliteT-=dt;
+    if(RUN.eliteT<=0){
+      RUN.eliteT=90;
+      const a=rnd(TAU);
+      const t=pickEnemyType();
+      const e=spawnEnemy(t,RUN.px+Math.cos(a)*270,RUN.py+Math.sin(a)*270,{elite:true});
+      ftext(e.x,e.y-14,'大型の'+ENEMIES[t].name+'が出現！','#ffd966');
+    }
+  }else{
+    // 最終戦: 控えめ追加
+    RUN.spawnAcc+=0.35*dt;
+    while(RUN.spawnAcc>=1&&RUN.enemies.length<120){
+      RUN.spawnAcc-=1;
+      const a=rnd(TAU);
+      spawnEnemy(pickEnemyType(),RUN.arenaX+Math.cos(a)*260,RUN.arenaY+Math.sin(a)*260);
+    }
+  }
+  // ボス出現
+  if(RUN.t>=600&&!RUN.b1){RUN.b1=1;spawnBoss('tsubomi');}
+  if(RUN.t>=1200&&!RUN.b2){RUN.b2=1;spawnBoss('nushi');}
+  if(RUN.t>=1800&&!RUN.b3){RUN.b3=1;spawnBoss('queen');}
+  updateEnemies(dt,st);
+  // 敵弾
+  for(let i=RUN.ebullets.length-1;i>=0;i--){
+    const b=RUN.ebullets[i];
+    b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;
+    if(b.life<=0){
+      if(b.poison)RUN.patches.push({x:b.x,y:b.y,r:16,dmg:0,tickT:0,tick:9,life:3,kind:'poison'});
+      RUN.ebullets.splice(i,1);continue;
+    }
+    if(dist2(b.x,b.y,RUN.px,RUN.py)<(b.r+5)*(b.r+5)){
+      hurtPlayer(b.dmg);
+      RUN.ebullets.splice(i,1);
+    }
+  }
+  // 地面効果
+  for(let i=RUN.patches.length-1;i>=0;i--){
+    const p=RUN.patches[i];
+    p.life-=dt;
+    if(p.life<=0){RUN.patches.splice(i,1);continue;}
+    if(p.kind==='bloom'||p.kind==='thorn'){
+      p.tickT-=dt;
+      if(p.tickT<=0){p.tickT=p.tick;hitArea(p.x,p.y,p.r,p.dmg,null,0);}
+    }else if(p.kind==='goo'||p.kind==='poison'){
+      if(dist2(p.x,p.y,RUN.px,RUN.py)<p.r*p.r){
+        if(p.kind==='goo')RUN.slowT=.2;
+        else{p.tickT-=dt;if(p.tickT<=0){p.tickT=.6;hurtPlayer(4);}}
+      }
+    }
+  }
+  // 施設
+  for(const f of RUN.facilities){
+    if(f.repaired&&f.kind==='flowerbed'){
+      f.t-=dt;
+      if(f.t<=0){f.t=4;RUN.pickups.push({x:f.x+rnd(-26,26),y:f.y+rnd(20,34),xp:3,kind:'xp'});}
+    }
+  }
+  // ピックアップ
+  const mag2=st.magnet*st.magnet;
+  for(let i=RUN.pickups.length-1;i>=0;i--){
+    const p=RUN.pickups[i];
+    const d2=dist2(p.x,p.y,RUN.px,RUN.py);
+    if(d2<mag2||p.pulled){
+      p.pulled=true;
+      const m=Math.sqrt(d2)||1;
+      p.x+=(RUN.px-p.x)/m*230*dt; p.y+=(RUN.py-p.y)/m*230*dt;
+      if(d2<8*8){
+        RUN.pickups.splice(i,1);
+        if(p.kind==='xp'){gainXP(p.xp*st.xpmul);SFX.pickup();}
+        else if(p.kind==='energy'){RUN.energy=Math.min(100,RUN.energy+6);SFX.pickup();}
+        else if(p.kind==='gold'){RUN.gold+=p.val;SFX.pickup();}
+        else if(p.kind==='box')openBox();
+      }
+    }
+  }
+  if(RUN.pickups.length>380)RUN.pickups.splice(0,RUN.pickups.length-380);
+  // パーティクル
+  for(let i=RUN.parts.length-1;i>=0;i--){
+    const p=RUN.parts[i];
+    p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=60*dt;
+    if(p.life<=0)RUN.parts.splice(i,1);
+  }
+  for(let i=RUN.texts.length-1;i>=0;i--){
+    const t=RUN.texts[i];
+    t.life-=dt;t.y-=14*dt;
+    if(t.life<=0)RUN.texts.splice(i,1);
+  }
+  // モバイル修復ボタン
+  if(isTouch){
+    const f=nearFacility();
+    const rb=document.getElementById('repbtn');
+    rb.style.display=f?'flex':'none';
+    if(f){rb.style.left=(innerWidth/2-32)+'px';rb.style.bottom='120px';}
+  }
+}
+
+function updateBullets(dt){
+  for(let i=RUN.bullets.length-1;i>=0;i--){
+    const b=RUN.bullets[i];
+    b.life-=dt;
+    if(b.type==='lob'){
+      b.lt+=dt;
+      const t=Math.min(1,b.lt/.55);
+      b.x=lerp(b.sx,b.tx,t); b.y=lerp(b.sy,b.ty,t)-Math.sin(t*Math.PI)*26;
+      if(t>=1){b.onland();RUN.bullets.splice(i,1);}
+      continue;
+    }
+    if(b.type==='boom'){
+      if(b.phase===0){
+        b.x+=b.vx*dt;b.y+=b.vy*dt;
+        if(dist2(b.x,b.y,b.sx,b.sy)>b.maxd*b.maxd){b.phase=1;b.hits={};}
+      }else{
+        const dx=RUN.px-b.x,dy=RUN.py-b.y,m=Math.hypot(dx,dy)||1;
+        b.x+=dx/m*200*dt;b.y+=dy/m*200*dt;
+        if(m<8){RUN.bullets.splice(i,1);continue;}
+      }
+    }else if(b.type==='petal'){
+      const tgt=nearestEnemy(b.x,b.y,100);
+      if(tgt){
+        const dx=tgt.x-b.x,dy=tgt.y-b.y,m=Math.hypot(dx,dy)||1;
+        b.vx=lerp(b.vx,dx/m*120,dt*4);b.vy=lerp(b.vy,dy/m*120,dt*4);
+      }
+      b.x+=b.vx*dt;b.y+=b.vy*dt;
+    }else if(b.spiral){
+      const a=Math.atan2(b.vy,b.vx)+dt*2.2;
+      const sp=Math.hypot(b.vx,b.vy);
+      b.vx=Math.cos(a)*sp;b.vy=Math.sin(a)*sp;
+      b.x+=b.vx*dt;b.y+=b.vy*dt;
+    }else{
+      b.x+=b.vx*dt;b.y+=b.vy*dt;
+    }
+    if(b.life<=0){RUN.bullets.splice(i,1);continue;}
+    // ヒット判定
+    let removed=false;
+    for(const e of RUN.enemies){
+      if(e.dead)continue;
+      const rr=b.r+e.r;
+      if(dist2(b.x,b.y,e.x,e.y)<rr*rr){
+        const eid=e.uid||(e.uid=Math.random());
+        if(b.hits[eid])continue;
+        b.hits[eid]=1;
+        damageEnemy(e,b.dmg,b.push?.3:(b.type==='flower'?.2:.1),b.x,b.y);
+        if(b.type==='flower'){spark(e.x,e.y,'#f8a8c8',3);}
+        if(b.push&&!e.boss){const m=Math.hypot(b.vx,b.vy)||1;e.x+=b.vx/m*b.push;e.y+=b.vy/m*b.push;}
+        b.pierce--;
+        if(b.pierce<=0){RUN.bullets.splice(i,1);removed=true;break;}
+      }
+    }
+    if(removed)continue;
+  }
+}
+
+function gainXP(n){
+  RUN.xp+=n;
+  while(RUN.xp>=RUN.xpNeed){
+    RUN.xp-=RUN.xpNeed;
+    RUN.lv++;
+    RUN.xpNeed=Math.round(8+RUN.lv*7+RUN.lv*RUN.lv*.32);
+    RUN.levelUpQueue++;
+  }
+  if(RUN.levelUpQueue>0&&GAME.state==='play')showLevelUp();
+}
+function openBox(){
+  SFX.box();
+  const st=stats();
+  RUN.hp=Math.min(st.maxhp,RUN.hp+12);
+  // ランダム所持武器を強化、全部MAXならエネルギー
+  const ups=RUN.weapons.filter(w=>w.lv<WEAPONS[w.id].max);
+  if(ups.length){
+    const w=pick(ups);w.lv++;
+    ftext(RUN.px,RUN.py-24,'開花ボックス: '+WEAPONS[w.id].name+' Lv'+w.lv+'！','#ffd0e0');
+  }else{
+    RUN.energy=Math.min(100,RUN.energy+35);
+    ftext(RUN.px,RUN.py-24,'開花ボックス: エネルギー大量獲得！','#ffd0e0');
+  }
+}
+
+// =========================================================
+//  描画
+// =========================================================
+let groundTile=null;
+function buildGround(mp){
+  const c=document.createElement('canvas');c.width=48;c.height=48;
+  const g=c.getContext('2d');
+  g.fillStyle=mp.ground[0];g.fillRect(0,0,48,48);
+  for(let i=0;i<70;i++){
+    g.fillStyle=Math.random()<.5?mp.ground[1]:mp.ground[2];
+    g.fillRect(Math.random()*48|0,Math.random()*48|0,1,1);
+  }
+  for(let i=0;i<5;i++){
+    g.fillStyle=mp.ground[2];
+    const x=Math.random()*46|0,y=Math.random()*46|0;
+    g.fillRect(x,y,2,1);g.fillRect(x,y+1,1,1);
+  }
+  groundTile=c;
+}
+function drawFlowerDecor(g,wx,wy,sx,sy,mp){
+  const h=hash2(wx,wy);
+  if(h<.62)return;
+  const col=mp.deco[Math.floor(h*97)%3];
+  const t=Math.floor(h*31)%3;
+  if(t===0){ // 花
+    g.fillStyle=col;
+    g.fillRect(sx,sy-1,1,1);g.fillRect(sx-1,sy,1,1);g.fillRect(sx+1,sy,1,1);g.fillRect(sx,sy+1,1,1);
+    g.fillStyle='#f8f0a0';g.fillRect(sx,sy,1,1);
+    g.fillStyle=mp.ground[2];g.fillRect(sx,sy+2,1,2);
+  }else if(t===1){ // 草
+    g.fillStyle=mp.ground[1];
+    g.fillRect(sx,sy,1,3);g.fillRect(sx-2,sy+1,1,2);g.fillRect(sx+2,sy+1,1,2);
+  }else{ // 小石/きのこ
+    g.fillStyle=t===2&&h>.9?col:'#9a9a8a';
+    g.fillRect(sx,sy,2,2);
+  }
+}
+
+function draw(){
+  const camX=RUN.px-VW/2, camY=RUN.py-VH/2;
+  // 地面
+  const ox=-((camX%48)+48)%48, oy=-((camY%48)+48)%48;
+  for(let x=ox-48;x<VW+48;x+=48)for(let y=oy-48;y<VH+48;y+=48)cx.drawImage(groundTile,Math.round(x),Math.round(y));
+  // 装飾(ワールド座標64グリッド)
+  const gx0=Math.floor(camX/40)-1,gy0=Math.floor(camY/40)-1;
+  for(let gx=gx0;gx<gx0+14;gx++)for(let gy=gy0;gy<gy0+9;gy++){
+    const wx=gx*40+Math.floor(hash2(gx*7,gy*13)*32),wy=gy*40+Math.floor(hash2(gx*3,gy*17)*32);
+    drawFlowerDecor(cx,gx,gy,Math.round(wx-camX),Math.round(wy-camY),RUN.map);
+  }
+  // 地面効果
+  for(const p of RUN.patches){
+    const sx=p.x-camX,sy=p.y-camY;
+    if(sx<-80||sx>VW+80||sy<-80||sy>VH+80)continue;
+    cx.globalAlpha=Math.min(.45,p.life);
+    if(p.kind==='bloom')cx.fillStyle='#f088b8';
+    else if(p.kind==='thorn')cx.fillStyle='#70a840';
+    else if(p.kind==='goo')cx.fillStyle='#508868';
+    else if(p.kind==='poison')cx.fillStyle='#58d088';
+    else if(p.kind==='purify')cx.fillStyle='#fff8c0';
+    else cx.fillStyle='#f8b830';
+    cx.beginPath();cx.arc(sx,sy,p.r,0,TAU);cx.fill();
+    cx.globalAlpha=1;
+  }
+  // 最終アリーナ境界
+  if(RUN.finalMode){
+    cx.strokeStyle='rgba(255,180,220,.5)';cx.lineWidth=2;
+    cx.beginPath();cx.arc(RUN.arenaX-camX,RUN.arenaY-camY,252,0,TAU);cx.stroke();
+  }
+  // 施設
+  for(const f of RUN.facilities){
+    const sx=Math.round(f.x-camX),sy=Math.round(f.y-camY);
+    if(sx<-40||sx>VW+40||sy<-40||sy>VH+40)continue;
+    const S=F_SPR[f.kind];
+    if(f.repaired){
+      const aura=f.kind==='fountain'?90:f.kind==='tree'||f.kind==='windmill'?110:0;
+      if(aura){cx.globalAlpha=.07;cx.fillStyle=f.kind==='fountain'?'#58c8f8':f.kind==='tree'?'#f8d060':'#b0e8d0';
+        cx.beginPath();cx.arc(sx,sy,aura,0,TAU);cx.fill();cx.globalAlpha=1;}
+      cx.drawImage(S.ok,sx-7,sy-10);
+    }else{
+      cx.drawImage(S.broken,sx-7,sy-10);
+    }
+  }
+  // ピックアップ
+  for(const p of RUN.pickups){
+    const sx=Math.round(p.x-camX),sy=Math.round(p.y-camY);
+    if(sx<-12||sx>VW+12||sy<-12||sy>VH+12)continue;
+    if(p.kind==='xp'){
+      const s=p.xp>=6?MISC.crystal3:p.xp>=2?MISC.crystal2:MISC.crystal1;
+      cx.drawImage(s,sx-2,sy-2);
+    }else if(p.kind==='energy')cx.drawImage(MISC.energy,sx-2,sy-2);
+    else if(p.kind==='gold')cx.drawImage(ICONS.coin,sx-4,sy-4);
+    else cx.drawImage(MISC.box,sx-5,sy-3);
+  }
+  // 敵
+  for(const e of RUN.enemies){
+    const sx=Math.round(e.x-camX),sy=Math.round(e.y-camY);
+    if(sx<-30||sx>VW+30||sy<-30||sy>VH+30)continue;
+    const spr=e.boss?B_SPR[e.bossKind]:E_SPR[e.type];
+    const bob=Math.sin(RUN.t*5+e.wob)*1.5;
+    const sc=e.boss?2:e.elite?1.6:1;
+    const w=spr.width*sc,h=spr.height*sc;
+    if(e.elite){cx.fillStyle='rgba(255,217,102,.35)';cx.beginPath();cx.ellipse(sx,sy+h/2-2,w*.45,3,0,0,TAU);cx.fill();}
+    cx.drawImage(spr,sx-w/2,sy-h/2+bob,w,h);
+    if(e.hitT>0){cx.globalAlpha=.5;cx.fillStyle='#fff';cx.beginPath();cx.arc(sx,sy+bob,e.r+2,0,TAU);cx.fill();cx.globalAlpha=1;}
+    if(e.type==='iga'&&e.st===1){cx.fillStyle='rgba(255,80,80,.6)';cx.fillRect(sx-1,sy-e.r-6,3,3);}
+    if(e.elite||e.boss){ // HPバー
+      const frac=clamp(e.hp/e.maxhp,0,1);
+      cx.fillStyle='#301818';cx.fillRect(sx-12,sy-h/2-5,24,3);
+      cx.fillStyle=e.boss?'#f06090':'#ffd966';cx.fillRect(sx-12,sy-h/2-5,24*frac,3);
+    }
+  }
+  // ミツバチ/周回物
+  for(const w of RUN.weapons){
+    if(w.id==='bee')for(const b of w.bees)cx.drawImage(MISC.bee,Math.round(b.x-camX)-2,Math.round(b.y-camY)-2);
+    if(w.id==='boomer'&&w.lv>WEAPONS.boomer.max){
+      for(let i=0;i<2;i++){
+        const bx=w['ox'+i],by=w['oy'+i];
+        if(bx!==undefined)drawBoom(bx-camX,by-camY,5,RUN.t*9);
+      }
+    }
+  }
+  // プレイヤー
+  {
+    const sx=Math.round(VW/2),sy=Math.round(VH/2);
+    cx.fillStyle='rgba(0,0,0,.25)';cx.beginPath();cx.ellipse(sx,sy+7,5,2,0,0,TAU);cx.fill();
+    const fr=RUN.moving?(Math.floor(RUN.anim)%2):0;
+    const spr=RUN.char.spr[fr];
+    const blink=RUN.hurtT>0&&Math.floor(RUN.t*20)%2===0;
+    if(!blink){
+      cx.save();
+      if(RUN.flip){cx.translate(sx+6,sy-7);cx.scale(-1,1);cx.drawImage(spr,0,0);}
+      else cx.drawImage(spr,sx-6,sy-7);
+      cx.restore();
+    }
+    if(RUN.shieldT>0){
+      cx.strokeStyle='rgba(160,208,248,.8)';cx.lineWidth=1.5;
+      cx.beginPath();cx.arc(sx,sy,11+Math.sin(RUN.t*10),0,TAU);cx.stroke();
+      // 花弁
+      for(let i=0;i<5;i++){const a=RUN.t*3+i*TAU/5;cx.fillStyle='#ffd0e8';cx.fillRect(sx+Math.cos(a)*12-1,sy+Math.sin(a)*12-1,2,2);}
+    }
+    if(RUN.hasteT>0){cx.fillStyle='rgba(176,232,208,.5)';for(let i=0;i<3;i++)cx.fillRect(sx-RUN.face[0]*8-i*3,sy+rnd(-4,4),2,1);}
+  }
+  // 弾
+  for(const b of RUN.bullets){
+    const sx=b.x-camX,sy=b.y-camY;
+    if(sx<-20||sx>VW+20||sy<-20||sy>VH+20)continue;
+    switch(b.type){
+    case 'shot':cx.fillStyle='#f8e060';cx.beginPath();cx.arc(sx,sy,b.r,0,TAU);cx.fill();
+      cx.fillStyle='#fff8c0';cx.fillRect(sx-1,sy-1,1.5,1.5);break;
+    case 'flower':drawFlowerBullet(sx,sy,b.r,RUN.t*4);break;
+    case 'boom':drawBoom(sx,sy,b.r,RUN.t*10);break;
+    case 'gust':cx.globalAlpha=.7;cx.strokeStyle='#c8f0d8';cx.lineWidth=2;
+      cx.beginPath();cx.arc(sx,sy,b.r,Math.atan2(b.vy,b.vx)-1.1,Math.atan2(b.vy,b.vx)+1.1);cx.stroke();
+      cx.globalAlpha=1;break;
+    case 'petal':cx.fillStyle='#f8a8c8';cx.fillRect(sx-1.5,sy-1.5,3,3);break;
+    case 'honey':cx.fillStyle='#f0a020';cx.beginPath();cx.arc(sx,sy,b.r,0,TAU);cx.fill();break;
+    case 'lob':cx.fillStyle='#806840';cx.beginPath();cx.arc(sx,sy,2.5,0,TAU);cx.fill();break;
+    }
+  }
+  // 敵弾
+  for(const b of RUN.ebullets){
+    const sx=b.x-camX,sy=b.y-camY;
+    cx.fillStyle=b.poison?'#58d088':'#f87890';
+    cx.beginPath();cx.arc(sx,sy,b.r,0,TAU);cx.fill();
+    cx.fillStyle='#fff';cx.fillRect(sx-.5,sy-.5,1,1);
+  }
+  // パーティクル
+  for(const p of RUN.parts){
+    if(p.slash){
+      cx.globalAlpha=Math.min(1,p.life*8);
+      cx.strokeStyle=p.col;cx.lineWidth=3;
+      cx.beginPath();cx.arc(p.x-camX,p.y-camY,p.slash.r*.85,p.slash.a-1.3,p.slash.a+1.3);cx.stroke();
+      cx.globalAlpha=1;continue;
+    }
+    cx.globalAlpha=Math.min(1,p.life*3);
+    cx.fillStyle=p.col;
+    cx.fillRect(p.x-camX-p.size/2,p.y-camY-p.size/2,p.size,p.size);
+    cx.globalAlpha=1;
+  }
+  // 時間帯の色
+  const tints=[ 'rgba(255,220,160,.07)', null, 'rgba(255,130,50,.13)', 'rgba(15,25,70,.34)' ];
+  const tint=tints[GAME.phase];
+  if(tint){cx.fillStyle=tint;cx.fillRect(0,0,VW,VH);}
+  if(RUN.map.dark){cx.fillStyle='rgba(10,20,15,'+RUN.map.dark+')';cx.fillRect(0,0,VW,VH);}
+  drawUI(camX,camY);
+}
+function drawFlowerBullet(x,y,r,rot){
+  for(let i=0;i<6;i++){
+    const a=rot+i*TAU/6;
+    cx.fillStyle='#f8a8c8';
+    cx.beginPath();cx.arc(x+Math.cos(a)*r*.55,y+Math.sin(a)*r*.55,r*.42,0,TAU);cx.fill();
+  }
+  cx.fillStyle='#f8e060';cx.beginPath();cx.arc(x,y,r*.38,0,TAU);cx.fill();
+}
+function drawBoom(x,y,r,rot){
+  cx.fillStyle='#f0ead8';
+  for(let i=0;i<4;i++){
+    const a=rot+i*TAU/4;
+    cx.beginPath();cx.arc(x+Math.cos(a)*r*.5,y+Math.sin(a)*r*.5,r*.4,0,TAU);cx.fill();
+  }
+  cx.fillStyle='#d8c890';cx.beginPath();cx.arc(x,y,r*.3,0,TAU);cx.fill();
+}
+
+// 高解像度UIレイヤー(文字はすべてここに描く)
+function uiText(txt,x,y,col,size,align){
+  ux.font='bold '+size+'px "Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif';
+  ux.textAlign=align||'left';
+  ux.lineWidth=Math.max(2.5,size/6);
+  ux.strokeStyle='rgba(10,22,10,.88)';ux.lineJoin='round';
+  ux.strokeText(txt,x,y);
+  ux.fillStyle=col;ux.fillText(txt,x,y);
+}
+function drawUI(camX,camY){
+  ux.clearRect(0,0,ui.width,ui.height);
+  ux.imageSmoothingEnabled=false;
+  const st=stats();
+  // 施設の修復コストラベル(ワールド追従)
+  for(const f of RUN.facilities){
+    if(f.repaired)continue;
+    const sx=(f.x-camX)*K,sy=(f.y-camY)*K;
+    if(sx<-60||sx>ui.width+60||sy<-60||sy>ui.height+60)continue;
+    ux.drawImage(ICONS.gear,sx-24,sy-50,16,16);
+    uiText(String(FACILITIES[f.kind].cost),sx-4,sy-37,'#ffd966',14);
+  }
+  // フロートテキスト
+  for(const t of RUN.texts){
+    ux.globalAlpha=Math.min(1,t.life);
+    uiText(t.txt,(t.x-camX)*K,(t.y-camY)*K,t.col,16,'center');
+    ux.globalAlpha=1;
+  }
+  // 成長ゲージ(XPバー)
+  ux.fillStyle='rgba(20,40,20,.85)';ux.fillRect(0,0,ui.width,16);
+  ux.fillStyle='#58c838';ux.fillRect(2,2,(ui.width-4)*clamp(RUN.xp/RUN.xpNeed,0,1),12);
+  uiText('Lv '+RUN.lv,8,36,'#fff',16);
+  // タイマー/時間帯
+  const mm=Math.floor(RUN.t/60),ss=Math.floor(RUN.t%60);
+  uiText((mm<10?'0':'')+mm+':'+(ss<10?'0':'')+ss,ui.width/2,44,'#fff',24,'center');
+  ux.drawImage([ICONS.morning,ICONS.sun,ICONS.dusk,ICONS.moon][GAME.phase],ui.width/2-30,52,20,20);
+  uiText(['朝','昼','夕','夜'][GAME.phase],ui.width/2+12,69,'#ffe9a0',16,'center');
+  // 右上: 浄化数/施設/ゴールド
+  ux.drawImage(ICONS.kill,ui.width-140,24,18,18);
+  uiText(String(RUN.kills),ui.width-116,40,'#ffe98a',16);
+  ux.drawImage(ICONS.facil,ui.width-140,48,18,18);
+  uiText(RUN.repaired+'/5',ui.width-116,64,'#cfe8c0',16);
+  ux.drawImage(ICONS.coin,ui.width-140,72,18,18);
+  uiText(String(RUN.gold),ui.width-116,88,'#f0c030',16);
+  // HP/エネルギー
+  const hx=10,hy=ui.height-60;
+  uiText('HP '+Math.ceil(RUN.hp)+' / '+Math.round(st.maxhp),hx,hy-7,'#fff',14);
+  ux.fillStyle='rgba(0,0,0,.55)';ux.fillRect(hx,hy,190,14);
+  ux.fillStyle=RUN.hp/st.maxhp>.35?'#58c838':'#e85050';
+  ux.fillRect(hx+2,hy+2,186*clamp(RUN.hp/st.maxhp,0,1),10);
+  ux.fillStyle='rgba(0,0,0,.55)';ux.fillRect(hx,hy+19,190,14);
+  ux.fillStyle='#f8c040';ux.fillRect(hx+2,hy+21,186*RUN.energy/100,10);
+  uiText('花粉エネルギー '+Math.floor(RUN.energy),hx+200,hy+32,'#ffe9a0',14);
+  if(RUN.skillLock>0)uiText('スキル再使用まで '+Math.max(0,RUN.skillLock).toFixed(1)+'s',hx+200,hy+13,'#f0a0a0',14);
+  else if(!isTouch)uiText('[1]浄化40  [2]回復30  [3]盾35  [4]疾風25',hx+200,hy+13,'#cfe8c0',14);
+  if(RUN.revives>0)uiText('復活 ×'+RUN.revives,hx,hy+50,'#90f0a0',13);
+  // 武器/パッシブ一覧(左)
+  let wy=56;
+  for(const w of RUN.weapons){
+    const W=WEAPONS[w.id];const evo=w.lv>W.max;
+    ux.drawImage(ICONS[W.icon],8,wy,18,18);
+    uiText(evo?'EVO':'Lv'+w.lv,32,wy+15,evo?'#ff9adf':'#cfe8c0',13);
+    wy+=24;
+  }
+  for(const k in RUN.passives){
+    ux.drawImage(ICONS[PASSIVES[k].icon],8,wy,18,18);
+    uiText('Lv'+RUN.passives[k],32,wy+15,'#a8c8e8',13);
+    wy+=24;
+  }
+  // 修復プロンプト
+  const f=nearFacility();
+  if(f){
+    const c=FACILITIES[f.kind];
+    const msg=(isTouch?'修復ボタン':'[E]キー')+'で '+c.name+' を修復（'+c.cost+'エネルギー） '+c.desc;
+    uiText(msg,ui.width/2,ui.height-100,RUN.energy>=c.cost?'#ffe98a':'#f0a0a0',17,'center');
+  }
+  // ボスHP
+  if(RUN.boss&&!RUN.boss.dead){
+    const b=RUN.boss;
+    uiText(BOSSES[b.bossKind].name,ui.width/2,ui.height-42,'#ffd0e0',16,'center');
+    ux.fillStyle='rgba(0,0,0,.6)';ux.fillRect(ui.width/2-240,ui.height-36,480,16);
+    ux.fillStyle='#f06090';ux.fillRect(ui.width/2-238,ui.height-34,476*clamp(b.hp/b.maxhp,0,1),12);
+  }
+  // ジョイスティック
+  if(joy.active){
+    const r=cv.getBoundingClientRect();
+    const s=ui.width/r.width;
+    const jx=(joy.ox-r.left)*s,jy=(joy.oy-r.top)*s;
+    ux.globalAlpha=.3;ux.strokeStyle='#fff';ux.lineWidth=4;
+    ux.beginPath();ux.arc(jx,jy,48,0,TAU);ux.stroke();
+    ux.globalAlpha=.5;ux.fillStyle='#fff';
+    ux.beginPath();ux.arc(jx+joy.dx*42,jy+joy.dy*42,18,0,TAU);ux.fill();
+    ux.globalAlpha=1;
+  }
+}
+
+// =========================================================
+//  メインループ
+// =========================================================
+let lastT=0;
+function loop(ts){
+  requestAnimationFrame(loop);
+  const dt=Math.min(.05,(ts-lastT)/1000||.016);
+  lastT=ts;
+  if(GAME.state==='play'&&RUN){
+    update(dt);
+    if(GAME.state==='play'||GAME.state==='levelup')draw();
+  }else if((GAME.state==='levelup'||GAME.state==='pause')&&RUN){
+    draw();
+  }
+}
+requestAnimationFrame(loop);
+
+// =========================================================
+//  レベルアップUI
+// =========================================================
+function buildChoices(){
+  const out=[];
+  // 進化候補(武器MAX+対応パッシブLv3+)
+  const evos=[];
+  for(const w of RUN.weapons){
+    const W=WEAPONS[w.id];
+    if(w.lv===W.max&&(RUN.passives[W.pair]||0)>=3)evos.push({kind:'evo',w});
+  }
+  if(evos.length)out.push(pick(evos));
+  const pool=[];
+  for(const w of RUN.weapons){if(w.lv<WEAPONS[w.id].max)pool.push({kind:'wup',w});}
+  if(RUN.weapons.length<4)for(const id in WEAPONS)if(!getWeapon(id))pool.push({kind:'wnew',id});
+  const pcount=Object.keys(RUN.passives).length;
+  for(const id in PASSIVES){
+    const lv=RUN.passives[id]||0;
+    if(lv>0&&lv<PASSIVES[id].max)pool.push({kind:'pup',id});
+    else if(lv===0&&pcount<4)pool.push({kind:'pnew',id});
+  }
+  // シャッフル
+  for(let i=pool.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[pool[i],pool[j]]=[pool[j],pool[i]];}
+  while(out.length<3&&pool.length)out.push(pool.pop());
+  while(out.length<3)out.push(pick([{kind:'heal'},{kind:'energy'}]));
+  return out;
+}
+function choiceInfo(c){
+  if(c.kind==='evo'){const W=WEAPONS[c.w.id];return{h:iconImg('star')+W.evoName,t:'― 進 化 ―',d:W.evoDesc,cls:'evo'};}
+  if(c.kind==='wup'){const W=WEAPONS[c.w.id];return{h:iconImg(W.icon)+W.name+' Lv'+(c.w.lv+1),t:'武器強化',d:W.desc+(c.w.lv+1>=WEAPONS[c.w.id].max?'（最大。対応パッシブ「'+PASSIVES[W.pair].name+'」Lv3で進化可能）':'')};}
+  if(c.kind==='wnew'){const W=WEAPONS[c.id];return{h:iconImg(W.icon)+W.name,t:'新しい武器',d:W.desc+'／進化先: '+W.evoName};}
+  if(c.kind==='pup'){const P=PASSIVES[c.id];return{h:iconImg(P.icon)+P.name+' Lv'+((RUN.passives[c.id]||0)+1),t:'パッシブ強化',d:P.desc((RUN.passives[c.id]||0)+1)};}
+  if(c.kind==='pnew'){const P=PASSIVES[c.id];return{h:iconImg(P.icon)+P.name,t:'新しいパッシブ',d:P.desc(1)};}
+  if(c.kind==='heal')return{h:iconImg('heart')+'庭のおやつ',t:'回復',d:'HPを30%回復する'};
+  return{h:iconImg('energy')+'花粉の追い風',t:'エネルギー',d:'花粉エネルギー +30'};
+}
+function applyChoice(c){
+  if(c.kind==='evo'){c.w.lv=WEAPONS[c.w.id].max+1;SFX.evo();ftext(RUN.px,RUN.py-26,WEAPONS[c.w.id].evoName+' に進化！','#ff9adf');}
+  else if(c.kind==='wup')c.w.lv++;
+  else if(c.kind==='wnew')addWeapon(c.id);
+  else if(c.kind==='pup'||c.kind==='pnew')RUN.passives[c.id]=(RUN.passives[c.id]||0)+1;
+  else if(c.kind==='heal'){const st=stats();RUN.hp=Math.min(st.maxhp,RUN.hp+st.maxhp*.3);}
+  else RUN.energy=Math.min(100,RUN.energy+30);
+}
+function showLevelUp(){
+  if(GAME.state!=='play')return;
+  GAME.state='levelup';
+  SFX.level();
+  $('luLv').textContent='Lv'+RUN.lv+' に成長！ 強化を1つ選ぼう';
+  const wrap=$('luCards');wrap.innerHTML='';
+  for(const c of buildChoices()){
+    const info=choiceInfo(c);
+    const d=document.createElement('div');
+    d.className='lvcard'+(info.cls?' '+info.cls:'');
+    d.innerHTML='<div class="h">'+info.h+'</div><div class="t">'+info.t+'</div><div class="d">'+info.d+'</div>';
+    d.onclick=()=>{
+      applyChoice(c);
+      RUN.levelUpQueue--;
+      if(RUN.levelUpQueue>0){GAME.state='play';showLevelUp();}
+      else{showOv(null);GAME.state='play';}
+    };
+    wrap.appendChild(d);
+  }
+  showOv('levelup');
+}
+
+// =========================================================
+//  ゲームフロー
+// =========================================================
+const $=id=>document.getElementById(id);
+function showOv(id){
+  document.querySelectorAll('.ov').forEach(o=>o.classList.remove('show'));
+  if(id)$(id).classList.add('show');
+}
+function startRun(){
+  newRun(GAME.selChar,GAME.selMap);
+  buildGround(RUN.map);
+  GAME.state='play';
+  showOv(null);
+  ux.clearRect(0,0,ui.width,ui.height);
+  if(isTouch)$('touchui').classList.add('show');
+  audioInit();
+  bgmStop();bgmStep=0;bgmStart(RUN.map.music?RUN.map.music.tempo:165);
+}
+function pauseGame(){
+  if(GAME.state!=='play')return;
+  GAME.state='pause';
+  let info='<div class="statline">'+RUN.char.name+' Lv'+RUN.lv+' ／ '+RUN.map.name+'</div><div>';
+  for(const w of RUN.weapons){const W=WEAPONS[w.id];info+='<span class="pill">'+iconImg(W.icon)+(w.lv>W.max?W.evoName:W.name+' Lv'+w.lv)+'</span>';}
+  for(const k in RUN.passives)info+='<span class="pill">'+iconImg(PASSIVES[k].icon)+PASSIVES[k].name+' Lv'+RUN.passives[k]+'</span>';
+  info+='</div>';
+  $('pauseInfo').innerHTML=info;
+  showOv('pause');
+}
+function resumeGame(){
+  if(GAME.state!=='pause')return;
+  GAME.state='play';showOv(null);
+}
+function winGame(){endGame(true);}
+function endGame(win){
+  if(GAME.state==='result')return;
+  GAME.state='result';
+  $('touchui').classList.remove('show');
+  const min=RUN.t/60;
+  const pts=Math.round(min*8+RUN.kills/40+RUN.repaired*12+RUN.bossesKilled*30+(win?150:0));
+  const goldGain=RUN.gold+Math.round(min*2)+(win?100:0);
+  // セーブ更新
+  SAVE.pts+=pts;SAVE.gold=(SAVE.gold||0)+goldGain;SAVE.runs++;SAVE.totalKills+=RUN.kills;
+  SAVE.bestTime=Math.max(SAVE.bestTime,Math.floor(RUN.t));
+  SAVE.clearChars=SAVE.clearChars||{};SAVE.clearMaps=SAVE.clearMaps||{};SAVE.nightsTotal=SAVE.nightsTotal||0;
+  if(RUN.t>=1200)SAVE.nightsTotal++;
+  if(win){SAVE.clears++;SAVE.clearChars[RUN.char.id]=1;SAVE.clearMaps[RUN.map.id]=1;}
+  // 称号判定
+  const newT=[];
+  const grant=id=>{if(!SAVE.titles[id]){SAVE.titles[id]=1;newT.push(TITLES.find(t=>t.id===id).name);}};
+  if(win)grant('first');
+  if(win&&RUN.repaired>=5)grant('allfac');
+  if(SAVE.nightsTotal>=3)grant('night');
+  if(RUN.kills>=1000)grant('k1000');
+  if(CHARS.every(c=>SAVE.clearChars[c.id]))grant('allchar');
+  if(MAPS.every(m=>SAVE.clearMaps[m.id]))grant('allmap');
+  saveSave();
+  // 表示
+  $('resHead').textContent=win?'庭園再建完了！':'花粉汚染拡大…';
+  $('resHead').className='big '+(win?'win':'lose');
+  $('resSub').textContent=win?'庭園に光が戻った。あなたは立派なBloom Keeperだ。':'今回はここまで。だが種は残った——もう一度。';
+  const mm=Math.floor(RUN.t/60),ss=Math.floor(RUN.t%60);
+  $('resStats').innerHTML=
+    '<div class="statline">生存時間: '+mm+'分'+ss+'秒　　浄化数: '+RUN.kills+'体　　到達レベル: '+RUN.lv+'</div>'+
+    '<div class="statline">修復施設: '+RUN.repaired+'/5　　ボス撃破: '+RUN.bossesKilled+'</div>'+
+    '<div class="statline">'+iconImg('coin')+'ゴールド +'+goldGain+'（所持 '+SAVE.gold+'）→ タイトルの「永続強化」で使える</div>';
+  $('resPts').textContent='+'+pts+' pt（合計 '+SAVE.pts+' pt）';
+  $('resNew').innerHTML=newT.length?'<div class="sect">─ 新しい称号 ─</div>'+newT.map(t=>'<span class="pill" style="border-color:#ffd966;color:#ffe98a">'+iconImg('medal')+t+'</span>').join(''):'';
+  showOv('result');
+  if(win)SFX.win();else SFX.die();
+}
+
+// =========================================================
+//  タイトル/選択画面
+// =========================================================
+function updateTitle(){
+  $('pts').innerHTML='再建ポイント: '+SAVE.pts+' pt　／　'+iconImg('coin')+'ゴールド: '+(SAVE.gold||0)+' G　／　プレイ回数: '+SAVE.runs+'　／　再建完了: '+(SAVE.clears||0)+'回';
+}
+function charMini(ch){
+  const c=document.createElement('canvas');c.width=12;c.height=14;
+  c.getContext('2d').drawImage(ch.spr[0],0,0);
+  return c;
+}
+function buildCharSel(){
+  const wrap=$('charCards');wrap.innerHTML='';
+  for(const ch of CHARS){
+    const locked=!SAVE.chars[ch.id];
+    const d=document.createElement('div');
+    d.className='card'+(locked?' locked':'')+(GAME.selChar===ch.id?' sel':'');
+    d.innerHTML='<div class="nm">'+ch.name+'</div><div class="rl">'+ch.role+'</div>'+
+      '<div class="wp">'+iconImg(WEAPONS[ch.weapon].icon)+WEAPONS[ch.weapon].name+'</div>'+
+      '<div class="pk">'+ch.perk+(ch.note?'<br>'+ch.note:'')+'</div>'+
+      (locked?'<div class="pk" style="color:#f0a0a0">'+iconImg('lock')+'ショップで解放('+ch.cost+'pt)</div>':'');
+    d.insertBefore(charMini(ch),d.firstChild);
+    d.onclick=()=>{
+      if(locked)return;
+      GAME.selChar=ch.id;
+      buildCharSel();
+      $('btCharNext').disabled=false;
+    };
+    wrap.appendChild(d);
+  }
+}
+function buildMapSel(){
+  const wrap=$('mapCards');wrap.innerHTML='';
+  for(const mp of MAPS){
+    const locked=!SAVE.maps[mp.id];
+    const d=document.createElement('div');
+    d.className='card'+(locked?' locked':'')+(GAME.selMap===mp.id?' sel':'');
+    const sw=document.createElement('canvas');sw.width=24;sw.height=14;
+    const g=sw.getContext('2d');
+    g.fillStyle=mp.ground[0];g.fillRect(0,0,24,14);
+    for(let i=0;i<22;i++){g.fillStyle=pick([mp.ground[1],mp.ground[2],pick(mp.deco)]);g.fillRect(Math.random()*24|0,Math.random()*14|0,1,1);}
+    sw.style.cssText='width:96px;height:56px;margin:4px auto;display:block;border-radius:4px;image-rendering:pixelated';
+    d.innerHTML='<div class="nm">'+mp.name+'</div><div class="pk">'+mp.desc+'</div>'+
+      (locked?'<div class="pk" style="color:#f0a0a0">'+iconImg('lock')+'ショップで解放('+mp.cost+'pt)</div>':'');
+    d.insertBefore(sw,d.firstChild);
+    d.onclick=()=>{
+      if(locked)return;
+      GAME.selMap=mp.id;
+      buildMapSel();
+      $('btGo').disabled=false;
+    };
+    wrap.appendChild(d);
+  }
+}
+function buildBestiary(){
+  const list=$('bestList');list.innerHTML='';
+  const all=[...Object.keys(ENEMIES),...Object.keys(BOSSES)];
+  let seen=0;
+  for(const k of all){
+    const isBoss=!!BOSSES[k];
+    const E=isBoss?BOSSES[k]:ENEMIES[k];
+    const known=!!SAVE.seen[k];
+    if(known)seen++;
+    const d=document.createElement('div');
+    d.className='bestrow'+(known?'':' unknown');
+    const c=document.createElement('canvas');
+    const spr=isBoss?B_SPR[k]:E_SPR[k];
+    c.width=spr.width;c.height=spr.height;
+    if(known)c.getContext('2d').drawImage(spr,0,0);
+    else{const g=c.getContext('2d');g.fillStyle='#333';g.fillRect(2,2,c.width-4,c.height-4);}
+    d.appendChild(c);
+    const info=document.createElement('div');info.className='bi';
+    info.innerHTML=known
+      ?'<div class="bn">'+(isBoss?iconImg('crown'):'')+E.name+'</div><div class="bd">'+E.desc+'</div>'
+      :'<div class="bn">？？？</div><div class="bd">まだ出会っていない花粉生物。</div>';
+    d.appendChild(info);
+    const kc=document.createElement('div');kc.className='bk';
+    kc.textContent=known?(isBoss?'役割: ボス':'役割: '+E.role)+'\n浄化: '+(SAVE.kills[k]||0):'';
+    kc.style.whiteSpace='pre';
+    d.appendChild(kc);
+    list.appendChild(d);
+  }
+  $('bestCount').textContent='発見: '+seen+' / '+all.length;
+}
+function buildShop(){
+  $('shopPts').textContent='所持: '+SAVE.pts+' pt（プレイで獲得。火力やHPの恒久強化は売っていない——腕で勝とう）';
+  const list=$('shopList');list.innerHTML='';
+  const items=[];
+  for(const c of CHARS)if(!SAVE.chars[c.id])items.push({kind:'char',id:c.id,name:'キャラ解放: '+c.name+'（'+c.role+'）',cost:c.cost,desc:c.perk+' ／ 初期武器: '+WEAPONS[c.weapon].name});
+  for(const m of MAPS)if(!SAVE.maps[m.id])items.push({kind:'map',id:m.id,name:'マップ解放: '+m.name,cost:m.cost,desc:m.desc});
+  if(!SAVE.bgm2)items.push({kind:'bgm',id:'bgm2',name:'BGMアレンジ: 月夜のガーデン',cost:200,desc:'BGMに重なる新しい旋律を解放'});
+  if(!items.length){
+    list.innerHTML='<div class="statline">すべて解放済み！あとは庭園を咲かせるだけ。</div>';
+    return;
+  }
+  for(const it of items){
+    const d=document.createElement('div');d.className='bestrow';
+    d.innerHTML='<div class="bi"><div class="bn">'+it.name+'</div><div class="bd">'+it.desc+'</div></div>';
+    const b=document.createElement('button');
+    b.className='btn small gold';b.textContent=it.cost+' pt';
+    b.disabled=SAVE.pts<it.cost;
+    b.onclick=()=>{
+      if(SAVE.pts<it.cost)return;
+      SAVE.pts-=it.cost;
+      if(it.kind==='char')SAVE.chars[it.id]=1;
+      else if(it.kind==='map')SAVE.maps[it.id]=1;
+      else SAVE.bgm2=1;
+      saveSave();SFX.box();buildShop();updateTitle();
+    };
+    d.appendChild(b);
+    list.appendChild(d);
+  }
+}
+// 永続強化(PowerUp)メニュー
+function buildPower(){
+  $('powerGold').innerHTML='所持ゴールド: '+(SAVE.gold||0)+' G（プレイ中に敵が落とすコインで稼ぐ）<br>購入した効果は次回以降ずっと有効・全キャラクター共通。';
+  const list=$('powerList');list.innerHTML='';
+  for(const p of POWERUPS){
+    const lv=powerLv(p.id);
+    const maxed=lv>=p.max;
+    const cost=powerCost(p);
+    const d=document.createElement('div');d.className='bestrow';
+    let bar='';
+    for(let i=0;i<p.max;i++)bar+='<span style="display:inline-block;width:14px;height:8px;margin-right:3px;border-radius:2px;background:'+(i<lv?'#ffd966':'#2a4a28')+';border:1px solid #5a8a50"></span>';
+    d.innerHTML='<div class="bi"><div class="bn">'+iconImg(p.icon)+p.name+' <small style="color:#9cc790">Lv'+lv+'/'+p.max+'</small></div>'+
+      '<div class="bd">'+p.desc(Math.max(1,lv||1))+(lv>0?'（現在: '+p.desc(lv)+'）':'')+'</div>'+
+      '<div style="margin-top:3px">'+bar+'</div></div>';
+    const b=document.createElement('button');
+    b.className='btn small gold';
+    b.textContent=maxed?'MAX':cost+' G';
+    b.disabled=maxed||(SAVE.gold||0)<cost;
+    b.onclick=()=>{
+      if(maxed||(SAVE.gold||0)<cost)return;
+      SAVE.gold-=cost;
+      SAVE.power=SAVE.power||{};
+      SAVE.power[p.id]=lv+1;
+      saveSave();SFX.box();buildPower();updateTitle();
+    };
+    d.appendChild(b);
+    list.appendChild(d);
+  }
+}
+
+function toggleTitles(){
+  const div=$('titleTitles');
+  if(div.innerHTML){div.innerHTML='';return;}
+  div.innerHTML=TITLES.map(t=>{
+    const got=SAVE.titles[t.id];
+    return '<span class="pill" style="'+(got?'border-color:#ffd966;color:#ffe98a':'opacity:.55')+'">'+iconImg(got?'medal':'lock')+t.name+'<small style="opacity:.8">（'+t.cond+'）</small></span>';
+  }).join('');
+}
+function toggleBGM(){
+  bgmOn=!bgmOn;
+  $('btMute').textContent=bgmOn?'BGM: ON':'BGM: OFF';
+}
+
+// ---------- ボタン配線 ----------
+$('btStart').onclick=()=>{audioInit();GAME.selChar=null;$('btCharNext').disabled=true;buildCharSel();showOv('charsel');};
+$('btHow').onclick=()=>showOv('howto');
+$('btHowBack').onclick=()=>showOv('title');
+$('btBest').onclick=()=>{buildBestiary();showOv('bestiary');};
+$('btBestBack').onclick=()=>showOv('title');
+$('btUnlock').onclick=()=>{buildShop();showOv('unlocks');};
+$('btPower').onclick=()=>{audioInit();buildPower();showOv('power');};
+$('btPowerBack').onclick=()=>{updateTitle();showOv('title');};
+$('btShopBack').onclick=()=>{updateTitle();showOv('title');};
+$('btTitles').onclick=toggleTitles;
+$('btMute').onclick=()=>{audioInit();toggleBGM();};
+$('btCharBack').onclick=()=>showOv('title');
+$('btCharNext').onclick=()=>{GAME.selMap=SAVE.maps.spring?'spring':null;$('btGo').disabled=!GAME.selMap;buildMapSel();showOv('mapsel');};
+$('btMapBack').onclick=()=>showOv('charsel');
+$('btGo').onclick=startRun;
+$('btResume').onclick=resumeGame;
+$('btQuit').onclick=()=>{endGame(false);};
+$('btRetry').onclick=()=>{updateTitle();startRun();};
+$('btToTitle').onclick=()=>{updateTitle();showOv('title');};
+// タッチスキルボタン
+[0,1,2,3].forEach(i=>{
+  $('sk'+i).addEventListener('touchstart',e=>{e.preventDefault();useSkill(i);},{passive:false});
+});
+$('repbtn').addEventListener('touchstart',e=>{e.preventDefault();tryRepair();},{passive:false});
+
+// ---------- 起動 ----------
+updateTitle();
+showOv('title');
+
+</script>
+</body></html>

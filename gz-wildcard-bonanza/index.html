@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="JUNO" property="og:title"/>
+<meta content="JUNO" property="og:site_name"/>
+<meta content="https://dl.dropboxusercontent.com/u/29039767/JUNOhttps://kunjgit.github.io/GameZone/" property="og:url"/>
+<meta content="JavaScript UNO" property="og:description"/>
+<meta content="https://dl.dropboxusercontent.com/u/29039767/JUNO/images/thumbnail.png" property="og:image"/>
+<title>JUNO</title>
+<link href="/_assets/c22d548352f25391eff3.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+<script src="/_assets/71c306b6645354840260.js" type="text/javascript"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body style="font-size: 201.6%;">
+<div style="text-align: left; margin-left: 40px;
+        margin-top: 30px;
+        font-size: 30px;
+        padding: 5px; "><a><i class="fas fa-home home-icon" style="color:black;"></i></a></div>
+<div id="container" style="width: 1440px; height: 758.304px; margin-top: -379.152px; margin-left: -720px;">
+<div id="gameContainer">
+<div id="computerContainer">
+<div id="computerHead">
+<div class="mute" id="computerFace">
+<img alt="computer" src="/_assets/00ce88a913efc293cc2b.png"/>
+</div>
+</div>
+<div id="computerHand"><div class="card Red" id="9Red64"><div class="cardText">JUNO</div></div><div class="card Blue" id="7Blue14"><div class="cardText">JUNO</div></div><div class="card Yellow" id="2Yellow74"><div class="cardText">JUNO</div></div><div class="card Blue" id="3Blue7"><div class="cardText">JUNO</div></div><div class="card Red" id="drawTwoRed67"><div class="cardText">JUNO</div></div><div class="card Yellow" id="1Yellow72"><div class="cardText">JUNO</div></div><div class="card Red" id="8Red62"><div class="cardText">JUNO</div></div></div>
+<div id="infoButton">?</div>
+<div class="hide" id="infoScreen">
+<div id="exitButton">×</div>
+<div id="infoContainer">
+<div id="gameMap"><img alt="game map" src="/_assets/72107890c600f35aa8d1.png"/></div>
+<div id="rulesContainer">
+<div class="head">How the heck do I play?</div>
+<div class="paragraph">The object of the game is to get rid of all your cards. To win, you have to do this before the computer does!</div>
+<div class="paragraph">Play your cards by matching the card on the discard pile in number, color, or type. For example, if the card on the discard pile is a yellow 5 you can play any number 5 card, any yellow card, or a wild card.</div>
+<div class="paragraph">If you can't match the card on the discard pile (or choose not to play a card) you must draw a card. If you draw a playable card, you can choose to play or pass. If you don't play, you must pass.</div>
+</div>
+<div id="gameTips"><img alt="game tips" src="/_assets/0139fc32ca7a7f74930e.png"/></div>
+<div id="specialCardsContainer">
+<div class="head">Special Cards</div>
+<div class="paragraph"><span class="paragraphHead">Skip</span><br/>Skip the other player's turn.<br/>You get to play twice!</div>
+<div class="paragraph"><span class="paragraphHead">Draw Two</span><br/>The other player has to draw two cards.</div>
+<div class="paragraph"><span class="paragraphHead">Wild</span><br/>You choose the color of the discard pile.</div>
+<div class="paragraph"><span class="paragraphHead">Wild Draw Four</span><br/>You choose the color of the discard pile <span class="italic">and</span> the other player has to draw four cards.</div>
+</div>
+<div id="JUNOvsUNO">
+<div class="head">How is this different from UNO?</div>
+<div class="paragraph">The game is for one player only. There is no point system.</div>
+<div class="paragraph">There are no Reverse cards.</div>
+<div class="paragraph">Draw Two cards don’t cause the player they’re played on to lose a turn.</div>
+<div class="paragraph">After drawing, you can play any playable card in your hand—not just the one you drew.</div>
+<div class="paragraph">There are no restrictions on when a Wild Draw Four card can be played.</div>
+<div class="paragraph">You don't have to yell "UNO" (but you can if you want to).</div>
+</div>
+<div id="about">
+<div class="head">Why did you make this?</div>
+<div class="paragraph">Mostly to learn JavaScript—hence the name—along with HTML/CSS. People told me that building something was the best way to learn, so after finishing the Codecademy course on JS I thought making an UNO game would be a fun challenge. I made JUNO without using jQuery or other libraries to teach myself about working with the DOM, event handling, animation, and so on.</div>
+<div class="paragraph">Reach me with any comments or questions at <a href="mailto:dougtebay@gmail.com">dougtebay@gmail.com</a>.</div>
+</div>
+<div></div>
+</div>
+</div>
+</div>
+<div id="discardPileContainer">
+<div id="welcomeMessage">
+<div>It's your turn! Click on a card to play.<br/>If you can't play, draw.</div>
+<div id="triangleDown"></div>
+</div>
+<div class="hide" id="wildMenu">
+<div id="triangleLeft"></div>
+<div>Choose a color</div>
+<div class="wildButton" id="Red"></div>
+<div class="wildButton" id="Green"></div>
+<div class="wildButton" id="Blue"></div>
+<div class="wildButton" id="Yellow"></div>
+</div>
+<div class="hide" id="overlay"></div>
+<div class="hide" id="gameOverScreen">
+<div id="gameOverMessage"></div>
+<div id="gameOverMenu">Play again?
+							<div id="yesButton">yes</div>
+<div id="noButton">no</div>
+</div>
+</div>
+<div id="discardPile"><div class="card Red" id="7Red61"><div class="cardText" style="font-size: 210%; margin-top: 40.8%">7</div></div></div>
+</div>
+<div id="playerContainer">
+<div id="playerHead">
+<div id="playerFace">
+<img alt="player" src="/_assets/28e2cc77460899693d66.png"/>
+</div>
+</div>
+<div id="sidebar">
+<div id="drawButton">draw</div>
+<div class="disabled" id="passButton">pass</div>
+</div>
+<div id="playerHand"><div class="card Green" id="drawTwoGreen44"><div class="cardText">Draw Two</div></div><div class="card Red" id="6Red59"><div class="cardText" style="font-size: 210%; margin-top: 40.8%">6</div></div><div class="card Wild" id="wildDrawFour97"><div class="cardText">Wild Draw Four</div></div><div class="card Blue" id="8Blue17"><div class="cardText" style="font-size: 210%; margin-top: 40.8%">8</div></div><div class="card Green" id="8Green40"><div class="cardText" style="font-size: 210%; margin-top: 40.8%">8</div></div><div class="card Green" id="1Green26"><div class="cardText" style="font-size: 210%; margin-top: 40.8%">1</div></div><div class="card Green" id="6Green36"><div class="cardText" style="font-size: 210%; margin-top: 40.8%">6</div></div></div>
+</div>
+</div>
+</div>
+</body></html>

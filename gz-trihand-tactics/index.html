@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rock Paper Scissors</title>
+<link href="/_assets/5ab454a2d357fb1d08f1.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<p class="title">Rock Paper Scissor</p>
+<p>
+<img alt="Typing SVG" src="/_assets/6bd1032b7b8b826b9dc8.svg"/>
+</p>
+<button class="move-btn" onclick="
+      playGame('Rock');
+    ">
+<img class="move-icon" src="/_assets/5e68115386265bd2e980.png"/>
+</button>
+<button class="move-btn" onclick="
+        playGame('Paper');
+    ">
+<img class="move-icon" src="/_assets/531736c4bdc834d0b162.png"/>
+</button>
+<button class="move-btn" onclick="
+      playGame('Scissors');
+    ">
+<img class="move-icon" src="/_assets/6a09f1b47f19606ea507.png"/>
+</button>
+<p class="js-result result"></p>
+<p class="js-moves"></p>
+<p class="js-score score">
+<div class="score-container">
+<span class="wins">Wins: 0</span>
+<span class="losses">Losses: 0</span>
+<span class="ties">Ties: 0</span>
+</div></p>
+<button class="reset-score-btn" onclick="
+      score.wins = 0;
+      score.losses = 0;
+      score.ties = 0;
+      localStorage.removeItem('score');//It's needed bcoz when we click on reset button, score values should be set to 0.
+      updateScoreElement();
+    ">
+      Reset Score
+    </button>
+<script src="/_assets/b5af1efa43430a8a0432.js"></script>
+</body></html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>極限抽卡模擬器</title>
+<style>
+        :root {
+            --rarity-ssr: linear-gradient(135deg, #ffcc33, #ff6600);
+            --rarity-sr: linear-gradient(135deg, #cc66ff, #6600ff);
+            --rarity-r: linear-gradient(135deg, #33ccff, #0066ff);
+            --gold-glow: 0 0 30px #ffcc33, 0 0 60px #ff6600;
+            --special-glow: 0 0 30px #00ffcc, 0 0 60px #00ff88;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%; overflow: hidden;
+            background: #050505; font-family: 'PingFang TC', 'Segoe UI', sans-serif; color: white;
+        }
+
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: 1; }
+
+        /* 語系切換按鈕 */
+        .lang-switch {
+            position: fixed; top: 20px; right: 320px; z-index: 100;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+            color: white; padding: 6px 18px; border-radius: 20px; cursor: pointer;
+            font-size: 13px; transition: 0.3s; backdrop-filter: blur(5px);
+        }
+        .lang-switch:hover { background: rgba(255,255,255,0.2); }
+
+        .main-layout {
+            position: relative; z-index: 10;
+            display: grid; grid-template-columns: 250px 1fr 300px;
+            height: 100vh; width: 100vw;
+        }
+
+        /* 左側：卡池選單 */
+        .pool-selector {
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; display: flex; flex-direction: column;
+        }
+        .pool-item {
+            padding: 15px; margin-bottom: 10px; border-radius: 10px;
+            background: rgba(255,255,255,0.05); cursor: pointer;
+            transition: 0.3s; border: 1px solid transparent;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .pool-item.active { background: rgba(99,102,241,0.2); border-color: #6366f1; }
+        .pool-item.special-pool { border-color: #00ffcc; background: rgba(0, 255, 204, 0.1); }
+        .del-pool { color: #ff4d4d; font-weight: bold; padding: 5px; }
+
+        /* 中間：召喚區 */
+        .summon-stage { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .pool-title-display { font-size: 3rem; font-weight: 200; letter-spacing: 15px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(255,255,255,0.3); text-align: center; }
+        .pity-counter { font-size: 0.9rem; color: #888; margin-bottom: 40px; letter-spacing: 2px; }
+        .ticket-status {
+            background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 50px;
+            margin-bottom: 20px; border: 1px solid rgba(0, 255, 204, 0.4);
+            font-size: 14px; color: #00ffcc;
+        }
+        .summon-btn {
+            background: none; border: 1px solid #fff; color: #fff;
+            padding: 20px 60px; font-size: 24px; letter-spacing: 5px;
+            cursor: pointer; transition: 0.3s; border-radius: 5px;
+        }
+        .summon-btn:hover:not(:disabled) { background: #fff; color: #000; box-shadow: 0 0 40px rgba(255,255,255,0.6); }
+        .summon-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* 右側：編輯區 */
+        .editor-sidebar {
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);
+            border-left: 1px solid rgba(255,255,255,0.1); padding: 20px;
+            overflow-y: auto; display: flex; flex-direction: column;
+        }
+        input, textarea {
+            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid #444;
+            color: white; border-radius: 5px; padding: 10px; box-sizing: border-box; margin-bottom: 15px;
+        }
+        .history-panel { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .history-item {
+            padding: 8px 10px; margin-bottom: 5px; background: rgba(255,255,255,0.03);
+            border-radius: 4px; display: flex; justify-content: space-between; font-size: 12px;
+        }
+        .color-ssr { color: #ffcc33; }
+        .color-sr { color: #cc66ff; }
+        .color-r { color: #33ccff; }
+
+        /* 抽卡結果與確認按鈕優化 */
+        #gacha-scene {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; justify-content: center; align-items: center;
+            z-index: 100; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);
+        }
+        .card-container { width: 300px; height: 450px; perspective: 1000px; text-align: center; position: relative; }
+        .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.17, 0.88, 0.32, 1.27); cursor: pointer; }
+        .card.flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .card-front { background: #111; border: 2px solid #333; }
+        .card-back { transform: rotateY(180deg); color: #000; padding: 20px; box-sizing: border-box; }
+        
+        /* 修正確認收下按鈕 */
+        #close-btn {
+            position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
+            background: white; color: black; border: none; 
+            padding: 12px 60px; /* 加寬內距 */
+            border-radius: 50px; /* 圓角長條 */
+            cursor: pointer; font-weight: bold; font-size: 16px;
+            display: none; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            white-space: nowrap; z-index: 101;
+        }
+        #close-btn:hover { background: #f0f0f0; transform: translateX(-50%) scale(1.05); }
+
+        .flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; z-index: 200; pointer-events: none; }
+    </style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<canvas height="900" id="bg-canvas" width="1440"></canvas>
+<button class="lang-switch" onclick="toggleLang()">English / 中文</button>
+<div class="main-layout">
+<div class="pool-selector">
+<h3 id="t-poolTitle">召喚卡池</h3>
+<div id="pool-list" style="flex-grow: 1; overflow-y: auto;"><div class="pool-item active special-pool"><span onclick="switchPool(0)" style="flex-grow:1">✨ 特殊輪盤</span></div><div class="pool-item"><span onclick="switchPool(1)" style="flex-grow:1">常駐召喚</span><span class="del-pool" onclick="deletePool(1, event)">×</span></div></div>
+<button id="t-addPool" onclick="createNewPool()" style="width:100%; padding:10px; cursor:pointer; background:#6366f1; border:none; color:white; border-radius:5px;">+ 新增卡池</button>
+</div>
+<div class="summon-stage">
+<div class="pool-title-display" id="pool-display-name">✨ 特殊輪盤</div>
+<div class="ticket-status" id="ticket-info">集點進度: 0/10 | 特殊抽卡券: 0</div>
+<div class="pity-counter" id="pity-info">特殊輪盤：消耗1張券，獎率均分</div>
+<button class="summon-btn" disabled="" id="main-summon-btn" onclick="startGacha()">需要特殊抽卡券</button>
+</div>
+<div class="editor-sidebar">
+<div id="editor-ui">
+<h3 id="t-settingTitle">池子設定</h3>
+<label id="t-nameLabel">卡池名稱</label>
+<input disabled="" id="edit-pool-name" oninput="updateCurrentPoolInfo()" type="text"/>
+<label id="t-contentLabel">獎勵內容</label>
+<textarea id="edit-pool-content" oninput="updateCurrentPoolInfo()" style="height: 150px;"></textarea>
+<button id="t-saveBtn" onclick="saveAllToStorage()" style="width:100%; padding:10px; background:#222; border:1px solid #555; color:white; cursor:pointer; border-radius:5px;">儲存設定</button>
+<button id="t-resetPity" onclick="resetPity()" style="width: 100%; padding: 8px; background: transparent; border: 1px solid rgb(255, 77, 77); color: rgb(255, 77, 77); cursor: pointer; margin-top: 10px; border-radius: 5px; font-size: 12px; display: none;">重置保底</button>
+</div>
+<div class="history-panel">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+<h3 id="t-historyTitle" style="margin:0">召喚紀錄</h3>
+<button id="t-clearHistory" onclick="clearHistory()" style="background:none; border:none; color:#888; cursor:pointer; font-size:12px;">清除</button>
+</div>
+<div class="history-list" id="history-list-container"></div>
+</div>
+</div>
+</div>
+<div id="gacha-scene">
+<div class="card-container">
+<div class="card" id="main-card" onclick="flipCard()">
+<div class="card-face card-front">
+<div style="font-size: 60px;">✦</div>
+<p id="t-tapHint" style="opacity:0.5">點擊揭曉</p>
+</div>
+<div class="card-face card-back" id="card-result">
+<div id="rarity-tag" style="background: rgba(0,0,0,0.8); color: white; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 20px;">SSR</div>
+<h2 id="reward-name">獎項名稱</h2>
+</div>
+</div>
+<button id="close-btn" onclick="closeScene()">確認收下</button>
+</div>
+</div>
+<div class="flash" id="flash"></div>
+<script>
+        // --- 字典系統 ---
+        const i18n = {
+            zh: {
+                poolTitle: "召喚卡池", addPool: "+ 新增卡池", settingTitle: "池子設定", nameLabel: "卡池名稱", contentLabel: "獎勵內容",
+                saveBtn: "儲存設定", resetPity: "重置保底", historyTitle: "召喚紀錄", clearHistory: "清除", tapHint: "點擊揭曉",
+                confirmBtn: "確認收下", ticketInfo: "集點進度: {0}/10 | 特殊抽卡券: {1}", pityInfo: "目前累計：{0} 抽", 
+                specialPity: "特殊輪盤：消耗1張券，獎率均分", needTicket: "需要特殊抽卡券", summonBtn: "進行召喚",
+                saveMsg: "儲存成功！", confirmDel: "確定刪除？", confirmClear: "確定清除紀錄？",
+                gotTicket: "恭喜！集滿10點，獲得一張特殊抽卡券！",
+                defaultSpecialName: "✨ 特殊輪盤", defaultNormalName: "常駐召喚",
+                defaultSpecialContent: "獎勵 A\n獎勵 B\n獎勵 C",
+                defaultNormalContent: "SSR: 聖劍 @2 !80\nSR: 騎士盾 @15 !20\nR: 藥草"
+            },
+            en: {
+                poolTitle: "Summon Pools", addPool: "+ Add Pool", settingTitle: "Pool Settings", nameLabel: "Pool Name", contentLabel: "Rewards",
+                saveBtn: "Save Settings", resetPity: "Reset Pity", historyTitle: "History", clearHistory: "Clear", tapHint: "Tap to Reveal",
+                confirmBtn: "Confirm", ticketInfo: "Points: {0}/10 | Tickets: {1}", pityInfo: "Pity Count: {0}", 
+                specialPity: "Special Wheel: 1 Ticket, Equal Rates", needTicket: "Need Ticket", summonBtn: "Summon",
+                saveMsg: "Saved Successfully!", confirmDel: "Delete this pool?", confirmClear: "Clear all history?",
+                gotTicket: "Congrats! 10 points reached, earned a Special Ticket!",
+                defaultSpecialName: "✨ Special Wheel", defaultNormalName: "Standard Pool",
+                defaultSpecialContent: "Prize A\nPrize B\nPrize C",
+                defaultNormalContent: "SSR: Excalibur @2 !80\nSR: Knight Shield @15 !20\nR: Herb"
+            }
+        };
+
+        let currentLang = localStorage.getItem('gachaLang') || 'zh';
+
+        function toggleLang() {
+            const oldLang = currentLang;
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            localStorage.setItem('gachaLang', currentLang);
+            
+            allPools.forEach(pool => {
+                if (pool.isFixed) {
+                    if (pool.name === i18n[oldLang].defaultSpecialName) pool.name = i18n[currentLang].defaultSpecialName;
+                    if (pool.content === i18n[oldLang].defaultSpecialContent) pool.content = i18n[currentLang].defaultSpecialContent;
+                } else {
+                    if (pool.name === i18n[oldLang].defaultNormalName) pool.name = i18n[currentLang].defaultNormalName;
+                    if (pool.content === i18n[oldLang].defaultNormalContent) pool.content = i18n[currentLang].defaultNormalContent;
+                }
+            });
+            updateUIText();
+        }
+
+        function updateUIText() {
+            const t = i18n[currentLang];
+            document.querySelectorAll('[id^="t-"]').forEach(el => {
+                const key = el.id.replace('t-', '');
+                if (t[key]) el.innerText = t[key];
+            });
+            // 特別處理確認按鈕文字
+            document.getElementById('close-btn').innerText = t.confirmBtn;
+            renderPoolList();
+        }
+
+        // --- 資料初始化 ---
+        let globalData = JSON.parse(localStorage.getItem('gachaGlobalV9')) || { nonSsrCount: 0, specialTickets: 0 };
+        let allPools = JSON.parse(localStorage.getItem('gachaSystemV9')) || [
+            { id: 'special', name: i18n[currentLang].defaultSpecialName, content: i18n[currentLang].defaultSpecialContent, pity: 0, history: [], isFixed: true },
+            { id: 'normal_1', name: i18n[currentLang].defaultNormalName, content: i18n[currentLang].defaultNormalContent, pity: 0, history: [] }
+        ];
+
+        let currentPoolIdx = 0;
+
+        function renderPoolList() {
+            const list = document.getElementById('pool-list');
+            list.innerHTML = "";
+            allPools.forEach((pool, idx) => {
+                const div = document.createElement('div');
+                div.className = `pool-item ${idx === currentPoolIdx ? 'active' : ''} ${pool.isFixed ? 'special-pool' : ''}`;
+                div.innerHTML = `<span onclick="switchPool(${idx})" style="flex-grow:1">${pool.name}</span>${pool.isFixed ? '' : `<span class="del-pool" onclick="deletePool(${idx}, event)">×</span>`}`;
+                list.appendChild(div);
+            });
+            updateUIStatus();
+        }
+
+        function updateUIStatus() {
+            const p = allPools[currentPoolIdx];
+            const t = i18n[currentLang];
+            const btn = document.getElementById('main-summon-btn');
+            document.getElementById('pool-display-name').innerText = p.name;
+            document.getElementById('edit-pool-name').value = p.name;
+            document.getElementById('edit-pool-content').value = p.content;
+            document.getElementById('edit-pool-name').disabled = p.isFixed;
+            document.getElementById('t-resetPity').style.display = p.isFixed ? "none" : "block";
+            document.getElementById('ticket-info').innerText = t.ticketInfo.replace('{0}', globalData.nonSsrCount).replace('{1}', globalData.specialTickets);
+            document.getElementById('pity-info').innerText = p.isFixed ? t.specialPity : t.pityInfo.replace('{0}', p.pity || 0);
+            if(p.isFixed && globalData.specialTickets <= 0) { btn.disabled = true; btn.innerText = t.needTicket; } 
+            else { btn.disabled = false; btn.innerText = t.summonBtn; }
+            renderHistory();
+        }
+
+        // --- 核心演算法 (SSR 重置保底) ---
+        function startGacha() {
+            const p = allPools[currentPoolIdx];
+            const t = i18n[currentLang];
+            if(p.isFixed) { if(globalData.specialTickets <= 0) return; globalData.specialTickets--; }
+            const lines = p.content.split('\n').filter(l => l.trim() !== '');
+            let rewards = [];
+            if(p.isFixed) {
+                const avg = 100 / lines.length;
+                rewards = lines.map(n => ({ rarity: 'Special', name: n.trim(), prob: avg }));
+            } else {
+                rewards = lines.filter(l => l.includes(':')).map(line => {
+                    const [rarityPart, rest] = line.split(':');
+                    const rarity = rarityPart.trim();
+                    const prob = (rest.match(/@([\d.]+)/) || [])[1];
+                    const pity = (rest.match(/!(\d+)/) || [])[1];
+                    const name = rest.replace(/@[\d.]+/, '').replace(/![\d+]+/, '').trim();
+                    let weight = rarity.toUpperCase().includes('SSR') ? 3 : (rarity.toUpperCase().includes('SR') ? 2 : 1);
+                    return { rarity, name, prob: prob ? parseFloat(prob) : null, pityLimit: pity ? parseInt(pity) : null, weight };
+                });
+            }
+
+            let finalWin = null;
+            if(!p.isFixed) {
+                p.pity = (p.pity || 0) + 1;
+                const eligible = rewards.filter(r => r.pityLimit && p.pity >= r.pityLimit);
+                if (eligible.length > 0) {
+                    eligible.sort((a, b) => b.weight - a.weight);
+                    finalWin = eligible[0];
+                    if (finalWin.weight === 3) p.pity = 0;
+                } else {
+                    let rVal = Math.random() * 100; let cur = 0;
+                    for (let r of rewards) { if (r.prob !== null) { cur += r.prob; if (rVal <= cur) { finalWin = r; break; } } }
+                    if (!finalWin) {
+                        const noProb = rewards.filter(r => r.prob === null);
+                        finalWin = noProb.length > 0 ? noProb[Math.floor(Math.random()*noProb.length)] : rewards[rewards.length-1];
+                    }
+                    if (finalWin.rarity.toUpperCase().includes('SSR')) p.pity = 0;
+                }
+            } else {
+                let rVal = Math.random() * 100; let cur = 0;
+                for(let item of rewards) { cur += item.prob; if(rVal <= cur) { finalWin = item; break; } }
+            }
+
+            if(!p.isFixed && !finalWin.rarity.toUpperCase().includes('SSR')) {
+                globalData.nonSsrCount++;
+                if(globalData.nonSsrCount >= 10) { globalData.nonSsrCount = 0; globalData.specialTickets++; setTimeout(() => alert(t.gotTicket), 800); }
+            }
+            p.history.push({ rarity: finalWin.rarity, name: finalWin.name, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+            if(p.history.length > 50) p.history.shift();
+            saveData(); updateUIStatus(); showResult(finalWin, p.isFixed);
+        }
+
+        function showResult(win, isSpecial) {
+            document.getElementById('reward-name').innerText = win.name;
+            document.getElementById('rarity-tag').innerText = win.rarity;
+            const back = document.getElementById('card-result');
+            const r = win.rarity.toUpperCase();
+            if(isSpecial) { back.style.background = 'linear-gradient(135deg, #00ffcc, #0099ff)'; back.style.boxShadow = 'var(--special-glow)'; }
+            else if(r.includes('SSR')) { back.style.background = 'var(--rarity-ssr)'; back.style.boxShadow = 'var(--gold-glow)'; }
+            else if(r.includes('SR')) { back.style.background = 'var(--rarity-sr)'; back.style.boxShadow = '0 0 30px #cc66ff'; }
+            else { back.style.background = 'var(--rarity-r)'; back.style.boxShadow = '0 0 20px #33ccff'; }
+            document.getElementById('gacha-scene').style.display = 'flex';
+            document.getElementById('main-card').classList.remove('flipped');
+            document.getElementById('close-btn').style.display = 'none';
+            const flash = document.getElementById('flash');
+            flash.style.transition = 'none'; flash.opacity = '1';
+            setTimeout(() => { flash.style.transition = 'opacity 0.8s'; flash.opacity = '0'; }, 50);
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-list-container');
+            const p = allPools[currentPoolIdx];
+            container.innerHTML = '';
+            [...p.history].reverse().forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                let c = item.rarity.toUpperCase().includes('SSR') ? 'color-ssr' : (item.rarity.toUpperCase().includes('SR') ? 'color-sr' : 'color-r');
+                div.innerHTML = `<span class="${c}">[${item.rarity}]</span><span>${item.name}</span><span style="color:#444;font-size:10px">${item.time}</span>`;
+                container.appendChild(div);
+            });
+        }
+
+        // --- 基礎背景與輔助 ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        class Particle { constructor() { this.reset(); } reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2; this.speedY = -Math.random() * 0.5; } update() { this.y += this.speedY; if (this.y < 0) this.reset(); } draw() { ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); } }
+        for(let i=0; i<60; i++) particles.push(new Particle());
+        function animate() { ctx.fillStyle = '#050505'; ctx.fillRect(0,0,canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        animate();
+
+        function switchPool(idx) { currentPoolIdx = idx; updateUIStatus(); }
+        function createNewPool() {
+            allPools.push({ id: Date.now().toString(), name: i18n[currentLang].defaultNormalName, content: i18n[currentLang].defaultNormalContent, pity: 0, history: [] });
+            currentPoolIdx = allPools.length - 1; renderPoolList();
+        }
+        function deletePool(idx, e) {
+            e.stopPropagation(); if(confirm(i18n[currentLang].confirmDel)) { allPools.splice(idx, 1); currentPoolIdx = 0; renderPoolList(); saveData(); }
+        }
+        function updateCurrentPoolInfo() {
+            allPools[currentPoolIdx].name = document.getElementById('edit-pool-name').value;
+            allPools[currentPoolIdx].content = document.getElementById('edit-pool-content').value;
+            renderPoolList();
+        }
+        function saveData() { localStorage.setItem('gachaSystemV9', JSON.stringify(allPools)); localStorage.setItem('gachaGlobalV9', JSON.stringify(globalData)); }
+        function saveAllToStorage() { saveData(); alert(i18n[currentLang].saveMsg); }
+        function resetPity() { allPools[currentPoolIdx].pity = 0; updateUIStatus(); saveData(); }
+        function clearHistory() { if(confirm(i18n[currentLang].confirmClear)) { allPools[currentPoolIdx].history = []; renderHistory(); saveData(); } }
+        function flipCard() { document.getElementById('main-card').classList.add('flipped'); setTimeout(() => { document.getElementById('close-btn').style.display = 'block'; }, 600); }
+        function closeScene() { document.getElementById('gacha-scene').style.display = 'none'; }
+
+        updateUIText();
+    </script>
+</body></html>

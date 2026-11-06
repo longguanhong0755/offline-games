@@ -3899,6 +3899,426 @@
       "directory": "yt-rock-paper-scissors-game",
       "port": 9537,
       "enabled": true
+    },
+    {
+      "name": "3Dlightcycles",
+      "slug": "3dlightcycles",
+      "directory": "3dlightcycles",
+      "port": 9538,
+      "enabled": true
+    },
+    {
+      "name": "Aerosim",
+      "slug": "aerosim",
+      "directory": "aerosim",
+      "port": 9539,
+      "enabled": true
+    },
+    {
+      "name": "Aetherwing",
+      "slug": "aetherwing",
+      "directory": "aetherwing",
+      "port": 9540,
+      "enabled": true
+    },
+    {
+      "name": "Arknights Guess",
+      "slug": "arknights-guess",
+      "directory": "arknights-guess",
+      "port": 9541,
+      "enabled": true
+    },
+    {
+      "name": "Blackjack",
+      "slug": "blackjack",
+      "directory": "blackjack",
+      "port": 9542,
+      "enabled": true
+    },
+    {
+      "name": "Blacktrigram",
+      "slug": "blacktrigram",
+      "directory": "blacktrigram",
+      "port": 9543,
+      "enabled": true
+    },
+    {
+      "name": "Bloom Keeper",
+      "slug": "bloom-keeper",
+      "directory": "bloom-keeper",
+      "port": 9544,
+      "enabled": true
+    },
+    {
+      "name": "Bouncemaster",
+      "slug": "bouncemaster",
+      "directory": "bouncemaster",
+      "port": 9545,
+      "enabled": true
+    },
+    {
+      "name": "Cartycoon",
+      "slug": "cartycoon",
+      "directory": "cartycoon",
+      "port": 9546,
+      "enabled": true
+    },
+    {
+      "name": "Chickens",
+      "slug": "chickens",
+      "directory": "chickens",
+      "port": 9547,
+      "enabled": true
+    },
+    {
+      "name": "Chuclone",
+      "slug": "chuclone",
+      "directory": "chuclone",
+      "port": 9548,
+      "enabled": true
+    },
+    {
+      "name": "Cla Go",
+      "slug": "cla-go",
+      "directory": "cla-go",
+      "port": 9549,
+      "enabled": true
+    },
+    {
+      "name": "Client",
+      "slug": "warfrontio-client",
+      "directory": "warfrontio-client",
+      "port": 9550,
+      "enabled": true
+    },
+    {
+      "name": "Cowabunga",
+      "slug": "cowabunga",
+      "directory": "cowabunga",
+      "port": 9551,
+      "enabled": true
+    },
+    {
+      "name": "Defend",
+      "slug": "defend",
+      "directory": "defend",
+      "port": 9552,
+      "enabled": true
+    },
+    {
+      "name": "Dravins Game Hub",
+      "slug": "dravins-game-hub",
+      "directory": "dravins-game-hub",
+      "port": 9553,
+      "enabled": true
+    },
+    {
+      "name": "Elemental Tower Defence",
+      "slug": "elemental-tower-defence",
+      "directory": "elemental-tower-defence",
+      "port": 9554,
+      "enabled": true
+    },
+    {
+      "name": "Feed Me Please",
+      "slug": "feed-me-please",
+      "directory": "feed-me-please",
+      "port": 9555,
+      "enabled": true
+    },
+    {
+      "name": "Five Chess Game",
+      "slug": "five-chess-game",
+      "directory": "five-chess-game",
+      "port": 9556,
+      "enabled": true
+    },
+    {
+      "name": "Gacha Game",
+      "slug": "gacha-game",
+      "directory": "gacha-game",
+      "port": 9557,
+      "enabled": true
+    },
+    {
+      "name": "Generatedgamesio",
+      "slug": "generatedgamesio",
+      "directory": "generatedgamesio",
+      "port": 9558,
+      "enabled": true
+    },
+    {
+      "name": "Html Games Code",
+      "slug": "html-games-code",
+      "directory": "html-games-code",
+      "port": 9559,
+      "enabled": true
+    },
+    {
+      "name": "Inner Tube Climber",
+      "slug": "inner-tube-climber",
+      "directory": "inner-tube-climber",
+      "port": 9560,
+      "enabled": true
+    },
+    {
+      "name": "Invaders404",
+      "slug": "invaders404",
+      "directory": "invaders404",
+      "port": 9561,
+      "enabled": true
+    },
+    {
+      "name": "Javascript Tiny Platformer",
+      "slug": "javascript-tiny-platformer",
+      "directory": "javascript-tiny-platformer",
+      "port": 9562,
+      "enabled": true
+    },
+    {
+      "name": "Kotobade Asobou",
+      "slug": "kotobade-asobou",
+      "directory": "kotobade-asobou",
+      "port": 9563,
+      "enabled": true
+    },
+    {
+      "name": "Kspweb",
+      "slug": "kspweb",
+      "directory": "kspweb",
+      "port": 9564,
+      "enabled": true
+    },
+    {
+      "name": "Mario",
+      "slug": "mario",
+      "directory": "mario",
+      "port": 9565,
+      "enabled": true
+    },
+    {
+      "name": "Mesto Resheniy Game",
+      "slug": "mesto-resheniy-game",
+      "directory": "mesto-resheniy-game",
+      "port": 9566,
+      "enabled": true
+    },
+    {
+      "name": "Microcity",
+      "slug": "microcity",
+      "directory": "microcity",
+      "port": 9567,
+      "enabled": true
+    },
+    {
+      "name": "Minecraft Web",
+      "slug": "muneeb-1o1-minecraft-web",
+      "directory": "muneeb-1o1-minecraft-web",
+      "port": 9568,
+      "enabled": true
+    },
+    {
+      "name": "Multiminesweeper",
+      "slug": "multiminesweeper",
+      "directory": "multiminesweeper",
+      "port": 9569,
+      "enabled": true
+    },
+    {
+      "name": "Nelua Game2048",
+      "slug": "nelua-game2048",
+      "directory": "nelua-game2048",
+      "port": 9570,
+      "enabled": true
+    },
+    {
+      "name": "Ouro",
+      "slug": "ouro",
+      "directory": "ouro",
+      "port": 9571,
+      "enabled": true
+    },
+    {
+      "name": "Peg Solitaire Web",
+      "slug": "peg-solitaire-web",
+      "directory": "peg-solitaire-web",
+      "port": 9572,
+      "enabled": true
+    },
+    {
+      "name": "Plinksy",
+      "slug": "plinksy",
+      "directory": "plinksy",
+      "port": 9573,
+      "enabled": true
+    },
+    {
+      "name": "Progress Knight",
+      "slug": "progress-knight",
+      "directory": "progress-knight",
+      "port": 9574,
+      "enabled": true
+    },
+    {
+      "name": "Ragbar",
+      "slug": "ragbar",
+      "directory": "ragbar",
+      "port": 9575,
+      "enabled": true
+    },
+    {
+      "name": "Senet",
+      "slug": "senet",
+      "directory": "senet",
+      "port": 9576,
+      "enabled": true
+    },
+    {
+      "name": "Seriesoftubes",
+      "slug": "seriesoftubes",
+      "directory": "seriesoftubes",
+      "port": 9577,
+      "enabled": true
+    },
+    {
+      "name": "Shadow Council Card Game",
+      "slug": "shadow-council-card-game",
+      "directory": "shadow-council-card-game",
+      "port": 9578,
+      "enabled": true
+    },
+    {
+      "name": "Skate Scape",
+      "slug": "skate-scape",
+      "directory": "skate-scape",
+      "port": 9579,
+      "enabled": true
+    },
+    {
+      "name": "Snailbait",
+      "slug": "snailbait",
+      "directory": "snailbait",
+      "port": 9580,
+      "enabled": true
+    },
+    {
+      "name": "Snake Bios",
+      "slug": "snake-bios",
+      "directory": "snake-bios",
+      "port": 9581,
+      "enabled": true
+    },
+    {
+      "name": "Snake Bites Two",
+      "slug": "snake-bites-two",
+      "directory": "snake-bites-two",
+      "port": 9582,
+      "enabled": true
+    },
+    {
+      "name": "Spinhook",
+      "slug": "spinhook",
+      "directory": "spinhook",
+      "port": 9583,
+      "enabled": true
+    },
+    {
+      "name": "Sunlithollow",
+      "slug": "sunlithollow",
+      "directory": "sunlithollow",
+      "port": 9584,
+      "enabled": true
+    },
+    {
+      "name": "Tahaddi Al Ayla",
+      "slug": "tahaddi-al-ayla",
+      "directory": "tahaddi-al-ayla",
+      "port": 9585,
+      "enabled": true
+    },
+    {
+      "name": "Tejagamehub",
+      "slug": "tejagamehub",
+      "directory": "tejagamehub",
+      "port": 9586,
+      "enabled": true
+    },
+    {
+      "name": "Tetr.Js",
+      "slug": "tetr-js",
+      "directory": "tetr-js",
+      "port": 9587,
+      "enabled": true
+    },
+    {
+      "name": "Tetris Javascript",
+      "slug": "tetris-javascript",
+      "directory": "tetris-javascript",
+      "port": 9588,
+      "enabled": true
+    },
+    {
+      "name": "The Ares Horizon",
+      "slug": "the-ares-horizon",
+      "directory": "the-ares-horizon",
+      "port": 9589,
+      "enabled": true
+    },
+    {
+      "name": "Thegoldfactory",
+      "slug": "thegoldfactory",
+      "directory": "thegoldfactory",
+      "port": 9590,
+      "enabled": true
+    },
+    {
+      "name": "Trw",
+      "slug": "trw",
+      "directory": "trw",
+      "port": 9591,
+      "enabled": true
+    },
+    {
+      "name": "Twoplayergames",
+      "slug": "twoplayergames",
+      "directory": "twoplayergames",
+      "port": 9592,
+      "enabled": true
+    },
+    {
+      "name": "Ularn",
+      "slug": "ularn",
+      "directory": "ularn",
+      "port": 9593,
+      "enabled": true
+    },
+    {
+      "name": "Warrior Empire",
+      "slug": "warrior-empire",
+      "directory": "warrior-empire",
+      "port": 9594,
+      "enabled": true
+    },
+    {
+      "name": "Wave Incremental",
+      "slug": "wave-incremental",
+      "directory": "wave-incremental",
+      "port": 9595,
+      "enabled": true
+    },
+    {
+      "name": "Wibbly",
+      "slug": "wibbly",
+      "directory": "wibbly",
+      "port": 9596,
+      "enabled": true
+    },
+    {
+      "name": "Wyrmsun",
+      "slug": "wyrmsun",
+      "directory": "wyrmsun",
+      "port": 9597,
+      "enabled": true
     }
   ]
 }

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html lang="ru"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#0b0b19" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="GeneratedGamesIO — мобильная аркада с продвинутыми мини-играми, прогрессией и офлайн-установкой каждой игры." name="description"/>
+<meta content="website" property="og:type"/>
+<meta content="GeneratedGamesIO — мобильная аркада" property="og:title"/>
+<meta content="Восемь продвинутых мобильных игр, общий прогресс и настоящий офлайн-режим." property="og:description"/>
+<title>GeneratedGamesIO — мобильная аркада</title>
+<link href="./manifest.webmanifest" rel="manifest"/>
+<link href="./icons/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/_assets/508491351b98b05e0406.css" rel="stylesheet"/>
+<style>
+      html { background: #070711; color: #f8fafc; }
+      body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+<script src="/_assets/9c3171d2541543ca231b.js" type="module"></script>
+<script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "GeneratedGamesIO",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "ru",
+        "isAccessibleForFree": true,
+        "description": "Мобильная офлайн-аркада с восемью мини-играми, общим прогрессом и установкой игровых модулей на устройство."
+      }
+    </script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<a class="skip-link" href="#main-content">Перейти к содержимому</a>
+<div aria-hidden="true" class="ambient">
+<span class="ambient-orb ambient-orb--violet"></span>
+<span class="ambient-orb ambient-orb--cyan"></span>
+<span class="ambient-grid"></span>
+</div>
+<div class="offline-banner" hidden="" id="offline-banner" role="status">
+      Офлайн-режим · установленные игры доступны
+    </div>
+<div class="app-shell">
+<header class="topbar">
+<a aria-label="GeneratedGamesIO — на главную" class="brand" href="./">
+<span aria-hidden="true" class="brand-mark">G</span>
+<span class="brand-copy">
+<strong>GeneratedGames</strong>
+<small>mobile arcade OS</small>
+</span>
+</a>
+<div class="topbar-actions">
+<span aria-label="Соединение с сетью активно" class="connection-pill" id="connection-pill"><i></i><span>В сети</span></span>
+<button class="icon-button install-app" hidden="" id="install-app" type="button">
+<span aria-hidden="true">↓</span><span class="wide-label">Установить</span>
+</button>
+<button aria-label="Открыть профиль" class="avatar-button" id="open-profile" style="--profile-color: #8b5cf6;" type="button">
+<span id="header-avatar">И</span>
+</button>
+</div>
+</header>
+<main id="main-content" tabindex="-1">
+<section aria-labelledby="home-title" class="view is-active" data-view="home" id="view-home">
+<div class="hero-card">
+<div class="hero-copy">
+<p class="eyebrow"><span></span> игры нового поколения</p>
+<h1 id="home-title">Аркада, которая живёт <em>в телефоне</em></h1>
+<p class="hero-text">Без загрузочных экранов и баннерного шума. Игры ставятся по одной, работают офлайн и делят общий прогресс.</p>
+<div class="hero-actions">
+<button class="button button--primary" id="play-featured" type="button">
+<span aria-hidden="true">▶</span> Играть сейчас
+                </button>
+<button class="button button--ghost" data-route="library" type="button">Все игры</button>
+</div>
+<ul aria-label="Преимущества" class="hero-proof">
+<li><span>0</span> рекламы</li>
+<li><span>8</span> игр</li>
+<li><span>∞</span> офлайн</li>
+</ul>
+</div>
+<div aria-hidden="true" class="hero-visual">
+<div class="phone-art">
+<span class="phone-island"></span>
+<div class="phone-game">
+<span class="ship-core">▲</span>
+<i class="shot shot--1"></i><i class="shot shot--2"></i><i class="shot shot--3"></i>
+<i class="enemy enemy--1">◆</i><i class="enemy enemy--2">◆</i><i class="enemy enemy--3">◆</i>
+<span class="phone-score">12 480</span>
+</div>
+</div>
+<div class="float-chip float-chip--level"><small>Уровень</small><b id="hero-level">1</b></div>
+<div class="float-chip float-chip--offline"><i></i> offline ready</div>
+</div>
+</div>
+<section aria-labelledby="continue-title" class="section-block">
+<div class="section-heading">
+<div><p class="section-kicker">Быстрый старт</p><h2 id="continue-title">Продолжить приключение</h2></div>
+<button class="text-button" data-route="library" type="button">Смотреть все <span aria-hidden="true">→</span></button>
+</div>
+<div aria-live="polite" class="quick-games" id="quick-games">
+<article class="game-card game-card--compact" style="--game-accent:#8b5cf6;--game-accent-2:#22d3ee">
+<button aria-label="Играть в Orbital Breaker" class="game-card-main" data-play-game="orbital-breaker" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>◫</strong><small>Аркада</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Средняя</b></span>
+<strong>Orbital Breaker</strong>
+<span>Арканоид следующего поколения: заряжай реактор, выпускай мультимячи и пробивай броню импульсом.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="orbital-breaker" type="button">♡</button>
+<button data-install-game="orbital-breaker" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card game-card--compact" style="--game-accent:#34d399;--game-accent-2:#22d3ee">
+<button aria-label="Играть в Neon Serpent" class="game-card-main" data-play-game="neon-serpent" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>⌁</strong><small>Стратегия</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Нарастающая</b></span>
+<strong>Neon Serpent</strong>
+<span>Змейка с порталами, препятствиями, золотыми сферами, комбо и ускорением на энергии.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="neon-serpent" type="button">♡</button>
+<button data-install-game="neon-serpent" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card game-card--compact" style="--game-accent:#22d3ee;--game-accent-2:#f0abfc">
+<button aria-label="Играть в Sky Vanguard" class="game-card-main" data-play-game="sky-vanguard" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>▲</strong><small>Шутер</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Динамическая</b></span>
+<strong>Sky Vanguard</strong>
+<span>Вертикальный шутер для одного пальца: волны, боссы, овердрайв и постоянные улучшения корабля.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="sky-vanguard" type="button">♡</button>
+<button data-install-game="sky-vanguard" type="button">↓ Офлайн</button>
+</div>
+</article></div>
+</section>
+<section aria-label="Прогресс игрока" class="progress-grid section-block">
+<article class="daily-card">
+<div aria-hidden="true" class="daily-icon">✦</div>
+<div class="daily-copy">
+<p class="section-kicker">Ежедневный импульс</p>
+<h2 id="daily-title">Сыграй в Orbital Breaker</h2>
+<p id="daily-description">Заверши 2 забега и получи 250 XP + 100 ⬡</p>
+</div>
+<div class="daily-progress">
+<span><b id="daily-current">0</b>/<span id="daily-target">2</span></span>
+<div class="progress-track"><i id="daily-bar" style="width: 0%;"></i></div>
+</div>
+<button class="button button--compact" id="daily-action" type="button">Выполнить</button>
+</article>
+<article class="level-card">
+<div class="level-ring" id="level-ring" style="--progress: 0deg;"><span id="level-number">1</span></div>
+<div>
+<p class="section-kicker">Профиль игрока</p>
+<h2 id="profile-name-home">Игрок</h2>
+<p><b id="xp-current">0 / 400</b> XP до следующего уровня</p>
+</div>
+<div class="wallet"><span aria-hidden="true">⬡</span><b id="coin-count">0</b></div>
+</article>
+</section>
+<section aria-labelledby="mobile-title" class="section-block feature-section">
+<div class="section-heading">
+<div><p class="section-kicker">Не порт, а mobile-first</p><h2 id="mobile-title">Сделано под большой палец</h2></div>
+</div>
+<div class="feature-grid">
+<article><span aria-hidden="true">⌁</span><h3>Управление жестами</h3><p>Свайпы, перетаскивание и большие кнопки вместо экранной клавиатуры.</p></article>
+<article><span aria-hidden="true">⚡</span><h3>Мгновенный повтор</h3><p>Каждая игра — отдельный модуль. После первого запуска она остаётся на устройстве.</p></article>
+<article><span aria-hidden="true">◉</span><h3>Общий прогресс</h3><p>Опыт, монеты, рекорды, достижения и ежедневная цель объединяют весь каталог.</p></article>
+</div>
+</section>
+</section>
+<section aria-labelledby="library-title" class="view" data-view="library" hidden="" id="view-library">
+<div class="page-heading">
+<p class="eyebrow"><span></span> библиотека</p>
+<h1 id="library-title">Выбери следующую игру</h1>
+<p>Все игры запускаются в браузере, оптимизированы для вертикального экрана и доступны офлайн после первой загрузки.</p>
+</div>
+<div class="catalog-tools">
+<label class="search-field">
+<span aria-hidden="true">⌕</span>
+<span class="sr-only">Поиск игр</span>
+<input autocomplete="off" id="game-search" placeholder="Найти игру или жанр" type="search"/>
+</label>
+<div aria-label="Фильтр по жанрам" class="filter-chips" id="filter-chips"><button aria-pressed="true" class="filter-chip is-active" data-filter="Все" type="button">Все</button><button aria-pressed="false" class="filter-chip" data-filter="Аркада" type="button">Аркада</button><button aria-pressed="false" class="filter-chip" data-filter="Реакция" type="button">Реакция</button><button aria-pressed="false" class="filter-chip" data-filter="Стратегия" type="button">Стратегия</button><button aria-pressed="false" class="filter-chip" data-filter="Шутер" type="button">Шутер</button><button aria-pressed="false" class="filter-chip" data-filter="Экшен" type="button">Экшен</button><button aria-pressed="false" class="filter-chip" data-filter="Гонки" type="button">Гонки</button><button aria-pressed="false" class="filter-chip" data-filter="Пазл" type="button">Пазл</button><button aria-pressed="false" class="filter-chip" data-filter="Раннер" type="button">Раннер</button></div>
+</div>
+<div aria-live="polite" class="game-grid" id="game-grid">
+<article class="game-card" style="--game-accent:#8b5cf6;--game-accent-2:#22d3ee">
+<button aria-label="Играть в Orbital Breaker" class="game-card-main" data-play-game="orbital-breaker" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>◫</strong><small>Аркада</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Средняя</b></span>
+<strong>Orbital Breaker</strong>
+<span>Арканоид следующего поколения: заряжай реактор, выпускай мультимячи и пробивай броню импульсом.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="orbital-breaker" type="button">♡</button>
+<button data-install-game="orbital-breaker" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card" style="--game-accent:#34d399;--game-accent-2:#22d3ee">
+<button aria-label="Играть в Neon Serpent" class="game-card-main" data-play-game="neon-serpent" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>⌁</strong><small>Стратегия</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Нарастающая</b></span>
+<strong>Neon Serpent</strong>
+<span>Змейка с порталами, препятствиями, золотыми сферами, комбо и ускорением на энергии.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="neon-serpent" type="button">♡</button>
+<button data-install-game="neon-serpent" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card" style="--game-accent:#22d3ee;--game-accent-2:#f0abfc">
+<button aria-label="Играть в Sky Vanguard" class="game-card-main" data-play-game="sky-vanguard" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>▲</strong><small>Шутер</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Динамическая</b></span>
+<strong>Sky Vanguard</strong>
+<span>Вертикальный шутер для одного пальца: волны, боссы, овердрайв и постоянные улучшения корабля.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="sky-vanguard" type="button">♡</button>
+<button data-install-game="sky-vanguard" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card" style="--game-accent:#fb7185;--game-accent-2:#f59e0b">
+<button aria-label="Играть в Pulse Rider" class="game-card-main" data-play-game="pulse-rider" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>◇</strong><small>Гонки</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Высокая</b></span>
+<strong>Pulse Rider</strong>
+<span>Псевдо‑3D гонка с трафиком, нитро, сменой погоды и контрольными точками без щедрых бесконечных таймеров.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="pulse-rider" type="button">♡</button>
+<button data-install-game="pulse-rider" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card" style="--game-accent:#a78bfa;--game-accent-2:#22d3ee">
+<button aria-label="Играть в Quantum Blocks" class="game-card-main" data-play-game="quantum-blocks" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>▦</strong><small>Пазл</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Тактическая</b></span>
+<strong>Quantum Blocks</strong>
+<span>Тактический пазл с честной 7-фигурной очередью, ghost-проекцией, комбо линий и ускорением жестами.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="quantum-blocks" type="button">♡</button>
+<button data-install-game="quantum-blocks" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card" style="--game-accent:#22d3ee;--game-accent-2:#a78bfa">
+<button aria-label="Играть в Rift Runner" class="game-card-main" data-play-game="rift-runner" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>⇥</strong><small>Раннер</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Нарастающая</b></span>
+<strong>Rift Runner</strong>
+<span>One-touch раннер с двойным прыжком, фазовым проходом сквозь угрозы и процедурными разломами.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="rift-runner" type="button">♡</button>
+<button data-install-game="rift-runner" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card" style="--game-accent:#fbbf24;--game-accent-2:#22d3ee">
+<button aria-label="Играть в Mech Defense" class="game-card-main" data-play-game="mech-defense" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>⬡</strong><small>Тактика</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Стратегическая</b></span>
+<strong>Mech Defense</strong>
+<span>Карманная lane-defense: распределяй энергию, усиливай турели и держи три линии против титанов.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="mech-defense" type="button">♡</button>
+<button data-install-game="mech-defense" type="button">↓ Офлайн</button>
+</div>
+</article>
+<article class="game-card" style="--game-accent:#fb7185;--game-accent-2:#a78bfa">
+<button aria-label="Играть в Arena Survivor" class="game-card-main" data-play-game="arena-survivor" type="button">
+<span aria-hidden="true" class="game-poster">
+<i class="poster-grid"></i><i class="poster-orbit poster-orbit--one"></i><i class="poster-orbit poster-orbit--two"></i>
+<strong>✣</strong><small>Survival</small>
+</span>
+<span class="game-card-copy">
+<span class="game-card-meta"><i>ONLINE</i><b>Интенсивная</b></span>
+<strong>Arena Survivor</strong>
+<span>Auto-shooter survival с рывком, магнитом опыта, орбитальными модулями и эволюцией сборки.</span>
+<span class="game-card-stats"><b>Рекорд 0</b><b>0 запусков</b></span>
+</span>
+</button>
+<div class="game-card-actions">
+<button aria-label="Добавить в избранное" aria-pressed="false" data-favorite="arena-survivor" type="button">♡</button>
+<button data-install-game="arena-survivor" type="button">↓ Офлайн</button>
+</div>
+</article></div>
+<p class="empty-state" hidden="" id="empty-state">Таких игр пока нет. Попробуй другой запрос.</p>
+</section>
+<section aria-labelledby="profile-title" class="view" data-view="profile" hidden="" id="view-profile">
+<div class="profile-hero">
+<div class="profile-avatar-large" id="profile-avatar-large" style="--profile-color: #8b5cf6;">И</div>
+<div>
+<p class="section-kicker">Локальный профиль</p>
+<h1 id="profile-title">Игрок</h1>
+<p id="profile-subtitle">Уровень 1 · начинающий пилот</p>
+</div>
+<button class="button button--ghost" data-edit-profile="" type="button">Изменить</button>
+</div>
+<div class="stats-grid" id="profile-stats"><article><span aria-hidden="true">⌁</span><b>0</b><small>Лучший счёт</small></article><article><span aria-hidden="true">▶</span><b>0</b><small>Забегов</small></article><article><span aria-hidden="true">✦</span><b>0</b><small>Суммарно</small></article><article><span aria-hidden="true">↓</span><b>0/8</b><small>На устройстве</small></article></div>
+<section aria-labelledby="achievement-title" class="profile-section">
+<div class="section-heading"><div><p class="section-kicker">Коллекция</p><h2 id="achievement-title">Достижения</h2></div></div>
+<div class="achievement-grid" id="achievement-grid"><article class="achievement"><span aria-hidden="true">✦</span><div><b>Первый импульс</b><small>Завершить первый забег</small></div><i>·</i></article><article class="achievement"><span aria-hidden="true">◈</span><div><b>Всеядный игрок</b><small>Попробовать все игры</small></div><i>·</i></article><article class="achievement"><span aria-hidden="true">⌁</span><div><b>Охотник за цифрами</b><small>Набрать 25 000 очков суммарно</small></div><i>·</i></article><article class="achievement"><span aria-hidden="true">↓</span><div><b>Офлайн-пилот</b><small>Установить игру на устройство</small></div><i>·</i></article><article class="achievement"><span aria-hidden="true">◎</span><div><b>Аркадный ветеран</b><small>Завершить 20 забегов</small></div><i>·</i></article><article class="achievement"><span aria-hidden="true">⬡</span><div><b>Пятый контур</b><small>Достичь 5 уровня</small></div><i>·</i></article></div>
+</section>
+<section aria-labelledby="installed-title" class="profile-section">
+<div class="section-heading"><div><p class="section-kicker">Офлайн</p><h2 id="installed-title">Установленные игры</h2></div></div>
+<div class="installed-list" id="installed-list"><div class="installed-empty"><span>↓</span><p><b>Пока пусто</b><small>Нажми «Офлайн» на карточке игры — и она останется на устройстве.</small></p></div></div>
+</section>
+<section aria-labelledby="settings-title" class="profile-section settings-card">
+<div><p class="section-kicker">Устройство</p><h2 id="settings-title">Настройки</h2></div>
+<label class="setting-row"><span><b>Звук</b><small>Синтезированные эффекты без аудиофайлов</small></span><input id="sound-setting" role="switch" type="checkbox"/></label>
+<label class="setting-row"><span><b>Виброотклик</b><small>Короткая вибрация при ударах и бонусах</small></span><input id="haptic-setting" role="switch" type="checkbox"/></label>
+<button class="button button--ghost" id="persist-storage" type="button">Защитить сохранения от очистки</button>
+</section>
+</section>
+</main>
+<nav aria-label="Основная навигация" class="bottom-nav">
+<button aria-current="page" class="nav-item is-active" data-route="home" type="button"><span aria-hidden="true">⌂</span><small>Главная</small></button>
+<button class="nav-item" data-route="library" type="button"><span aria-hidden="true">▦</span><small>Игры</small></button>
+<button class="nav-item" data-route="profile" type="button"><span aria-hidden="true">◎</span><small>Профиль</small></button>
+</nav>
+</div>
+<dialog aria-labelledby="game-title" class="game-dialog" id="game-dialog">
+<div class="game-shell" id="game-shell">
+<header class="game-header">
+<button aria-label="Закрыть игру" class="game-header-button" id="close-game" type="button">←</button>
+<div><small id="game-category">Аркада</small><h2 id="game-title">Игра</h2></div>
+<div class="game-header-actions">
+<button aria-label="Выключить звук" class="game-header-button" id="toggle-game-sound" type="button">♪</button>
+<button aria-label="На весь экран" class="game-header-button" id="toggle-fullscreen" type="button">⛶</button>
+<button aria-label="Пауза" class="game-header-button" id="pause-game" type="button">Ⅱ</button>
+</div>
+</header>
+<div class="game-viewport" id="game-viewport">
+<canvas aria-label="Игровое поле" height="694" id="game-canvas" role="img" width="390"></canvas>
+<div aria-hidden="true" class="game-hud">
+<span><small>Счёт</small><b id="hud-score">0</b></span>
+<span id="hud-middle"><small>Комбо</small><b>×1</b></span>
+<span><small>Лучший</small><b id="hud-best">0</b></span>
+</div>
+<div aria-label="Игровое управление" class="touch-controls" id="touch-controls"></div>
+<section class="game-overlay game-intro" id="game-intro">
+<div aria-hidden="true" class="game-intro-icon" id="game-icon">◆</div>
+<p class="game-intro-badge" id="game-badge">НОВАЯ ИГРА</p>
+<h3 id="game-intro-title">Название</h3>
+<p id="game-intro-text">Описание</p>
+<ul class="game-feature-list" id="game-features"></ul>
+<button class="button button--primary button--game" id="start-game" type="button">Запустить</button>
+<button class="button button--ghost button--game" id="cache-game" type="button">↓ Установить офлайн</button>
+</section>
+<section class="game-overlay compact-overlay" hidden="" id="pause-overlay">
+<p class="game-intro-badge">ПАУЗА</p>
+<h3>Передохни</h3>
+<p>Игра остановлена, прогресс текущего забега на месте.</p>
+<button class="button button--primary button--game" id="resume-game" type="button">Продолжить</button>
+<button class="button button--ghost button--game" data-exit-game="" type="button">Выйти в каталог</button>
+</section>
+<section class="game-overlay result-overlay" hidden="" id="result-overlay">
+<p class="game-intro-badge" id="result-badge">ЗАБЕГ ЗАВЕРШЁН</p>
+<h3 id="result-title">Новый рекорд</h3>
+<div class="result-score"><small>Счёт</small><strong id="result-score">0</strong></div>
+<div class="reward-row"><span>+<b id="result-xp">0</b> XP</span><span>+<b id="result-coins">0</b> ⬡</span></div>
+<p id="result-detail">Отличный забег.</p>
+<button class="button button--primary button--game" id="retry-game" type="button">Ещё раз</button>
+<button class="button button--ghost button--game" data-exit-game="" type="button">В каталог</button>
+</section>
+<p aria-live="polite" class="sr-only" id="game-live-status"></p>
+</div>
+</div>
+</dialog>
+<dialog aria-labelledby="edit-profile-title" class="modal" id="profile-dialog">
+<form class="modal-card" id="profile-form" method="dialog">
+<div class="modal-heading"><div><p class="section-kicker">Профиль</p><h2 id="edit-profile-title">Как тебя называть?</h2></div><button aria-label="Закрыть" class="modal-close" type="submit" value="cancel">×</button></div>
+<label class="field"><span>Имя игрока</span><input autocomplete="nickname" id="profile-name-input" maxlength="18" minlength="2" name="name" required=""/></label>
+<fieldset class="color-picker"><legend>Цвет профиля</legend><div id="profile-colors"></div></fieldset>
+<button class="button button--primary" type="submit" value="save">Сохранить</button>
+</form>
+</dialog>
+<dialog aria-labelledby="install-title" class="modal" id="install-dialog">
+<div class="modal-card">
+<div class="modal-heading"><div><p class="section-kicker">iPhone / iPad</p><h2 id="install-title">Добавить на экран «Домой»</h2></div><button aria-label="Закрыть" class="modal-close" data-close-install="" type="button">×</button></div>
+<ol class="install-steps"><li>Открой меню <b>«Поделиться»</b> в Safari.</li><li>Выбери <b>«На экран Домой»</b>.</li><li>Подтверди установку — аркада откроется без адресной строки.</li></ol>
+<button class="button button--primary" data-close-install="" type="button">Понятно</button>
+</div>
+</dialog>
+<div aria-atomic="true" aria-live="polite" class="toast-region" id="toast-region"></div>
+</body></html>

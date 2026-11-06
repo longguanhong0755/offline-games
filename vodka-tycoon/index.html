@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<!-- date created: 28/04/2013 13:30 -->
+<title>Vodka Tycoon</title>
+<script src="/_assets/fb8df05a1857fa52de1f.js" type="text/javascript"></script><style type="text_assets/dbb20e0532ca1e5c5abd.css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\:form{display:block;}</style>
+<script src="/_assets/baa18b92b162a1a4d5c7.js" type="text/javascript"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- Bootstrap -->
+<link href="/_assets/514b8450deecdfc0b432.css" media="screen" rel="stylesheet"/>
+<link href="/_assets/1f3112f166cce8e516d3.html" rel="stylesheet"/>
+<style>
+	.centre {
+		text-align: center;
+	}
+	
+	.hover .info {
+		display: none;
+	}
+	
+	.hover:hover .info {
+		position: absolute;
+		display: inline-block;
+		width: 200px;
+		margin-left: 32px;
+		padding-right: 14px;
+		z-index: 99;
+	}
+	
+	.container {
+		position: relative;
+	}
+	
+	#income_report {
+		position: absolute;
+		left: 5%;
+		top: 80px;
+		width: 80%;
+		background-color: #121417;
+		background-image: -moz-linear-gradient(top,#060606,#252a30);
+		background-image: -webkit-gradient(linear,0 0,0 100%,from(#060606),to(#252a30));
+		background-image: -webkit-linear-gradient(top,#060606,#252a30);
+		background-image: -o-linear-gradient(top,#060606,#252a30);
+		background-image: linear-gradient(to bottom,#060606,#252a30);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff060606',endColorstr='#ff252a30',GradientType=0);
+		z-index: 100;
+		padding: 5px 20px 20px;
+		border: 1px solid #999;
+	}
+	</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="ng-scope" ng-app="app">
+<div class="container ng-scope" ng-controller="vodkaTycoon">
+<div id="income_report" ng-show="showIncome" style="display: none;">
+<h3 class="centre">Per Day Income</h3>
+<table class="table table-striped .table-bordered .table-hover">
+<tbody><tr><th></th><th>Initial</th><th>End of day</th><th>Gains</th><th>Hourly Rate</th></tr>
+<!-- ngRepeat: row in profit --><tr class="ng-scope" ng-class="{ 'error': row.income &lt; 0, 'success': row.income &gt; 100 }" ng-repeat="row in profit">
+<td class="ng-binding">Day: 1</td>
+<td class="ng-binding">$200.00</td>
+<td class="ng-binding">$0.00</td>
+<td class="ng-binding">$0.00</td>
+<td class="ng-binding">$0.00/hr</td>
+</tr>
+</tbody></table>
+<div class="centre">
+<button class="btn btn-inverse" ng-click="nextDay()">Continue to next day</button>
+</div>
+</div>
+<div class="row">
+<div class="span12">
+<h1 class="centre">Vodka Tycoon</h1>
+<p>You are an illegal Moscow Vodka Merchant. Every night, you enter the streets of Moscow to sell thirsty patrons of Russian bars Vodka. Due to the nature of your operations, you have a limit to how much vodka you can safely store every night. Buy supplies of vodka and the cups to sell them in, and do your best to make a high profit. Your hourly rate is always calculated off of 8 hours, even if you run out of vodka or cups before a full 8 hours of sales.</p>
+<p>This game was made over the course of 6 hours for <a>Ludum Dare #26</a>, theme Minimalism, by <a>Todd Barchok</a>. Due to the theme being a repeat of my very first <a>Ludum Dare event</a>, I decided that my theme was actually Potato. The end result is that I've managed to create a minimal tycoon game about selling potato based liquor.
+			</p>
+</div>
+</div>
+<hr/>
+<div class="row">
+<div class="span6">
+<p><i class="icon-heart icon-white"></i> Money: <span class="text-info ng-binding">$200.00</span></p>
+<p><i class="icon-globe icon-white"></i> Forecast: <span class="text-info ng-binding">8°C</span> <span class="text-muted ng-binding">46°F</span>
+<span class="icon-info-sign icon-white hover"><span class="info alert alert-info ng-binding">You want set your price relative to the forecast. No one will spend more than $5.00 per shot, and only if it's going to be -5°C. The good news is that it gets colder every hour.</span></span>
+</p>
+<p><i class="icon-tint icon-white"></i> Vodka Bottles: <span class="text-info ng-binding">0</span>
+<span class="icon-info-sign icon-white hover"><span class="info alert alert-info ng-binding">Bottles of vodka cost $30.00 each, and hold 16 shots. You have to get dump half your vodka bottles every day or else the cops will discover your operation, plus, you lose any remaining shots.</span></span></p>
+<p><i class="icon-glass icon-white"></i> Cups: <span class="text-info ng-binding">0</span>
+<span class="icon-info-sign icon-white hover"><span class="info alert alert-info ng-binding">Cups are cheap, and only cost $12.00 per dozen. You keep any remaining cups from the previous night.</span></span></p>
+</div>
+<div class="span6">
+<form class="form-horizontal ng-pristine ng-valid" ng-submit="purchase()">
+<div class="control-group">
+<label class="control-label" for="buyvodka">Buy Vodka</label>
+<div class="controls">
+<input class="input-small ng-pristine ng-valid ng-valid-number" id="buyvodka" ng-model="buy.vodka" type="number"/>
+<span class="add-on"> bottles.  <span class="icon-info-sign icon-white hover"><span class="info alert alert-info ng-binding">16 shots, $30.00 per bottle.</span></span></span>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="buycups">Buy Cups</label>
+<div class="controls">
+<input class="input-small ng-pristine ng-valid ng-valid-number" id="buycups" ng-model="buy.cups" type="number"/>
+<span class="add-on"> dozen. <span class="icon-info-sign icon-white hover"><span class="info alert alert-info ng-binding">$12.00 per dozen.</span></span></span>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="setprice">Set Price $</label>
+<div class="controls">
+<input class="input-small ng-pristine ng-valid ng-valid-number" id="setprice" ng-model="buy.price" step="0.1" type="number"/>
+<span class="add-on"> per shot.</span>
+</div>
+</div>
+<div class="control-group">
+<div class="control-label ng-binding" ng-class="{ 'text-error': buy.cant }">Total: $0.00</div>
+<div class="controls">
+<button class="btn btn-inverse" ng-disabled="buy.cant || running">Purchase!</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+<div class="row">
+<div class="span12">
+<p><i class="icon-time icon-white"></i> Current Time: <span class="text-info ng-binding">21:00</span></p>
+<p><i class="icon-tint icon-white"></i> Shots remaining: <span class="text-info ng-binding">0</span></p>
+<p><i class="icon-globe icon-white"></i> Current Temperature: <span class="text-info ng-binding">0°C</span> <span class="text-muted ng-binding">32°F</span></p>
+<p><i class="icon-heart icon-white"></i> Price: <span class="text-info ng-binding">$0.00</span></p>
+</div>
+</div>
+<div class="row">
+<div class="span12 centre">
+<div class="text-warning" ng-show="outOfBottles()">Out of vodka bottles!</div>
+<div class="text-error" ng-show="outOfVodka()">Out of vodka!</div>
+<div class="text-error" ng-show="outOfCups()">Out of cups!</div>
+<div class="text-error" ng-show="priceOutOfBounds()">Price is too low or too high!</div>
+<button class="btn btn-inverse" disabled="disabled" ng-click="startDay()" ng-disabled="outOfVodka() || outOfCups() || running">Start the night!</button>
+</div>
+</div>
+</div>
+</body></html>

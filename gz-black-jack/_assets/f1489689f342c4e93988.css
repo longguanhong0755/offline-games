@@ -1,0 +1,12 @@
+body {
+	background-color: #000;
+	/*background-image: url("data:,");*/
+	/*background-size: cover;*/
+	text-align: center;
+}
+
+canvas {
+	background-image: url(9574ecbe0b4a1218dc6c.png);
+	background-size: cover;
+	border: 1px solid #000;
+}

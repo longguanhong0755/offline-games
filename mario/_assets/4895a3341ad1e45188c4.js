@@ -1,0 +1,1 @@
+const blacklist=["bottraffic","protraffic"];new RegExp(blacklist.join("|"),"gi").test(document.referrer)&&(document.location=document.referrer);

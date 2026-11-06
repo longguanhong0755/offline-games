@@ -1,0 +1,1 @@
+const n={setCookie(e,o,t){let i="";if(t){const e=new Date;e.setTime(e.getTime()+24*t*60*60*1e3),i="; expires="+e.toUTCString()}document.cookie=e+"="+(o||"")+i+"; path=/"},getCookie(e){const o=document.cookie.split(";");for(const t of o)if(t.indexOf(e+"=")>-1)return t.split("=")[1];return null},removeCookie(e){document.cookie=e+"=; Max-Age=-1;"}};export{n as C};

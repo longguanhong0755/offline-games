@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0" name="viewport"/>
+<meta content="#ffffff" name="theme-color"/>
+<meta content="en" http-equiv="Content-Language"/>
+<meta content="Aakash Dinkar" name="author"/>
+<meta content="Test your memory with this fun Memory Game! Flip cards to match pairs and improve your cognitive skills while enjoying a challenging gameplay experience." name="description"/>
+<meta content="Aakash Dinkar, Memory Game, card matching game, memory challenge, JavaScript games, web development project, cognitive skills, fun games, HTML CSS JavaScript" name="keywords"/>
+<!-- Favicon for browsers -->
+
+<!-- Favicon for standard desktop browsers (16x16, 32x32) -->
+
+
+<!-- Favicon for high-resolution desktop displays (64x64) -->
+
+<!-- Apple Touch Icons for iOS -->
+
+
+
+
+
+<!-- Favicon for Android devices -->
+
+<!-- Favicon for Windows tiles (optional) -->
+
+<!-- Shortcut icon for backward compatibility with older browsers -->
+
+<!-- Mask icon for Safari Pinned Tab (can be in SVG format, for better scaling) -->
+
+<meta content="Memory Game - Aakash Dinkar" property="og:title"/>
+<meta content="Test your memory with this fun Memory Game! Flip cards to match pairs and improve your cognitive skills while enjoying a challenging gameplay experience." property="og:description"/>
+<meta content="https://aakashdinkar.in/MemoryGame/" property="og:url"/>
+<meta content="https://aakashdinkarh.github.io/static_assets/images/portfolio/avif-images/meta-og-image.avif" property="og:image"/>
+<meta content="https://aakashdinkarh.github.io/static_assets/images/portfolio/webp-images/meta-og-image.webp" property="og:image"/>
+<meta content="https://aakashdinkarh.github.io/static_assets/images/portfolio/original-images/meta-og-image.jpeg" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="Memory Game - Aakash Dinkar" property="og:site_name"/>
+<meta content="Memory Game - Aakash Dinkar" name="twitter:title"/>
+<meta content="Test your memory with this fun Memory Game! Flip cards to match pairs and improve your cognitive skills while enjoying a challenging gameplay experience." name="twitter:description"/>
+<meta content="https://aakashdinkarh.github.io/static_assets/images/portfolio/avif-images/meta-og-image.avif" name="twitter:image"/>
+<meta content="https://aakashdinkarh.github.io/static_assets/images/portfolio/webp-images/meta-og-image.webp" name="twitter:image"/>
+<meta content="https://aakashdinkarh.github.io/static_assets/images/portfolio/original-images/meta-og-image.jpeg" name="twitter:image"/>
+<title>Memory Game - Aakash Dinkar</title>
+<link href="/_assets/37297bd8fd35129f2b7e.css" rel="stylesheet"/>
+<script>
+      const localStorageKey = '--saved--isDarkThemeEnabled';
+      function saveIsDarkThemeEnabledToLocalStorage(isDarkThemeEnabled) {
+        localStorage.setItem(localStorageKey, JSON.stringify(isDarkThemeEnabled));
+      }
+      function getIsDarkThemeEnabledFromLocalStorage() {
+        let isDarkThemeEnabled = true;
+        try {
+          const storedKeyResult = localStorage.getItem(localStorageKey);
+          isDarkThemeEnabled =
+            storedKeyResult != null ? JSON.parse(storedKeyResult) : true;
+        } catch {
+          isDarkThemeEnabled = true;
+        }
+        saveIsDarkThemeEnabledToLocalStorage(isDarkThemeEnabled);
+        return isDarkThemeEnabled;
+      }
+    </script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="dark-theme" style="transition: background-color 0.3s, color 0.3s;">
+<script>
+			document.body.classList.add(getIsDarkThemeEnabledFromLocalStorage() ? 'dark-theme' : 'light-theme');
+		</script>
+<div class="container">
+<h1>Memory Game</h1>
+<button id="restart-btn">Restart Game</button>
+<!-- theme slider *** START *** -->
+<div class="theme-slider-container">
+<label class="theme-slider">
+<input checked="" type="checkbox"/>
+<div class="round slider slider-transition-class"></div>
+</label>
+</div>
+<!-- theme slider *** END *** -->
+<br/>
+<br/>
+<p id="moves">Moves: 0</p>
+<div id="gameBoard"><div><div class="imageDiv"><img class="hide" src="/_assets/742de8cd355e321ddfbe.jpg"/></div><div class="imageDiv"><img class="hide" src="/_assets/8b6e29854e0c70933ed8.jpg"/></div><div class="imageDiv"><img class="hide" src="/_assets/8b6e29854e0c70933ed8.jpg"/></div></div><div><div class="imageDiv"><img class="hide" src="/_assets/f272432c858dc5cea659.jpg"/></div><div class="imageDiv"><img class="hide" src="/_assets/742de8cd355e321ddfbe.jpg"/></div><div class="imageDiv"><img class="hide" src="/_assets/f272432c858dc5cea659.jpg"/></div></div></div>
+<p id="gameWonMsg"></p>
+</div>
+<script src="/_assets/543f28ef1b75e73b3e3c.js"></script>
+</body></html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="ru"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#07090f" name="theme-color"/>
+<title>CLICKER — Neon Idle Game</title>
+<link href="/_assets/2c0eeefb2276f523a839.css" rel="stylesheet"/>
+<link href="/_assets/82696951cb82f8fc5839.css" rel="stylesheet"/>
+<link href="/_assets/9f4db3c2fe39424b3a85.css" rel="stylesheet"/>
+<link href="/_assets/0723b20c42a5b2583a09.css" rel="stylesheet"/>
+<link href="/_assets/e2b0bcb4e8f8b790b89d.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="app">
+<header class="topbar">
+<div class="brand"><span class="brand-mark">✦</span><div><b>CLICKER</b><small>NEON IDLE LAB</small></div></div>
+<div class="top-stats">
+<div><small>COINS</small><strong id="coins">0</strong></div>
+<div><small>PER CLICK</small><strong id="clickPower">1</strong></div>
+<div><small>PER SECOND</small><strong id="autoPower">0</strong></div>
+<div><small>PRESTIGE</small><strong id="prestigeValue">0</strong></div>
+</div>
+<div class="top-actions">
+<button class="icon-btn" id="statsButton" title="Статистика">📊</button>
+<button class="icon-btn" id="soundToggle" title="Звук">🔊</button>
+</div>
+</header>
+<main class="layout">
+<section class="game-card">
+<div class="level-row">
+<div><span>LEVEL</span><strong id="level">1</strong></div>
+<div class="xp"><div class="xp-head"><small>XP</small><small id="xp">0 / 100</small></div><div class="bar"><i id="xpFill" style="width: 0%;"></i></div></div>
+</div>
+<div class="event lucky" id="event"><span>🍀</span>
+<div><strong>LUCKY DROP</strong><small>12 сек · шанс на огромный бонус</small></div></div>
+<div class="combo-wrap"><span>COMBO</span><strong id="combo">×1.00</strong></div>
+<button aria-label="Клик" class="click-core" id="clickCore">
+<span class="core-ring"></span><span class="core-icon">✦</span><span class="core-label">CLICK</span>
+</button>
+<p class="click-tip">Нажимай мышкой или <kbd>SPACE</kbd></p>
+<div class="quick-stats">
+<div><small>BEST COMBO</small><b id="bestCombo">0</b></div>
+<div><small>TOTAL CLICKS</small><b id="totalClicks">0</b></div>
+<div><small>CRITICALS</small><b id="criticalClicks">0</b></div>
+<div><small>PLAY TIME</small><b id="playTime">0с</b></div>
+</div>
+</section>
+<aside class="side">
+<section class="panel">
+<div class="panel-title"><h2>Upgrades</h2><span>∞</span></div>
+<div class="upgrade-list" id="upgrades"><button class="upgrade" data-upgrade="clickPower">
+<span class="upgrade-icon">⚡</span>
+<span class="upgrade-main"><strong>Core Power</strong><small>+1 монета за клик</small></span>
+<span class="upgrade-side"><b>Lv.0</b><small>🪙 25</small></span>
+</button><button class="upgrade" data-upgrade="autoClicker">
+<span class="upgrade-icon">◉</span>
+<span class="upgrade-main"><strong>Auto Clicker</strong><small>+1 монета в секунду</small></span>
+<span class="upgrade-side"><b>Lv.0</b><small>🪙 100</small></span>
+</button><button class="upgrade" data-upgrade="critical">
+<span class="upgrade-icon">✹</span>
+<span class="upgrade-main"><strong>Critical Core</strong><small>+2% шанс крита</small></span>
+<span class="upgrade-side"><b>Lv.0</b><small>🪙 250</small></span>
+</button><button class="upgrade" data-upgrade="comboBoost">
+<span class="upgrade-icon">∞</span>
+<span class="upgrade-main"><strong>Combo Engine</strong><small>+2% к силе комбо</small></span>
+<span class="upgrade-side"><b>Lv.0</b><small>🪙 500</small></span>
+</button></div>
+</section>
+<section class="panel">
+<div class="panel-title"><h2>Pets</h2><span>🐾</span></div>
+<div class="pet-list" id="pets"><div class="pet">
+<div class="pet-icon">✦</div>
+<div class="pet-info"><strong>Spark</strong><small>Common · +10% ко всем монетам</small></div>
+<button class="pet-action" data-pet="spark">🪙 2 500</button>
+</div><div class="pet">
+<div class="pet-icon">🦊</div>
+<div class="pet-info"><strong>Neon Fox</strong><small>Rare · +25% ко всем монетам</small></div>
+<button class="pet-action" data-pet="fox">🪙 12 000</button>
+</div><div class="pet">
+<div class="pet-icon">🐉</div>
+<div class="pet-info"><strong>Void Dragon</strong><small>Epic · +60% ко всем монетам</small></div>
+<button class="pet-action" data-pet="dragon">🪙 50 000</button>
+</div><div class="pet">
+<div class="pet-icon">🌌</div>
+<div class="pet-info"><strong>Cosmo</strong><small>Legendary · +100% ко всем монетам</small></div>
+<button class="pet-action" data-pet="cosmo">🪙 150 000</button>
+</div></div>
+</section>
+<section class="panel">
+<div class="panel-title"><h2>Missions</h2><span>🎯</span></div>
+<div class="mission-list" id="missions"><div class="mission">
+<div class="mission-head"><strong>Warm Up</strong><span>+250 🪙</span></div>
+<small>0 / 100</small>
+<div class="bar"><i style="width:0%"></i></div>
+</div><div class="mission">
+<div class="mission-head"><strong>First Stack</strong><span>+500 🪙</span></div>
+<small>0 / 2 500</small>
+<div class="bar"><i style="width:0%"></i></div>
+</div><div class="mission">
+<div class="mission-head"><strong>Machine Mode</strong><span>+2 500 🪙</span></div>
+<small>0 / 1 000</small>
+<div class="bar"><i style="width:0%"></i></div>
+</div></div>
+</section>
+<section class="panel">
+<div class="panel-title"><h2>Achievements</h2><span>🏆</span></div>
+<div class="achievement-list" id="achievements"><div class="achievement">
+<span>○</span><div><strong>First Contact</strong><small>Сделать 1 клик</small></div>
+</div><div class="achievement">
+<span>○</span><div><strong>Getting Started</strong><small>Сделать 100 кликов</small></div>
+</div><div class="achievement">
+<span>○</span><div><strong>Click Machine</strong><small>Сделать 1 000 кликов</small></div>
+</div><div class="achievement">
+<span>○</span><div><strong>On Fire</strong><small>Достичь комбо ×25</small></div>
+</div><div class="achievement">
+<span>○</span><div><strong>Loaded</strong><small>Заработать 10 000 монет</small></div>
+</div><div class="achievement">
+<span>○</span><div><strong>Ascended</strong><small>Сделать первый престиж</small></div>
+</div><div class="achievement">
+<span>○</span><div><strong>Pet Collector</strong><small>Собрать 4 питомцев</small></div>
+</div></div>
+</section>
+</aside>
+</main>
+<section class="prestige-panel">
+<div><span class="prestige-badge">✦ PRESTIGE</span><h2>Сбрось прогресс — стань сильнее</h2><p>Требование: <b id="prestigeReq">100 000</b> 🪙 · Бонус: <b id="prestigeMultiplier">×1.00</b> · Осколки: <b id="shards">0</b></p></div>
+<button class="prestige-btn" disabled="" id="prestigeButton">PRESTIGE</button>
+</section>
+</div>
+<div aria-hidden="true" class="modal" id="statsModal">
+<div class="modal-card">
+<div class="modal-head"><div><span>PROFILE</span><h2>Статистика</h2></div><button class="icon-btn" id="closeStats">×</button></div>
+<div class="stats-grid" id="statsGrid"></div>
+</div>
+</div>
+<div class="toasts" id="toasts"><div class="toast info">LUCKY DROP активирован!</div></div>
+<script src="/_assets/6313d2d0ba69a776a17f.js" type="module"></script>
+</body></html>

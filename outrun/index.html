@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>OutRun Delivery: Infinite Night</title>
+<meta content="#171329" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<link href="manifest.webmanifest" rel="manifest"/>
+<link href="icon-192.png" rel="apple-touch-icon"/>
+<meta content="An endless synthwave courier-driving and idle management game." name="description"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3Cfilter id='g' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='1.1'/%3E%3C/filter%3E%3ClinearGradient id='n' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23FF784F'/%3E%3Cstop offset='1' stop-color='%23E34FB9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='%23171329'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='url%28%23n%29' stroke-width='4.2' filter='url%28%23g%29' opacity='.9'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='url%28%23n%29' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fff3f8' stroke-width='.8' opacity='.85'/%3E%3Cpath d='M3 26h26' stroke='%2342DCE5' stroke-width='1.2' opacity='.8'/%3E%3C/svg%3E" rel="icon"/>
+
+<link href="/_assets/8f0bb376dfb787fe65dc.css" rel="stylesheet"/>
+<link href="/_assets/eea386d1d8aa3c4c6de5.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="landscape" data-controls="swipe" data-palette="sunset" style="--ui-scale: 1;">
+<canvas height="900" id="hw" style="width: 1440px; height: 900px;" width="1440"></canvas>
+<div id="vignette"></div>
+<div id="scanlines"></div>
+<header id="topbar">
+<div id="brand"><b>OUTRUN</b><span>DELIVERY // INFINITE NIGHT</span></div>
+<div id="resbar">
+<div class="res cr" data-tip="CREDITS (CR): your money. Spend it in Garage, Fleet and Routes."><span class="ic" id="icCredit"><svg viewbox="0 0 24 24"><path d="M12 2l8 5v10l-8 5-8-5V7z"></path><path d="M12 7v10M9 9.5h4.2a2 2 0 1 1 0 4H9"></path></svg></span><b id="rCred">7.2</b></div>
+<div class="res inc" data-tip="INCOME PER SECOND: everything you earn each second, with all multipliers."><span class="ic" id="icBolt"><svg viewbox="0 0 24 24"><path d="M13 2L5 14h5l-1 8 8-12h-5z"></path></svg></span><b id="rInc">1</b><i>/S</i></div>
+<div class="res dist" data-tip="DISTANCE (KM): how far you have driven this run. Unlocks milestones and Dawnbreak."><b id="rDist">57</b><i>KM</i></div>
+<div class="res" data-tip="PACKAGES: parcels collected on the road."><span class="ic" id="icBox"><svg viewbox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"></path><path d="M4 8l8 4 8-4M12 12v8"></path></svg></span><b id="rPkg">0</b></div>
+<div class="res tl" data-tip="ERA: your current timeline. Each era changes the world and multiplies income." id="rTime">1984</div>
+<div class="res" data-tip="REPUTATION: earned from events and rare packages. +0.5% income per point." id="rRepW"><span class="ic" id="icStar"><svg viewbox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.4 4.1 1.2 5.9L12 16.4 6.6 19.3l1.2-5.9L3.4 9.3l6-.7z"></path></svg></span><b id="rRep">0</b></div>
+<div class="res hidden" data-tip="CASSETTE TAPES: permanent currency from Dawnbreak. Spend them in the Timeline tab." id="rTapeW"><span class="ic" id="icTape"><svg viewbox="0 0 24 24"><rect height="12" rx="2" width="18" x="3" y="6"></rect><circle cx="8.5" cy="12" r="2"></circle><circle cx="15.5" cy="12" r="2"></circle><path d="M8.5 14h7"></path></svg></span><b id="rTape">0</b></div>
+</div>
+<div id="topacts">
+<span class="net-badge hidden" data-tip="This game is installed for offline play. After this visit it runs with no connection, even in airplane mode." id="netBadge" tabindex="0"><span class="nb-t">OFFLINE READY</span></span>
+<button aria-live="polite" id="saveStatus" title="Save now" type="button">SAVED 01:22</button>
+<button aria-label="Goals: daily contracts and achievements" class="ibtn notap" data-tip="GOALS: daily contracts and achievements." id="btnGoals" title="Goals"><svg viewbox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 20h8"></path></svg></button>
+<button aria-label="Fullscreen" aria-pressed="false" class="ibtn notap" data-tip="FULLSCREEN: hides the browser bars. Shortcut: F." id="btnFull" title="Fullscreen"><svg viewbox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
+<button aria-label="Pause game" aria-pressed="false" class="ibtn" id="btnPause" title="Pause game"><svg viewbox="0 0 24 24"><path d="M8 5v14M16 5v14"></path></svg></button>
+<button class="ibtn notap" data-tip="SOUND: mute or unmute." id="btnAudio" title="Toggle sound"><span class="ic"><svg viewbox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"></path><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"></path></svg></span></button>
+<button class="ibtn notap" data-tip="SETTINGS: audio, statistics, about, save backup." id="btnSettings" title="Settings"><svg viewbox="0 0 24 24"><path d="M18.97 9.84 L22.21 10.04 L22.21 13.96 L18.97 14.16 L18.46 15.41 L20.61 17.83 L17.83 20.61 L15.41 18.46 L14.16 18.97 L13.96 22.21 L10.04 22.21 L9.84 18.97 L8.59 18.46 L6.17 20.61 L3.39 17.83 L5.54 15.41 L5.03 14.16 L1.79 13.96 L1.79 10.04 L5.03 9.84 L5.54 8.59 L3.39 6.17 L6.17 3.39 L8.59 5.54 L9.84 5.03 L10.04 1.79 L13.96 1.79 L14.16 5.03 L15.41 5.54 L17.83 3.39 L20.61 6.17 L18.46 8.59Z"></path><circle cx="12" cy="12" r="3.3"></circle></svg></button>
+</div>
+</header>
+<main id="content">
+<section class="tab active" id="tab-drive">
+<div aria-live="polite" class="hidden" id="eventBanner" role="status"><span aria-hidden="true" id="evIcon">!</span><b id="evName"></b><span id="evDesc"></span><div id="evBar"><i id="evFill"></i></div></div>
+<div aria-atomic="true" aria-live="polite" class="event-transition" id="eventTransition"><span aria-hidden="true" id="eventTransitionIcon"></span><div><b id="eventTransitionTitle"></b><span id="eventTransitionText"></span></div></div>
+<div id="hudLeft">
+<div class="hud-speed" data-tip="SPEED: your driving speed in km/s. Drops after a crash, rises in Overdrive."><b id="hSpeed">8.0</b><i>KM/S</i></div>
+<div class="hud-sub" data-tip="COURIER MK: your total Garage level, a quick power rating." id="hVeh">COURIER MK-1</div>
+<div aria-live="polite" id="regionBadge">NEON DUNES · ☾ VAPORWAVE NIGHT</div>
+<div id="heatBadge">ROAD: CALM · +0% PAY</div>
+<button aria-label="Current objective" class="hud-sub acc" data-tip="NEXT OBJECTIVE: tap to jump to the tab that gets you there." id="hHint">NEXT: ROUTE UNLOCK</button>
+<button aria-label="Current mission" class="mission-card" data-tab="routes" id="missionCard"><b>ROUTE UNLOCK</b><span id="missionText">Desert Express · 29.9K km to go</span><i><span id="missionFill" style="width: 0.19288%;"></span></i></button>
+<div class="hud-sub hidden notap" data-tip="AUTOPILOT: dodges traffic and grabs packages. Click to toggle." id="hAuto">AUTOPILOT: ON</div> <div class="hud-sub hidden notap" data-tip="AUTO OVERDRIVE: fires Overdrive as soon as the meter is full. Click to toggle." id="hAutoOd">AUTO OVERDRIVE: ON</div>
+</div>
+<div aria-live="polite" class="hidden" id="chainBox"><b id="chainN"></b><span id="chainBonus"></span><i><span id="chainFill"></span></i></div>
+<div id="hudRight">
+<div id="hBoosts"></div>
+<div class="hud-sub" data-tip="INCOME MULTIPLIER from active boosts and Overdrive." id="hMult">INCOME x1.0</div>
+</div>
+<div id="odWrap">
+<div data-tip="OVERDRIVE: fills over time, from deliveries, Energy Cells and close calls. Press SPACE when full." id="odLabel">OVERDRIVE</div>
+<div data-tip="OVERDRIVE METER: at 100% you can engage x5 income and extra speed." id="odBar"><i id="odFill" style="width: 7.9563%;"></i></div>
+<button class="btn" disabled="" id="odBtn">CHARGING 7%</button>
+</div>
+<button class="lcbtn" id="lcL">‹</button>
+<button class="lcbtn" id="lcR">›</button>
+</section>
+<section class="tab" id="tab-fleet"><div class="panel" id="p-fleet"></div></section>
+<section class="tab" id="tab-routes"><div class="panel" id="p-routes"></div></section>
+<section class="tab" id="tab-garage"><div class="panel" id="p-garage"></div></section>
+<section class="tab" id="tab-timeline"><div class="panel" id="p-timeline"></div></section>
+<div class="pause-screen" hidden="" id="pauseScreen"><div class="pause-card"><h2>PAUSED</h2><p>Your road run is safely on hold.</p><button class="btn buy big" id="resumeBtn">RESUME DRIVING</button></div></div></main>
+<nav id="tabbar">
+<button aria-label="Drive" class="ntab active" data-tab="drive"><span class="ic" data-ic="gauge"><svg viewbox="0 0 24 24"><path d="M5 19a9 9 0 1 1 14 0"></path><path d="M12 15l4.5-5.5"></path><circle cx="12" cy="15" r="1.4"></circle></svg></span><span>DRIVE</span></button>
+<button aria-label="Fleet" class="ntab" data-tab="fleet"><span class="ic" data-ic="car"><svg viewbox="0 0 24 24"><path d="M4 15l1.5-4.5A2 2 0 0 1 7.4 9h9.2a2 2 0 0 1 1.9 1.5L20 15v4h-2.5v-1.5h-11V19H4z"></path><circle cx="8" cy="15.5" r="0.8"></circle><circle cx="16" cy="15.5" r="0.8"></circle></svg></span><span>FLEET</span></button>
+<button aria-label="Routes" class="ntab" data-tab="routes"><span class="ic" data-ic="route"><svg viewbox="0 0 24 24"><circle cx="5" cy="19" r="2"></circle><circle cx="19" cy="5" r="2"></circle><path d="M7 19h7a4 4 0 0 0 0-8H9a4 4 0 0 1 0-6h8"></path></svg></span><span>ROUTES</span></button>
+<button aria-label="Garage" class="ntab" data-tab="garage"><span class="ic" data-ic="wrench"><svg viewbox="0 0 24 24"><path d="M14.5 6.5a4.5 4.5 0 0 0-6 5.6L3 17.6V21h3.4l5.5-5.5a4.5 4.5 0 0 0 5.6-6L14 13l-3-3z"></path></svg></span><span>GARAGE</span></button>
+<button aria-label="Timeline" class="ntab" data-tab="timeline"><span class="ic" data-ic="hourglass"><svg viewbox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 5 4 5.5 4 9s-4 4-4 9M17 3c0 5-4 5.5-4 9s4 4 4 9"></path></svg></span><span>TIMELINE</span><i class="badge" id="tlBadge"></i></button>
+</nav>
+<div id="toasts"><div class="toast info">Graphics lowered to keep the game smooth</div></div>
+<div class="" id="modalRoot"><div class="mback"></div><div aria-modal="true" class="mbox" role="dialog" tabindex="-1"><button aria-label="Close" class="mclose" type="button">×</button><h2>OUTRUN DELIVERY</h2><p style="color:var(--cyan);font-family:var(--font-n);font-size:12px;letter-spacing:2px">INFINITE NIGHT — NIGHT SHIFT 001</p><p>You run a one-car courier company on an endless neon highway.</p><ul><li><b>A / D</b> or <b>arrow keys</b> (or tap the screen sides) to change lanes</li><li>Collect <b style="color:var(--cyan)">packages</b> and dodge traffic — active driving pays</li><li>Fill the meter and hit <b>SPACE</b> to unleash <b style="color:var(--magenta)">OVERDRIVE</b></li><li>Spend credits in the <b>GARAGE</b>, grow a <b>FLEET</b>, automate everything</li><li>At 25.0K km, perform a <b style="color:var(--horizon)">DAWNBREAK</b> to earn permanent Cassette Tapes</li></ul><p>Your fleet keeps earning while you're away. See you on the road.</p><div class="mbtns"><button class="btn" data-mb="0">GUIDED TOUR</button><button class="btn buy" data-mb="1">START ENGINE</button></div></div></div>
+<script defer="" src="/_assets/563a528734a70ad9342f.js"></script>
+<div id="tip"></div></body></html>

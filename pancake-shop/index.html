@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="favicon.ico" rel="icon"/>
+<title>Pancake Game | 팬케이크 굽기</title>
+<meta content="팬케이크를 굽고 뒤집는 간단한 브라우저 게임. Pancake cooking game you can play online." name="description"/>
+<meta content="Pancake Game" property="og:title"/>
+<meta content="Flip pancakes and get a high score!" property="og:description"/>
+<meta content="https://www.pancake.ggm.kr/" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="https://www.pancake.ggm.kr/pancake_preview.png" property="og:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Game",
+  "name": "Pancake Game",
+  "description": "A simple pancake cooking browser game where you flip pancakes.",
+  "url": "https://www.pancake.ggm.kr",
+  "genre": "Cooking Game",
+  "applicationCategory": "Game"
+}
+</script>
+<style>
+body {
+  background: radial-gradient(circle at center, #2c2520 0%, #1a1512 100%);
+  color: #f7f5f0;
+  text-align: center;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.game-container {
+  max-width: 360px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 0 0 5px 0;
+  letter-spacing: -1px;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+p {
+  color: #baaf9e;
+  font-size: 1rem;
+  margin: 0 0 15px 0;
+}
+
+/* 캔버스 */
+canvas {
+  background: #292522;
+  border: 4px solid #3e3530;
+  border-radius: 24px;
+  box-shadow: 
+    inset 0 4px 20px rgba(0,0,0,0.6),
+    0 15px 35px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.game-container {
+  position: relative;
+  max-width: 360px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+/*프라이팬 손잡이*/
+.game-container::after {
+  content: '';
+  position: absolute;
+  bottom: 280px;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  width: 28px;
+  height: 60px;
+  background: linear-gradient(to right, #2b2520, #1a1512);
+  border: 4px solid #3e3530;
+  border-radius: 0 0 12px 12px;
+
+  z-index: -1; 
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4); 
+}
+
+/* UI */
+#ui {
+  margin-top: 20px;
+  height: 65px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 플립 버튼 */
+.flip-btn {
+  padding: 14px 40px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #2b1a0f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: linear-gradient(145deg, #ffe29d, #ff9f1a);
+  border: none;
+  border-radius: 50px;
+  box-shadow:
+    0 6px 0 #bc6600,
+    0 12px 20px rgba(255, 159, 26, 0.25);
+  cursor: pointer;
+  transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.flip-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 0 #bc6600,
+    0 16px 24px rgba(255, 159, 26, 0.35);
+}
+
+.flip-btn:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 #bc6600,
+    0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* 결과창 */
+#result-container {
+  margin-top: 15px;
+  height: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+#result-rating {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+#result-score {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+/* 게이지 */
+.score-bar-bg {
+  width: 180px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#score-bar-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.8s cubic-bezier(0.1, 1, 0.1, 1);
+}
+
+/* 최고 점수 */
+#bestScore {
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 18px;
+  border-radius: 30px;
+  color: #a89e8d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 15px;
+}
+
+/* 등급별 효과 */
+.grade-godly { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); animation: shake 0.5s infinite; }
+.grade-perfect { color: #ff9f1a; text-shadow: 0 0 10px rgba(255, 159, 26, 0.5); }
+.grade-delicious { color: #4caf50; }
+.grade-good { color: #2196f3; }
+.grade-meh { color: #9e9e9e; }
+.grade-burnt { color: #721c24; animation: opacityPulse 1s infinite; }
+
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, 1px); }
+  75% { transform: translate(1px, -1px); }
+}
+@keyframes opacityPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+@keyframes flash {
+  0% { background: #2c2520; }
+  50% { background: #ffeb3b; }
+  100% { background: #2c2520; }
+}
+.perfect { animation: flash 0.6s ease;  background: radial-gradient(circle, #fff7cc, #ffcc00);}
+
+.pop {
+  transform: scale(1.3);
+  color: gold;
+  transition: 0.2s;
+}
+
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<main class="game-container">
+<h1>🥞 Pancake Game</h1>
+<audio id="sizzleSound" loop="" preload="auto">
+<source src="/_assets/833eff79915dec6aea97.mp3" type="audio/mpeg"/>
+</audio>
+<audio id="scrape" src="/_assets/a74c1dd6b24d12165c27.mp3"></audio>
+<audio id="perfectSound" src="/_assets/cc39b96c5d1a888a8353.mp3"></audio>
+<canvas height="300" id="game" width="300"></canvas>
+<div id="ui">
+<button class="flip-btn" id="startBtn" onclick="startGame()">🥞 COOK</button>
+<button class="flip-btn" id="flipBtn" onclick="flip()" style="display:none;">Flip</button>
+<button class="flip-btn" id="retryBtn" onclick="resetGame()" style="display:none;">Retry</button>
+</div>
+<div id="result-container" style="visibility: hidden;">
+<div id="result-rating">👑 GODLY PANCAKE</div>
+<div id="result-score">Score: 0 / 100</div>
+<div class="score-bar-bg">
+<div id="score-bar-fill"></div>
+</div>
+</div>
+<p id="result" style="display:none;"></p>
+<p id="bestScore">Best Score: 0.0</p>
+</main>
+<script>
+//sound
+const sound = {
+  sizzle: document.getElementById("sizzleSound"),
+};
+
+// 루프 사운드 시작
+function startSizzle() {
+  const audio = sound.sizzle;
+
+  const maxStart = audio.duration * 0.7;
+  const randomStart = Math.random() * maxStart;
+
+  audio.currentTime = randomStart;
+  audio.volume = 0.4;
+
+  audio.play().catch(() => {});
+}
+
+// 루프 사운드 정지
+function stopSizzle() {
+  sound.sizzle.pause();
+  sound.sizzle.currentTime = 0;
+}
+
+function playFlipSound() {
+  const base = document.getElementById("scrape");
+  const sound = base.cloneNode();
+
+  sound.volume = 0.4;
+  sound.playbackRate = 3.0;
+  sound.play();
+}
+
+let gameState = "start";
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let bestScore = parseFloat(localStorage.getItem("pancakeBest") || 0);
+document.getElementById("bestScore").innerText =
+  `Best Score: ${bestScore.toFixed(1)}`;
+
+let time = 0;
+let flipped = false;
+let flipping = false;
+let flipProgress = 0;
+let flippedSide = false;
+let scored = false;
+
+let bounce = 0;
+let bounceY = 0;
+let bouncing = false;
+
+let spots = [];
+function generateSpots() {
+  spots = [];
+  for (let i = 0; i < 12; i++) {
+    spots.push({
+      x: Math.random() * 110 - 55,
+      y: Math.random() * 70 - 35,
+      r: Math.random() * 4 + 2,
+      appearTime: 0.2 + Math.random() * 0.5
+    });
+  }
+}
+generateSpots();
+
+let batter = Math.random();
+let water = Math.random();
+let heat = 0.5 + Math.random();
+
+function startGame() {
+ gameState = "playing";
+
+ time = 0;
+ flipped = false;
+ flipping = false;
+ flipProgress = 0;
+ flippedSide = false;
+ scored = false;
+ 
+ generateSpots();
+
+ document.getElementById("startBtn").style.display = "none";
+ document.getElementById("flipBtn").style.display = "inline-block";
+ document.getElementById("retryBtn").style.display = "none";
+
+ startSizzle();
+ loop();
+}
+
+function resetGame() {
+  gameState = "start";
+
+  time = 0;
+  flipped = false;
+  flipping = false;
+  flipProgress = 0;
+  flippedSide = false;
+  scored = false;
+
+  batter = Math.random();
+  water = Math.random();
+  heat = 0.5 + Math.random();
+
+  document.getElementById("result").innerText = "";
+  document.body.classList.remove("perfect");
+
+  document.getElementById("startBtn").style.display = "none";
+
+  const flipBtn = document.getElementById("flipBtn");
+  flipBtn.disabled=false;
+  flipBtn.style.display="inline-block";
+
+  document.getElementById("retryBtn").style.display = "none";
+
+  document.getElementById("result-container").style.visibility = "hidden";
+  document.getElementById("score-bar-fill").style.width = "0%";
+  
+  startGame();
+ }
+ 
+function lerpColor(a, b, t) {
+  const ar = parseInt(a.substr(1,2),16);
+  const ag = parseInt(a.substr(3,2),16);
+  const ab = parseInt(a.substr(5,2),16);
+
+  const br = parseInt(b.substr(1,2),16);
+  const bg = parseInt(b.substr(3,2),16);
+  const bb = parseInt(b.substr(5,2),16);
+
+  return `rgb(
+    ${ar + (br - ar) * t},
+    ${ag + (bg - ag) * t},
+    ${ab + (bb - ab) * t}
+  )`;
+}
+
+function getColor(progress) {
+  const colors = ["#f5e6c8","#e0a96d","#8b5a2b","#2b1a0f"];
+  progress = Math.min(progress, 1);
+
+  let scaled = progress * (colors.length - 1);
+  let i = Math.floor(scaled);
+  let t = scaled - i;
+
+  if (i >= colors.length - 1) return colors.at(-1);
+
+  return lerpColor(colors[i], colors[i + 1], t);
+}
+
+function drawPancake(color, scaleY = 1) {
+  let lift = flipping ? Math.sin(flipProgress * Math.PI) * 75 : 0;
+  let wobbleX = 0;
+  let tilt = 0;
+
+  if (flipping && flipProgress < 0.3) {
+    let t = flipProgress / 0.3;
+    wobbleX = Math.sin(t * Math.PI * 4) * 6 * (1 - t);
+    tilt = Math.sin(t * Math.PI * 2) * 0.1;
+  }
+
+  let squash = bouncing ? 1 - bounce * 0.2 : 1;
+  let souffle = 1 + Math.sin(time * 2) * 0.02;
+
+  ctx.save();
+  ctx.translate(150 + wobbleX, 150 - lift - bounceY);
+
+  ctx.scale(1, scaleY * squash * souffle);
+  ctx.rotate(tilt);
+
+  //뒤집기 보정
+  let signY = Math.sign(scaleY) || 1;
+
+  //자연스러운 굴곡
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+
+  // ==========================================
+  // 팬케이크 전체 두께
+  // ==========================================
+  ctx.fillStyle = color;
+
+  if(signY === 1){
+    // 바닥 반죽
+    ctx.beginPath();
+    ctx.ellipse(-2, 8 * signY, 81, 56, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 오른쪽 바닥 반죽
+    ctx.beginPath();
+    ctx.ellipse(2, 6 * signY, 80, 57, 0, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    // 바닥 반죽
+    ctx.beginPath();
+    ctx.ellipse(2, 8 * signY, 81, 56, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 오른쪽 바닥 반죽
+    ctx.beginPath();
+    ctx.ellipse(-2, 6 * signY, 80, 57, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // 옆면
+  ctx.save();
+  let sideLightGrad = ctx.createLinearGradient(0, -10 * signY, 0, 64 * signY);
+  sideLightGrad.addColorStop(0, "rgba(255, 255, 255, 0)");
+  sideLightGrad.addColorStop(0.6, "rgba(255, 255, 255, 0.35)"); 
+  ctx.fillStyle = sideLightGrad;
+  ctx.fill();
+
+  // 그림자
+  let sideShadowGrad = ctx.createLinearGradient(0, 35 * signY, 0, 64 * signY);
+  sideShadowGrad.addColorStop(0, "rgba(0, 0, 0, 0)");
+  sideShadowGrad.addColorStop(1, "rgba(0, 0, 0, 0.15)");
+  ctx.fillStyle = sideShadowGrad;
+  ctx.fill();
+  ctx.restore();
+
+  // ==========================================
+  // 자연스러운 굴곡
+  // ==========================================
+  ctx.save();
+
+  ctx.fillStyle = color;
+
+  let steps = 3;
+  for (let i = 1; i < steps; i++) {
+    let ratio = i / steps;
+    let midY = (6 * signY) * (1 - ratio); 
+    let midX = (-2 * signY) * (1 - ratio); 
+    
+    ctx.beginPath();
+    ctx.ellipse(midX, midY, 81, 53 + (3 * (1 - ratio)), 0.05 * signY * ratio, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // 외곽 모서리에 입체 입체감
+  ctx.globalCompositeOperation = "multiply";
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 81, 53, 0.05 * signY, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  // 모서리 하이라이트
+  ctx.save();
+  ctx.globalCompositeOperation = "overlay";
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+
+  ctx.ellipse(0, 0, 80, 52, 0.05 * signY, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  // ==========================================
+  // 팬케이크 윗면 
+  // ==========================================
+  
+  ctx.beginPath();
+  
+  ctx.ellipse(0, 0, 81, 53, 0.05 * signY, 0, Math.PI * 2);
+  ctx.fillStyle = color; 
+  ctx.fill();
+
+  //기포
+  if (!flippedSide) {
+    ctx.save();
+    ctx.globalCompositeOperation = "multiply";
+    spots.forEach(spot => {
+      if (time > spot.appearTime) {
+        let spotAlpha = Math.min(0.4, (time - spot.appearTime) * 0.8);
+        ctx.fillStyle = `rgba(139, 90, 43, ${spotAlpha})`;
+        ctx.beginPath();
+        ctx.ellipse(spot.x, spot.y, spot.r, spot.r * 0.6, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+    ctx.restore();
+  }
+
+  // 중앙 하이라이트
+  ctx.save();
+  ctx.globalCompositeOperation = "overlay";
+  let cakeGrad = ctx.createRadialGradient(-8 * signY, -5 * signY, 8, 0, 0, 75);
+  cakeGrad.addColorStop(0, "rgba(255, 248, 220, 0.45)"); 
+  cakeGrad.addColorStop(0.7, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = cakeGrad;
+  ctx.fill();
+  ctx.restore();
+
+  ctx.restore();
+}
+
+function scoreByDistance(v, p, r) {
+  return Math.max(0, 1 - Math.abs(v - p) / r);
+}
+
+function animateScore(target, resScore) {
+  let current = 0;
+  const step = target / 20;
+
+  const interval = setInterval(() => {
+    current += step;
+    if (current >= target) {
+      current = target;
+      clearInterval(interval);
+    }
+    resScore.innerText = `Score: ${current.toFixed(1)} / 100`;
+  }, 20);
+}
+
+function loop() {
+  ctx.clearRect(0, 0, 300, 300);
+
+  let front = getColor(time);
+  let back = getColor(time * 0.8);
+  let color = flippedSide ? back : front;
+
+  if (!flipping) {
+    time += 0.008 * heat;
+
+    if (time > 1.3 && !flipped) {
+      flipped = true;
+      time = 1.3;
+    }
+  }
+
+  if (flipping) {
+    stopSizzle();
+    flipProgress += 0.05;
+
+    let scaleY = Math.cos(flipProgress * Math.PI);
+
+    if (flipProgress > 0.5) {
+      flippedSide = true;
+    }
+
+    if (flipProgress >= 1) {
+      flipping = false;
+      bouncing = true;
+      bounce = 1;
+      flipProgress = 0;
+    }
+
+    drawPancake(color, scaleY);
+  } else {
+    drawPancake(color, 1);
+  }
+
+  if (bouncing) {
+    bounce *= 0.85;
+    bounceY = Math.sin(bounce * Math.PI) * 10;
+
+    if (bounce < 0.05) {
+      bouncing = false;
+      bounceY = 0;
+    }
+  }
+
+  if (!flipped || flipping) {
+    requestAnimationFrame(loop);
+  }
+
+  if (flipped && !flipping && !scored) {
+    stopSizzle();
+    scored = true;
+
+    let outside = time;
+    let inside = time * (0.5 + water) / (0.5 + batter);
+
+    let score =
+      scoreByDistance(outside, 0.7, 0.4) * 40 +
+      scoreByDistance(inside, 0.8, 0.4) * 40 +
+      scoreByDistance(outside, 0.7, 0.2) * 20;
+
+    score = Math.max(0, Math.min(100, score));
+    score = Math.round(score * 10) / 10;
+
+    let text = "";
+    let gradeClass = "";
+    let barColor = "#fff";
+
+    if (score > 95) {
+      text = "👑 GODLY PANCAKE";
+      gradeClass = "grade-godly";
+      barColor = "#ffd700";
+      document.body.classList.add("perfect"); 
+      setTimeout(() => {
+        document.body.classList.remove("perfect");
+      }, 800);
+      document.getElementById("perfectSound").currentTime = 0;
+      document.getElementById("perfectSound").play();
+    }
+    else if (score > 85) { 
+      text = "🔥 Almost Perfect!"; 
+      gradeClass = "grade-perfect";
+      barColor = "#ff9f1a";
+    }
+    else if (score > 70) { 
+      text = "😋 Delicious"; 
+      gradeClass = "grade-delicious";
+      barColor = "#4caf50";
+    }
+    else if (score > 50) { 
+      text = "🙂 Not Bad"; 
+      gradeClass = "grade-good";
+      barColor = "#2196f3";
+    }
+    else if (score > 30) { 
+      text = "😐 Meh"; 
+      gradeClass = "grade-meh";
+      barColor = "#9e9e9e";
+    }
+    else { 
+      text = "💀 Burnt"; 
+      gradeClass = "grade-burnt";
+      barColor = "#721c24";
+    }
+
+    const resContainer = document.getElementById("result-container");
+    const resRating = document.getElementById("result-rating");
+    const resScore = document.getElementById("result-score");
+    const barFill = document.getElementById("score-bar-fill");
+
+    resRating.className = gradeClass;
+    resRating.innerText = text;
+    resScore.innerText = `Score: ${score} / 100`;
+    
+    animateScore(score, resScore);
+    
+    resContainer.style.visibility = "visible";
+    resRating.style.opacity = 0;
+
+    setTimeout(() => {
+      resRating.innerText = text;
+      resRating.className = gradeClass;
+      resRating.style.opacity = 1;
+    }, 300);
+
+    setTimeout(() => {
+      barFill.style.width = `${score}%`;
+      barFill.style.background = barColor;
+    }, 50);
+
+    if (score > bestScore) {
+      bestScore = score;
+      localStorage.setItem("pancakeBest", bestScore);
+
+      const bestEl = document.getElementById("bestScore");
+      bestEl.innerText = `🔥 NEW BEST: ${bestScore.toFixed(1)}`;
+
+      bestEl.classList.add("pop");
+
+      setTimeout(() => {
+        bestEl.classList.remove("pop");
+      }, 500);
+    }
+
+    gameState = "result";
+
+    document.getElementById("flipBtn").style.display = "none";
+    document.getElementById("retryBtn").style.display = "inline-block";
+  }
+}
+
+function flip() {
+  if (gameState !== "playing") return;
+  if (flipped) return;
+
+  playFlipSound();
+
+  if (navigator.vibrate) {
+    navigator.vibrate(10); 
+  }
+
+  flipped = true;
+  flipping = true;
+
+  document.getElementById("flipBtn").disabled = true;
+}
+
+</script>
+</body></html>

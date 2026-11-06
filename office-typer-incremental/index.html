@@ -1,0 +1,3198 @@
+<!DOCTYPE html>
+
+<html lang="en" style='--editor-font: Consolas, "Lucida Console", monospace; --editor-bg: #ffffff; --committed: #1c1c1c; --ghost: #c2c2c2; --typo: #d12b2b; --caret: #1c1c1c; --combo-warm: #d98a1f; --boss-hl: #cfe2ff; --boss-post: #5b6b80; --boss-due-urgent: #b4541a; --chrome-bg: #f3f3f3; --chrome-border: #e6e6e6; --chrome-text: #2b2b2b; --menu-bg: #fbfbfb; --menu-border: #ededed; --accent: #4a73b8; --accent-soft: #e7eefb; --accent-ink: #1a4b9c; --dropdown-bg: #fdfdfd; --dropdown-border: #d0d0d0; --item-text: #202020; --status-text: #4a4a4a; --dlg-bg: #f3f3f3; --dlg-titlebar-bg: #e7e7e7; --dlg-titlebar-border: #cccccc; --dlg-text: #1a1a1a; --dlg-body-text: #444444; --dlg-payout-bg: #e8edf8; --dlg-payout-border: #c5d0e8; --dlg-payout-warn-bg: #fdf3e0; --dlg-payout-warn-border: #e0c870; --dlg-payout-warn-text: #7a5c10; --dlg-footer-bg: #ececec; --dlg-footer-border: #dddddd; --dlg-btn-bg: #fdfdfd; --dlg-btn-border: #aaaaaa; --dlg-btn-hover-bg: #e3ebfa; --dlg-btn-hover-border: #7aa0e0; --dlg-btn-active-bg: #d2dff5; --dlg-btn-primary-bg: #dce8fa; --dlg-btn-primary-hover: #c5d9f5; --dlg-btn-disabled-color: #aaaaaa; --dlg-btn-disabled-bg: #f0f0f0; --dlg-btn-disabled-border: #cfcfcf; --dlg-input-bg: #f7f7f7; --dlg-input-text: #555555; --dlg-select-bg: #ffffff; --dlg-label-color: #333333; --toast-bg: #2b2b2b; --toast-text: #f4f4f4; --overlay-bg: rgba(0,0,0,.35); --wpm-color: #1a7a4a; --enabled-right: #1a7a4a; --item-disabled: #b9b9b9; --item-right-disabled: #cfcfcf; --combo-neutral: #9a9a9a; --gain-corner: #9a9a9a; --gain-corner-border: #e2e2e2; --prestige-wipe: #3478d4; --reading-hint: #c4c4c4;'><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UNTITLED.txt - Notepad</title>
+<style>
+  /* Editor + chrome color tokens — overridable in one place for a later dark mode
+     AND swapped per WORLD at runtime (see applyWorldSkin / WORLDS palettes).
+     ALL editor + chrome text/bg/caret/typo/combo colors come from these vars so
+     a future body[data-theme="dark"] layer can override any world cleanly.
+     Defaults below are the Notepad (world 1) palette; applyWorldSkin overwrites
+     them via inline custom properties on :root for every world (incl. dark VS Code
+     / Claude Code, whose dark look is their *default* palette, not the toggle). */
+  :root {
+    --committed: #1c1c1c;   /* already-typed correct text */
+    --ghost: #c2c2c2;       /* faint grey "next ~120 chars" preview */
+    --typo: #d12b2b;        /* red wrong-char error indicator */
+    --caret: #1c1c1c;       /* base caret color (combo warms it toward amber) */
+    --combo-warm: #d98a1f;  /* amber the caret/recent text interpolates toward */
+    --boss-hl: #cfe2ff;     /* subtle "selected text" highlight on the active boss reply */
+    --boss-due-urgent: #b4541a; /* understated warm tint on the "Response due" cell <10s */
+    /* chrome tokens — title bar / menu bar / status bar / editor surface / accent.
+       Per-world reskin writes these; nothing below hardcodes a chrome hex. */
+    --editor-font: Consolas, "Lucida Console", monospace; /* doc + reading font */
+    --editor-bg: #ffffff;   /* editor / reading surface background */
+    --chrome-bg: #f3f3f3;   /* title bar + status bar background */
+    --chrome-border: #e6e6e6; /* title/status hairline borders */
+    --chrome-text: #2b2b2b; /* title bar + general chrome text */
+    --menu-bg: #fbfbfb;     /* menu bar background */
+    --menu-border: #ededed; /* menu bar bottom hairline */
+    --accent: #4a73b8;      /* app accent (title dot, pages readout, menu hover ink) */
+    --accent-soft: #e7eefb; /* accent-tinted hover/selection fill in menus */
+    --accent-ink: #1a4b9c;  /* accent text on hover (menu labels/items) */
+    --dropdown-bg: #fdfdfd; /* menu dropdown surface */
+    --dropdown-border: #d0d0d0; /* menu dropdown border */
+    --item-text: #202020;   /* enabled/action menu item text */
+    --status-text: #4a4a4a; /* status bar text */
+    --boss-post: #5b6b80;   /* not-yet-typed boss reply text */
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: #f5f5f5;
+    color: #1f1f1f;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #app { display: flex; flex-direction: column; height: 100vh; background: var(--editor-bg); position: relative; }
+
+  /* title bar */
+  #titlebar {
+    height: 36px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 12px; background: var(--chrome-bg); border-bottom: 1px solid var(--chrome-border);
+    font-size: 12.5px; flex: 0 0 auto;
+  }
+  #titlebar .name { display: flex; align-items: center; gap: 8px; color: var(--chrome-text); }
+  #titlebar .dot { color: var(--accent); font-size: 15px; }
+  /* subtle "version" marker reflecting Licenses (e.g. v2.0) — glance-safe, dim */
+  #titlebar #tb-ver { color: var(--status-text); opacity: .7; font-size: 11px; margin-left: 4px; }
+  #titlebar .wc { display: flex; gap: 16px; color: var(--status-text); }
+  #titlebar .wc span { width: 24px; text-align: center; }
+
+  /* menu bar */
+  #menubar { display: flex; height: 30px; align-items: stretch; padding: 0 4px;
+    background: var(--menu-bg); border-bottom: 1px solid var(--menu-border); font-size: 12.5px; flex: 0 0 auto; }
+  .menu { position: relative; }
+  .menu > .label { padding: 6px 10px; cursor: default; border-radius: 4px; margin: 2px 1px; line-height: 1; color: var(--chrome-text); }
+  .menu.open > .label, .menu > .label:hover { background: var(--accent-soft); color: var(--accent-ink); }
+  .dropdown {
+    position: absolute; top: 100%; left: 0; min-width: 230px; z-index: 50;
+    background: var(--dropdown-bg); border: 1px solid var(--dropdown-border); border-radius: 6px;
+    box-shadow: 0 8px 22px rgba(0,0,0,.16); padding: 5px 0; display: none;
+  }
+  .menu.open .dropdown { display: block; }
+  .item {
+    display: flex; justify-content: space-between; gap: 24px;
+    padding: 6px 14px; font-size: 12.5px; color: var(--item-disabled); cursor: default;
+    transition: color .15s ease, background .1s ease;
+  }
+  .item .right { color: var(--item-right-disabled); transition: color .15s ease; }
+  .item.flavor { color: var(--item-disabled); cursor: default; opacity: .75; }
+  .item.flavor .right { color: var(--item-right-disabled); opacity: .75; }
+  .item.action { color: var(--item-text); }
+  .item.enabled { color: var(--item-text); cursor: pointer; }
+  .item.enabled .right { color: var(--enabled-right); }
+  .item.enabled:hover, .item.action:hover { background: var(--accent-soft); }
+  .sep { height: 1px; background: var(--menu-border); margin: 4px 0; }
+
+  /* editor */
+  #editor-wrap { position: relative; flex: 1 1 auto; overflow: hidden; }
+  #doc {
+    position: absolute; inset: 0; overflow-y: auto; padding: 18px 22px;
+    font-family: var(--editor-font); font-size: 14px; line-height: 1.75;
+    color: var(--committed); background: var(--editor-bg);
+    white-space: pre-wrap; word-break: break-word; cursor: text;
+  }
+  /* the render zones inside #doc, in document order */
+  #committed { color: var(--committed); }
+  #recent { color: var(--committed); }   /* tail of committed text; warmed toward amber by combo */
+  #typo { color: var(--typo); }           /* single uncommitted red wrong char (never advances) */
+  #ghost { color: var(--ghost); }         /* always-on faint preview of the next ~120 script chars */
+  /* boss reply box "selection" colors — the typed reply gets the highlight tint,
+     the pending tail is the same hue but dimmed, reading as one selection. The box
+     itself lives in #boss-panel (corner popup), NOT inline in the main #doc. */
+  #caret { display: inline-block; width: 1px; height: 15px; background: var(--caret);
+    vertical-align: -2px; margin-left: 1px; animation: blink 1.06s steps(1) infinite; }
+  @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+  #float-layer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .floater { position: absolute; font-family: var(--editor-font); font-size: 12px; color: var(--gain-corner);
+    animation: rise .9s ease-out forwards; }
+  @keyframes rise { from{ opacity:.9; transform: translateY(0) } to{ opacity:0; transform: translateY(-34px) } }
+  /* corner gain indicator — sits in the status bar's leftmost cell; subtly fades */
+  #sb-gain-corner { color: var(--gain-corner); font-size: 11px; min-width: 0; padding: 0;
+    border-right: none !important; transition: opacity .5s ease; opacity: 0; pointer-events: none; }
+  #sb-gain-corner.flash { opacity: .85; transition: opacity 0s; padding: 0 8px; border-right: 1px solid var(--gain-corner-border) !important; }
+
+  /* reading mode overlay */
+  #reading { position: absolute; inset: 0; background: var(--editor-bg); padding: 18px 22px; display: none;
+    font-family: var(--editor-font); font-size: 14px; line-height: 1.75; color: var(--committed);
+    white-space: pre-wrap; overflow-y: auto; }
+  body.reading #reading { display: block; }
+  #reading .hint { position: absolute; bottom: 10px; right: 16px; font-size: 11px; color: var(--reading-hint); font-family: "Segoe UI"; }
+
+  /* ── BOOK NAVIGATION: reading-progress / scrubber bar + chapter picker ──────────
+     A thin full-width "document scrollbar / reading-progress" strip sitting just
+     above the status bar. It shows expectIdx / SCRIPT.length and can be clicked or
+     dragged to seek (snapping to a clean word/line boundary). A small "Chapters"
+     control on the right opens a jump-to-chapter list. All colors come from the
+     existing theme vars so it reads correctly in light AND dark. */
+  #booknav { height: 22px; display: flex; align-items: center; gap: 8px; padding: 0 8px;
+    background: var(--chrome-bg); border-top: 1px solid var(--chrome-border); flex: 0 0 auto;
+    font-size: 11px; color: var(--status-text); position: relative; }
+  /* the draggable track — reads as a slim scrollbar/progress gutter */
+  #booknav-track { position: relative; flex: 1 1 auto; height: 6px; border-radius: 3px;
+    background: var(--chrome-border); cursor: pointer; }
+  #booknav-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+    background: var(--accent); border-radius: 3px; opacity: .55; pointer-events: none; }
+  #booknav-knob { position: absolute; top: 50%; width: 9px; height: 9px; margin-left: -4px;
+    border-radius: 50%; background: var(--accent); transform: translateY(-50%);
+    box-shadow: 0 0 0 1px var(--editor-bg); pointer-events: none; }
+  #booknav-track:hover #booknav-fill { opacity: .8; }
+  /* numeric position readout (e.g. "34%" or "Ch 3") — dim, glance-safe */
+  #booknav-pos { min-width: 64px; text-align: right; white-space: nowrap; color: var(--status-text);
+    opacity: .85; cursor: default; }
+  /* the "Chapters ▾" button + its pop-up list */
+  #booknav-chapbtn { padding: 1px 8px; border-radius: 4px; cursor: pointer; white-space: nowrap;
+    color: var(--chrome-text); border: 1px solid transparent; }
+  #booknav-chapbtn:hover { background: var(--accent-soft); color: var(--accent-ink); }
+  #booknav-chapbtn.disabled { color: var(--item-disabled); cursor: default; }
+  #booknav-chapbtn.disabled:hover { background: transparent; color: var(--item-disabled); }
+  #booknav-chaplist {
+    position: absolute; right: 8px; bottom: 26px; min-width: 220px; max-width: 360px;
+    max-height: 320px; overflow-y: auto; z-index: 60; display: none;
+    background: var(--dropdown-bg); border: 1px solid var(--dropdown-border); border-radius: 6px;
+    box-shadow: 0 -8px 22px rgba(0,0,0,.16); padding: 5px 0;
+    font-family: "Segoe UI", system-ui, sans-serif; font-size: 12px;
+  }
+  #booknav-chaplist.open { display: block; }
+  #booknav-chaplist .chap {
+    display: flex; justify-content: space-between; gap: 18px; padding: 6px 14px;
+    color: var(--item-text); cursor: pointer; white-space: nowrap;
+  }
+  #booknav-chaplist .chap:hover { background: var(--accent-soft); color: var(--accent-ink); }
+  #booknav-chaplist .chap.active { color: var(--accent-ink); font-weight: 600; }
+  #booknav-chaplist .chap .pct { color: var(--status-text); opacity: .7; font-size: 11px; }
+  #booknav-chaplist .chap.empty { color: var(--item-disabled); cursor: default; }
+  #booknav-chaplist .chap.empty:hover { background: transparent; color: var(--item-disabled); }
+
+  /* status bar */
+  #statusbar { height: 24px; display: flex; align-items: center; background: var(--chrome-bg);
+    border-top: 1px solid var(--chrome-border); font-size: 11.5px; color: var(--status-text); flex: 0 0 auto; }
+  #statusbar .cell { padding: 0 12px; border-right: 1px solid var(--chrome-border); white-space: nowrap; }
+  #statusbar .cell.right { margin-left: auto; border-right: none; border-left: 1px solid var(--chrome-border); }
+  #statusbar #sb-words b { color: var(--committed); font-weight: 600; }
+  #statusbar #sb-wpm { color: var(--wpm-color); }
+  /* low-key combo readout — disguised as an editor stat, warms with the multiplier */
+  #statusbar #sb-combo { color: var(--combo-neutral); min-width: 34px; text-align: center; transition: color .25s ease; }
+  /* (The boss "Response due" deadline now lives in the corner reply panel, not here.) */
+  /* Pages readout — subtle, document-editor plausible */
+  #statusbar #sb-pages { color: var(--accent); font-size: 11px; }
+  /* Licenses readout — diegetic per-world (e.g. "Doc 1", build marker); dim/glance-safe */
+  #statusbar #sb-licenses { color: var(--status-text); font-size: 11px; opacity: .85; }
+
+  /* ── boss "reply" panel — a corner chat/email notification that opts INTO a fight ──
+     Anchored INSIDE #editor-wrap (absolute, not fixed) so it never escapes the app
+     frame. Two visual states share the panel: a compact NOTIFICATION (sender + urgent
+     flag, click to reply) and the expanded ENGAGED reply box (passage + caret + due
+     clock). All colors come from the existing theme vars so it reads right light/dark. */
+  #boss-panel {
+    position: absolute; right: 16px; bottom: 16px; width: 320px; z-index: 80;
+    background: var(--dropdown-bg); border: 1px solid var(--dropdown-border); border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.22); font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 12.5px; color: var(--item-text); overflow: hidden; display: none;
+    cursor: pointer; transition: box-shadow .15s ease;
+  }
+  #boss-panel.show { display: block; animation: boss-pop .22s ease-out; }
+  #boss-panel.engaged { cursor: default; width: 360px; box-shadow: 0 14px 38px rgba(0,0,0,.30); }
+  @keyframes boss-pop { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+  /* notification header strip — sender avatar dot + name + a quiet "urgent" tag */
+  #boss-panel .bp-head {
+    display: flex; align-items: center; gap: 8px; padding: 9px 11px;
+    background: var(--chrome-bg); border-bottom: 1px solid var(--chrome-border);
+  }
+  #boss-panel .bp-avatar {
+    flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-size: 11px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #boss-panel .bp-who { flex: 1 1 auto; min-width: 0; }
+  #boss-panel .bp-name { font-weight: 600; color: var(--chrome-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #boss-panel .bp-flag { font-size: 10.5px; color: var(--boss-due-urgent); margin-top: 1px; }
+  #boss-panel .bp-due { font-size: 11px; color: var(--status-text); white-space: nowrap; transition: color .25s ease; }
+  #boss-panel .bp-due.urgent { color: var(--boss-due-urgent); font-weight: 600; }
+  /* notification body (collapsed): the prompt line + a "click to reply" call-out */
+  #boss-panel .bp-body { padding: 10px 12px; line-height: 1.5; color: var(--dlg-body-text); }
+  #boss-panel .bp-cta { margin-top: 7px; font-size: 11.5px; color: var(--accent); font-weight: 600; }
+  /* engaged reply box: the passage to transcribe, rendered as a selection-style block */
+  #boss-panel .bp-reply {
+    display: none; padding: 11px 12px; font-family: var(--editor-font); font-size: 13px;
+    line-height: 1.7; white-space: pre-wrap; word-break: break-word; background: var(--editor-bg);
+  }
+  #boss-panel.engaged .bp-reply { display: block; }
+  #boss-panel.engaged .bp-body { display: none; }
+  #bp-pre { background: var(--boss-hl); border-radius: 2px; color: var(--committed); }
+  #bp-typo { color: var(--typo); }                          /* red wrong char at the caret */
+  #bp-caret { display: inline-block; width: 1px; height: 15px; background: var(--caret);
+    vertical-align: -2px; margin: 0 1px; animation: blink 1.06s steps(1) infinite; }
+  #bp-post { background: var(--boss-hl); border-radius: 2px; color: var(--boss-post); } /* pending reply, dimmed */
+  /* engaged footer — disguised deadline + a quiet "click document to step away" hint */
+  #boss-panel .bp-foot {
+    display: none; padding: 7px 12px; font-size: 11px; color: var(--status-text);
+    background: var(--chrome-bg); border-top: 1px solid var(--chrome-border);
+    align-items: center; justify-content: space-between; gap: 8px;
+  }
+  #boss-panel.engaged .bp-foot { display: flex; }
+  #boss-panel .bp-hint { opacity: .8; }
+
+  /* toast */
+  #toast { position: fixed; left: 50%; bottom: 44px; transform: translateX(-50%) translateY(20px);
+    background: var(--toast-bg); color: var(--toast-text); font-size: 12.5px; padding: 9px 16px; border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.25); opacity: 0; transition: opacity .3s, transform .3s;
+    pointer-events: none; z-index: 100; max-width: 80%; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── theme-aware surface tokens ───────────────────────────────────────────────
+     These are overridden by each world's light/dark palette at runtime.
+     They give safe defaults so nothing is unstyled before the first applyWorldChrome. */
+  :root {
+    --dlg-bg:            #f3f3f3;    /* dialog surface */
+    --dlg-titlebar-bg:   #e7e7e7;    /* dialog title-bar strip */
+    --dlg-titlebar-border: #cccccc;  /* dialog title-bar bottom border */
+    --dlg-text:          #1a1a1a;    /* dialog body text */
+    --dlg-body-text:     #444444;    /* payout/hint text */
+    --dlg-payout-bg:     #e8edf8;    /* info payout box bg */
+    --dlg-payout-border: #c5d0e8;    /* info payout box border */
+    --dlg-payout-warn-bg: #fdf3e0;   /* warn payout box bg */
+    --dlg-payout-warn-border: #e0c870; /* warn payout box border */
+    --dlg-payout-warn-text: #7a5c10; /* warn payout box text */
+    --dlg-footer-bg:     #ececec;    /* dialog button strip bg */
+    --dlg-footer-border: #dddddd;    /* dialog button strip top border */
+    --dlg-btn-bg:        #fdfdfd;    /* dialog button bg */
+    --dlg-btn-border:    #aaaaaa;    /* dialog button border */
+    --dlg-btn-hover-bg:  #e3ebfa;    /* dialog button hover bg */
+    --dlg-btn-hover-border: #7aa0e0; /* dialog button hover border */
+    --dlg-btn-active-bg: #d2dff5;    /* dialog button active bg */
+    --dlg-btn-primary-bg: #dce8fa;   /* primary dialog button bg */
+    --dlg-btn-primary-hover: #c5d9f5;/* primary dialog button hover bg */
+    --dlg-btn-disabled-color: #aaaaaa;
+    --dlg-btn-disabled-bg:    #f0f0f0;
+    --dlg-btn-disabled-border: #cfcfcf;
+    --dlg-input-bg:      #f7f7f7;    /* read-only filename input */
+    --dlg-input-text:    #555555;
+    --dlg-select-bg:     #ffffff;    /* format dropdown */
+    --dlg-label-color:   #333333;
+    --toast-bg:          #2b2b2b;    /* toast notification */
+    --toast-text:        #f4f4f4;
+    --overlay-bg:        rgba(0,0,0,.35); /* modal backdrop */
+    --wpm-color:         #1a7a4a;    /* WPM readout green */
+    --enabled-right:     #1a7a4a;    /* enabled upgrade cost (green) */
+    --item-disabled:     #b9b9b9;    /* disabled menu item text */
+    --item-right-disabled: #cfcfcf;  /* disabled menu item shortcut */
+    --combo-neutral:     #9a9a9a;    /* combo readout at ×1 */
+    --gain-corner:       #9a9a9a;    /* gain-corner label color */
+    --gain-corner-border: #e2e2e2;   /* gain-corner flash border */
+    --prestige-wipe:     #3478d4;    /* prestige sweep color */
+    --reading-hint:      #c4c4c4;    /* reading-mode "press Esc" hint */
+  }
+
+  /* prestige "save changes?" modal — styled as the real Windows Notepad dialog */
+  #prestige-overlay {
+    display: none; position: absolute; inset: 0; background: var(--overlay-bg); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  #prestige-overlay.open { display: flex; }
+  #prestige-dialog {
+    background: var(--dlg-bg); border: 1px solid var(--dlg-btn-border); border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.28); width: 360px; font-size: 12.5px;
+    font-family: "Segoe UI", system-ui, sans-serif; overflow: hidden;
+  }
+  #prestige-dialog .dlg-titlebar {
+    background: var(--dlg-titlebar-bg); border-bottom: 1px solid var(--dlg-titlebar-border);
+    padding: 8px 12px; font-weight: 600; font-size: 12px; color: var(--dlg-text);
+    display: flex; align-items: center; gap: 6px;
+  }
+  #prestige-dialog .dlg-titlebar .dlg-icon { color: var(--accent); font-size: 14px; }
+  #prestige-dialog .dlg-body { padding: 20px 20px 14px; color: var(--dlg-text); line-height: 1.5; }
+  #prestige-dialog .dlg-body .dlg-msg { margin-bottom: 10px; }
+  #prestige-dialog .dlg-body .dlg-payout {
+    font-size: 11.5px; color: var(--dlg-body-text); background: var(--dlg-payout-bg);
+    border: 1px solid var(--dlg-payout-border); border-radius: 4px; padding: 7px 10px; margin-top: 6px;
+  }
+  #prestige-dialog .dlg-body .dlg-payout.warn {
+    background: var(--dlg-payout-warn-bg); border-color: var(--dlg-payout-warn-border);
+    color: var(--dlg-payout-warn-text);
+  }
+  #prestige-dialog .dlg-buttons {
+    display: flex; justify-content: flex-end; gap: 6px;
+    padding: 10px 14px 14px; background: var(--dlg-footer-bg); border-top: 1px solid var(--dlg-footer-border);
+  }
+  #prestige-dialog .dlg-buttons button {
+    min-width: 80px; padding: 5px 14px; font-size: 12.5px; font-family: inherit;
+    border: 1px solid var(--dlg-btn-border); border-radius: 4px; background: var(--dlg-btn-bg);
+    color: var(--dlg-text); cursor: pointer; transition: background .1s;
+  }
+  #prestige-dialog .dlg-buttons button:hover { background: var(--dlg-btn-hover-bg); border-color: var(--dlg-btn-hover-border); }
+  #prestige-dialog .dlg-buttons button:active { background: var(--dlg-btn-active-bg); }
+  #prestige-dialog .dlg-buttons button.primary { background: var(--dlg-btn-primary-bg); border-color: var(--dlg-btn-hover-border); }
+  #prestige-dialog .dlg-buttons button.primary:hover { background: var(--dlg-btn-primary-hover); }
+
+  /* prestige wipe animation — "select all" sweep across the committed text */
+  @keyframes prestige-wipe { 0%{ opacity:0; transform:scaleX(0); } 15%{ opacity:1; } 80%{ opacity:1; transform:scaleX(1); } 100%{ opacity:0; transform:scaleX(1); } }
+  #prestige-wipe {
+    display: none; position: absolute; inset: 0; background: var(--prestige-wipe);
+    opacity: 0; transform-origin: left center; pointer-events: none;
+    mix-blend-mode: multiply; border-radius: 2px; z-index: 10;
+  }
+  #prestige-wipe.active { display: block; animation: prestige-wipe 0.5s ease-in-out forwards; }
+
+  /* "Save As…" ascension dialog — styled like a real OS Save As, reusing the
+     prestige dialog chrome but with a file-format dropdown that gates ascension. */
+  #saveas-overlay {
+    display: none; position: absolute; inset: 0; background: var(--overlay-bg); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  #saveas-overlay.open { display: flex; }
+  #saveas-dialog {
+    background: var(--dlg-bg); border: 1px solid var(--dlg-btn-border); border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.28); width: 420px; font-size: 12.5px;
+    font-family: "Segoe UI", system-ui, sans-serif; overflow: hidden;
+  }
+  #saveas-dialog .dlg-titlebar {
+    background: var(--dlg-titlebar-bg); border-bottom: 1px solid var(--dlg-titlebar-border);
+    padding: 8px 12px; font-weight: 600; font-size: 12px; color: var(--dlg-text);
+    display: flex; align-items: center; gap: 6px;
+  }
+  #saveas-dialog .dlg-titlebar .dlg-icon { color: var(--accent); font-size: 14px; }
+  #saveas-dialog .dlg-body { padding: 16px 18px 12px; color: var(--dlg-text); }
+  #saveas-dialog .dlg-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  #saveas-dialog .dlg-row label { width: 86px; flex: 0 0 auto; color: var(--dlg-label-color); }
+  #saveas-dialog .dlg-row input, #saveas-dialog .dlg-row select {
+    flex: 1 1 auto; padding: 5px 8px; font-size: 12.5px; font-family: inherit;
+    border: 1px solid var(--dlg-btn-border); border-radius: 3px;
+    background: var(--dlg-select-bg); color: var(--dlg-text);
+  }
+  #saveas-dialog .dlg-row input { background: var(--dlg-input-bg); color: var(--dlg-input-text); }
+  #saveas-dialog .dlg-row select:disabled { color: var(--dlg-btn-disabled-color); }
+  #saveas-dialog .dlg-hint {
+    font-size: 11.5px; color: var(--dlg-body-text); background: var(--dlg-payout-bg);
+    border: 1px solid var(--dlg-payout-border); border-radius: 4px; padding: 7px 10px; margin: 2px 0 4px;
+  }
+  #saveas-dialog .dlg-hint.warn {
+    background: var(--dlg-payout-warn-bg); border-color: var(--dlg-payout-warn-border);
+    color: var(--dlg-payout-warn-text);
+  }
+  #saveas-dialog .dlg-buttons {
+    display: flex; justify-content: flex-end; gap: 6px;
+    padding: 10px 14px 14px; background: var(--dlg-footer-bg); border-top: 1px solid var(--dlg-footer-border);
+  }
+  #saveas-dialog .dlg-buttons button {
+    min-width: 80px; padding: 5px 14px; font-size: 12.5px; font-family: inherit;
+    border: 1px solid var(--dlg-btn-border); border-radius: 4px;
+    background: var(--dlg-btn-bg); color: var(--dlg-text); cursor: pointer; transition: background .1s;
+  }
+  #saveas-dialog .dlg-buttons button:hover { background: var(--dlg-btn-hover-bg); border-color: var(--dlg-btn-hover-border); }
+  #saveas-dialog .dlg-buttons button:disabled {
+    color: var(--dlg-btn-disabled-color); background: var(--dlg-btn-disabled-bg);
+    border-color: var(--dlg-btn-disabled-border); cursor: default;
+  }
+  #saveas-dialog .dlg-buttons button:disabled:hover {
+    background: var(--dlg-btn-disabled-bg); border-color: var(--dlg-btn-disabled-border);
+  }
+  #saveas-dialog .dlg-buttons button.primary { background: var(--dlg-btn-primary-bg); border-color: var(--dlg-btn-hover-border); }
+  #saveas-dialog .dlg-buttons button.primary:hover { background: var(--dlg-btn-primary-hover); }
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body data-theme="light" data-world="notepad">
+<div id="app">
+<div id="titlebar">
+<div class="name"><span class="dot">■</span><span id="tb-name">UNTITLED.txt</span> — <span id="tb-app">Notepad</span><span id="tb-ver"></span></div>
+<div class="wc"><span>–</span><span>□</span><span>✕</span></div>
+</div>
+<div id="menubar"><div class="menu"><div class="label">File</div><div class="dropdown"><div class="item action"><span>New</span><span class="right">Ctrl+N</span></div><div class="item flavor"><span>Open…</span><span class="right">Ctrl+O</span></div><div class="item action"><span>Open Book…</span><span class="right"></span></div><div class="item action"><span>Source: Default</span><span class="right"></span></div><div class="item action"><span>Save</span><span class="right">Ctrl+S</span></div><div class="item action"><span>Save As…</span><span class="right">Ctrl+Shift+S</span></div><div class="sep"></div><div class="item flavor"><span>Exit</span><span class="right"></span></div></div></div><div class="menu"><div class="label">Edit</div><div class="dropdown"><div class="item flavor"><span>Undo</span><span class="right">Ctrl+Z</span></div><div class="item flavor"><span>Select All</span><span class="right">Ctrl+A</span></div><div class="sep"></div><div class="item" data-up="capslock" title="+1 word per correct character"><span>Caps Lock</span><span class="right">15</span></div><div class="item" data-up="replace" title="×1.25 to all words"><span>Find and Replace…</span><span class="right">400</span></div></div></div><div class="menu"><div class="label">Format</div><div class="dropdown"><div class="item" data-up="autocorrect" title="types +0.3 words/sec for you"><span>Autocorrect</span><span class="right">50</span></div><div class="item" data-up="macro" title="+10 words/sec"><span>Record Macro…</span><span class="right">12,000</span></div><div class="item flavor"><span>Font…</span><span class="right"></span></div></div></div><div class="menu"><div class="label">View</div><div class="dropdown"><div class="item action"><span>Reading Mode</span><span class="right">Esc</span></div><div class="item action"><span>Sound: Off</span><span class="right"></span></div><div class="item action"><span>Show gains: Corner</span><span class="right"></span></div><div class="item action"><span>Theme: System</span><span class="right"></span></div><div class="item action"><span>Ghost: 10 letters</span><span class="right"></span></div><div class="item flavor"><span>Zoom</span><span class="right">100%</span></div></div></div><div class="menu"><div class="label">Help</div><div class="dropdown"><div class="item" data-up="intern" title="+2 words/sec"><span>Hire an Intern</span><span class="right">1,500</span></div><div class="item flavor"><span>About Notepad</span><span class="right"></span></div></div></div><div class="menu" style="display: none;"><div class="label"></div><div class="dropdown"><div class="item flavor"><span>Preferences…</span><span class="right"></span></div><div class="item flavor"><span>Help</span><span class="right"></span></div></div></div></div>
+<div id="editor-wrap">
+<div id="doc"><span id="committed"></span><span id="recent" style="color: rgb(28, 28, 28);"></span><span id="typo"></span><span id="caret" style="background: rgb(28, 28, 28);"></span><span id="ghost">Team, Than</span></div>
+<div id="float-layer"></div>
+<div id="reading"><span id="reading-text">Q3 STATUS UPDATE
+
+Summary: All workstreams remain on track. The team has completed the discovery phase and is moving into delivery. Key milestones for the coming sprint are outlined below.
+
+1. Finalize requirements with stakeholders.
+2. Complete the first round of reviews.
+3. Prepare the readout deck for leadership.
+4. Action outstanding follow-ups from last week.
+
+Next steps: We will reconvene on Thursday to align on priorities and confirm the timeline. Please review the attached notes ahead of the meeting and come prepared with any questions.
+
+Thank you,
+The Team</span><div class="hint">Reading Mode — press Esc to resume editing</div></div>
+<!-- wipe overlay for prestige animation — sits above the doc content -->
+<div id="prestige-wipe"></div>
+<!-- Boss "reply" panel — a corner chat/email notification. Collapsed = a glance-safe
+         "new message, flagged urgent" popup (no timer running); clicking it ENGAGES the
+         fight, expanding into the reply box (passage + caret + disguised deadline). It
+         never touches the main #doc, cursor, or combo. Hidden until a boss spawns. -->
+<div id="boss-panel">
+<div class="bp-head">
+<div class="bp-avatar" id="bp-avatar">PO</div>
+<div class="bp-who">
+<div class="bp-name" id="bp-name">The Project Office</div>
+<div class="bp-flag">Flagged urgent</div>
+</div>
+<div class="bp-due" id="bp-due"></div>
+</div>
+<!-- collapsed notification body -->
+<div class="bp-body">
+<span id="bp-prompt">Quick reply needed on this thread.</span>
+<div class="bp-cta">Click to reply ›</div>
+</div>
+<!-- engaged reply box (selection-style transcription target) -->
+<div class="bp-reply"><span id="bp-pre"></span><span id="bp-typo"></span><span id="bp-caret"></span><span id="bp-post"></span></div>
+<div class="bp-foot">
+<span id="bp-due-foot"></span>
+<span class="bp-hint">Click the document to step away</span>
+</div>
+</div>
+</div>
+<!-- BOOK NAVIGATION — reading-progress / scrubber bar + chapter picker. Sits just
+       above the status bar, full width. The track seeks (click/drag, snap to a clean
+       boundary); the "Chapters ▾" button opens the jump list. See BOOK NAVIGATION JS. -->
+<div id="booknav">
+<div id="booknav-track" title="Reading position — click or drag to seek">
+<div id="booknav-fill" style="width: 0%;"></div>
+<div id="booknav-knob" style="left: 0%;"></div>
+</div>
+<span id="booknav-pos">0%</span>
+<span class="disabled" id="booknav-chapbtn">Chapters ▾</span>
+<div id="booknav-chaplist"></div>
+</div>
+<div id="statusbar">
+<span class="cell" id="sb-gain-corner"></span>
+<span class="cell" id="sb-lncol">Ln 1, Col 1</span>
+<span class="cell" id="sb-words">Words: <b>0</b></span>
+<span class="cell" id="sb-wpm">0 WPM</span>
+<span class="cell" id="sb-combo" style="color: var(--combo-neutral);">×1</span>
+<!-- Pages readout — only shown when state.pages > 0; plausible as a page count -->
+<span class="cell" id="sb-pages" style="display:none"></span>
+<!-- Licenses/version readout — only shown after the first ascension; diegetic per world -->
+<span class="cell" id="sb-licenses" style="display:none"></span>
+<span class="cell right" id="sb-acc">100%</span>
+<span class="cell right">UTF-8</span>
+<span class="cell right" id="sb-mode">Editing</span>
+</div>
+<!-- Windows Notepad "Save changes?" prestige dialog -->
+<div id="prestige-overlay">
+<div id="prestige-dialog">
+<div class="dlg-titlebar"><span class="dlg-icon">■</span> <span id="dlg-app">Notepad</span></div>
+<div class="dlg-body">
+<div class="dlg-msg" id="dlg-msg">Do you want to save changes to UNTITLED.txt?</div>
+<div class="dlg-payout" id="dlg-payout-text"></div>
+</div>
+<div class="dlg-buttons">
+<button class="primary" id="dlg-save">Save</button>
+<button id="dlg-dontsave">Don't Save</button>
+<button id="dlg-cancel">Cancel</button>
+</div>
+</div>
+</div>
+<!-- "Save As…" ascension dialog — choosing an unlocked file format ascends a world -->
+<div id="saveas-overlay">
+<div id="saveas-dialog">
+<div class="dlg-titlebar"><span class="dlg-icon" id="saveas-icon">■</span> <span id="saveas-title">Save As</span></div>
+<div class="dlg-body">
+<div class="dlg-row"><label>File name:</label><input id="saveas-name" readonly="" type="text"/></div>
+<div class="dlg-row"><label>Save as type:</label><select id="saveas-format"></select></div>
+<div class="dlg-hint" id="saveas-hint"></div>
+</div>
+<div class="dlg-buttons">
+<button class="primary" id="saveas-save">Save</button>
+<button id="saveas-cancel">Cancel</button>
+</div>
+</div>
+</div>
+</div>
+<div id="toast"></div>
+<script>
+"use strict";
+
+/* ---------- 1. DATA ---------- */
+/* The document IS the script. The player transcribes this exact text; the cursor
+   (expectIdx) walks through it and the visible doc is built around that cursor.
+   Generic, boring, plausible office prose so it passes as real work at a glance.
+   No pangram / typing-drill text (that would blow the Notepad disguise).
+   Ends on a sentence terminator + space so the loop wraps on a clean word boundary. */
+const RAW_SCRIPT =
+"Team,\n\n" +
+"Thanks to everyone who joined the planning sync on Tuesday. This note recaps where we landed and confirms the owners for each item heading into next week.\n\n" +
+"Status. The migration is roughly on track. Phase one is complete and phase two is in review. We are still waiting on sign-off from the platform group, which remains the main dependency for the rollout date. I have flagged this to their lead and expect an answer by Friday.\n\n" +
+"Priorities for the coming sprint, in order:\n\n" +
+"1. Close out the remaining tickets in the backlog and confirm none are blocked.\n" +
+"2. Finish the second round of testing on staging before we promote anything to production.\n" +
+"3. Update the runbook so the on-call rotation has current steps to follow.\n" +
+"4. Draft the customer-facing summary and route it through legal for a quick read.\n\n" +
+"Risks. The reporting job is still slower than we would like, and the cache work that would fix it is not yet scoped. If that slips again it will affect the month-end numbers, so I would rather we size it now than discover the gap later. Please add your estimate to the shared sheet by end of day Wednesday.\n\n" +
+"A quick reminder on process. When you move a task to done, attach the relevant link and note who reviewed it. It takes a few seconds and saves the rest of us from chasing context during standup. Small habits like this keep the board honest.\n\n" +
+"Budget is unchanged this quarter. We have a little room for one more contractor if the testing load stays high, but I want to see the numbers before we commit. Hold off on any new tooling requests until the next review.\n\n" +
+"On scheduling, I will be out Thursday afternoon for a doctor visit, so let us keep the afternoon clear of decisions that need my input. Anything urgent can go to my manager, who is covering.\n\n" +
+"That is everything for now. Reply on this thread if I missed something, and thank you all for the steady, careful work this week. It does not go unnoticed.\n\n" +
+"Best regards,\nThe Project Office\n\n" +
+"This recap will refresh on the next status cycle, so check back at the top for the latest version. ";
+
+/* Sanitize the script to a typeable ASCII subset at load. One un-typeable char
+   would be a permanent unwinnable lock, so this is mandatory, not cosmetic. */
+function sanitizeScript(s){
+  return s
+    .replace(/[‘’‚‛]/g, "'")     // curly single quotes -> '
+    .replace(/[“”„‟]/g, '"')     // curly double quotes -> "
+    .replace(/…/g, "...")                         // ellipsis -> ...
+    .replace(/[‒–—―]/g, "-")     // em/en/figure dashes -> -
+    .replace(/ /g, " ")                           // non-breaking space -> space
+    .replace(/\t/g, " ")                                // tabs -> space
+    .replace(/[ ]{2,}/g, " ")                           // collapse runs of 2+ spaces
+    .replace(/[ ]+(\n)/g, "$1")                         // strip trailing spaces on lines
+    .replace(/[ ]+$/g, "");                             // strip trailing spaces at very end
+}
+/* The full set of characters the input handler can ever produce / match against:
+   printable ASCII (0x20-0x7E) plus newline. Anything outside is a soft-lock risk,
+   so we run this over EVERY world's script (and the boss lines) at load. */
+function assertTypeable(script, tag){
+  for (let i = 0; i < script.length; i++){
+    const c = script.charCodeAt(i);
+    const ok = c === 10 || (c >= 32 && c <= 126);
+    if (!ok){ console.warn((tag||"SCRIPT") + " contains an un-typeable char at index " + i + " (code " + c + "): soft-lock risk!"); }
+  }
+}
+
+/* ---------- 1b. WORLDS — the ascension chain (each world reskins the SAME engine) ----------
+   Each world is a pure data record consumed by applyWorldSkin(): it carries the
+   diegetic identity (appName / fileName / format label), the editor font, a full
+   chrome+editor PALETTE (the CSS-var values written onto :root at runtime so a
+   future body[data-theme="dark"] layer can still override any of them), per-app
+   MENU top-level labels, the transcription SCRIPT for that app, and worldBaseMult.
+   Worlds are listed in ascension order; you can only ascend to the NEXT one.
+   VS Code + Claude Code are dark by DEFAULT (that is their real look, independent
+   of the future light/dark toggle) — their palettes simply ship dark values. */
+const WORLDS = [
+  {
+    id: "notepad", appName: "Notepad", fileName: "UNTITLED.txt",
+    format: "Text Documents (*.txt)", baseMult: 1,
+    titleIcon: "■",                 // filled square (matches the original title dot)
+    versionLabel: w => "",               // base world shows no version marker
+    licenseLabel: () => "",
+    pagesNeeded: 0,                       // always available (it's the starting world)
+    font: 'Consolas, "Lucida Console", monospace',
+    menus: ["File", "Edit", "Format", "View", "Help"],
+    palettes: {
+      light: {
+        "--editor-font": 'Consolas, "Lucida Console", monospace',
+        "--editor-bg": "#ffffff", "--committed": "#1c1c1c", "--ghost": "#c2c2c2",
+        "--typo": "#d12b2b", "--caret": "#1c1c1c", "--combo-warm": "#d98a1f",
+        "--boss-hl": "#cfe2ff", "--boss-post": "#5b6b80", "--boss-due-urgent": "#b4541a",
+        "--chrome-bg": "#f3f3f3", "--chrome-border": "#e6e6e6", "--chrome-text": "#2b2b2b",
+        "--menu-bg": "#fbfbfb", "--menu-border": "#ededed",
+        "--accent": "#4a73b8", "--accent-soft": "#e7eefb", "--accent-ink": "#1a4b9c",
+        "--dropdown-bg": "#fdfdfd", "--dropdown-border": "#d0d0d0",
+        "--item-text": "#202020", "--status-text": "#4a4a4a",
+        /* theme-surface tokens — light Notepad dialog / toast / chrome */
+        "--dlg-bg": "#f3f3f3", "--dlg-titlebar-bg": "#e7e7e7", "--dlg-titlebar-border": "#cccccc",
+        "--dlg-text": "#1a1a1a", "--dlg-body-text": "#444444",
+        "--dlg-payout-bg": "#e8edf8", "--dlg-payout-border": "#c5d0e8",
+        "--dlg-payout-warn-bg": "#fdf3e0", "--dlg-payout-warn-border": "#e0c870", "--dlg-payout-warn-text": "#7a5c10",
+        "--dlg-footer-bg": "#ececec", "--dlg-footer-border": "#dddddd",
+        "--dlg-btn-bg": "#fdfdfd", "--dlg-btn-border": "#aaaaaa",
+        "--dlg-btn-hover-bg": "#e3ebfa", "--dlg-btn-hover-border": "#7aa0e0",
+        "--dlg-btn-active-bg": "#d2dff5",
+        "--dlg-btn-primary-bg": "#dce8fa", "--dlg-btn-primary-hover": "#c5d9f5",
+        "--dlg-btn-disabled-color": "#aaaaaa", "--dlg-btn-disabled-bg": "#f0f0f0", "--dlg-btn-disabled-border": "#cfcfcf",
+        "--dlg-input-bg": "#f7f7f7", "--dlg-input-text": "#555555",
+        "--dlg-select-bg": "#ffffff", "--dlg-label-color": "#333333",
+        "--toast-bg": "#2b2b2b", "--toast-text": "#f4f4f4",
+        "--overlay-bg": "rgba(0,0,0,.35)",
+        "--wpm-color": "#1a7a4a", "--enabled-right": "#1a7a4a",
+        "--item-disabled": "#b9b9b9", "--item-right-disabled": "#cfcfcf",
+        "--combo-neutral": "#9a9a9a",
+        "--gain-corner": "#9a9a9a", "--gain-corner-border": "#e2e2e2",
+        "--prestige-wipe": "#3478d4", "--reading-hint": "#c4c4c4",
+      },
+      dark: {
+        /* Windows 11 dark Notepad — near-black chrome, dark editor surface */
+        "--editor-font": 'Consolas, "Lucida Console", monospace',
+        "--editor-bg": "#1f1f1f", "--committed": "#e6e6e6", "--ghost": "#6a6a6a",
+        "--typo": "#f07070", "--caret": "#e6e6e6", "--combo-warm": "#e8a030",
+        "--boss-hl": "#1a3557", "--boss-post": "#8a9db5", "--boss-due-urgent": "#e5874a",
+        "--chrome-bg": "#2b2b2b", "--chrome-border": "#3a3a3a", "--chrome-text": "#d4d4d4",
+        "--menu-bg": "#2b2b2b", "--menu-border": "#3a3a3a",
+        "--accent": "#6fa3e0", "--accent-soft": "#1a2e46", "--accent-ink": "#a8c8f0",
+        "--dropdown-bg": "#1f1f1f", "--dropdown-border": "#4a4a4a",
+        "--item-text": "#d4d4d4", "--status-text": "#999999",
+        /* theme-surface tokens — dark Notepad dialog / toast */
+        "--dlg-bg": "#2b2b2b", "--dlg-titlebar-bg": "#232323", "--dlg-titlebar-border": "#404040",
+        "--dlg-text": "#e6e6e6", "--dlg-body-text": "#b0b0b0",
+        "--dlg-payout-bg": "#1a2e46", "--dlg-payout-border": "#2a4a70",
+        "--dlg-payout-warn-bg": "#3a2a10", "--dlg-payout-warn-border": "#7a6020", "--dlg-payout-warn-text": "#d4a84a",
+        "--dlg-footer-bg": "#232323", "--dlg-footer-border": "#404040",
+        "--dlg-btn-bg": "#3a3a3a", "--dlg-btn-border": "#5a5a5a",
+        "--dlg-btn-hover-bg": "#1a2e46", "--dlg-btn-hover-border": "#4a7ab8",
+        "--dlg-btn-active-bg": "#142438",
+        "--dlg-btn-primary-bg": "#1a3456", "--dlg-btn-primary-hover": "#1e3e66",
+        "--dlg-btn-disabled-color": "#666666", "--dlg-btn-disabled-bg": "#2a2a2a", "--dlg-btn-disabled-border": "#444444",
+        "--dlg-input-bg": "#252525", "--dlg-input-text": "#888888",
+        "--dlg-select-bg": "#2a2a2a", "--dlg-label-color": "#aaaaaa",
+        "--toast-bg": "#1a1a1a", "--toast-text": "#e6e6e6",
+        "--overlay-bg": "rgba(0,0,0,.55)",
+        "--wpm-color": "#4aaa6e", "--enabled-right": "#4aaa6e",
+        "--item-disabled": "#606060", "--item-right-disabled": "#505050",
+        "--combo-neutral": "#6a6a6a",
+        "--gain-corner": "#7a7a7a", "--gain-corner-border": "#444444",
+        "--prestige-wipe": "#2255aa", "--reading-hint": "#5a5a5a",
+      },
+    },
+    rawScript: RAW_SCRIPT,   // the existing office-email script
+  },
+  {
+    id: "gdocs", appName: "Google Docs", fileName: "Untitled document",
+    format: "Google Docs", baseMult: 1.5,
+    titleIcon: "●",                 // round bullet, reads as the Docs file dot
+    versionLabel: lic => "v" + (lic + 1) + ".0",
+    licenseLabel: lic => "Doc " + (lic + 1),
+    pagesNeeded: 25,
+    font: '"Times New Roman", Georgia, "Liberation Serif", serif',
+    menus: ["File", "Edit", "View", "Insert", "Format", "Tools"],
+    palettes: {
+      light: {
+        "--editor-font": '"Times New Roman", Georgia, "Liberation Serif", serif',
+        "--editor-bg": "#ffffff", "--committed": "#202124", "--ghost": "#bdc1c6",
+        "--typo": "#d93025", "--caret": "#1a73e8", "--combo-warm": "#1a73e8",
+        "--boss-hl": "#c6dafc", "--boss-post": "#5f6f86", "--boss-due-urgent": "#b06000",
+        "--chrome-bg": "#f9fbfd", "--chrome-border": "#e3e7ea", "--chrome-text": "#3c4043",
+        "--menu-bg": "#ffffff", "--menu-border": "#e3e7ea",
+        "--accent": "#1a73e8", "--accent-soft": "#e8f0fe", "--accent-ink": "#1558b0",
+        "--dropdown-bg": "#ffffff", "--dropdown-border": "#dadce0",
+        "--item-text": "#202124", "--status-text": "#5f6368",
+        "--dlg-bg": "#ffffff", "--dlg-titlebar-bg": "#f1f3f4", "--dlg-titlebar-border": "#dadce0",
+        "--dlg-text": "#202124", "--dlg-body-text": "#5f6368",
+        "--dlg-payout-bg": "#e8f0fe", "--dlg-payout-border": "#c6dafc",
+        "--dlg-payout-warn-bg": "#fef7e0", "--dlg-payout-warn-border": "#f9c74f", "--dlg-payout-warn-text": "#7a5c10",
+        "--dlg-footer-bg": "#f1f3f4", "--dlg-footer-border": "#dadce0",
+        "--dlg-btn-bg": "#ffffff", "--dlg-btn-border": "#dadce0",
+        "--dlg-btn-hover-bg": "#e8f0fe", "--dlg-btn-hover-border": "#1a73e8",
+        "--dlg-btn-active-bg": "#d2e3fc",
+        "--dlg-btn-primary-bg": "#e8f0fe", "--dlg-btn-primary-hover": "#d2e3fc",
+        "--dlg-btn-disabled-color": "#b0b0b0", "--dlg-btn-disabled-bg": "#f1f3f4", "--dlg-btn-disabled-border": "#dadce0",
+        "--dlg-input-bg": "#f8f9fa", "--dlg-input-text": "#5f6368",
+        "--dlg-select-bg": "#ffffff", "--dlg-label-color": "#3c4043",
+        "--toast-bg": "#202124", "--toast-text": "#e8eaed",
+        "--overlay-bg": "rgba(0,0,0,.35)",
+        "--wpm-color": "#1e8e3e", "--enabled-right": "#1e8e3e",
+        "--item-disabled": "#bdc1c6", "--item-right-disabled": "#dadce0",
+        "--combo-neutral": "#9aa0a6",
+        "--gain-corner": "#9aa0a6", "--gain-corner-border": "#dadce0",
+        "--prestige-wipe": "#1a73e8", "--reading-hint": "#c4c4c4",
+      },
+      dark: {
+        /* Google Docs dark mode — dark grey editor, light text, blue accent */
+        "--editor-font": '"Times New Roman", Georgia, "Liberation Serif", serif',
+        "--editor-bg": "#1e1e1e", "--committed": "#e8eaed", "--ghost": "#5f6368",
+        "--typo": "#f28b82", "--caret": "#8ab4f8", "--combo-warm": "#8ab4f8",
+        "--boss-hl": "#1a2e46", "--boss-post": "#9aa7b5", "--boss-due-urgent": "#e8a030",
+        "--chrome-bg": "#202124", "--chrome-border": "#3c4043", "--chrome-text": "#e8eaed",
+        "--menu-bg": "#202124", "--menu-border": "#3c4043",
+        "--accent": "#8ab4f8", "--accent-soft": "#1a2e46", "--accent-ink": "#c0d8fc",
+        "--dropdown-bg": "#292a2d", "--dropdown-border": "#5f6368",
+        "--item-text": "#e8eaed", "--status-text": "#9aa0a6",
+        "--dlg-bg": "#292a2d", "--dlg-titlebar-bg": "#202124", "--dlg-titlebar-border": "#3c4043",
+        "--dlg-text": "#e8eaed", "--dlg-body-text": "#9aa0a6",
+        "--dlg-payout-bg": "#1a2e46", "--dlg-payout-border": "#2a4870",
+        "--dlg-payout-warn-bg": "#3a2a10", "--dlg-payout-warn-border": "#7a6020", "--dlg-payout-warn-text": "#d4a84a",
+        "--dlg-footer-bg": "#202124", "--dlg-footer-border": "#3c4043",
+        "--dlg-btn-bg": "#3c4043", "--dlg-btn-border": "#5f6368",
+        "--dlg-btn-hover-bg": "#1a2e46", "--dlg-btn-hover-border": "#8ab4f8",
+        "--dlg-btn-active-bg": "#142038",
+        "--dlg-btn-primary-bg": "#1a2e46", "--dlg-btn-primary-hover": "#1e3456",
+        "--dlg-btn-disabled-color": "#5f6368", "--dlg-btn-disabled-bg": "#292a2d", "--dlg-btn-disabled-border": "#3c4043",
+        "--dlg-input-bg": "#292a2d", "--dlg-input-text": "#9aa0a6",
+        "--dlg-select-bg": "#3c4043", "--dlg-label-color": "#bdc1c6",
+        "--toast-bg": "#292a2d", "--toast-text": "#e8eaed",
+        "--overlay-bg": "rgba(0,0,0,.55)",
+        "--wpm-color": "#81c995", "--enabled-right": "#81c995",
+        "--item-disabled": "#5f6368", "--item-right-disabled": "#4a4f52",
+        "--combo-neutral": "#6a6f72",
+        "--gain-corner": "#6a6f72", "--gain-corner-border": "#3c4043",
+        "--prestige-wipe": "#4a8ae8", "--reading-hint": "#5f6368",
+      },
+    },
+    rawScript:
+"MEMO\n\n" +
+"To: All Staff\nFrom: Operations\nDate: First of the month\nRe: Quarterly Planning and Workspace Updates\n\n" +
+"Over the past quarter the organization has grown steadily, and with that growth comes a need to revisit how we plan, communicate, and share the work that each team is responsible for. This document sets out the agreed approach for the coming period and is meant to be read in full rather than skimmed.\n\n" +
+"First, a word on planning. We will continue to work in two-week cycles, but we are tightening the way each cycle begins and ends. Every team should publish its goals on the first morning of the cycle and review them on the final afternoon. The goal here is not ceremony for its own sake; it is to make sure that by the time a cycle closes, everyone can point to something concrete that was finished, and not merely started.\n\n" +
+"Second, on communication. Long threads have a way of burying the one decision that actually mattered. When you close out a discussion, please summarize the outcome in a single short paragraph at the top, so that someone arriving a week later can understand what was decided without reading forty replies. Treat the summary as the real artifact and the thread as the supporting evidence.\n\n" +
+"Third, on shared documents. A document is only useful if the next person can find it. Name files clearly, keep one source of truth for each topic, and archive the drafts that no longer matter. If you are unsure whether something is the current version, it probably is not, and a thirty-second check will save an hour of confusion later.\n\n" +
+"On hiring, we expect to bring on a small number of people this quarter. Onboarding is everyone's responsibility, not just the manager's. A new colleague who feels welcome and oriented in the first week will contribute far sooner than one who is left to guess at how things work.\n\n" +
+"Finally, a note of thanks. The last quarter was demanding, and the steady, unflashy work that kept everything running did not go unnoticed. Please take the time you have earned, and come back ready for what is next.\n\n" +
+"This memo will be revised at the start of each quarter. Comments are open; suggestions are welcome. ",
+  },
+  {
+    id: "gsheets", appName: "Google Sheets", fileName: "Untitled spreadsheet",
+    format: "Google Sheets", baseMult: 2,
+    titleIcon: "▦",                 // gridded square, reads as a spreadsheet glyph
+    versionLabel: lic => "v" + (lic + 1) + ".0",
+    licenseLabel: lic => "Sheet " + (lic + 1),
+    pagesNeeded: 100,
+    font: 'Arial, "Liberation Sans", "Segoe UI", sans-serif',
+    menus: ["File", "Edit", "View", "Insert", "Format", "Data"],
+    palettes: {
+      light: {
+        "--editor-font": 'Arial, "Liberation Sans", "Segoe UI", sans-serif',
+        "--editor-bg": "#ffffff", "--committed": "#202124", "--ghost": "#c4ccc6",
+        "--typo": "#d93025", "--caret": "#0b8043", "--combo-warm": "#0b8043",
+        "--boss-hl": "#c8e6c9", "--boss-post": "#5b7a64", "--boss-due-urgent": "#b06000",
+        "--chrome-bg": "#f6faf7", "--chrome-border": "#dfe7e1", "--chrome-text": "#3c4043",
+        "--menu-bg": "#ffffff", "--menu-border": "#dfe7e1",
+        "--accent": "#0b8043", "--accent-soft": "#e6f4ea", "--accent-ink": "#0a6c39",
+        "--dropdown-bg": "#ffffff", "--dropdown-border": "#dadce0",
+        "--item-text": "#202124", "--status-text": "#5f6368",
+        "--dlg-bg": "#ffffff", "--dlg-titlebar-bg": "#f1f3f4", "--dlg-titlebar-border": "#dfe7e1",
+        "--dlg-text": "#202124", "--dlg-body-text": "#5f6368",
+        "--dlg-payout-bg": "#e6f4ea", "--dlg-payout-border": "#b7dfbf",
+        "--dlg-payout-warn-bg": "#fef7e0", "--dlg-payout-warn-border": "#e0c870", "--dlg-payout-warn-text": "#7a5c10",
+        "--dlg-footer-bg": "#f1f3f4", "--dlg-footer-border": "#dfe7e1",
+        "--dlg-btn-bg": "#ffffff", "--dlg-btn-border": "#dfe7e1",
+        "--dlg-btn-hover-bg": "#e6f4ea", "--dlg-btn-hover-border": "#0b8043",
+        "--dlg-btn-active-bg": "#ceead6",
+        "--dlg-btn-primary-bg": "#e6f4ea", "--dlg-btn-primary-hover": "#ceead6",
+        "--dlg-btn-disabled-color": "#b0b0b0", "--dlg-btn-disabled-bg": "#f1f3f4", "--dlg-btn-disabled-border": "#dfe7e1",
+        "--dlg-input-bg": "#f8f9fa", "--dlg-input-text": "#5f6368",
+        "--dlg-select-bg": "#ffffff", "--dlg-label-color": "#3c4043",
+        "--toast-bg": "#202124", "--toast-text": "#e8eaed",
+        "--overlay-bg": "rgba(0,0,0,.35)",
+        "--wpm-color": "#0b8043", "--enabled-right": "#0b8043",
+        "--item-disabled": "#bdc1c6", "--item-right-disabled": "#dadce0",
+        "--combo-neutral": "#9aa0a6",
+        "--gain-corner": "#9aa0a6", "--gain-corner-border": "#dfe7e1",
+        "--prestige-wipe": "#0b8043", "--reading-hint": "#c4c4c4",
+      },
+      dark: {
+        /* Google Sheets dark — dark grey, text light, green accent */
+        "--editor-font": 'Arial, "Liberation Sans", "Segoe UI", sans-serif',
+        "--editor-bg": "#1e1e1e", "--committed": "#e8eaed", "--ghost": "#5f6a62",
+        "--typo": "#f28b82", "--caret": "#81c995", "--combo-warm": "#81c995",
+        "--boss-hl": "#1a3024", "--boss-post": "#90aa96", "--boss-due-urgent": "#e8a030",
+        "--chrome-bg": "#202124", "--chrome-border": "#3c4a40", "--chrome-text": "#e8eaed",
+        "--menu-bg": "#202124", "--menu-border": "#3c4a40",
+        "--accent": "#81c995", "--accent-soft": "#1a3024", "--accent-ink": "#b2e6bf",
+        "--dropdown-bg": "#292a2d", "--dropdown-border": "#3c4a40",
+        "--item-text": "#e8eaed", "--status-text": "#9aa0a6",
+        "--dlg-bg": "#292a2d", "--dlg-titlebar-bg": "#202124", "--dlg-titlebar-border": "#3c4a40",
+        "--dlg-text": "#e8eaed", "--dlg-body-text": "#9aa0a6",
+        "--dlg-payout-bg": "#1a3024", "--dlg-payout-border": "#2a5038",
+        "--dlg-payout-warn-bg": "#3a2a10", "--dlg-payout-warn-border": "#7a6020", "--dlg-payout-warn-text": "#d4a84a",
+        "--dlg-footer-bg": "#202124", "--dlg-footer-border": "#3c4a40",
+        "--dlg-btn-bg": "#3c4043", "--dlg-btn-border": "#5f6a62",
+        "--dlg-btn-hover-bg": "#1a3024", "--dlg-btn-hover-border": "#81c995",
+        "--dlg-btn-active-bg": "#142218",
+        "--dlg-btn-primary-bg": "#1a3024", "--dlg-btn-primary-hover": "#1e3a28",
+        "--dlg-btn-disabled-color": "#5f6368", "--dlg-btn-disabled-bg": "#292a2d", "--dlg-btn-disabled-border": "#3c4043",
+        "--dlg-input-bg": "#292a2d", "--dlg-input-text": "#9aa0a6",
+        "--dlg-select-bg": "#3c4043", "--dlg-label-color": "#bdc1c6",
+        "--toast-bg": "#292a2d", "--toast-text": "#e8eaed",
+        "--overlay-bg": "rgba(0,0,0,.55)",
+        "--wpm-color": "#81c995", "--enabled-right": "#81c995",
+        "--item-disabled": "#5f6368", "--item-right-disabled": "#4a4f52",
+        "--combo-neutral": "#6a6f72",
+        "--gain-corner": "#6a6f72", "--gain-corner-border": "#3c4043",
+        "--prestige-wipe": "#4aaa6e", "--reading-hint": "#5f6368",
+      },
+    },
+    /* Plausible spreadsheet content: labels, numbers, and formulas. ASCII only.
+       Formula characters (= ( ) : , < > * /) are all in the typeable range. */
+    rawScript:
+"Quarterly Revenue Model\n\n" +
+"Region,Q1,Q2,Q3,Q4,Total\n" +
+"North,1240,1310,1402,1580,=SUM(B4:E4)\n" +
+"South,980,1025,1098,1140,=SUM(B5:E5)\n" +
+"East,1430,1390,1510,1622,=SUM(B6:E6)\n" +
+"West,760,815,902,988,=SUM(B7:E7)\n" +
+"Total,=SUM(B4:B7),=SUM(C4:C7),=SUM(D4:D7),=SUM(E4:E7),=SUM(F4:F7)\n\n" +
+"Headcount Lookup\n" +
+"Region,Manager,Staff\n" +
+"North,=VLOOKUP(A12, Managers, 2, FALSE),=VLOOKUP(A12, Managers, 3, FALSE)\n" +
+"South,=VLOOKUP(A13, Managers, 2, FALSE),=VLOOKUP(A13, Managers, 3, FALSE)\n\n" +
+"Growth Rate,=ROUND((F7-F4)/F4, 4)\n" +
+"Average Q4,=AVERAGE(E4:E7)\n" +
+"Best Region,=INDEX(A4:A7, MATCH(MAX(F4:F7), F4:F7, 0))\n" +
+"Above Target,=COUNTIF(F4:F7, \">5000\")\n" +
+"Forecast Q1,=B4*(1+IF(C4>B4, 0.05, 0.02))\n\n" +
+"Notes\n" +
+"Refresh the pivot before the review. Check that every total ties to the source tab. ",
+  },
+  {
+    id: "vscode", appName: "Visual Studio Code", fileName: "main.js",
+    format: "JavaScript (*.js)", baseMult: 3,
+    titleIcon: "❯",                 // chevron, reads as a code/file glyph
+    versionLabel: lic => "v" + (lic + 1) + ".0",
+    licenseLabel: lic => "main.js · v" + (lic + 1),
+    pagesNeeded: 400,
+    font: '"Cascadia Code", Consolas, "Courier New", monospace',
+    menus: ["File", "Edit", "Selection", "View", "Go", "Run"],
+    palettes: {
+      light: {
+        /* VS Code Light+ theme */
+        "--editor-font": '"Cascadia Code", Consolas, "Courier New", monospace',
+        "--editor-bg": "#ffffff", "--committed": "#1e1e1e", "--ghost": "#b0b0b0",
+        "--typo": "#cd3131", "--caret": "#000000", "--combo-warm": "#af8f00",
+        "--boss-hl": "#add6ff", "--boss-post": "#5d7b96", "--boss-due-urgent": "#b06000",
+        "--chrome-bg": "#f3f3f3", "--chrome-border": "#e8e8e8", "--chrome-text": "#3a3a3a",
+        "--menu-bg": "#dddddd", "--menu-border": "#cecece",
+        "--accent": "#007acc", "--accent-soft": "#ddeeff", "--accent-ink": "#0066aa",
+        "--dropdown-bg": "#f3f3f3", "--dropdown-border": "#cccccc",
+        "--item-text": "#3a3a3a", "--status-text": "#5a5a5a",
+        "--dlg-bg": "#f3f3f3", "--dlg-titlebar-bg": "#dddddd", "--dlg-titlebar-border": "#cecece",
+        "--dlg-text": "#1e1e1e", "--dlg-body-text": "#5a5a5a",
+        "--dlg-payout-bg": "#ddeeff", "--dlg-payout-border": "#b0d0f0",
+        "--dlg-payout-warn-bg": "#fff8dc", "--dlg-payout-warn-border": "#d4b820", "--dlg-payout-warn-text": "#7a5c00",
+        "--dlg-footer-bg": "#e8e8e8", "--dlg-footer-border": "#cecece",
+        "--dlg-btn-bg": "#f3f3f3", "--dlg-btn-border": "#cccccc",
+        "--dlg-btn-hover-bg": "#ddeeff", "--dlg-btn-hover-border": "#007acc",
+        "--dlg-btn-active-bg": "#c8e4f8",
+        "--dlg-btn-primary-bg": "#ddeeff", "--dlg-btn-primary-hover": "#c8e4f8",
+        "--dlg-btn-disabled-color": "#aaaaaa", "--dlg-btn-disabled-bg": "#eeeeee", "--dlg-btn-disabled-border": "#d4d4d4",
+        "--dlg-input-bg": "#eeeeee", "--dlg-input-text": "#888888",
+        "--dlg-select-bg": "#f3f3f3", "--dlg-label-color": "#444444",
+        "--toast-bg": "#1e1e1e", "--toast-text": "#d4d4d4",
+        "--overlay-bg": "rgba(0,0,0,.35)",
+        "--wpm-color": "#267f99", "--enabled-right": "#267f99",
+        "--item-disabled": "#c0c0c0", "--item-right-disabled": "#d4d4d4",
+        "--combo-neutral": "#9a9a9a",
+        "--gain-corner": "#9a9a9a", "--gain-corner-border": "#e0e0e0",
+        "--prestige-wipe": "#007acc", "--reading-hint": "#c0c0c0",
+      },
+      dark: {
+        /* VS Code Dark+ theme (original) */
+        "--editor-font": '"Cascadia Code", Consolas, "Courier New", monospace',
+        "--editor-bg": "#1e1e1e", "--committed": "#d4d4d4", "--ghost": "#5a5a5a",
+        "--typo": "#f48771", "--caret": "#aeafad", "--combo-warm": "#dcdcaa",
+        "--boss-hl": "#264f78", "--boss-post": "#9aa7b3", "--boss-due-urgent": "#e5a05a",
+        "--chrome-bg": "#323233", "--chrome-border": "#252526", "--chrome-text": "#cccccc",
+        "--menu-bg": "#3c3c3c", "--menu-border": "#252526",
+        "--accent": "#519aba", "--accent-soft": "#094771", "--accent-ink": "#ffffff",
+        "--dropdown-bg": "#252526", "--dropdown-border": "#454545",
+        "--item-text": "#cccccc", "--status-text": "#bbbbbb",
+        "--dlg-bg": "#252526", "--dlg-titlebar-bg": "#323233", "--dlg-titlebar-border": "#3e3e42",
+        "--dlg-text": "#cccccc", "--dlg-body-text": "#9a9a9a",
+        "--dlg-payout-bg": "#0e3a54", "--dlg-payout-border": "#094771",
+        "--dlg-payout-warn-bg": "#3a2a10", "--dlg-payout-warn-border": "#7a6020", "--dlg-payout-warn-text": "#d4a84a",
+        "--dlg-footer-bg": "#2d2d2d", "--dlg-footer-border": "#3e3e42",
+        "--dlg-btn-bg": "#3c3c3c", "--dlg-btn-border": "#555555",
+        "--dlg-btn-hover-bg": "#094771", "--dlg-btn-hover-border": "#519aba",
+        "--dlg-btn-active-bg": "#063756",
+        "--dlg-btn-primary-bg": "#094771", "--dlg-btn-primary-hover": "#0e5a94",
+        "--dlg-btn-disabled-color": "#666666", "--dlg-btn-disabled-bg": "#2d2d2d", "--dlg-btn-disabled-border": "#444444",
+        "--dlg-input-bg": "#2d2d2d", "--dlg-input-text": "#777777",
+        "--dlg-select-bg": "#3c3c3c", "--dlg-label-color": "#aaaaaa",
+        "--toast-bg": "#1e1e1e", "--toast-text": "#d4d4d4",
+        "--overlay-bg": "rgba(0,0,0,.55)",
+        "--wpm-color": "#4ec9b0", "--enabled-right": "#4ec9b0",
+        "--item-disabled": "#555555", "--item-right-disabled": "#444444",
+        "--combo-neutral": "#6a6a6a",
+        "--gain-corner": "#6a6a6a", "--gain-corner-border": "#3e3e42",
+        "--prestige-wipe": "#519aba", "--reading-hint": "#5a5a5a",
+      },
+    },
+    /* Plausible JavaScript source. Single-space indent (the sanitizer collapses
+       runs of 2+ spaces and tabs), still reads as code at a glance. ASCII only. */
+    rawScript:
+"// main.js - report aggregation service\n\n" +
+"const fs = require('fs');\n" +
+"const path = require('path');\n\n" +
+"function loadConfig(dir) {\n" +
+" const file = path.join(dir, 'config.json');\n" +
+" const raw = fs.readFileSync(file, 'utf8');\n" +
+" return JSON.parse(raw);\n" +
+"}\n\n" +
+"function sum(values) {\n" +
+" return values.reduce((total, n) => total + n, 0);\n" +
+"}\n\n" +
+"class ReportBuilder {\n" +
+" constructor(config) {\n" +
+" this.config = config;\n" +
+" this.rows = [];\n" +
+" }\n\n" +
+" addRow(label, amount) {\n" +
+" if (amount < 0) throw new Error('amount must be positive');\n" +
+" this.rows.push({ label, amount });\n" +
+" return this;\n" +
+" }\n\n" +
+" total() {\n" +
+" return sum(this.rows.map((row) => row.amount));\n" +
+" }\n\n" +
+" build() {\n" +
+" const lines = this.rows.map((row) => row.label + ': ' + row.amount);\n" +
+" lines.push('Total: ' + this.total());\n" +
+" return lines.join('\\n');\n" +
+" }\n" +
+"}\n\n" +
+"const config = loadConfig(process.cwd());\n" +
+"const report = new ReportBuilder(config);\n" +
+"report.addRow('North', 1240).addRow('South', 980);\n" +
+"console.log(report.build());\n\n" +
+"module.exports = { ReportBuilder, sum, loadConfig };\n\n",
+  },
+  {
+    id: "claude", appName: "Claude Code", fileName: "~/empire",
+    format: "Shell Session (*.sh)", baseMult: 5,
+    titleIcon: "▸",                 // small triangle, reads as a prompt glyph
+    versionLabel: lic => "v" + (lic + 1) + ".0",
+    licenseLabel: lic => "session " + (lic + 1),
+    pagesNeeded: 1500,
+    font: '"Cascadia Code", "JetBrains Mono", Consolas, monospace',
+    menus: ["Shell", "Edit", "View", "Session"],
+    palettes: {
+      light: {
+        /* Claude Code light — cream/off-white terminal, dark text, green accent */
+        "--editor-font": '"Cascadia Code", "JetBrains Mono", Consolas, monospace',
+        "--editor-bg": "#fbfbf7", "--committed": "#2b2b2b", "--ghost": "#b0b0a8",
+        "--typo": "#c0392b", "--caret": "#2b8a44", "--combo-warm": "#5a9e30",
+        "--boss-hl": "#d4edda", "--boss-post": "#5a7a62", "--boss-due-urgent": "#b06000",
+        "--chrome-bg": "#f0f0ea", "--chrome-border": "#d8d8d0", "--chrome-text": "#2b2b2b",
+        "--menu-bg": "#f0f0ea", "--menu-border": "#d8d8d0",
+        "--accent": "#2b8a44", "--accent-soft": "#d4edda", "--accent-ink": "#1a6632",
+        "--dropdown-bg": "#f5f5f0", "--dropdown-border": "#c8c8c0",
+        "--item-text": "#2b2b2b", "--status-text": "#5a5a52",
+        "--dlg-bg": "#f5f5f0", "--dlg-titlebar-bg": "#e8e8e2", "--dlg-titlebar-border": "#d0d0c8",
+        "--dlg-text": "#2b2b2b", "--dlg-body-text": "#5a5a52",
+        "--dlg-payout-bg": "#d4edda", "--dlg-payout-border": "#a8d4b2",
+        "--dlg-payout-warn-bg": "#fef7e0", "--dlg-payout-warn-border": "#d4b820", "--dlg-payout-warn-text": "#7a5c00",
+        "--dlg-footer-bg": "#e8e8e2", "--dlg-footer-border": "#d0d0c8",
+        "--dlg-btn-bg": "#f5f5f0", "--dlg-btn-border": "#c8c8c0",
+        "--dlg-btn-hover-bg": "#d4edda", "--dlg-btn-hover-border": "#2b8a44",
+        "--dlg-btn-active-bg": "#b8dfc4",
+        "--dlg-btn-primary-bg": "#d4edda", "--dlg-btn-primary-hover": "#b8dfc4",
+        "--dlg-btn-disabled-color": "#a8a8a0", "--dlg-btn-disabled-bg": "#eeeeea", "--dlg-btn-disabled-border": "#d0d0c8",
+        "--dlg-input-bg": "#eeeeea", "--dlg-input-text": "#888880",
+        "--dlg-select-bg": "#f5f5f0", "--dlg-label-color": "#444444",
+        "--toast-bg": "#2b2b2b", "--toast-text": "#f0f0ea",
+        "--overlay-bg": "rgba(0,0,0,.35)",
+        "--wpm-color": "#2b8a44", "--enabled-right": "#2b8a44",
+        "--item-disabled": "#b8b8b0", "--item-right-disabled": "#d0d0c8",
+        "--combo-neutral": "#9a9a92",
+        "--gain-corner": "#9a9a92", "--gain-corner-border": "#d8d8d0",
+        "--prestige-wipe": "#2b8a44", "--reading-hint": "#b0b0a8",
+      },
+      dark: {
+        /* Claude Code dark terminal — green-on-near-black (original) */
+        "--editor-font": '"Cascadia Code", "JetBrains Mono", Consolas, monospace',
+        "--editor-bg": "#0a0e0a", "--committed": "#39d353", "--ghost": "#2c5132",
+        "--typo": "#ff6b6b", "--caret": "#39d353", "--combo-warm": "#b7ff7a",
+        "--boss-hl": "#173d22", "--boss-post": "#5fae6c", "--boss-due-urgent": "#ffae57",
+        "--chrome-bg": "#0d130d", "--chrome-border": "#16241a", "--chrome-text": "#7fd68c",
+        "--menu-bg": "#0d130d", "--menu-border": "#16241a",
+        "--accent": "#39d353", "--accent-soft": "#16301c", "--accent-ink": "#b7ff7a",
+        "--dropdown-bg": "#0d130d", "--dropdown-border": "#1f3324",
+        "--item-text": "#9be0a6", "--status-text": "#5fae6c",
+        "--dlg-bg": "#0d130d", "--dlg-titlebar-bg": "#0a0e0a", "--dlg-titlebar-border": "#1f3324",
+        "--dlg-text": "#9be0a6", "--dlg-body-text": "#5fae6c",
+        "--dlg-payout-bg": "#0f2216", "--dlg-payout-border": "#1f4028",
+        "--dlg-payout-warn-bg": "#2a1a08", "--dlg-payout-warn-border": "#5a4010", "--dlg-payout-warn-text": "#c8982a",
+        "--dlg-footer-bg": "#0a0e0a", "--dlg-footer-border": "#1f3324",
+        "--dlg-btn-bg": "#0d130d", "--dlg-btn-border": "#2c5132",
+        "--dlg-btn-hover-bg": "#0f2216", "--dlg-btn-hover-border": "#39d353",
+        "--dlg-btn-active-bg": "#0c1c10",
+        "--dlg-btn-primary-bg": "#173d22", "--dlg-btn-primary-hover": "#1e4e2c",
+        "--dlg-btn-disabled-color": "#2c5132", "--dlg-btn-disabled-bg": "#0a0e0a", "--dlg-btn-disabled-border": "#1f3324",
+        "--dlg-input-bg": "#0a0e0a", "--dlg-input-text": "#3a6a44",
+        "--dlg-select-bg": "#0d130d", "--dlg-label-color": "#5fae6c",
+        "--toast-bg": "#0d130d", "--toast-text": "#9be0a6",
+        "--overlay-bg": "rgba(0,0,0,.7)",
+        "--wpm-color": "#39d353", "--enabled-right": "#39d353",
+        "--item-disabled": "#2c5132", "--item-right-disabled": "#1f3324",
+        "--combo-neutral": "#3a6a44",
+        "--gain-corner": "#3a6a44", "--gain-corner-border": "#1f3324",
+        "--prestige-wipe": "#39d353", "--reading-hint": "#2c5132",
+      },
+    },
+    /* A terminal session: prompts, commands, short agent prompts. ASCII only. */
+    rawScript:
+"~/empire $ git status\n" +
+"On branch main\n" +
+"nothing to commit, working tree clean\n" +
+"~/empire $ npm run build\n" +
+"> empire@1.0.0 build\n" +
+"> node scripts/build.js\n" +
+"Build complete in 1.8s\n" +
+"~/empire $ claude \"summarize the q3 report and list the three biggest risks\"\n" +
+"Reading q3-report.md ... done.\n" +
+"Top risks: cache work unscoped, reporting job slow, platform sign-off pending.\n" +
+"~/empire $ npm test\n" +
+"Test Suites: 14 passed, 14 total\n" +
+"Tests: 92 passed, 92 total\n" +
+"~/empire $ git add -A\n" +
+"~/empire $ git commit -m \"ship it\"\n" +
+"[main 4f2a1c9] ship it\n" +
+" 7 files changed, 214 insertions(+), 38 deletions(-)\n" +
+"~/empire $ claude \"draft a release note for the cache fix in two sentences\"\n" +
+"Drafted release-notes.md.\n" +
+"~/empire $ git push origin main\n" +
+"Enumerating objects: 31, done.\n" +
+"To github.com:office/empire.git\n" +
+" 3a1f0e2..4f2a1c9 main -> main\n" +
+"~/empire $ npm run deploy -- --env production\n" +
+"Deploying to production ...\n" +
+"Deploy succeeded. Live at empire.example.com\n" +
+"~/empire $ clear\n",
+  },
+];
+
+/* Sanitize every world's script once and run the soft-lock assertion over each.
+   The sanitized text is cached on each world as `.script` (what the engine reads). */
+WORLDS.forEach(w => {
+  w.script = sanitizeScript(w.rawScript);
+  assertTypeable(w.script, w.id + " SCRIPT");
+});
+
+/* The ACTIVE script — mutable so applyWorldSkin can repoint the whole engine at a
+   new world's text without touching any of the cursor/render/boss code, which all
+   reference this single binding. Defaults to the Notepad (world 0) script. */
+let SCRIPT = WORLDS[0].script;
+
+/* Boss "replies" — longer plausible office-email answers (~90-160 chars each).
+   The player transcribes one against a tight deadline (see BOSS section below).
+   Sanitized to the same typeable ASCII subset as SCRIPT so they can never soft-lock.
+   Sized so a 60 WPM typist needs focused, accurate effort to clear them in time. */
+const RAW_BOSS_LINES = [
+  "Confirmed, the numbers are attached and ready to send. Let me know if you need anything else before the review call.",
+  "Thanks for the heads up. I will have the updated draft over by noon and will flag you once it is in the shared folder.",
+  "Yes, the staging deploy looks clean and all checks passed. Go ahead and promote it to production when you are ready.",
+  "Approved on my end. Please loop in legal before we publish and make sure the sign-off is documented in the ticket.",
+  "Good catch. I have updated the figures, refreshed the sheet, and left a comment explaining the change for the auditors.",
+  "Looping in the platform team now so we can unblock the rollout. Expect a reply from them within the hour on the thread.",
+  "All set. The runbook is current, the on-call rotation is filled, and I have pinged the team to confirm they saw the update.",
+  "Reviewed and signed off. Nothing blocking from the budget side, but keep an eye on the contractor line next quarter.",
+  "Just landed the fix. Tests are green, I am closing the ticket, and the release note is drafted and waiting for your review.",
+  "Noted. I will keep Thursday afternoon clear for the readout and make sure the deck is shared ahead of time for review.",
+  "Sounds good. Sending the customer summary right after this reply. I will copy you so you can track the thread directly.",
+  "On it. The cache work is scoped and added to the next sprint. I have also flagged the reporting dependency in the board.",
+  "Got it, I will coordinate with the platform team on the timeline and make sure the sign-off lands before the freeze date.",
+  "Thanks for flagging this early. I have updated the estimate in the shared sheet and left a note explaining the variance.",
+];
+const BOSS_LINES = RAW_BOSS_LINES.map(sanitizeScript);
+
+const READING_TEXT =
+"Q3 STATUS UPDATE\n\nSummary: All workstreams remain on track. The team has completed the discovery phase and is moving into delivery. Key milestones for the coming sprint are outlined below.\n\n" +
+"1. Finalize requirements with stakeholders.\n2. Complete the first round of reviews.\n3. Prepare the readout deck for leadership.\n4. Action outstanding follow-ups from last week.\n\n" +
+"Next steps: We will reconvene on Thursday to align on priorities and confirm the timeline. Please review the attached notes ahead of the meeting and come prepared with any questions.\n\nThank you,\nThe Team";
+
+const UPGRADES = [
+  { id:"capslock",    name:"Caps Lock",          kind:"clickAdd",   value:1,   baseCost:15,    growth:1.15, desc:"+1 word per correct character" },
+  { id:"autocorrect", name:"Autocorrect",         kind:"passive",    value:0.3, baseCost:50,    growth:1.18, desc:"types +0.3 words/sec for you" },
+  { id:"replace",     name:"Find and Replace…", kind:"globalMult", value:1.25,baseCost:400,   growth:1.7,  desc:"×1.25 to all words" },
+  { id:"intern",      name:"Hire an Intern",      kind:"passive",    value:2,   baseCost:1500,  growth:1.16, desc:"+2 words/sec" },
+  { id:"macro",       name:"Record Macro…",     kind:"passive",    value:10,  baseCost:12000, growth:1.15, desc:"+10 words/sec" },
+];
+
+/* Menu structure is shared across worlds; only the top-level menu *labels* change
+   per world (see applyWorldSkin → relabelMenus, which reads currentWorld().menus).
+   "Save As…" is now the ASCENSION action (opens the format-picker dialog). */
+const MENUS = [
+  { label:"File", items:[
+    { action:"new",  label:"New",  right:"Ctrl+N" },   // prestige trigger (save-changes dialog)
+    { flavor:"Open…",  right:"Ctrl+O" },
+    // CUSTOM-BOOK IMPORT — Notepad's native home for opening a file. "Open Book…"
+    // imports a .txt/.epub/.pdf and switches the typing source to it; "Source: …"
+    // cycles between the world default text and the imported book (View-toggle style).
+    { action:"openBook", label:"Open Book…" },
+    { action:"bookSource", label:"Source: Default" },
+    { action:"save", label:"Save", right:"Ctrl+S" },
+    { action:"saveAs", label:"Save As…", right:"Ctrl+Shift+S" },   // ASCENSION trigger
+    { sep:true },
+    { flavor:"Exit" },
+  ]},
+  { label:"Edit", items:[
+    { flavor:"Undo", right:"Ctrl+Z" },
+    { flavor:"Select All", right:"Ctrl+A" },
+    { sep:true },
+    { upgrade:"capslock" },
+    { upgrade:"replace" },
+  ]},
+  { label:"Format", items:[
+    { upgrade:"autocorrect" },
+    { upgrade:"macro" },
+    { flavor:"Font…" },
+  ]},
+  { label:"View", items:[
+    { action:"reading",      label:"Reading Mode", right:"Esc" },
+    { action:"sound",        label:"Sound: Off" },
+    { action:"gainDisplay",  label:"Show gains: Corner" },
+    { action:"theme",        label:"Theme: System" },
+    { action:"ghostLetters", label:"Ghost: 10 letters" },
+    { flavor:"Zoom", right:"100%" },
+  ]},
+  { label:"Help", items:[
+    { upgrade:"intern" },
+    { flavor:"About", aboutPerWorld:true },   // label gets the app name appended per world
+  ]},
+];
+
+/* ---------- 2. STATE ---------- */
+const SAVE_KEY = "untitled_txt_save_v1";
+let state = {
+  words: 0, lifetimeWords: 0, totalKeystrokes: 0,
+  expectIdx: 0,       // cursor into SCRIPT (persisted)
+  comboStreak: 0,     // consecutive correct chars (persisted)
+  typoLocked: false,  // mid-typo lock (persisted, but cleared on fresh page load)
+  upgrades: {}, settings: { sound: false, gainDisplay: "corner", theme: "system", scriptSource: "default", ghostLetters: 10 }, lastSave: Date.now(),
+  // CUSTOM-BOOK IMPORT — the player's own imported book (one stored at a time).
+  // null until they import; { title, text } once cleaned. scriptSource (above) picks
+  // whether the engine types the world's default script or this custom book.
+  customBook: null,
+  // boss progression (persisted; an IN-PROGRESS boss is NOT persisted — see boss obj)
+  bossIdx: 0,             // count of bosses STARTED this run (drives difficulty + threshold pick)
+  bossCooldown: 0,        // seconds until the next boss may trigger (post-resolve cooldown)
+  bossActivePlay: 0,      // seconds of active (un-frozen) play since the last boss, for time cadence
+  // prestige meta-currency (persisted across resets)
+  pages: 0,               // total Pages earned — each gives +10% permanent global multiplier
+  runWords: 0,            // Words earned THIS run (resets on prestige; drives Pages payout)
+  // WORLDS / ascension (persisted; survive prestige — ascension is a permanent step up)
+  world: "notepad",       // id of the active world (WORLDS[i].id); default = starting app
+  licenses: 0,            // count of ascensions performed — shown as a per-world version marker
+};
+
+/* ---------- 3. HELPERS (the swap-point for break_infinity later) ---------- */
+const byId = id => UPGRADES.find(u => u.id === id);
+const owned = id => state.upgrades[id] || 0;
+const cost = u => Math.ceil(u.baseCost * Math.pow(u.growth, owned(u.id)));
+function clickAddSum(){ let s = 1; for (const u of UPGRADES) if (u.kind==="clickAdd") s += u.value*owned(u.id); return s; }
+function passiveSum(){ let s = 0; for (const u of UPGRADES) if (u.kind==="passive") s += u.value*owned(u.id); return s; }
+/* The active world record (falls back to Notepad if state.world is unknown/stale). */
+function currentWorld(){ return WORLDS.find(w => w.id === state.world) || WORLDS[0]; }
+function worldIndex(){ const i = WORLDS.findIndex(w => w.id === state.world); return i < 0 ? 0 : i; }
+function worldBaseMult(){ return currentWorld().baseMult; }
+/* globalMult folds in BOTH the prestige Pages multiplier AND the world base mult:
+   - prestigeMult = 1.10^pages (each Page = +10% permanent bonus)
+   - worldBaseMult = currentWorld().baseMult (×1 Notepad ... ×5 Claude Code)
+   Both are applied last so every upgrade multiplier also benefits, and they
+   multiply active (wordsPerKey) and passive (effectiveWPS) identically. */
+function prestigeMult(){ return Math.pow(1.10, state.pages); }
+function globalMult(){ let m = 1; for (const u of UPGRADES) if (u.kind==="globalMult") m *= Math.pow(u.value, owned(u.id)); return m * prestigeMult() * worldBaseMult(); }
+const wordsPerKey  = () => clickAddSum() * globalMult();   // base pay per correct char (pre-combo)
+const effectiveWPS = () => passiveSum() * globalMult();
+/* gain() is the sole funnel for all word earnings; tracks runWords for prestige payout. */
+function gain(n){ state.words += n; state.lifetimeWords += n; state.runWords += n; }
+
+/* Combo: aggressive discrete tiers for frequent dopamine pops.
+   comboMult = min(CAP, 1 + floor(streak / STEP) * INC).
+   STEP=10, INC=0.5, CAP=8  ->  pops a tier every 10 clean chars, ×8 around 140. */
+const COMBO_STEP = 10, COMBO_INC = 0.5, COMBO_CAP = 8;
+function comboMult(){ return Math.min(COMBO_CAP, 1 + Math.floor(state.comboStreak / COMBO_STEP) * COMBO_INC); }
+function format(n){
+  n = Math.floor(n);
+  if (n < 100000) return n.toLocaleString("en-US");
+  const units = ["","K","M","B","T","Qa","Qi","Sx","Sp"];
+  let i = 0, v = n;
+  while (v >= 1000 && i < units.length-1){ v /= 1000; i++; }
+  return v.toFixed(2) + units[i];
+}
+
+/* ---------- 4. DOM ---------- */
+const $ = sel => document.querySelector(sel);
+const menubarEl = $("#menubar");
+const docEl = $("#doc"), caretEl = $("#caret");
+const committedEl = $("#committed"), recentEl = $("#recent"), typoEl = $("#typo"), ghostEl = $("#ghost");
+// boss panel (corner notification / reply box) refs — see BOSS FIGHTS section
+const bossPanel = $("#boss-panel");
+const bpAvatar = $("#bp-avatar"), bpName = $("#bp-name"), bpPrompt = $("#bp-prompt");
+const bpDue = $("#bp-due"), bpDueFoot = $("#bp-due-foot");
+const bpPreEl = $("#bp-pre"), bpTypoEl = $("#bp-typo"), bpPostEl = $("#bp-post");
+const floatLayer = $("#float-layer");
+const sbWords = $("#sb-words").querySelector("b"), sbWpm = $("#sb-wpm"), sbLnCol = $("#sb-lncol"), sbMode = $("#sb-mode");
+const sbCombo = $("#sb-combo"), sbAcc = $("#sb-acc");
+const sbPages = $("#sb-pages"), sbLicenses = $("#sb-licenses");
+const sbGainCorner = $("#sb-gain-corner");
+const tbName = $("#tb-name"), tbApp = $("#tb-app"), tbVer = $("#tb-ver"), toastEl = $("#toast");
+const itemRefs = {}; // upgradeId -> { el, leftEl, rightEl }
+const menuLabelEls = [];   // top-level menu label spans, for per-world relabeling
+let aboutRowLeftEl = null;  // the Help ▸ About row's left span (gets the app name appended)
+
+/* The widest menu bar any world wants — we build this many top-level menus so a
+   6-menu app (Docs/Sheets) shows its full bar. Menus beyond MENUS.length are inert
+   "filler" tabs (a couple of greyed flavor rows) used only to complete the disguise;
+   relabelMenus() shows/labels exactly as many as the active world declares. */
+const MAX_MENUS = Math.max(MENUS.length, ...WORLDS.map(w => (w.menus || []).length));
+const FILLER_ITEMS = [ { flavor:"Preferences…" }, { flavor:"Help" } ];
+
+function buildMenus(){
+  for (let mi = 0; mi < MAX_MENUS; mi++){
+    const m = MENUS[mi] || { label:"", items: FILLER_ITEMS, filler:true };
+    const menu = document.createElement("div");
+    menu.className = "menu";
+    const label = document.createElement("div");
+    label.className = "label"; label.textContent = m.label;
+    label.addEventListener("click", e => { e.stopPropagation(); toggleMenu(mi); });
+    menu.appendChild(label);
+    menuLabelEls.push(label);   // remember so applyWorldSkin can relabel it
+    const dd = document.createElement("div");
+    dd.className = "dropdown";
+    m.items.forEach(it => {
+      if (it.sep){ const s = document.createElement("div"); s.className = "sep"; dd.appendChild(s); return; }
+      const row = document.createElement("div");
+      const left = document.createElement("span"), right = document.createElement("span");
+      right.className = "right";
+      if (it.upgrade){
+        const u = byId(it.upgrade);
+        row.className = "item"; row.dataset.up = u.id;
+        row.title = u.desc;
+        row.addEventListener("click", e => { e.stopPropagation(); buy(u.id); });
+        itemRefs[u.id] = { el: row, leftEl: left, rightEl: right };
+      } else if (it.action){
+        row.className = "item action";
+        left.textContent = it.label;
+        right.textContent = it.right || "";
+        row.addEventListener("click", e => { e.stopPropagation(); doAction(it.action); });
+      } else {
+        row.className = "item flavor";
+        left.textContent = it.flavor;
+        right.textContent = it.right || "";
+        if (it.aboutPerWorld) aboutRowLeftEl = left;   // relabeled to "About <App>"
+      }
+      row.appendChild(left); row.appendChild(right);
+      dd.appendChild(row);
+    });
+    menu.appendChild(dd);
+    menubarEl.appendChild(menu);
+  }
+}
+
+/* Relabel the top-level menus + the Help ▸ About row for the active world, and
+   show EXACTLY as many top-level tabs as the world declares (hiding the rest). The
+   dropdown CONTENTS (upgrades, actions) are identical across worlds; only the
+   top-level names + count + the About label change, which sells each app's bar. */
+function relabelMenus(world){
+  const names = world.menus || MENUS.map(m => m.label);
+  menuLabelEls.forEach((el, i) => {
+    if (i < names.length){ el.textContent = names[i]; el.parentNode.style.display = ""; }
+    else { el.parentNode.style.display = "none"; }   // hide extra tabs this world doesn't use
+  });
+  if (aboutRowLeftEl) aboutRowLeftEl.textContent = "About " + world.appName;
+}
+function toggleMenu(i){
+  const menus = menubarEl.children;
+  const isOpen = menus[i].classList.contains("open");
+  for (const m of menus) m.classList.remove("open");
+  if (!isOpen) menus[i].classList.add("open");
+}
+function closeMenus(){ for (const m of menubarEl.children) m.classList.remove("open"); }
+document.addEventListener("click", closeMenus);
+
+/* ---------- 5. ACTIONS / BUYING ---------- */
+function buy(id){
+  const u = byId(id);
+  const c = cost(u);
+  if (state.words < c) return;
+  state.words -= c;
+  state.upgrades[id] = owned(id) + 1;
+  sfx("thunk");
+  flashToast(u.name + (owned(id) > 1 ? "  ×" + owned(id) : "") + " applied");
+  render();
+}
+let readingMode = false;
+function doAction(a){
+  if (a === "new"){ openPrestigeDialog(); closeMenus(); }
+  else if (a === "save"){ save(); flashToast("Saved — all changes written"); closeMenus(); }
+  else if (a === "saveAs"){ openSaveAsDialog(); closeMenus(); }
+  else if (a === "openBook"){ promptOpenBook(); closeMenus(); }
+  else if (a === "bookSource"){ cycleScriptSource(); closeMenus(); }
+  else if (a === "reading"){ setReading(!readingMode); closeMenus(); }
+  else if (a === "sound"){ toggleSound(); }
+  else if (a === "gainDisplay"){ toggleGainDisplay(); }
+  else if (a === "theme"){ toggleTheme(); }
+  else if (a === "ghostLetters"){ cycleGhostLetters(); }
+}
+function setReading(on){
+  readingMode = on;
+  document.body.classList.toggle("reading", on);
+  sbMode.textContent = on ? "Reading" : "Editing";
+  // expectIdx/combo/lock are preserved across Reading Mode; remind on resume if locked
+  if (!on && state.typoLocked) flashToast("Still locked — press Backspace to clear the typo");
+}
+
+/* ---------- 5b. PRESTIGE — File ▸ New (Ctrl+N) ---------- */
+/* pagesGained formula: floor(sqrt(runWords / 1e6)).
+   1e6 runWords → 1, 9e6 → 3, 1e8 → 10, 1e9 → 31. */
+function calcPagesGained(){ return Math.floor(Math.sqrt(state.runWords / 1e6)); }
+
+let prestigeDialogOpen = false;
+const prestigeOverlay = $("#prestige-overlay");
+const dlgPayoutEl     = $("#dlg-payout-text");
+const dlgAppEl        = $("#dlg-app");
+const dlgMsgEl        = $("#dlg-msg");
+
+function openPrestigeDialog(){
+  // keep the "save changes?" dialog in the active app's voice (disguise consistency)
+  const w = currentWorld();
+  dlgAppEl.textContent = w.appName;
+  dlgMsgEl.textContent = "Do you want to save changes to " + w.fileName + "?";
+  const n = calcPagesGained();
+  if (n >= 1){
+    const addedMult = Math.round((Math.pow(1.10, state.pages + n) / Math.pow(1.10, state.pages) - 1) * 100);
+    dlgPayoutEl.className = "dlg-payout";
+    dlgPayoutEl.textContent = "This will reset your document for " + n + " Page" + (n > 1 ? "s" : "") +
+      " (permanent +" + addedMult + "% words).";
+  } else {
+    dlgPayoutEl.className = "dlg-payout warn";
+    dlgPayoutEl.textContent = "Not enough progress to earn a Page yet (need 1M words this run). You can still reset for 0 Pages.";
+  }
+  prestigeOverlay.classList.add("open");
+  prestigeDialogOpen = true;
+}
+
+function closePrestigeDialog(){
+  prestigeOverlay.classList.remove("open");
+  prestigeDialogOpen = false;
+}
+
+/* Perform the prestige reset: award Pages, wipe run state, play animation. */
+function performPrestige(){
+  const n = calcPagesGained();
+  closePrestigeDialog();
+
+  // KEEP: state.pages, state.settings, state.lifetimeWords, state.totalKeystrokes
+  state.pages += n;
+  state.words = 0;
+  state.runWords = 0;
+  state.upgrades = {};
+  // state.expectIdx is intentionally PRESERVED across prestige so the player
+  // continues their book/script exactly where they left off.
+  state.comboStreak = 0;
+  state.typoLocked = false;
+  typoChar = "";
+  // boss reset — cancel any pending/engaged boss and reset cadence counters
+  cancelBoss();
+  state.bossIdx = 0;
+  state.bossCooldown = 0;
+  state.bossActivePlay = 0;
+  // keep the reading position — rebuild the visible doc tail from the preserved
+  // cursor so the player picks up exactly where they left off in the book
+  seedCommittedFromCursor();
+  displayWords = 0;
+  wpmEma = 0;
+  accBuf = [];
+  docDirty = true;
+  save();
+
+  // cathartic "Select All → clear" wipe animation (~500ms)
+  playPrestigeWipe();
+  const msg = n > 0
+    ? "+" + n + " Page" + (n > 1 ? "s" : "") + " earned (×" + prestigeMult().toFixed(2) + " total) — picking up where you left off"
+    : "Reset complete — no Pages earned this run";
+  flashToast(msg);
+}
+
+/* Sweep a blue selection highlight across the doc, then snap to blank. */
+const prestigeWipeEl = $("#prestige-wipe");
+function playPrestigeWipe(){
+  prestigeWipeEl.classList.remove("active");
+  void prestigeWipeEl.offsetWidth;   // force reflow to restart animation
+  prestigeWipeEl.classList.add("active");
+  prestigeWipeEl.addEventListener("animationend", () => {
+    prestigeWipeEl.classList.remove("active");
+  }, { once: true });
+}
+
+/* Dialog button wiring */
+document.getElementById("dlg-save").addEventListener("click", () => {
+  save(); closePrestigeDialog(); flashToast("Saved — all changes written");
+});
+document.getElementById("dlg-dontsave").addEventListener("click", () => { performPrestige(); });
+document.getElementById("dlg-cancel").addEventListener("click", () => { closePrestigeDialog(); });
+/* Clicking the overlay backdrop (outside the dialog box) cancels */
+prestigeOverlay.addEventListener("click", e => { if (e.target === prestigeOverlay) closePrestigeDialog(); });
+
+/* Testing hooks — exposed on window for orchestrator verification */
+window.openNewDialog  = openPrestigeDialog;
+window.prestigeNow    = () => { const n = calcPagesGained(); performPrestige(); return n; };
+window.globalMult     = globalMult;   // lets console verify prestigeMult is folded in
+// state, boss, and prestigeMult are also console-readable for manual verification:
+// window.state.pages, window.state.runWords, window.globalMult(), window.prestigeMult()
+window.prestigeMult   = prestigeMult;
+
+/* ---------- 5c. WORLDS — apply skin + ascension (File ▸ Save As…) ----------
+   Ascension is NOT a prestige reset: Pages and upgrades carry over. Ascending only
+   repoints the engine at a new world — swapping chrome/font/palette/script and
+   bumping the permanent worldBaseMult (already folded into globalMult above). */
+
+/* Pages thresholds to UNLOCK each world (index matches WORLDS). The starting world
+   is always available; the rest gate on total Pages earned. */
+const WORLD_PAGE_GATE = { notepad: 0, gdocs: 25, gsheets: 100, vscode: 400, claude: 1500 };
+
+/* Resolve the effective theme ('light' or 'dark') from state.settings.theme.
+   'system' defers to the OS preference; 'light'/'dark' forces the explicit choice. */
+function effectiveTheme(){
+  const t = (state.settings && state.settings.theme) || "system";
+  if (t === "system") return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return t;
+}
+
+/* Write a world's palette onto :root as inline custom properties, set the
+   body[data-world] + body[data-theme] hooks. Picks light or dark variant
+   based on the resolved effective theme. */
+function applyWorldPalette(world){
+  const theme = effectiveTheme();
+  const palette = world.palettes[theme];
+  const root = document.documentElement;
+  for (const k in palette){ root.style.setProperty(k, palette[k]); }
+  document.body.setAttribute("data-world", world.id);
+  document.body.setAttribute("data-theme", theme);
+}
+
+/* Reflect the world identity in the title bar + status bar (app name, file name,
+   the diegetic version marker driven by Licenses, and the per-world license cell). */
+function applyWorldIdentity(world){
+  tbApp.textContent = world.appName;
+  tbVer.textContent = (state.licenses > 0 && world.versionLabel) ? " " + world.versionLabel(state.licenses) : "";
+  // the file-name span is also written by render() (it prepends the unsaved-* marker)
+  document.title = world.fileName + " - " + world.appName;
+  // license cell — only shown once at least one ascension has happened
+  if (state.licenses > 0 && world.licenseLabel && world.licenseLabel(state.licenses)){
+    sbLicenses.textContent = world.licenseLabel(state.licenses);
+    sbLicenses.style.display = "";
+  } else {
+    sbLicenses.style.display = "none";
+  }
+}
+
+/* Apply only the WORLD CHROME — palette, font, menus, title/status identity, and
+   repoint the active SCRIPT — WITHOUT touching the transcription cursor or committed
+   text. Used by init() to restore a saved world while preserving the player's place. */
+function applyWorldChrome(world){
+  state.world = world.id;
+  // CUSTOM-BOOK: when the player has switched the source to their own book, the
+  // engine types THAT regardless of world — apply the world's chrome/font/palette
+  // as normal but keep SCRIPT pointed at the custom book (don't overwrite it).
+  SCRIPT = activeScript(world);          // repoint the whole typing engine
+  applyWorldPalette(world);
+  applyWorldIdentity(world);
+  relabelMenus(world);
+  refreshThemeColors();                  // re-cache combo tint colors for the new palette
+  // BOOK NAVIGATION: the active text may have changed (world default scripts differ);
+  // resync the scrubber + chapter button. Guarded since chrome can apply pre-wiring.
+  if (typeof rebuildBookNav === "function") rebuildBookNav();
+}
+
+/* THE full reskin pipeline (ascension). Applies the chrome AND resets the
+   transcription cursor to the top of the new script (expectIdx 0), clears any
+   typo-lock, cancels any in-progress boss, and reseeds the rendered doc. */
+function applyWorldSkin(world){
+  applyWorldChrome(world);
+  // restart the new world's script from the top on a clean boundary
+  state.expectIdx = 0;
+  if (SCRIPT[state.expectIdx] === "\n"){
+    while (SCRIPT[state.expectIdx] === "\n") state.expectIdx = (state.expectIdx + 1) % SCRIPT.length;
+  }
+  state.typoLocked = false; typoChar = "";
+  // cancel any pending/in-progress boss — its passage belongs to the old script
+  if (typeof cancelBoss === "function") cancelBoss();
+  // reseed committed text (empty at idx 0) and force a re-render of the doc
+  committedText = "";
+  docDirty = true;
+  if (typeof renderDoc === "function") renderDoc();
+  if (typeof rebuildBookNav === "function") rebuildBookNav();   // resync nav for the new script
+}
+
+/* Can we ascend to world index `i`? Only the NEXT world in sequence, and only once
+   its Pages gate is met. Returns true/false. */
+function canAscendTo(i){
+  if (i !== worldIndex() + 1) return false;          // no skipping, no going back
+  const w = WORLDS[i];
+  return state.pages >= (WORLD_PAGE_GATE[w.id] || 0);
+}
+
+/* Perform the ascension: bump Licenses, switch world, apply skin, save, toast. */
+function ascend(world){
+  state.licenses++;
+  applyWorldSkin(world);
+  save();
+  playPrestigeWipe();   // reuse the cathartic sweep as a "saving as…" transition
+  flashToast("Saved as " + world.fileName + " — welcome to " + world.appName);
+  render();
+}
+
+/* Force-ascend to any world id, bypassing the Pages gate (TESTING HOOK). Still
+   increments Licenses and applies the skin, mirroring a real ascension. */
+function ascendTo(id){
+  const w = WORLDS.find(x => x.id === id);
+  if (!w){ console.warn("ascendTo: unknown world id " + id); return false; }
+  state.licenses++;
+  applyWorldSkin(w);
+  save();
+  render();
+  return true;
+}
+
+/* ----- Save As… dialog: the format picker that gates/performs ascension ----- */
+const saveAsOverlay = $("#saveas-overlay");
+const saveAsFormatEl = $("#saveas-format");
+const saveAsNameEl   = $("#saveas-name");
+const saveAsHintEl   = $("#saveas-hint");
+const saveAsSaveBtn  = $("#saveas-save");
+let saveAsOpen = false;
+
+/* Build the format dropdown: current world (selected), the NEXT world if unlocked,
+   and any further worlds greyed-out with their Pages requirement shown. */
+function buildSaveAsOptions(){
+  saveAsFormatEl.innerHTML = "";
+  const cur = worldIndex();
+  WORLDS.forEach((w, i) => {
+    const opt = document.createElement("option");
+    opt.value = w.id;
+    if (i <= cur){
+      // current/past format — selectable but ascends nowhere (it's the same/earlier app)
+      opt.textContent = w.format + (i === cur ? "  (current)" : "");
+      opt.disabled = i < cur;                 // can't go back down
+    } else if (canAscendTo(i)){
+      opt.textContent = w.format;             // unlocked next step
+    } else {
+      const need = WORLD_PAGE_GATE[w.id] || 0;
+      opt.textContent = w.format + "  (needs " + need + " Pages)";
+      opt.disabled = true;                    // locked: requirement not met / not next
+    }
+    saveAsFormatEl.appendChild(opt);
+  });
+  // default the selection to the next unlocked world if there is one, else current
+  const nextI = cur + 1;
+  saveAsFormatEl.value = (nextI < WORLDS.length && canAscendTo(nextI)) ? WORLDS[nextI].id : WORLDS[cur].id;
+  updateSaveAsState();
+}
+
+/* Reflect the chosen format: hint text + whether the Save button ascends. */
+function updateSaveAsState(){
+  const id = saveAsFormatEl.value;
+  const i = WORLDS.findIndex(w => w.id === id);
+  const cur = worldIndex();
+  if (i === cur){
+    saveAsHintEl.className = "dlg-hint";
+    saveAsHintEl.textContent = "Saving in the current format. To advance, choose the next format below.";
+    saveAsSaveBtn.disabled = true;
+  } else if (canAscendTo(i)){
+    const w = WORLDS[i];
+    saveAsHintEl.className = "dlg-hint";
+    saveAsHintEl.textContent = "Save As " + w.format + " to convert this document — it becomes a permanent " +
+      "x" + w.baseMult + " words upgrade. Your Pages and tools carry over.";
+    saveAsSaveBtn.disabled = false;
+  } else {
+    const w = WORLDS[i];
+    const need = WORLD_PAGE_GATE[w.id] || 0;
+    saveAsHintEl.className = "dlg-hint warn";
+    saveAsHintEl.textContent = (i > cur + 1)
+      ? "Convert in order — finish the next format first."
+      : "Locked. Earn " + need + " Pages (you have " + state.pages + ") to unlock this format.";
+    saveAsSaveBtn.disabled = true;
+  }
+}
+
+function openSaveAsDialog(){
+  const w = currentWorld();
+  saveAsNameEl.value = w.fileName;
+  buildSaveAsOptions();
+  saveAsOverlay.classList.add("open");
+  saveAsOpen = true;
+}
+function closeSaveAsDialog(){ saveAsOverlay.classList.remove("open"); saveAsOpen = false; }
+
+/* Confirm: if the chosen format is the unlocked next world, ascend; else no-op. */
+function confirmSaveAs(){
+  const id = saveAsFormatEl.value;
+  const i = WORLDS.findIndex(w => w.id === id);
+  closeSaveAsDialog();
+  if (canAscendTo(i)) ascend(WORLDS[i]);
+}
+
+saveAsFormatEl.addEventListener("change", updateSaveAsState);
+saveAsSaveBtn.addEventListener("click", confirmSaveAs);
+$("#saveas-cancel").addEventListener("click", closeSaveAsDialog);
+saveAsOverlay.addEventListener("click", e => { if (e.target === saveAsOverlay) closeSaveAsDialog(); });
+
+/* Testing hooks for the orchestrator */
+window.WORLDS         = WORLDS;
+window.currentWorld   = currentWorld;
+window.ascendTo       = ascendTo;            // force-ascend to a world id (bypasses gate)
+window.applyWorldSkin = applyWorldSkin;
+window.openSaveAsDialog = openSaveAsDialog;
+window.worldBaseMult  = worldBaseMult;
+
+/* ---------- 5d. CUSTOM-BOOK IMPORT — type your own .txt/.epub/.pdf ----------
+   The player can import a book from disk and transcribe THAT instead of the
+   built-in per-world script. The cleaned text + title live in state.customBook,
+   and state.settings.scriptSource ("default" | "custom") chooses which the engine
+   types. When source is "custom", SCRIPT is the book regardless of world (the
+   world still supplies chrome/font/palette via applyWorldChrome). One book is
+   stored at a time; it persists through save/load and survives world switches. */
+
+const CUSTOM_BOOK_MAX = 2 * 1024 * 1024;   // ~2 MB cap on a cleaned book (SCRIPT + localStorage)
+const CUSTOM_BOOK_MIN = 40;                // reject books too short to be meaningful prose
+
+/* The single cleaning pipeline ALL three formats funnel their extracted raw text
+   through. Three stages:
+     1. accent-normalize  — NFKD-decompose then strip combining marks so "café" ->
+        "cafe" (foreign words stay typeable instead of being dropped), and map the
+        common typographic chars (smart quotes / dashes / ellipsis / bullets) to ASCII.
+     2. typeable-only      — drop every char that is not \n, space, or printable ASCII
+        (0x20-0x7E), discarding emoji / leftover non-ASCII / control chars. This
+        guarantees the result can never soft-lock the cursor (same subset the default
+        scripts use). Reuses sanitizeScript for the standard quote/dash/space cleanup.
+     3. collapse           — squeeze runs of blank lines / trailing whitespace so the
+        result is clean readable prose. */
+function cleanBookText(raw){
+  let t = String(raw == null ? "" : raw);
+  // 1a. map common typographic punctuation to ASCII BEFORE the accent strip so the
+  //     decomposition below can't mangle them (sanitizeScript handles most of these too).
+  t = t
+    .replace(/[‘’‚‛]/g, "'")   // smart single quotes -> '
+    .replace(/[“”„‟]/g, '"')   // smart double quotes -> "
+    .replace(/[–—‒―‐‑]/g, "-") // dashes/hyphens -> -
+    .replace(/…/g, "...")                       // ellipsis -> ...
+    .replace(/[•·‣◦⁃⁌⁍]/g, "-") // bullets -> -
+    .replace(/[       ]/g, " "); // various spaces -> space
+  // 1b. normalize accents to ASCII (NFKD then drop combining diacritical marks).
+  t = t.normalize("NFKD").replace(/[̀-ͯ]/g, "");
+  // normalize CRLF / lone CR to LF before the typeable filter
+  t = t.replace(/\r\n?/g, "\n");
+  // 2. keep ONLY \n, space, and printable ASCII 0x20-0x7E; drop everything else.
+  let out = "";
+  for (let i = 0; i < t.length; i++){
+    const c = t.charCodeAt(i);
+    if (c === 10 || (c >= 32 && c <= 126)) out += t[i];
+    // (anything else — emoji, leftover non-ASCII, control chars — is discarded)
+  }
+  // run the existing script sanitizer (curly->straight already done, but it also
+  // collapses double spaces / strips trailing spaces and is the default-script path).
+  out = sanitizeScript(out);
+  // 3. collapse whitespace into clean prose: trailing spaces, blank-line runs, edges.
+  out = out
+    .replace(/[ \t]+\n/g, "\n")        // strip trailing spaces on every line
+    .replace(/\n{3,}/g, "\n\n")        // collapse 3+ blank lines to a single blank line
+    .replace(/^\s+/, "")               // trim leading whitespace
+    .replace(/\s+$/, "");              // trim trailing whitespace
+  // ensure the book ends on a clean boundary (trailing space) so the loop wraps cleanly
+  if (out.length) out += " ";
+  return out;
+}
+
+/* ----- BOOK NAVIGATION: chapter detection -----
+   A chapter list is an array of { title, offset } where offset is the char index
+   into the CLEANED text at which the chapter begins. EPUB builds this from the spine
+   (each spine doc cleaned individually, with its running offset — see extractEpub*);
+   TXT/PDF run buildChaptersFromText() over the already-cleaned text. The list lives on
+   state.customBook.chapters and is persisted with the book. Default world scripts get
+   a single "Document" chapter (the chapter UI shows them as having no real chapters,
+   but the progress bar still works). */
+
+/* Heading-line detection over cleaned text. We look for two kinds of lines:
+     1. "Chapter / Part / Book <number-or-word>" (roman numerals, digits, or spelled
+        out one..twenty) — the classic chapter marker.
+     2. Short ALL-CAPS lines (a few words, mostly letters) — common section titles.
+   If we find a reasonable number (>= 3) we use them; otherwise the caller falls back
+   to ~N equal word-boundary segments. Offsets are the char index of the line start. */
+const CHAPTER_WORD = "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|" +
+  "thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty";
+const CHAPTER_HEAD_RE = new RegExp(
+  "^\\s*(chapter|part|book|section)\\s+([ivxlcdm]+|\\d+|" + CHAPTER_WORD + ")\\b", "i");
+const CHAPTER_MIN = 3;        // need at least this many detected headings to trust them
+const FALLBACK_SECTIONS = 16; // ~12-20 equal segments when no headings are found
+const CHAPTER_MAX = 400;      // hard cap so a pathological text can't make a huge list
+
+/* True if a line reads like an ALL-CAPS heading: 2-8 "words", letters dominate,
+   at least one letter, and no terminal sentence punctuation (so we don't grab prose). */
+function isAllCapsHeading(line){
+  const t = line.trim();
+  if (t.length < 2 || t.length > 60) return false;
+  if (/[.!?,;:]$/.test(t)) return false;
+  const letters = t.replace(/[^A-Za-z]/g, "");
+  if (letters.length < 2) return false;
+  if (letters !== letters.toUpperCase()) return false;     // must be all-caps
+  const words = t.split(/\s+/);
+  return words.length >= 1 && words.length <= 8;
+}
+
+/* Detect chapter headings in cleaned text by scanning line starts. Returns an array
+   of { title, offset } (offset = char index of the heading line). May be empty. */
+function detectChapterHeadings(text){
+  const chapters = [];
+  let lineStart = 0;
+  const lines = text.split("\n");
+  for (let li = 0; li < lines.length; li++){
+    const line = lines[li];
+    const trimmed = line.trim();
+    if (trimmed){
+      if (CHAPTER_HEAD_RE.test(line) || isAllCapsHeading(line)){
+        chapters.push({ title: trimmed.slice(0, 80), offset: lineStart });
+        if (chapters.length >= CHAPTER_MAX) break;
+      }
+    }
+    lineStart += line.length + 1;   // +1 for the "\n" that split() removed
+  }
+  return chapters;
+}
+
+/* Split text into ~count equal segments on word boundaries, labeled "Section N".
+   Used as the fallback when no real headings are detected. Each offset is snapped
+   forward to the next space so a section never starts mid-word. */
+function equalSections(text, count){
+  const out = [{ title: "Section 1", offset: 0 }];
+  const step = Math.max(1, Math.floor(text.length / count));
+  for (let n = 1; n < count; n++){
+    let idx = n * step;
+    // snap forward to the next whitespace so the cut is on a word boundary
+    while (idx < text.length && !/\s/.test(text[idx])) idx++;
+    while (idx < text.length && /\s/.test(text[idx])) idx++;   // skip the whitespace run
+    if (idx >= text.length) break;
+    if (idx > out[out.length - 1].offset) out.push({ title: "Section " + (out.length + 1), offset: idx });
+  }
+  return out;
+}
+
+/* Build a chapter list for an already-CLEANED block of text (the TXT/PDF + testing
+   path). Tries heading detection first; falls back to equal sections. Always returns
+   at least one chapter so the picker has something to anchor to. */
+function buildChaptersFromText(text){
+  if (!text || !text.length) return [{ title: "Document", offset: 0 }];
+  let chapters = detectChapterHeadings(text);
+  if (chapters.length >= CHAPTER_MIN){
+    // ensure the first chapter covers the very start of the text (lead-in / front matter)
+    if (chapters[0].offset > 0) chapters.unshift({ title: "Beginning", offset: 0 });
+  } else {
+    chapters = equalSections(text, FALLBACK_SECTIONS);
+  }
+  return chapters;
+}
+
+/* Sanitize a chapter list against a given text length: keep only well-formed entries
+   with in-range offsets, sort by offset, drop duplicates, guarantee a leading entry. */
+function normalizeChapters(chapters, textLen){
+  let list = Array.isArray(chapters) ? chapters.filter(c =>
+    c && typeof c.offset === "number" && c.offset >= 0 && c.offset < textLen) : [];
+  list = list.map(c => ({ title: String(c.title || "Chapter").slice(0, 80), offset: c.offset | 0 }));
+  list.sort((a, b) => a.offset - b.offset);
+  // drop duplicate offsets (keep first)
+  const seen = new Set(); list = list.filter(c => seen.has(c.offset) ? false : (seen.add(c.offset), true));
+  if (!list.length || list[0].offset !== 0) list.unshift({ title: "Beginning", offset: 0 });
+  return list.slice(0, CHAPTER_MAX);
+}
+
+/* Store a cleaned book as the custom source, switch to it, and make it live as
+   SCRIPT (resetting the cursor + reseeding the doc). Shared by the file-import path
+   and the loadCustomBookText testing hook. Returns the cleaned length, or -1 if the
+   cleaned text is too short to use (caller shows a friendly toast).
+   `chapters` is optional: EPUB passes a spine-derived list; TXT/PDF/testing pass
+   nothing and we derive one from the cleaned text. */
+function commitCustomBook(cleaned, title, chapters){
+  if (!cleaned || cleaned.length < CUSTOM_BOOK_MIN) return -1;
+  // size cap — truncate (on a space boundary if possible) rather than failing.
+  let truncated = false;
+  if (cleaned.length > CUSTOM_BOOK_MAX){
+    let cut = cleaned.lastIndexOf(" ", CUSTOM_BOOK_MAX);
+    if (cut < CUSTOM_BOOK_MAX * 0.5) cut = CUSTOM_BOOK_MAX;   // no nearby space — hard cut
+    cleaned = cleaned.slice(0, cut).replace(/\s+$/, "") + " ";
+    truncated = true;
+  }
+  assertTypeable(cleaned, "customBook");   // soft-lock guard (same check as default scripts)
+  // CHAPTERS: EPUB hands us a spine-derived list; everyone else derives one from the
+  // cleaned text (heading detection + equal-section fallback). Either way we normalize
+  // it against the (possibly truncated) final length so every offset stays in range.
+  let chapList = (chapters && chapters.length) ? chapters : buildChaptersFromText(cleaned);
+  chapList = normalizeChapters(chapList, cleaned.length);
+  state.customBook = { title: String(title || "My Book").slice(0, 120), text: cleaned, chapters: chapList };
+  state.settings.scriptSource = "custom";
+  reseedActiveScript();                    // reset cursor + reseed doc with the new SCRIPT
+  updateBookSourceLabel();
+  save();
+  return { length: cleaned.length, truncated };
+}
+
+/* The text the engine should currently type: the custom book when the source is
+   "custom" and a book exists, otherwise the given world's default script. */
+function activeScript(world){
+  if (state.settings && state.settings.scriptSource === "custom" && state.customBook && state.customBook.text){
+    return state.customBook.text;
+  }
+  return (world || currentWorld()).script;
+}
+
+/* The chapter list for the ACTIVE text: the custom book's stored chapters when the
+   source is "custom", otherwise a single "Document" entry for the (short, looping)
+   default world script — the chapter UI treats that as "no real chapters" but the
+   progress bar still scrubs the loop. Always returns at least one entry. */
+function usingCustomSource(){
+  return state.settings && state.settings.scriptSource === "custom" && state.customBook && state.customBook.text;
+}
+function activeChapters(){
+  if (usingCustomSource()){
+    const ch = state.customBook.chapters;
+    if (Array.isArray(ch) && ch.length) return ch;
+  }
+  return [{ title: "Document", offset: 0 }];   // default scripts: one nominal chapter
+}
+
+/* Re-point SCRIPT at whatever the active source says, reset the transcription
+   cursor to a clean boundary, clear any typo-lock / in-progress boss, and reseed
+   the rendered doc. This is the shared "switch the text you're typing" path — it
+   NEVER touches Words / Pages / upgrades. Mirrors applyWorldSkin's reseed tail. */
+function reseedActiveScript(){
+  SCRIPT = activeScript();
+  state.expectIdx = 0;
+  // never park the cursor on a leading newline run
+  if (SCRIPT[state.expectIdx] === "\n"){
+    while (SCRIPT[state.expectIdx] === "\n") state.expectIdx = (state.expectIdx + 1) % SCRIPT.length;
+  }
+  state.typoLocked = false; typoChar = "";
+  state.comboStreak = 0;
+  if (typeof cancelBoss === "function") cancelBoss();
+  committedText = "";
+  docDirty = true;
+  if (typeof renderDoc === "function") renderDoc();
+  if (typeof rebuildBookNav === "function") rebuildBookNav();   // new active text -> rebuild nav
+  if (typeof render === "function") render();
+}
+
+/* Switch the active source explicitly and re-apply SCRIPT. Guards against switching
+   to "custom" with no book imported. (Testing hook: window.setScriptSource.) */
+function setScriptSource(src){
+  if (src !== "default" && src !== "custom"){ console.warn("setScriptSource: invalid '" + src + "'"); return; }
+  if (src === "custom" && !(state.customBook && state.customBook.text)){
+    flashToast("No book imported yet — use File > Open Book…");
+    return;
+  }
+  state.settings.scriptSource = src;
+  reseedActiveScript();
+  updateBookSourceLabel();
+  save();
+}
+
+/* Cycle the File ▸ Source toggle between Default and My Book (View-toggle style).
+   If no book is imported, "My Book" isn't an option — nudge the player to import. */
+function cycleScriptSource(){
+  if (!(state.customBook && state.customBook.text)){
+    flashToast("No book imported yet — use File > Open Book…");
+    return;
+  }
+  const next = state.settings.scriptSource === "custom" ? "default" : "custom";
+  setScriptSource(next);
+  flashToast(next === "custom"
+    ? "Now typing: " + state.customBook.title
+    : "Now typing the default text");
+}
+
+/* Keep the File ▸ "Source: …" menu row label in sync with the active source. When
+   no book is imported it reads "Source: Default" and stays put (cycling no-ops). */
+function bookSourceLabel(){
+  const usingCustom = state.settings.scriptSource === "custom" && state.customBook && state.customBook.text;
+  return "Source: " + (usingCustom ? "My Book" : "Default");
+}
+function updateBookSourceLabel(){
+  for (const m of MENUS){ for (const it of m.items){ if (it.action === "bookSource") it.label = bookSourceLabel(); } }
+  const rows = menubarEl.querySelectorAll(".item.action");
+  rows.forEach(r => { if (r.firstChild && /^Source:/.test(r.firstChild.textContent)) r.firstChild.textContent = bookSourceLabel(); });
+}
+
+/* ----- File import: hidden picker + per-format parsing ----- */
+/* A hidden <input type=file> is the authentic Notepad "Open" mechanism. Themed
+   off-screen (it's never shown); the menu item triggers .click() on it. */
+const bookFileInput = document.createElement("input");
+bookFileInput.type = "file";
+bookFileInput.accept = ".txt,.epub,.pdf";
+bookFileInput.style.position = "absolute";
+bookFileInput.style.width = "1px"; bookFileInput.style.height = "1px";
+bookFileInput.style.opacity = "0"; bookFileInput.style.pointerEvents = "none";
+bookFileInput.style.left = "-9999px";
+document.body.appendChild(bookFileInput);
+
+function promptOpenBook(){ bookFileInput.value = ""; bookFileInput.click(); }
+
+bookFileInput.addEventListener("change", () => {
+  const file = bookFileInput.files && bookFileInput.files[0];
+  if (!file) return;
+  importBookFile(file);
+});
+
+/* Derive a friendly title from a filename (strip extension + tidy separators). */
+function titleFromFilename(name){
+  return String(name || "My Book").replace(/\.[^.]+$/, "").replace(/[_]+/g, " ").trim() || "My Book";
+}
+
+/* Lazy <script> loader — resolves on load, rejects on error. Used to pull JSZip /
+   pdf.js from cdnjs ONLY when an epub/pdf is actually imported, so the game itself
+   stays fully offline-capable; only first-time epub/pdf import needs the network. */
+const _loadedLibs = {};
+function loadScriptOnce(src){
+  if (_loadedLibs[src]) return _loadedLibs[src];
+  _loadedLibs[src] = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src; s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => { _loadedLibs[src] = null; reject(new Error("failed to load " + src)); };
+    document.head.appendChild(s);
+  });
+  return _loadedLibs[src];
+}
+
+const JSZIP_URL  = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+const PDFJS_URL  = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+const PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+/* Route a chosen file to the right parser by extension, clean the extracted text,
+   and commit it as the custom book on success. All failures degrade to a toast. */
+async function importBookFile(file){
+  const name = file.name || "book";
+  const ext = (name.split(".").pop() || "").toLowerCase();
+  const title = titleFromFilename(name);
+  flashToast("Opening " + name + "…");
+  try {
+    let cleaned = "";
+    let chapters = null;        // EPUB supplies a spine-derived list; txt/pdf derive from text
+    if (ext === "txt"){ cleaned = cleanBookText(await readFileAsText(file)); }
+    else if (ext === "epub"){
+      // EPUB cleans each spine doc individually and records offsets in the CLEANED
+      // concatenation, so chapters come straight from the spine (see extractEpubText).
+      const r = await extractEpubText(file);
+      cleaned = r.text; chapters = r.chapters;
+    }
+    else if (ext === "pdf"){ cleaned = cleanBookText(await extractPdfText(file)); }
+    else { flashToast("Unsupported file type — choose a .txt, .epub, or .pdf"); return; }
+
+    const res = commitCustomBook(cleaned, title, chapters);   // chapters null -> derive from text
+    if (res === -1){
+      flashToast("That book has too little typeable text to import.");
+      return;
+    }
+    flashToast((res.truncated ? "Imported (trimmed to fit) — " : "") + "Now typing: " + state.customBook.title);
+  } catch (err){
+    console.warn("importBookFile failed:", err);
+    if (ext === "epub")      flashToast("Couldn't load the EPUB reader — check your connection");
+    else if (ext === "pdf")  flashToast("Couldn't load the PDF reader — check your connection");
+    else                     flashToast("Couldn't open that file.");
+  }
+}
+
+/* .txt — straight FileReader text read. */
+function readFileAsText(file){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = () => reject(r.error || new Error("read error"));
+    r.readAsText(file);
+  });
+}
+function readFileAsArrayBuffer(file){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = () => reject(r.error || new Error("read error"));
+    r.readAsArrayBuffer(file);
+  });
+}
+
+/* Derive a chapter title for one spine document from its <title>, first <h1>/<h2>,
+   or a "Chapter N" fallback (n = 1-based spine position among kept docs). */
+function epubChapterTitle(doc, n){
+  const t = doc.querySelector("title");
+  if (t && t.textContent && t.textContent.trim()) return t.textContent.trim().slice(0, 80);
+  const h = doc.querySelector("h1, h2");
+  if (h && h.textContent && h.textContent.trim()) return h.textContent.trim().slice(0, 80);
+  return "Chapter " + n;
+}
+
+/* .epub — a ZIP of XHTML. Lazy-load JSZip, unzip, gather the XHTML/HTML documents
+   in OPF spine reading order when we can read the OPF, otherwise fall back to all
+   (x)html entries sorted by path. Each spine document is parsed with DOMParser, its
+   body.textContent CLEANED individually (cleanBookText), and concatenated — recording
+   the running offset (in the CLEANED concatenation) where each chapter begins, with a
+   title from its <title> / first <h1|h2> / "Chapter N" fallback. Returns { text,
+   chapters } so the spine drives the chapter list directly. */
+async function extractEpubText(file){
+  await loadScriptOnce(JSZIP_URL);
+  const JSZip = window.JSZip;
+  if (!JSZip) throw new Error("JSZip unavailable");
+  const buf = await readFileAsArrayBuffer(file);
+  const zip = await JSZip.loadAsync(buf);
+  const parser = new DOMParser();
+
+  // map of lowercased path -> zip entry, for spine lookups
+  const entries = {};
+  zip.forEach((path, entry) => { entries[path.toLowerCase()] = { path, entry }; });
+
+  let orderedPaths = [];
+  // try to read the OPF spine for true reading order
+  try {
+    const containerEntry = entries["meta-inf/container.xml"];
+    if (containerEntry){
+      const containerXml = await containerEntry.entry.async("string");
+      const cdoc = parser.parseFromString(containerXml, "application/xml");
+      const rootfile = cdoc.querySelector("rootfile");
+      const opfPath = rootfile && rootfile.getAttribute("full-path");
+      if (opfPath){
+        const opfEntry = entries[opfPath.toLowerCase()];
+        if (opfEntry){
+          const opfXml = await opfEntry.entry.async("string");
+          const odoc = parser.parseFromString(opfXml, "application/xml");
+          // manifest id -> href; spine references manifest ids in reading order
+          const manifest = {};
+          odoc.querySelectorAll("manifest > item").forEach(it => {
+            manifest[it.getAttribute("id")] = it.getAttribute("href");
+          });
+          const base = opfPath.replace(/[^/]*$/, "");   // OPF directory, for relative hrefs
+          odoc.querySelectorAll("spine > itemref").forEach(ref => {
+            const href = manifest[ref.getAttribute("idref")];
+            if (href){
+              const full = (base + href).replace(/\\/g, "/");
+              orderedPaths.push(full);
+            }
+          });
+        }
+      }
+    }
+  } catch(e){ /* fall through to the directory-scan fallback */ }
+
+  // fallback: all (x)html entries, sorted by path
+  if (!orderedPaths.length){
+    orderedPaths = Object.values(entries)
+      .map(e => e.path)
+      .filter(p => /\.x?html?$/i.test(p))
+      .sort();
+  }
+
+  let text = "";
+  const chapters = [];
+  let n = 0;                       // 1-based index among KEPT spine docs (for the fallback title)
+  const SEP = "\n\n";              // joins cleaned chapter bodies in the final text
+  for (const p of orderedPaths){
+    const ent = entries[p.toLowerCase()];
+    if (!ent) continue;
+    if (!/\.x?html?$/i.test(p)) continue;   // skip non-document spine items (css/images)
+    try {
+      const html = await ent.entry.async("string");
+      const doc = parser.parseFromString(html, "text/html");
+      const body = doc.body || doc.documentElement;
+      const rawChunk = body ? (body.textContent || "") : "";
+      // CLEAN this chapter's text on its own so its offset in the cleaned concatenation
+      // is exact (re-cleaning the whole concat later would shift these offsets).
+      const chunk = cleanBookText(rawChunk);
+      if (!chunk.trim()) continue;          // skip empty / non-content spine docs (covers, nav)
+      n++;
+      // this chapter starts at the current end of the cleaned text we've built so far
+      chapters.push({ title: epubChapterTitle(doc, n), offset: text.length });
+      text += chunk + SEP;
+    } catch(e){ /* skip unreadable chapter */ }
+  }
+  return { text: text, chapters: chapters };
+}
+
+/* .pdf — lazy-load pdf.js, point its worker at the matching cdnjs worker, load the
+   document from the file's ArrayBuffer, and concatenate every page's text items
+   (their .str) with spaces, newlines between pages. Images are never touched. */
+async function extractPdfText(file){
+  await loadScriptOnce(PDFJS_URL);
+  const pdfjsLib = window.pdfjsLib || (window.pdfjsDistBuildPdf && window.pdfjsDistBuildPdf);
+  if (!pdfjsLib || !pdfjsLib.getDocument) throw new Error("pdf.js unavailable");
+  try { pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER; } catch(e){}
+  const buf = await readFileAsArrayBuffer(file);
+  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  let text = "";
+  for (let p = 1; p <= pdf.numPages; p++){
+    const page = await pdf.getPage(p);
+    const content = await page.getTextContent();
+    let pageText = "";
+    for (const item of content.items){
+      if (item && typeof item.str === "string"){
+        pageText += item.str;
+        // pdf.js flags end-of-line with hasEOL; otherwise keep words spaced
+        if (item.hasEOL) pageText += "\n"; else pageText += " ";
+      }
+    }
+    text += pageText + "\n\n";
+  }
+  return text;
+}
+
+/* ----- Testing hooks (orchestrator verifies without real files) ----- */
+/* window.cleanBookText(raw): run the exact cleaning pipeline, return cleaned text. */
+window.cleanBookText = cleanBookText;
+/* window.loadCustomBookText(rawText, title): clean + store + switch to custom +
+   apply as SCRIPT + reset cursor (simulates a successful import). Returns the
+   cleaned length, or -1 if too short. */
+window.loadCustomBookText = function(rawText, title){
+  const cleaned = cleanBookText(rawText);
+  const res = commitCustomBook(cleaned, title || "Test Book");
+  if (res === -1){ flashToast("That book has too little typeable text to import."); return -1; }
+  flashToast((res.truncated ? "Imported (trimmed to fit) — " : "") + "Now typing: " + state.customBook.title);
+  return res.length;
+};
+/* window.setScriptSource('default'|'custom'): switch and re-apply SCRIPT. */
+window.setScriptSource = setScriptSource;
+/* state.settings.scriptSource, state.customBook, and live SCRIPT are reachable via
+   window.state and the getSCRIPT helper below (SCRIPT is a module-scoped let). */
+window.getSCRIPT = () => SCRIPT;
+
+/* ---------- 5e. BOOK NAVIGATION — progress scrubber + chapter jump ----------
+   A thin reading-progress bar (click/drag to seek) plus a chapter dropdown. Seeking
+   and chapter jumps move ONLY the reading cursor (state.expectIdx): they preserve
+   Words / Pages / upgrades, clear the typo-lock, reseed the doc, and reset the live
+   combo (a deliberate relocation). They work for custom books AND the default looping
+   scripts (progress = position within the loop). The bar position updates live from
+   the render loop (throttled), so there's no per-keystroke cost. */
+
+const bnTrack   = $("#booknav-track");
+const bnFill    = $("#booknav-fill");
+const bnKnob    = $("#booknav-knob");
+const bnPos     = $("#booknav-pos");
+const bnChapBtn = $("#booknav-chapbtn");
+const bnChapList = $("#booknav-chaplist");
+
+/* Snap an arbitrary index to the NEAREST clean boundary — the start of a word or a
+   line. We look a short distance both backward (to the start of the current word/line)
+   and forward (to the next one) and pick whichever is closer. Always lands on a non-
+   whitespace char (or 0) so the cursor never parks in the middle of a gap. Distinct
+   from the offline-only snapToBoundary(), which only seeks FORWARD to a sentence end. */
+function snapToWordBoundary(idx){
+  const len = SCRIPT.length;
+  if (len === 0) return 0;
+  idx = ((idx % len) + len) % len;
+  // already at a boundary? (start of text, or previous char is whitespace and this isn't)
+  const isBoundary = j => {
+    if (j === 0) return true;
+    const prev = SCRIPT[(j - 1 + len) % len];
+    const cur  = SCRIPT[j];
+    return /\s/.test(prev) && !/\s/.test(cur);
+  };
+  if (isBoundary(idx) && !/\s/.test(SCRIPT[idx])) return idx;
+  // scan backward to the start of the current word
+  let back = idx;
+  let guard = len;
+  while (guard-- > 0 && back > 0 && !isBoundary(back)) back--;
+  // if we landed on whitespace going back (e.g. idx was in a gap), nudge to next word
+  // scan forward to the next word start
+  let fwd = idx;
+  guard = len;
+  while (guard-- > 0 && fwd < len && !isBoundary(fwd)) fwd++;
+  if (fwd >= len) fwd = back;   // no forward boundary — fall back to the backward one
+  // pick the closer of the two boundaries
+  const chosen = (idx - back) <= (fwd - idx) ? back : fwd;
+  // guarantee we don't sit on whitespace (skip any run forward)
+  let out = chosen, g2 = len;
+  while (g2-- > 0 && /\s/.test(SCRIPT[out])) out = (out + 1) % len;
+  return out;
+}
+
+/* Move the reading cursor to a snapped target index, reseeding the doc around it. This
+   is the shared seek/jump primitive: it preserves all progression, clears the typo-
+   lock, resets the live combo, reseeds committedText from the new position, and
+   re-renders. Returns the new expectIdx. */
+function seekToIndex(idx){
+  const target = snapToWordBoundary(idx);
+  state.expectIdx = target;
+  state.typoLocked = false; typoChar = "";
+  state.comboStreak = 0;                 // deliberate relocation resets the live combo
+  if (typeof cancelBoss === "function") cancelBoss();
+  seedCommittedFromCursor();             // rebuild visible doc tail from the new cursor
+  docDirty = true;
+  if (typeof renderDoc === "function") renderDoc();
+  updateBookNav();
+  save();
+  return state.expectIdx;
+}
+
+/* Seek by a 0..1 fraction of the active text — the scrubber's core. */
+function seekFraction(f){
+  const frac = Math.max(0, Math.min(1, +f || 0));
+  return seekToIndex(Math.floor(frac * SCRIPT.length));
+}
+
+/* Index of the chapter whose span currently contains expectIdx (the last chapter
+   whose offset is <= expectIdx). -1 only for an empty list (never, in practice). */
+function currentChapterIndex(){
+  const chapters = activeChapters();
+  let idx = 0;
+  for (let i = 0; i < chapters.length; i++){
+    if (state.expectIdx >= chapters[i].offset) idx = i; else break;
+  }
+  return idx;
+}
+
+/* Jump to chapter i: set the cursor to its offset (snapped to a clean boundary). */
+function jumpToChapter(i){
+  const chapters = activeChapters();
+  if (!chapters.length) return state.expectIdx;
+  const ci = Math.max(0, Math.min(chapters.length - 1, i | 0));
+  closeChapterList();
+  return seekToIndex(chapters[ci].offset);
+}
+
+/* Whether the active source actually has navigable chapters (more than the single
+   nominal "Document" entry the default scripts expose). */
+function hasRealChapters(){
+  return usingCustomSource() && Array.isArray(state.customBook.chapters) && state.customBook.chapters.length > 1;
+}
+
+/* Update the scrubber fill/knob + the position readout. Cheap; called from render(). */
+function updateBookNav(){
+  const len = SCRIPT.length || 1;
+  const frac = Math.max(0, Math.min(1, state.expectIdx / len));
+  const pct = Math.round(frac * 100);
+  bnFill.style.width = (frac * 100) + "%";
+  bnKnob.style.left = (frac * 100) + "%";
+  // readout: prefer a chapter label when the book has real chapters, else a percentage
+  if (hasRealChapters()){
+    bnPos.textContent = "Ch " + (currentChapterIndex() + 1) + " · " + pct + "%";
+  } else {
+    bnPos.textContent = pct + "%";
+  }
+  // disable the chapter button when there's nothing meaningful to jump to
+  bnChapBtn.classList.toggle("disabled", !hasRealChapters());
+}
+
+/* Build / open the chapter dropdown (positioned above the bar). Highlights the active
+   chapter. For default scripts (no real chapters) it shows a single disabled row. */
+function openChapterList(){
+  const chapters = activeChapters();
+  bnChapList.innerHTML = "";
+  if (!hasRealChapters()){
+    const row = document.createElement("div");
+    row.className = "chap empty";
+    row.textContent = "No chapters in this document";
+    bnChapList.appendChild(row);
+  } else {
+    const active = currentChapterIndex();
+    const len = SCRIPT.length || 1;
+    chapters.forEach((c, i) => {
+      const row = document.createElement("div");
+      row.className = "chap" + (i === active ? " active" : "");
+      const label = document.createElement("span");
+      label.textContent = (i + 1) + ". " + c.title;
+      const pct = document.createElement("span");
+      pct.className = "pct";
+      pct.textContent = Math.round((c.offset / len) * 100) + "%";
+      row.appendChild(label); row.appendChild(pct);
+      row.addEventListener("click", e => { e.stopPropagation(); jumpToChapter(i); });
+      bnChapList.appendChild(row);
+    });
+  }
+  bnChapList.classList.add("open");
+}
+function closeChapterList(){ bnChapList.classList.remove("open"); }
+function toggleChapterList(){
+  if (bnChapList.classList.contains("open")) closeChapterList();
+  else openChapterList();
+}
+bnChapBtn.addEventListener("click", e => { e.stopPropagation(); toggleChapterList(); });
+// clicking elsewhere closes the list (mirrors the menu-bar close behavior)
+document.addEventListener("click", closeChapterList);
+
+/* Drag-to-seek on the track. Pointer events give us click + drag in one path; the
+   fraction is the pointer X within the track rect. We seek live while dragging so the
+   doc scrubs under the cursor, then commit/save on release (seekFraction saves each
+   move, which is fine — it's throttled by pointermove frequency). */
+let bnDragging = false;
+function bnFractionFromEvent(e){
+  const r = bnTrack.getBoundingClientRect();
+  if (r.width <= 0) return 0;
+  return (e.clientX - r.left) / r.width;
+}
+bnTrack.addEventListener("pointerdown", e => {
+  e.preventDefault();
+  bnDragging = true;
+  try { bnTrack.setPointerCapture(e.pointerId); } catch(_){}
+  seekFraction(bnFractionFromEvent(e));
+});
+bnTrack.addEventListener("pointermove", e => {
+  if (!bnDragging) return;
+  seekFraction(bnFractionFromEvent(e));
+});
+function bnEndDrag(e){ if (bnDragging){ bnDragging = false; try { bnTrack.releasePointerCapture(e.pointerId); } catch(_){} } }
+bnTrack.addEventListener("pointerup", bnEndDrag);
+bnTrack.addEventListener("pointercancel", bnEndDrag);
+
+/* Rebuild the chapter UI for a freshly active text (source switch / import / ascend /
+   load). Closes any open list and refreshes the bar. The list itself is rebuilt lazily
+   on open, so this just resyncs the bar + button state. */
+function rebuildBookNav(){
+  closeChapterList();
+  updateBookNav();
+}
+
+/* ----- Testing hooks (orchestrator verifies without real files) ----- */
+/* window.getChapters(): the active [{title, offset}] list. */
+window.getChapters = () => activeChapters();
+/* window.jumpToChapter(i): jump to chapter i, returns the new expectIdx. */
+window.jumpToChapter = jumpToChapter;
+/* window.seekFraction(f): seek to fraction 0..1 (snaps), returns the new expectIdx. */
+window.seekFraction = seekFraction;
+
+/* ---------- 6. TRANSCRIPTION: SCRIPT CURSOR, DOC WINDOW, INPUT ---------- */
+// GHOST_AHEAD removed — ghost now shows next N letters of lookahead (see nextLettersGhost)
+const COMMIT_TAIL = 2000;    // chars of committed text kept in the sliding window
+let committedText = "";      // visible already-typed-correct text (trimmed tail of the script)
+let typoChar = "";           // the single uncommitted red wrong char (never advances expectIdx)
+let docDirty = true;
+let lastFloat = 0;
+let correctAccum = 0;         // correct chars typed this frame (feeds honest WPM)
+let composing = false;        // IME composition in progress -> skip earning
+
+/* Skip any newline(s) at the cursor for free — the player never presses Enter.
+   Appends them to committedText so the rendered doc keeps its real line breaks. */
+function consumeNewlines(){
+  let moved = false;
+  while (SCRIPT[state.expectIdx] === "\n"){
+    committedText += "\n";
+    state.expectIdx = (state.expectIdx + 1) % SCRIPT.length;
+    moved = true;
+  }
+  if (moved){ trimCommitted(); docDirty = true; }
+}
+function trimCommitted(){
+  if (committedText.length > COMMIT_TAIL) committedText = committedText.slice(committedText.length - COMMIT_TAIL);
+}
+
+/* Commit one already-known-correct char from the script (used by both player
+   matches and passive auto-typers). Advances the cursor and reveals the char. */
+function commitScriptChar(){
+  committedText += SCRIPT[state.expectIdx];
+  state.expectIdx = (state.expectIdx + 1) % SCRIPT.length;
+  trimCommitted();
+  consumeNewlines();    // jump any newline run that now sits under the cursor
+  docDirty = true;
+}
+
+/* Whether a pressed key matches the expected script char.
+   Letters are case-insensitive; everything else must match literally. */
+function keyMatches(pressed, expected){
+  if (pressed.length !== 1) return false;
+  if (/[a-z]/i.test(expected)) return pressed.toLowerCase() === expected.toLowerCase();
+  return pressed === expected;
+}
+
+/* Compute the ghost lookahead from the cursor: the next N LETTERS of the script
+   where N = state.settings.ghostLetters (default 10).
+   - Any run of spaces/newlines is collapsed to a single display space; the result
+     never leads with a space and never contains a bare newline (inline preview).
+   - Wraps past the end of SCRIPT so the tail of the script loops back to the top.
+   - Guards against an infinite loop on a degenerate (all-whitespace) script.
+   - Letter budget is counted by visible characters emitted (not raw script chars). */
+function nextLettersGhost(){
+  const len = SCRIPT.length;
+  if (len === 0) return "";
+  const n = (state.settings && state.settings.ghostLetters) || 10;
+  const start = state.expectIdx % len;
+  let i = start;
+  let g = "";
+  let safety = len + 1;   // degenerate-script guard (one full wrap + 1)
+
+  while (g.length < n && safety-- > 0){
+    const c = SCRIPT[i];
+    if (c === " " || c === "\n"){
+      // collapse whitespace; never lead with a space
+      if (g.length && g[g.length - 1] !== " ") g += " ";
+    } else {
+      g += c;
+    }
+    i = (i + 1) % len;
+    if (i === start) break;   // wrapped fully around without hitting n chars
+  }
+
+  return g.replace(/\s+$/, "");   // drop any trailing separator
+}
+
+/* Build the three visible zones from the script around the cursor.
+   recent = warm-tinted tail of committed text; committed = the rest;
+   ghost = faint per-letter preview of the next N upcoming script chars. */
+const RECENT_LEN = 40;       // how much committed text gets the combo warm-tint
+function renderDoc(){
+  // The main doc ALWAYS renders the player's own script progress now — a boss is a
+  // separate corner panel that never overwrites this (see renderBossPanel()).
+  // normal layout — split committed text into a cold head and a warm "recent" tail
+  if (committedText.length > RECENT_LEN){
+    committedEl.textContent = committedText.slice(0, committedText.length - RECENT_LEN);
+    recentEl.textContent = committedText.slice(committedText.length - RECENT_LEN);
+  } else {
+    committedEl.textContent = "";
+    recentEl.textContent = committedText;
+  }
+  typoEl.textContent = typoChar;     // empty unless typo-locked
+  // ghost: per-letter lookahead — next state.settings.ghostLetters chars of upcoming script
+  ghostEl.textContent = nextLettersGhost();
+  docEl.scrollTop = docEl.scrollHeight;
+  docDirty = false;
+}
+
+function spawnFloater(n){
+  const mode = state.settings.gainDisplay;
+  if (mode === "off") return;
+  if (mode === "corner"){ showCornerGain(n); return; }
+  // "floating" — existing rising animation off the caret
+  const now = performance.now();
+  if (now - lastFloat < 45) return;
+  lastFloat = now;
+  const cr = caretEl.getBoundingClientRect(), lr = floatLayer.getBoundingClientRect();
+  const f = document.createElement("div");
+  f.className = "floater";
+  f.textContent = "+" + format(n);
+  f.style.left = Math.max(4, cr.left - lr.left + 4) + "px";
+  f.style.top  = Math.max(0, cr.top - lr.top - 4) + "px";
+  floatLayer.appendChild(f);
+  f.addEventListener("animationend", () => f.remove());
+}
+
+/* Rolling accuracy over the last 100 active keystrokes (1=correct, 0=wrong). */
+const ACC_WINDOW = 100;
+let accBuf = [];
+function recordKeystroke(correct){
+  accBuf.push(correct ? 1 : 0);
+  if (accBuf.length > ACC_WINDOW) accBuf.shift();
+}
+function accuracyPct(){
+  if (accBuf.length === 0) return 100;
+  let s = 0; for (const v of accBuf) s += v;
+  return Math.round((s / accBuf.length) * 100);
+}
+
+let lastErrSfx = 0;          // throttle the error blip while locked
+/* Process one evaluated character (printable or space) against the MAIN SCRIPT.
+   This is the main typing engine; it earns Words, drives the combo, and advances
+   state.expectIdx. A boss fight does NOT flow through here — it has its own fully
+   isolated input path (handleBossChar) so it can never touch the main cursor/combo. */
+function handleChar(pressed){
+  if (readingMode || windowBlurred || composing) return;   // frozen: never earn/penalize
+  const expected = SCRIPT[state.expectIdx];
+
+  if (state.typoLocked){
+    // locked: only Backspace clears it. Another wrong key just re-shows a red char.
+    typoChar = pressed;
+    docDirty = true;
+    const now = performance.now();
+    if (now - lastErrSfx > 120){ sfx("err"); lastErrSfx = now; }
+    return;
+  }
+
+  if (keyMatches(pressed, expected)){
+    // MATCH — earn and advance the cursor.
+    const earn = wordsPerKey() * comboMult();
+    gain(earn);
+    correctAccum++;
+    state.totalKeystrokes++;
+    state.comboStreak++;
+    recordKeystroke(true);
+    commitScriptChar();
+    spawnFloater(earn);
+    sfx("key");
+  } else {
+    // MISMATCH — typo-lock, earn nothing, reset combo, show one red char.
+    state.typoLocked = true;
+    typoChar = pressed;
+    state.comboStreak = 0;
+    recordKeystroke(false);
+    docDirty = true;
+    sfx("err");
+    lastErrSfx = performance.now();
+  }
+}
+
+/* Backspace clears the typo-lock; it never moves the cursor past committed text. */
+function handleBackspace(){
+  if (state.typoLocked){
+    state.typoLocked = false;
+    typoChar = "";
+    docDirty = true;
+  }
+  // (when not locked, Backspace is a no-op: we never un-commit correct text)
+}
+
+/* keyboard */
+window.addEventListener("keydown", e => {
+  // Esc closes any open dialog first (takes priority over Reading Mode toggle)
+  if (e.key === "Escape"){
+    e.preventDefault();
+    if (saveAsOpen){ closeSaveAsDialog(); return; }
+    if (prestigeDialogOpen){ closePrestigeDialog(); return; }
+    // an engaged boss disengages first (pausing its timer); Esc THEN still does the
+    // Reading-Mode panic toggle, so a single Esc both steps away AND hides the screen.
+    if (boss.phase === "engaged") disengageBoss();
+    setReading(!readingMode);
+    return;
+  }
+
+  // Backspace: required to recover from a typo-lock. Always preventDefault so the
+  // browser cannot navigate back. Routes to the boss box when engaged.
+  if (e.key === "Backspace"){
+    e.preventDefault();
+    if (boss.phase === "engaged") handleBossBackspace(); else handleBackspace();
+    return;
+  }
+
+  // Modifier shortcuts (and any keydown holding a modifier) never type anything.
+  if (e.ctrlKey || e.metaKey || e.altKey){
+    if ((e.ctrlKey||e.metaKey) && (e.key === "s" || e.key === "S")){
+      e.preventDefault();
+      doAction(e.shiftKey ? "saveAs" : "save");   // Ctrl+Shift+S = Save As… (ascension)
+    }
+    if ((e.ctrlKey||e.metaKey) && (e.key === "n" || e.key === "N")){ e.preventDefault(); doAction("new"); }
+    return;
+  }
+
+  // Held-key autorepeat must not auto-type; genuine distinct presses still count.
+  if (e.repeat) return;
+
+  // Only a printable visible char or Space is evaluated. While a boss is ENGAGED the
+  // keystroke types the reply box and never touches the main script; otherwise it
+  // types the main document as usual.
+  if (e.key === " " || e.key.length === 1){
+    e.preventDefault();
+    if (boss.phase === "engaged") handleBossChar(e.key); else handleChar(e.key);
+  }
+  // Everything else (Shift/CapsLock/Arrows/Home/End/Tab/F-keys/Enter/etc.) is ignored.
+});
+
+/* clicking the doc is a focus no-op for typing, but it DISENGAGES an active boss
+   (pausing its timer and minimizing the box back to the notification). It must not
+   earn (that bypassed the gate). */
+docEl.addEventListener("mousedown", e => {
+  e.preventDefault();
+  if (boss.phase === "engaged") disengageBoss();
+});
+
+/* anti-cheat: block paste (would inject progress for free) */
+window.addEventListener("paste", e => { e.preventDefault(); });
+/* IME guard: while composing, skip earning so IME can't inject progress */
+window.addEventListener("compositionstart", () => { composing = true; });
+window.addEventListener("compositionend",   () => { composing = false; });
+
+/* ---------- 6b. BOSS FIGHTS (a SEPARATE, opt-in "reply to an urgent request") ----------
+   A boss is a corner chat/email NOTIFICATION, never an inline takeover. It has three
+   phases:
+     idle      — nothing on screen; the main game is normal.
+     notifying — the popup sits in the corner (no timer, main game fully unaffected).
+                 If ignored it auto-dismisses after ~60s with no penalty.
+     engaged   — the player clicked it; the popup becomes a reply box and the deadline
+                 timer runs. Printable keystrokes type the BOX only — they never touch
+                 state.expectIdx, state.comboStreak, or committedText. The boss has its
+                 OWN local typed buffer + typo handling, so a boss typo has ZERO effect
+                 on the main combo/cursor.
+   Disengaging (click the doc / Esc) drops back to `notifying` and PAUSES the timer; the
+   passage + progress are preserved so the player can re-click to resume. WIN when the
+   full passage is typed before the deadline; FAIL (zero penalty) when it expires. */
+
+const BOSS_TYPO_GRACE = 1.5;   // seconds the countdown pauses each time you enter a box typo
+const BOSS_COOLDOWN   = 45;    // seconds after a boss resolves before another can spawn
+const BOSS_AUTO_DISMISS = 60;  // seconds an IGNORED notification waits before politely leaving
+/* Progress-based thresholds for the first bosses (lifetimeWords). Sized so the
+   FIRST boss lands a few minutes in as a pleasant surprise, not an interruption.
+   After this list is exhausted we switch to a time-based cadence. */
+const BOSS_THRESHOLDS = [1200, 6000, 20000, 60000, 150000];
+const BOSS_TIME_CADENCE = 180; // after thresholds run out, a boss every ~3 min of active play
+
+/* A few plausible senders for the notification header, picked per spawn. */
+const BOSS_SENDERS = [
+  { name: "The Project Office", initials: "PO" },
+  { name: "Platform Team",      initials: "PT" },
+  { name: "Operations",         initials: "OP" },
+  { name: "Your Manager",       initials: "YM" },
+  { name: "Legal Review",       initials: "LR" },
+];
+
+/* Console-readable boss state (per spec): phase / passage / idx / secondsLeft / typos.
+   This object is NOT persisted — a reload cancels any pending or engaged boss. */
+let boss = {
+  phase: "idle",     // 'idle' | 'notifying' | 'engaged'
+  passage: "",       // the reply text being transcribed
+  idx: 0,            // cursor into passage (chars typed correctly so far)
+  typed: "",         // the correct reply chars typed so far (== passage.slice(0, idx))
+  typoChar: "",      // the single red wrong char shown at the box caret (own typo lock)
+  total: 0,          // total seconds granted for this fight
+  remaining: 0,      // seconds left (ticks down only while ENGAGED and not frozen)
+  grace: 0,          // pending grace-pause seconds (freezes the countdown while > 0)
+  typos: 0,          // typos made this fight (0 => perfect-run bonus)
+  notifyLeft: 0,     // seconds before an ignored notification auto-dismisses
+  sender: BOSS_SENDERS[0],
+  // backward-compatible alias some tooling may read; true only while engaged
+  get active(){ return this.phase === "engaged"; },
+  get secondsLeft(){ return Math.max(0, Math.ceil(this.remaining)); },
+};
+
+function pickBossLine(){ return BOSS_LINES[Math.floor(Math.random() * BOSS_LINES.length)]; }
+function pickBossSender(){ return BOSS_SENDERS[Math.floor(Math.random() * BOSS_SENDERS.length)]; }
+
+/* Difficulty/timer: passage-length-based deadline, tightening with bossIdx.
+   totalTime = max(MIN_S, ceil(passage.length / TARGET_CPS * slack))
+   TARGET_CPS = 5 chars/sec (~60 WPM); slack starts at 1.6 and narrows to 1.15
+   as bossIdx grows (slack = max(1.15, 1.6 - 0.05 * bossIdx)), so a 120-char
+   passage early gives ~38s, later ~28s — tight enough that typos genuinely hurt.
+   Called AFTER boss.passage is assigned (startBoss sets the passage first). */
+const BOSS_TARGET_CPS = 5;   // chars/sec at ~60 WPM (5 chars per word)
+const BOSS_SLACK_START = 1.6; // generous early
+const BOSS_SLACK_FLOOR = 1.15; // tightest ever
+const BOSS_MIN_TIME    = 12;  // absolute floor in seconds
+function bossTotalTime(){
+  const slack = Math.max(BOSS_SLACK_FLOOR, BOSS_SLACK_START - 0.05 * state.bossIdx);
+  return Math.max(BOSS_MIN_TIME, Math.ceil(boss.passage.length / BOSS_TARGET_CPS * slack));
+}
+
+/* SPAWN the notification (phase -> notifying). The main game is untouched: no timer
+   runs yet, the cursor/combo/doc are all left exactly as they are. Exposed as
+   window.startBoss; returns true if a notification was raised. */
+function startBoss(){
+  if (boss.phase !== "idle") return false;
+  boss.phase = "notifying";
+  boss.passage = pickBossLine();
+  boss.idx = 0;
+  boss.typed = "";
+  boss.typoChar = "";
+  boss.total = bossTotalTime();
+  boss.remaining = boss.total;       // primed, but the clock does NOT tick until engaged
+  boss.grace = 0;
+  boss.typos = 0;
+  boss.notifyLeft = BOSS_AUTO_DISMISS;
+  boss.sender = pickBossSender();
+  state.bossIdx++;                   // counts bosses STARTED (notified) this run
+  state.bossActivePlay = 0;          // reset the time-cadence clock
+  renderBossPanel();
+  flashToast("New message from " + boss.sender.name + " — flagged urgent.");
+  return true;
+}
+
+/* ENGAGE the pending notification (phase -> engaged): the box opens and the deadline
+   clock starts NOW. Exposed as window.engageBoss. No-op unless we're notifying. */
+function engageBoss(){
+  if (boss.phase !== "notifying") return false;
+  boss.phase = "engaged";
+  boss.notifyLeft = 0;
+  // timer starts on engage — boss.remaining is already primed from startBoss()
+  renderBossPanel();
+  return true;
+}
+
+/* DISENGAGE an engaged boss (phase -> notifying): the box minimizes back to the
+   notification and the timer PAUSES. Progress (typed/idx) is preserved so re-engaging
+   resumes exactly where the player left off. A box typo-lock is cleared on the way out
+   so the player doesn't return to a stale red char. */
+function disengageBoss(){
+  if (boss.phase !== "engaged") return false;
+  boss.phase = "notifying";
+  boss.typoChar = "";                // never keep a box typo across a step-away
+  boss.notifyLeft = BOSS_AUTO_DISMISS; // give the (still-available) notification a fresh life
+  renderBossPanel();
+  return true;
+}
+
+/* Fully clear any boss back to idle (used by win/fail/prestige/ascension/reload). */
+function cancelBoss(){
+  boss.phase = "idle";
+  boss.passage = ""; boss.idx = 0; boss.typed = ""; boss.typoChar = "";
+  boss.grace = 0; boss.notifyLeft = 0;
+  renderBossPanel();
+}
+
+/* Process one evaluated char against the BOSS reply box. Fully isolated from the
+   main engine: it reads/writes ONLY boss.* and never calls gain(), never touches
+   state.expectIdx / state.comboStreak / committedText. */
+function handleBossChar(pressed){
+  if (readingMode || windowBlurred || composing) return;   // frozen: box also pauses
+  const expected = boss.passage[boss.idx];
+
+  if (boss.typoChar){
+    // box typo-lock: only Backspace clears it; another wrong key re-shows a red char.
+    boss.typoChar = pressed;
+    const now = performance.now();
+    if (now - lastErrSfx > 120){ sfx("err"); lastErrSfx = now; }
+    renderBossPanel();
+    return;
+  }
+
+  if (keyMatches(pressed, expected)){
+    boss.typed += boss.passage[boss.idx];
+    boss.idx++;
+    sfx("key");
+    renderBossPanel();
+    if (boss.idx >= boss.passage.length) winBoss();   // last char typed -> win
+  } else {
+    boss.typoChar = pressed;          // own local typo lock (red char at the box caret)
+    boss.typos++;
+    boss.grace += BOSS_TYPO_GRACE;    // pause the deadline a beat + forfeit perfect bonus
+    sfx("err");
+    lastErrSfx = performance.now();
+    renderBossPanel();
+  }
+}
+
+/* Backspace inside the box clears the box typo-lock; never un-types correct chars. */
+function handleBossBackspace(){
+  if (boss.typoChar){ boss.typoChar = ""; renderBossPanel(); }
+}
+
+function winBoss(){
+  // power-scaled reward, floored so EARLY bosses (passive 0) still pay meaningfully.
+  // Identical formula to before: ~30s of passive (floored), ×time-remaining, ×perfect.
+  const base = Math.max(effectiveWPS() * 30, wordsPerKey() * 40);
+  const timeFactor = Math.max(0.5, Math.min(1, boss.remaining / boss.total));
+  const perfectBonus = (boss.typos === 0) ? 2 : 1;
+  const reward = base * timeFactor * perfectBonus;
+  gain(reward);
+  spawnFloater(reward);
+  const perfectNote = perfectBonus > 1 ? " (clean reply!)" : "";
+  state.bossCooldown = BOSS_COOLDOWN;
+  cancelBoss();
+  flashToast("Reply sent — thanks for the quick turnaround" + perfectNote + " (+" + format(reward) + " words)");
+}
+
+function failBoss(){
+  // pure forgiveness: zero Words lost, no main-combo penalty.
+  state.bossCooldown = BOSS_COOLDOWN;
+  cancelBoss();
+  flashToast("Request expired — no reply needed.");
+}
+
+/* Tick the boss. The deadline clock advances ONLY while ENGAGED (and not frozen);
+   a notifying boss instead burns its auto-dismiss timer. Frozen (Reading Mode / blur)
+   pauses the engaged clock so the panic-hide and stepping away never cost a fight. */
+function tickBoss(dt, frozen){
+  if (boss.phase === "notifying"){
+    boss.notifyLeft -= dt;
+    if (boss.notifyLeft <= 0){ cancelBoss(); state.bossCooldown = BOSS_COOLDOWN; }
+    return;
+  }
+  if (boss.phase !== "engaged" || frozen) return;
+  if (boss.grace > 0){ boss.grace -= dt; return; }   // grace pause: hold the clock
+  boss.remaining -= dt;
+  if (boss.remaining <= 0){ boss.remaining = 0; failBoss(); }
+}
+
+/* Decide whether to SPAWN a notification this frame (only when idle and the cooldown
+   has elapsed). Progress-based for the first few, then time-based. */
+function maybeTriggerBoss(dt, frozen){
+  if (boss.phase !== "idle") return;
+  if (state.bossCooldown > 0){ state.bossCooldown = Math.max(0, state.bossCooldown - dt); return; }
+  if (state.bossIdx < BOSS_THRESHOLDS.length){
+    if (state.lifetimeWords >= BOSS_THRESHOLDS[state.bossIdx]) startBoss();
+  } else if (!frozen){
+    state.bossActivePlay += dt;
+    if (state.bossActivePlay >= BOSS_TIME_CADENCE) startBoss();
+  }
+}
+
+/* Build the disguised "Response due: H:MM AM/PM" field from secondsLeft. */
+function bossDueText(){
+  const due = new Date(Date.now() + boss.secondsLeft * 1000);
+  let h = due.getHours(); const m = due.getMinutes();
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12; if (h === 0) h = 12;
+  return "Response due: " + h + ":" + (m < 10 ? "0" + m : m) + " " + ampm;
+}
+
+/* Render the corner panel for the current phase. The deadline text/urgency is also
+   refreshed here every frame from render() (via the engaged branch) so the clock
+   stays live without re-running the whole panel build. */
+function renderBossPanel(){
+  if (boss.phase === "idle"){
+    bossPanel.classList.remove("show", "engaged");
+    return;
+  }
+  // header identity (sender) — set on every (re)build; cheap.
+  bpAvatar.textContent = boss.sender.initials;
+  bpName.textContent = boss.sender.name;
+  bpPrompt.textContent = "Quick reply needed on this thread.";
+  bossPanel.classList.add("show");
+  if (boss.phase === "engaged"){
+    bossPanel.classList.add("engaged");
+    bpPreEl.textContent = boss.typed;                       // typed reply (highlighted)
+    bpTypoEl.textContent = boss.typoChar;                   // red wrong char at the caret
+    bpPostEl.textContent = boss.passage.slice(boss.idx);    // pending reply (dimmed)
+    const due = bossDueText();
+    bpDue.textContent = due; bpDueFoot.textContent = due;
+    const urgent = boss.secondsLeft <= 10;
+    bpDue.classList.toggle("urgent", urgent);
+  } else {
+    bossPanel.classList.remove("engaged");
+    bpDue.textContent = "";                                 // no live clock until engaged
+    bpDue.classList.remove("urgent");
+  }
+}
+
+/* Clicking the panel ENGAGES (or, if already engaged, is a no-op so typing isn't lost).
+   Anywhere on the panel works while collapsed; the click must not bubble to the doc. */
+bossPanel.addEventListener("mousedown", e => {
+  e.preventDefault(); e.stopPropagation();
+  if (boss.phase === "notifying") engageBoss();
+});
+
+window.startBoss  = startBoss;    // spawn the notification (returns true)
+window.engageBoss = engageBoss;   // programmatically engage the pending boss (as if clicked)
+window.boss = boss;               // console-readable boss state {phase,passage,idx,secondsLeft,typos}
+
+/* ---------- 7. RENDER ---------- */
+let displayWords = 0, wpmEma = 0;
+
+/* Read the editor color tokens from :root so the combo tint respects any later
+   dark-mode override of the CSS vars (the whole point of theming in one place). */
+function cssVarRgb(name, fallback){
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const hex = /^#?([0-9a-f]{6})$/i.exec(v);
+  if (hex){ const n = parseInt(hex[1], 16); return [(n>>16)&255, (n>>8)&255, n&255]; }
+  const rgb = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i.exec(v);
+  if (rgb) return [ +rgb[1], +rgb[2], +rgb[3] ];
+  return fallback;
+}
+let _coldRgb = null, _warmRgb = null;   // cached token colors (refreshed via refreshThemeColors)
+function refreshThemeColors(){
+  _coldRgb = cssVarRgb("--committed", [28,28,28]);
+  _warmRgb = cssVarRgb("--combo-warm", [217,138,31]);
+}
+
+/* Warm the caret + recent text toward amber as the combo climbs (0..1 of the cap),
+   and update the muted combo readout in the status bar. Glance-safe, not game-y. */
+function applyComboTint(){
+  if (!_coldRgb) refreshThemeColors();
+  const m = comboMult();
+  const t = Math.max(0, Math.min(1, (m - 1) / (COMBO_CAP - 1)));   // 0 at ×1, 1 at ×CAP
+  const mix = i => Math.round(_coldRgb[i] + (_warmRgb[i] - _coldRgb[i]) * t);
+  const amber = "rgb(" + mix(0) + "," + mix(1) + "," + mix(2) + ")";
+  caretEl.style.background = amber;
+  recentEl.style.color = amber;
+  // muted "×N" cell, also warmed a touch so it reads as a live (but quiet) stat
+  sbCombo.innerHTML = "&times;" + (Number.isInteger(m) ? m : m.toFixed(1));
+  sbCombo.style.color = t > 0 ? "rgb(" + (154 + Math.round(60*t)) + "," + (154 - Math.round(40*t)) + "," + (154 - Math.round(110*t)) + ")" : "var(--combo-neutral)";
+}
+
+function render(){
+  // odometer ease
+  displayWords += (state.words - displayWords) * 0.25;
+  if (Math.abs(state.words - displayWords) < 0.5) displayWords = state.words;
+  sbWords.textContent = format(displayWords);
+  // asterisk = "unsaved pages" hint: shows when at least 1 Page would be gained by resetting.
+  // file name comes from the active world so each app shows its own document name.
+  tbName.textContent = (state.runWords >= 1e6 ? "*" : "") + currentWorld().fileName;
+  // Pages readout — only visible once the player has earned at least 1 Page
+  if (state.pages > 0){
+    sbPages.textContent = "Pg " + state.pages;
+    sbPages.style.display = "";
+  } else {
+    sbPages.style.display = "none";
+  }
+
+  // WPM readout (honest active typing speed)
+  sbWpm.textContent = Math.round(wpmEma) + " WPM";
+
+  // accuracy + combo readouts
+  sbAcc.textContent = accuracyPct() + "%";
+  applyComboTint();
+
+  // BOOK NAVIGATION: refresh the reading-progress scrubber from the live cursor
+  // (throttled with the rest of render() — no per-keystroke cost).
+  updateBookNav();
+
+  // disguised boss deadline — refresh the engaged reply box's live "Response due" clock
+  if (boss.phase === "engaged"){
+    const due = bossDueText();
+    bpDue.textContent = due; bpDueFoot.textContent = due;
+    bpDue.classList.toggle("urgent", boss.secondsLeft <= 10);
+  }
+
+  // Ln/Col flavor from the committed (visible) doc
+  const lines = committedText.split("\n");
+  sbLnCol.textContent = "Ln " + lines.length + ", Col " + (lines[lines.length-1].length + 1);
+
+  // menu affordability
+  for (const u of UPGRADES){
+    const ref = itemRefs[u.id];
+    if (!ref) continue;
+    const c = cost(u);
+    const can = state.words >= c;
+    ref.el.classList.toggle("enabled", can);
+    const n = owned(u.id);
+    ref.leftEl.textContent = u.name + (n > 0 ? "  ×" + n : "");
+    ref.rightEl.textContent = format(c);
+  }
+}
+
+/* ---------- 8. LOOP ---------- */
+let last = performance.now(), renderAcc = 0, saveAcc = 0;
+let windowBlurred = false;   // freeze earning/combo while the window is unfocused
+function loop(now){
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  const frozen = readingMode || windowBlurred;   // panic-hide must never penalize
+
+  // boss cadence/spawn + notification/engaged ticking (engaged clock pauses while
+  // frozen and grace-pauses on a box typo; a notifying boss just burns its auto-dismiss)
+  maybeTriggerBoss(dt, frozen);
+  tickBoss(dt, frozen);
+
+  // Passive income runs normally throughout — bosses are now fully self-contained and
+  // never freeze or otherwise touch the main systems (the old boss-typo passive freeze
+  // is gone). Passive is paused only by the global frozen state (Reading Mode / blur).
+  const wps = effectiveWPS();
+  if (wps > 0 && !frozen){
+    // Passive earners add Words in the background but do NOT advance the script
+    // cursor — the cursor (expectIdx / committedText / ghost) moves ONLY when the
+    // player actively types.  This stops the text shifting under the player's hands.
+    gain(wps * dt);
+  }
+
+  // Honest WPM: correct active chars / 5, per minute, EMA-smoothed (standard WPM).
+  // Passive does not feed this; locked time contributes 0 so it decays naturally.
+  if (!frozen){
+    const instWpm = (correctAccum / 5) / (dt / 60);   // (chars/5) per minute
+    wpmEma += (instWpm - wpmEma) * Math.min(1, dt * 2);
+  }
+  correctAccum = 0;
+
+  if (docDirty) renderDoc();
+  renderAcc += dt; saveAcc += dt;
+  if (renderAcc >= 0.06){ render(); renderAcc = 0; }
+  if (saveAcc >= 8){ save(); saveAcc = 0; }
+  requestAnimationFrame(loop);
+}
+
+/* window focus freeze: pause earning + combo while blurred (panic-hide safety) */
+window.addEventListener("blur",  () => { windowBlurred = true; });
+window.addEventListener("focus", () => {
+  windowBlurred = false;
+  last = performance.now();   // avoid a big dt spike (and WPM blip) after being away
+  if (state.typoLocked) flashToast("Still locked — press Backspace to clear the typo");
+});
+
+/* ---------- 9. SAVE / LOAD / OFFLINE ---------- */
+function save(){
+  state.lastSave = Date.now();
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch(e){}
+}
+function load(){
+  let raw = null;
+  try { raw = localStorage.getItem(SAVE_KEY); } catch(e){}
+  if (!raw) return;
+  try {
+    const s = JSON.parse(raw);
+    state = Object.assign(state, s);
+    state.settings = Object.assign({ sound: false, gainDisplay: "corner", theme: "system", scriptSource: "default", ghostLetters: 10 }, s.settings || {});
+    // guard: theme must be one of the valid values (old saves without it default to "system")
+    if (!["system","light","dark"].includes(state.settings.theme)) state.settings.theme = "system";
+    // guard: ghostLetters must be one of the valid presets (old saves without it default to 10)
+    if (![5,10,15,20,30,50].includes(state.settings.ghostLetters)) state.settings.ghostLetters = 10;
+    // CUSTOM-BOOK: restore the imported book + active source, guarding old/corrupt saves.
+    // Only honor a "custom" source if a real book with text actually survived.
+    state.customBook = (s.customBook && typeof s.customBook.text === "string" && s.customBook.text.length)
+      ? { title: String(s.customBook.title || "My Book").slice(0, 120), text: s.customBook.text,
+          // restore the persisted chapter list (re-derive one if an old save lacks it),
+          // normalized against the restored text length so every offset stays in range.
+          chapters: normalizeChapters(
+            (Array.isArray(s.customBook.chapters) && s.customBook.chapters.length)
+              ? s.customBook.chapters
+              : buildChaptersFromText(s.customBook.text),
+            s.customBook.text.length) }
+      : null;
+    if (state.settings.scriptSource !== "custom" || !state.customBook) state.settings.scriptSource = "default";
+    state.upgrades = s.upgrades || {};
+    // WORLDS / ascension fields — default to the Notepad world if absent (old saves).
+    // Repoint SCRIPT at the saved world BEFORE the expectIdx clamp below (it needs the
+    // right SCRIPT.length). The full skin (palette/menus/identity) is applied in init().
+    state.licenses = Math.max(0, +s.licenses || 0);
+    state.world = (typeof s.world === "string" && WORLDS.some(w => w.id === s.world)) ? s.world : "notepad";
+    // repoint SCRIPT at the ACTIVE source (custom book if selected, else the world's
+    // script) so the expectIdx clamp below uses the right length.
+    SCRIPT = activeScript();
+    // restore the transcription cursor; clamp into range in case SCRIPT changed
+    state.expectIdx = ((s.expectIdx | 0) % SCRIPT.length + SCRIPT.length) % SCRIPT.length;
+    state.comboStreak = s.comboStreak | 0;
+    state.typoLocked = false;   // never restore a phantom lock on a fresh page load
+    // boss progression persists; an IN-PROGRESS boss does NOT (boss obj is non-persisted,
+    // and starts inactive). Sanitize the trigger fields so a partial save can't NaN them.
+    state.bossIdx = Math.max(0, s.bossIdx | 0);
+    state.bossCooldown = Math.max(0, +s.bossCooldown || 0);
+    state.bossActivePlay = Math.max(0, +s.bossActivePlay || 0);
+    // prestige fields — default to 0 if absent (old saves without them)
+    state.pages = Math.max(0, +s.pages || 0);
+    state.runWords = Math.max(0, +s.runWords || 0);
+    // offline catch-up — passive only (you can't type while away), 50% eff, capped 8h.
+    // Words are credited but the cursor stays exactly where the player left it —
+    // no cursor advance so the text doesn't jump on resume.
+    const elapsed = Math.min(8*3600, (Date.now() - (s.lastSave || Date.now())) / 1000);
+    const offline = effectiveWPS() * elapsed * 0.5;
+    if (offline >= 1){
+      gain(offline);
+      pendingOffline = offline;
+    }
+  } catch(e){}
+}
+let pendingOffline = 0;
+
+/* Snap a cursor to the start of the next sentence/paragraph so an offline jump
+   lands on a clean word boundary (find next ". " / "\n", step just past it). */
+function snapToBoundary(idx){
+  for (let i = 0; i < SCRIPT.length; i++){
+    const j = (idx + i) % SCRIPT.length;
+    const c = SCRIPT[j];
+    if (c === "\n") return (j + 1) % SCRIPT.length;
+    if ((c === "." || c === "!" || c === "?") && SCRIPT[(j + 1) % SCRIPT.length] === " ")
+      return (j + 2) % SCRIPT.length;
+  }
+  return idx;
+}
+
+/* ---------- 10. SOUND ---------- */
+let actx = null;
+function toggleSound(){
+  state.settings.sound = !state.settings.sound;
+  // update the menu label
+  for (const m of MENUS){ for (const it of m.items){ if (it.action === "sound") it.label = "Sound: " + (state.settings.sound ? "On" : "Off"); } }
+  rebuildSoundLabel();
+  if (state.settings.sound && !actx){ try { actx = new (window.AudioContext||window.webkitAudioContext)(); } catch(e){} }
+  flashToast("Sound " + (state.settings.sound ? "on" : "off"));
+}
+function rebuildSoundLabel(){
+  // find the sound action row and update its text
+  const rows = menubarEl.querySelectorAll(".item.action");
+  rows.forEach(r => { if (r.firstChild && /^Sound:/.test(r.firstChild.textContent)) r.firstChild.textContent = "Sound: " + (state.settings.sound ? "On" : "Off"); });
+}
+function sfx(type){
+  if (!state.settings.sound || !actx) return;
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = "square";
+  // thunk = buy, key = correct keytick, err = subtle low typo blip
+  o.frequency.value = type === "thunk" ? 90 : type === "err" ? 70 : 170 + Math.random()*50;
+  g.gain.value = type === "thunk" ? 0.06 : type === "err" ? 0.05 : 0.035;
+  o.connect(g); g.connect(actx.destination);
+  const t = actx.currentTime;
+  o.start(t);
+  const dur = type === "thunk" ? 0.09 : type === "err" ? 0.06 : 0.04;
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.stop(t + 0.1);
+}
+
+/* ---------- gain display ---------- */
+const GAIN_MODES = ["floating", "corner", "off"];
+function toggleGainDisplay(){
+  const cur = GAIN_MODES.indexOf(state.settings.gainDisplay);
+  state.settings.gainDisplay = GAIN_MODES[(cur + 1) % GAIN_MODES.length];
+  // keep the MENUS data in sync so a menu rebuild would also be correct
+  for (const m of MENUS){ for (const it of m.items){ if (it.action === "gainDisplay") it.label = gainModeLabel(); } }
+  rebuildGainLabel();
+  flashToast("Show gains: " + state.settings.gainDisplay.charAt(0).toUpperCase() + state.settings.gainDisplay.slice(1));
+}
+function gainModeLabel(){
+  const m = state.settings.gainDisplay;
+  return "Show gains: " + m.charAt(0).toUpperCase() + m.slice(1);
+}
+function rebuildGainLabel(){
+  const rows = menubarEl.querySelectorAll(".item.action");
+  rows.forEach(r => { if (r.firstChild && /^Show gains:/.test(r.firstChild.textContent)) r.firstChild.textContent = gainModeLabel(); });
+}
+
+/* ---------- theme toggle (View ▸ Theme) ---------- */
+const THEME_CYCLE = ["system", "light", "dark"];
+function themeModeLabel(){
+  const t = state.settings.theme || "system";
+  return "Theme: " + t.charAt(0).toUpperCase() + t.slice(1);
+}
+function toggleTheme(){
+  const cur = THEME_CYCLE.indexOf(state.settings.theme || "system");
+  state.settings.theme = THEME_CYCLE[(cur + 1) % THEME_CYCLE.length];
+  // keep MENUS data in sync so a menu rebuild is also correct
+  for (const m of MENUS){ for (const it of m.items){ if (it.action === "theme") it.label = themeModeLabel(); } }
+  rebuildThemeLabel();
+  // re-apply the current world's chrome under the new theme
+  applyWorldChrome(currentWorld());
+  refreshThemeColors();   // re-cache combo tint colors for the new palette
+  flashToast("Theme: " + (state.settings.theme.charAt(0).toUpperCase() + state.settings.theme.slice(1)));
+}
+function rebuildThemeLabel(){
+  const rows = menubarEl.querySelectorAll(".item.action");
+  rows.forEach(r => { if (r.firstChild && /^Theme:/.test(r.firstChild.textContent)) r.firstChild.textContent = themeModeLabel(); });
+}
+
+/* ---------- ghost-letters toggle (View ▸ Ghost) ---------- */
+const GHOST_LETTER_PRESETS = [5, 10, 15, 20, 30, 50];
+function ghostLettersLabel(){
+  const n = (state.settings && state.settings.ghostLetters) || 10;
+  return "Ghost: " + n + " letters";
+}
+function rebuildGhostLettersLabel(){
+  const rows = menubarEl.querySelectorAll(".item.action");
+  rows.forEach(r => { if (r.firstChild && /^Ghost:/.test(r.firstChild.textContent)) r.firstChild.textContent = ghostLettersLabel(); });
+}
+function cycleGhostLetters(){
+  const cur = GHOST_LETTER_PRESETS.indexOf(state.settings.ghostLetters);
+  state.settings.ghostLetters = GHOST_LETTER_PRESETS[(cur < 0 ? 0 : cur + 1) % GHOST_LETTER_PRESETS.length];
+  // keep MENUS data in sync so a menu rebuild is also correct
+  for (const m of MENUS){ for (const it of m.items){ if (it.action === "ghostLetters") it.label = ghostLettersLabel(); } }
+  rebuildGhostLettersLabel();
+  docDirty = true;   // re-render ghost immediately
+  flashToast("Ghost preview: " + state.settings.ghostLetters + " letters");
+}
+
+/* OS-level dark-mode change: re-apply the current world if the player is on "system" */
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+  if ((state.settings.theme || "system") === "system"){
+    applyWorldChrome(currentWorld());
+    refreshThemeColors();
+  }
+});
+
+/* ---- Testing hooks exposed on window ---- */
+/* window.setTheme(t): set theme setting and re-apply immediately */
+window.setTheme = function(t){
+  if (!["system","light","dark"].includes(t)){ console.warn("setTheme: invalid value '" + t + "'"); return; }
+  state.settings.theme = t;
+  for (const m of MENUS){ for (const it of m.items){ if (it.action === "theme") it.label = themeModeLabel(); } }
+  rebuildThemeLabel();
+  applyWorldChrome(currentWorld());
+  refreshThemeColors();
+};
+/* window.effectiveTheme(): returns 'light' or 'dark' */
+window.effectiveTheme = effectiveTheme;
+
+/* Flash the corner indicator once (debounced — only the most-recent value shows). */
+let _cornerTimer = null;
+function showCornerGain(n){
+  sbGainCorner.textContent = "+" + format(n);
+  // remove and re-add .flash to restart the 0s instant-on transition
+  sbGainCorner.classList.remove("flash");
+  void sbGainCorner.offsetWidth;   // force reflow so the class removal is committed
+  sbGainCorner.classList.add("flash");
+  clearTimeout(_cornerTimer);
+  // after a short hold, drop .flash so the 0.5s opacity transition fades it out
+  _cornerTimer = setTimeout(() => { sbGainCorner.classList.remove("flash"); }, 600);
+}
+
+/* ---------- toast ---------- */
+let toastTimer = null;
+function flashToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2200);
+}
+
+/* Seed committedText with the script chars immediately BEFORE the cursor so a
+   resumed/offline game isn't blank and the visible doc reads continuously.
+   On a fresh game (expectIdx 0) this is empty, matching the spec. */
+function seedCommittedFromCursor(){
+  const n = Math.min(COMMIT_TAIL, state.expectIdx);   // never wrap below 0
+  committedText = SCRIPT.slice(state.expectIdx - n, state.expectIdx);
+}
+
+/* ---------- 11. INIT ---------- */
+function init(){
+  buildMenus();
+  $("#reading-text").textContent = READING_TEXT;
+  load();
+  // restore the saved world's skin (palette/font/menus/identity + SCRIPT pointer)
+  // WITHOUT disturbing the restored cursor — seedCommittedFromCursor() runs below.
+  applyWorldChrome(currentWorld());
+  rebuildSoundLabel();
+  rebuildGainLabel();
+  rebuildThemeLabel();
+  rebuildGhostLettersLabel();
+  updateBookSourceLabel();   // reflect the restored script source in File ▸ Source
+  displayWords = state.words;
+  // never start (or resume) with the cursor parked on a newline run
+  if (SCRIPT[state.expectIdx] === "\n"){
+    while (SCRIPT[state.expectIdx] === "\n") state.expectIdx = (state.expectIdx + 1) % SCRIPT.length;
+  }
+  seedCommittedFromCursor();
+  renderDoc();
+  render();
+  if (pendingOffline >= 1) flashToast("Recovered unsaved changes (+" + format(pendingOffline) + " words)");
+  requestAnimationFrame(loop);
+}
+window.addEventListener("beforeunload", save);
+// expose state for console inspection (state.pages, state.runWords, etc.)
+window.state = state;
+init();
+</script><input accept=".txt,.epub,.pdf" style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; left: -9999px;" type="file"/>
+</body></html>

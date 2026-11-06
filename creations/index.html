@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Creations</title>
+<style>
+        body {
+            background-color: #000000;
+}
+.header {
+  padding: 20px;
+  text-align: center;
+  background: #444444;
+  color: white;
+  font-size: 30px;
+  font-family: 'Courier New', Courier, monospace
+}
+
+        p {
+            color:white;
+            font-family: verdana;
+            font-size: 20px;
+}
+a{color:rgb(187, 187, 187);
+            font-family: verdana;
+            font-size: 15px;}
+h1{color:white;
+            font-family: verdana;
+            font-size: 25}
+    </style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="header">
+<h1>Creations</h1>
+<p>An idle game where you have to think before you upgrade</p>
+</div>
+<p id="creationPointAmount">0 Creation Points (Your current Creation Points per click: 1)</p>
+<button id='createButton"' onclick="createCreationPoint()">Create</button>
+<button id="perClickUpgrade" onclick="buyCreationPointsPerClick()">Create a Normal Creation (You currently have 0) (Cost: 10Creation Points)</button>
+<br/>
+<h1 id="rebirthTitle" style="display: none;">Rebirth</h1>
+<br/>
+<p id="rebirthText" style="display: none;">0 Rebirth Points (Your current Rebirth Points per Rebirth: 1)</p>
+<br/>
+<p id="matterText" style="display: none;">0 Matter</p>
+<br/>
+<button id="rebirthButton" onclick="rebirth()" style="display: none;">Reset everything and be Reborn (Required: 10000 Creation Points)</button>
+<button id="matterButton" onclick="createMatter()" style="display: none;">Create Matter (Cost: 120 Creation Points per Click)</button>
+<button id="rebirthCreationButton" onclick="buyRebirthCreation()" style="display: none;">Create a Reborn Creation (You currently have 0) (Cost: 1 Rebirth Points)</button>
+<button id="rebirthCreationResetButton" onclick="resetRebirthCreation()" style="display: none;">Reset Rebirth Creation price (Cost: 5 Matter)</button>
+<br/>
+<h1 id="ascensionTitle" style="display: none;">Ascension</h1>
+<br/>
+<p id="ascensionText" style="display: none;">0 Ascension Points</p>
+<br/>
+<p id="energyCells" style="display: none;">0 Energy Cells</p>
+<br/>
+<button id="ascensionButton" onclick="ascend()" style="display: none;">Reset everything (other than matter) and Ascend (Requires: 150000 Creation Points)</button>
+<button id="ascendedCreationButton" onclick="createAscendedCreation()" style="display: none;">Create an Ascended Creation (You currently have 0) (Cost: 1)</button>
+<button id="createEnergyCellButton" onclick="createEnergyCell()" style="display: none;">Create an Energy Cell (cost: 50 matter)</button>
+<br/>
+<p id="machineTitle" style="display: none;">The Machine</p>
+<br/>
+<button id="creatorModuleUpgradeButton" onclick="creatorModuleUpgrade()" style="display: none;">Automatic Creator Module (Energy Cell Amount: 0)</button>
+<button id="creatorBoosterModuleUpgradeButton" onclick="creatorBoosterModuleUpgrade()" style="display: none;">Manual Creator Booster Module (Energy Cell Amount: 0)</button>
+<button id="normalCreationModuleUpgrade" onclick="normalCreationModuleUpgrade()" style="display: none;">Normal Creation Creator Module (Energy Cell Amount: 0)</button>
+<button id="resetMachineSetupButton" onclick="resetMachineSetup()" style="display: none;">Reset Machine Setup (Cost: 10 Rebirth Points)</button>
+<br/>
+<br/>
+<br/>
+<!-- ––These should always be at the bottom––-->
+<a>Creations Discord Server</a>
+<br/>
+<a>Creations Help Page</a>
+<br/>
+<button onclick="clearSave()">clear save (refresh website after clicking to reset)</button>
+<button onclick="fixCreationPointsPerClick()">Fix Creation Points per Click (use when stuck at 0)</button>
+<script charset="utf-8" src="/_assets/775a0a17a6cfd2a6d082.js" type="text/javascript"></script>
+</body></html>

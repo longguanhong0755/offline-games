@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en" style="--accent: #3ddc84;"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="manifest.json" rel="manifest"/>
+<meta content="#0d0d10" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<link href="favicon.svg" rel="apple-touch-icon"/>
+<link href="/_assets/fb42a35c950634c6c97c.css" rel="stylesheet"/>
+<script src="/_assets/400807012c077dd81479.js" type="module"></script>
+<title>Snake Game</title>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div data-effects="" data-level="1" data-menu="start" data-mode="classic" data-over="" data-p2="" data-power="" data-running="0" data-score="0" id="stage">
+<canvas height="448" id="snake" width="800"></canvas>
+<button aria-label="Pause" data-i18n-aria="pause" hidden="" id="pauseBtn" type="button">II</button>
+<p aria-live="polite" class="sr-only" id="status">Score 0</p>
+<div hidden="" id="toast"></div>
+<div id="overlay">
+<section class="panel" data-panel="start">
+<h1 class="pixel" data-i18n="title">SNAKE</h1>
+<p class="tagline" data-i18n="tagline">Eat, grow, and keep moving.</p>
+<div class="row" id="modeRow"><button class="active" type="button">Classic</button><button type="button">Time Attack</button><button type="button">Zen</button><button type="button">Obstacles</button><button type="button">Daily</button></div>
+<button aria-pressed="false" id="twoPlayerBtn" type="button">2 players: off</button>
+<p class="note" hidden="" id="dailyNote">Same board for everyone on 2026-11-06. Ranking stays on this device. No local runs today.</p>
+<button class="primary" data-i18n="start" id="startBtn" type="button">Start</button>
+<div class="row diff">
+<button data-i18n="easy" id="diff_easy" type="button">Easy</button>
+<button data-i18n="normal" id="diff_normal" type="button">Normal</button>
+<button data-i18n="hard" id="diff_hard" type="button">Hard</button>
+</div>
+<label class="field">
+<span data-i18n="skin">Skin</span>
+<select id="snakeSelect"><option value="verdao">Verdão</option><option value="coral">Coral</option><option value="jararaca">Jararaca</option><option value="piton">Píton</option><option disabled="" title="Locked until score 50" value="naja">Naja (50)</option><option disabled="" title="Locked until score 100" value="brasa">Brasa (100)</option></select>
+</label>
+<label class="field">
+<span data-i18n="speed">Speed</span>
+<input id="speed" max="230" min="30" step="10" type="range" value="130"/>
+</label>
+<div class="row">
+<button aria-pressed="false" id="wallToggle" type="button">Walls: off</button>
+<button aria-pressed="true" class="on" id="muteToggle" type="button">Sound: on</button>
+<button aria-pressed="false" id="dpadToggle" type="button">D-pad: off</button>
+<button aria-pressed="false" id="vibrateToggle" type="button">Vibrate: off</button>
+<button id="langToggle" type="button">PT</button>
+</div>
+<div class="row">
+<button data-i18n="ranking" id="lbBtn" type="button">Ranking</button>
+<button data-i18n="achievements" id="achBtn" type="button">Achievements</button>
+<button data-i18n="fullscreen" id="fsToggle" type="button">Fullscreen</button>
+<button data-i18n="replayBest" disabled="" id="replayBestBtn" type="button">Replay best</button>
+</div>
+<p class="hint" data-i18n="hints">Arrows or WASD move. Space or P pauses. Two players: WASD versus arrows.</p>
+<p class="hint" data-i18n="powerHint">Power-ups: double points, slow motion, pass through your body, shrink.</p>
+</section>
+<section class="panel" data-panel="pause" hidden="">
+<h2 data-i18n="paused">Paused</h2>
+<button class="primary" data-i18n="resume" id="resumeBtn" type="button">Resume</button>
+<label class="field">
+<span data-i18n="skin">Skin</span>
+<select id="pauseSnake"><option value="verdao">Verdão</option><option value="coral">Coral</option><option value="jararaca">Jararaca</option><option value="piton">Píton</option><option disabled="" title="Locked until score 50" value="naja">Naja (50)</option><option disabled="" title="Locked until score 100" value="brasa">Brasa (100)</option></select>
+</label>
+<div class="row">
+<button aria-pressed="true" class="on" id="pauseMute" type="button">Sound: on</button>
+<button aria-pressed="false" id="pauseDpad" type="button">D-pad: off</button>
+<button aria-pressed="false" id="pauseVibrate" type="button">Vibrate: off</button>
+<button id="pauseLang" type="button">PT</button>
+</div>
+<div class="row">
+<button data-i18n="restart" id="pauseRestart" type="button">Restart</button>
+<button data-i18n="menu" id="pauseQuit" type="button">Menu</button>
+<button data-i18n="ranking" id="pauseRank" type="button">Ranking</button>
+<button data-i18n="achievements" id="pauseAch" type="button">Achievements</button>
+<button data-i18n="fullscreen" id="pauseFs" type="button">Fullscreen</button>
+</div>
+</section>
+<section class="panel" data-panel="over" hidden="">
+<h2 id="overTitle">Game over</h2>
+<p class="big-score" id="overScore">0</p>
+<p id="overDetail"></p>
+<button class="primary" data-i18n="restart" id="overRestart" type="button">Restart</button>
+<div class="row">
+<button data-i18n="menu" id="overMenu" type="button">Menu</button>
+<button data-i18n="share" id="shareBtn" type="button">Share</button>
+<button data-i18n="replayRun" disabled="" id="replayRunBtn" type="button">Replay run</button>
+<button data-i18n="replayBest" disabled="" id="overReplayBest" type="button">Replay best</button>
+</div>
+</section>
+<section class="panel" data-panel="rank" hidden="">
+<h2 data-i18n="ranking">Ranking</h2>
+<div class="row">
+<button data-i18n="rankGlobal" id="tabGlobal" type="button">Global</button>
+<button data-i18n="rankDaily" id="tabDaily" type="button">Daily</button>
+</div>
+<div id="rankList"></div>
+<p class="hint" data-i18n="closeHint">Back to return.</p>
+<button data-i18n="back" id="rankBack" type="button">Back</button>
+</section>
+<section class="panel" data-panel="ach" hidden="">
+<h2 data-i18n="achievements">Achievements</h2>
+<div id="achList"></div>
+<button class="primary" data-i18n="back" id="achBack" type="button">Back</button>
+</section>
+</div>
+<div hidden="" id="dpad">
+<button aria-label="Up" data-dir="up" data-i18n-aria="up" tabindex="-1" type="button">▲</button>
+<button aria-label="Left" data-dir="left" data-i18n-aria="left" tabindex="-1" type="button">◀</button>
+<button aria-label="Down" data-dir="down" data-i18n-aria="down" tabindex="-1" type="button">▼</button>
+<button aria-label="Right" data-dir="right" data-i18n-aria="right" tabindex="-1" type="button">▶</button>
+</div>
+</div>
+</body></html>

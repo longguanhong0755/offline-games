@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Laser Chess — Rojo vs Azul</title>
+<meta content="Laser Chess: alcanza al Faraón enemigo con tu láser. Juega contra la IA (minimax) o contra un amigo, directo en el navegador." name="description"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 L90 85 L10 85 Z' fill='%23ff4d5a'/%3E%3Ccircle cx='50' cy='60' r='10' fill='%2322d3ee'/%3E%3C/svg%3E" rel="icon"/>
+
+<link href="/_assets/b8e5ca0b6ea6c3bd4657.css" rel="stylesheet"/>
+<link href="/_assets/2645b953f600d1cf1ba9.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<header>
+<h1><span class="txt-red">LASER</span> <span class="txt-blue">CHESS</span></h1>
+<p class="tagline">Alcanza al Faraón enemigo con tu láser · Portado desde Python a la web</p>
+</header>
+<main>
+<section class="board-wrap">
+<div class="board-frame">
+<div class="board" id="board"><div class="cell" data-c="0" data-r="0" title="(0,0)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(180 50 50)">
+<circle class="ring" cx="50" cy="56" fill="none" r="24"></circle>
+<circle class="fill" cx="50" cy="56" r="16"></circle>
+<rect class="fill" height="34" rx="5" width="14" x="43" y="6"></rect>
+<rect class="hot" height="14" rx="3" width="6" x="47" y="6"></rect>
+</g></svg></div><div class="cell alt zone-blue" data-c="1" data-r="0" title="(0,1)"></div><div class="cell" data-c="2" data-r="0" title="(0,2)"></div><div class="cell alt" data-c="3" data-r="0" title="(0,3)"></div><div class="cell" data-c="4" data-r="0" title="(0,4)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<rect class="fill" height="64" rx="9" width="64" x="18" y="18"></rect>
+<rect class="line" fill="none" height="64" rx="9" width="64" x="18" y="18"></rect>
+<path class="line" d="M32 38 H68 M32 50 H68 M32 62 H68" fill="none"></path></svg></div><div class="cell alt" data-c="5" data-r="0" title="(0,5)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<path class="fill" d="M50 12 L88 82 L12 82 Z"></path>
+<path class="line" d="M50 12 L88 82 L12 82 Z" fill="none"></path>
+<circle class="eye" cx="50" cy="58" r="9"></circle>
+<circle class="pupil" cx="50" cy="58" r="4"></circle></svg></div><div class="cell" data-c="6" data-r="0" title="(0,6)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<rect class="fill" height="64" rx="9" width="64" x="18" y="18"></rect>
+<rect class="line" fill="none" height="64" rx="9" width="64" x="18" y="18"></rect>
+<path class="line" d="M32 38 H68 M32 50 H68 M32 62 H68" fill="none"></path></svg></div><div class="cell alt" data-c="7" data-r="0" title="(0,7)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(0 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell zone-red" data-c="8" data-r="0" title="(0,8)"></div><div class="cell alt zone-blue" data-c="9" data-r="0" title="(0,9)"></div><div class="cell alt zone-red" data-c="0" data-r="1" title="(1,0)"></div><div class="cell" data-c="1" data-r="1" title="(1,1)"></div><div class="cell alt" data-c="2" data-r="1" title="(1,2)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(90 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="3" data-r="1" title="(1,3)"></div><div class="cell alt" data-c="4" data-r="1" title="(1,4)"></div><div class="cell" data-c="5" data-r="1" title="(1,5)"></div><div class="cell alt" data-c="6" data-r="1" title="(1,6)"></div><div class="cell" data-c="7" data-r="1" title="(1,7)"></div><div class="cell alt" data-c="8" data-r="1" title="(1,8)"></div><div class="cell zone-blue" data-c="9" data-r="1" title="(1,9)"></div><div class="cell zone-red" data-c="0" data-r="2" title="(2,0)"></div><div class="cell alt" data-c="1" data-r="2" title="(2,1)"></div><div class="cell" data-c="2" data-r="2" title="(2,2)"></div><div class="cell alt" data-c="3" data-r="2" title="(2,3)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(180 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="4" data-r="2" title="(2,4)"></div><div class="cell alt" data-c="5" data-r="2" title="(2,5)"></div><div class="cell" data-c="6" data-r="2" title="(2,6)"></div><div class="cell alt" data-c="7" data-r="2" title="(2,7)"></div><div class="cell" data-c="8" data-r="2" title="(2,8)"></div><div class="cell alt zone-blue" data-c="9" data-r="2" title="(2,9)"></div><div class="cell alt zone-red" data-c="0" data-r="3" title="(3,0)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(270 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="1" data-r="3" title="(3,1)"></div><div class="cell alt" data-c="2" data-r="3" title="(3,2)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(90 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="3" data-r="3" title="(3,3)"></div><div class="cell alt" data-c="4" data-r="3" title="(3,4)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(-45 50 50)">
+<rect class="fill" height="88" rx="8" width="16" x="42" y="6"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="46" y="12"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="52" y="12"></rect>
+</g></svg></div><div class="cell" data-c="5" data-r="3" title="(3,5)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(45 50 50)">
+<rect class="fill" height="88" rx="8" width="16" x="42" y="6"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="46" y="12"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="52" y="12"></rect>
+</g></svg></div><div class="cell alt" data-c="6" data-r="3" title="(3,6)"></div><div class="cell" data-c="7" data-r="3" title="(3,7)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(0 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell alt" data-c="8" data-r="3" title="(3,8)"></div><div class="cell zone-blue" data-c="9" data-r="3" title="(3,9)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(180 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell zone-red" data-c="0" data-r="4" title="(4,0)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(0 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell alt" data-c="1" data-r="4" title="(4,1)"></div><div class="cell" data-c="2" data-r="4" title="(4,2)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(180 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell alt" data-c="3" data-r="4" title="(4,3)"></div><div class="cell" data-c="4" data-r="4" title="(4,4)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(45 50 50)">
+<rect class="fill" height="88" rx="8" width="16" x="42" y="6"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="46" y="12"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="52" y="12"></rect>
+</g></svg></div><div class="cell alt" data-c="5" data-r="4" title="(4,5)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(-45 50 50)">
+<rect class="fill" height="88" rx="8" width="16" x="42" y="6"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="46" y="12"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="52" y="12"></rect>
+</g></svg></div><div class="cell" data-c="6" data-r="4" title="(4,6)"></div><div class="cell alt" data-c="7" data-r="4" title="(4,7)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(270 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="8" data-r="4" title="(4,8)"></div><div class="cell alt zone-blue" data-c="9" data-r="4" title="(4,9)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(90 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell alt zone-red" data-c="0" data-r="5" title="(5,0)"></div><div class="cell" data-c="1" data-r="5" title="(5,1)"></div><div class="cell alt" data-c="2" data-r="5" title="(5,2)"></div><div class="cell" data-c="3" data-r="5" title="(5,3)"></div><div class="cell alt" data-c="4" data-r="5" title="(5,4)"></div><div class="cell" data-c="5" data-r="5" title="(5,5)"></div><div class="cell alt" data-c="6" data-r="5" title="(5,6)"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(0 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="7" data-r="5" title="(5,7)"></div><div class="cell alt" data-c="8" data-r="5" title="(5,8)"></div><div class="cell zone-blue" data-c="9" data-r="5" title="(5,9)"></div><div class="cell zone-red" data-c="0" data-r="6" title="(6,0)"></div><div class="cell alt" data-c="1" data-r="6" title="(6,1)"></div><div class="cell" data-c="2" data-r="6" title="(6,2)"></div><div class="cell alt" data-c="3" data-r="6" title="(6,3)"></div><div class="cell" data-c="4" data-r="6" title="(6,4)"></div><div class="cell alt" data-c="5" data-r="6" title="(6,5)"></div><div class="cell" data-c="6" data-r="6" title="(6,6)"></div><div class="cell alt" data-c="7" data-r="6" title="(6,7)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(270 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="8" data-r="6" title="(6,8)"></div><div class="cell alt zone-blue" data-c="9" data-r="6" title="(6,9)"></div><div class="cell alt zone-red" data-c="0" data-r="7" title="(7,0)"></div><div class="cell zone-blue" data-c="1" data-r="7" title="(7,1)"></div><div class="cell alt" data-c="2" data-r="7" title="(7,2)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(180 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></div><div class="cell" data-c="3" data-r="7" title="(7,3)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<rect class="fill" height="64" rx="9" width="64" x="18" y="18"></rect>
+<rect class="line" fill="none" height="64" rx="9" width="64" x="18" y="18"></rect>
+<path class="line" d="M32 38 H68 M32 50 H68 M32 62 H68" fill="none"></path></svg></div><div class="cell alt" data-c="4" data-r="7" title="(7,4)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<path class="fill" d="M50 12 L88 82 L12 82 Z"></path>
+<path class="line" d="M50 12 L88 82 L12 82 Z" fill="none"></path>
+<circle class="eye" cx="50" cy="58" r="9"></circle>
+<circle class="pupil" cx="50" cy="58" r="4"></circle></svg></div><div class="cell" data-c="5" data-r="7" title="(7,5)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<rect class="fill" height="64" rx="9" width="64" x="18" y="18"></rect>
+<rect class="line" fill="none" height="64" rx="9" width="64" x="18" y="18"></rect>
+<path class="line" d="M32 38 H68 M32 50 H68 M32 62 H68" fill="none"></path></svg></div><div class="cell alt" data-c="6" data-r="7" title="(7,6)"></div><div class="cell" data-c="7" data-r="7" title="(7,7)"></div><div class="cell alt zone-red" data-c="8" data-r="7" title="(7,8)"></div><div class="cell" data-c="9" data-r="7" title="(7,9)"><svg aria-hidden="true" class="piece p-blue" viewbox="0 0 100 100">
+<g transform="rotate(0 50 50)">
+<circle class="ring" cx="50" cy="56" fill="none" r="24"></circle>
+<circle class="fill" cx="50" cy="56" r="16"></circle>
+<rect class="fill" height="34" rx="5" width="14" x="43" y="6"></rect>
+<rect class="hot" height="14" rx="3" width="6" x="47" y="6"></rect>
+</g></svg></div></div>
+<svg class="laser-layer" id="laserLayer" preserveaspectratio="none" viewbox="0 0 1000 800"></svg>
+<div class="fx-layer" id="fxLayer"></div>
+<div class="thinking" id="thinking"><span class="spinner"></span> IA pensando…</div>
+</div>
+<div class="rotate-bar" id="rotateBar">
+<button class="btn btn-rot" disabled="" id="rotL" title="Rotar a la izquierda">⟲</button>
+<span class="rot-hint" id="rotHint">Selecciona una pieza</span>
+<button class="btn btn-rot" disabled="" id="rotR" title="Rotar a la derecha">⟳</button>
+</div>
+</section>
+<aside class="panel">
+<div class="card turn-card">
+<span class="dot dot-red" id="turnDot"></span>
+<div>
+<div class="txt-red" id="turnLabel">Turno: ROJO</div>
+<div class="status-msg" id="statusMsg">Turno de ROJO — mueve, rota o intercambia una pieza</div>
+</div>
+</div>
+<div class="card">
+<div class="field">
+<label for="modeSel">Modo</label>
+<select id="modeSel">
+<option value="pve-red">Humano (Rojo) vs IA</option>
+<option value="pve-blue">IA vs Humano (Azul)</option>
+<option value="pvp">2 jugadores</option>
+<option value="ai">IA vs IA (demo)</option>
+</select>
+</div>
+<div class="field">
+<label for="levelSel">Dificultad de la IA</label>
+<select id="levelSel">
+<option value="facil">Fácil</option>
+<option value="medio">Medio</option>
+<option value="dificil">Difícil</option>
+</select>
+</div>
+<div class="btn-row">
+<button class="btn btn-primary" id="newGame">⟳ Nueva partida</button>
+<button class="btn" id="undoBtn">↩ Deshacer</button>
+</div>
+<div class="btn-row">
+<button class="btn" id="soundBtn">Sonido: Sí</button>
+<button class="btn" id="helpBtn">Reglas</button>
+</div>
+</div>
+<div class="card history-card">
+<h3>Historial</h3>
+<ol class="history" id="history"></ol>
+</div>
+</aside>
+</main>
+<footer>
+    Versión web de <code>laser_chess.py</code> · IA minimax con poda alfa-beta · Sin dependencias
+  </footer>
+<!-- Modal de victoria -->
+<div class="modal" id="winModal">
+<div class="modal-box">
+<h2 id="winTitle">¡Gana ROJO!</h2>
+<p id="winDetail"></p>
+<div class="btn-row center">
+<button class="btn btn-primary" id="replayBtn">Jugar de nuevo</button>
+<button class="btn" data-close="">Cerrar</button>
+</div>
+</div>
+</div>
+<!-- Modal de ayuda -->
+<div class="modal" id="helpModal">
+<div class="modal-box modal-help">
+<h2>Cómo jugar</h2>
+<p>En tu turno haz <strong>una</strong> acción: mover una pieza a una casilla adyacente vacía
+        (incluye diagonales), rotarla 90°, o intercambiar con el Espejo Doble. Al terminar tu acción,
+        <strong>tu Esfinge dispara el láser automáticamente</strong>.</p>
+<table class="help-table">
+<tbody id="helpPieces">
+<tr>
+<td class="help-icon"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<path class="fill" d="M50 12 L88 82 L12 82 Z"></path>
+<path class="line" d="M50 12 L88 82 L12 82 Z" fill="none"></path>
+<circle class="eye" cx="50" cy="58" r="9"></circle>
+<circle class="pupil" cx="50" cy="58" r="4"></circle></svg></td>
+<td><strong>Faraón</strong></td>
+<td>El objetivo. Se mueve pero no rota. Si el láser lo alcanza, su dueño pierde.</td>
+</tr>
+<tr>
+<td class="help-icon"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(180 50 50)">
+<circle class="ring" cx="50" cy="56" fill="none" r="24"></circle>
+<circle class="fill" cx="50" cy="56" r="16"></circle>
+<rect class="fill" height="34" rx="5" width="14" x="43" y="6"></rect>
+<rect class="hot" height="14" rx="3" width="6" x="47" y="6"></rect>
+</g></svg></td>
+<td><strong>Esfinge</strong></td>
+<td>Dispara el láser al final de cada turno. Rota, pero no se mueve ni puede ser destruida.</td>
+</tr>
+<tr>
+<td class="help-icon"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(0 50 50)">
+<path class="fill" d="M16 16 L84 16 L16 84 Z"></path>
+<path class="mirror-face" d="M84 16 L16 84" fill="none"></path>
+</g></svg></td>
+<td><strong>Triángulo</strong></td>
+<td>Refleja el láser con su cara espejada (la diagonal brillante). Si el rayo llega por otra cara, se destruye.</td>
+</tr>
+<tr>
+<td class="help-icon"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<rect class="fill" height="64" rx="9" width="64" x="18" y="18"></rect>
+<rect class="line" fill="none" height="64" rx="9" width="64" x="18" y="18"></rect>
+<path class="line" d="M32 38 H68 M32 50 H68 M32 62 H68" fill="none"></path></svg></td>
+<td><strong>Bloque</strong></td>
+<td>Absorbe el láser pero queda destruido. No rota.</td>
+</tr>
+<tr>
+<td class="help-icon"><svg aria-hidden="true" class="piece p-red" viewbox="0 0 100 100">
+<g transform="rotate(45 50 50)">
+<rect class="fill" height="88" rx="8" width="16" x="42" y="6"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="46" y="12"></rect>
+<rect class="mirror-face" height="76" rx="2" width="3.5" x="52" y="12"></rect>
+</g></svg></td>
+<td><strong>Espejo Doble</strong></td>
+<td>Refleja el láser por ambas caras: es indestructible. Puede intercambiar posición con un Triángulo o Bloque adyacente.</td>
+</tr></tbody>
+</table>
+<p><span class="zone-chip zone-chip-red"></span> / <span class="zone-chip zone-chip-blue"></span>
+        Casillas exclusivas: solo las piezas de ese color pueden entrar.</p>
+<p><strong>Ganas</strong> cuando el láser (de cualquiera) alcanza al Faraón enemigo.
+        Cuidado: si un láser alcanza a <em>tu propio</em> Faraón, pierdes tú.</p>
+<div class="btn-row center">
+<button class="btn btn-primary" data-close="">¡Entendido!</button>
+</div>
+</div>
+</div>
+<script src="/_assets/48f2ec33e910cd3899e5.js"></script>
+<script src="/_assets/361ef50a6e558082e3be.js"></script>
+<script src="/_assets/f807f059ac3c2048d2ad.js"></script>
+</body></html>

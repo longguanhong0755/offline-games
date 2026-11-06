@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html class="scriptasync"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+ <!--To prevent some indexing errors-->
+<meta charset="utf-8"/>
+<meta content="A simple quick clicker game by BazzerDv" name="description"/>
+<meta content="Quick Click Game, incremental game, Quick Click, clicker game, simple clicker game, BazzerDv, quick click game" name="keywords"/>
+<meta content="BazzerDv" name="author"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="en-gb" http-equiv="content-language"/>
+<!-- Google tag (gtag.js) -->
+
+<script>
+    if (window.location.href == 'https://bazzerdv.github.io/quickclick/'){
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-D483HZKVBW');
+    }
+  </script>
+<title>Quick Click</title>
+<script src="/_assets/239b1c75942903c14f63.js"></script>
+<script src="/_assets/62e10250c6212f48ccb1.js"></script>
+<script src="/_assets/77dba69318d3e2db9b45.js"></script>
+<script src="/_assets/8701c0be0ba7cb8e88ad.js"></script>
+<script src="/_assets/742e3e21039194081ea2.js"> </script>
+<script src="/_assets/bcd2857d8c27a0df2d38.js"></script>
+<script src="/_assets/b69edbb1abe2a6a44afd.js"></script>
+<script src="/_assets/4d506a799a9ba4e82a79.js"></script>
+<script src="/_assets/8ad8c3c337f1c95092f9.js"></script>
+<script src="/_assets/4a69d3f3b9290bb59536.js"></script>
+<script src="/_assets/7894d2cbe77be9abdc32.js"></script>
+<!-- favicon icon created from this image: https://userstyles.org/styles/155212/rock-roll-cursor -->
+<link href="./favicon.ico" rel="shortcut icon"/>
+<link href="/_assets/4d6e6b339f1e651e98ec.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="loading" style="display: none;">
+<div id="preloader">
+<svg viewbox="0 0 100 100">
+<defs>
+<filter id="shadow">
+<fedropshadow dx="0" dy="0" flood-color="#C0C0C0" stddeviation="1.5"></fedropshadow>
+</filter>
+</defs>
+<circle cx="50" cy="50" id="loading-spinner" r="45" style="fill:transparent;stroke:#000000;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);"></circle>
+</svg>
+</div>
+</div>
+<h1 class="bouncing-text" style="font-family:monospace; font-size: 40; margin:0px"><span class="Q">Q</span><span class="u">u</span><span class="i">i</span><span class="c">c</span><span class="k">k </span><span class="C">C</span><span class="l">l</span><span class="i2">i</span><span class="c2">c</span><span class="k2">k</span></h1>
+<p class="basic" id="clicks" style="margin:7px 0px" title="'Finger Workout'">Clicks: 0</p>
+<p class="basic" id="mouseupgrades" style="margin:7px 0px" title="Mouse Specs">Mouse Rating: 1</p>
+<p class="basic" id="cps" style="margin:7px 0px" title="Lazy">0 cps</p>
+<p class="basic" id="fastestrun" style="margin:7px 0px" title="Speediest Finish"></p>
+<p class="basic" id="currentrun" style="margin:7px 0px" title="Faster!">Current Run: 0:0:0:6.8</p>
+<p class="basic" id="bonus" style="margin:7px 0px" title="Lil' Bit of Extra Help"></p>
+<p class="basic" id="prestigepoints" style="margin:7px 0px" title="Special Moneyyyyy"></p>
+<pre id="animation" style="margin:0px 0; font-size: 15" title="Watch Me Dance!">  
+   o
+  /|\
+  / \</pre>
+<p style="margin:0px 0">
+<button ;="" id="clickbutton" onclick="Clicks.addClick()" style="font-family:monospace" title="Click Me! (+1)">Click Me!</button>
+<button ;="" disabled="" id="mouseR" onclick="Clicks.addMouseUpgrade(10, 1)" style="font-family:monospace" title="+1 Click Per Click">Upgrade Mouse Responsiveness (10C)</button>
+<button ;="" disabled="" id="mouseE" onclick="Clicks.addMouseUpgrade(300, 15)" style="font-family:monospace" title="+15 Clicks Per Click">Upgrade Mouse Ergonomy (300C)</button>
+</p>
+<script>
+    document.getElementById('clickbutton').addEventListener('keydown', function (e) {
+    var key = e.keyCode || e.charCode;
+    if (key == 13) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
+  })
+  </script>
+<div style="position:relative; width:100%">
+<div style="position:absolute; left:0px">
+<pre id="buttons"></pre>
+<p style="margin:0px 0px">
+<button class="basic" onclick="Save.getSaveData()" title="Save Game. Game Autosaves Every 10 Seconds">Save</button>
+          
+        <button class="basic" onclick="Reset.checkReset()" title="Reset All Game Data">Reset</button>
+</p>
+</div>
+<div style="position:absolute; right:0px">
+<pre id="prestigeshop" style="font-family:monospace; font-size:14.5">      </pre>
+<pre>      </pre>
+<a style="font-family:monospace" target="_blank" title="Check out my Github profile">BazzerDv</a> <a style="font-family:monospace" target="_blank" title="Source Code">Source</a> <a style="font-family:monospace" target="_blank" title="Bug Reports">Bugs</a> <a style="font-family:monospace" target="_blank" title="Suggestions">Ideas</a>
+</div>
+</div>
+<div class="modal" id="resetModal">
+<div class="modal-content">
+<span class="close" onclick="Reset.changeResetModalStatus('none')">×</span>
+<p class="basic" style="margin: 0px;">
+        Do you really want to reset your game?<br/>
+        All save data will be lost.<br/>
+<br/>
+<button onclick="Reset.reset()">Yes</button>
+<button onclick="Reset.noReset()" style="margin:0px 20px">No</button>
+</p>
+</div>
+</div>
+<script src="/_assets/a74e23c5b1fca4ed8720.js"></script>
+</body></html>

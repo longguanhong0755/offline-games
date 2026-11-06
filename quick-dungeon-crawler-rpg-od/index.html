@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="zh" style='--font-scale: 1; --font-family-base: "Germania One", Georgia, "Times New Roman", serif;'><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="#0a0809" name="theme-color"/>
+<link href="/_assets/6752b9ba151a25703b2e.css" rel="stylesheet"/>
+<link href="/_assets/444bf79dabe1e138d5a0.css" rel="stylesheet"/>
+<link href="/_assets/d9c0ce63abc04476b624.css" rel="stylesheet"/>
+<link href="./apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="./favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="./favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="./site.webmanifest" rel="manifest"/>
+<link color="#5bbad5" href="./safari-pinned-tab.svg" rel="mask-icon"/>
+<meta content="#da532c" name="msapplication-TileColor"/>
+<title>Quick Dungeon Crawler on Demand!</title>
+<meta content="Quick Dungeon Crawler on Demand! Dive into a fast-paced, browser-based RPG adventure. Explore dungeons, battle monsters, and level up instantly—no downloads required!" name="description"/>
+<style>
+		body {
+			background-color: #0a0809;
+		}
+    </style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<main>
+<section class="game-container" id="title-screen">
+<div>
+<img alt="Quick Dungeon Crawler logo" src="/_assets/b1c58187f7b6ae21ae0e.webp"/>
+<h1>Quick Dungeon Crawler on Demand!</h1>
+</div>
+<div>
+<p data-i18n="tap-to-explore" id="title-play-prompt">点击探索地牢</p>
+<div hidden="" id="title-run-progress"><span data-i18n="floor-count">第 {floor} 层</span> · <span data-i18n="room-count">第 {room} 间房</span></div>
+</div>
+<button aria-label="Open menu" id="title-menu-btn"><i class="fas fa-cog"></i></button>
+</section>
+<section class="game-container" id="character-creation" style="display: flex;">
+<form id="name-submit">
+<h1 data-i18n="what-is-your-name">你的名字是什么？</h1>
+<input autocomplete="off" id="name-input" type="text" value="Hero"/>
+<p id="alert"></p>
+<label><input id="hardcore-checkbox" style="width:inherit;position:relative;top:1px" type="checkbox"/> <span data-i18n="hardcore">硬核模式</span></label>
+<br/>
+<button data-i18n="confirm" type="submit">确认</button>
+</form>
+</section>
+<section class="game-container scrollable" id="dungeon-main">
+<header>
+<p id="player-name"></p>
+<p id="player-exp"></p>
+<p id="player-gold"></p>
+<button aria-label="打开背包" data-i18n-attr="aria-label:open-inventory" onclick="openInventory()"><i class="fas fa-bars" style="font-size: calc(1.3rem * var(--font-scale));"></i></button>
+</header>
+<div class="stat-panel">
+<div class="box" id="dungeon-stats-panel">
+<h4>
+<a aria-label="这些属性有什么用？" class="stats-title-link hint-unseen" data-i18n-attr="aria-label:stats-help,title:stats-help" href="#" id="stats-help-link" onclick="openStatsModal(); event.stopPropagation(); return false;" title="这些属性有什么用？">
+<span data-i18n="stats">属性</span>
+<i aria-hidden="true" class="fa fa-circle-question stats-help-icon"></i>
+</a>
+</h4>
+<p title="Health points"><i class="fas fa-heart" id="player-hp-icon"></i><span data-i18n="hp">生命：</span> <span id="player-hp"></span></p>
+<div aria-label="Core stats" class="key-stats">
+<p title="Attack power; increases damage dealt"><i class="ra ra-sword"></i><span data-i18n="atk">攻击：</span> <span id="player-atk"></span></p>
+<p title="Defense; reduces damage taken"><i class="ra ra-round-shield"></i><span data-i18n="def">防御：</span> <span id="player-def"></span></p>
+<p title="Attacks per second (attack speed)"><i class="ra ra-plain-dagger"></i><span data-i18n="aps">攻速：</span> <span id="player-atkspd"></span></p>
+</div>
+<details class="advanced-stats" id="advanced-stats">
+<summary><span data-i18n="more">更多</span></summary>
+<div>
+<p title="Vampirism; percent of damage returned as health"><i class="ra ra-dripping-blade"></i><span data-i18n="vamp">吸血：</span> <span id="player-vamp"></span></p>
+<p title="Critical hit chance"><i class="ra ra-lightning-bolt"></i><span data-i18n="c-rate">暴击率：</span> <span id="player-crate"></span></p>
+<p title="Critical damage bonus"><i class="ra ra-focused-lightning"></i><span data-i18n="c-dmg">暴击伤害：</span> <span id="player-cdmg"></span></p>
+<p title="Chance to evade attacks"><i class="ra ra-player-dodge"></i><span data-i18n="dodge">闪避：</span> <span id="player-dodge"></span></p>
+<p title="Increases equipment drop chance"><i class="ra ra-perspective-dice-one"></i><span data-i18n="luck">幸运：</span> <span id="player-luck"></span></p>
+</div>
+</details>
+</div>
+<div class="box" hidden="true" id="bonus-stats"></div>
+<div class="box" id="companion-panel">
+<h4 data-i18n="companion">同伴</h4>
+<p data-i18n="none" id="companion-name">无</p>
+<p class="hidden" id="companion-exp"></p>
+<p><i class="ra ra-sword"></i><span data-i18n="atk">攻击：</span> <span id="companion-atk">0</span></p>
+<p><i class="ra ra-plain-dagger"></i><span data-i18n="aps">攻速：</span> <span id="companion-atkspd">0</span></p>
+<p hidden="true" id="companion-bonus"></p>
+<button class="hidden" data-i18n="summon" id="summon-companion">召唤</button>
+</div>
+</div>
+<div class="dungeon-head">
+<div class="dungeon-status">
+<p id="dungeonTime"></p>
+<p id="floorCount"></p>
+<p id="roomCount"></p>
+</div>
+<div class="dungeon-controls">
+<button id="dungeonActivity"></button>
+<button aria-label="Toggle auto mode" aria-pressed="false" class="hidden" id="auto-mode-btn"><i class="fas fa-play"></i></button>
+<button class="hidden" id="auto-mode-settings-btn"><i aria-hidden="true" class="fas fa-sliders-h"></i><span class="sr-only"><span data-i18n="auto-mode">自动模式</span> <span data-i18n="settings">设置</span></span></button>
+</div>
+</div>
+<div class="logBox primary-panel">
+<div class="logBox-header">
+<p id="dungeonAction"></p>
+<button aria-label="清除记录" class="clear-log-button" data-i18n="clear-log" data-i18n-attr="aria-label:clear-log" id="clear-log-button" type="button">清除记录</button>
+</div>
+<div id="dungeonLog"></div>
+</div>
+</section>
+<div class="game-container" id="loading" style="display: none;">
+<div class="loader"></div>
+</div>
+<div class="modal-container" id="inventory">
+<div class="content">
+<div class="content-head">
+<h3><span data-i18n="inventory">背包</span> (<span id="inventory-item-count">0</span>/<span id="inventory-item-limit">100</span>)</h3>
+<div>
+<p aria-label="Open forge" onclick="openForgeModal()" role="button"><i class="ra ra-anvil"></i></p>
+<p aria-label="Close inventory" onclick="closeInventory()" role="button"><i class="fa fa-xmark"></i></p>
+</div>
+</div>
+<div class="content-head">
+<select id="sell-rarity">
+<option data-i18n="sell" value="none">出售</option>
+<option class="Common" data-i18n="common" value="Common">普通</option>
+<option class="Uncommon" data-i18n="uncommon" value="Uncommon">罕见</option>
+<option class="Rare" data-i18n="rare" value="Rare">稀有</option>
+<option class="Epic" data-i18n="epic" value="Epic">史诗</option>
+<option class="Legendary" data-i18n="legendary" value="Legendary">传奇</option>
+<option class="Heirloom" data-i18n="heirloom" value="Heirloom">传家宝</option>
+<option data-i18n="sell-by-tier" value="tier">低于指定阶级…</option>
+<option data-i18n="sell-by-level" value="level">低于指定等级…</option>
+<option class="Common" data-i18n="all" value="All">全部</option>
+</select>
+<select id="sort-inventory">
+<option data-i18n="sort" value="none">排序</option>
+<option data-i18n="category" value="category">类型</option>
+<option data-i18n="level" value="level">等级</option>
+<option data-i18n="rarity" value="rarity">稀有度</option>
+<option data-i18n="tier" value="tier">阶级</option>
+</select>
+</div>
+<div class="inventorySlots" id="playerInventory"></div>
+<div class="stat-panel">
+<div class="box">
+<div class="box-head">
+<h4 data-i18n="equipment">装备</h4>
+<div>
+<p aria-label="Configure auto-equip priorities" id="equip-best-settings" role="button" title="Auto Equip Priorities"><i class="fa fa-sliders-h"></i></p>
+<p id="equip-best"><i class="fa fa-arrows-rotate"></i></p>
+<p id="unequip-all"><i class="fa fa-circle-xmark"></i></p>
+</div>
+</div>
+<div id="playerEquipment"></div>
+<div aria-labelledby="companion-charm-heading" class="companion-charm-slot-group">
+<div class="companion-charm-slot-group__copy">
+<span class="companion-charm-slot-group__eyebrow" data-i18n="companion">同伴</span>
+</div>
+<div id="companionCharmSlot"></div>
+</div>
+</div>
+</div>
+<button data-i18n="menu" id="menu-btn">菜单</button>
+</div>
+</div>
+<div class="modal-container" id="equipmentInfo"></div>
+<div class="modal-container" id="combatPanel"></div>
+<div class="modal-container" id="endgameModal">
+<div class="content endgame-content">
+<h3 data-i18n="run-summary">冒险总结</h3>
+<p class="endgame-player">
+<span class="endgame-player-identity">
+<span id="endgame-player-name"></span>
+<span class="player-title" hidden="" id="endgame-player-title"></span>
+</span>
+<span class="endgame-mode-badge" hidden="" id="endgame-player-mode"></span>
+</p>
+<ul class="endgame-meta" id="endgame-meta"></ul>
+<div class="endgame-unlocks" hidden="" id="endgame-unlocks"></div>
+<ul class="endgame-stats" id="endgame-stats"></ul>
+<p class="endgame-hint" data-i18n="run-summary-hint">开始新的冒险以重返地城。</p>
+<div class="button-container">
+<button data-i18n="start-new-run" id="endgame-start-btn">开始新的冒险</button>
+</div>
+</div>
+</div>
+<div class="modal-container" id="lvlupPanel">
+<div class="content" id="lvlupSelect"></div>
+</div>
+<div class="modal-container" id="defaultModal"></div>
+<div class="modal-container" id="menuModal"></div>
+<div class="modal-container" id="confirmationModal"></div>
+<div class="modal-container" id="statsModal">
+<div class="content">
+<div class="content-head">
+<h3 data-i18n="stats">属性</h3>
+<p aria-label="Close stats" onclick="closeStatsModal()"><i class="fa fa-xmark"></i></p>
+</div>
+<div class="modal-body">
+<p><i class="fas fa-heart"></i><strong data-i18n="stat-display.health">生命</strong>: <span data-i18n="stats-modal.health">生命值。降为 0 时会被击败。</span></p>
+<p><i class="ra ra-sword"></i><strong data-i18n="stat-display.attack">攻击</strong>: <span data-i18n="stats-modal.attack">攻击力，会提高造成的伤害。</span></p>
+<p><i class="ra ra-round-shield"></i><strong data-i18n="stat-display.defense">防御</strong>: <span data-i18n="stats-modal.defense">防御力，降低所受伤害。</span></p>
+<p><i class="ra ra-plain-dagger"></i><strong data-i18n="stat-display.attack-speed">攻击速度</strong>: <span data-i18n="stats-modal.attack-speed">每秒攻击次数；数值越高攻击越快。</span></p>
+<p><i class="ra ra-dripping-blade"></i><strong data-i18n="stat-display.vampirism">吸血</strong>: <span data-i18n="stats-modal.vampirism">造成伤害的一部分返还为生命值。</span></p>
+<p><i class="ra ra-lightning-bolt"></i><strong data-i18n="stat-display.crit-rate">暴击率</strong>: <span data-i18n="stats-modal.crit-rate">触发暴击的概率。</span></p>
+<p><i class="ra ra-focused-lightning"></i><strong data-i18n="stat-display.crit-dmg">暴击伤害</strong>: <span data-i18n="stats-modal.crit-dmg">暴击时的额外伤害。</span></p>
+<p><i class="ra ra-player-dodge"></i><strong data-i18n="stat-display.dodge">闪避</strong>: <span data-i18n="stats-modal.dodge">闪避来袭攻击的概率。</span></p>
+<p><i class="ra ra-perspective-dice-one"></i><strong data-i18n="stat-display.luck">幸运</strong>: <span data-i18n="stats-modal.luck">提高装备掉落几率。</span></p>
+<p><strong data-i18n="stat-display.faster-run">奔跑速度</strong>: <span data-i18n="stats-modal.faster-run-desc">靴子加成，缩短地下城事件之间的时间。</span></p>
+</div>
+</div>
+</div>
+<div class="modal-container" id="companionModal">
+<div class="content">
+<div class="content-head">
+<h3 data-i18n="companions">同伴</h3>
+<p onclick="closeCompanionModal()"><i class="fa fa-xmark"></i></p>
+</div>
+<div class="companion-list" id="available-companions"></div>
+</div>
+</div>
+<div class="modal-container" id="forgeModal">
+<div class="content">
+<div class="content-head">
+<h3><i class="ra ra-anvil"></i> <span data-i18n="the-forge">锻造所</span></h3>
+<p onclick="closeForgeModal()"><i class="fa fa-xmark"></i></p>
+</div>
+<div aria-label="Forge mode" class="forge-mode-toggle" role="tablist">
+<button aria-selected="true" class="active" data-forge-mode="merge" data-i18n="merge-items" id="forge-mode-merge" role="tab" type="button">合并</button>
+<button aria-selected="false" data-forge-mode="reroll" data-i18n="reroll-stats" id="forge-mode-reroll" role="tab" type="button">重随属性</button>
+<button aria-selected="false" data-forge-mode="refine" id="forge-mode-refine" role="tab" type="button"><i aria-hidden="true" class="ra ra-crystal-ball"></i><span data-i18n="refine">精炼</span></button>
+</div>
+<div class="forge-description">
+<p data-i18n="combine-three-items-of-the-same-tier-and-rarity-to-forge-one-of-the-next-rarity">将三件相同阶级和稀有度的物品组合，锻造出下一稀有度的装备！</p>
+<p class="forge-current-gold" id="forge-player-gold"></p>
+</div>
+<div class="forge-buttons">
+<button data-i18n="forge-equipment" disabled="" id="forge-confirm">锻造装备</button>
+<button data-i18n="clear-selection" id="forge-clear">清空选择</button>
+</div>
+<div class="forge-target" id="forge-target-panel">
+<label data-i18n="crafted-gear-piece" for="forge-target-category">要打造的装备</label>
+<select id="forge-target-category">
+<option data-i18n="choose-gear-piece" value="">选择装备</option>
+</select>
+</div>
+<div class="forge-slots" id="forge-merge-panel">
+<div class="forge-slot-container">
+<h4 data-i18n="material-1">材料 1</h4>
+<div class="forge-slot" id="forge-slot-1">
+<p data-i18n="select-equipment">选择装备</p>
+</div>
+</div>
+<div class="forge-slot-container">
+<h4 data-i18n="material-2">材料 2</h4>
+<div class="forge-slot" id="forge-slot-2">
+<p data-i18n="select-equipment">选择装备</p>
+</div>
+</div>
+<div class="forge-plus">
+<i class="fas fa-plus"></i>
+</div>
+<div class="forge-slot-container">
+<h4 data-i18n="material-3">材料 3</h4>
+<div class="forge-slot" id="forge-slot-3">
+<p data-i18n="select-equipment">选择装备</p>
+</div>
+</div>
+</div>
+<div class="reroll-panel" id="forge-reroll-panel" style="display: none;">
+<div class="forge-slot-container reroll-slot-container">
+<h4 data-i18n="selected-equipment">已选装备</h4>
+<div class="forge-slot reroll-slot" id="reroll-slot">
+<p data-i18n="select-equipment">选择装备</p>
+</div>
+</div>
+<div class="reroll-stat-locks" id="reroll-stat-locks" style="display: none;">
+<h4 data-i18n="stat-lock">锁定属性</h4>
+<p data-i18n="stat-lock-help">锁定的属性会保留类型和数值。至少必须有一项属性保持未锁定。</p>
+<div class="reroll-stat-lock-options" id="reroll-stat-lock-options"></div>
+</div>
+<div class="reroll-preview" id="reroll-preview" style="display: none;">
+<div class="reroll-preview-card">
+<h4 data-i18n="current-stats">当前属性</h4>
+<div id="reroll-current-item"></div>
+</div>
+<div class="reroll-preview-card">
+<h4 data-i18n="possible-stats">可能属性</h4>
+<div id="reroll-preview-item"></div>
+</div>
+</div>
+<div class="forge-cost reroll-cost" id="reroll-cost" style="display: none;">
+<p><span data-i18n="cost">花费：</span> <i class="fas fa-coins" style="color: #FFD700;"></i><span id="reroll-cost-amount">0</span> <span data-i18n="gold">金币</span> <span class="refine-material-cost" id="reroll-stone-cost" style="display: none;"><i class="ra ra-crystal-ball"></i><span id="reroll-stone-cost-amount">0</span> <span data-i18n="refine-stones">精炼石</span></span></p>
+</div>
+</div>
+<div class="reroll-panel" id="forge-refine-panel" style="display: none;">
+<div class="forge-slot-container reroll-slot-container">
+<h4 data-i18n="selected-equipment">已选装备</h4>
+<div class="forge-slot reroll-slot" id="refine-slot">
+<p data-i18n="select-equipment">选择装备</p>
+</div>
+</div>
+<div class="reroll-preview" id="refine-preview" style="display: none;">
+<div class="reroll-preview-card">
+<h4 data-i18n="current-stats">当前属性</h4>
+<div id="refine-current-item"></div>
+</div>
+<div class="reroll-preview-card">
+<h4 data-i18n="refined-stats">精炼属性</h4>
+<div id="refine-preview-item"></div>
+</div>
+</div>
+<div class="forge-cost reroll-cost refine-cost" id="refine-cost" style="display: none;">
+<p><span data-i18n="cost">花费：</span> <i class="fas fa-coins" style="color: #FFD700;"></i><span id="refine-cost-amount">0</span> <span data-i18n="gold">金币</span> <span class="refine-material-cost"><i class="ra ra-crystal-ball"></i><span id="refine-stone-cost-amount">0</span> <span data-i18n="refine-stones">精炼石</span></span> <span class="refine-material-cost guardian-core-cost" id="refine-core-cost" style="display: none;"><i class="ra ra-crystal-cluster"></i><span id="refine-core-cost-amount">0</span> <span data-i18n="guardian-cores">守卫核心</span></span></p>
+<p class="refine-ascension-hint" data-i18n="guardian-core-refine-hint" id="refine-ascension-hint" style="display: none;">100 级装备可使用守卫核心精炼至 +10 以上,守卫核心由第 20 层起的楼层首领掉落。</p>
+</div>
+</div>
+<div class="forge-result" id="forge-result" style="display: none;">
+<h4 data-i18n="result-preview">结果预览</h4>
+<div class="forge-result-item" id="forge-result-item"></div>
+<div class="forge-cost">
+<p><span data-i18n="cost">花费：</span> <i class="fas fa-coins" style="color: #FFD700;"></i><span id="forge-cost-amount">0</span> <span data-i18n="gold">金币</span></p>
+</div>
+</div>
+<div class="forge-equipment-list" id="forge-equipment-list">
+<div class="forge-equipment-heading">
+<h4 data-i18n="available-equipment">可用装备</h4>
+<label class="forge-refinement-toggle">
+<input id="forge-include-refinement" type="checkbox"/>
+<span data-i18n="forge-include-refinement">包含精炼数值</span>
+</label>
+</div>
+<div class="forge-equipment-grid" id="forge-equipment-grid"></div>
+</div>
+</div>
+</div>
+</main>
+<script src="/_assets/736c339444c88baad593.js"></script>
+<script src="/_assets/01461ade92635023afc5.js"></script>
+<script src="/_assets/b9e91c0308fb801eaf76.js"></script>
+<script src="/_assets/a833a168afc4f116e8fd.js"></script>
+<script src="/_assets/9e54a9da420c64023da4.js"></script>
+<script src="/_assets/21f7e66fff3e2b7a640a.js"></script>
+<script src="/_assets/cffaa8d72701e45c0db6.js"></script>
+<script src="/_assets/00ebc09c8bcb66c7abf4.js"></script>
+<script src="/_assets/8405979278a272ba4a0f.js"></script>
+<script src="/_assets/f7a96449c843e90baae5.js"></script>
+<script src="/_assets/1613f0cb8169b4a2afe7.js"></script>
+<script src="/_assets/f82f26dce80dce176dd4.js"></script>
+<script src="/_assets/92efcf595b0548fb3be7.js"></script>
+<script src="/_assets/2b07afdf6bb289f10535.js"></script>
+<script src="/_assets/283c7543edf5b8f1fddf.js"></script>
+<script src="/_assets/83b915ec04b67d913143.js"></script>
+<script src="/_assets/6e2e1d07eb5352742fc9.js"></script>
+<script src="/_assets/59ca8554e56493cee820.js"></script>
+<script src="/_assets/b9a14556aaf83feb8bb8.js"></script>
+<script src="/_assets/1904d6b957c8e6640d7a.js"></script>
+<script>
+        if (typeof navigator.serviceWorker !== 'undefined' && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+<script src="/_assets/5c658859a556b21751c1.js"></script>
+</body></html>

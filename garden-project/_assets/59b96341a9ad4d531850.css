@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'CeraProMed';
+    src: 
+        /*local("Cera Pro Medium"),*/
+        url("68415c8ecee10d8cbab1.otf") format("opentype");
+}
+@font-face {
+    font-family: 'CeraProBold';
+    src: url("ca2bcc9e894e0a755a49.otf") format("opentype");
+}
+
+html {
+    cursor: url('b9a850b67eb01f64e5a5.png') 7 3, default;
+    -webkit-user-select: none;
+    user-select: none;
+}
+body {
+    padding: 0;
+    margin-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 0%;
+    background-image: url(43311ddaa60a20aa3fd5.png);
+    cursor: url('b9a850b67eb01f64e5a5.png') 7 3, default;
+    -webkit-user-select: none;
+    user-select: none;
+}
+main{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 25px;
+    border: 2px solid black;
+    -webkit-user-select: none;
+    user-select: none;
+}
+@media only screen and (max-width: 899px){
+    #nope{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #nopeimg {
+        padding-top: 10px;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    #nopetext {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-family: CeraProMed, 'Century Gothic', sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 15px;
+        color: #000;
+        text-align: center;
+        margin-top: 11px;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    #titlebar {
+        display: none;
+        opacity: 0;
+    }
+    #canvas{
+        display: none;
+        opacity: 0;
+    }
+    #copyright{
+        display: none;
+        opacity: 0;
+    }
+    #cash{
+        display: none;
+        opacity: 0;
+    }
+    #game{
+        display: none;
+        opacity: 0;
+    }
+    #title{
+        display: none;
+        opacity: 0;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    #nope {
+        display: none;
+    }
+    h1 {
+        font-family: CeraProBold, 'Century Gothic', sans-serif;
+        font-weight: 700;
+        font-size: 50px;
+        line-height: 50px;
+        color: #82e4ff;
+        -webkit-text-stroke: 2px black;
+        text-stroke: 2px black;
+        cursor: url('b9a850b67eb01f64e5a5.png') 7 3, default;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    canvas {
+        cursor: url('b9a850b67eb01f64e5a5.png') 7 3, default !important;
+        border-radius: 25px;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    #titleBar {
+        font-family: CeraProMed, 'Century Gothic', sans-serif;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 30px;
+        padding-right: 30px;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    #cash{
+        text-align: right;
+        font-weight: 500;
+        font-size: 35px;
+        line-height: 50px;
+        color: #cc9c00;
+        -webkit-text-stroke: 2px black;
+        text-stroke: 2px black;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    #copyright{
+        font-family: CeraProMed, 'Century Gothic', sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 15px;
+        color: #000;
+        text-align: center;
+        margin-top: 11px;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}

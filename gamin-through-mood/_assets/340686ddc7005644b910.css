@@ -1,0 +1,422 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Press Start 2P', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #cb7a63;
+}
+/* Global definitions to make the background animations work seamless across targets */
+body, #menu-screen, #gameCanvas {
+    background-size: 400% 400% !important;
+    transition: background 0.8s ease-in-out;
+}
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+/* --- MENU OVERLAY --- */
+#menu-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 9999;
+    pointer-events: auto;
+}
+.game-title {
+    font-size: 2.2rem; /* Scaled down from 3.5rem because 2P text runs large */
+    font-weight: normal; /* Pixel fonts don't need bolding */
+    line-height: 1.4;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255,255,255,0.4);
+}
+.game-description {
+    font-size: 0.60rem; /* Tiny size works best for 2P subtexts */
+    line-height: 1.5;
+    letter-spacing: 0px;
+    color: #e4bc18; 
+    margin-bottom: 30px;
+}
+.theme-selector {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 50px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 100%;
+    padding: 0 15px;
+}
+.theme-btn {
+    background: transparent;
+    border: none;
+    gap: 15px;
+    width: 160px;
+    height: auto;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex !important; 
+    flex-direction: column !important; 
+    align-items: center !important;
+    justify-content: center !important;
+    transition: transform 0.3s ease;
+    outline: none;
+}
+@media (max-width: 680px) {
+    .game-title {
+        font-size: 1.4rem !important; /* Shrinks the main headline so it doesn't break into awkward lines */
+    }
+    .game-description {
+        font-size: 0.5rem !important;
+        line-height: 2;
+    }
+    .menu-prompt {
+        font-size: 0.6rem !important;
+    }
+    .theme-selector {
+        gap: 15px; /* Tightens the spacing structure on grids */
+    }
+    .theme-btn {
+        width: 120px; /* Scales down container footprint to fit 2-by-2 grid layout comfortably on touchscreens */
+    }
+    .theme-btn img {
+        width: 90px !important;  /* Shrinks the actual vinyl sizes */
+        height: 90px !important;
+    }
+    .theme-label {
+        font-size: 0.55rem !important; /* Keeps typography matched and readable */
+    }
+    #start-btn {
+        font-size: 0.9rem !important;
+        padding: 10px 30px;
+    }
+}
+.theme-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display:block !important;
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));
+    transition: filter 0.3s ease;
+}
+.theme-btn:hover {
+    transform: scale(1.08) translateY(-5px);
+    cursor: url('assets/needle-48.png') 24 44, pointer;
+}
+.theme-btn:hover img {
+    animation: recordSpin 4s linear infinite;
+}
+.theme-btn.active img{
+    filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.4));
+    animation: recordSpin 4s linear infinite;
+}
+.theme-label {
+    display: block !important;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #2b1c19; 
+    text-transform: uppercase;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+.theme-btn.active .theme-label {
+    color: #ffffff; 
+}
+@keyframes recordSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+#start-btn {
+    font-family: 'Press Start 2P', monospace; /* Forces button text to update too */
+    background: #eedfa2; 
+    color: #2b1c19;
+    border: 3px solid #6b4c35;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 4px 0px #6b4c35;
+}
+#start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(250, 179, 80, 0.536);
+}
+.hover-story {
+    font-size: 0.6rem;
+    line-height: 1.9;
+    color: #f3e4c8;
+    max-width: 520px;
+    min-height: 2.6em; /* reserves space so nothing shifts when text changes */
+    margin: 0 0 30px 0;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+.hover-story.visible {
+    opacity: 1;
+}
+.theme-btn.hover-spin img {
+    animation: recordSpin 4s linear infinite;
+}
+ 
+/* --- PLAY SCREEN --- */
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: transparent !important; /* Ensure canvas is transparent */
+}
+/* UI Toggle state */
+.hidden {
+    display: none !important;
+    z-index: -100 !important;
+    pointer-events: none !important;
+}
+/*  SCI-FI: Cosmic Nebula Shift */
+.bg-scifi-dynamic {
+    background: linear-gradient(-45deg, 
+#0d1b2a, 
+#1b263b, 
+#415a77, 
+#0d1b2a);
+    animation: gradientShift 15s ease infinite;
+}
+/*  FANTASY: Magical Sunset Vibe */
+.bg-fantasy-dynamic {
+    background: linear-gradient(-45deg, 
+#2d1b4e, 
+#4a2840, 
+#632c66, 
+#2d1b4e);
+    animation: gradientShift 12s ease infinite;
+}
+/*  HORROR: Eerie Dark Pulse */
+.bg-horror-dynamic {
+    background: linear-gradient(-45deg, 
+#131313, 
+#221111, 
+#1a001a, 
+#131313);
+    animation: gradientShift 18s ease infinite;
+}
+/*  LOFI: Cozy Evening Glow */
+.bg-lofi-dynamic {
+    background: linear-gradient(-45deg, 
+#3d2a25, 
+#5c3d35, 
+#2b1c19, 
+#3d2a25);
+    animation: gradientShift 20s ease infinite;
+}
+/* Animation wave core engine */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; } }
+
+    /* --- SCI-FI TWINKLING STARFIELD (menu only) --- */
+.bg-scifi-dynamic::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 2px; height: 2px;
+    background: transparent;
+    box-shadow: 1309px 228px #fff, 51px 563px #fff, 501px 457px #fff, 285px 209px #fff, 1385px 178px #fff, 1209px 864px #fff, 65px 61px #fff, 191px 447px #fff, 476px 1034px #fff, 1232px 54px #fff, 1149px 407px #fff, 1466px 859px #fff, 451px 919px #fff, 1206px 569px #fff, 1657px 13px #fff, 1554px 326px #fff, 1429px 865px #fff, 696px 569px #fff, 318px 440px #fff, 1563px 689px #fff, 209px 189px #fff, 778px 198px #fff, 735px 704px #fff, 1236px 541px #fff, 1652px 88px #fff, 1494px 940px #fff, 1098px 255px #fff, 1888px 775px #fff, 161px 600px #fff, 1698px 740px #fff, 1182px 393px #fff, 1442px 142px #fff, 93px 466px #fff, 1583px 592px #fff, 163px 476px #fff, 1774px 206px #fff, 778px 569px #fff, 928px 747px #fff, 333px 758px #fff, 727px 429px #fff, 1372px 546px #fff, 1437px 146px #fff, 1247px 350px #fff, 1093px 501px #fff, 334px 946px #fff, 777px 552px #fff, 1895px 449px #fff, 1402px 664px #fff, 1726px 114px #fff, 469px 65px #fff, 1648px 646px #fff, 821px 548px #fff, 135px 432px #fff, 1870px 644px #fff, 435px 1022px #fff, 810px 939px #fff, 292px 542px #fff, 285px 505px #fff, 1525px 538px #fff, 1529px 877px #fff, 1838px 817px #fff, 741px 449px #fff, 283px 1043px #fff, 1010px 186px #fff, 1547px 96px #fff, 1763px 224px #fff, 313px 327px #fff, 1622px 864px #fff, 1221px 130px #fff, 788px 781px #fff, 1220px 958px #fff, 1083px 514px #fff, 1133px 23px #fff, 1393px 234px #fff, 1396px 546px #fff, 1574px 696px #fff, 228px 601px #fff, 890px 323px #fff, 929px 6px #fff, 1478px 539px #fff;
+    animation: twinkle 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+.bg-scifi-dynamic > * {
+    position: relative;
+    z-index: 1;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* --- FANTASY: DRIFTING FIREFLIES (menu only) --- */
+.bg-fantasy-dynamic::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow:
+        1169px 631px 4px 1px rgba(255, 220, 150, 0.85),
+        211px 384px 4px 1px rgba(230, 190, 255, 0.8),
+        199px 128px 4px 1px rgba(230, 190, 255, 0.9),
+        1267px 421px 4px 1px rgba(255, 220, 150, 0.9),
+        1393px 875px 4px 1px rgba(230, 190, 255, 0.8),
+        953px 928px 4px 1px rgba(230, 190, 255, 0.8),
+        613px 508px 4px 1px rgba(255, 220, 150, 0.85),
+        1431px 499px 4px 1px rgba(230, 190, 255, 0.9),
+        1176px 614px 4px 1px rgba(255, 220, 150, 0.9),
+        1792px 703px 4px 1px rgba(255, 220, 150, 0.9),
+        589px 149px 4px 1px rgba(230, 190, 255, 0.9),
+        1048px 856px 4px 1px rgba(255, 220, 150, 0.85),
+        1550px 700px 4px 1px rgba(255, 220, 150, 0.8),
+        120px 640px 4px 1px rgba(230, 190, 255, 0.9),
+        340px 210px 4px 1px rgba(255, 220, 150, 0.85),
+        560px 480px 3px 1px rgba(230, 190, 255, 0.8),
+        780px 90px 4px 1px rgba(255, 220, 150, 0.9),
+        980px 560px 3px 1px rgba(230, 190, 255, 0.75),
+        1180px 320px 4px 1px rgba(255, 220, 150, 0.85),
+        1400px 700px 3px 1px rgba(230, 190, 255, 0.8),
+        1600px 150px 4px 1px rgba(255, 220, 150, 0.9),
+        200px 900px 3px 1px rgba(230, 190, 255, 0.8),
+        900px 950px 4px 1px rgba(255, 220, 150, 0.85);
+    animation: fireflyFloat 9s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+.bg-fantasy-dynamic > * { position: relative; z-index: 1; }
+@keyframes fireflyFloat {
+    0%   { transform: translate(0, 0); opacity: 0.5; }
+    25%  { transform: translate(15px, -25px); opacity: 1; }
+    50%  { transform: translate(-10px, -45px); opacity: 0.6; }
+    75%  { transform: translate(20px, -20px); opacity: 0.9; }
+    100% { transform: translate(0, 0); opacity: 0.5; }
+}
+ 
+/* --- HORROR: OCCASIONAL LIGHT FLICKER (menu only) --- */
+.bg-horror-dynamic::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    animation: horrorFlicker 7s infinite;
+}
+.bg-horror-dynamic > * { position: relative; z-index: 1; }
+@keyframes horrorFlicker {
+    0%, 92%, 94.5%, 96%, 100% { opacity: 0; }
+    93% { opacity: 0.35; }
+    95% { opacity: 0.15; }
+}
+ /* --- HORROR: DRIFTING EERIE WISPS (menu only) --- */
+.bg-horror-dynamic::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: transparent;
+    filter: blur(1px);
+    box-shadow:
+        120px 780px 8px 2px rgba(159, 65, 206, 0.897),
+        340px 300px 6px 2px rgba(140, 40, 50, 0.5),
+        560px 620px 8px 2px rgba(212, 37, 10, 0.878),
+        780px 200px 6px 2px rgba(203, 179, 215, 0.877),
+        980px 700px 8px 2px rgba(140, 40, 50, 0.45),
+        1180px 400px 6px 2px rgba(232, 1, 116, 0.885),
+        1400px 850px 8px 2px rgba(153, 112, 173, 0.5),
+        250px 500px 6px 2px rgba(157, 29, 42, 0.875);
+    animation: wispDrift 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+@keyframes wispDrift {
+    0%, 100% { transform: translate(0, 0); opacity: 0.35; }
+    20%      { transform: translate(-8px, -25px); opacity: 0.75; }
+    45%      { transform: translate(10px, -55px); opacity: 0.45; }
+    70%      { transform: translate(-6px, -30px); opacity: 0.8; }
+}
+/* --- LOFI: SLOW DRIFTING DUST MOTES (menu only) --- */
+.bg-lofi-dynamic::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: transparent;
+    filter: blur(1.5px);
+    box-shadow:
+        150px 700px 8px 3px rgba(255, 214, 165, 0.5),
+        420px 250px 10px 4px rgba(255, 214, 165, 0.4),
+        700px 600px 8px 3px rgba(255, 214, 165, 0.45),
+        980px 150px 10px 4px rgba(255, 214, 165, 0.4),
+        1250px 500px 8px 3px rgba(255, 214, 165, 0.5),
+        1500px 800px 10px 4px rgba(255, 214, 165, 0.4),
+        300px 950px 8px 3px rgba(255, 214, 165, 0.45);
+    animation: dustDrift 16s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-lofi-dynamic > * { position: relative; z-index: 1; }
+@keyframes dustDrift {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(-30px, -20px); }
+    100% { transform: translate(0, 0); }
+}
+#in-game-menu-btn {
+  display: none; /* JS toggles this to "flex" on start, "none" via goToMenu() */
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 1000;
+
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px 8px 12px;
+
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 9px;
+  font-weight: 100;
+  letter-spacing: 0.1px;
+  color: #cdd7e2;
+
+  background: none; 
+  border: none;
+  border-radius: 3px 12px 3px 12px; /* slightly uneven corners, hand-cut feel */
+  cursor: pointer;
+  transform: rotate(-2deg);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+
+
+.menu-icon {
+  font-size: 15px;
+  transform: translateY(-1px);
+}
+
+.menu-text {
+  text-transform: lowercase;
+}
+
+#in-game-menu-btn:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow:
+    0 2px 0 rgba(0,0,0,0.15),
+    0 6px 14px rgba(0,0,0,0.3);
+}
+
+#in-game-menu-btn:active {
+  transform: rotate(-1deg) scale(0.97);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}

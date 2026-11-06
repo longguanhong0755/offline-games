@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<!-- Primary Meta Tags -->
+<title>Block Catcher - An Open Source WebGL Game</title>
+<meta content="Block Catcher - An Open Source WebGL Game" name="title"/>
+<meta content="A synthwave-inspired WebGL block-catching game that will test your reflexes and captivate your senses." name="description"/>
+<meta content="#FF0080" name="theme-color"/>
+<!-- Open Graph / Facebook -->
+<meta content="website" property="og:type"/>
+<meta content="https://zerebos.github.io/BlockCatcher/" property="og:url"/>
+<meta content="Block Catcher - An Open Source WebGL Game" property="og:title"/>
+<meta content="A synthwave-inspired WebGL block-catching game that will test your reflexes and captivate your senses." property="og:description"/>
+<meta content="https://zerebos.github.io/BlockCatcher/assets/images/logo.png" property="og:image"/>
+<!-- Twitter -->
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="zerebos.github.io" property="twitter:domain"/>
+<meta content="https://zerebos.github.io/BlockCatcher/" property="twitter:url"/>
+<meta content="Block Catcher - An Open Source WebGL Game" name="twitter:title"/>
+<meta content="A synthwave-inspired WebGL block-catching game that will test your reflexes and captivate your senses." name="twitter:description"/>
+<meta content="https://zerebos.github.io/BlockCatcher/assets/images/logo.png" name="twitter:image"/>
+<!-- Favicon Tags -->
+
+
+
+
+
+<meta content="BlockCatcher" name="apple-mobile-web-app-title"/>
+<link href="/_assets/d6ffb13d6fcf52d1e7d1.css" rel="stylesheet"/><script src="/_assets/46d056db3a9f3f63a833.js" type="module"></script><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="forkongithub"><a aria-label="View source code on GitHub">Find me on GitHub</a></div>
+<header class="page-header">
+<div class="logo">
+<div class="logo-text">
+<span class="logo-block">BLOCK</span>
+<span class="logo-catcher">CATCHER</span>
+</div>
+<div aria-hidden="true" class="logo-accents">
+<span class="logo-accent logo-accent-pink">▮</span>
+<span class="logo-accent logo-accent-purple">▮</span>
+<span class="logo-accent logo-accent-cyan">▮</span>
+</div>
+<div class="logo-underline"></div>
+</div>
+</header>
+<main class="game-container">
+<div aria-labelledby="game-title" class="flex column" id="game-display" role="main">
+<h2 class="sr-only" id="game-title">Block Catcher Game</h2>
+<div class="flex" id="canvas-wrap">
+<div aria-label="Game statistics" aria-live="polite" class="flex flex-space-evenly" id="hud" role="status">
+<span>Points: <span aria-label="Current score: 0 points" class="" id="score" style="animation: 0.3s ease-out 0s 1 normal none running scoreUpdate;">0</span></span>
+<span>Time: <span aria-label="Time remaining: 1 minutes and 0 seconds" id="time">01:00</span></span>
+<div aria-label="Audio controls" class="audio-control" role="group">
+<label class="sr-only" for="volume-slider">Audio volume</label>
+<input aria-label="Audio volume percentage" class="volume-slider" id="volume-slider" max="100" min="0" type="range" value="60"/>
+<span aria-hidden="true" class="volume-icon" id="volume-icon">🔉</span>
+</div>
+</div>
+<canvas aria-describedby="game-instructions" aria-label="Block Catcher game canvas. Use left and right arrow keys to move the player bar and catch falling blocks. Press space to start." height="512" id="gl-canvas" role="application" tabindex="0" width="512"></canvas>
+<div aria-live="assertive" class="flex column flex-justify-center overlay" role="dialog">
+<span aria-label="" id="status"></span>
+<span aria-label="Press space bar to start the game" id="play">Press SPACE to play!</span>
+</div>
+</div>
+<div class="sr-only" id="game-instructions">
+                    Use the left and right arrow keys to move your player bar.
+                    Catch falling blocks to score points. Pink blocks are worth 1 point,
+                    purple blocks are worth 5 points, and cyan blocks are worth 25 points.
+                    Try to score 500 points before time runs out. Press space to start or restart the game.
+                </div>
+</div>
+</main>
+<section aria-labelledby="info-heading" class="info-cards" role="complementary">
+<h2 class="sr-only" id="info-heading">Game Information</h2>
+<div aria-labelledby="info-section" class="info-card">
+<h3 id="info-section">Game Info</h3>
+<p class="blurb">Try to get 500 points before time runs out! Move your player bar to catch falling blocks of different values.</p>
+<div class="star-wrap">
+<iframe frameborder="0" height="30" scrolling="0" src="/_assets/ea62216563585ae3e3be.html" title="GitHub star button for BlockCatcher repository" width="120"></iframe>
+</div>
+</div>
+<div aria-labelledby="controls-section" class="info-card">
+<h3 id="controls-section">Controls</h3>
+<div class="controls-grid">
+<div class="control-item">
+<kbd aria-label="Left arrow key">←</kbd>
+<span>Move Left</span>
+</div>
+<div class="control-item">
+<kbd aria-label="Right arrow key">→</kbd>
+<span>Move Right</span>
+</div>
+<div class="control-item">
+<kbd aria-label="Space bar">SPACE</kbd>
+<span>Start Game</span>
+</div>
+</div>
+</div>
+<div aria-labelledby="scoring-section" class="info-card">
+<h3 id="scoring-section">Scoring</h3>
+<div class="scoring-grid">
+<div class="score-item">
+<var aria-label="1 point" class="pink">1 pt</var>
+<span>Pink Blocks</span>
+</div>
+<div class="score-item">
+<var aria-label="5 points" class="purple">5 pts</var>
+<span>Purple Blocks</span>
+</div>
+<div class="score-item">
+<var aria-label="25 points" class="cyan">25 pts</var>
+<span>Cyan Blocks</span>
+</div>
+</div>
+</div>
+</section>
+</body></html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<!-- Google tag (gtag.js) -->
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-8HZ96T7NQD');
+    </script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
+<link href="/_assets/6752b9ba151a25703b2e.css" rel="stylesheet"/>
+<link href="/_assets/444bf79dabe1e138d5a0.css" rel="stylesheet"/>
+<link href="/_assets/b2b133250a86971af91c.css" rel="stylesheet"/>
+<link href="./assets/icon/favicon.ico" rel="icon" type="image/png"/>
+<script src="/_assets/0febfd99e2733b690eca.js"></script>
+<title>Dungeon Crawler!</title>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div style="text-align:left;margin-top:2px;margin-left:20px;
+        font-size: 20px; "><a><i class="fas fa-home home-icon" style="color:white;"></i></a></div>
+<main>
+<!-- ===== Rooms ===== -->
+<!-- Title Screen -->
+<section class="game-container" id="title-screen">
+<div>
+<i class="fa-solid fa-dungeon fa-5x"></i>
+<h1>Dungeon Crawler!</h1>
+</div>
+<p>Tap to explore the dungeon</p>
+</section>
+<!-- Character Creation -->
+<section class="game-container" id="character-creation" style="display: flex;">
+<form id="name-submit">
+<h1>What is your name?</h1>
+<input autocomplete="off" id="name-input" type="text"/>
+<p id="alert"></p>
+<button type="submit">Confirm</button>
+</form>
+</section>
+<!-- Hub -->
+<section class="game-container scrollable" id="dungeon-main">
+<header>
+<p id="player-name"></p>
+<p id="player-exp"></p>
+<p id="player-gold"></p>
+<button onclick="openInventory()"><i class="fas fa-bars" style="font-size: 1.3rem;"></i></button>
+</header>
+<div class="stat-panel">
+<div class="box">
+<h4>Stats</h4>
+<p><i class="fas fa-heart"></i>HP: <span id="player-hp"></span></p>
+<p><i class="ra ra-sword"></i>ATK: <span id="player-atk"></span></p>
+<p><i class="ra ra-round-shield"></i>DEF: <span id="player-def"></span></p>
+<p><i class="ra ra-plain-dagger"></i>ATK.SPD: <span id="player-atkspd"></span></p>
+<p><i class="ra ra-dripping-blade"></i>VAMP: <span id="player-vamp"></span></p>
+<p><i class="ra ra-lightning-bolt"></i>C.RATE: <span id="player-crate"></span></p>
+<p><i class="ra ra-focused-lightning"></i>C.DMG: <span id="player-cdmg"></span></p>
+</div>
+<div class="box" id="bonus-stats"></div>
+</div>
+<div class="dungeon-head">
+<p id="dungeonTime"></p>
+<p id="floorCount"></p>
+<p id="roomCount"></p>
+<button id="dungeonActivity"></button>
+</div>
+<div class="logBox primary-panel">
+<p id="dungeonAction"></p>
+<div id="dungeonLog"></div>
+</div>
+</section>
+<!-- ===== Utility ===== -->
+<div class="game-container" id="loading" style="display: none;">
+<div class="loader"></div>
+</div>
+<!-- ===== Modals ===== -->
+<div class="modal-container" id="inventory">
+<div class="content">
+<div class="content-head">
+<h3>Inventory</h3>
+<p onclick="closeInventory()"><i class="fa fa-xmark"></i></p>
+</div>
+<div class="content-head">
+<button id="sell-all">Sell</button>
+<select id="sell-rarity">
+<option class="Common" value="Common">Common</option>
+<option class="Uncommon" value="Uncommon">Uncommon</option>
+<option class="Rare" value="Rare">Rare</option>
+<option class="Epic" value="Epic">Epic</option>
+<option class="Legendary" value="Legendary">Legendary</option>
+<option class="Heirloom" value="Heirloom">Heirloom</option>
+<option class="Common" value="All">All</option>
+</select>
+</div>
+<div class="inventorySlots" id="playerInventory"></div>
+<div class="stat-panel">
+<div class="box">
+<div class="box-head">
+<h4>Equipment</h4>
+<p id="unequip-all"><i class="fa fa-circle-xmark"></i></p>
+</div>
+<div id="playerEquipment"></div>
+</div>
+</div>
+<button id="menu-btn">Menu</button>
+</div>
+</div>
+<div class="modal-container" id="equipmentInfo"></div>
+<div class="modal-container" id="combatPanel"></div>
+<div class="modal-container" id="lvlupPanel">
+<div class="content" id="lvlupSelect"></div>
+</div>
+<div class="modal-container" id="defaultModal"></div>
+<div class="modal-container" id="menuModal"></div>
+<div class="modal-container" id="confirmationModal"></div>
+</main>
+<script src="/_assets/ed29edd435d9f65aade8.js"></script>
+<script src="/_assets/92b6dee42cea350a3fe6.js"></script>
+<script src="/_assets/397e0a7b06a562746517.js"></script>
+<script src="/_assets/f5b9789fd9a560b8fda1.js"></script>
+<script src="/_assets/3b5c32062aa9c4b70e8d.js"></script>
+<script src="/_assets/839edda00775ac3e0f92.js"></script>
+<script src="/_assets/ed0d1428cc56e2e30492.js"></script>
+<script src="/_assets/49a360fc01d4836fc9cf.js"></script>
+<script src="/_assets/95d42df1fdc19fd706fb.js"></script>
+</body></html>

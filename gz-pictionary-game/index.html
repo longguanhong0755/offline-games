@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pictionary Game</title>
+<link href="/_assets/89709f84821a672edec2.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container">
+<h1> 🖌️ Pictionary 🎨</h1>
+<div class="player-input">
+<h2>Add Players</h2>
+<input id="player-name" placeholder="Enter player name" type="text"/>
+<button id="add-player">Add Player</button>
+<ul id="player-list"></ul>
+</div>
+<div class="game-container">
+<div class="word-display">
+<p>Word: <span id="word"></span></p>
+<p>Current Player: <span id="current-player"></span></p>
+<p>Time Left: <span id="timer"></span></p>
+<p>Scores: <span id="scores"></span></p>
+</div>
+<canvas height="600" id="drawingCanvas" width="800"></canvas>
+<div class="controls">
+<button id="guess-button">Guess</button>
+<button id="start-button">Start Game</button>
+<button id="clear-button">Clear Drawing</button>
+<button id="next-button">Next Turn</button>
+</div>
+</div>
+</div>
+<script src="/_assets/1afde85c289cab0fc291.js"></script>
+</body></html>

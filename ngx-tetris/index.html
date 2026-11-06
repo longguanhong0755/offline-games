@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ngx-Tetris</title>
+<meta content="Ngx-Tetris - tetris game as angular component" name="description"/>
+<meta content="Chrum.It" name="author"/>
+<meta content="Ngx-snake" property="og:title"/>
+<meta content="website" property="og:type"/>
+<meta content="https://chrum.it/" property="og:url"/>
+<meta content="ChrumIt Template for new projects." property="og:description"/>
+<meta content="image.png" property="og:image"/>
+<link href="./assets/favicon.ico" rel="icon"/>
+<link href="./assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon"/>
+<link href="/_assets/7633b7c0c97d19e682fe.css" rel="stylesheet"/>
+
+
+<style type="text/css">@font-face{font-family:'Kaushan Script';font-style:normal;font-weight:400;font-display:swap;src:url("data:,") format('woff2');unicode-range:U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;}@font-face{font-family:'Kaushan Script';font-style:normal;font-weight:400;font-display:swap;src:url(/_assets/27b6f0be9de78ffbeef0.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}</style>
+<style>
+    html,
+    body {
+      position: relative;
+
+      height: 100%;
+      min-height: 100% !important;
+
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+    //justify-content: space-between;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      min-height: 100px;
+    }
+
+    header .navbar-brand {
+      position: absolute;
+      top: 0;
+    }
+
+    header .navbar-brand img{
+      height: 52px;
+    }
+
+    section#main-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 75vh;
+    }
+
+    .text-violet {
+      color: #14121d;
+    }
+
+    .bg-violet {
+      background-color: #14121d;
+    }
+
+    .bg-header {
+      background-image: url('assets/bg/bg-header.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    footer p {
+      font-size: .8rem;
+    }
+
+    .bg-cover {
+      margin: 0 -12px; transform: rotate(180deg);
+    }
+
+    .bg-cover svg {
+      height: 32px;
+      width: 100%;
+    }
+  </style>
+<link href="/_assets/c5e53e6b082a22ff15f0.css" media="all" onload="this.media='all'" rel="stylesheet"/><noscript><link href="/_assets/c5e53e6b082a22ff15f0.css" rel="stylesheet"/></noscript><style>[_nghost-dxw-c5]{display:inline-block;width:auto;text-align:center}[_nghost-dxw-c5]   button.bw[_ngcontent-dxw-c5]{color:#000;background:white;border:2px solid black}[_nghost-dxw-c5]   button.colors[_ngcontent-dxw-c5]{color:#000;background:yellow;border:2px solid red}[_nghost-dxw-c5]   button.colors[_ngcontent-dxw-c5]   span[_ngcontent-dxw-c5]{font-weight:bold;background:white;color:#000;padding:0 2px}[_nghost-dxw-c5]   button.colors[_ngcontent-dxw-c5]   span.green[_ngcontent-dxw-c5]{background:green;color:#fff}[_nghost-dxw-c5]   button.colors[_ngcontent-dxw-c5]   span.red[_ngcontent-dxw-c5]{background:red}.controls[_ngcontent-dxw-c5]{float:right}tetris-core[_ngcontent-dxw-c5]{display:inline-block}</style><style>[_nghost-dxw-c3]{width:290px;display:block}</style><style>tile{display:block;background:rgba(176,230,225,.35);width:25px;height:25px;float:left;border:1px solid #4e4645;margin:1px}tile.color-box{background:#FFCCAA}tile.color-dot{background:#FF77A8}tile.color-line{background:#83769C}tile.color-t{background:#29ADFF}tile.color-l{background:#00E436}tile.color-lr{background:#FFEC27}tile.color-z{background:#FFA300}tile.color-s{background:#C2C3C7}
+</style><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body id="page-top bg-light">
+<header class="page-section text-violet">
+<div class="container-fluid px-5">
+<a class="navbar-brand pt-3" target="_blank">
+<img alt="" class="text-violet" src="/_assets/b82abb286790b8abd113.svg"/>
+<!-- <img src="./img/logo/logo-invert.png" alt=""> -->
+</a>
+<div class="row text-center justify-content-center">
+<div class="col-lg-8">
+<h1 class="" style="font-family: 'Kaushan Script', Sans-serif;">
+          ngx-tetris
+        </h1>
+</div>
+</div>
+</div>
+</header>
+<section class="page-section m-5 text-violet" id="main-body">
+<div class="container">
+<div class="row text-center justify-content-center">
+<div class="col-lg-8 p-4">
+<h2>Tetris game as an angular component</h2>
+<p>
+          Here you can check the demo of ngx-tetris at work :)
+        </p>
+<app-root _nghost-dxw-c5="" ng-version="13.0.2"><tetris-core _ngcontent-dxw-c5="" tilesize="20px"><board _nghost-dxw-c3="" style="width: 220px;"><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><tile _ngcontent-dxw-c3="" style="width: 20px; height: 20px;"></tile><!-- --></board></tetris-core><table _ngcontent-dxw-c5="" class="controls"><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Start</button></td><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Stop</button></td><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Reset</button></td><td _ngcontent-dxw-c5=""></td></tr><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5=""></td></tr><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5=""></td></tr><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5=""></td></tr><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5=""></td><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Rotate</button></td></tr><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Left</button></td><td _ngcontent-dxw-c5=""></td><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Right</button></td></tr><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5=""></td><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Down</button></td><td _ngcontent-dxw-c5=""><button _ngcontent-dxw-c5="">Drop</button></td></tr><tr _ngcontent-dxw-c5="" style="height: 20px;"><td _ngcontent-dxw-c5=""></td></tr><tr _ngcontent-dxw-c5=""><td _ngcontent-dxw-c5="" colspan="3"><button _ngcontent-dxw-c5="" class="bw">Go B/W !</button><!-- --><!-- --></td></tr></table></app-root>
+</div>
+</div>
+</div>
+</section>
+<footer class="page-section bg-violet text-light">
+<div class="container-fluid">
+<div class="bg-cover">
+<svg color="#fff" fill="#fff" preserveaspectratio="none" viewbox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+<path class="elementor-shape-fill" d="M737.9,94.7L0,0v100h1000V0L737.9,94.7z"></path>
+</svg>
+</div>
+<div class="row text-left">
+<div class="col-lg-8 pt-3 px-5">
+<p>
+          Białystok, Poland <br/>
+          +48 505 724 404 <br/>
+          chrystian@chrum.it <br/>
+          Mon. - Fri. 8AM - 6PM
+        </p>
+</div>
+</div>
+</div>
+</footer>
+<a><img alt="Fork me on GitHub" style="position: absolute; top: 0; right: 0; border: 0;"/></a>
+<script src="/_assets/dd34157c44a948401a65.js" type="module"></script><script src="/_assets/19a94a6f194b731df6c9.js" type="module"></script><script src="/_assets/6e1d773eefbfb89f4824.js" type="module"></script>
+</body></html>

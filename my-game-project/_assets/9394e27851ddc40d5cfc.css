@@ -1,0 +1,219 @@
+@import url('1d54df0b293c87ce1dc4.css');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron', sans-serif;
+}
+
+body{
+background:radial-gradient(circle at top, #0f2027, #000);
+color:white;
+height:100vh;
+overflow:hidden;
+}
+
+/* Screens */
+
+.screen{
+display:none;
+height:100vh;
+width:100%;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.screen.active{
+display:flex;
+animation:fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:scale(0.9);}
+to{opacity:1; transform:scale(1);}
+}
+
+/* Loading */
+
+#loading{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+font-size:32px;
+color:#0ff;
+}
+
+/* Title */
+
+#startScreen h1{
+font-size:60px;
+letter-spacing:5px;
+color:#0ff;
+text-shadow:0 0 20px #0ff,0 0 40px cyan;
+margin-bottom:25px;
+}
+
+#startScreen h3{
+color:#aaa;
+margin-bottom:30px;
+}
+
+/* Input */
+
+input{
+padding:15px 25px;
+border:none;
+border-radius:30px;
+font-size:16px;
+background:#111;
+color:#0ff;
+outline:none;
+box-shadow:0 0 10px #0ff;
+margin-bottom:25px;
+}
+
+/* Buttons */
+
+button{
+padding:14px 35px;
+margin:10px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#00f5ff,#00ff9d);
+color:black;
+font-size:15px;
+cursor:pointer;
+font-weight:bold;
+letter-spacing:1px;
+box-shadow:0 0 15px cyan;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 30px cyan;
+}
+
+/* Select Screen */
+
+#selectScreen h1{
+font-size:35px;
+margin-bottom:25px;
+color:#0ff;
+text-shadow:0 0 15px cyan;
+}
+
+.selectBox{
+display:flex;
+gap:30px;
+margin-bottom:25px;
+}
+
+.selectBox img{
+width:90px;
+padding:10px;
+border-radius:15px;
+background:#111;
+cursor:pointer;
+box-shadow:0 0 15px #0ff;
+transition:0.3s;
+}
+
+.selectBox img:hover{
+transform:scale(1.2) rotate(5deg);
+}
+
+.selectBox img.active{
+border:3px solid #0ff;
+box-shadow:0 0 25px cyan;
+}
+
+/* Game Screen */
+
+.topBar{
+width:100%;
+display:flex;
+justify-content:space-around;
+padding:15px;
+background:rgba(0,0,0,0.7);
+font-size:14px;
+border-bottom:2px solid #0ff;
+box-shadow:0 0 15px cyan;
+}
+
+#gameArea{
+width:100%;
+height:80vh;
+position:relative;
+overflow:hidden;
+background:radial-gradient(circle,#001,#000);
+}
+
+/* Insect */
+
+.insect{
+width:65px;
+position:absolute;
+cursor:pointer;
+filter:drop-shadow(0 0 15px cyan);
+animation:pop 0.2s ease;
+transition:0.2s;
+}
+
+.insect:hover{
+transform:scale(1.2);
+}
+
+@keyframes pop{
+from{transform:scale(0);}
+to{transform:scale(1);}
+}
+
+/* End Screen */
+
+#endScreen h1{
+font-size:45px;
+color:#ff0066;
+text-shadow:0 0 20px red;
+margin-bottom:20px;
+}
+
+#finalScore{
+font-size:22px;
+margin:15px;
+color:#0ff;
+}
+
+#highScore{
+color:#aaa;
+margin-bottom:25px;
+}
+
+
+@media(max-width:600px){
+
+#startScreen h1{
+font-size:38px;
+}
+
+.selectBox{
+flex-direction:column;
+}
+
+.topBar{
+font-size:12px;
+}
+
+.insect{
+width:55px;
+}
+
+}

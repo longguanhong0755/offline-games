@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<link href="/_assets/61e9d9a7b1e2597f799b.css" rel="stylesheet"/>
+<script defer="" src="/_assets/43a6d21f3f5a7addad9b.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container">
+<h1 id="heading">My Mine Sweeper</h1>
+<div class="levels">
+<label for="size">Difficulty:</label>
+<select id="diff" name="difficulty">
+<option value="0.1">Easy</option>
+<option value="0.3">Medium</option>
+<option value="0.6">Hard</option>
+</select>
+</div>
+<div class="levels">
+<label for="size">Size:</label>
+<select id="size" name="size">
+<option value="4">Small</option>
+<option value="6">Medium</option>
+<option value="10">Big</option>
+</select>
+</div>
+<div class="levels">
+<button id="reset">Reset</button>
+</div>
+<div id="grid25">
+<div data-mines="2" id="mines">Mines left: 2</div>
+<div id="timer"><label id="minutes">00</label>:<label id="seconds">10</label></div>
+<div id="grid" style="grid-template-columns: repeat(4, 30px); grid-template-rows: repeat(4, 30px);"><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell">2</button><button class="cell">2</button><button class="cell">1</button><button class="cell"></button><button class="cell mine">X</button><button class="cell mine">X</button><button class="cell">1</button><button class="cell"></button><button class="cell">2</button><button class="cell">2</button><button class="cell">1</button><button class="cell"></button></div>
+</div>
+<span id="text"></span>
+</div>
+</body></html>

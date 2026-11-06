@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>2048 Game</title>
+<link href="/_assets/339ff8b9e3c87ec4fe3d.css" rel="stylesheet" type="text/css"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container" id="mainVue">
+<div class="heading">
+<h1 class="title">2048</h1>
+<div class="scores-container">
+<div class="score-container">0</div>
+<div class="best-container">0</div>
+</div>
+</div>
+<div class="above-game">
+<p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+<a class="restart-button">New Game</a>
+<label class="left" for="noTiles">Select the number of tiles</label>
+<select>
+<option value="4">4 tiles</option>
+<option value="5">5 tiles</option>
+<option value="6">6 tiles</option>
+</select>
+</div>
+<div class="game-container" style="width: 496px; height: 496px;">
+<div class="game-message">
+<p></p>
+<div class="lower">
+<a class="keep-playing-button">Keep going</a>
+<a class="retry-button">Try again</a>
+</div>
+</div>
+<div class="grid-container">
+<!-- Grid Here -->
+<div class="grid-row">
+<div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><!--v-repeat-grid-->
+</div><div class="grid-row">
+<div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><!--v-repeat-grid-->
+</div><div class="grid-row">
+<div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><!--v-repeat-grid-->
+</div><div class="grid-row">
+<div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><!--v-repeat-grid-->
+</div><!--v-repeat-grid-->
+</div>
+<div class="tile-container" id="tile-container">
+<div class="tile tile-2 tile-new" style="transform: translate(121px, 0px);">
+<div class="tile-inner">2</div>
+</div><div class="tile tile-2 tile-new" style="transform: translate(0px, 0px);">
+<div class="tile-inner">2</div>
+</div><!--v-repeat-tiles-->
+</div>
+</div>
+<p class="game-explanation">
+<strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+</p>
+<hr/>
+<p>
+<strong class="important">NOTE:</strong> This game was written using Vue.js
+	  </p>
+<hr/>
+<p>
+	    Created by <a>Achilleas Kiritsakas</a> based on 2048 by <a target="_blank">Gabriele Cirulli.</a> Based on <a target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a target="_blank">Threes by Asher Vollmer.</a>
+</p>
+</div>
+<script src="/_assets/b0083f73382466e2aa10.js"></script>
+<script src="/_assets/595376c917b340620e4a.js"></script>
+<script src="/_assets/323fd8449a64f28795e6.js"></script>
+<script src="/_assets/a92e11e49d5cf5767815.js"></script>
+<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','about:blank','ga');
+
+	  ga('create', 'UA-50859016-1', 'axilleasiv.github.io');
+	  ga('send', 'pageview');
+	</script>
+</body></html>

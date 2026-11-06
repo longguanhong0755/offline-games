@@ -1,0 +1,130 @@
+/* Main stylesheet */
+
+/* BASE STYLES
+------------------------------------------------ */
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 16px;
+	font-family: 'Monda', sans-serif
+}
+
+/* HEADER ELEMENT
+------------------------------------------------ */
+body > header {
+	/* Color styling */
+	background: #000;
+	border-bottom: 4px solid #28AC26;
+	
+	/* Spacing */
+	padding-top: 8px;
+	padding-bottom: 8px;
+	
+	/* Fix header to top left corner */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+nav a {
+	line-height: 50px;
+	font-size: 1.25em;
+	
+	/* Spacing */
+	padding: 16px 6px;
+}
+
+nav a, nav a:hover, nav a:active, nav a:visited {
+	color: #aaa;
+}
+
+nav a:hover {
+	text-decoration: none;
+	background: #111;
+}
+
+article {
+	padding-top: 70px;
+}
+
+section {
+	padding-top: 18px;
+	padding-bottom: 18px;
+}
+
+section:not(:last-child) {
+	border-bottom: 1px solid #ddd;
+}
+
+section:nth-child(even) {
+	background: #f0f0f0;
+	color: #333;
+}
+
+section aside {
+	font-size: 18px;
+	line-height: 30px;
+}
+
+section header {
+	font-family: 'Bangers', tahoma, arial;
+	font-size: 1.6em;
+	color: #6F5092;
+}
+
+section:nth-child(even) header {
+	color: #333;
+}
+
+.title {
+	font-size: 1.2em;
+}
+
+.excerpt {
+	color: #444;
+	margin-left: 20px;
+}
+
+#footer {
+	text-align: right;
+	font-size: 0.9em;
+}
+
+
+h2 {
+	font-family: 'Bangers', tahoma, arial;
+	font-size: 2em;
+	color: #6F5092;
+	margin-bottom: 2px;
+}
+
+/* ELEMENT STYLES
+-------------------------------------------------- */
+a, a:hover, a:active, a:visited {
+	color: #6F5092;
+}
+
+.img {
+	border: 7px solid #111;
+	margin-top: 5px;
+}
+
+/* ROADMAP
+-------------------------------------------------- */
+#roadmap .completion-path {
+	border-top: 4px solid #ccc;
+	border-bottom: 4px solid #ccc;
+	padding: 4px 6px;
+}
+
+#roadmap span {
+	color: #888;
+}
+
+#roadmap .description {
+	margin-top: 4px;
+}

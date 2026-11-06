@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en" style="--chassis-w: 450px; --chassis-h: 787.5px; --u: 1.125px;"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="VERDANT-100 — 100 Games in 1 Phosphor CRT Handheld Console. Zero dependencies, 60 FPS chiptune retro console." name="description"/>
+<meta content="#051408" name="theme-color"/>
+<title>VERDANT-100 — Retro Handheld Console (100 Games)</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;rect width='32' height='32' rx='6' fill='%230e3816'/&gt;&lt;rect x='6' y='6' width='20' height='16' rx='2' fill='%234ef574'/&gt;&lt;circle cx='11' cy='26' r='2' fill='%234ef574'/&gt;&lt;circle cx='21' cy='26' r='2' fill='%231b7a32'/&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="/_assets/a6465b500b179aae05e8.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- VERDANT-100 Physical Handheld Chassis -->
+<div id="console-chassis">
+<!-- Top Bar: Speakers slits, Brand Logo, and Large Power Switch -->
+<div class="top-header">
+<div class="speaker-slits">
+<div class="speaker-slit"></div>
+<div class="speaker-slit"></div>
+<div class="speaker-slit"></div>
+</div>
+<div class="chassis-logo">VERDANT-100</div>
+<div class="power-section" id="btn-power" title="POWER SWITCH (CLICK TO TURN ON/OFF)">
+<span class="power-label">POWER</span>
+<div class="power-led" id="power-led"></div>
+</div>
+</div>
+<!-- Screen Bezel Housing with CRT Screen -->
+<div class="screen-housing">
+<div class="bezel-top-text">
+<span>STEREO CHIPTUNE APU</span>
+<span>HIGH REFRESH CRT PHOSPHOR</span>
+</div>
+<div class="crt-screen-wrap">
+<canvas height="240" id="screen-canvas" width="256"></canvas>
+<div class="crt-scanlines" id="crt-scanlines"></div>
+<div class="crt-vignette"></div>
+<div class="crt-beam-overlay" id="crt-beam-overlay"></div>
+</div>
+</div>
+<!-- Physical Controls Enclosure -->
+<div class="controls-housing">
+<!-- SELECT & START pill buttons -->
+<div class="meta-buttons-bar">
+<div class="meta-btn-col" id="col-select" title="Sort by Category">
+<div class="meta-pill-btn" id="btn-select"></div>
+<span class="meta-label">SORT BY CATEGORY</span>
+</div>
+<div class="meta-btn-col" id="col-start">
+<div class="meta-pill-btn" id="btn-start"></div>
+<span class="meta-label">START</span>
+</div>
+</div>
+<!-- Main Controls: Molded D-Pad & Action Buttons -->
+<div class="main-controls">
+
+<div class="action-buttons-wrap">
+<div class="action-btn-col action-b-col">
+<div class="action-btn" id="btn-b">B</div>
+</div>
+<div class="action-btn-col action-a-col">
+<div class="action-btn" id="btn-a">A</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Utility Bar: Compact & fully visible inside viewport -->
+<div class="utility-bar">
+<button class="util-btn" id="btn-mute">MUTE: OFF</button>
+<button class="util-btn" id="btn-crt">CRT: ON</button>
+<button class="util-btn" id="btn-fs">FULLSCREEN</button>
+<button class="util-btn" id="btn-menu">MENU</button>
+</div>
+</div>
+<!-- Modular Scripts -->
+<!-- Core Engines & OS -->
+<script src="/_assets/f045f6c2ee8fb3b8eaa5.js"></script>
+<script src="/_assets/b7a6f720592f30fcd86c.js"></script>
+<script src="/_assets/5289214430f38bdd9fcd.js"></script>
+<script src="/_assets/ba63d308fc3a92c38b82.js"></script>
+<script src="/_assets/aac3d5f1f7c737c161c0.js"></script>
+<script src="/_assets/bc1ab8326a65278c8a1f.js"></script>
+<script src="/_assets/4d16ff5f86d85b5e1e66.js"></script>
+<!-- 100 Modular Cartridges (js/cartridges/) -->
+<script src="/_assets/ba88db7ad925f93ce5e8.js"></script>
+<script src="/_assets/ce56e50b7ea876eda134.js"></script>
+<script src="/_assets/89ef5e9e75ac2232533a.js"></script>
+<script src="/_assets/138dfcb761682e0fb065.js"></script>
+<script src="/_assets/ac6063af82281771dfb0.js"></script>
+<script src="/_assets/dad8f5366b20516dfe61.js"></script>
+<script src="/_assets/2fb873f6135ee3144b5b.js"></script>
+<script src="/_assets/199a72ff7010552c14eb.js"></script>
+<script src="/_assets/e7c31dcddd0d8d4a53dd.js"></script>
+<script src="/_assets/5f58f2e88259ac39c965.js"></script>
+<script src="/_assets/b3bf115f7caab7e1fbd5.js"></script>
+<script src="/_assets/247c7bc9534eccbc9910.js"></script>
+<script src="/_assets/65310b9f634198e1e009.js"></script>
+<script src="/_assets/193533a3a8e255c287a0.js"></script>
+<script src="/_assets/e0b95fdb94d8f0488d5c.js"></script>
+<script src="/_assets/cc6fdb19a25790e4d2cd.js"></script>
+<script src="/_assets/9e349a05a73e1ff3103c.js"></script>
+<script src="/_assets/ef9bf4170ac8e5920077.js"></script>
+<script src="/_assets/626e9f03039d859c3d71.js"></script>
+<script src="/_assets/6003cf6063362dc694e6.js"></script>
+<script src="/_assets/6a81c51925161436265f.js"></script>
+<script src="/_assets/7fc016a736c1479021ee.js"></script>
+<script src="/_assets/e4812d0cde27c5bc7bc9.js"></script>
+<script src="/_assets/1a4e4cb309ea614f29b2.js"></script>
+<script src="/_assets/86fbd97cb2f0e4015dd6.js"></script>
+<script src="/_assets/c7dca71d871c45ef9505.js"></script>
+<script src="/_assets/abaab4dfef1e1bd04ab0.js"></script>
+<script src="/_assets/c665a0fc1e6d2ab5e02e.js"></script>
+<script src="/_assets/89642817498223b84307.js"></script>
+<script src="/_assets/47c1d32fb973e9d8c011.js"></script>
+<script src="/_assets/f73128bb71a14a21621a.js"></script>
+<script src="/_assets/699c90fe183498b32e85.js"></script>
+<script src="/_assets/051cd0f7ceb352ea6386.js"></script>
+<script src="/_assets/4dbab86a3e0bab6f621b.js"></script>
+<script src="/_assets/53f027e2f0b5237e875b.js"></script>
+<script src="/_assets/912dc1e1b5974c1df6e8.js"></script>
+<script src="/_assets/3c5bf2ac1a21825739b4.js"></script>
+<script src="/_assets/39f1907abee5f5a1c4fb.js"></script>
+<script src="/_assets/a41002070ee079c1f0c2.js"></script>
+<script src="/_assets/171ebcbb461a442a4228.js"></script>
+<script src="/_assets/43508df39057f01354b5.js"></script>
+<script src="/_assets/03f8e6df5187d80e9c8d.js"></script>
+<script src="/_assets/f0f93da93a0161f4603d.js"></script>
+<script src="/_assets/fc6f3a8ccf9c79a068e5.js"></script>
+<script src="/_assets/8e655722f63b64e4be63.js"></script>
+<script src="/_assets/5ebc5d75df8fdb08a500.js"></script>
+<script src="/_assets/3214aa39c3099bc6ea9d.js"></script>
+<script src="/_assets/88a8fbb8c1917aaae2b4.js"></script>
+<script src="/_assets/f76f50e60a5200ed5d85.js"></script>
+<script src="/_assets/0e7b19cc6d31610d04d9.js"></script>
+<script src="/_assets/b77fa332adbd15725060.js"></script>
+<script src="/_assets/0a1c5b690a939259eeb9.js"></script>
+<script src="/_assets/a45cbb07410a92bcd9b8.js"></script>
+<script src="/_assets/5f1ac82a6abc0862fac9.js"></script>
+<script src="/_assets/44c5385d3d344727bb74.js"></script>
+<script src="/_assets/fa68159b2199657d8153.js"></script>
+<script src="/_assets/9c6ea6389d13acc36ba0.js"></script>
+<script src="/_assets/814fcdfa1f67fb164bff.js"></script>
+<script src="/_assets/25d20967650ad4321fe1.js"></script>
+<script src="/_assets/cc76b8688a3a48bb9caf.js"></script>
+<script src="/_assets/02a1ce2f106a7dd3d2f0.js"></script>
+<script src="/_assets/55bb3497be4bba4b2e28.js"></script>
+<script src="/_assets/140c0d3c759d401342dd.js"></script>
+<script src="/_assets/d22610d81c986aededb4.js"></script>
+<script src="/_assets/37b0b0907ede2aae2c8e.js"></script>
+<script src="/_assets/2065cf37e28348687a4a.js"></script>
+<script src="/_assets/c3f6704a567c4c19ebeb.js"></script>
+<script src="/_assets/d99c2224227be4a35bb6.js"></script>
+<script src="/_assets/7385f09c8304f748ec86.js"></script>
+<script src="/_assets/41a3efcf881256fdf15b.js"></script>
+<script src="/_assets/aa4f6760ab95a1f0c915.js"></script>
+<script src="/_assets/c27b3a6f04db1a893ee5.js"></script>
+<script src="/_assets/7efb599b60f5b478d818.js"></script>
+<script src="/_assets/e1c35434903b0a0c5877.js"></script>
+<script src="/_assets/0df5cf39a621db5e513d.js"></script>
+<script src="/_assets/e8f6edb457f014bc9332.js"></script>
+<script src="/_assets/0420c5db650e0a242b43.js"></script>
+<script src="/_assets/5c34d79aac185a25ed35.js"></script>
+<script src="/_assets/29b340538769131e3ebb.js"></script>
+<script src="/_assets/e120a65abbebeed04faa.js"></script>
+<script src="/_assets/f134937d535e92a06885.js"></script>
+<script src="/_assets/9b31bad5dc2a7cefc22c.js"></script>
+<script src="/_assets/0a7aff417772b50a970d.js"></script>
+<script src="/_assets/c5077ec60188b6f19051.js"></script>
+<script src="/_assets/32e8cf1489f73573e3f0.js"></script>
+<script src="/_assets/db87cd6187083ee000c8.js"></script>
+<script src="/_assets/5947c80e1677e3e3b19d.js"></script>
+<script src="/_assets/ab37017fdf0ff9770345.js"></script>
+<script src="/_assets/99436cf2b36277e7927a.js"></script>
+<script src="/_assets/33a2d3efeb4e6adb11f6.js"></script>
+<script src="/_assets/97144bf0c598e9c3cbb0.js"></script>
+<script src="/_assets/7a585a13abfe9c97593a.js"></script>
+<script src="/_assets/b8ad857a7590ee966b52.js"></script>
+<script src="/_assets/5480ddeee9aff6c94888.js"></script>
+<script src="/_assets/571bc30cf0cfdd02fd84.js"></script>
+<script src="/_assets/8c553b2c2479c1c4fcad.js"></script>
+<script src="/_assets/c99210e4bb23caeaf6a0.js"></script>
+<script src="/_assets/bbc33588d97513934ca6.js"></script>
+<script src="/_assets/684054585306da18bdf5.js"></script>
+<script src="/_assets/bee76ba17ace669eeee5.js"></script>
+<!-- OS & Main Loop -->
+<script src="/_assets/f142a1b56e6259ec21a1.js"></script>
+<script src="/_assets/1d92d4caa1e67acd0005.js"></script>
+</body></html>

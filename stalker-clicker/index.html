@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="ru"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="S.T.A.L.K.E.R. Clicker — атмосферная браузерная clicker-игра про артефакты, купоны, апгрейды и выбросы в Зоне." name="description"/>
+<title>S.T.A.L.K.E.R. Clicker</title>
+
+
+<link href="/_assets/79b5292857864840ad96.css" rel="stylesheet"/>
+<link href="/_assets/db4f457816a99afb59d6.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<noscript>Для запуска игры нужен включенный JavaScript.</noscript>
+<div aria-live="polite" class="loader-screen" id="loader" style="display: none;">
+<div class="loader-content">
+<h1>ЗАГРУЗКА ДАННЫХ КПК...</h1>
+<div aria-hidden="true" class="loader-bar">
+<div class="loader-progress"></div>
+</div>
+<p>Синхронизация с сетью сталкеров</p>
+</div>
+</div>
+<div class="game-wrapper">
+<header class="hud-header">
+<div class="hud-group">
+<span class="label">КОШЕЛЕК:</span>
+<div class="wallet">
+<img alt="Купоны" class="icon-small" src="/_assets/f5a85f7c7f49449a4688.png"/>
+<span id="money-counter">0</span> KPN
+                </div>
+</div>
+<div class="hud-group">
+<span class="label">ЗАЩИТА:</span>
+<span class="wallet" id="protection-display">0%</span>
+</div>
+<div class="hud-group emission-group">
+<span class="label warning">ДО ВЫБРОСА:</span>
+<span class="timer" id="emission-timer">01:22</span>
+</div>
+<div aria-label="Настройки звука" class="hud-group settings">
+<button aria-label="Включить или выключить музыку" class="btn-mini" id="btn-music" title="Музыка" type="button">♪</button>
+<button aria-label="Включить или выключить звуки" class="btn-mini" id="btn-sound" title="Звуки" type="button">🔊</button>
+</div>
+</header>
+<main class="main-area">
+<aside aria-label="Бонусы" class="shop-panel left-panel">
+<h2>БОНУСЫ</h2>
+<div class="shelf">
+<button class="shop-item" data-upgrade="protection" type="button">
+<img alt="" class="item-img" src="/_assets/d70b15eb0b18c134c6d8.png"/>
+<span class="item-info">
+<span class="item-title">ЗАЩИТА</span>
+<span class="item-description">Защита от выброса +5%</span>
+<span class="price" id="price-protection">100 KPN</span>
+</span>
+</button>
+<button class="shop-item" data-upgrade="click" type="button">
+<img alt="" class="item-img" src="/_assets/6c63c7728b0b99943523.png"/>
+<span class="item-info">
+<span class="item-title">АПГРЕЙД КЛИКА</span>
+<span class="item-description">Клик +2 KPN</span>
+<span class="price" id="price-click">250 KPN</span>
+</span>
+</button>
+</div>
+</aside>
+<section aria-label="Активный артефакт" class="artifact-zone">
+<button aria-label="Собрать купоны с артефакта" class="artifact-button" id="artifact-button" type="button">
+<span class="artifact-container">
+<span class="glow-effect"></span>
+<img alt="Артефакт МЕДУЗА" class="artifact-img floating" id="main-artifact" src="/_assets/d087a5af380983aa5fe4.png"/>
+</span>
+</button>
+<div class="artifact-stats">
+<h2 id="art-name">МЕДУЗА</h2>
+<p>Уровень: <span id="art-level">1</span> / 10</p>
+<div aria-hidden="true" class="progress-bar-container">
+<div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+</div>
+<p class="debuff">Дебафф: <span class="rad-text" id="debuff-display">-0.50 KPN/сек</span></p>
+</div>
+</section>
+<aside aria-label="Артефакты" class="shop-panel right-panel">
+<h2>АРТЕФАКТЫ</h2>
+<div class="shelf" id="artifact-shop-container">
+<button class="shop-item owned active" data-artifact="jellyfish" id="jellyfish-item" type="button">
+<img alt="" class="item-img-small" src="/_assets/d087a5af380983aa5fe4.png"/>
+<span class="item-info">
+<span class="item-title">Медуза</span>
+<span class="status">ИСПОЛЬЗУЕТСЯ</span>
+</span>
+</button>
+<button class="shop-item locked" data-artifact="stoneflower" id="stoneflower-item" type="button">
+<span aria-hidden="true" class="lock-overlay" style="display: flex;">🔒</span>
+<img alt="" class="item-img-small" src="/_assets/947a2b066622008e90a0.png"/>
+<span class="item-info">
+<span class="item-title">Каменный Цветок</span>
+<span id="stoneflower-price-label">Цена:</span>
+<span class="price" id="price-stoneflower">1000 KPN</span>
+</span>
+</button>
+</div>
+</aside>
+</main>
+<div aria-labelledby="daily-bonus-title" aria-modal="true" class="modal-overlay" id="daily-bonus" role="dialog">
+<div class="modal-box">
+<h2 id="daily-bonus-title">ХАБАР ОТ СИДОРОВИЧА</h2>
+<p>Ты зашел в Зону сегодня. Держи подгон.</p>
+<img alt="Хабар" class="bonus-img" src="/_assets/f7d7934d8799c5db8a52.png"/>
+<div class="bonus-amount">+500 KPN</div>
+<button class="btn-claim" type="button">ЗАБРАТЬ</button>
+</div>
+</div>
+<div aria-hidden="true" class="scanlines"></div>
+</div>
+<img alt="" class="custom-cursor" id="custom-cursor" src="/_assets/bbd7686590b8607f95cb.gif"/>
+<audio id="audio-click" preload="auto" src="/_assets/dcb3c68f0c0774fab559.mp3"></audio>
+<audio id="audio-buy" preload="auto" src="/_assets/08ba6361aae001c237a7.mp3"></audio>
+<audio id="audio-daily-bonus" preload="auto" src="/_assets/3ddfc975984c01135d07.mp3"></audio>
+<audio id="audio-ambient" loop="" preload="auto" src="/_assets/efb55c92683a093a595a.mp3"></audio>
+<script src="/_assets/f14871bfb6e80bbe407c.js" type="module"></script>
+</body></html>

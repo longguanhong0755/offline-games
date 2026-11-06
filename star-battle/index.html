@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<link href="/_assets/c9c4a6bcaea72cb5dc73.css" rel="stylesheet"/>
+<link href="/_assets/ce1491c72f167b2b69f0.css" rel="stylesheet"/>
+<title>Star Battle</title>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- Game -->
+<div id="app" style="width: 960px; height: 480px;">
+<div id="logo">
+<img alt="logo" src="/_assets/7fe4b45d93d26ffa5ea8.png"/>
+</div>
+<div class="absolute" id="container">
+<div class="column action" id="start">
+<p class="message pre">
+                    1. 使用 W、A、S、D 控制飞船，按下 Space 发射。
+                    2. 燃料初始值为15，每秒递减1点，当燃料值为0时，游戏结束。
+                    3. 触碰掉下的燃料瓶可增加15点，最大值为30点。
+                    4. 击中敌方飞船增加5分。行星需击中两次，增加10分。击中友方扣除10分。
+                    5. 撞击敌方损失15点燃料，撞击友方扣除10分。
+                    6. 游戏允许负分。
+                    7. 按下 P 暂停游戏，按下 M 静音。
+                    开始您的星际大战吧！
+                </p>
+<button class="btn" id="start-btn">
+<p>开始游戏</p>
+<p>加载中...</p>
+</button>
+</div>
+<div class="absolute" id="play">
+<canvas class="absolute" height="480" id="canvas" width="960"></canvas>
+<div class="content absolute">
+<div class="header">
+<ul class="info">
+<li>
+<img alt="time" src="/_assets/a290d8733a3768e7dfc9.png"/>
+<span id="time">00</span>
+</li>
+<li>
+<img alt="fuel" src="/_assets/eb2eb6177ae8317700a7.png"/>
+<span id="fuel">00</span>
+</li>
+<li>
+<img alt="score" src="/_assets/73ebfd6b08da01ac54b4.png"/>
+<span id="score">00</span>
+</li>
+<li>
+<img alt="score" src="/_assets/df54e38df5e8447cbc80.png"/>
+<span id="shoot">00</span>
+</li>
+</ul>
+<ul class="option">
+<li id="game-font-size-add">
+<img alt="time" class="pause" src="/_assets/4a35f5697b085c752278.png"/>
+</li>
+<li id="game-font-size-reduce">
+<img alt="time" class="pause" src="/_assets/6aade2fe58422345cf8d.png"/>
+</li>
+<li id="game-mute-btn">
+<img alt="time" class="pause" src="/_assets/a63a5306001512c9b3ad.png"/>
+<img alt="time" class="pause" src="/_assets/aee06280269520fa5570.png"/>
+</li>
+<li id="game-pause-btn">
+<img alt="time" class="pause" src="/_assets/e55857aece05f767ee4f.png"/>
+<img alt="time" class="pause" src="/_assets/5f7a0912d1baff11f3e8.png"/>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="column absolute" id="over">
+<div class="game-data">
+<p class="message">
+<span>
+<img alt="time" src="/_assets/a290d8733a3768e7dfc9.png"/>
+</span>
+<span>
+                            --
+                        </span>
+<span class="time">00</span>
+</p>
+<p class="message">
+<span>
+<img alt="score" src="/_assets/73ebfd6b08da01ac54b4.png"/>
+</span>
+<span>
+                            --
+                        </span>
+<span class="score">00</span>
+</p>
+<p class="message">
+<span>
+<img alt="score" src="/_assets/df54e38df5e8447cbc80.png"/>
+</span>
+<span>
+                            --
+                        </span>
+<span class="shoot">00</span>
+</p>
+</div>
+<input id="name" placeholder="请输入您的名字" type="text"/>
+<button class="btn" disabled="" id="submit-btn">
+                    继续游戏
+                </button>
+</div>
+<div class="column absolute" id="rank">
+<table class="scroll">
+<thead>
+<tr>
+<th>名次</th>
+<th>名字</th>
+<th>分数</th>
+<th>秒数</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<button class="btn" id="restart-btn">
+                    返回开始
+                </button>
+</div>
+</div>
+</div>
+<footer>
+<span>Crafted with by
+            <a> @4Ark</a>/<a>GitHub</a>
+</span>
+</footer>
+<script src="/_assets/8bfc307e621ff71d2a54.js"></script>
+<script src="/_assets/fef4bd1ddce34ca1e645.js"></script>
+<script src="/_assets/607c9dcbcb781f9452b4.js"></script>
+<script src="/_assets/e9b3d029ad16adfeb5a1.js"></script>
+<script src="/_assets/32f380cd89a7bc63eb30.js"></script>
+<script src="/_assets/daa619543b401d1c54ff.js"></script>
+<script src="/_assets/e32cc347d46d4ab895a2.js"></script>
+<script src="/_assets/88d5eb73935748930495.js"></script>
+<script src="/_assets/911ed3fd41691613f631.js"></script>
+<script src="/_assets/726e15c80fe05fcdb73c.js"></script>
+<script src="/_assets/eb2dfef67993297770ce.js"></script>
+<script src="/_assets/97822423000eaca4e9d5.js"></script>
+<script src="/_assets/0afc2eed994bbd7cf601.js"></script>
+<script src="/_assets/8c7412f65be9cdc83f54.js"></script>
+<script src="/_assets/7ec78786b5bce7d68a36.js"></script>
+<script src="/_assets/70bba8e572c8700cb085.js"></script>
+<script src="/_assets/d4c8115e8cba28061d12.js"></script>
+<script src="/_assets/0479c9f00287e01093cb.js"></script>
+<script src="/_assets/a9b8f4cccd24827ea5c5.js"></script>
+<script src="/_assets/592955e2a410cde8a2f0.js"></script>
+<script src="/_assets/165197aa872742e40c10.js"></script>
+</body></html>

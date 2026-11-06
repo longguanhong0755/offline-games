@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="light"><head class="light"><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title class="light" id="title">Exponential Madness v0.31</title>
+<link class="light" href="light.png" id="favicon" rel="shortcut icon" type="image/png"/>
+<link class="light" href="/_assets/18a42a01c0d49cf2283a.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="light" id="body">
+<button class="veryBig light" onclick="toTab('mult')" type="button">
+      Multipliers
+    </button>
+<button class="veryBig light" onclick="toTab('achievement')" type="button">
+      Achievements
+    </button>
+<button class="veryBig light" onclick="toTab('stat')" type="button">
+      Statistics
+    </button>
+<button class="veryBig light" onclick="toTab('option')" type="button">
+      Options
+    </button>
+<button class="veryBig hidden light" id="autoTabButton" onclick="toTab('auto')" type="button">
+      Automation
+    </button>
+<button class="veryBig hidden plexal light" id="plexalTabButton" onclick="toTab('plexal')" type="button">
+      Plexal
+    </button>
+<button class="veryBig hidden light disabled" id="plexButton" onclick="plexal()" style="font-size:13px" type="button">Requires: ee100</button>
+<br class="light"/>
+<br class="light"/>
+<span class="light" id="number" style="font-size:50px">10.00</span>
+<br class="light"/>
+<br class="light"/>
+    Multiplying by <span class="light" id="multPerSecond">1.00</span> every second
+    <button class="light" onclick="maxAll()" type="button">
+      Max All
+    </button>
+<br class="light"/>
+<br class="light"/>
+<span class="tab light" id="mult">
+<span class="hidden light" id="iterate">
+<span class="light" id="iteratorTotalBoost">^1.00</span>
+        Iteration: <span class="light" id="iteration">0.00</span>
+<button class="light enabled" id="iterateButton" onclick="iterate()" type="button">
+          Iterate Cost: <span class="light" id="iterationCost">10.00</span>
+</button>
+<br class="light"/>
+<br class="light"/>
+</span>
+<span class="light" id="mult1">
+<span class="light" id="multPower1">^1.00</span>
+        Multiplier 1: <span class="light" id="multAmount1">1.00</span>
+<button class="light enabled" id="multButton1" onclick="buyMult(1)" type="button">Unlock Multiplier 1 Cost: 10.00</button>
+</span>
+<span class="hidden light" id="mult2">
+<br class="light"/>
+<span class="light" id="multPower2">^1.00</span>
+        Multiplier 2: <span class="light" id="multAmount2">1.00</span>
+<button class="light disabled" id="multButton2" onclick="buyMult(2)" type="button">Unlock Multiplier 2 Cost: 1.00e10</button>
+</span>
+<span class="hidden light" id="mult3">
+<br class="light"/>
+<span class="light" id="multPower3">^1.00</span>
+        Multiplier 3: <span class="light" id="multAmount3">1.00</span>
+<button class="light disabled" id="multButton3" onclick="buyMult(3)" type="button">Unlock Multiplier 3 Cost: e100.00</button>
+</span>
+<span class="hidden light" id="mult4">
+<br class="light"/>
+<span class="light" id="multPower4">^1.00</span>
+        Multiplier 4: <span class="light" id="multAmount4">1.00</span>
+<button class="light disabled" id="multButton4" onclick="buyMult(4)" type="button">Unlock Multiplier 4 Cost: e1.00e4</button>
+</span>
+<span class="hidden light" id="mult5">
+<br class="light"/>
+<span class="light" id="multPower5">^1.00</span>
+        Multiplier 5: <span class="light" id="multAmount5">1.00</span>
+<button class="light disabled" id="multButton5" onclick="buyMult(5)" type="button">Unlock Multiplier 5 Cost: e1.00e9</button>
+</span>
+<span class="hidden light" id="mult6">
+<br class="light"/>
+<span class="light" id="multPower6">^1.00</span>
+        Multiplier 6: <span class="light" id="multAmount6">1.00</span>
+<button class="light disabled" id="multButton6" onclick="buyMult(6)" type="button">Unlock Multiplier 6 Cost: e1.00e15</button>
+</span>
+<span class="hidden light" id="mult7">
+<br class="light"/>
+<span class="light" id="multPower7">^1.00</span>
+        Multiplier 7: <span class="light" id="multAmount7">1.00</span>
+<button class="light disabled" id="multButton7" onclick="buyMult(7)" type="button">Unlock Multiplier 7 Cost: e1.00e21</button>
+</span>
+<span class="hidden light" id="mult8">
+<br class="light"/>
+<span class="light" id="multPower8">^1.00</span>
+        Multiplier 8: <span class="light" id="multAmount8">1.00</span>
+<button class="light disabled" id="multButton8" onclick="buyMult(8)" type="button">Unlock Multiplier 8 Cost: e1.00e30</button>
+</span>
+<span class="hidden light" id="mult9">
+<br class="light"/>
+<span class="light" id="multPower9">^1.00</span>
+        Multiplier 9: <span class="light" id="multAmount9">1.00</span>
+<button class="light disabled" id="multButton9" onclick="buyMult(9)" type="button">Unlock Multiplier 9 Cost: e1.00e41</button>
+</span>
+<span class="hidden light" id="mult10">
+<br class="light"/>
+<span class="light" id="multPower10">^1.00</span>
+        Multiplier 10: <span class="light" id="multAmount10">1.00</span>
+<button class="light disabled" id="multButton10" onclick="buyMult(10)" type="button">Unlock Multiplier 10 Cost: e1.00e54</button>
+</span>
+<span class="hidden light" id="reset">
+<br class="light"/>
+<br class="light"/>
+<span class="light" id="resetPower">^1.00</span>
+        Reset: <span class="light" id="resetAmount">0.00</span>
+<button class="light disabled" id="resetButton" onclick="reset()" type="button">Reset the game for a new multiplier and a ^3.00 boost to all multipliers Requires: e1.00e11</button>
+<button class="hidden light" id="maxResetButton" onclick="maxReset()" type="button">
+          Max Reset
+        </button>
+</span>
+</span>
+<span class="hidden tab light" id="achievement">
+<button class="big light" onclick="toTab('normalAchieve')" type="button">
+        Normal Achievements
+      </button>
+<button class="big light" onclick="toTab('secretAchieve')" type="button">
+        Secret Achievements
+      </button>
+<br class="light"/>
+<button class="light" id="hideCompletedButton" onclick="hideCompleted()" type="button">
+        Hide Completed Achievements
+      </button>
+<span class="tab light" id="normalAchieve">
+        You have <span class="light" id="normalAchieveCount">0/100</span> normal achievements
+      <span class="achieve light" id="openAchieveAchieve"><br class="light"/><button class="noHover achievement light" id="openAchieveAchieveBox"><span class="light" id="openAchieveAchieveName">Open the Achievements Tab</span><br class="light"/><span class="light" id="openAchieveAchieveDesc" style="font-size: 10px;">Hi, I exist.</span></button></span><span class="achieve light" id="unlock1Achieve"><br class="light"/><button class="noHover achievement light" id="unlock1AchieveBox"><span class="light" id="unlock1AchieveName">Unlock Multiplier 1</span><br class="light"/><span class="light" id="unlock1AchieveDesc" style="font-size: 10px;">It begins.</span></button></span><span class="achieve light" id="unlock2Achieve"><br class="light"/><button class="noHover achievement light" id="unlock2AchieveBox"><span class="light" id="unlock2AchieveName">Unlock Multiplier 2</span><br class="light"/><span class="light" id="unlock2AchieveDesc" style="font-size: 10px;">This is getting out of hand already.</span></button></span><span class="achieve light" id="unlock3Achieve"><br class="light"/><button class="noHover achievement light" id="unlock3AchieveBox"><span class="light" id="unlock3AchieveName">Unlock Multiplier 3</span><br class="light"/><span class="light" id="unlock3AchieveDesc" style="font-size: 10px;">Many people have trouble counting to three, but it looks looks like you aren't one of them.</span></button></span><span class="achieve light" id="unlock4Achieve"><br class="light"/><button class="noHover achievement light" id="unlock4AchieveBox"><span class="light" id="unlock4AchieveName">Unlock Multiplier 4</span><br class="light"/><span class="light" id="unlock4AchieveDesc" style="font-size: 10px;">Wait where's the fifth one?</span></button></span><span class="achieve light" id="unlock5Achieve"><br class="light"/><button class="noHover achievement light" id="unlock5AchieveBox"><span class="light" id="unlock5AchieveName">Unlock Multiplier 5</span><br class="light"/><span class="light" id="unlock5AchieveDesc" style="font-size: 10px;">So this is where it was!</span></button></span><span class="achieve light" id="unlock6Achieve"><br class="light"/><button class="noHover achievement light" id="unlock6AchieveBox"><span class="light" id="unlock6AchieveName">Unlock Multiplier 6</span><br class="light"/><span class="light" id="unlock6AchieveDesc" style="font-size: 10px;">Six is sexy. I think nine agrees</span></button></span><span class="achieve light" id="unlock7Achieve"><br class="light"/><button class="noHover achievement light" id="unlock7AchieveBox"><span class="light" id="unlock7AchieveName">Unlock Multiplier 7</span><br class="light"/><span class="light" id="unlock7AchieveDesc" style="font-size: 10px;">He ate the 9th dimension out of existence, what a hero.</span></button></span><span class="achieve light" id="unlock8Achieve"><br class="light"/><button class="noHover achievement light" id="unlock8AchieveBox"><span class="light" id="unlock8AchieveName">Unlock Multiplier 8</span><br class="light"/><span class="light" id="unlock8AchieveDesc" style="font-size: 10px;">Ninty degrees to infini- wait we're already there.</span></button></span><span class="achieve light" id="unlock9Achieve"><br class="light"/><button class="noHover achievement light" id="unlock9AchieveBox"><span class="light" id="unlock9AchieveName">Unlock Multiplier 9</span><br class="light"/><span class="light" id="unlock9AchieveDesc" style="font-size: 10px;">Good thing these aren't dimensions.</span></button></span><span class="achieve light" id="unlock10Achieve"><br class="light"/><button class="noHover achievement light" id="unlock10AchieveBox"><span class="light" id="unlock10AchieveName">Unlock Multiplier 10</span><br class="light"/><span class="light" id="unlock10AchieveDesc" style="font-size: 10px;">You're never gonna get over 1.25 of these bad boys.</span></button></span><span class="achieve light" id="resetAchieve"><br class="light"/><button class="noHover achievement light" id="resetAchieveBox"><span class="light" id="resetAchieveName">Reset</span><br class="light"/><span class="light" id="resetAchieveDesc" style="font-size: 10px;">Don't worry, this isn't a hard reset.</span></button></span><span class="achieve light" id="plexalAchieve"><br class="light"/><button class="noHover achievement light" id="plexalAchieveBox"><span class="light" id="plexalAchieveName">Plexal</span><br class="light"/><span class="light" id="plexalAchieveDesc" style="font-size: 10px;">:rippi:</span></button></span><span class="achieve light" id="plexalNoResetAchieve"><br class="light"/><button class="noHover achievement light" id="plexalNoResetAchieveBox"><span class="light" id="plexalNoResetAchieveName">Plexal Without Resetting</span><br class="light"/><span class="light" id="plexalNoResetAchieveDesc" style="font-size: 10px;">No one likes backtracking.</span></button></span><span class="achieve light" id="plexalFastAchieve"><br class="light"/><button class="noHover achievement light" id="plexalFastAchieveBox"><span class="light" id="plexalFastAchieveName">Plexal in less than a second</span><br class="light"/><span class="light" id="plexalFastAchieveDesc" style="font-size: 10px;">I am speed.</span></button></span><span class="achieve light" id="inflateAchieve"><br class="light"/><button class="noHover achievement light" id="inflateAchieveBox"><span class="light" id="inflateAchieveName">Inflate</span><br class="light"/><span class="light" id="inflateAchieveDesc" style="font-size: 10px;">Aarex now officially hate this game.</span></button></span><span class="achieve light" id="startAutoAchieve"><br class="light"/><button class="noHover achievement light" id="startAutoAchieveBox"><span class="light" id="startAutoAchieveName">Start Automation</span><br class="light"/><span class="light" id="startAutoAchieveDesc" style="font-size: 10px;">I've finally added automation. You better thank me now.</span></button></span><span class="achieve light" id="googolduplexAchieve"><br class="light"/><button class="noHover achievement light" id="googolduplexAchieveBox"><span class="light" id="googolduplexAchieveName">Reach a Googolduplex</span><br class="light"/><span class="light" id="googolduplexAchieveDesc" style="font-size: 10px;">Super-duper-duplex.</span></button></span><span class="achieve light" id="googoltriplexAchieve"><br class="light"/><button class="noHover achievement light" id="googoltriplexAchieveBox"><span class="light" id="googoltriplexAchieveName">Reach a Googoltriplex</span><br class="light"/><span class="light" id="googoltriplexAchieveDesc" style="font-size: 10px;">Thri.</span></button></span><span class="achieve light" id="endgameAchieve"><br class="light"/><button class="noHover achievement light" id="endgameAchieveBox"><span class="light" id="endgameAchieveName">Reach the current endgame</span><br class="light"/><span class="light" id="endgameAchieveDesc" style="font-size: 10px;">You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.</span></button></span></span>
+<span class="hidden tab light" id="secretAchieve">
+        You have <span class="light" id="secretAchieveCount">0/100</span> secret achievements
+      <span class="achieve light" id="followInstructionAchieve"><br class="light"/><button class="noHover achievement light" id="followInstructionAchieveBox"><span class="light" id="followInstructionAchieveName">Import "export text"</span><br class="light"/><span class="light" id="followInstructionAchieveDesc" style="font-size: 10px;">You... did what I said... I guess?</span></button></span><span class="achieve light" id="thanksAchieve"><br class="light"/><button class="noHover achievement light" id="thanksAchieveBox"><span class="light" id="thanksAchieveName">Thank Me</span><br class="light"/><span class="light" id="thanksAchieveDesc" style="font-size: 10px;">Oh wow, you actually thanked me.</span></button></span><span class="achieve light" id="limitAchieve"><br class="light"/><button class="noHover achievement light" id="limitAchieveBox"><span class="light" id="limitAchieveName">Found the Limit</span><br class="light"/><span class="light" id="limitAchieveDesc" style="font-size: 10px;">You shall not pass.</span></button></span></span>
+</span>
+<span class="hidden tab light" id="stat">
+<button class="big light" id="normalStatTabButton" onclick="toTab('normalStat')" type="button">
+        Normal Stats
+      </button>
+<button class="big hidden light" id="plexalStatTabButton" onclick="toTab('plexalStat')" type="button">
+        Plexal Stats
+      </button>
+<br class="light"/>
+<br class="light"/>
+<span class="tab light" id="normalStat">
+        You have played the game for <span class="light" id="timePlayed">0 second</span>
+<br class="light"/>
+<br class="light"/>
+        Your highest number ever is <span class="light" id="highestNum">10</span>
+<br class="light"/>
+<br class="light"/>
+<span class="light" id="totalReset">
+          You have reseted a total of 0 time
+        </span>
+</span>
+<span class="hidden tab light" id="plexalStat">
+        You have plexaled a total of <span class="light" id="plexalAmount">0 time</span>
+<br class="light"/>
+<br class="light"/>
+        It has been <span class="light" id="plexalTime">0 second</span> since your last plexal.
+      </span>
+</span>
+<span class="hidden tab light" id="option">
+<button class="big light" id="saveButton" onclick="save()" type="button">
+        Save
+      </button>
+<button class="big light" id="loadButton" onclick="load()" type="button">
+        Load
+      </button>
+<button class="big light" id="autoSaveButton" onclick="toggleAutoSave()" type="button">
+        Auto-Save: ON
+      </button>
+<button class="big light" id="autoSaveSpeedButton" onclick="changeAutoSaveSpeed()" style="font-size: 13px" type="button">
+        Auto-Save Speed: 1s
+      </button>
+<button class="big light" id="notationButton" onclick="openNotation()" type="button">
+        Notations
+      </button>
+<br class="light"/>
+<button class="big light" id="exportButton" onclick="exportSave()" type="button">
+        Export
+      </button>
+<button class="big light" id="importButton" onclick="importSave()" type="button">
+        Import
+      </button>
+<button class="big light" id="updateSpeedButton" onclick="changeUpdateSpeed()" type="button">
+        Update Speed: 50ms
+      </button>
+<button class="big light" id="themeButton" onclick="cycleTheme()" type="button">
+        Light Theme
+      </button>
+<br class="light"/>
+<button class="big warning light" onclick="wipeConfirm()" type="button">
+        WIPE SAVE
+      </button>
+<br class="light"/>
+<span class="light" style="font-size: 10px">
+        Hotkeys:
+        <br class="light"/>Hold Shift to Max (if applicable)
+        <br class="light"/>Numbers: Multiplier upgrades
+        <br class="light"/>M: Max all
+        <span class="light" id="hotkeyReset"><br class="light"/>R: Reset</span>
+<span class="light" id="hotkeyPlexal"><br class="light"/>P: Plexal
+        <br class="light"/>I: Iterate</span>
+</span>
+</span>
+<span class="hidden tab light" id="auto">
+<button class="big light" id="autoMultButton" onclick="toggleAuto(0)" type="button">
+        Auto Multiplier
+        <br class="light"/>
+        ON
+      </button>
+<button class="big light" id="autoIterateButton" onclick="toggleAuto(1)" type="button">
+        Auto Iterate
+        <br class="light"/>
+        ON
+      </button>
+</span>
+<span class="hidden tab light" id="plexal">
+<button class="big light" onclick="toTab('iterator')" type="button">
+        The Iterator
+      </button>
+<button class="big light" onclick="toTab('plexalUpgrade')" type="button">
+        Plexal Upgrade
+      </button>
+<br class="light"/>
+<br class="light"/>
+      You have <span class="light" id="plexalEssenceAmount" style="font-size:40px;">0.00</span> plexal essence
+      <br class="light"/>
+<br class="light"/>
+<span class="tab light" id="iterator">
+<button class="light disabled" id="iteratorUnlock" onclick="unlockIterator()" type="button">
+          Unlock Iterator
+          <br class="light"/>
+          Cost: 1 Plexal Essence
+        </button>
+<span class="hidden light" id="iteratorUpgrade">
+          The iterator boosts all multipliers by <span class="light" id="iteratorBoost" style="font-size: 30px;">^1.10</span> for each iteration
+          <br class="light"/>
+<br class="light"/>
+<button class="light disabled" id="iteratorUpgradeButton" onclick="upgradeIterator()" style="font-size:13px;" type="button">
+            Multiply Iterator Boost by <span class="light" id="iteratorUpgradeBoost">1.10</span>
+<br class="light"/>
+            Cost: <span class="light" id="iteratorUpgradeCost">100.00</span> Plexal Essence
+          </button>
+<button class="light" id="maxIteratorUpgradeButton" onclick="maxUpgradeIterator()" type="button">
+            Max Upgrade
+          </button>
+</span>
+</span>
+<span class="hidden tab light" id="plexalUpgrade">
+        You have to buy all of these upgrades in order! Left to right; top to bottom.
+        <br class="light"/>
+<br class="light"/>
+<button class="veryBig light" id="plexalUpg1" onclick="buyUpgrade(1, 'plexal')" style="font-size:12px;" type="button">
+          Boost all multiplier based on amount plexaled
+          <br class="light"/>
+          Current: ^<span class="light" id="plexalUpg1Boost">1</span>
+<br class="light"/>
+          Cost: <span class="light" id="plexalUpg1Cost">1</span> Plexal Essence
+        </button>
+<button class="veryBig light" id="plexalUpg2" onclick="buyUpgrade(2, 'plexal')" style="font-size:11px;" type="button">
+          Increase power of multiplier upgrades by the iterator power
+          <br class="light"/>
+          Current: x<span class="light" id="plexalUpg2Boost">1</span>
+<br class="light"/>
+          Cost: <span class="light" id="plexalUpg2Cost">2</span> Plexal Essence
+        </button>
+<button class="veryBig light" id="plexalUpg3" onclick="buyUpgrade(3, 'plexal')" style="font-size:12px;" type="button">
+          Boost all multiplier based on current plexal essence
+          <br class="light"/>
+          Current: ^<span class="light" id="plexalUpg3Boost">1</span>
+<br class="light"/>
+          Cost: <span class="light" id="plexalUpg3Cost">1</span> Plexal Essence
+        </button>
+<br class="light"/>
+<button class="veryBig light" id="plexalUpg4" onclick="buyUpgrade(4, 'plexal')" style="font-size:12px;" type="button">
+          Resets are more powerful based on current reset amount
+          <br class="light"/>
+          Current: x<span class="light" id="plexalUpg4Boost">1</span>
+<br class="light"/>
+          Cost: <span class="light" id="plexalUpg4Cost">3</span> Plexal Essence
+        </button>
+<button class="veryBig light" id="plexalUpg5" onclick="buyUpgrade(5, 'plexal')" style="font-size:12px;" type="button">
+          You start with more resets based on total reset amount
+          <br class="light"/>
+          Current: <span class="light" id="plexalUpg5Boost">1</span>
+<br class="light"/>
+          Cost: <span class="light" id="plexalUpg5Cost">8</span> Plexal Essence
+        </button>
+<button class="veryBig light" id="plexalUpg6" onclick="buyUpgrade(6, 'plexal')" style="font-size:12px;" type="button">
+          Gain more plexal essence based on your current plexal essence
+          <br class="light"/>
+          Current: x<span class="light" id="plexalUpg6Boost">1</span>
+<br class="light"/>
+          Cost: <span class="light" id="plexalUpg6Cost">15</span> Plexal Essence
+        </button>
+<br class="light"/>
+<button class="veryBig light" id="plexalUpg7" onclick="buyUpgrade(7, 'plexal')" style="font-size:12px;" type="button">
+          Unlock automation
+          <br class="light"/>
+          Cost: <span class="light" id="plexalUpg7Cost">ee200</span> Plexal Essence
+        </button>
+<button class="veryBig light" id="plexalUpg8" onclick="buyUpgrade(8, 'plexal')" style="font-size:12px;" type="button">
+          Resets also boost iterator upgrades
+          <br class="light"/>
+          Cost: <span class="light" id="plexalUpg8Cost">eee3</span> Plexal Essence
+        </button>
+<button class="veryBig light" id="plexalUpg9" onclick="buyUpgrade(9, 'plexal')" style="font-size:12px;" type="button">
+          You can now max reset
+          <br class="light"/>
+          Cost: <span class="light" id="plexalUpg9Cost">eee4</span> Plexal Essence
+        </button>
+</span>
+</span>
+<div class="hidden light" id="grayout"></div>
+<div class="modal hidden light" id="notationMenu">
+<div class="light">
+<button class="warning light" onclick="closeAllModal()" style="float:right;" type="button">x</button>
+</div>
+<br class="light"/>
+<div class="light" style="float:left; margin:10px; text-align:center;">
+        Splits
+        <br class="light"/>
+<button class="big noHover light" id="split0" type="button">Layer-Mag (Fixed)</button>
+<br class="light"/>
+        &lt; <input class="light" id="split1" onblur="calcNotation()" type="text" value="1000"/> ≤
+        <br class="light"/>
+<button class="big light" id="split2" onclick="selectSplit(2)" type="button">Scientific</button>
+<br class="light"/>
+        &lt; <input class="light" id="split3" onblur="calcNotation()" type="text" value="1e100"/> ≤
+        <br class="light"/>
+<button class="big light" id="split4" onclick="selectSplit(4)" type="button">Logarithmic</button>
+<br class="light"/>
+        &lt; <input class="light" id="split5" onblur="calcNotation()" type="text" value="E1#5"/> ≤
+        <br class="light"/>
+<button class="big light" id="split6" onclick="selectSplit(6)" type="button">Hyper-E</button>
+</div>
+<div class="light" style="float:right; margin:10px; text-align:center; overflow:scroll; height:300px">
+        Notations
+        <br class="light"/>
+<button class="big light" onclick="changeSplit('Layer-Mag')" type="button">Layer-Mag</button>
+<br class="light"/>
+<button class="big light" onclick="changeSplit('Scientific')" type="button">Scientific</button>
+<br class="light"/>
+<button class="big light" onclick="changeSplit('Logarithmic')" type="button">Logarithmic</button>
+<br class="light"/>
+<button class="big light" onclick="changeSplit('Hyper-E')" type="button">Hyper-E</button>
+<br class="light"/>
+<button class="big light" onclick="changeSplit('Tetration')" type="button">
+          Base-<input class="light" id="tetrationBase" onblur="calcNotation()" style="width:40%;" type="text" value="2"/>
+          Tetration
+        </button>
+<br class="light"/>
+<button class="big light" onclick="changeSplit('HyperSci')" type="button">HyperSci</button>
+<br class="light"/>
+<button class="big light" onclick="changeSplit('Psi')" type="button">Psi</button>
+<br class="light"/>
+<button class="big light" onclick="changeSplit('SGH')" type="button">SGH</button>
+</div>
+</div>
+<textarea class="light" id="exportArea" style="opacity: .01; height:0; position:absolute; z-index: -1;">export text</textarea>
+<script class="light" src="/_assets/002f65c13bd5fb8aaa23.js" type="text/javascript"></script>
+<script class="light" src="/_assets/71950c771efd66e91d74.js" type="text/javascript"></script>
+</body></html>

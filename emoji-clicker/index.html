@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A vibrant clicker RPG. Defeat 10 emoji bosses, manage energy, and upgrade your skills!" name="description"/>
+<title>Emoji Clicker RPG</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🎮&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+
+
+<link href="/_assets/13b7e10e68d2d40b55ce.css" rel="stylesheet"/>
+<link href="/_assets/46800ee25608c613a33e.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="app">
+<header>
+<h1>🎮 Emoji Clicker</h1>
+<div class="subtitle">Defeat the 10 emoji bosses and upgrade your skills</div>
+</header>
+<div class="game-container">
+<!-- Stats Panel -->
+<div class="card stats-panel">
+<div class="stat-item">
+<div class="stat-header"><span>❤️ HEALTH</span></div>
+<div class="stat-value" id="health-val">100</div>
+<div class="progress-bar">
+<div class="progress-fill" id="health-bar" style="width: 100%; background-color: var(--health-color);"></div>
+</div>
+</div>
+<div class="stat-item">
+<div class="stat-header"><span>⚡ ENERGY</span></div>
+<div class="stat-value" id="energy-val">100</div>
+<div class="progress-bar">
+<div class="progress-fill" id="energy-bar" style="width: 100%; background-color: var(--energy-color);"></div>
+</div>
+</div>
+<div class="stat-item">
+<div class="stat-header"><span>💪 STRENGTH</span></div>
+<div class="stat-value" id="strength-val">10</div>
+</div>
+<div class="stat-item">
+<div class="stat-header"><span>🔄 RECOVERY</span></div>
+<div class="stat-value"><span id="recovery-val">1</span>/s</div>
+</div>
+</div>
+<!-- Boss Arena -->
+<div class="card arena-panel">
+<div class="level-indicator">LEVEL <span id="level-val">1</span> / 10</div>
+<div class="boss-container" id="boss-container">
+<div class="boss-emoji" id="boss-emoji">👾</div>
+<div class="boss-hp-bar">
+<div class="boss-hp-fill" id="boss-hp-bar" style="width: 100%;"></div>
+</div>
+<div style="color: var(--text-secondary); font-size: 0.9rem;">
+<span id="boss-hp-text">100</span> HP
+            </div>
+</div>
+</div>
+</div>
+<!-- Upgrades -->
+<div class="footer-panel">
+<div class="currency-display">
+          Available Points: <span class="currency-value" id="currency-val">0</span>
+</div>
+<div class="upgrades-grid" id="upgrades-grid"><button class="upgrade-btn" disabled="" id="btn-strength">
+<div class="upgrade-icon">💪</div>
+<div class="upgrade-info">
+<div class="upgrade-name">Strength</div>
+<div class="upgrade-cost">💰 50</div>
+<div style="font-size: 0.7rem; color: #aaa;">+5 Damage/Click</div>
+</div>
+</button><button class="upgrade-btn" disabled="" id="btn-recovery">
+<div class="upgrade-icon">🔄</div>
+<div class="upgrade-info">
+<div class="upgrade-name">Recovery</div>
+<div class="upgrade-cost">💰 100</div>
+<div style="font-size: 0.7rem; color: #aaa;">+1 Energy/Sec</div>
+</div>
+</button><button class="upgrade-btn" disabled="" id="btn-maxHealth">
+<div class="upgrade-icon">❤️</div>
+<div class="upgrade-info">
+<div class="upgrade-name">Max Health</div>
+<div class="upgrade-cost">💰 150</div>
+<div style="font-size: 0.7rem; color: #aaa;">+20 Max HP</div>
+</div>
+</button><button class="upgrade-btn" disabled="" id="btn-maxEnergy">
+<div class="upgrade-icon">⚡</div>
+<div class="upgrade-info">
+<div class="upgrade-name">Max Energy</div>
+<div class="upgrade-cost">💰 120</div>
+<div style="font-size: 0.7rem; color: #aaa;">+20 Max Energy</div>
+</div>
+</button></div>
+</div>
+</div>
+<script src="/_assets/5e09e8eff040c253c1a5.js"></script>
+<script src="/_assets/3bcf06996999ab8510e7.js"></script>
+<script src="/_assets/fad70c2a7428f0a3d180.js"></script>
+</body></html>

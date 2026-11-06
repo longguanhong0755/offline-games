@@ -1,0 +1,182 @@
+/* ###### */
+/* GLOBAL */
+/* ###### */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: #101010;
+}
+
+.sidenav {
+    width: 120px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 69px;
+    background-color: #000;
+}
+
+.sidenav div {
+    padding: 15px 0px 15px 18px;
+    border: 1px solid white;
+    transition: 0.6s cubic-bezier(.17,.67,.56,.99);
+}
+
+.sidenav div p {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+}
+
+.sidenav div:hover {
+    padding-left: 26px;
+    background-color: #222;
+    transition: 0.6s cubic-bezier(.17,.67,.56,.99);
+}
+
+.moneyDisplayNavbarContainer {
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    overflow-x: hidden;
+    text-align: center;
+    border: 1px solid white;
+    border-bottom-right-radius: 10px;
+    padding: 11px 0px 11px 0px;
+}
+
+.moneyDisplayNavbarContainer p {
+    font-size: 20px;
+}
+
+#moneyDisplay {
+    margin: 0;
+}
+
+
+/* #### */
+/* HOME */
+/* #### */
+
+#displaysContainer {
+    text-align: center;
+}
+
+.operationUpgradeButtonsContainer {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upgradeButtonsContainer button {
+    width: 200px;
+    height: 65px;
+    margin: 5px;
+    background-color: white;
+    color: white;
+    border-radius: 7px;
+}
+
+.generatorUpgradeButtonsContainer {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upgradeButtonsContainer {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.tickspeedUpgradeButton {
+    border-radius: 5px;;
+}
+
+.tickspeedUpgradeButtonContainer {
+    text-align: center;
+}
+
+.lightbox_hover_tickspeed {
+    position: relative;
+    border: 1px solid white;
+    padding: 1px;
+    display: none;
+}
+
+/* ######## */
+/* SETTINGS */
+/* ######## */
+
+.settingsHeader {
+    text-align: center;
+}
+
+.settingsInterface {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.settingsColumn {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+.settingsObject {
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 200px;
+}
+
+.settingsObjectDescription {
+    margin: 0;
+    padding: 5px 5px 10px 5px;
+}
+
+.settingsObjectCurrentValue {
+    margin: 0;
+    padding: 5px;
+    font-size: 12px;
+}
+
+/* ######## */
+/* RESEARCH */
+/* ######## */
+
+.researchPageButtons {
+    text-align: center;
+}
+
+/* ##### */
+/* ABOUT */
+/* ##### */
+
+.aboutHeader {
+    text-align: center;
+}
+
+.aboutText {
+    font-size: 14px;
+}
+
+.aboutText a {
+    text-decoration: none;
+    color: red;
+}
+
+.aboutText a:hover {
+    color: rgb(255, 72, 72);
+}

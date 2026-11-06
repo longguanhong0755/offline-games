@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="/_assets/f386263e08fba09e7822.css" rel="stylesheet"/>
+<link href="./img/favicon/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<script src="/_assets/56f04907b38ce826480e.js" type="module"></script>
+<title>Exponentiality</title>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<p style="text-align: center; border: 1px solid white; margin: 0; top: 0; border-top: none;border-right: none;"><em><marquee behavior="" direction="">This game is still in beta. any unbalanced vars or game mechanics are a result of me not caring enough to make them better. anyways, how was your day? i'm pretty lonely lol i need friends.. does anybody wanna be friends with me :3 no? alright then... :c</marquee></em></p>
+<br/>
+<div class="moneyDisplayNavbarContainer">
+<p id="moneyDisplay"><span id="moneyDisplayVarCorner">10.00</span><br/> money
+    </p></div>
+<div class="sidenav">
+<div class="homeButtonContainer" id="homeButton">
+<p>Home</p>
+</div>
+<div class="researchButtonContainer" id="researchButton" style="display: none;">
+<p>Research</p>
+</div>
+<div class="settingsButtonContainer" id="settingsButton" style="display: none;">
+<p>Settings</p>
+</div>
+<div class="aboutButtonContainer" id="aboutButton">
+<p>About</p>
+</div>
+</div>
+<div class="homePage" id="homePage" style="display: block;">
+<div id="displaysContainer">
+<h1 id="moneyDisplay">You have <span id="moneyDisplayVar">10.00</span> money</h1>
+<p id="mpsDisplay">money/s: <span id="mpsDisplayVar">0</span></p>
+<p id="tickspeedDisplay">Tickspeed: <span id="tickspeedDisplayVar">1.000</span> ticks/s</p>
+<p id="formulaDisplay">Formula: <span id="formulaDisplayVar">((0 * 1.00) ^ 1.000) ^ 1.000</span> per Tick</p>
+</div>
+<div class="tickspeedUpgradeButtonContainer">
+<button class="tickspeedUpgradeButton" id="upgradeButton5" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">*<span id="upgradeStep5">0.125</span> Tick Speed; Cost: <span id="upgradeCost5">1.000K</span></button>
+</div>
+<div class="upgradeButtonsContainer">
+<div class="operationUpgradeButtonsContainer">
+<p>Operations</p>
+<button class="upgradeButton" id="upgradeButton1" style="background-color: rgba(100, 255, 100, 0.5); border-color: green; color: black;">increase addition by <span id="upgradeStep1">1</span><br/>Cost: <span id="upgradeCost1">10.00</span> money</button>
+<button class="upgradeButton" id="upgradeButton2" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">increase multiplication by <span id="upgradeStep2">0.1</span><br/>Cost: <span id="upgradeCost2">50.00</span> money<br/></button>
+<button class="upgradeButton" id="upgradeButton3" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">increase exponentiation by <span id="upgradeStep3">0.02</span><br/>Cost: <span id="upgradeCost3">100.00</span> money<br/></button>
+<button class="upgradeButton" id="upgradeButton4" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">increase tetration by <span id="upgradeStep4">0.005</span><br/>Cost: <span id="upgradeCost4">250.00</span> money<br/></button>
+</div>
+<div class="generatorUpgradeButtonsContainer">
+<p>Generators</p>
+<button class="upgradeButton" id="upgradeButton6" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">Increase addition generation by <span id="upgradeStep6">0.01</span><br/>Cost: <span id="upgradeCost6">100.00</span> money </button>
+<button class="upgradeButton" id="upgradeButton7" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">Increase multiplication generation by <span id="upgradeStep7">0.005</span><br/>Cost: <span id="upgradeCost7">250.00</span> money</button>
+<button class="upgradeButton" id="upgradeButton8" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">Increase exponentiation generation by <span id="upgradeStep8">0.001</span><br/>Cost: <span id="upgradeCost8">500.00</span> money</button>
+<button class="upgradeButton" id="upgradeButton9" style="background-color: rgba(255, 75, 75, 0.6); border-color: red; color: white;">Increase tetration generation by <span id="upgradeStep9">0.0005</span><br/>Cost: <span id="upgradeCost9">1.000K</span> money</button>
+</div>
+</div>
+</div>
+<div class="researchPage" id="researchPage" style="display: none;">
+<div class="researchPageButtons">
+<button id="researchNormalButton">Normal</button><button id="researchEpicButton">Epic</button>
+</div>
+</div>
+<div class="settingsPage" id="settingsPage" style="display: none;">
+<h1 class="settingsHeader">Settings</h1>
+<div class="settingsInterface">
+<div class="settingsColumn">
+<div class="settingsObject">
+<p class="settingsObjectDescription">Frames Per Second</p>
+<input class="slider" id="framerateSlider" max="60" min="4" type="range" value="24"/>
+<p class="settingsObjectCurrentValue">Currently: <span id="currentFramerate">[0]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="aboutPage" id="aboutPage" style="display: none;">
+<h1 class="aboutHeader">About</h1>
+<p class="aboutText" style="margin-left: 200px;">
+            Version 0.2.1-BETA <br/>
+            Made by <a>Little Drummer Boi</a><br/>
+</p>
+</div>
+</body></html>

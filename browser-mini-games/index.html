@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+
+<html class="canvas-static" data-astro-cid-hkbrpulz="" data-audience="colleague" data-theme="light" lang="ru"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><title>Browser Mini-Games — Analytics Arcade | Nikita Boyarkin</title><meta content="10 играбельных мини-игр в self-contained SVG: 7 аналитических (A/B до p&lt;0.05, funnel drop, cohort catch, retention day) и 3 аркадных. Один файл — вся игра,…" name="description"/><link href="/favicon.svg?v=8b5eba82" rel="icon" type="image/svg+xml"/><link href="/apple-touch-icon.png?v=670d964b" rel="apple-touch-icon" sizes="180x180"/><link href="/rss.xml" rel="alternate" title="Nikita Boyarkin — Заметки" type="application/rss+xml"/><link as="font" href="/_assets/c940764593d0fe5d596b.woff2" rel="preload" type="font/woff2"/><link as="font" href="/_assets/aebf2ab4a4ce6810d73c.woff2" rel="preload" type="font/woff2"/><link as="image" fetchpriority="high" href="/_assets/6dd9d4ba93d73e062a8e.svg" rel="preload"/><meta content="#f4efca" id="theme-color" name="theme-color"/><meta content="Nikita Boyarkin" property="og:site_name"/><meta content="Browser Mini-Games — Analytics Arcade | Nikita Boyarkin" property="og:title"/><meta content="10 играбельных мини-игр в self-contained SVG: 7 аналитических (A/B до p&lt;0.05, funnel drop, cohort catch, retention day) и 3 аркадных. Один файл — вся игра, без сборки." property="og:description"/><meta content="article" property="og:type"/><meta content="https://nikitaboyarkin.github.io/projects/games/" property="og:url"/><meta content="ru_RU" property="og:locale"/><meta content="en_US" property="og:locale:alternate"/><meta content="https://nikitaboyarkin.github.io/images/og/games.png?v=1153b97f" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/><meta content="Nikita Boyarkin — Product / Data Analyst. Portfolio." property="og:image:alt"/><meta content="summary_large_image" name="twitter:card"/><meta content="Browser Mini-Games — Analytics Arcade | Nikita Boyarkin" name="twitter:title"/><meta content="10 играбельных мини-игр в self-contained SVG: 7 аналитических (A/B до p&lt;0.05, funnel drop, cohort catch, retention day) и 3 аркадных. Один файл — вся игра, без сборки." name="twitter:description"/><meta content="https://nikitaboyarkin.github.io/images/og/games.png?v=1153b97f" name="twitter:image"/><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Browser Mini-Games — Analytics Arcade","description":"10 играбельных мини-игр в self-contained SVG: 7 аналитических (A/B до p\u003c0.05, funnel drop, cohort catch, retention day) и 3 аркадных. Один файл — вся игра, без сборки.","image":"https://nikitaboyarkin.github.io/images/og/games.png?v=1153b97f","datePublished":"2026-09-04T00:00:00.000Z","dateModified":"2026-11-01T00:00:00.000Z","author":{"@type":"Person","name":"Nikita Boyarkin","url":"https://nikitaboyarkin.github.io/"},"publisher":{"@type":"Organization","name":"Nikita Boyarkin","logo":{"@type":"ImageObject","url":"https://nikitaboyarkin.github.io/apple-touch-icon.png","width":180,"height":180}},"mainEntityOfPage":"https://nikitaboyarkin.github.io/projects/games/","url":"https://nikitaboyarkin.github.io/projects/games/","keywords":"SVG, JavaScript, Astro, Playwright"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://nikitaboyarkin.github.io/"},{"@type":"ListItem","position":2,"name":"Projects","item":"https://nikitaboyarkin.github.io/#projects"},{"@type":"ListItem","position":3,"name":"Browser Mini-Games — Analytics Arcade","item":"https://nikitaboyarkin.github.io/projects/games/"}]}]}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://nikitaboyarkin.github.io/#website","name":"Nikita Boyarkin","url":"https://nikitaboyarkin.github.io/","inLanguage":"ru","author":{"@type":"Person","@id":"https://nikitaboyarkin.github.io/#person","name":"Nikita Boyarkin","url":"https://nikitaboyarkin.github.io/","image":"https://nikitaboyarkin.github.io/images/00_profile.jpg","sameAs":["https://github.com/NikitaBoyarkin","https://www.linkedin.com/in/nikita-boyarkin","https://t.me/lofinibo"]}}</script><noscript><style>.reveal.reveal{opacity:1;transform:none}</style></noscript><script>
+      // Prevent theme flash: apply saved or preferred theme before first paint.
+      // Three themes: dark (default), light, cyberpunk.
+      (function () {
+        const html = document.documentElement;
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        const THEME_COLORS = { dark: '#1400c3', light: '#f4efca', cyberpunk: '#171717' };
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = prefersDark ? 'dark' : 'light';
+        try {
+          const saved = localStorage.getItem('theme');
+          if (saved === 'dark' || saved === 'light' || saved === 'cyberpunk') theme = saved;
+        } catch (e) {
+          // localStorage may be unavailable
+        }
+        html.setAttribute('data-theme', theme);
+        if (themeColorMeta) themeColorMeta.setAttribute('content', THEME_COLORS[theme] || THEME_COLORS.dark);
+      })();
+
+      // Prevent audience flash: apply the stored persona before the first paint
+      // so the role switcher and the board render in the chosen state
+      // immediately. Three values, mirrored from `AUDIENCES` in
+      // `src/lib/projects.ts` — this script is `is:inline`, so it cannot import
+      // them; `tests/lib/projects.test.ts` binds the copy.
+      (function () {
+        const html = document.documentElement;
+        let audience = 'colleague';
+        try {
+          const saved = localStorage.getItem('audience');
+          if (saved === 'hr' || saved === 'manager' || saved === 'colleague') audience = saved;
+        } catch (e) {
+          // localStorage may be unavailable
+        }
+        html.setAttribute('data-audience', audience);
+      })();
+    </script> <script src="/_assets/d88cc7207e1ed0fff4a6.js" type="module"></script><link href="/_assets/3109a32eb5c8c81abd57.css" rel="stylesheet"/><style>.decision[data-astro-cid-r7uu4z6v]{margin:var(--space-6) 0 var(--space-8);padding:var(--space-5,1.25rem);border:1px solid var(--border-color);border-radius:var(--radius-lg);background-color:var(--card-background)}.decision-label[data-astro-cid-r7uu4z6v]{margin-bottom:var(--space-4);letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-size:.8125rem;font-weight:600}.decision-grid[data-astro-cid-r7uu4z6v]{gap:var(--space-4);display:grid}.decision-cell-wide[data-astro-cid-r7uu4z6v]{padding-top:var(--space-4);border-top:1px solid var(--border-color)}.decision-term[data-astro-cid-r7uu4z6v]{color:var(--text-normal);margin-bottom:.25rem;font-family:inherit;font-size:.9375rem;font-weight:600;line-height:1.3}.decision-text[data-astro-cid-r7uu4z6v]{font-size:var(--text-body);color:var(--text-normal);margin:0;line-height:1.55}.decision-rejected[data-astro-cid-r7uu4z6v]{gap:var(--space-4);margin:0;padding:0;list-style:none;display:grid}.decision-option[data-astro-cid-r7uu4z6v]{font-size:var(--text-body);color:var(--text-normal);margin:0 0 .125rem;font-weight:600;line-height:1.4}.decision-key[data-astro-cid-r7uu4z6v]{color:var(--text-normal);font-weight:600}.project-demo[data-astro-cid-c3dx36tn]{margin:0 0 var(--space-8)}.project-demo-bar[data-astro-cid-c3dx36tn]{justify-content:space-between;align-items:baseline;gap:var(--space-2) var(--space-4);flex-wrap:wrap;display:flex}.project-demo-label[data-astro-cid-c3dx36tn]{color:var(--text-normal);font-size:.95rem;font-weight:600}.project-demo-open[data-astro-cid-c3dx36tn]{color:var(--text-accent);font-size:.85rem;font-weight:600;text-decoration:none}.project-demo-open[data-astro-cid-c3dx36tn]:hover{color:var(--text-accent-hover);text-decoration:underline}.project-demo-open[data-astro-cid-c3dx36tn]:focus-visible{outline:2px solid var(--text-accent);outline-offset:2px;border-radius:var(--radius-sm)}.project-demo-hint[data-astro-cid-c3dx36tn]{margin:var(--space-1) 0 var(--space-3);color:var(--text-muted);max-width:68ch;font-size:.85rem;line-height:1.5}.project-demo-frame[data-astro-cid-c3dx36tn]{border:1px solid var(--border-color);border-radius:var(--radius-lg);background:var(--background-secondary);width:100%;display:block}
+.carousel-nav[data-astro-cid-rwnskuwd]{justify-content:center;align-items:center;gap:var(--space-3);margin-top:var(--space-4);flex-wrap:wrap;display:flex}.carousel-nav[data-astro-cid-rwnskuwd][hidden],.carousel-dots[data-astro-cid-rwnskuwd][hidden]{display:none}.carousel-arrow[data-astro-cid-rwnskuwd]{border:1px solid var(--text-muted);background:var(--card-background);width:36px;height:36px;color:var(--text-muted);cursor:pointer;border-radius:50%;flex:none;justify-content:center;align-items:center;padding:0;transition:color .2s,border-color .2s;display:inline-flex}.carousel-arrow[data-astro-cid-rwnskuwd]:hover:not([aria-disabled=true]){color:var(--text-accent);border-color:var(--text-accent)}.carousel-arrow[data-astro-cid-rwnskuwd][aria-disabled=true]{opacity:.4;cursor:default}.carousel-arrow[data-astro-cid-rwnskuwd]:focus-visible{outline:2px solid var(--text-accent);outline-offset:2px}.carousel-dots[data-astro-cid-rwnskuwd]{justify-content:center;align-items:center;gap:var(--space-1);flex-wrap:wrap;display:flex}.carousel-dot{box-sizing:content-box;background-color:var(--text-muted);cursor:pointer;background-clip:content-box;border:none;border-radius:50%;width:8px;height:8px;padding:8px;transition:background-color .2s}.carousel-dot[aria-current=true]{background-color:var(--text-accent);width:12px;height:12px;padding:6px}.carousel-dot:focus-visible{outline:2px solid var(--text-accent);outline-offset:2px}
+.pg-root{background:var(--background-secondary);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-4);position:relative}.pg-svg{touch-action:none;cursor:grab;width:100%;display:block}.pg-edge{stroke:color-mix(in srgb, var(--text-muted) 50%, transparent);stroke-width:1px}.pg-center circle{stroke:var(--text-accent);stroke-width:2.5px}.pg-label{fill:var(--text-normal);font-size:11px;font-weight:600;font-family:var(--font-sans);paint-order:stroke;stroke:var(--background-secondary);stroke-width:5px;stroke-opacity:.95;stroke-linejoin:round;pointer-events:none;transition:opacity .12s}.pg-label-hover{opacity:0}.pg-root :is(g[tabindex]){outline:none}.pg-root :is(g[tabindex]:focus-visible){outline:2px solid var(--text-accent);outline-offset:2px}.pg-root :is(g[tabindex]:hover) .pg-label-hover,.pg-root :is(g[tabindex]:focus) .pg-label-hover{opacity:1}.pg-root :is(g[tabindex]:focus) text{fill:var(--text-accent)}.pg-tooltip{z-index:var(--z-panel);pointer-events:none;background:var(--background-primary);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-normal);white-space:nowrap;max-width:240px;padding:.4rem .55rem;font-size:.78rem;line-height:1.45;position:absolute;top:0;left:0;box-shadow:0 6px 18px #00000040}.pg-tooltip[hidden]{display:none}.pg-caption{color:var(--text-muted);margin-top:var(--space-2);text-align:center;font-size:.85rem}
+.charts-section[data-astro-cid-rdwcprw3]{margin:var(--space-8) 0}.charts-section[data-astro-cid-rdwcprw3] h2[data-astro-cid-rdwcprw3]{color:var(--text-accent);margin-bottom:var(--space-2);padding-bottom:var(--space-3);border-bottom:2px solid var(--border-color);font-size:1.4rem}.charts-source[data-astro-cid-rdwcprw3]{color:var(--text-muted);margin:var(--space-2) 0 var(--space-5);font-size:.85rem}.charts-grid[data-astro-cid-rdwcprw3]{gap:var(--space-6);flex-direction:column;display:flex}.section-tablist[data-astro-cid-zf6eie4s]{gap:var(--space-2);margin:0 0 var(--space-6);padding:0 0 var(--space-4);border-bottom:1px solid var(--border-color);flex-wrap:wrap;display:flex}.section-tab[data-astro-cid-zf6eie4s]{appearance:none;cursor:pointer;padding:var(--space-2) var(--space-4);font-family:var(--font-sans);color:var(--text-muted);background:var(--background-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);font-size:.9rem;font-weight:500;line-height:1.4;transition:color .2s,border-color .2s,background-color .2s;position:relative}.section-tab[data-astro-cid-zf6eie4s]:hover{color:var(--text-accent);border-color:var(--border-active)}.section-tab[data-astro-cid-zf6eie4s][aria-selected=true]{color:var(--text-accent);border-color:var(--border-active);background:color-mix(in srgb, var(--text-accent) 8%, transparent)}.section-tab[data-astro-cid-zf6eie4s][aria-selected=true]:after{content:"";left:var(--space-3);right:var(--space-3);bottom:calc(var(--space-4) * -1 - 1px);background:var(--text-accent);height:2px;position:absolute}.section-tab[data-astro-cid-zf6eie4s]:focus-visible{outline:2px solid var(--text-accent);outline-offset:2px}.section-panel [id]{scroll-margin-top:calc(var(--nav-mobile-h) + var(--space-4))}@media (width<=640px){.section-tablist[data-astro-cid-zf6eie4s]{gap:var(--space-1)}.section-tab[data-astro-cid-zf6eie4s]{padding:var(--space-1) var(--space-3);font-size:.82rem}}.section-panel[data-astro-cid-chdgr2bq]{display:block}.section-panel[data-astro-cid-chdgr2bq][hidden]{display:none}
+</style><link href="/_assets/9618785ac3ae01188378.css" rel="stylesheet"/><style>.next-step[data-astro-cid-rnbdbtuv]{margin-top:var(--space-10);padding:var(--space-6);background:var(--card-background);border:1px solid var(--border-color);border-radius:var(--radius-xl)}.next-step-title[data-astro-cid-rnbdbtuv]{margin:0 0 var(--space-3);letter-spacing:-.01em;color:var(--text-normal);font-size:1.1rem;font-weight:600}.next-step-text[data-astro-cid-rnbdbtuv]{margin:0 0 var(--space-5);max-width:60ch;font-size:var(--text-body);color:var(--text-muted);line-height:1.6}.next-step-cta[data-astro-cid-rnbdbtuv]{align-items:center;min-height:44px;display:inline-flex}
+.reader-track:has(>.reader-slide){gap:var(--space-5);scroll-snap-type:x mandatory;padding-block:var(--space-2) var(--space-6);scrollbar-width:none;scroll-padding-inline:0;display:flex;overflow-x:auto}.reader-track:has(>.reader-slide)::-webkit-scrollbar{display:none}.reader-track:has(>.reader-slide)>.reader-slide{scroll-snap-align:start;min-width:0;flex:0 0 100%;padding-inline-end:var(--space-6)}.reader-track:has(>.reader-slide)>.reader-slide>:first-child{margin-block-start:0}.reader-track:has(>.reader-slide)>.reader-slide>p:first-child{text-indent:0}.reader-track:has(>.reader-slide)>.reader-slide :is(h2,h3,h4){scroll-margin-block-start:var(--space-6)}@media screen{.carousel-nav[data-carousel=reader]{bottom:var(--space-4);z-index:2;width:fit-content;padding:var(--space-2) var(--space-3);border:1px solid var(--border-color);border-radius:var(--radius-full);background:var(--background-primary);margin-inline:auto;position:sticky}}@media print{.reader-track:has(>.reader-slide){scroll-snap-type:none;padding-block:0;display:block;overflow:visible}.reader-track:has(>.reader-slide)>.reader-slide{scroll-snap-align:none;flex:none;padding-inline-end:0}body .carousel-nav[data-carousel=reader]{display:none}}@media (prefers-reduced-motion:reduce){.reader-track:has(>.reader-slide){scroll-behavior:auto}}
+</style><link href="/_assets/ca171664b29c640c97a7.css" rel="stylesheet"/><script src="/_assets/fce9ccf60de44254eba9.js" type="module"></script><link as="script" href="/_assets/fe565d48933416cd3328.js" rel="modulepreload"/><link as="script" href="/_assets/f42a7e25f42fd00b0935.js" rel="modulepreload"/><script src="/_assets/e1ed9d27f904383f408b.js" type="text/javascript"></script><script src="/_assets/a6cf61205113035d15c8.js" type="text/javascript"></script><script src="/_assets/6104731912d3951f5dd2.js" type="text/javascript"></script><script src="/_assets/17f6ed19ba98af2dc01c.js" type="text/javascript"></script><script src="/_assets/b026e10074b6eb57f38a.js" type="text/javascript"></script><script src="/_assets/92088043648c51b3cfed.js" type="text/javascript"></script><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head> <body data-astro-cid-hkbrpulz=""> <a class="skip-link" data-astro-cid-hkbrpulz="" href="#main">Перейти к содержимому</a> <header class="nav-mobile" data-astro-cid-hkbrpulz=""> <a class="nav-brand" data-astro-cid-hkbrpulz="" href="/about/"> <svg aria-hidden="true" class="nav-brand-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><circle cx="12" cy="7" r="4"></circle><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path></svg> <span class="nav-brand-text" data-astro-cid-hkbrpulz=""> <b data-astro-cid-hkbrpulz="">Nikita Boyarkin</b> <span class="nav-brand-role" data-astro-cid-hkbrpulz="">Продуктовый аналитик</span> </span> </a> <div aria-label="Режим просмотра" class="nav-roles nav-roles--bar" data-astro-cid-k2syl7ng="" role="group"> <a class="nav-role" data-astro-cid-k2syl7ng="" data-persona="hr" data-source="header" href="/hr/" title="HR"> <svg aria-hidden="true" class="nav-role-icon" data-astro-cid-k2syl7ng="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><rect height="14" rx="2" width="20" x="2" y="5"></rect><circle cx="8" cy="11" r="2"></circle><path d="M5 16h6"></path><path d="M14 10h5"></path><path d="M14 14h5"></path></svg> <span class="nav-role-label" data-astro-cid-k2syl7ng="">HR</span> </a><a class="nav-role" data-astro-cid-k2syl7ng="" data-persona="manager" data-source="header" href="/manager/" title="Менеджер"> <svg aria-hidden="true" class="nav-role-icon" data-astro-cid-k2syl7ng="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><rect height="14" rx="2" width="20" x="2" y="7"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg> <span class="nav-role-label" data-astro-cid-k2syl7ng="">Менеджер</span> </a><a class="nav-role" data-astro-cid-k2syl7ng="" data-persona="colleague" data-source="header" href="/colleague/" title="Коллега"> <svg aria-hidden="true" class="nav-role-icon" data-astro-cid-k2syl7ng="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> <span class="nav-role-label" data-astro-cid-k2syl7ng="">Коллега</span> </a> </div> <script src="/_assets/7644bff29fe4582fc18d.js" type="module"></script> <ul class="nav-inline" data-astro-cid-hkbrpulz=""> <li data-astro-cid-hkbrpulz=""> <a aria-current="page" data-astro-cid-hkbrpulz="" href="/"> <svg aria-hidden="true" class="nav-inline-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Главная </a> </li> </ul> <div class="nav-chips" data-astro-cid-hkbrpulz=""> <a class="nav-chip" data-analytics="github_footer" data-astro-cid-hkbrpulz=""> <svg aria-hidden="true" class="chip-icon" data-astro-cid-hkbrpulz="" fill="currentColor" focusable="false" height="16" viewbox="0 0 24 24" width="16"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg> <span class="nav-chip-label" data-astro-cid-hkbrpulz="">GitHub</span></a> <a class="nav-chip" data-analytics="linkedin_footer" data-astro-cid-hkbrpulz=""> <svg aria-hidden="true" class="chip-icon" data-astro-cid-hkbrpulz="" fill="currentColor" focusable="false" height="16" viewbox="0 0 24 24" width="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg> <span class="nav-chip-label" data-astro-cid-hkbrpulz="">LinkedIn</span></a> <a class="nav-chip" data-analytics="telegram_footer" data-astro-cid-hkbrpulz=""> <svg aria-hidden="true" class="chip-icon" data-astro-cid-hkbrpulz="" fill="currentColor" focusable="false" height="16" viewbox="0 0 24 24" width="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg> <span class="nav-chip-label" data-astro-cid-hkbrpulz="">Telegram</span></a> </div> <a class="button nav-cta nav-bar-cta" data-analytics="telegram_header" data-astro-cid-hkbrpulz=""> <svg aria-hidden="true" class="btn-icon" data-astro-cid-hkbrpulz="" fill="currentColor" focusable="false" height="16" viewbox="0 0 24 24" width="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg> Написать </a> <button aria-label="Тема: light. Нажмите для смены." class="theme-toggle" data-astro-cid-hkbrpulz="" data-theme-cycle=". Нажмите для смены." data-theme-label="Тема: " id="theme-toggle" title="Тема: тёмная / светлая / киберпанк" type="button"> <svg aria-hidden="true" class="glyph glyph-moon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" data-astro-cid-hkbrpulz=""></path></svg> <svg aria-hidden="true" class="glyph glyph-sun" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M12 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" data-astro-cid-hkbrpulz=""></path></svg> <svg aria-hidden="true" class="glyph glyph-cyber" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><path d="M13 2 3 14 12 14 11 22 21 10 12 10 13 2z" data-astro-cid-hkbrpulz=""></path></svg> </button> <button aria-controls="nav-links" aria-expanded="false" aria-label="Открыть меню" class="nav-toggle" data-astro-cid-hkbrpulz="" data-label-close="Закрыть меню" data-label-open="Открыть меню" id="nav-toggle" type="button"> <svg aria-hidden="true" class="glyph glyph-menu" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M4 6h16M4 12h16M4 18h16" data-astro-cid-hkbrpulz=""></path></svg> <svg aria-hidden="true" class="glyph glyph-close" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20"><path d="M6 6l12 12M6 18L18 6" data-astro-cid-hkbrpulz=""></path></svg> </button> <noscript> <nav aria-label="Разделы сайта" class="nav-noscript" data-astro-cid-hkbrpulz=""> <ul data-astro-cid-hkbrpulz=""> <li data-astro-cid-hkbrpulz=""> <a aria-current="page" data-astro-cid-hkbrpulz="" href="/"> Главная </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/projects/"> Проекты </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/about/"> Обо мне </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/glossary/"> Словарь </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/graph/"> Граф </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/library/"> Библиотека </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/writing/"> Статьи </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/explorer/"> Обозреватель </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/topics/"> Темы </a> </li><li data-astro-cid-hkbrpulz=""> <a data-astro-cid-hkbrpulz="" href="/repo-audit/"> Аудит репозиториев </a> </li> </ul> </nav> </noscript> </header> <nav aria-label="Открытые вкладки" class="site-tabs" data-astro-cid-labrzil3="" data-close-label="Закрыть вкладку" data-home="/" data-untitled="Главная" hidden="" id="site-tabs"> <ul class="site-tabs-track" data-astro-cid-labrzil3="" id="site-tabs-track"><li class="site-tab is-active"><a aria-current="page" class="site-tab-link" href="/projects/games/">Browser Mini-Games</a><button aria-label="Закрыть вкладку: Browser Mini-Games" class="site-tab-close" type="button"><svg aria-hidden="true" fill="none" focusable="false" height="12" stroke="currentColor" stroke-linecap="round" stroke-width="2.4" viewbox="0 0 24 24" width="12"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></li></ul> </nav> <script type="module">function e(){let e=document.getElementById(`site-tabs`),t=document.getElementById(`site-tabs-track`);if(!e||!t)return;let n=`site-tabs:v1`,r=e.dataset.home||`/`,i=e.dataset.closeLabel||`Close tab`,a=e.dataset.untitled||``,o=e=>{let t=new URL(e,location.origin);return t.pathname+t.search},s=()=>{try{let e=sessionStorage.getItem(n),t=e?JSON.parse(e):[];return Array.isArray(t)?t.filter(e=>!!e&&typeof e.href==`string`&&typeof e.label==`string`&&e.href.length>0):[]}catch{return[]}},c=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},l=/^(?:Никита Бояркин|Nikita Boyarkin)\s*[|—–]\s*/i,u=()=>{if(o(location.href)===o(r))return a;let e=(document.title||``).trim();return e.replace(l,``).split(/\s+[|—–]\s+/)[0].trim()||e||a},d=e=>e.dataset.tabLabel||(e.textContent||``).replace(/\s+/g,` `).trim()||a,f=[];function p(){let n=o(location.href);t.innerHTML=``;for(let e of f){let r=document.createElement(`li`);r.className=`site-tab`;let a=o(e.href)===n;a&&r.classList.add(`is-active`);let s=document.createElement(`a`);s.className=`site-tab-link`,s.href=e.href,s.textContent=e.label,a&&s.setAttribute(`aria-current`,`page`);let c=document.createElement(`button`);c.type=`button`,c.className=`site-tab-close`,c.setAttribute(`aria-label`,`${i}: ${e.label}`),c.innerHTML=`<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,c.addEventListener(`click`,t=>{t.preventDefault(),t.stopPropagation(),m(e,a)}),r.append(s,c),t.append(r)}e.hidden=f.length<2}function m(e,n){let i=f.indexOf(e);if(f=f.filter(t=>t!==e),c(f),p(),n){let e=f[f.length-1];location.href=e?e.href:r;return}let a=Array.from(t.querySelectorAll(`.site-tab-close`));(a[Math.min(Math.max(i,0),a.length-1)]??t.querySelector(`.site-tab-link`))?.focus()}function h(e,t,n=!0){let r=o(e),i=f.find(e=>o(e.href)===r);i?n&&(i.label=t):f.push({href:r,label:t}),f.length>12&&(f=f.slice(f.length-12)),c(f),p()}f=s(),h(o(location.href),u(),!1),document.addEventListener(`click`,e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;let t=e.target?.closest?.(`a[href]`);if(!t||t.target&&t.target!==`_self`||t.hasAttribute(`download`))return;let n=t.getAttribute(`href`)||``;if(!n||n.startsWith(`#`)||/^(mailto:|tel:|javascript:)/i.test(n))return;let r=new URL(n,location.href);r.origin===location.origin&&(r.hash&&o(r.href)===o(location.href)||h(o(r.href),d(t)))})}e();</script> <nav aria-label="Основная навигация" data-astro-cid-hkbrpulz="" id="site-nav" inert=""> <a class="nav-brand" data-astro-cid-hkbrpulz="" href="/about/"> <svg aria-hidden="true" class="nav-brand-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><circle cx="12" cy="7" r="4"></circle><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path></svg> <span class="nav-brand-text" data-astro-cid-hkbrpulz=""> <b data-astro-cid-hkbrpulz="">Nikita Boyarkin</b> <span class="nav-brand-role" data-astro-cid-hkbrpulz="">Продуктовый аналитик</span> </span> </a> <div aria-label="Режим просмотра" class="nav-roles nav-roles--menu" data-astro-cid-k2syl7ng="" role="group"> <a class="nav-role" data-astro-cid-k2syl7ng="" data-persona="hr" data-source="menu" href="/hr/" title="HR"> <svg aria-hidden="true" class="nav-role-icon" data-astro-cid-k2syl7ng="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><rect height="14" rx="2" width="20" x="2" y="5"></rect><circle cx="8" cy="11" r="2"></circle><path d="M5 16h6"></path><path d="M14 10h5"></path><path d="M14 14h5"></path></svg> <span class="nav-role-label" data-astro-cid-k2syl7ng="">HR</span> </a><a class="nav-role" data-astro-cid-k2syl7ng="" data-persona="manager" data-source="menu" href="/manager/" title="Менеджер"> <svg aria-hidden="true" class="nav-role-icon" data-astro-cid-k2syl7ng="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><rect height="14" rx="2" width="20" x="2" y="7"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg> <span class="nav-role-label" data-astro-cid-k2syl7ng="">Менеджер</span> </a><a class="nav-role" data-astro-cid-k2syl7ng="" data-persona="colleague" data-source="menu" href="/colleague/" title="Коллега"> <svg aria-hidden="true" class="nav-role-icon" data-astro-cid-k2syl7ng="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> <span class="nav-role-label" data-astro-cid-k2syl7ng="">Коллега</span> </a> </div> <div class="nav-aux" data-astro-cid-hkbrpulz=""> <div class="nav-tools" data-astro-cid-hkbrpulz=""> <span aria-label="Переключатель языка" class="lang-switch" data-astro-cid-lemdd452="" role="group"> <b aria-current="true" data-astro-cid-lemdd452="">RU</b> <span aria-hidden="true" class="lang-switch-sep" data-astro-cid-lemdd452="">/</span> <a data-analytics="lang_switch_en" data-astro-cid-lemdd452="" href="/en/projects/games/" hreflang="en">EN</a> </span> <script type="module">for(let e of document.querySelectorAll(`.lang-switch a[hreflang]`))e.addEventListener(`click`,()=>{let t=e.getAttribute(`hreflang`);if(t===`ru`||t===`en`)try{localStorage.setItem(`siteLang`,t)}catch{}});</script> <div class="search" data-explorer-url="/explorer/" data-i18n='{"placeholder":"Поиск по проектам и записям…","hint":"↑↓ навигация · Enter перейти · Esc закрыть","all":"Все","projects":"Проекты","posts":"Записи","terms":"Словарь","sources":"Библиотека","empty":"Ничего не найдено","topicsLabel":"Смотрите темы:","allResults":"Все результаты →","toggleLabel":"Открыть поиск","closeLabel":"Закрыть поиск","facetsLabel":"Фильтр по типу","resultsLabel":"Результаты поиска"}' data-index-url="/search-index.json" data-topics='[{"l":"SQL","h":"/topics/sql/"},{"l":"Python","h":"/topics/python/"},{"l":"A/B-тестирование","h":"/topics/ab-testing/"},{"l":"Retention / когорты","h":"/topics/retention/"},{"l":"Сегментация","h":"/topics/segmentation/"},{"l":"Автоматизация","h":"/topics/automation/"},{"l":"Карьера","h":"/topics/career/"},{"l":"Causal-вывод","h":"/topics/causal-inference/"},{"l":"Metric design","h":"/topics/metric-design/"}]'> <button aria-controls="search-panel" aria-expanded="false" aria-label="Открыть поиск" class="search-toggle" data-analytics="search_open" id="search-toggle" type="button"> <svg aria-hidden="true" class="glyph glyph-search" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M11 4a7 7 0 1 0 0 14a7 7 0 1 0 0-14M21 21l-4.35-4.35"></path></svg> <svg aria-hidden="true" class="glyph glyph-x" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M6 6l12 12M6 18L18 6"></path></svg> </button> <div class="search-panel" hidden="" id="search-panel"> <input aria-autocomplete="list" aria-controls="search-results" aria-describedby="search-hint" aria-expanded="false" aria-label="Поиск по проектам и записям…" autocomplete="off" class="search-input" id="search-input" placeholder="Поиск по проектам и записям…" role="combobox" type="search"/> <div aria-label="Фильтр по типу" class="search-facets" role="group"> <button aria-pressed="true" class="search-facet is-active" data-facet="all" type="button"> <svg aria-hidden="true" class="pill-icon" fill="none" focusable="false" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>Все </button> <button aria-pressed="false" class="search-facet" data-facet="project" type="button"> <svg aria-hidden="true" class="pill-icon" fill="none" focusable="false" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>Проекты </button> <button aria-pressed="false" class="search-facet" data-facet="post" type="button"> <svg aria-hidden="true" class="pill-icon" fill="none" focusable="false" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>Записи </button> <button aria-pressed="false" class="search-facet" data-facet="term" type="button"> <svg aria-hidden="true" class="pill-icon" fill="none" focusable="false" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>Словарь </button> <button aria-pressed="false" class="search-facet" data-facet="source" type="button"> <svg aria-hidden="true" class="pill-icon" fill="none" focusable="false" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="14"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>Библиотека </button> </div> <ul aria-label="Результаты поиска" class="search-results" id="search-results" role="listbox"></ul> <div aria-live="polite" id="search-status" role="status" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap"></div> <p class="search-hint" id="search-hint">↑↓ навигация · Enter перейти · Esc закрыть</p> </div> </div> <script src="/_assets/fd42dbf720839df2479a.js" type="module"></script> </div> <a class="button nav-cta" data-analytics="contact_page_click" data-analytics-surface="nav" data-astro-cid-hkbrpulz="" href="/contact/"> <svg aria-hidden="true" class="btn-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><rect height="16" rx="2" width="20" x="2" y="4"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> Контакты </a> </div> <div class="nav-social" data-astro-cid-hkbrpulz=""> <a class="nav-chip" data-analytics="github_footer" data-astro-cid-hkbrpulz=""> <svg aria-hidden="true" class="chip-icon" data-astro-cid-hkbrpulz="" fill="currentColor" focusable="false" height="16" viewbox="0 0 24 24" width="16"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg> <span class="nav-chip-label" data-astro-cid-hkbrpulz="">GitHub</span></a> <a class="nav-chip" data-analytics="linkedin_footer" data-astro-cid-hkbrpulz=""> <svg aria-hidden="true" class="chip-icon" data-astro-cid-hkbrpulz="" fill="currentColor" focusable="false" height="16" viewbox="0 0 24 24" width="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg> <span class="nav-chip-label" data-astro-cid-hkbrpulz="">LinkedIn</span></a> <a class="nav-chip" data-analytics="telegram_footer" data-astro-cid-hkbrpulz=""> <svg aria-hidden="true" class="chip-icon" data-astro-cid-hkbrpulz="" fill="currentColor" focusable="false" height="16" viewbox="0 0 24 24" width="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path></svg> <span class="nav-chip-label" data-astro-cid-hkbrpulz="">Telegram</span></a> </div> <ul class="links" data-astro-cid-hkbrpulz="" id="nav-links"> <li data-astro-cid-hkbrpulz=""> <a aria-current="page" class="active" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> <span data-astro-cid-hkbrpulz="">Главная</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/projects/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg> <span data-astro-cid-hkbrpulz="">Проекты</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/about/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><circle cx="12" cy="7" r="4"></circle><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path></svg> <span data-astro-cid-hkbrpulz="">Обо мне</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/glossary/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg> <span data-astro-cid-hkbrpulz="">Словарь</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/graph/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg> <span data-astro-cid-hkbrpulz="">Граф</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/library/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="m16 6 4 14"></path><path d="M12 6v14"></path><path d="M8 8v12"></path><path d="M4 4v16"></path></svg> <span data-astro-cid-hkbrpulz="">Библиотека</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/writing/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg> <span data-astro-cid-hkbrpulz="">Статьи</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/explorer/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg> <span data-astro-cid-hkbrpulz="">Обозреватель</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="hover" href="/topics/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" fill="currentColor" r=".5"></circle></svg> <span data-astro-cid-hkbrpulz="">Темы</span></a> </li><li data-astro-cid-hkbrpulz=""> <a class="" data-astro-cid-hkbrpulz="" data-astro-prefetch="false" href="/repo-audit/"> <svg aria-hidden="true" class="link-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M3 3v18h18"></path><rect height="7" width="3" x="7" y="11"></rect><rect height="11" width="3" x="12" y="7"></rect><rect height="4" width="3" x="17" y="14"></rect></svg> <span data-astro-cid-hkbrpulz="">Аудит репозиториев</span></a> </li> </ul> </nav> <div class="nav-scrim" data-astro-cid-hkbrpulz="" id="nav-scrim"></div> <main data-astro-cid-hkbrpulz="" id="main" tabindex="-1"> <nav aria-label="Хлебные крошки" class="breadcrumbs"> <ol> <li> <a href="/">Главная</a> </li><li> <a href="/projects/">Проекты</a> </li><li> <span aria-current="page">Games</span> </li> </ol> </nav> <aside aria-label="Содержание" id="inner-toc"> <div class="toc-title">На этой странице</div> <ul id="inner-toc-list"><li class="toc-h2"><a data-id="ситуация" href="#ситуация">Ситуация</a></li><li class="toc-h2"><a data-id="задача" href="#задача">Задача</a></li><li class="toc-h2"><a data-id="действия" href="#действия">Действия</a></li><li class="toc-h3"><a data-id="игры" href="#игры">Игры</a></li><li class="toc-h3"><a data-id="архитектура" href="#архитектура">Архитектура</a></li><li class="toc-h3"><a data-id="аналитика-и-конверсия" href="#аналитика-и-конверсия">Аналитика и конверсия</a></li><li class="toc-h3"><a data-id="тестирование" href="#тестирование">Тестирование</a></li><li class="toc-h3"><a data-id="запуск" href="#запуск">Запуск</a></li><li class="toc-h2"><a data-id="результат" href="#результат">Результат</a></li><li class="toc-h2"><a data-id="ограничения" href="#ограничения">Ограничения</a></li><li class="toc-h2"><a data-id="документация" href="#документация">Документация</a></li></ul> </aside> <script>(function(){const selector = "#project-content";
+
+  function slugify(text) {
+    return text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/[\s]+/g, '-')
+      .replace(/[^a-z0-9Ѐ-ӿ\-_]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function initTOC() {
+    const tocList = document.getElementById('inner-toc-list');
+    const container = document.querySelector(selector);
+    const tocWrap = document.getElementById('inner-toc');
+    if (!tocList || !container) return;
+
+    const inlineList = document.getElementById('inline-toc-list');
+    const inlineWrap = document.getElementById('inline-toc');
+
+    const headers = Array.from(container.querySelectorAll('h2, h3'));
+    if (!headers.length) {
+      if (tocWrap) tocWrap.style.display = 'none';
+      inlineWrap?.remove();
+      return;
+    }
+
+    const used = new Map();
+    // Seed with the build ids first: a generated slug must not claim an id a
+    // later heading already owns, or the document ends up with two headings on
+    // one anchor and both rail entries jump to the first.
+    headers.forEach((h) => {
+      if (h.id) used.set(h.id, true);
+    });
+    headers.forEach((h) => {
+      const text = h.textContent || '';
+      // The build's own id wins. Its slugger and `slugify` disagree on em
+      // dashes and on author-set ids, and `InlineTOC` renders its anchors
+      // against the build id — deriving a fresh slug here left rail entries
+      // pointing at nothing (measured: 11 of 23 on /projects/volta/, 1 of 10 on
+      // /projects/ab/).
+      let id = h.id;
+      if (!id) {
+        const idBase = slugify(text) || 'section';
+        id = idBase;
+        let count = 1;
+        while (used.has(id)) {
+          id = `${idBase}-${count++}`;
+        }
+        h.id = id;
+      }
+      used.set(id, true);
+
+      const li = document.createElement('li');
+      li.className = h.tagName.toLowerCase() === 'h3' ? 'toc-h3' : 'toc-h2';
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      a.dataset.id = id;
+      a.textContent = text;
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+
+    // The inline block mirrors the rail off the same scan, so both lists target
+    // the same heading ids and can never disagree about an anchor.
+    // `InlineTOC` now renders these at build time. Fill an empty list only, or the
+    // block ships a duplicate set and grows on hydration.
+    if (inlineList && inlineWrap && !inlineList.children.length) {
+      headers.forEach((h) => {
+        const li = document.createElement('li');
+        li.className = h.tagName.toLowerCase() === 'h3' ? 'toc-h3' : 'toc-h2';
+        const a = document.createElement('a');
+        a.href = `#${h.id}`;
+        a.textContent = h.textContent || '';
+        li.appendChild(a);
+        inlineList.appendChild(li);
+      });
+    }
+
+    /** The reader carousel, when this body is one. Slides are flex items in a
+     *  single row, so every heading shares one `offsetTop` and only the track's
+     *  own scroll offset says which one the reader is looking at. Re-resolved on
+     *  every call rather than cached: the same markup is a plain column at the
+     *  widths where it does not overflow, and `carousel.ts` swaps the track on
+     *  filter refreshes. */
+    function slideTrack() {
+      // Resolve from a heading that is actually inside a slide: some bodies keep
+      // an h2/h3 above the track, and `headers[0]` then has no track ancestor.
+      const holder = headers.find((h) => h.closest('.reader-slide')) ?? headers[0];
+      const track = holder.closest('[data-carousel-track]');
+      if (!track) return null;
+      return track.scrollWidth - track.clientWidth > 1 ? track : null;
+    }
+
+    function updateActive() {
+      const track = slideTrack();
+      const pos = window.scrollY + 160;
+      let current = '';
+      if (track) {
+        // Position, not `data-slide`: the intro block is slide 0 but sits at
+        // offset 0, so slide numbering and physical order drift apart — on a
+        // post whose intro is `data-slide="0"` a "slide 2" lives at 719px.
+        const edge = track.scrollLeft + track.clientWidth / 2;
+        const base = track.getBoundingClientRect().left - track.scrollLeft;
+        for (const h of headers) {
+          const slide = h.closest('.reader-slide');
+          if (slide) {
+            if (slide.getBoundingClientRect().left - base <= edge) current = h.id;
+          } else if (h.offsetTop <= pos) {
+            // A heading outside the track (the FAQ block below it) still follows
+            // the page's vertical scroll.
+            current = h.id;
+          }
+        }
+      } else {
+        for (const h of headers) if (h.offsetTop <= pos) current = h.id;
+      }
+      document.querySelectorAll('#inner-toc a').forEach((a) => {
+        const isActive = a.dataset.id === current;
+        a.classList.toggle('active', isActive);
+        // Current-section relationship must reach AT, not just the eye (1.3.1).
+        if (isActive) a.setAttribute('aria-current', 'location');
+        else a.removeAttribute('aria-current');
+      });
+    }
+
+    updateActive();
+    // Capture phase: a horizontal track's `scroll` does not bubble to `window`,
+    // so the old window listener never saw the reader move between slides.
+    document.addEventListener('scroll', updateActive, { passive: true, capture: true });
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const onTocClick = (e) => {
+      const a = e.target.closest('a');
+      if (!a) return;
+      const id = a.getAttribute('href')?.slice(1);
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      // In the carousel the horizontal axis is the one that matters, and the
+      // browser's own alignment is not usable here: `scrollIntoView` scrolls
+      // only far enough to make the heading *visible* (measured: a heading
+      // 405px into slide 2 left the track at 719, still showing slide 1), and
+      // the native hash does the same. Drive the track to the slide's own
+      // offset — that is its snap position — and let the page follow.
+      const track = slideTrack();
+      if (track) {
+        e.preventDefault();
+        const behaviour = reduceMotion ? 'auto' : 'smooth';
+        const slide = target.closest('.reader-slide');
+        if (slide) {
+          // Offset from the track, not `offsetLeft`: the slide's offsetParent is
+          // `body`, so `offsetLeft` also carries the track's own x position
+          // (measured 1124 here where the track-relative offset is 719).
+          const left =
+            slide.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
+          track.scrollTo({ left, behavior: behaviour });
+        }
+        const top = window.scrollY + track.getBoundingClientRect().top - 110;
+        window.scrollTo({ top: Math.max(0, top), behavior: behaviour });
+        history.replaceState(null, '', `#${id}`);
+      } else {
+        e.preventDefault();
+        const offset = 110;
+        const top = window.scrollY + target.getBoundingClientRect().top - offset;
+        window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
+      // Focus moves either way: keyboard/SR users must land on the section, not
+      // stay "at" the TOC link (WCAG 2.4.3). `preventScroll` leaves the scroll
+      // to the hash, which already knows about the track.
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+
+      document.querySelectorAll('#inner-toc a').forEach((el) => {
+        const isActive = el === a;
+        el.classList.toggle('active', isActive);
+        if (isActive) el.setAttribute('aria-current', 'location');
+        else el.removeAttribute('aria-current');
+      });
+
+      // Below this width the rail is hidden, so the inline block is the only
+      // TOC — collapse it instead of leaving it over the section just reached.
+      if (inlineWrap?.open && window.matchMedia('(max-width: 1100px)').matches) {
+        inlineWrap.open = false;
+      }
+    };
+
+    // One handler for both lists: a jump must behave identically wherever it starts.
+    tocWrap?.addEventListener('click', onTocClick);
+    inlineWrap?.addEventListener('click', onTocClick);
+  }
+
+  document.addEventListener('DOMContentLoaded', initTOC);
+})();</script> <div class="container reveal visible"> <img alt="Browser Mini-Games — Analytics Arcade preview" class="hero-image" fetchpriority="high" height="600" id="project-image" src="/_assets/6dd9d4ba93d73e062a8e.svg" width="1200"/> <div class="project-meta"><div class="project-meta-group project-meta-star"> <dl class="star"> <div class="star-row" data-star="situation"> <dt class="star-label">Ситуация</dt> <dd class="star-value" title="Аналитические концепции абстрактны: рекрутер или студент не прочувствует их из текста">Аналитические концепции абстрактны: рекрутер или студент не прочувствует их из текста</dd> </div><div class="star-row" data-star="task"> <dt class="star-label">Задача</dt> <dd class="star-value" title="Сделать смысл метрики очевидным из самого действия, а не из объяснения">Сделать смысл метрики очевидным из самого действия, а не из объяснения</dd> </div><div class="star-row" data-star="action"> <dt class="star-label">Действия</dt> <dd class="star-value" title="Игры в self-contained SVG: A/B-тест, funnel drop, cohort catch, retention day, SQL и metric match">Игры в self-contained SVG: A/B-тест, funnel drop, cohort catch, retention day, SQL и metric match</dd> </div><div class="star-row" data-star="result"> <dt class="star-label">Результат</dt> <dd class="star-value" title="10 игр: 7 аналитических и 3 аркадных, один файл без сервера; smoke-тесты Playwright ловят поломки">10 игр: 7 аналитических и 3 аркадных, один файл без сервера; smoke-тесты Playwright ловят поломки</dd> </div> </dl> </div> <div class="project-meta-group"> <span class="project-meta-label">Стек</span> <div class="project-tools project-tools-inline"> <span class="project-tool">SVG</span><span class="project-tool">JavaScript</span><span class="project-tool">Astro</span><span class="project-tool">Playwright</span> </div> </div> <div class="project-meta-group"> <span class="project-meta-label">Демо</span> <a class="project-meta-link" href="/games/" rel="noopener noreferrer" target="_blank">
+Открыть дашборд →
+</a> </div> <div class="project-meta-group"> <span class="project-meta-label">Исходники</span> <a class="project-meta-link" rel="noopener noreferrer" target="_blank">
+Смотреть на GitHub →
+</a> <span class="repo-updated-note" style="display:block;font-size:.875rem;color:var(--text-muted);margin-top:.25rem;">Обновлено: 1 нояб. 2026 г.</span> </div> </div> <div class="section-tabs" data-active="case" data-astro-cid-zf6eie4s="" data-rail-id="inner-toc" data-section-tabs=""> <div aria-label="Разделы проекта" class="section-tablist" data-astro-cid-zf6eie4s="" role="tablist"> <button aria-controls="panel-case" aria-selected="true" class="section-tab" data-anchor="case" data-astro-cid-zf6eie4s="" data-tab="case" id="tab-case" role="tab" tabindex="0" type="button"> Кейс </button><button aria-controls="panel-demo" aria-selected="false" class="section-tab" data-anchor="demo" data-astro-cid-zf6eie4s="" data-tab="demo" id="tab-demo" role="tab" tabindex="-1" type="button"> Дашборд </button><button aria-controls="panel-connections" aria-selected="false" class="section-tab" data-anchor="connections" data-astro-cid-zf6eie4s="" data-tab="connections" id="tab-connections" role="tab" tabindex="-1" type="button"> Связи </button> </div> <div class="section-panels" data-astro-cid-zf6eie4s=""> <section aria-labelledby="tab-case" class="section-panel" data-astro-cid-chdgr2bq="" data-owns-rail="true" data-panel="case" id="panel-case" role="tabpanel" tabindex="0"> <details class="inline-toc" id="inline-toc" open=""> <summary>Содержание</summary> <ol id="inline-toc-list"> <li class="toc-h2"> <a href="#ситуация">Ситуация</a> </li><li class="toc-h2"> <a href="#задача">Задача</a> </li><li class="toc-h2"> <a href="#действия">Действия</a> </li><li class="toc-h3"> <a href="#игры">Игры</a> </li><li class="toc-h3"> <a href="#архитектура">Архитектура</a> </li><li class="toc-h3"> <a href="#аналитика-и-конверсия">Аналитика и конверсия</a> </li><li class="toc-h3"> <a href="#тестирование">Тестирование</a> </li><li class="toc-h3"> <a href="#запуск">Запуск</a> </li><li class="toc-h2"> <a href="#результат">Результат</a> </li><li class="toc-h2"> <a href="#ограничения">Ограничения</a> </li><li class="toc-h2"> <a href="#документация">Документация</a> </li> </ol> </details> <article class="prose" id="project-content"> <div class="reader-track" data-carousel-track="reader"> <section class="reader-slide" data-slide="0">
+<h1 id="browser-mini-games--analytics-arcade">Browser Mini-Games — Analytics Arcade</h1>
+<p><strong>▶ <a href="/diagrams/browser-mini-games.html">Схема архитектуры</a></strong> — самодостаточный HTML, открывается в браузере — без установки и сборки</p>
+</section>
+<section class="reader-slide" data-slide="1">
+<h2 id="ситуация">Ситуация</h2>
+<p>Аналитические концепции — <a href="/glossary/p-value/">p-value</a>, retention, воронки — абстрактны: рекрутер или студент не «прочувствует» их из текста, а пассивные дашборды не дают интерактивного опыта. Мини-игры превращают концепции в механику: играешь — и понимаешь, почему p &lt; <span class="figure">0.05</span>, что такое retention day и где бутылочное горлышко воронки.</p>
+</section>
+<section class="reader-slide" data-slide="2">
+<h2 id="задача">Задача</h2>
+<p>От меня требовалось проверить концепции на интерактивность: сделать так, чтобы смысл метрики становился очевиден из самого действия, а не из объяснения.</p>
+</section>
+<section class="reader-slide" data-slide="3">
+<h2 id="действия">Действия</h2>
+<h3 id="игры">Игры</h3>
+<table>
+<thead>
+<tr>
+<th>Игра</th>
+<th>Тип</th>
+<th>Механика</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🐍 Snake</td>
+<td>аркада</td>
+<td>ешь, расти, не врежься</td>
+</tr>
+<tr>
+<td>🏓 Pong</td>
+<td>аркада</td>
+<td>обыграй CPU — первый до 11</td>
+</tr>
+<tr>
+<td>🔢 2048</td>
+<td>аркада</td>
+<td>сливай плитки до 2048</td>
+</tr>
+<tr>
+<td>🧪 <a href="/glossary/ab-test/">A/B Test</a></td>
+<td>аналитика</td>
+<td>собирай данные, пока p &lt; 0.05</td>
+</tr>
+<tr>
+<td>🔻 <a href="/glossary/funnel/">Funnel</a> Drop</td>
+<td>аналитика</td>
+<td>лови падающих юзеров, конвертируй</td>
+</tr>
+<tr>
+<td>📊 <a href="/glossary/cohort/">Cohort</a> Catch</td>
+<td>аналитика</td>
+<td>лови Returning, избегай Churned</td>
+</tr>
+<tr>
+<td>🧩 SQL Query</td>
+<td>аналитика</td>
+<td>выбери токен, завершающий SQL</td>
+</tr>
+<tr>
+<td>🃏 Metric Match</td>
+<td>аналитика</td>
+<td>сопоставь пары метрик за минимум ходов</td>
+</tr>
+<tr>
+<td>📅 <a href="/glossary/retention/">Retention</a> Day</td>
+<td>аналитика</td>
+<td>выбери правильный день удержания</td>
+</tr>
+<tr>
+<td>🔍 Funnel Bottleneck</td>
+<td>аналитика</td>
+<td>найди самый большой провал воронки</td>
+</tr>
+</tbody>
+</table>
+<h3 id="архитектура">Архитектура</h3>
+<p>Каждая игра — <strong>self-contained SVG</strong>: HTML, CSS и JS в одном файле. Один файл = вся игра, zero-dependency, без сборки. Хаб — Astro (static), деплой на GitHub Pages. Темы dark/light/cyberpunk через <code>data-theme</code> + <code>localStorage</code>.</p>
+<h3 id="аналитика-и-конверсия">Аналитика и конверсия</h3>
+<ul>
+<li><code>game_selected</code> — PostHog-событие при выборе игры.</li>
+<li>CTA в играх → контакт (Telegram deep-link), событие <code>contact_click</code>.</li>
+<li>Синк в портфолио: <code>sync_games.py</code> копирует <code>dist/</code> → <code>public/games/</code> (drift-check через <code>--check</code>).</li>
+</ul>
+<h3 id="тестирование">Тестирование</h3>
+<p>Smoke-тесты на Playwright (pytest): каждая игра загружается из <code>public/</code> и проверяется на работоспособность.</p>
+<h3 id="запуск">Запуск</h3>
+<pre class="astro-code github-dark" data-language="bash" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> dev</span><span style="color:#8B949E">          # dev server</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> build</span><span style="color:#8B949E">        # production build → dist/</span></span>
+<span class="line"><span style="color:#B392F0">python3</span><span style="color:#9ECBFF"> sync_games.py</span><span style="color:#79B8FF"> --dry-run</span><span style="color:#8B949E">   # preview sync to portfolio</span></span></code></pre>
+</section>
+<section class="reader-slide" data-slide="4">
+<h2 id="результат">Результат</h2>
+<p>10 игр работают на телефоне (swipe/tap) и десктопе (keyboard/mouse), открываются из одного файла без сервера. Аналитические игры — обучающий инструмент: концепция → механика → интуиция. Синк в портфолио автоматический, smoke-тесты на Playwright ловят поломки загрузки.</p>
+</section>
+<section class="reader-slide" data-slide="5">
+<h2 id="ограничения">Ограничения</h2>
+<p>Игры упрощают статистику до интуиции и не заменяют реальный анализ: механика показывает идею p-value или retention, а не корректный расчёт. Zero-dependency означает один файл на игру — код между играми не переиспользуется, и любое изменение приходится вносить в каждый файл руками.</p>
+</section>
+<section class="reader-slide" data-slide="6">
+<h2 id="документация">Документация</h2>
+<ul>
+<li><a>GitHub → browser-mini-games</a></li>
+<li><a>Live demo → /games/</a></li>
+</ul>
+</section>
+</div> <div aria-label="Разделы кейса" class="carousel-nav" data-astro-cid-rwnskuwd="" data-carousel="reader" role="group"> <button aria-disabled="true" aria-label="Назад" class="carousel-arrow" data-astro-cid-rwnskuwd="" data-carousel-prev="" type="button"> <svg aria-hidden="true" data-astro-cid-rwnskuwd="" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="m15 18-6-6 6-6" data-astro-cid-rwnskuwd=""></path></svg> </button> <div class="carousel-dots" data-astro-cid-rwnskuwd="" data-carousel-dots=""><button aria-current="true" aria-label="Страница 1 из 7" class="carousel-dot" data-page="0" type="button"></button><button aria-label="Страница 2 из 7" class="carousel-dot" data-page="1" type="button"></button><button aria-label="Страница 3 из 7" class="carousel-dot" data-page="2" type="button"></button><button aria-label="Страница 4 из 7" class="carousel-dot" data-page="3" type="button"></button><button aria-label="Страница 5 из 7" class="carousel-dot" data-page="4" type="button"></button><button aria-label="Страница 6 из 7" class="carousel-dot" data-page="5" type="button"></button><button aria-label="Страница 7 из 7" class="carousel-dot" data-page="6" type="button"></button></div> <span aria-live="off" class="visually-hidden" role="status"></span><button aria-label="Вперёд" class="carousel-arrow" data-astro-cid-rwnskuwd="" data-carousel-next="" type="button"> <svg aria-hidden="true" data-astro-cid-rwnskuwd="" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="m9 18 6-6-6-6" data-astro-cid-rwnskuwd=""></path></svg> </button> </div> <script type="module">function e(e){let t=document.querySelectorAll(`[data-carousel-track="${e}"]`);for(let e of t)if(!(e.hidden||e.getClientRects().length===0))return e;return null}function t(e,t){return document.documentElement.lang===`en`?`Page ${e} of ${t}`:`Страница ${e} из ${t}`}function n(e,t){e&&(t?e.setAttribute(`aria-disabled`,`true`):e.removeAttribute(`aria-disabled`))}function r(e){let t=e.children;if(t.length<2)return null;let n=t[0];if(n.offsetWidth<e.clientWidth-2)return null;let r=t[1].offsetLeft-n.offsetLeft;return r>0?r:null}function i(i){let a=i.dataset.carousel??``,o=i.querySelector(`[data-carousel-prev]`),s=i.querySelector(`[data-carousel-next]`),c=i.querySelector(`[data-carousel-dots]`),l=document.createElement(`span`);l.className=`visually-hidden`,l.setAttribute(`role`,`status`),l.setAttribute(`aria-live`,`off`),s?s.before(l):i.append(l);let u=null,d=null,f=0,p=0;function m(){c&&!c.hidden||l.setAttribute(`aria-live`,`polite`)}function h(){return window.matchMedia(`(prefers-reduced-motion: reduce)`).matches?`auto`:`smooth`}function g(){if(!u||u.clientWidth===0)return 0;if(r(u)===null)return Math.round(u.scrollLeft/u.clientWidth);let e=u.getBoundingClientRect().left-u.scrollLeft,t=0,n=1/0;return Array.from(u.children).forEach((r,i)=>{let a=r.getBoundingClientRect().left-e,o=Math.abs(a-u.scrollLeft);o<n&&(n=o,t=i)}),t}function _(e){if(p=e,c&&(c.textContent=``,c.hidden=e>12,!c.hidden))for(let n=0;n<e;n+=1){let i=document.createElement(`button`);i.type=`button`,i.className=`carousel-dot`,i.dataset.page=String(n),i.setAttribute(`aria-label`,t(n+1,e)),i.addEventListener(`click`,()=>{if(m(),!u)return;let e=Math.min(n,u.children.length-1),t=u.children[e],i=t&&r(u)!==null?t.getBoundingClientRect().left-u.getBoundingClientRect().left+u.scrollLeft:e*(u.clientWidth||0);u.scrollTo({left:i,behavior:h()})}),c.append(i)}}function v(){if(!u)return;let e=u.scrollWidth-u.clientWidth,a=e>1;if(i.hidden=!a&&!i.contains(document.activeElement),!a){n(o,!0),n(s,!0),c&&(c.textContent=``,c.hidden=!0),p=0,l.textContent=``,l.setAttribute(`aria-live`,`off`);return}let d=r(u)===null?Math.max(1,Math.round(e/u.clientWidth)+1):u.children.length;c&&p!==d&&_(d);let f=g();if(n(o,u.scrollLeft<=1),n(s,u.scrollLeft>=e-1),c&&!c.hidden){for(let e of c.children){let t=e;Number(t.dataset.page)===f?t.setAttribute(`aria-current`,`true`):t.removeAttribute(`aria-current`)}l.textContent=``,l.setAttribute(`aria-live`,`off`)}else{let e=t(f+1,d);l.textContent!==e&&(l.textContent=e)}}function y(){f||=requestAnimationFrame(()=>{f=0,v()})}function b(e){if(!u||u.scrollWidth-u.clientWidth<2)return;let t=e.target;if(!t.matches(`:focus-visible`))return;let n=Array.from(u.children).find(e=>e.contains(t));if(!(n instanceof HTMLElement))return;let r=u.getBoundingClientRect(),i=n.getBoundingClientRect();i.left>=r.left-2&&i.right<=r.right+2||n.scrollIntoView({inline:`start`,block:`nearest`,behavior:`auto`})}function x(e){u&&(e===-1&&u.scrollLeft<=1||e===1&&u.scrollLeft>=u.scrollWidth-u.clientWidth-1||(m(),u.scrollBy({left:e*u.clientWidth*.9,behavior:h()})))}o?.addEventListener(`click`,()=>x(-1)),s?.addEventListener(`click`,()=>x(1)),i.addEventListener(`focusout`,()=>{requestAnimationFrame(()=>{i.contains(document.activeElement)||v()})});function S(){let t=e(a);if(t===u){v();return}if(u&&(u.removeEventListener(`scroll`,y),u.removeEventListener(`focusin`,b),d?.disconnect()),u=t,!u){i.hidden=!0;return}u.addEventListener(`scroll`,y,{passive:!0}),u.addEventListener(`focusin`,b),d=new ResizeObserver(()=>v()),d.observe(u),v()}return S(),{refresh:S}}var a=new Map;function o(){for(let e of document.querySelectorAll(`[data-carousel]`)){let t=e.dataset.carousel;!t||a.has(t)||a.set(t,i(e))}for(let e of a.values())e.refresh()}o(),window.addEventListener(`resize`,()=>{for(let e of a.values())e.refresh()}),document.addEventListener(`carousel:refresh`,()=>{for(let e of a.values())e.refresh()});</script> </article> </section> <section aria-labelledby="tab-demo" class="section-panel" data-astro-cid-chdgr2bq="" data-panel="demo" hidden="" id="panel-demo" role="tabpanel" tabindex="0"> <section aria-label="Живая панель" class="project-demo" data-astro-cid-c3dx36tn=""> <div class="project-demo-bar" data-astro-cid-c3dx36tn=""> <span class="project-demo-label" data-astro-cid-c3dx36tn="">Живая панель</span> <a class="project-demo-open" data-astro-cid-c3dx36tn="" href="/games/" rel="noopener noreferrer" target="_blank"> Открыть во весь экран →
+</a> </div> <p class="project-demo-hint" data-astro-cid-c3dx36tn="">Интерактивно: каждое число посчитано по данным проекта — контролы можно двигать, а не верить формулировке.</p> <iframe class="project-demo-frame" data-astro-cid-c3dx36tn="" height="680" loading="lazy" src="/games/" title="Интерактивный дашборд — /games/"></iframe> </section> </section><section aria-labelledby="tab-connections" class="section-panel" data-astro-cid-chdgr2bq="" data-panel="connections" hidden="" id="panel-connections" role="tabpanel" tabindex="0"> <section aria-label="Связанные материалы" class="post-related reveal reveal-delay-2 visible"> <h2>Смотрите также</h2> <ul> <li><a href="/projects/ab/">A/B Testing Methodology Toolkit</a></li><li><a href="/projects/cohort/">Cohort Analysis Dashboard</a></li><li><a href="/projects/sql/">SQL Analytics Case Study</a></li><li><a href="/posts/cohort-retention-guide/">Когортный анализ удержания</a></li><li><a href="/projects/site/">This Portfolio Site</a></li><li><a href="/projects/scrolly/">Scrolly English Speaking</a></li> </ul> </section><section aria-label="Ссылаются сюда" class="post-related"> <h2>Ссылаются сюда</h2> <ul> <li><a href="/projects/scrolly/">Scrolly English Speaking</a></li><li><a href="/projects/site/">This Portfolio Site</a></li> </ul> </section> <section aria-label="Карта связей" class="post-related reveal reveal-delay-3 visible"> <h2>Карта связей</h2> <div class="pg-root" id="pg-root"> <svg aria-describedby="pg-sr-desc" aria-label="Связи этого проекта" class="pg-svg" id="pg-svg" role="group" style="height:320px"></svg> <div class="visually-hidden"> <p id="pg-sr-desc">Интерактивный подграф: 8 узлов и 11 связей вокруг этой страницы. Каждый узел доступен с клавиатуры; Enter или пробел открывают связанную страницу. Полный список узлов и их связей — после графика.</p> <ul> <li> <a href="/projects/ab/">A/B Testing Methodology Toolkit</a> : Browser Mini-Games — Analytics Arcade (Явная связь) </li><li> <a href="/projects/cohort/">Cohort Analysis Dashboard</a> : Когортный анализ удержания (Явная связь), Browser Mini-Games — Analytics Arcade (Явная связь) </li><li> <span>Browser Mini-Games — Analytics Arcade</span> : A/B Testing Methodology Toolkit (Явная связь), Cohort Analysis Dashboard (Явная связь), SQL Analytics Case Study (Явная связь), Когортный анализ удержания (Явная связь), This Portfolio Site (Явная связь), Scrolly English Speaking (Явная связь), Retention / когорты (Тематическая связь) </li><li> <a href="/projects/scrolly/">Scrolly English Speaking</a> : Browser Mini-Games — Analytics Arcade (Явная связь), This Portfolio Site (Явная связь) </li><li> <a href="/projects/site/">This Portfolio Site</a> : Browser Mini-Games — Analytics Arcade (Явная связь), Scrolly English Speaking (Явная связь) </li><li> <a href="/projects/sql/">SQL Analytics Case Study</a> : Browser Mini-Games — Analytics Arcade (Явная связь), Retention / когорты (Тематическая связь) </li><li> <a href="/posts/cohort-retention-guide/">Когортный анализ удержания</a> : Cohort Analysis Dashboard (Явная связь), Browser Mini-Games — Analytics Arcade (Явная связь), Retention / когорты (Тематическая связь) </li><li> <a href="/topics/retention/">Retention / когорты</a> : Когортный анализ удержания (Тематическая связь), Browser Mini-Games — Analytics Arcade (Тематическая связь), SQL Analytics Case Study (Тематическая связь) </li> </ul> </div> <div class="pg-tooltip" hidden="" id="pg-tooltip" role="tooltip"></div> <p class="pg-caption">Проекты, записи и темы, связанные с этим проектом. Наведите на узел, чтобы увидеть название; клик — открыть.</p> </div> <script id="pg-data" type="application/json">{"nodes":[{"id":"p:ab","label":"A/B Testing Methodology Toolkit","group":"experiments","section":"projects","url":"projects/ab/","size":13.7,"community":3,"communityLabel":"#3","href":"/projects/ab/"},{"id":"p:cohort","label":"Cohort Analysis Dashboard","group":"analytics","section":"projects","url":"projects/cohort/","size":12.4,"community":6,"communityLabel":"#6","href":"/projects/cohort/"},{"id":"p:games","label":"Browser Mini-Games — Analytics Arcade","group":"experiments","section":"projects","url":"projects/games/","size":12.6,"community":7,"communityLabel":"Карьера и портфолио","href":"/projects/games/"},{"id":"p:scrolly","label":"Scrolly English Speaking","group":"engineering","section":"projects","url":"projects/scrolly/","size":11.9,"community":7,"communityLabel":"Карьера и портфолио","href":"/projects/scrolly/"},{"id":"p:site","label":"This Portfolio Site","group":"engineering","section":"projects","url":"projects/site/","size":12.4,"community":7,"communityLabel":"Карьера и портфолио","href":"/projects/site/"},{"id":"p:sql","label":"SQL Analytics Case Study","group":"analytics","section":"projects","url":"projects/sql/","size":14,"community":4,"communityLabel":"Аналитический тулкит","href":"/projects/sql/"},{"id":"post:cohort-retention-guide","label":"Когортный анализ удержания","group":"guide","section":"articles","url":"posts/cohort-retention-guide/","size":10.6,"community":6,"communityLabel":"#6","href":"/posts/cohort-retention-guide/"},{"id":"topic:retention","label":"Retention / когорты","group":"topic","section":"topic","url":"topics/retention/","size":9.4,"community":6,"communityLabel":"#6","href":"/topics/retention/"}],"links":[{"source":"p:cohort","target":"post:cohort-retention-guide","weight":1,"type":"related"},{"source":"p:games","target":"p:ab","weight":1,"type":"related"},{"source":"p:games","target":"p:cohort","weight":1,"type":"related"},{"source":"p:games","target":"p:sql","weight":1,"type":"related"},{"source":"p:games","target":"post:cohort-retention-guide","weight":1,"type":"related"},{"source":"p:games","target":"p:site","weight":1,"type":"related"},{"source":"p:games","target":"p:scrolly","weight":1,"type":"related"},{"source":"p:scrolly","target":"p:site","weight":1,"type":"related"},{"source":"post:cohort-retention-guide","target":"topic:retention","weight":0.6,"type":"topic"},{"source":"p:games","target":"topic:retention","weight":0.3,"type":"topic"},{"source":"p:sql","target":"topic:retention","weight":0.3,"type":"topic"}],"centerId":"p:games","nodeT":[["A/B Testing Methodology Toolkit","Проект · Трек / категория: experiments","Комьюнити: #3","1 связей"],["Cohort Analysis Dashboard","Проект · Трек / категория: analytics","Комьюнити: #6","2 связей"],["Browser Mini-Games — Analytics Arcade","Проект · Трек / категория: experiments","Комьюнити: Карьера и портфолио","7 связей"],["Scrolly English Speaking","Проект · Трек / категория: engineering","Комьюнити: Карьера и портфолио","2 связей"],["This Portfolio Site","Проект · Трек / категория: engineering","Комьюнити: Карьера и портфолио","2 связей"],["SQL Analytics Case Study","Проект · Трек / категория: analytics","Комьюнити: Аналитический тулкит","2 связей"],["Когортный анализ удержания","Запись · Трек / категория: guide","Комьюнити: #6","3 связей"],["Retention / когорты","Тема · Трек / категория: topic","Комьюнити: #6","3 связей"]],"edgeT":[["Явная связь","Cohort Analysis Dashboard → Когортный анализ удержания","вес: 1"],["Явная связь","Browser Mini-Games — Analytics Arcade → A/B Testing Methodology Toolkit","вес: 1"],["Явная связь","Browser Mini-Games — Analytics Arcade → Cohort Analysis Dashboard","вес: 1"],["Явная связь","Browser Mini-Games — Analytics Arcade → SQL Analytics Case Study","вес: 1"],["Явная связь","Browser Mini-Games — Analytics Arcade → Когортный анализ удержания","вес: 1"],["Явная связь","Browser Mini-Games — Analytics Arcade → This Portfolio Site","вес: 1"],["Явная связь","Browser Mini-Games — Analytics Arcade → Scrolly English Speaking","вес: 1"],["Явная связь","Scrolly English Speaking → This Portfolio Site","вес: 1"],["Тематическая связь","Когортный анализ удержания → Retention / когорты","вес: 0.6"],["Тематическая связь","Browser Mini-Games — Analytics Arcade → Retention / когорты","вес: 0.3"],["Тематическая связь","SQL Analytics Case Study → Retention / когорты","вес: 0.3"]]}</script> <script src="/_assets/451b1e637e5b33cca3b2.js" type="module"></script> </section> </section> </div> <noscript><style>.section-panel[hidden]{display:block !important}.section-tablist{display:none !important}</style></noscript> <script>
+    (function () {
+      var root = document.querySelector('[data-section-tabs]');
+      if (!root) return;
+      var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+      var panels = Array.prototype.slice.call(root.querySelectorAll('[data-panel]'));
+      if (!panels.length) return;
+
+      var railId = root.getAttribute('data-rail-id') || '';
+      var rail = railId ? document.getElementById(railId) : null;
+      var first = panels[0].getAttribute('data-panel');
+
+      // Anchor id -> panel id. Derived from the DOM, so a new heading inside a
+      // panel (or a new panel) needs no change here.
+      var anchors = {};
+      panels.forEach(function (panel) {
+        var id = panel.getAttribute('data-panel');
+        anchors[id] = id;
+        Array.prototype.forEach.call(panel.querySelectorAll('[id]'), function (el) {
+          anchors[el.id] = id;
+        });
+      });
+
+      function fromHash() {
+        var hash = (location.hash || '').replace(/^#/, '');
+        return anchors[hash] || first;
+      }
+
+      function activate(id, focus) {
+        if (!id) id = first;
+        var ownsRail = false;
+        panels.forEach(function (panel) {
+          var on = panel.getAttribute('data-panel') === id;
+          panel.hidden = !on;
+          if (on) {
+            if (panel.hasAttribute('data-owns-rail')) ownsRail = true;
+            // `.reveal` nodes start at opacity 0; an IntersectionObserver cannot
+            // see a panel that was display:none at parse time, so reveal them
+            // here or a switched-to panel (charts, graph) stays blank.
+            Array.prototype.forEach.call(panel.querySelectorAll('.reveal'), function (el) {
+              el.classList.add('visible');
+            });
+          }
+        });
+        tabs.forEach(function (tab) {
+          var on = tab.dataset.tab === id;
+          tab.setAttribute('aria-selected', on ? 'true' : 'false');
+          tab.tabIndex = on ? 0 : -1;
+          if (on && focus) tab.focus();
+        });
+        // The fixed TOC rail belongs to the case-study panel: hide it with the
+        // panel it describes, or its links scroll to headings nobody can see.
+        if (rail) rail.hidden = !ownsRail;
+        root.setAttribute('data-active', id);
+      }
+
+      function scrollToAnchor(id) {
+        var el = id && document.getElementById(id);
+        if (el) el.scrollIntoView({ block: 'start' });
+      }
+
+      function setAnchor(anchor) {
+        if (anchor && location.hash !== '#' + anchor) {
+          history.replaceState(null, '', '#' + anchor);
+        }
+      }
+
+      var initial = (location.hash || '').replace(/^#/, '');
+      activate(fromHash(), false);
+      if (initial) requestAnimationFrame(function () {
+        scrollToAnchor(initial);
+      });
+
+      root.addEventListener('click', function (event) {
+        var tab = event.target.closest('[role="tab"]');
+        if (!tab || !root.contains(tab)) return;
+        event.preventDefault();
+        activate(tab.dataset.tab, false);
+        setAnchor(tab.dataset.anchor);
+      });
+
+      root.addEventListener('keydown', function (event) {
+        var tab = event.target.closest('[role="tab"]');
+        if (!tab) return;
+        var i = tabs.indexOf(tab);
+        if (i < 0) return;
+        var n = -1;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') n = (i + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') n = (i - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') n = 0;
+        else if (event.key === 'End') n = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        var next = tabs[n];
+        activate(next.dataset.tab, true);
+        setAnchor(next.dataset.anchor);
+      });
+
+      window.addEventListener('hashchange', function () {
+        var hash = (location.hash || '').replace(/^#/, '');
+        activate(fromHash(), false);
+        scrollToAnchor(hash);
+      });
+    })();
+  </script></div> <nav aria-label="Другие проекты" class="prev-next"> <a class="pn-link pn-prev" href="/projects/ab/"> <span class="pn-dir">← Предыдущий</span> <span class="pn-title">A/B Testing Methodology Toolkit</span> </a> <a class="pn-link pn-next" href="/projects/supabase/"> <span class="pn-dir">Следующий →</span> <span class="pn-title">Product Analytics + A/B on Supabase</span> </a> </nav> <section aria-label="Нужен аналитик, который так работает?" class="next-step reveal" data-astro-cid-rnbdbtuv="" data-reveal="below"> <h2 class="next-step-title" data-astro-cid-rnbdbtuv=""> Нужен аналитик, который так работает? </h2> <p class="next-step-text" data-astro-cid-rnbdbtuv=""> Напишите, что за роль и какие в ней задачи — отвечу в течение дня. Нужен разбор на ваших данных, а не найм? Это тоже сюда. </p> <a class="button next-step-cta" data-analytics="contact_page_click" data-analytics-surface="case_next_step" data-astro-cid-rnbdbtuv="" href="/contact/"> Оставить запрос → </a> </section> </div> </main> <footer data-astro-cid-hkbrpulz="" id="contact"> <div class="footer-actions" data-astro-cid-hkbrpulz=""> <a class="button button-secondary footer-contact" data-analytics="contact_page_click" data-analytics-surface="footer" data-astro-cid-hkbrpulz="" href="/contact/"> <svg aria-hidden="true" class="btn-icon" data-astro-cid-hkbrpulz="" fill="none" focusable="false" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16"><rect height="16" rx="2" width="20" x="2" y="4"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> Связаться </a> </div> <p data-astro-cid-hkbrpulz="">© 2026 Nikita Boyarkin</p> </footer> <script>
+      // Theme toggle — cycles dark → light → cyberpunk → dark.
+      (function () {
+        const html = document.documentElement;
+        const toggle = document.getElementById('theme-toggle');
+
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        const THEME_COLORS = { dark: '#1400c3', light: '#f4efca', cyberpunk: '#171717' };
+        const ORDER = ['dark', 'light', 'cyberpunk'];
+
+        function applyTheme(theme) {
+          html.setAttribute('data-theme', theme);
+          if (themeColorMeta) themeColorMeta.setAttribute('content', THEME_COLORS[theme] || THEME_COLORS.dark);
+          if (toggle) {
+            const label = (toggle.dataset.themeLabel || 'Theme: ') + theme + (toggle.dataset.themeCycle || '. Click to cycle.');
+            toggle.setAttribute('aria-label', label);
+          }
+        }
+
+        function persistTheme(theme) {
+          try {
+            localStorage.setItem('theme', theme);
+          } catch (e) {
+            // ignore storage errors
+          }
+        }
+
+        // Sync icon with already-applied theme
+        const current = html.getAttribute('data-theme') || 'dark';
+        applyTheme(current);
+
+        if (toggle) {
+          toggle.addEventListener('click', () => {
+            const cur = html.getAttribute('data-theme') || 'dark';
+            const next = ORDER[(ORDER.indexOf(cur) + 1) % ORDER.length];
+            applyTheme(next);
+            persistTheme(next);
+          });
+        }
+
+        window
+          .matchMedia('(prefers-color-scheme: dark)')
+          .addEventListener('change', (e) => {
+            try {
+              if (localStorage.getItem('theme')) return;
+            } catch (e) {
+              return;
+            }
+            applyTheme(e.matches ? 'dark' : 'light');
+          });
+      })();
+
+      // Reveal on scroll.
+      //
+      // The hidden state is applied HERE, not in the stylesheet. A `.reveal`
+      // element that is already on screen must never wait for this script: it
+      // runs after document parse, and until it does the element is invisible
+      // to the LCP observer. On `/projects/volta/` that was the whole LCP —
+      // FCP 1 820 ms, element visible 2 972 ms, LCP 2 984 ms — because the
+      // hero image sits inside `<div class="container reveal">`.
+      //
+      // So: anything intersecting the viewport is marked visible immediately
+      // and never animated; only elements still below the fold are hidden and
+      // handed to the observer. With scripting off nothing is hidden at all.
+      (function () {
+        const reveals = document.querySelectorAll('.reveal');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          reveals.forEach((el) => el.classList.add('visible'));
+          return;
+        }
+        const viewport = window.innerHeight;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('visible');
+              entry.target.removeAttribute('data-reveal');
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0 }
+        );
+        reveals.forEach((el) => {
+          // `top < viewport` covers both "in view now" and "already scrolled
+          // past" (a restored scroll position), and elements inside a
+          // `display: none` panel report 0 — visible is the safe answer there.
+          if (el.getBoundingClientRect().top < viewport) {
+            el.classList.add('visible');
+            return;
+          }
+          el.setAttribute('data-reveal', 'below');
+          observer.observe(el);
+        });
+      })();
+
+      // Navbar scroll shadow
+      (function () {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+        window.addEventListener('scroll', () => {
+          nav.classList.toggle('scrolled', window.scrollY > 20);
+        });
+      })();
+
+      // Off-canvas navigation. The panel is a drawer at every width — hidden by
+      // default, sliding in from the left; the toggle lives in the top bar and
+      // morphs ☰ → ✕. It is taken out of the a11y tree while it is hidden.
+      (function () {
+        const toggle = document.getElementById('nav-toggle');
+        const links = document.getElementById('nav-links');
+        const nav = document.getElementById('site-nav');
+        const scrim = document.getElementById('nav-scrim');
+        if (!toggle || !links || !nav) return;
+        const LABEL_OPEN = toggle.dataset.labelOpen || 'Menu';
+        const LABEL_CLOSE = toggle.dataset.labelClose || 'Close';
+
+        const isOpen = () => document.body.classList.contains('nav-open');
+
+        // A drawer that is off-screen is still focusable — inert it while
+        // closed so keyboard/AT users never tab into translated-away links.
+        function syncInert() {
+          if (isOpen()) nav.removeAttribute('inert');
+          else nav.setAttribute('inert', '');
+        }
+
+        function setOpen(open) {
+          // Closing makes the drawer `inert`, and an inert subtree cannot hold
+          // focus — the browser drops it to <body> and a keyboard user loses
+          // their place (WCAG 2.4.3). Read the state *before* `syncInert()` and
+          // hand focus back to the trigger, the same contract SearchBox and the
+          // AskMe dialog already implement.
+          const hadFocusInside = nav.contains(document.activeElement);
+          document.body.classList.toggle('nav-open', open);
+          links.classList.toggle('open', open);
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? LABEL_CLOSE : LABEL_OPEN);
+          syncInert();
+          // Move focus into the revealed drawer: the links precede the trigger in
+          // the DOM, so without this a keyboard user tabs straight past the menu
+          // (WCAG 2.4.3 Focus Order).
+          if (open) links.querySelector('a')?.focus();
+          else if (hadFocusInside) toggle.focus();
+        }
+
+        toggle.addEventListener('click', () => setOpen(!isOpen()));
+        links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+        scrim?.addEventListener('click', () => setOpen(false));
+        document.addEventListener('keydown', (e) => {
+          // A nested panel (search) handles Escape itself and calls
+          // preventDefault. Closing the drawer underneath it left that panel
+          // open behind a scrim, announcing aria-expanded="true" on a widget
+          // nobody could reach.
+          if (e.key === 'Escape' && !e.defaultPrevented && isOpen()) setOpen(false);
+        });
+        syncInert();
+      })();
+
+    </script><script src="/_assets/166f42ee5ea9539b4c4f.js" type="module"></script> </body></html>

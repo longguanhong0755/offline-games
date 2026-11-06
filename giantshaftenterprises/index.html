@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}</style>
+<script src="/_assets/dfe502c8612a658bf3f6.js"></script>
+<script src="/_assets/540bc6dec1dd4b92ea4d.js"></script>
+<script src="/_assets/600759407fde32ff7bd3.js"></script>
+<script src="/_assets/f4f8f511e64b5dab11be.js"></script>
+<script src="/_assets/fc7e184beeda61bf6427.js"></script>
+<script src="/_assets/e10de911b1c72ea8c4ad.js"></script>
+<script src="/_assets/2780b4e88365311e6ca9.js"></script>
+<script src="/_assets/0877a6493c9410e958a8.js"></script>
+<script src="/_assets/be0177026e7294fc95f4.js"></script>
+<script src="/_assets/034f1397daee585e6b2a.js"></script>
+<script src="/_assets/9ac7c5156ab75b1e9fdc.js"></script>
+<script src="/_assets/0d6598f59761ee9f41cd.js"></script>
+<script src="/_assets/4eb679908479bba8a9ef.js"></script>
+<script src="/_assets/2199990472583e6ad057.js"></script>
+<script src="/_assets/c85784431ea4acd1b087.js"></script>
+<script src="/_assets/c90b6cf7770ce16e92cb.js"></script>
+<script src="/_assets/bbb605559992d25f193b.js"></script>
+<script src="/_assets/20989c0695c92395008c.js"></script>
+<link href="/_assets/2bd61fab7dd5e62af38b.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/cf246b1cc810bf5bed84.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/bd6d0e4e3e2d2aa42f15.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/1947316e942d732cd2ef.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/75d7d9d2bf2ab04ae653.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/ab582d2eff86e510ce6c.css" rel="stylesheet" type="text/css"/>
+<title>Giant Shaft Enterprises</title>
+<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','about:blank','ga');
+
+		ga('create', 'UA-5427745-1', 'giantshaft.com');
+		ga('send', 'pageview');
+	</script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="ng-scope" ng-app="idleGame">
+<div>
+<div class="top">
+<div class="stats ng-scope" ng-controller="GameLoopController">
+<div class="links center">
+<img alt="logo" class="logo" src="/_assets/76453adcd7fad81ac4b0.jpg"/>
+<a href="#/business">Business</a>
+<a class="ng-hide" href="#/space" ng-show="showSpace()">Space</a>
+<a class="ng-hide" href="#/knowledge" ng-show="showKnowledge()">Knowledge</a>
+<a href="#/stats">Stats</a>
+<a href="#/menu">Menu</a>
+</div>
+<div class="hero">
+<div class="heroContent">
+<p class="money ng-binding">$0.00</p>
+<p class="companyName ng-binding">Giant Shaft Enterprises</p>
+<p class="info ng-binding">Money/Second: $0.00</p>
+<p class="info ng-binding">Money/Opportunity: $1.00</p>
+<p class="info ng-binding ng-hide" ng-show="getResourcesPerSecond() &gt; 0">Resources/Second: 0</p>
+<div class="updateText ng-hide" ng-show="loadedVersion &lt; currentVersion">
+<p>NEW VERSION - REFRESH TO GET IT</p>
+</div>
+<div class="ng-scope" ng-controller="BusinessController">
+<div class="opportunity center noSelect enabled" ng-class="{enabled: true, opportunityHover: hoverButton}" ng-click="doBusiness(opportunity, $event)" ng-init="generateOpportunities()" ng-mouseenter="hoverButton = true" ng-mouseleave="hoverButton = false">
+<p class="ng-binding">Host leadership conference.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="leftAd">
+
+<!-- Idle Game Right Side -->
+
+
+</div>
+<div class="mainContent center" style="display: none;">
+<!-- ngView: undefined --><ng-view class="ng-scope">
+<div class="store ng-scope">
+<!-- ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Minimum Wage Worker</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $0.10</p>
+<p class="ng-binding">Cost: $15.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Cubicle</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $0.30</p>
+<p class="ng-binding">Cost: $100.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Salary Employee</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $2.00</p>
+<p class="ng-binding">Cost: $1,500.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Hardware</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $1.00</p>
+<p class="ng-binding">Cost: $1,500.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">HR Department</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $0.50</p>
+<p class="ng-binding">Cost: $2,000.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Accounting Department</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $3.00</p>
+<p class="ng-binding">Cost: $5,000.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Benefits Package</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $3.00</p>
+<p class="ng-binding">Cost: $25,000.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Upper Management</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $1.00</p>
+<p class="ng-binding">Cost: $50,000.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Executive</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $10.00</p>
+<p class="ng-binding">Cost: $100,000.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index --><div class="item ng-scope disabled" ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) &amp;&amp; hoverStore}" ng-click="buyStoreItem($event, item)" ng-mouseenter="hoverStore = true" ng-mouseleave="hoverStore = false" ng-repeat="item in items track by $index">
+<p class="name ng-binding">Office Building</p>
+<div class="bottom">
+<span class="info">
+<p class="ng-binding">Adds: $20.00</p>
+<p class="ng-binding">Cost: $500,000.00</p>
+</span>
+<p class="count ng-binding">0</p>
+</div>
+</div><!-- end ngRepeat: item in items track by $index -->
+<div class="item">
+<p class="name">Increment</p>
+<p class="info">Buy this amount at once (0 buys max).</p>
+<input class="ng-pristine ng-valid" ng-model="playerService.customIncrement" type="text"/>
+</div>
+</div>
+<div class="upgrade ng-scope">
+<!-- ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Starting a new business makes you feel young and alive again!">
+<p class="name ng-binding">Starting Business</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $5.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: $1.00/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="You're starting to make waves in the industry.">
+<p class="name ng-binding">Business Innovator</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $400.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: $2.50/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Studies have shown that training employees is the same as training a dog: use lots of positive reinforcement to get them to behave correctly.">
+<p class="name ng-binding">Positive Reinforcement</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $500.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.05
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Minimum Wage Worker</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Lowering the walls of a cubicle will help increase team dynamics and promote synergy!">
+<p class="name ng-binding">Lower Walls</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.10
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Cubicle</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your increase in business savvy skills lead to increasing the profit gained from completing business opportunities.">
+<p class="name ng-binding">Business Guru</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: $8.00/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="While reading binder upon binder of information is fun for some people, it is easier to learn and retain information from a good teacher.">
+<p class="name ng-binding">Mentoring Program</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,500.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.10
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Minimum Wage Worker</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Better seating will reduce stress and improve your employees' quality of life!">
+<p class="name ng-binding">Better Seating</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $6,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.20
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Cubicle</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Changing the work schedule to four ten hour days and giving the employees a three day weekend boosts employee retention cutting down on the cost to train new employees!">
+<p class="name ng-binding">Four Tens</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $10,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.50
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Salary Employee</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your expertise in everything business just put you on Glassdoor.com's Top CEO list.">
+<p class="name ng-binding">Business Expert</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $10,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: $20.00/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="When all of your minimum wage employees work under 35 hours a week, there's no need to pay them health benefits!">
+<p class="name ng-binding">Better Scheduling</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $30,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.10
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Minimum Wage Worker</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Mitigate work related injuries with smarter keyboards for your employees!">
+<p class="name ng-binding">Ergonomic Keyboards</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $50,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.25
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Hardware</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Make sure you read every page!">
+<p class="name ng-binding">Employee Handbook</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $50,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.01
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">HR Department</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="I guess there is such a thing.">
+<p class="name ng-binding">Free Lunch</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $60,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $1.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Salary Employee</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your employees will make an extra effort to comply with the company's policies.">
+<p class="name ng-binding">Policy Documentation</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $100,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.01
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">HR Department</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your eat your competition for breakfast.">
+<p class="name ng-binding">Business Savant</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $100,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: $200.00/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Adding better lighting, air-purifying plants, and other solutions to increase Feng Shui!">
+<p class="name ng-binding">Modest Improvements</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $120,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.30
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Cubicle</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your employees will never forget how drunk Jason from Accounting was that night!">
+<p class="name ng-binding">Christmas Party</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $150,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.01
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">HR Department</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Increase the effectiveness of your business by trimming small expenses.  Your employees are now unhappy your business charges for coffee in the break room.">
+<p class="name ng-binding">Chasing Nickels Around Dollar Bills</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $150,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $1.50
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Accounting Department</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Purchase goods or services to make huge gains in the long run.">
+<p class="name ng-binding">Investments</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $250,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $2.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Accounting Department</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Gain a small part of your money even while the game is closed.">
+<p class="name ng-binding">Night Owl</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $250,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOnLoad">
+									Adds: 8.3% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: 8.30%/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Money/Second</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your employees can get more done when they don't have to wait on technological limitations.">
+<p class="name ng-binding">Upgraded Computers</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $350,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.50
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Hardware</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Short term loss will guarantee a winning financial strategy in the long term!">
+<p class="name ng-binding">Strategic Financial Management</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $350,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $3.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Accounting Department</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your workers will be very happy with a more flexible PTO schedule (and some may even take less PTO than normal).">
+<p class="name ng-binding">Unlimited PTO</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $500,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $2.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Benefits Package</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Lisa needs braces!">
+<p class="name ng-binding">Health, Vision, and Dental Plans</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $750,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $3.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Benefits Package</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Keep employee retention up by offering them a generous pension in exchange for a lifetime of servitude.">
+<p class="name ng-binding">Generous Pension</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $4.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Benefits Package</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="None of your employees are suffering from insomnia after that meeting!">
+<p class="name ng-binding">Useless Meetings</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Upper Management</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Absorb the competition.">
+<p class="name ng-binding">Business Epic</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: $2,000.00/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Opportunity awaits.">
+<p class="name ng-binding">Business Demigod</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: 1% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Letting your employees do whatever they want (within reason) 20% of the day gives them more skills, better attitudes, and extra creativity to get the most out of the remaining 80%!">
+<p class="name ng-binding">80/20</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,200,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $2.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Salary Employee</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="None of your employees are suffering from insomnia after *that* meeting!">
+<p class="name ng-binding">Even More #$^&amp;*% Useless Meetings</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,750,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Upper Management</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Upper Management does their best to get the most out of them slacking employees!">
+<p class="name ng-binding">Micromanagement</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $2,500,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Upper Management</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Gain a small part of your money even while the game is closed.">
+<p class="name ng-binding">Night Owl II</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $2,500,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOnLoad">
+									Adds: 8.3% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: 8.30%/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Money/Second</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Your clients are happier because of the higher load speeds and reduced down-time.">
+<p class="name ng-binding">Enhanced Servers</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $5,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $1.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Hardware</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="The most prized possession of every executive.">
+<p class="name ng-binding">Executive Bathroom</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $10,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $5.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Executive</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Become one with the opportunity.">
+<p class="name ng-binding">Business God</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $10,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: 1% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Giving an executive a healthy bonus when their department doesn't go over budget will ensure your company stays fiscally responsible!">
+<p class="name ng-binding">Goal Oriented Bonuses</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $20,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $10.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Executive</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Mothers name their children after you.">
+<p class="name ng-binding">Business Leader</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $25,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: $50,000.00/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Gain a small part of your money even while the game is closed.">
+<p class="name ng-binding">Night Owl III</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $25,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOnLoad">
+									Adds: 8.3% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: 8.30%/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Money/Second</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Ensure your executive's loyalty by paying them large sign on bonuses that they have to pay back if they quit within a certain amount of years.">
+<p class="name ng-binding">Golden Handcuffs</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $30,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $15.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Executive</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Ping-Pong tables, Olympic size swimming pool, and bike trails will make sure your employees always have something they can do if they want to take a break.">
+<p class="name ng-binding">Recreations</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $50,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $25.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Office Building</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Now your employees can take their Tesla to work.">
+<p class="name ng-binding">Electric Car Charging Parking Lot</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $100,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $50.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Office Building</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Kill the non believers.  You are the only true opportunity.">
+<p class="name ng-binding">Business Elder God</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $100,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: 1% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Gain a percentage increase of Money/Second for every achievement earned.">
+<p class="name ng-binding">Over Achiever</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $100,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: 
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: 0.25% of MPS
+								</p>
+<p class="ng-binding" ng-show="upgrade.isAchievement">
+									Adds: 0.25%/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Money/Second</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Better lighting, comfier furniture, and the use of plants goes a long way to reducing stress and increasing productivity of your employees!">
+<p class="name ng-binding">Improved Space</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $150,000,000.00</p>
+<p class="ng-binding" ng-show="!upgrade.isBusiness">
+									Adds: $100.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Office Building</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Transcend.">
+<p class="name ng-binding">Final Business</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: $0.00
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: 2% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: null% of MPS
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isAchievement">
+									Adds: %/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Business Opportunity</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Gain a percentage increase of Money/Second for every achievement earned.">
+<p class="name ng-binding">Butt Kisser</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $1,000,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: 
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: 0.5% of MPS
+								</p>
+<p class="ng-binding" ng-show="upgrade.isAchievement">
+									Adds: 0.50%/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Money/Second</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index --><div class="item ng-scope ng-hide disabled" ng-attr-title="{{upgrade.description}}" ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) &amp;&amp; hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" ng-click="buyUpgrade(upgrade)" ng-mouseenter="hoverUpgrade = true" ng-mouseleave="hoverUpgrade = false" ng-repeat="upgrade in upgrades track by $index" ng-show="canShowUpgrade(upgrade)" title="Gain a percentage increase of Money/Second for every achievement earned.">
+<p class="name ng-binding">Brown Noser</p>
+<div class="bottom info">
+<p class="ng-binding">Cost: $10,000,000,000.00</p>
+<p class="ng-binding ng-hide" ng-show="!upgrade.isBusiness">
+									Adds: 
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpo">
+									Adds: /Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOpportunity &amp;&amp; upgrade.mpop">
+									Adds: null% of MPS/Opportunity
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isOnLoad">
+									Adds: 1% of MPS
+								</p>
+<p class="ng-binding" ng-show="upgrade.isAchievement">
+									Adds: 1.00%/Achievement
+								</p>
+<p class="ng-binding ng-hide" ng-show="upgrade.isBcBoost">
+									Increase: %
+								</p>
+<p>For: <span class="underline ng-binding">Money/Second</span></p>
+</div>
+</div><!-- end ngRepeat: upgrade in upgrades track by $index -->
+</div>
+<div class="achievementsContainer ng-scope" ng-init="updateCache()">
+<!-- ngRepeat: achievement in cachedAchievements -->
+</div>
+</ng-view>
+<script id="business.html" type="text/ng-template">
+
+					<div class="store">
+						<div class="item" 
+							 ng-class="{disabled: cantBuyStoreItem(item), enabled: !cantBuyStoreItem(item), hover: !cantBuyStoreItem(item) && hoverStore}" 
+							 ng-repeat="item in items track by $index" 
+							 ng-click="buyStoreItem($event, item)"
+							 ng-mouseenter="hoverStore = true"
+							 ng-mouseleave="hoverStore = false">
+							<p class="name">{{item.name}}</p>
+							<div class="bottom">
+								<span class="info">
+									<p>Adds: {{getMps(item) | currency}}</p>
+									<p>Cost: {{currentPrice(item) | currency}}</p>
+								</span>
+								<p class="count">{{getCount(item.id)}}</p>
+							</div>
+						</div>
+						<div class = "item">
+							<p class="name">Increment</p>
+							<p class="info">Buy this amount at once (0 buys max).</p>
+							<input type="text" ng-model="playerService.customIncrement" />
+						</div>
+					</div>
+
+					<div class="upgrade">
+						<div class="item"
+							 ng-class="{disabled: cantBuyUpgrade(upgrade), enabled: !cantBuyUpgrade(upgrade), hover: !cantBuyUpgrade(upgrade) && hoverUpgrade, alreadyBought: alreadyBought(upgrade.id)}" 
+							 ng-repeat="upgrade in upgrades track by $index"
+							 ng-click="buyUpgrade(upgrade)"
+							 ng-mouseenter="hoverUpgrade = true"
+							 ng-mouseleave="hoverUpgrade = false"
+							 ng-show="canShowUpgrade(upgrade)"
+							 ng-attr-title="{{upgrade.description}}">
+							<p class="name">{{upgrade.name}}</p>
+							<div class="bottom info">
+								<p>Cost: {{upgrade.price | currency}}</p>
+								<p ng-show="!upgrade.isBusiness">
+									Adds: {{upgrade.mps | currency}}
+								</p>
+								<p ng-show="upgrade.isOpportunity && upgrade.mpo">
+									Adds: {{upgrade.mpo | currency}}/Opportunity
+								</p>
+								<p ng-show="upgrade.isOpportunity && upgrade.mpop">
+									Adds: {{upgrade.mpop * 100}}% of MPS/Opportunity
+								</p>
+								<p ng-show="upgrade.isOnLoad">
+									Adds: {{upgrade.per * 100}}% of MPS
+								</p>
+								<p ng-show="upgrade.isAchievement">
+									Adds: {{upgrade.per * 100 | number:2}}%/Achievement
+								</p>
+								<p ng-show="upgrade.isBcBoost">
+									Increase: {{upgrade.bcBoost * 100 | number:2}}%
+								</p>
+								<p>For: <span class="underline">{{getItemName(upgrade.itemId)}}</span></p>
+							</div>
+						</div>
+					</div>
+
+					<div class="achievementsContainer"
+						 ng-init="updateCache()">
+						<div class="achievement"
+							 ng-attr-title="{{achievement.name}} - {{achievement.description}}"
+							 ng-repeat="achievement in cachedAchievements">
+							<img ng-src="images/achievements/{{achievement.image ? achievement.image : 'noImage'}}.png" />
+						</div>
+					</div>
+
+				</script>
+<script id="stats.html" type="text/ng-template">
+					<div class="stats content center" ng-controller="StatsController">
+						<div class="item enabled">
+							<p class="name">Money</p>
+							<div class="info">
+								<p>This Company: {{playerService.totalMoney | currency}}</p>
+								<p ng-show="playerService.totalMoneyReset > 0">Previous: {{playerService.totalMoneyReset | currency}}</p>
+							</div>
+						</div>
+						<div class="item enabled">
+							<p class="name">Business Opportunties</p>
+							<div class="info">
+								<p>This Company: {{playerService.totalOpportunities}}</p>
+								<p ng-show="playerService.totalOpportunitiesReset > 0">Previous: {{playerService.totalOpportunitiesReset}}</p>
+								<p>Total Earned: {{playerService.totalMoneyFromOpportunties | currency}}</p>
+								<p>Current Per Opportunity: {{cacheService.clickPower() | currency}}</p>
+							</div>
+						</div>
+						<div class="item enabled">
+							<p class="name">Buildings Bought</p>
+							<p class="info">{{totalBuildings}}</p>
+						</div>
+						<div class="item enabled">
+							<p class="name">Upgrades Bought</p>
+							<p class="info">{{totalUpgrades}} / {{possibleUpgrades()}}</p>
+						</div>
+						<div class="item enabled">
+							<p class="name">Achievements Earned</p>
+							<p class="info">{{totalAchievements}} / {{possibleAchievements}}</p>
+						</div>
+						<div class="item enabled" ng-show="playerService.totalKnowledge > 0">
+							<p class="name">Business Knowledge</p>
+							<div class="info">
+								<p>Current: {{playerService.knowledge}}</p>
+								<p>Total: {{playerService.totalKnowledge}}</p>
+							</div>
+						</div>
+						<div class="item enabled" ng-show="playerService.vcFunding > 0">
+							<p class="name">VC Funding</p>
+							<div class="info">
+								<p>{{playerService.vcFunding * 1000 | currency}}</p>
+							</div>
+						</div>
+						<div class="item enabled" ng-show="playerService.businessConnections > 0">
+							<p class="name">Business Connections</p>
+							<div class="info">
+								<p>{{playerService.businessConnections | number}}</p>
+							</div>
+						</div>
+
+						<p>Achievements</p>
+
+						<div class="item"
+							 ng-repeat="achievement in achievements"
+							 ng-class="{enabled: hasEarned(achievement.id), disabled: !hasEarned(achievement.id)}">
+							<div ng-show="hasEarned(achievement.id) || !achievement.isHidden">
+								<p class="name">{{achievement.name}}</p>
+								<p class="info">{{achievement.description}}</p>
+							</div>
+							<div ng-show="!hasEarned(achievement.id) && achievement.isHidden">
+								<p class="name">???</p>
+							</div>
+						</div>
+					</div>
+				</script>
+<script id="space.html" type="text/ng-template">
+					<div class="content center">
+						<div class="item">
+							<div ng-show="playerService.hideResources">
+								<a class="battleLogCloseButton" ng-click="playerService.hideResources = false">+</a>
+								<p class="name">Resources</p>
+							</div>
+							<div ng-show="!playerService.hideResources">
+								<a class="battleLogCloseButton" ng-click="playerService.hideResources = true">-</a>
+							</div>
+							
+							<div ng-show="!playerService.hideResources">
+
+								<div ng-show="playerService.resources.length > 0">
+									<p class="name">Resources</p>
+									<div ng-show="miningRate() > 0">
+										Mining: {{miningRate()}}/sec
+										<br /><br />
+									</div>
+									<p ng-repeat="resource in playerService.resources" ng-show="resource.count > 0">{{getName(resource.id)}} - {{resource.count | number}}</p>
+								</div>
+
+								<br /><br />
+								
+								<p class="name">Shaft Mining</p>
+								<a class="button" ng-show="current == null" ng-click="scanForAsteroid()">Scan For Asteroid</a>
+								<div class="asteroid" ng-show="current != null">
+									<p>Mining Cost - {{current.miningCost | currency}}</p>
+									<p>Chance - {{current.chance | number:0}}%</p>
+									<div ng-repeat="resource in current.resources">
+										<p>{{resource.name}} - {{resource.remaining}}</p>
+									</div>
+
+									<a class="button" ng-click="mine()" 
+													  ng-show="current.resources.length > 0 && current.miningCost <= playerService.money">
+													  	Mine
+									</a>
+									<a class="button" ng-click="abandon()">Abandon</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<div ng-show="playerService.hideFleet">
+								<a class="battleLogCloseButton" ng-click="playerService.hideFleet = false">+</a>
+							</div>
+							<div ng-show="!playerService.hideFleet">
+								<a class="battleLogCloseButton" ng-click="playerService.hideFleet = true">-</a>
+							</div>
+							
+							<p class="name">Fleet</p>
+							<div ng-show="!playerService.hideFleet">
+								<div class="row" ng-repeat="ship in gameService.ships">
+									
+									<div class="triColumn">
+										<p class="shipName">{{ship.name}}</p>
+										<p class="info">Attack: {{ship.attack}}</p>
+										<p class="info">Defense: {{ship.defense}}</p>
+										<p class="price" ng-repeat="item in ship.cost">
+											{{getName(item.id)}} - 
+											<span ng-show="item.name != 'Money'">{{item.price}}</span>
+											<span ng-show="item.name == 'Money'">{{item.price | currency}}</span>
+										</p>
+									</div>
+
+									<div class="columnBuy triColumn">
+										<a class="button small" ng-click="buy(ship.id, 1)">1</a>
+										<a class="button small" ng-click="buy(ship.id, 10)">10</a>
+										<a class="button small" ng-click="buy(ship.id, 100)">100</a>
+										<a class="button small" ng-click="buy(ship.id, 1000)">1000</a>
+									</div>
+
+									<div class="columnCount triColumn">
+										<p>{{getCount(ship.id) | number}}</p>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="item"
+							 ng-show="playerService.totalResearch > 0">
+							<div ng-show="playerService.hideResearch">
+								<a class="battleLogCloseButton" ng-click="playerService.hideResearch = false">+</a>
+							</div>
+							<div ng-show="!playerService.hideResearch">
+								<a class="battleLogCloseButton" ng-click="playerService.hideResearch = true">-</a>
+							</div>
+							
+							<p class="name">Research</p>
+							<div ng-show="!playerService.hideResearch">
+								<p>Research Remaining: {{ getResearch() | number}}</p>
+								<p>Rate: {{ getResearchPerSec() | number}}/sec</p>
+								<br /><br />
+
+								<div class="item"
+									 ng-repeat="perk in availablePerks()"
+									 ng-class="{disabled: !canBuyPerk(perk), enabled: canBuyPerk(perk), hover: canBuyPerk(perk) && hoverPerk, alreadyBought: alreadyBought(perk.id)}"
+									 ng-click="buyPerk(perk)"
+									 ng-mouseenter="hoverPerk = true"
+									 ng-mouseleave="hoverPerk = false">
+									<p class="name">{{perk.name}}</p>
+									<br/ >
+									<p class="info">Research: {{perk.price | number}}</p>
+									<br /><br />
+									<p class="info">{{perk.description}}</p>
+									<br /><br />
+									<p class="info">Increases <span class="bold">{{translateProperty(perk.property) | uppercase}}</span> 
+									<span ng-show="!perk.skipEffect">by <span class="bold">{{perk.effect * 100}}</span>%</p></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<p class="name">The Final Frontier</p>
+							<div class="spaceScroller" ng-init="initPlanets()">
+								<div class="planet" id="{{planet.id}}"
+									 ng-repeat="planet in planets"
+									 ng-class="{hover: hoverPlanet}"
+									 ng-mouseenter="hoverPlanet = true"
+									 ng-mouseleave="hoverPlanet = false"
+									 ng-click="selectPlanet(planet)">
+									<p class="name white">{{getPlanet(planet.id).name}}</p>
+									<img ng-src="images/space/{{getPlanetImage(planet)}}" />
+								</div>
+							</div>
+						</div>
+
+						<div class="item"
+							 ng-show="battleLog.length > 0">
+							<a class="battleLogCloseButton" ng-click="battleLog = []">X</a>
+							<p class="name" ng-show="playerService.ships.length > 0">Victory</p>
+							<p class="name" ng-show="playerService.ships.length == 0">Defeat</p>
+							<div class="battleRow" ng-class="{ enemyAttack: !log.isPlayer }"
+							   ng-repeat="log in battleLog track by $index">
+							   	<div ng-show="log.remaining.length == 0">
+							   		<p class="info">{{log.name}} destroyed remaining forces.</p>
+							   	</div>
+							   	<div ng-show="log.remaining.length > 0">
+							   		<p class="info">{{log.name}} destroyed {{log.damage | number}} ships.</p><br />
+							   		<p class="info">{{log.against}} fleet remaining: {{log.remaining}}</p>
+							   	</div>
+							</div>
+						</div>
+
+						<div class="item"
+							 ng-show="selectedPlanet != null && !selectedPlanet.cannotSelect">
+							 <a class="battleLogCloseButton" ng-click="selectedPlanet = null">X</a>
+							<p class="name">{{selectedPlanet.name}}</p>
+							<br /><br />
+
+							<p title="Allows you to purchased one of each building."
+							   ng-show="isAppeased() && !isConquered()">
+								{{selectedPlanet.name}} is appeased.
+							</p>
+
+							<div ng-show="canBuildBuildings()">
+								<p ng-show="cacheService.planetBoost(selectedPlanet.id).mps > 0">
+									Adds: {{cacheService.planetBoost(selectedPlanet.id).mps | currency}}/sec
+								</p>
+								<p ng-show="cacheService.planetBoost(selectedPlanet.id).resources > 0">
+									Adds: {{cacheService.planetBoost(selectedPlanet.id).resources}} resources/sec
+								</p>
+								<p ng-show="cacheService.planetBoost(selectedPlanet.id).research > 0">
+									Adds: {{cacheService.planetBoost(selectedPlanet.id).research}} research/sec
+								</p>
+								<br /><br />
+							</div>
+
+							<div class="row"
+								 ng-repeat="building in gameService.buildings"
+								 ng-show="canBuildBuildings()">
+								<div class="triColumn">
+									<p title="{{building.description}}">{{building.name}}</p>
+								</div>
+								<div class="triColumn">
+									<p class="price" ng-repeat="item in building.cost">
+										{{getName(item.id)}} - 
+										<span ng-show="item.name != 'Money'">{{item.price}}</span>
+										<span ng-show="item.name == 'Money'">{{item.price | currency}}</span>
+									</p>
+								</div>
+								<div class="triColumn columnCount">
+									<p class="info">{{getLevel(building)}}<p>
+									<a class="button small"
+									   ng-click="buyBuilding(building)"
+									   ng-show="!isMaxLevel(building)">
+									   	Buy
+									   </a>
+								</div>
+							</div>
+
+							<div class="battleOverview">
+								<span ng-show="!isConquered()">
+									<div class="row"
+										 ng-repeat="enemy in selectedPlanet.enemies">
+										 {{getShipName(enemy.id)}} - {{enemy.count | number}}
+									</div>
+									<a class="button" 
+									   ng-click="attack()"
+									   ng-show="playerService.ships.length > 0">
+										Attack
+									</a>
+								</span>
+								<a class="button large" 
+								   ng-click="appease()"
+								   ng-show="playerService.ships.length > 0 && canAppease()">
+									Appease ({{cachedAppeasementCost}} Gold)
+								</a>
+							</div>
+						</div>
+					</div>
+				</script>
+<script id="knowledge.html" type="text/ng-template">
+					<div class="content center">
+						<div>
+							<section>
+								<p>Available Knowledge: {{knowledge()}}</p>
+							</section>
+						</div>
+						
+						<div class="item">
+							<p class="name">VC Funding - {{playerService.vcFunding * 1000 | currency}}</p>
+							<div class="info">
+								<p>Every BK spent on VC Funding will provide your next (and current) company with $1,000.</P>
+								<a class="button" ng-click="buyVcFunding(1)">1 VC - 1 BK</a>
+								<a class="button" ng-click="buyVcFunding(10)">10 VC - 10 BK</a>					
+								<a class="button" ng-click="buyVcFunding(knowledge())" ng-show="knowledge() > 10">{{knowledge()}} VC - {{knowledge()}} BK</a>
+							</div>
+						</div>
+						<div class="item">
+							<p class="name">Business Connections</p>
+							<p class="name">Current: {{playerService.businessConnections | number}} - {{getBcBoost() * 100 | number:2}}%</p>
+							<p class="name">Current Max: {{getMaxBcBoost() * 100 | number:2}}%</p>
+							<br />
+							<div class="info">
+								<p>Every Business Connections will provide you with a permanent boost to your MPS.  The boost % degrades with each new connection for a max MPS boost of 100%.  Business Connections cost 2 BK.</P>
+								<a class="button" ng-click="buyBusinessConnections(1)">1 BC - 2 BK</a>
+								<a class="button" ng-click="buyBusinessConnections(10)">10 BC - 20 BK</a>					
+								<a class="button" ng-click="buyBusinessConnections(knowledge() / 2)" ng-show="knowledge() > 20">{{knowledge() / 2}} BC - {{knowledge()}} BK</a>
+							</div>
+						</div>
+
+						<div class="knowledgeItems">
+							<div class="item"
+								 ng-class="{disabled: !canBuy(item.id), enabled: canBuy(item.id), hover: canBuy(item.id) && hoverK, alreadyBought: alreadyBought(item.id)}" 
+								 ng-repeat="item in items"
+								 ng-click="buy(item.id)"
+								 ng-mouseenter="hoverK = true"
+								 ng-mouseleave="hoverK = false"
+								 ng-show="canShow(item.id)">
+								<p class="name">{{item.item.name}}</p>
+								<div class="info">
+									<p>{{item.description}}</p>
+									<p>{{item.price}} Knowledge</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</script>
+<script id="menu.html" type="text/ng-template">
+					<div class="content center border">
+						<section>
+							<p>Set the name of your new corporation!</p>
+							<input type="text" ng-model="playerService.companyName" />
+						</section>
+						<section>
+							<p>FPS - Higher numbers will make the game smoother but may lag older systems.</p>
+							<input type="number" ng-model="playerService.fps" min="1" max="1000" step="any" />
+						</section>
+						<section>
+							<p>Hide upgrades you already bought:</p>
+							<input type="checkbox" ng-model="playerService.hideBoughtUpgrades" />
+						</section>
+						<section>
+							<p>Hide number popups when doing business opportunities</p>
+							<input type="checkbox" ng-model="playerService.hideNumberPops" />
+						</section>
+						<section>
+							<p>The game auto-saves every 30 seconds, but in case you are in a hurry, use this:</p>
+							<a class="button" ng-click="saveGame()">Save Game</a>
+						</section>
+						<section>
+							<p>Backup your save or transfer it to a new computer (THIS FEATURE IS STILL IN BETA):</p>
+							<a class="button" ng-click="import()">Import</a>
+							<a class="button" ng-click="export()">Export</a>
+						</section>
+						<section>
+							<p>Lose control of your current company, but gain Business Knowledge based on how much total money your current business made.  This can be used to unlock new items and upgrades for your next company!</p>
+							<p>You will earn {{potentialKp()}} BK by starting a new business.</p>
+							<a class="button" ng-click="prestige()">Start New Business</a>
+						</section>
+						<section>
+							<p>This will hard reset your game so you will lose your current save file.  Refresh after you press it.</p>
+							<a class="button" ng-click="resetGame()">Reset Game</a>
+						</section>
+
+						<section><h2 class="underline">About</h2></section>
+						<section>
+							<p class="info">
+								Hi, my name is <a href='https://www.linkedin.com/profile/view?id=150901976' target='_blank'>Eric</a> and I made this game.  It is inspired by my favorite idle game <a href='http://orteil.dashnet.org/cookieclicker/'>Cookie Clicker</a> (you should play it if you have not already!).
+								It is <a href = 'https://github.com/EricFreeman/AngularIdleGame' target='_blank'>open source</a> so feel free to fork it, submit some pull requests, create issues, or none of the above.
+								If you want to send me suggestions, fan mail, hate mail, spam mail, or all of the above, use <a href="mailto:eric@giantshaft.com">eric@giantshaft.com</a>.
+							</p>
+							<br />
+							<p class="info">
+								Icons were provided to this project for free from <a href="http://icons8.com/" target='_blank'>Icons8</a>.
+							</p>
+						</section>
+						<section><h2 class="underline">Tips</h2></section>
+						<section>
+							<ul>
+								<li>Starting a new business gives you 1 Business Knowledge point per $1 billion of total money made by current business.</li>
+								<li>The cheapest item on your first prestige will cost you 10 BK so you should probably wait until you have over 100 to make starting a new business worthwhile.</li>
+								<li>If there is anything you want to see in future versions of this game, feel free to <a href="mailto:eric@giantshaft.com">shoot me an email</a>.</li>
+							</ul>
+						</section>
+						<section><h2 class="underline">Updates</h2></section>
+						<section ng-repeat="update in updates">
+							<p class="name">{{update.title}}</p>
+							<p class="info">{{update.description}}</p>
+						</section>
+					</div>
+				</script>
+</div>
+<div class="rightAd">
+
+<!-- Idle Game Right Side -->
+
+
+</div>
+<div class="bottomAd center">
+
+<!-- Idle Game Bottom Skinnier -->
+
+
+</div>
+<div class="bottomLinks">
+<a target="_blank">
+<img src="/_assets/5cda38e89193f2042a6b.png"/>
+</a>
+<a target="_blank">
+<img src="/_assets/abfb72e25dab869c4dae.png"/>
+</a>
+<a target="_blank">
+<img src="/_assets/073a6a032983b7040bff.png"/>
+</a>
+</div>
+<div class="ng-scope" ng-controller="OverlayController">
+<!-- ngRepeat: message in messages -->
+<!-- ngRepeat: s in spawn -->
+<div class="tutorial" ng-init="tutorialInit()" ng-show="showTutorial()" style="left: 99px; top: 246px;">
+<div>
+<p class="ng-binding">Do BUSINESS OPPORTUNITIES to earn money.</p>
+<p class="ng-binding">0/15</p>
+</div>
+<img src="/_assets/bbbb44f638ce1b4f9333.png"/>
+</div>
+</div>
+<div class="ng-scope" ng-controller="HelpController">
+<div class="" id="helpClosed" ng-show="!displayHelp">
+<a class="helpLink"><img ng-click="displayHelp = true" src="/_assets/583faa488d29bc1bc845.png"/></a>
+</div>
+<div class="noSelect ng-hide" id="helpBalloon" ng-show="displayHelp">
+<div class="closeClippy helpLink" ng-click="closeHelp()">x</div>
+<img id="clippyTip" src="/_assets/069cf213cadbe947eda4.png"/>
+<img id="clippy" ng-click="displayTopics = !displayTopics" src="/_assets/6d08fc006723241de0f1.png"/>
+<div class="" ng-show="selectedTopic == null">
+<span class="bold">What can I help you with today?</span>
+<br/><br/>
+<ul>
+<!-- ngRepeat: topic in topics --><li class="ng-scope" ng-repeat="topic in topics">
+<a class="helpLink ng-binding" ng-click="selectTopic(topic)">Quick Start</a>
+</li><!-- end ngRepeat: topic in topics --><li class="ng-scope" ng-repeat="topic in topics">
+<a class="helpLink ng-binding" ng-click="selectTopic(topic)">Prestige</a>
+</li><!-- end ngRepeat: topic in topics --><li class="ng-scope" ng-repeat="topic in topics">
+<a class="helpLink ng-binding" ng-click="selectTopic(topic)">Space</a>
+</li><!-- end ngRepeat: topic in topics -->
+</ul>
+</div>
+<div class="ng-hide" ng-show="selectedTopic != null &amp;&amp; selectedQuestion == null">
+<span class="bold ng-binding"></span>
+<br/><br/>
+<ul>
+<!-- ngRepeat: question in selectedTopic.questions -->
+</ul>
+<br/>
+<a class="helpLink" ng-click="selectTopic()">&lt; Back</a>
+</div>
+<div class="ng-hide" ng-show="selectedTopic != null &amp;&amp; selectedQuestion != null">
+<span class="bold ng-binding"></span>
+<br/><br/>
+<span class="ng-binding"></span>
+<br/><br/>
+<a class="helpLink" ng-click="selectQuestion()">&lt; Back</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

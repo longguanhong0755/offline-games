@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en-US"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>asteroids | Remake of the arcade classic Asteroids in JavaScript</title>
+<meta content="Jekyll v3.10.0" name="generator"/>
+<meta content="asteroids" property="og:title"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Remake of the arcade classic Asteroids in JavaScript" name="description"/>
+<meta content="Remake of the arcade classic Asteroids in JavaScript" property="og:description"/>
+
+<meta content="https://jphamilton.github.io/asteroids/" property="og:url"/>
+<meta content="asteroids" property="og:site_name"/>
+<meta content="website" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="asteroids" property="twitter:title"/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Remake of the arcade classic Asteroids in JavaScript","headline":"asteroids","name":"asteroids","url":"https://jphamilton.github.io/asteroids/"}</script>
+<!-- End Jekyll SEO tag -->
+<style class="anchorjs"></style><link href="/_assets/38ec41b2a4c4765872f1.css" rel="stylesheet"/>
+<!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+<!-- Setup Google Analytics -->
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/asteroids/favicon.ico" -->
+<!-- end custom head snippets -->
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container-lg px-3 my-5 markdown-body">
+<h1><a>asteroids</a></h1>
+<p>This is an attempt to recreate the classic arcade game, Asteroids.</p>
+<p><a>You can give it a try here</a></p>
+<h2 id="controls">Controls<a aria-label="Anchor" class="anchorjs-link" data-anchorjs-icon="" href="#controls" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+<ul>
+<li>Tap, click, press any key to START</li>
+<li>Rotate: Left/Right arrow keys or A and D, pan left/right to rotate on mobile</li>
+<li>Thrust: Up arrow or W, pan up to thrust on mobile</li>
+<li>Fire: CTRL, tap</li>
+<li>Hyperspace: Space bar, pinch out for hyperspace</li>
+<li>Debug Mode: Z (during game only). Primarily shows collision related information.</li>
+<li>Monitor Burn Effect: toggle on/off with B</li>
+<li>God Mode: G</li>
+</ul>
+<h2 id="screenshots">Screenshots<a aria-label="Anchor" class="anchorjs-link" data-anchorjs-icon="" href="#screenshots" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+<p><img alt="Sceenshot 1"/>
+<img alt="Sceenshot 2"/>
+<img alt="Sceenshot 3"/></p>
+<h2 id="about">About<a aria-label="Anchor" class="anchorjs-link" data-anchorjs-icon="" href="#about" style="font: 1em / 1 anchorjs-icons; padding-left: 0.375em;"></a></h2>
+<p>This is my “re-imagining” of the classic arcade game, Asteroids. I tried to stay true to the spirit of the original as much as possible, while adding a more modern “game feel” 
+(e.g. camera shake, kick back, bigger explosions, faster movement, etc). While the original was designed to encourage you to part with your quarters, this version is designed for you to
+blow lots of stuff up. It’s a little more forgiving, too. Your ship has a little shielding that can protect you from damage for a bit and you can fire more bullets.</p>
+<p>Like the arcade upright, the game will cycle between the highscore screen and ‘attraction mode’ every 15 seconds. Attraction mode will continue to play itself out until a new game is started. 
+After a game is completed, attraction mode will continue, using the state of the last game. High scores are tracked and saved in local storage.</p>
+<p>Collision detection occurs in 3 stages. First, a quadtree is used to determine potential collision candidates. Second, candidates are checked using Axis-Aligned Bounding Boxes (AABB).
+Finally, if the ship is involved, a point in polygon routine (credit Lascha Lagidse http://alienryderflex.com/polygon/) is used to determine if an actual collision has taken place. 
+Using point in poly for all collisions didn’t “feel right”. Bullet collisions (from the ship) also the Cohen-Sutherland line clipping algorithm - the result being that rocks in between 2 bullets
+will be destroyed. This vastly speeds up the game and gives the player the illusion that they are actually better than they are :) Basically, everything in the game is favored to the player. 
+This entire process is visualized in debug mode (hit F1 during game to view).</p>
+<p>I only used two libraries for the game: <a>howler.js</a> for sound and <a>hammer.js</a> for touch support. I have to say, both of the libraries are amazing. 
+I can’t believe how quickly I was able to put them to use. As for the rest of the game, it was important for me to do all the dirty work myself. I had almost zero exposure to the HTML 5 canvas before
+starting this project.</p>
+</div>
+<script src="/_assets/95969184aae2df903225.js"></script>
+<script>anchors.add();</script>
+</body></html>

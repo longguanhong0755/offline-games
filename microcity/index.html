@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Microcity</title>
+<link href="/_assets/34042a982db2a5dfe58a.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="font-pixels">
+<img alt="Game tileset" class="imageData" id="tiles" src="/_assets/a88d41c3d73e7ab14f80.png"/>
+<img alt="Game sprites" class="imageData" id="sprites" src="/_assets/c3e9dcb16c3daa73f06d.png"/>
+<div id="wrapper">
+<main id="canvasContainer">
+<div class="hidden" id="opaque"></div>
+<div class="alignCenter width150 z1" id="infobar">
+<div class="inner">
+<div style="margin: 6px 0"></div>
+<div class="semibold chunk">
+<span id="name">Microcity</span>
+</div>
+<div style="margin: 6px 0"></div>
+<div class="text-sm">
+<span id="date">Year 1 February</span>
+</div>
+<!-- <div class="elided">Funds $<span id="funds"></span></div> -->
+<!-- <div class="elided">Score: <span id="score">0</span></div> -->
+<div class="text-sm">
+<span id="cclass">VILLAGE</span> <span id="population">0</span>
+</div>
+<div style="margin: 6px 0"></div>
+<button class="toolButton unselected" data-colour="salmon" data-size="1" data-tool="bulldozer" id="bulldozerButton" title="Bulldozer">
+<img alt="Bulldozer" src="/_assets/78791658bf0d8aef533f.png"/>
+</button><button class="toolButton unselected" data-colour="khaki" data-size="1" data-tool="wire" id="wireButton" title="Wire">
+<img alt="Wire" src="/_assets/4daf6abc61a4a4ba6a80.png"/>
+</button><button class="toolButton unselected" data-colour="black" data-size="1" data-tool="road" id="roadButton" title="Road">
+<img alt="Road" src="/_assets/4569a263ffd0d35144c6.png"/>
+</button><button class="toolButton unselected" data-colour="brown" data-size="1" data-tool="rail" id="railButton" title="Rail">
+<img alt="Rail" src="/_assets/c6932a70e61217fdb74c.png"/>
+</button><button class="toolButton unselected" data-colour="lime" data-size="3" data-tool="residential" id="residentialButton" title="Residential">
+<img alt="Residential" src="/_assets/162ba5d2f25da1e92008.png"/>
+</button><button class="toolButton unselected" data-colour="blue" data-size="3" data-tool="commercial" id="commercialButton" title="Commercial">
+<img alt="Commercial" src="/_assets/04c9fdf68a3f8363a79d.png"/>
+</button><button class="toolButton unselected" data-colour="yellow" data-size="3" data-tool="industrial" id="industrialButton" title="Industrial">
+<img alt="Industrial" src="/_assets/28ab64942615b87ba3ed.png"/>
+</button><button class="toolButton unselected" data-colour="darkgreen" data-size="1" data-tool="park" id="parkButton" title="Park">
+<img alt="Park" src="/_assets/225d692f7ea541df4346.png"/>
+</button><button class="toolButton unselected" data-colour="darkblue" data-size="3" data-tool="police" id="policeButton" title="Police">
+<img alt="Police" src="/_assets/3c29946b3cd6cebdd4cb.png"/>
+</button><button class="toolButton unselected" data-colour="red" data-size="3" data-tool="fire" id="fireButton" title="Fire">
+<img alt="Fire" src="/_assets/9507265d920f9c15a248.png"/>
+</button><button class="toolButton unselected" data-colour="gray" data-size="4" data-tool="coal" id="coalButton" title="Coal">
+<img alt="Coal" src="/_assets/3cf2eac73b75334d3cf4.png"/>
+</button><button class="toolButton unselected" data-colour="mistyrose" data-size="4" data-tool="nuclear" id="nuclearButton" title="Nuclear">
+<img alt="Nuclear" src="/_assets/18e8b22b3d1db135b4eb.png"/>
+</button><button class="toolButton unselected" data-colour="indigo" data-size="4" data-tool="stadium" id="stadiumButton" title="Stadium">
+<img alt="Stadium" src="/_assets/9a9d778a89b99030eeab.png"/>
+</button><button class="toolButton unselected" data-colour="dodgerblue" data-size="4" data-tool="port" id="portButton" title="Port">
+<img alt="Port" src="/_assets/06091af2c4d8111ec8fe.png"/>
+</button><button class="toolButton unselected" data-colour="violet" data-size="6" data-tool="airport" id="airportButton" title="Airport">
+<img alt="Airport" src="/_assets/28b1374347d6603c9b93.png"/>
+</button><button class="toolButton unselected" data-colour="cyan" data-size="1" data-tool="query" id="queryButton" title="Query">
+<img alt="Query" src="/_assets/699d9adedf130ef0c9d4.png"/>
+</button>
+<!-- <select id="tilesetSelect" name="tileset">
+  <option value="classic">Classic</option>
+  <option value="earth" selected>Earth</option>
+  <option value="future">Future</option>
+  <option value="moon">Moon</option>
+  <option value="snow">Snow</option>
+  <option value="asia">Asia</option>
+  <option value="medieval">Medieval</option>
+  <option value="wild-west">Wild west</option>
+</select> -->
+<!-- <div style="margin: 6px 0"></div> -->
+<div class="text-sm game-actions">
+<button class="toolButton unselected" id="newGameButton">
+              New
+            </button>
+<input accept=".json" id="importFileInput" name="importJson" style="display:none" type="file"/>
+<button class="toolButton unselected" id="importButton">
+              Load
+            </button>
+<button class="toolButton unselected" id="exportButton">
+              Save
+            </button>
+</div>
+<div class="text-sm game-actions">
+            Zoom
+            <button class="toolButton unselected" id="zoomInButton">
+              +
+            </button>
+<button class="toolButton unselected" id="zoomOutButton">
+              -
+            </button>
+<div style="margin: 6px 0"></div>
+<!-- <div style="margin: 2px 0"></div>
+<button id="budgetRequest" class="miscButton">Budget</button>
+<button id="evalRequest" class="miscButton">Evaluation</button>
+<button id="screenshotRequest" class="miscButton">Screenshot</button> -->
+<!-- <button id="disasterRequest" class="miscButton">Disasters</button> -->
+<!-- <button id="saveRequest" class="miscButton loadSave">
+  Save
+</button>
+<button id="settingsRequest" class="miscButton">
+  Settings
+</button> -->
+<!-- <button id="pauseRequest" class="miscButton">
+  Pause
+</button> -->
+</div>
+<div style="margin: 6px 0"></div>
+<div class="neutral" id="notifications" style="">More commercial zones needed</div>
+<div class="alignCenter" id="toolInfo">
+<span id="toolOutput"></span>
+</div>
+</div>
+</div>
+<!-- <div
+          id="miscButtons"
+          class="alignCenter leftedge open controlShadow width140 padding5 mintcream z1 initialHidden"
+        >
+          <div class="inner">
+
+          </div>
+        </div>
+        <div
+          id="controls"
+          class="controlShadow mintcream z1 initialHidden leftedge open"
+        >
+
+          </div>
+        </div> -->
+<div class="controlShadow leftedge width140 padding5 mintcream z1 initialHidden" id="RCIContainer"><canvas height="0" id="RCICanvas" style="margin: 0px; padding: 0px;" width="0"></canvas></div>
+<div class="alignCenter z1 hidden rightedge padding10 controlShadow open" id="monstertv">
+<div id="monsterTVContainer">
+<div id="tvContainer"></div>
+<form id="monsterTVForm">
+<input class="width140 cancel" type="submit" value="Close"/>
+</form>
+</div>
+</div>
+<div class="alignCenter z1 rightedge padding10 mintcream controlShadow open" id="debug">
+<div id="fps"><span id="fpsValue">0</span> FPS</div>
+<div>
+<button id="debugRequest">Debug</button>
+</div>
+</div>
+<div class="hidden modal shadow" id="congratsWindow">
+<header class="congratsHeader padding10 chunk alignCenter" id="congratsHeader">
+          Congratulations!
+        </header>
+<div class="padding10 open" id="congratsContainer">
+<div class="alignCenter" id="congratsMessage">Congratulations!</div>
+<form class="alignCenter margin10" id="congratsForm">
+<input class="dialogOK" id="congratsOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="budget">
+<header class="budgetHeader padding10 chunk alignCenter" id="budgetHeader">
+          Budget
+        </header>
+<div class="padding10 open" id="budgetFormContainer">
+<form id="budgetForm">
+<div class="elided budgetData" id="taxInfo">
+              Tax Collected: <span id="taxesCollected"></span>
+</div>
+<div class="elided budgetRight budgetData" id="cashInfo">
+              Cashflow: <span id="cashFlow"></span>
+</div>
+<div class="elided budgetData" id="previousInfo">
+              Previous funds: <span id="previousFunds"></span>
+</div>
+<div class="elided budgetRight budgetData" id="currentInfo">
+              Current funds: <span id="currentFunds"></span>
+</div>
+<fieldset>
+<legend>Roads</legend>
+<input data-source="roadMaintenanceBudget" id="roadRate" max="100" min="0" step="1" type="range"/>
+<div>
+<label class="elided budgetData" for="roadRate" id="roadRateLabel">100% of $100 = $100</label>
+</div>
+</fieldset>
+<fieldset class="budgetRight">
+<legend>Fire</legend>
+<input data-source="fireMaintenanceBudget" id="fireRate" max="100" min="0" step="1" type="range"/>
+<div>
+<label class="elided budgetData" for="fireRate" id="fireRateLabel">100% of $100 = $100</label>
+</div>
+</fieldset>
+<fieldset>
+<legend>Police</legend>
+<input data-source="policeMaintenanceBudget" id="policeRate" max="100" min="0" step="1" type="range"/>
+<div>
+<label class="elided budgetData" for="policeRate" id="policeRateLabel">100% of $100 = $100</label>
+</div>
+</fieldset>
+<fieldset class="budgetRight">
+<legend>Tax</legend>
+<input id="taxRate" max="20" min="0" step="1" type="range"/>
+<div>
+<label class="elided budgetData" for="taxRate" id="taxRateLabel">100% of $100 = $100</label>
+</div>
+</fieldset>
+<div class="alignCenter" id="budgetButtons">
+<button id="budgetReset">Reset</button>
+<button class="width140 cancel" id="budgetCancel">Cancel</button>
+<input class="width140 dialogOK" id="budgetOK" type="submit" value="OK"/>
+</div>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="evalWindow">
+<header class="evalHeader padding10 chunk alignCenter" id="evalHeader">
+          Evaluation
+        </header>
+<div class="padding10 open" id="evalContainer">
+<section id="opinion">
+<h2 class="alignCenter">Public opinion</h2>
+<dl class="opinionList alignCenter">
+<dt class="evalItem opinionItem">
+                Is the mayor doing a good job?
+              </dt>
+<dd class="evalItem opinionItem opinionRight">
+                Yes: <span id="evalYes"></span>% No: <span id="evalNo"></span>%
+              </dd>
+<dt>What are the worst problems?</dt>
+<dd class="evalItem opinionItem opinionRight">
+<ol id="problemList">
+<li id="evalProb1"></li>
+<li id="evalProb2"></li>
+<li id="evalProb3"></li>
+<li id="evalProb4"></li>
+</ol>
+</dd>
+</dl>
+</section>
+<section id="statistics">
+<h2 class="alignCenter">Statistics</h2>
+<dl id="statisticsList">
+<dt class="evalItem statisticsItem">Population:</dt>
+<dd class="elided statisticsRight evalItem evalRight" id="evalPopulation"></dd>
+<dt class="evalItem statisticsItem">Net Migration:</dt>
+<dd class="elided statisticsRight evalItem evalRight" id="evalMigration"></dd>
+<dt class="evalItem statisticsItem">Assessed Value:</dt>
+<dd class="elided statisticsRight evalItem evalRight" id="evalValue"></dd>
+<dt class="evalItem statisticsItem">Category:</dt>
+<dd class="elided statisticsRight evalItem evalRight" id="evalClass"></dd>
+<dt class="evalItem statisticsItem">Game Level:</dt>
+<dd class="elided statisticsRight evalItem evalRight" id="evalLevel"></dd>
+<dt class="evalItem statisticsItem">Score:</dt>
+<dd class="elided statisticsRight evalItem evalRight" id="evalScore"></dd>
+<dt class="evalItem statisticsItem">Annual change:</dt>
+<dd class="elided statisticsRight evalItem evalRight" id="evalScoreDelta"></dd>
+</dl>
+</section>
+<form class="alignCenter margin10" id="evalButtons">
+<input class="width140 dialogOK" id="evalOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="disasterWindow">
+<header class="disasterHeader padding10 chunk alignCenter" id="disasterHeader">
+          Disasters
+        </header>
+<div class="padding10 open" id="disasterContainer">
+<form id="disasterForm">
+<div class="alignCenter" id="disasterSelectContainer">
+<label for="disasterSelect" id="disasterLabel">What disaster do you want to befall this unsuspecting
+                world?</label>
+<select id="disasterSelect">
+<option id="disasterNone" value="None">None</option>
+<option id="disasterMonster" value="Monster">Monster</option>
+<option id="disasterFire" value="None">Fire</option>
+<option id="disasterFlood" value="Flood">Flood</option>
+<option id="disasterCrash" value="Crash">Crash</option>
+<option id="disasterMeltdown" value="Meltdown">Meltdown</option>
+<option id="disasterTornado" value="Tornado">Tornado</option>
+</select>
+</div>
+<div class="alignCenter margin10" id="disasterButtons">
+<button class="cancel" id="disasterCancel">Cancel</button>
+<input class="dialogOK" id="disasterOK" type="submit" value="OK"/>
+</div>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="queryWindow">
+<header class="queryHeader padding10 chunk alignCenter" id="queryHeader">
+          Query
+        </header>
+<div class="padding10 open" id="queryContainer">
+<div class="queryList">
+<dl>
+<dt class="queryItem">Zone</dt>
+<dd class="queryItem queryRight" id="queryZoneType"></dd>
+<dt class="queryItem">Density</dt>
+<dd class="queryItem queryRight" id="queryDensity"></dd>
+<dt class="queryItem">Value</dt>
+<dd class="queryItem queryRight" id="queryLandValue"></dd>
+<dt class="queryItem">Crime</dt>
+<dd class="queryItem queryRight" id="queryCrime"></dd>
+<dt class="queryItem">Pollution</dt>
+<dd class="queryItem queryRight" id="queryPollution"></dd>
+<dt class="queryItem">Growth</dt>
+<dd class="queryItem queryRight" id="queryRate"></dd>
+</dl>
+<div class="queryDebug hidden" id="queryDebugList">
+<dl>
+<dt class="queryItem">Tile</dt>
+<dd class="queryItem queryRight" id="queryTile"></dd>
+<dt class="queryItem">TileValue</dt>
+<dd class="queryItem queryRight" id="queryTileValue"></dd>
+<dt class="queryItem">FireStation</dt>
+<dd class="queryItem queryRight" id="queryFireStationRaw"></dd>
+<dt class="queryItem">FireStationEffect</dt>
+<dd class="queryItem queryRight" id="queryFireStationEffectRaw"></dd>
+<dt class="queryItem">TerrainDensity</dt>
+<dd class="queryItem queryRight" id="queryTerrainDensityRaw"></dd>
+<dt class="queryItem">PoliceStation</dt>
+<dd class="queryItem queryRight" id="queryPoliceStationRaw"></dd>
+<dt class="queryItem">PoliceStationEffect</dt>
+<dd class="queryItem queryRight" id="queryPoliceStationEffectRaw"></dd>
+<dt class="queryItem">ComRate</dt>
+<dd class="queryItem queryRight" id="queryComRateRaw"></dd>
+<dt class="queryItem">RateOfGrowth</dt>
+<dd class="queryItem queryRight" id="queryRateRaw"></dd>
+<dt class="queryItem">Pollution</dt>
+<dd class="queryItem queryRight" id="queryPollutionRaw"></dd>
+<dt class="queryItem">Crime</dt>
+<dd class="queryItem queryRight" id="queryCrimeRaw"></dd>
+<dt class="queryItem">LandValue</dt>
+<dd class="queryItem queryRight" id="queryLandValueRaw"></dd>
+<dt class="queryItem">Traffic Density</dt>
+<dd class="queryItem queryRight" id="queryTrafficDensityRaw"></dd>
+<dt class="queryItem">Density</dt>
+<dd class="queryItem queryRight" id="queryDensityRaw"></dd>
+</dl>
+</div>
+</div>
+<div class="margin10 queryDebug hidden" id="queryDebugTable">
+<table id="flagsTable">
+<thead>
+<tr>
+<th>Burn</th>
+<th>Bull</th>
+<th>Cond</th>
+<th>Anim</th>
+<th>Pow</th>
+<th>Zone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="queryTileBurnable"></td>
+<td id="queryTileBulldozable"></td>
+<td id="queryTileCond"></td>
+<td id="queryTileAnim"></td>
+<td id="queryTilePowered"></td>
+<td id="queryTileZone"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<form class="alignCenter margin10" id="queryForm">
+<input class="dialogOK" id="queryOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="saveWindow">
+<header class="saveHeader padding10 chunk alignCenter" id="saveHeader">
+          Save
+        </header>
+<div class="alignCenter padding10 open" id="saveContainer">
+          Game Saved!
+          <form class="alignCenter margin10" id="saveForm">
+<input class="dialogOK" id="saveOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="screenshotLinkWindow">
+<header class="screenshotHeader padding10 chunk alignCenter" id="screenshotLinkHeader">
+          Take Picture
+        </header>
+<div class="padding10 open" id="screenshotLinkContainer">
+<div class="alignCenter" id="screenshotLinkMessage">
+            Click <a id="screenshotLink" target="_blank">here</a> to view your
+            picture (right-click to save)
+          </div>
+<form class="alignCenter margin10" id="screenshotLinkForm">
+<input class="dialogOK" id="screenshotLinkOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="screenshotWindow">
+<header class="screenshotHeader white padding10 chunk alignCenter" id="screenshotHeader">
+          Take Picture
+        </header>
+<div class="padding10 open" id="screenshotContainer">
+<form class="alignCenter margin10" id="screenshotForm">
+<div id="screenshotContainerDiv">
+              Area to take picture of:
+              <input checked="checked" class="screenshotType" id="screenshotVisible" name="screenshotType" type="radio" value="visible"/><label for="screenshotVisible">Visible Map</label>
+<input class="screenshotType" id="screenshotAll" name="screenshotType" type="radio" value="all"/><label for="screenshotAll">Full map</label>
+</div>
+<button class="cancel" id="screenshotCancel">Cancel</button>
+<input class="dialogOK" id="screenshotOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="settingsWindow">
+<header class="settingsHeader white padding10 chunk alignCenter" id="settingsHeader">
+          Settings
+        </header>
+<div class="padding10 open" id="settingsContainer">
+<form class="alignCenter margin10" id="settingsForm">
+<div id="settingsFormContainer">
+<div class="padding10" id="autoBudgetSelect">
+                Autobudget:
+                <input checked="checked" class="autoBudgetSetting" id="autoBudgetYes" name="autoBudgetSetting" type="radio" value="true"/><label for="autoBudgetYes">Yes</label>
+<input class="autoBudgetSetting" id="autoBudgetNo" name="autoBudgetSetting" type="radio" value="false"/><label for="autoBudgetNo">No</label>
+</div>
+<div class="padding10" id="autoBulldozeSelect">
+                Autobulldoze:
+                <input checked="checked" class="autoBulldozeSetting" id="autoBulldozeYes" name="autoBulldozeSetting" type="radio" value="true"/><label for="autoBulldozeYes">Yes</label>
+<input class="autoBulldozeSetting" id="autoBulldozeNo" name="autoBulldozeSetting" type="radio" value="false"/><label for="autoBulldozeNo">No</label>
+</div>
+<div class="padding10" id="speedSelect">
+                Speed:
+                <input checked="checked" class="speedSetting" id="speedSlow" name="speedSetting" type="radio" value="1"/><label for="speedSlow">Slow</label>
+<input class="speedSetting" id="speedMed" name="speedSetting" type="radio" value="2"/><label for="speedMed">Medium</label>
+<input class="speedSetting" id="speedFast" name="speedSetting" type="radio" value="3"/><label for="speedFast">Fast</label>
+</div>
+<div class="padding10" id="disastersSelect">
+                Disasters:
+                <input checked="checked" class="enableDisastersSetting" id="disastersYes" name="disastersSetting" type="radio" value="true"/><label for="disastersYes">Yes</label>
+<input class="enableDisastersSetting" id="disastersNo" name="disastersSetting" type="radio" value="false"/><label for="disastersNo">No</label>
+</div>
+</div>
+<button class="cancel" id="settingsCancel">Cancel</button>
+<input class="dialogOK" id="settingsOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<div class="hidden modal shadow" id="debugWindow">
+<header class="debugHeader white padding10 chunk alignCenter" id="debugHeader">
+          Debug
+        </header>
+<div class="padding10 open" id="debugContainer">
+<form class="alignCenter margin10" id="debugForm">
+<div id="debugFundContainer">
+              Add funds:
+              <input checked="checked" class="debugAdd" id="fundsYes" name="debugAdd" type="radio" value="true"/><label for="fundsYes">Yes</label>
+<input class="debugAdd" id="fundsNo" name="debugAdd" type="radio" value="false"/><label for="fundsNo">No</label>
+</div>
+<button class="cancel" id="debugCancel">Cancel</button>
+<input class="dialogOK" id="debugOK" type="submit" value="OK"/>
+</form>
+</div>
+</div>
+<canvas height="900" id="microcity-canvas" style="margin: 0px; padding: 0px; transform: scale(1.4); image-rendering: pixelated;" width="1440"></canvas></main>
+</div>
+<script src="/_assets/a3cf00c109d907e543bc.js"></script>
+<script src="/_assets/9e7cc5d89e329d973bf0.js"></script>
+</body></html>

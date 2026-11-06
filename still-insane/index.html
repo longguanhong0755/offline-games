@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Still Insane</title>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Still Insane" name="apple-mobile-web-app-title"/>
+<link href="assets/Icon.png" rel="apple-touch-icon"/>
+<link href="assets/Icon.png" rel="icon"/>
+<link href="/_assets/9d1530448fe1f3e4d3ec.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<audio id="menuMusic" loop="" preload="auto" src="/_assets/9fd63982811c0e8b1178.mp3"></audio>
+<main class="menu-screen">
+<img alt="Still Insane Menu Background" class="moving-bg" src="/_assets/eed197b64ea65741d3c5.jpg"/>
+<div class="rain"></div>
+<div class="fog"></div>
+<div class="dark-vignette"></div>
+<section class="menu-content">
+<div class="selected-character-card">
+<p>Selected Survivor</p>
+<img alt="Selected character" id="selectedCharacterPreview" src="/_assets/1a7b443faa20a1599495.png"/>
+<h2 id="selectedCharacterName">Alansius</h2>
+</div>
+<div class="menu-buttons">
+<button class="menu-btn play-btn" onclick="playGame()" type="button">PLAY</button>
+<button class="menu-btn" onclick="openLevelSelect()" type="button">LEVELS</button>
+<button class="menu-btn" onclick="openCharacterSelect()" type="button">CHARACTER</button>
+<button class="menu-btn" id="muteBtn" onclick="toggleMute()" type="button">MUTE</button>
+<button class="menu-btn" onclick="openReadMe()" type="button">READ ME</button>
+</div>
+</section>
+</main>
+<div class="character-overlay hidden" id="levelOverlay">
+<div class="character-box">
+<h2>Choose Level</h2>
+<p class="small-text">Jump directly to a map.</p>
+<div class="character-grid">
+<button class="character-card" onclick="goToLevel('school')" type="button">
+<span>School</span>
+</button>
+<button class="character-card" onclick="goToLevel('pizzaria')" type="button">
+<span>Pizzaria</span>
+</button>
+<button class="character-card" onclick="goToLevel('edderkoppen')" type="button">
+<span>Edderkoppen</span>
+</button>
+<button class="character-card" onclick="goToLevel('church')" type="button">
+<span>Church Final Boss</span>
+</button>
+<button class="character-card" onclick="goToLevel('ship')" type="button">
+<span>The Last Voyage</span>
+</button>
+</div>
+<button class="close-panel-btn" onclick="closeLevelSelect()" type="button">CLOSE</button>
+</div>
+</div>
+<div class="character-overlay hidden" id="characterOverlay">
+<div class="character-box">
+<h2>Choose Your Survivor</h2>
+<p class="small-text">Your choice will be used in every level.</p>
+<div class="character-grid">
+<button class="character-card" onclick="selectCharacter('player.png')" type="button">
+<img alt="Alansius" src="/_assets/1a7b443faa20a1599495.png"/>
+<span>Alansius</span>
+</button>
+<button class="character-card" onclick="selectCharacter('player2.png')" type="button">
+<img alt="Pascorali" src="/_assets/d197727c5d9e34646cc7.png"/>
+<span>Pascorali</span>
+</button>
+<button class="character-card" onclick="selectCharacter('player3.png')" type="button">
+<img alt="Rumi" src="/_assets/1314ef9c6041a7f4824b.png"/>
+<span>Rumi</span>
+</button>
+</div>
+<button class="close-panel-btn" onclick="closeCharacterSelect()" type="button">DONE</button>
+</div>
+</div>
+<div class="readme-overlay hidden" id="readmeOverlay">
+<div class="readme-box">
+<h2>Still Insane</h2>
+<p class="small-text">A school project by Martin.</p>
+<h3>How to Play</h3>
+<ul>
+<li>Tap rooms to move.</li>
+<li>You can only move to connected rooms.</li>
+<li>Find keys, relics, or ropes before escaping.</li>
+<li>Avoid the killer.</li>
+<li>Some levels have special escape challenges.</li>
+</ul>
+<h3>Levels</h3>
+<ul>
+<li>Level 1: School</li>
+<li>Level 2: Pizzaria</li>
+<li>Level 3: Edderkoppen</li>
+<li>Level 4: Church Final Boss</li>
+<li>Level 5: The Last Voyage</li>
+</ul>
+<button class="close-panel-btn" onclick="closeReadMe()" type="button">CLOSE</button>
+</div>
+</div>
+<script src="/_assets/3d1e47b14d234f952300.js"></script>
+</body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>Effective JavaScript: Frogger</title>
+<link href="/_assets/62757c5b07446e6213c1.css" rel="stylesheet"/>
+<link href="/_assets/790158d6c77a9a021900.css" rel="stylesheet"/>
+<link href="/_assets/fb5bdab8e44bd6eb9973.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- game header -->
+<div class="header">
+<h1>ARCADE GAME</h1>
+</div>
+<!-- dark overlay -->
+<div class="overlay"></div>
+<!-- modal for starting the game -->
+<div class="start-game">
+<h1>Welcome to Frogger game</h1>
+<h3>Instructions</h3>
+<p>Use your arrow keys to move the player: up, down, left, right. Ensure your player doesn't collide with the bugs. You loose 50pts on any collison.</p>
+<h3>Challenge</h3>
+<p>Try to get to the water blocks at the top and gain 5 keys to win game.</p>
+<h4>You have 3 lives. Good luck!</h4>
+<button onclick="startGame()"> I accept Challenge </button>
+</div>
+<!-- modal for when player looses all lives -->
+<div class="game-over">
+<h1>Game Over</h1>
+<p> Welldone!</p>
+<p>You're here because you lost all 3 lives</p>
+<h3>Play again to win the game</h3>
+<button onclick="resetGame()"> Play Again </button>
+</div>
+<!-- Modal for when player wins the game -->
+<div class="winner">
+<h1>You're a Winner! 🎉 🎉 </h1>
+<p>Yaay! Welldone! You just won!</p>
+<h3>Play again to win again</h3>
+<button onclick="resetGame()"> Play Again </button>
+</div>
+<!-- all javascript -->
+<script src="/_assets/e65dcd12f03eb09deda9.js"></script>
+<script src="/_assets/3bb30fa6b8aeb52db36a.js"></script>
+<script src="/_assets/5f9f029305d21e72a804.js"></script><canvas height="606" width="505"></canvas>
+</body></html>

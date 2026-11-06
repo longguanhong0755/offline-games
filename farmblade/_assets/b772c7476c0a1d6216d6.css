@@ -1,0 +1,534 @@
+
+.hidden {
+  display: none;
+}
+.hidden1 {
+  display: none;
+}
+h1 {
+  font-family:cursive;
+  text-decoration:underline;
+  font-weight:bold;
+  color: #006400;
+  text-align:center;
+}
+#startButton {
+  color:orange;
+  font-weight:bold;
+  background-color:purple;
+  border:solid blue 2px;
+  border-radius:5px;
+  padding:5px 5px 5px 5px;
+}
+#startButton:hover {
+  color:orange;
+  font-weight:bold;
+  background-color:purple;
+  border:solid red 2px;
+  border-radius:5px;
+  padding:5px 5px 5px 5px;
+}
+.gameBackground {
+  background-color:#FAEBD7;
+  border:solid 7px #DEB887;
+  border-radius:10px;
+  padding:5px 5px 5px 5px;
+}
+
+#grainButton {
+  color:#DEB887;
+  font-family:Geneva;
+  font-size:20px;
+  font-weight:bold;
+  background-color:#006400;
+  border:2px solid #DEB887;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#grainButton:hover {
+  color:#DEB887;
+  font-family:Geneva;
+  font-size:20px;
+  font-weight:bold;
+  background-color:#006400;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#grainYieldUpgrade {
+  color:#DEB887;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#006400;
+  border:2px solid #DEB887;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#grainYieldUpgrade:hover {
+  color:#DEB887;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#006400;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#grainSellButton {
+  color: #4B0082;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color: #DAA520;
+  border:2px solid purple;
+  border-radius:5px;
+  padding:10px 10px 10px 10px
+}
+#grainSellButton:hover {
+  color: #4B0082;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color: #DAA520;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px
+}
+#moneyBox {
+  color:black;
+  font-size:24px;
+  font-weight:bold;
+  font-family:Geneva;
+  background-color:#B8860B;
+  border:solid #B8860B 1px;
+  border-radius:7px;
+  float:right;
+}
+#techMoneyBox {
+  color:black;
+  font-size:25px;
+  font-weight:bold;
+  font-family:Geneva;
+  background-color:#6495ED;
+  border:solid #00008B 1px;
+  border-radius:7px;
+}
+#grainStore {
+  color:black;
+  font-size:24px;
+  font-weight:bold;
+  font-family:Geneva;
+  background-color:#B8860B;
+  border:solid #B8860B 1px;
+  border-radius:7px;
+}
+#yieldLevel {
+  color:black;
+  font-size:24px;
+  font-weight:bold;
+  font-family:Geneva;
+  background-color:#B8860B;
+  border:solid #B8860B 1px;
+  border-radius:7px;
+}
+.researchBlueBackground {
+  background-color: #6A5ACD;
+  border:solid 7px #000080;
+  border-radius:10px;
+  padding:5px 5px 5px 5px;
+}
+
+#grainPriceUpgrade {
+  color:#DEB887;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#006400;
+  border:2px solid #DEB887;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#grainPriceUpgrade:hover {
+  color:#DEB887;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#006400;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#researchButton {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#researchButton:hover {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#mainButton {
+  color:#DEB887;
+  font-family:Geneva;
+  font-size:20px;
+  font-weight:bold;
+  background-color:#006400;
+  border:2px solid #DEB887;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#mainButton:hover {
+  color:#DEB887;
+  font-family:Geneva;
+  font-size:20px;
+  font-weight:bold;
+  background-color:#006400;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+.mainBackground {
+   background-color:#FAEBD7;
+  border:solid 7px #DEB887;
+  border-radius:10px;
+  padding:5px 5px 5px 5px;
+}
+#scienceResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#scienceResearch:hover {
+ color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#oreResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#oreResearch:hover {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#science {
+  color:black;
+  background-color: #00CED1;
+  border: black solid 3px;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+  font-weight:bold;
+  font-family:Geneva;
+  float:right;
+  font-size:25px;
+  margin-right:40%;
+  font-size:40px;
+  min-width:100px;
+}
+#scienceButton {
+  color:black;
+  background-color: #00BFFF;
+  border: black solid 1px;
+  border-radius:5px;
+  padding:5px 5px 5px 5px;
+  font-weight:bold;
+  font-family:Geneva;
+  float:left;
+  font-size:25px;
+}
+#scienceButton:hover {
+  color:black;
+  background-color: #00BFFF;
+  border: red solid 1px;
+  border-radius:5px;
+  padding:5px 5px 5px 5px;
+  font-weight:bold;
+  font-family:Geneva;
+  float:left;
+  font-size:25px;
+}
+#grainResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#grainResearch:hover {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#oreMine {
+  color:black;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#A9A9A9;
+  border:2px solid black;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#oreMine:hover {
+  color:black;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#A9A9A9;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#ore {
+  color:black;
+  font-size:24px;
+  font-weight:bold;
+  font-family:Geneva;
+  background-color:#DCDCDC;
+  border:solid #A9A9A9 1px;
+  border-radius:7px;
+}
+#hireFarmer {
+  color:#DEB887;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#006400;
+  border:2px solid #DEB887;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#hireFarmer:hover {
+  color:#DEB887;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#006400;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#farmers {
+  color:black;
+  font-size:24px;
+  font-weight:bold;
+  font-family:Geneva;
+  background-color:#B8860B;
+  border:solid #B8860B 1px;
+  border-radius:7px;
+}
+#prestigeResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#prestigeResearch:hover{
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#smeltingResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#smeltingResearch:hover {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#sciencePlusResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#sciencePlusResearch:hover {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#trainingResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#trainingResearch:hover {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#oreSellResearch {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px #000080;
+  border-radius:5px;
+}
+#oreSellResearch:hover {
+  color:#191970;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#4169E1;
+  border: solid 2px red;
+  border-radius:5px;
+}
+#prestigeButton {
+  color:#DAA520;
+  background-color:#9932CC;
+  border:solid 2px #FFD700;
+  border-radius:5px;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:25px;
+  padding:10px 10px 10px 10px;
+}
+#prestigeButton:hover {
+  color:#DAA520;
+  background-color:#9932CC;
+  border:solid 2px red;
+  border-radius:5px;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:25px;
+  padding:10px 10px 10px 10px;
+}
+#prestigeClaimed {
+  color:#DAA520;
+  background-color:#9932CC;
+  border:solid 2px #FFD700;
+  border-radius:5px;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:25px;
+  padding:10px 10px 10px 10px;
+  float:right;
+}
+#smeltButton {
+  color:black;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#A9A9A9;
+  border:2px solid black;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#smeltButton:hover {
+  color:black;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color:#A9A9A9;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+}
+#oreSell {
+  color: #4B0082;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color: #DAA520;
+  border:2px solid black;
+  border-radius:5px;
+  padding:10px 10px 10px 10px
+}
+#oreSell:hover {
+  color: #4B0082;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+  background-color: #DAA520;
+  border:2px solid red;
+  border-radius:5px;
+  padding:10px 10px 10px 10px
+}
+#improveScienceButton {
+  color:black;
+  background-color: #00CED1;
+  border: black solid 3px;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;
+}
+#improveScienceButton:hover {
+  color:black;
+  background-color: #00CED1;
+  border: red solid 3px;
+  border-radius:5px;
+  padding:10px 10px 10px 10px;
+  font-weight:bold;
+  font-family:Geneva;
+  font-size:20px;;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="/_assets/b772c7476c0a1d6216d6.css" rel="stylesheet" type="text/css"/>
+<title>FarmBlade</title>
+
+<link href="/_assets/eece6e0c65b7007ab0eb.css" rel="stylesheet"/>
+<link href="/_assets/eece6e0c65b7007ab0eb.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="background" id="background">
+<div id="kingdomScreen">
+<h1 id="welcomingHeading">Welcome to <span id="kingdomName"> </span></h1>
+<br/>
+<span class="hidden" id="moneyBox">Coins: <span id="money">0</span></span>
+<span class="hidden" id="grainStore">Grain: <span id="grainNumber">0</span></span>
+<br/>
+<button id="startButton" onclick="startGame()">Click to Begin!</button>
+<br/>
+<button class="hidden" id="prestigeButton" onclick="prestige()">Prestige: <span id="prestigeValue">0</span> Available</button>
+<button class="hidden" id="prestigeClaimed">Prestige Claimed: <span id="prestigeClaimedNum">0</span></button>
+<br/>
+<button class="hidden" id="grainButton" onclick="getGrain()">Click to Harvest Grain!</button>
+<br/>
+<button class="hidden" id="grainSellButton" onclick="sellGrain()">Click to Sell your Grain for <span class="hidden" id="grainSellPrice">0.5</span> Coins Each</button>
+<br/>
+<button class="hidden" id="grainYieldUpgrade" onclick="upgradeGrainYield()">Click to Increase your Grain Yield! Cost: <span id="upgradeGrainYieldPrice">15</span> Coins</button>
+<br/>
+<span class="hidden" id="yieldLevel">Grain Yield Level: <span id="grainYieldLevel">1</span></span>
+<br/>
+<button class="hidden" id="grainPriceUpgrade" onclick="upgradeGrainPrice()">Click to Increase the Sell Price of Grain! Cost: <span id="upgradeGrainValueCost">20</span> Coins</button>
+<br/>
+<button class="hidden" id="hireFarmer" onclick="hireGrainFarmer()">Click to Hire a Grain Farmer! Cost: <span id="farmerCost">250</span> Coins</button>
+<br/>
+<span class="hidden" id="farmers">Number of Farmers: <span id="farmerNumber">0</span></span>
+<br/>
+<button class="hidden" id="oreMine" onclick="mineOre()">Click to Mine Ore!</button>
+<br/>
+<span class="hidden" id="ore">Ore: <span id="oreNumber">0</span></span>
+<br/>
+<button class="hidden" id="oreSell" onclick="sellOre()">Click to Sell Ore for <span id="oreSellPrice">50</span> Coins Each!</button>
+<br/>
+<button class="hidden" id="smeltButton" onclick="smelt()">Smelt Ore!</button>
+<br/>
+<span class="hidden" id="metal">Metal : <span id="metalStore"></span></span>
+<br/>
+<button class="hidden" id="improveScienceButton" onclick="upgradeScience()">Click to Upgrade your Science per Second! Cost : <span id="scienceUpgradeCostNum">2000</span> Coins</button>
+<br/>
+<button class="hidden" id="researchButton" onclick="goToResearch()">Click to Access the Town Policies Screen!</button>
+</div>
+<div class="hidden" id="techScreen">
+<button id="mainButton" onclick="goToMain()">Click to Return to the Kingdom Screen!</button>
+<br/>
+<span id="science">Science: <span id="scienceNumber">0</span></span>
+<br/>
+<span id="techMoneyBox">Coins: <span id="techMoney">0</span></span>
+<br/>
+<button id="scienceResearch" onclick="researchScience()">Science Unlock</button>
+<br/>
+<button class="hidden" id="oreResearch" onclick="researchOre()">Ore Mining : 5</button>
+<br/>
+<button class="hidden" id="grainResearch" onclick="researchGrain()">Grain Farming : 12</button>
+<br/>
+<button class="hidden" id="smeltingResearch" onclick="researchSmelting()">Smelting : 30</button>
+<br/>
+<button class="hidden" id="prestigeResearch" onclick="researchPrestige()">Prestige : 25</button>
+<br/>
+<button class="hidden" id="sciencePlusResearch" onclick="researchSciencePlus()">Advanced Science : 25</button>
+<br/>
+<button class="hidden" id="trainingResearch" onclick="researchTraining()">Training Troops : 45</button>
+<br/>
+<button class="hidden" id="oreSellResearch" onclick="researchOreSell()">Selling Ore : 40</button>
+</div>
+</div>
+<script src="/_assets/aec3d419d50f05781a96.js"></script>
+<script src="/_assets/607518ae1f9762e6fbe7.js" type="text/javascript"></script>
+</body></html>

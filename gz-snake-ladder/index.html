@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths" lang="en" style=""><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Snakes &amp; Ladders</title>
+<link href="/_assets/29a0ba8a4055b9f76bc2.css" rel="stylesheet" type="text_assets/29a0ba8a4055b9f76bc2.css"/>
+<script src="/_assets/ee94dda0af1fc5c50457.js"></script> <!-- Modernizr -->
+<link href="/_assets/a3acc045ad1beee3f715.css" rel="stylesheet"/> <!-- CSS reset -->
+<link href="/_assets/e4118ca1720eaf5ae790.css" rel="stylesheet"/> <!-- CSS reset -->
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div style="text-align: left; margin-left: 40px;
+    margin-top: 10px;
+    font-size: 30px;"><a><i class="fas fa-home home-icon" style="color:black;"></i></a></div>
+<div class="modal effect show">
+<div class="content">
+<div class="selection">
+<p class="welcome">Welcome</p>
+<p class="instructions">Select your avatar</p>
+<div class="choose-avatar">
+<label>
+<input class="choose-avatar" name="choose-avatar" type="radio" value="one"/>
+<img src="/_assets/f4a4b8572d498eb8a907.png"/>
+</label>
+<label>
+<input class="choose-avatar" name="choose-avatar" type="radio" value="two"/>
+<img src="/_assets/9975530fec03e1037557.png"/>
+</label>
+</div>
+<p class="instructions">Who rolls first?</p>
+<div class="choose-who-play-first">
+<label>
+<input class="who-first" name="who-first" type="radio" value="me"/>
+<i></i> <span>Me</span>
+</label>
+<label>
+<input class="who-first" name="who-first" type="radio" value="computer"/>
+<i></i> <span>Computer</span>
+</label>
+</div>
+<div class="go"><button class="lets-roll">Let's Roll</button></div>
+</div>
+<div class="who-won" style="display:none;">
+<p class="greetings">Congratulations!</p>
+<img class="which-avatar-won" src="/_assets/f4a4b8572d498eb8a907.png"/>
+<p class="won-or-lose">You won!</p>
+<div class="go"><button class="play-again">Play Again?</button></div>
+</div>
+</div>
+</div><!--Modal Box Ends-->
+<div class="overlay"></div><!-- the overlay element -->
+<div class="container">
+<div class="main-container">
+<img alt="ladder1" id="ladder1" src="/_assets/3573a6c56983576fc7cd.png"/>
+<img alt="ladder2" id="ladder2" src="/_assets/47009cdc85fd7f1e81af.png"/>
+<img alt="snake1" id="snake1" src="/_assets/c85e19bee489cdbf129a.png"/>
+<img alt="snake2" id="snake2" src="/_assets/ff32913387a72af90144.png"/>
+<img alt="snake3" id="snake3" src="/_assets/c395f1eac74319d38253.png"/>
+<img alt="flag" id="flag" src="/_assets/b0cff1a84a3446c6be63.png"/>
+<ul>
+<li class="box row5 col1"><span>21</span></li>
+<li class="box row5 col2"><span>22</span></li>
+<li class="box row5 col3"><span>23</span></li>
+<li class="box row5 col4"><span>24</span></li>
+<li class="box row5 col5"><span>25</span></li>
+<li class="box row4 col1"><span>20</span></li>
+<li class="box row4 col2"><span>19</span></li>
+<li class="box row4 col3"><span>18</span></li>
+<li class="box row4 col4"><span>17</span></li>
+<li class="box row4 col5"><span>16</span></li>
+<li class="box row3 col1"><span>11</span></li>
+<li class="box row3 col2"><span>12</span></li>
+<li class="box row3 col3"><span>13</span></li>
+<li class="box row3 col4"><span>14</span></li>
+<li class="box row3 col5"><span>15</span></li>
+<li class="box row2 col1"><span>10</span></li>
+<li class="box row2 col2"><span>9</span></li>
+<li class="box row2 col3"><span>8</span></li>
+<li class="box row2 col4"><span>7</span></li>
+<li class="box row2 col5"><span>6</span></li>
+<li class="box row1 col1"><span>1</span></li>
+<li class="box row1 col2"><span>2</span></li>
+<li class="box row1 col3"><span>3</span></li>
+<li class="box row1 col4"><span>4</span></li>
+<li class="box row1 col5"><span>5</span></li>
+</ul>
+</div><!--side-container ends-->
+<div class="side-container">
+<div class="players">
+<img alt="player1" id="player1" src="/_assets/f4a4b8572d498eb8a907.png"/>
+<img alt="player2" id="player2" src="/_assets/9975530fec03e1037557.png"/>
+</div>
+<div class="whose-turn">
+<img class="caret" src="/_assets/47008a651d15458db350.png"/>
+<button class="turn"> Computer's turn</button>
+</div>
+<div class="dice-and-roll">
+<img alt="dice6" id="dice_img" src="/_assets/dadc82e23b1bec2cbb58.png"/>
+<a id="roll-dice">Roll Dice</a>
+</div>
+<a class="dice_value" style="display: none"></a>
+</div><!--side-container ends-->
+</div><!--container ends-->
+<!--Scripts-->
+<script src="/_assets/b294e973896f8f874e90.js"></script>
+<script src="/_assets/186cb504551d4529381b.js"></script>
+</body></html>

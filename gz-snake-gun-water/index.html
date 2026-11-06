@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" id="viewport"/>
+<title>Snake Water and Gun Game</title>
+<link href="/_assets/acf149057dbe271655e6.css" rel="stylesheet"/>
+<link href="/_assets/e73984f860d7c91d060d.css" rel="stylesheet"/>
+<link href="/_assets/34ae3835cb3e9eb7356e.css" rel="stylesheet"/>
+<link href="/_assets/c349ae0a1ee9227d52b2.css" rel="stylesheet"/>
+<link href="/_assets/fc3540e49246301121c7.css" rel="stylesheet"/>
+<link href="/_assets/09791618809a196e4ee7.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body onload="sign()">
+<div id="entry"> <div id="abs" style=" position: absolute; top: 20%;  width: 100vh;max-width:1000px; height: 100vh;">
+<div style="width: 90%; height:60%; background: linear-gradient(to bottom, #ff0000 0%, #6666ff 100%); border-radius: 28px; border: 6px solid rgb(255, 196, 0); margin: auto;display: flex;flex-direction: column;justify-content: center;align-self:center;">
+<p style="text-align: center; width:100%; margin:10vh 0 5vh 0; font-size: 4vh;font-weight: bold; background-image: linear-gradient(to right, red, green 33%,blue 35%, black);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;">Snake Water Gun</p>
+<div style="margin:auto;">
+<lable style=" font-size:3vh; margin:0 8vh;display:block;">Your Name : </lable>
+<input id="name" placeholder="Enter your name " style="font-weight:bold;text-align:center; border-radius: 30px; width: 60%;height:7%; margin:1vh 8vh; padding:1em; border: 4px solid rgba(255, 128, 43, 0.849); font-family:monospace;font-size:2vh;" type="text"/>
+<lable style="display:block; font-size:2vh; margin:0 8vh;margin-top:2vh">How many Rounds <br/> <small>do you want to play?</small> </lable>
+<input id="noOfRounds" max="50" min="5" step="5" style="font-weight:bold;text-align:center; border-radius: 30px; width: 60%;height:6%; margin:1vh 8vh; padding:1em;  border: 4px solid rgba(255, 128, 43, 0.849); font-family:monospace;font-size:2vh;" type="number" value="10"/>
+</div>
+<button id="play" style=" border-radius: 23px; width: 15rem; margin: 4vh auto;margin-bottom:10vh;  background: linear-gradient(to bottom, #0066ff 0%, #ff99cc 100%); padding:1.5vh; border: 5px solid rgb(72, 72, 231); font-size: 4vh; font-family: 'Fredoka One', cursive;">Play</button>
+</div> </div></div>
+<div id="game">
+<div id="scoreBoard">
+<div class="board">
+<div>System</div>
+<div id="systemScore">00</div>
+</div>
+<div class="board">
+<div>Round</div>
+<div id="rounds">00/00</div>
+</div>
+<div class="board">
+<div id="userName">You</div>
+<div id="userScore">00</div>
+</div>
+</div>
+<div id="area">
+<div id="warArea">
+<div id="fight"></div>
+<div id="msg">
+</div>
+<div id="result">
+</div>
+</div>
+<div id="army">
+<div class="coin">
+<div id="system"></div>
+<p>system</p>
+</div>
+<div id="state">
+</div>
+<div class="coin">
+<div id="user"></div>
+<p>You </p>
+</div>
+</div>
+</div>
+<p id="question">What you want to make ?</p>
+<div id="home">
+<div class="weapon" id="1">
+<img alt="snake" src="/_assets/6ccd4e0d1bbe0fc4d015.jpg"/>
+<p>Snake</p>
+</div>
+<div class="weapon" id="2">
+<img alt="water" src="/_assets/23856a964ab3233d36a5.jpg"/>
+<p>Water</p>
+</div>
+<div class="weapon" id="3">
+<img alt="gun" src="/_assets/45c84df5b5451b8fc0c8.jpg"/>
+<p>Gun</p>
+</div>
+</div>
+</div>
+<div id="end"></div>
+<div class="flex" id="info">
+<h1>About Game</h1>
+<p>In this game you have to choose between snake,water and gun. Snake kills the water, water kills the gun and gun kills the snake. In this game winner will get 1 point. if both choose the same then both will get 1 points. in total of 10 rounds who
+            gets the highest points will be considered as winner.<br/> <br/> let's check how lucky you are, have fun. <br/><br/> Your feedback is vaued for us to improve and develop more better applications.</p>
+</div>
+<script src="/_assets/feec844b6b25fc05e3ad.js"></script>
+</body></html>

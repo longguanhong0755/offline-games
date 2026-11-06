@@ -1,0 +1,2 @@
+renderSetupBackgroundMap();
+initLanguage();

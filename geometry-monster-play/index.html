@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title></title>
+
+<meta charset="utf-8"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="#000000" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #000000;
+            overflow: hidden;
+		}
+        #canvasArea {
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+        }
+
+        
+	</style>
+<!-- Libs and GDJS core files : -->
+<script src="/_assets/6376ae67960368ff51d1.js"></script>
+<script src="/_assets/9f1db6bf471203f7b78a.js"></script>
+<script src="/_assets/3d49da4b62d1026254a1.js"></script>
+<script src="/_assets/92dd46ff7024f6b0348e.js"></script>
+<script src="/_assets/1abc46587977c8e47ca6.js"></script>
+<script src="/_assets/5cc2c16789f934ce38b2.js"></script>
+<script src="/_assets/9334de7f590741bfa4f3.js"></script>
+<script src="/_assets/133559eb54637ff96c64.js"></script>
+<script src="/_assets/ac402e48aa177a7b5a6e.js"></script>
+<script src="/_assets/c6e77a3ee6bb86643265.js"></script>
+<script src="/_assets/5d833c16f14f775fb4e7.js"></script>
+<script src="/_assets/b571b0a099cbeb4576ba.js"></script>
+<script src="/_assets/722b0a2cdcfe2c9fe96b.js"></script>
+<script src="/_assets/f0e283aebdc67723d978.js"></script>
+<script src="/_assets/57153d639d7d19cbf623.js"></script>
+<script src="/_assets/373cfb53db6194c111cb.js"></script>
+<script src="/_assets/300236d9e20902b21e65.js"></script>
+<script src="/_assets/aefc1177f29bbc9c7b58.js"></script>
+<script src="/_assets/f9735410c5785bf94754.js"></script>
+<script src="/_assets/aec861480737b09676c3.js"></script>
+<script src="/_assets/66ba8be19c9f8600eb54.js"></script>
+<script src="/_assets/a9e6f4b83c8fda876052.js"></script>
+<script src="/_assets/14548ac32b233219ec88.js"></script>
+<script src="/_assets/77102e110e5db58066ba.js"></script>
+<script src="/_assets/6f7d674714b4d7dbe6e1.js"></script>
+<script src="/_assets/f9bc7b697b06a268e92b.js"></script>
+<script src="/_assets/dfedb9457555b6adb573.js"></script>
+<script src="/_assets/ad19b670eb58b6567867.js"></script>
+<script src="/_assets/a190b22354cb135f8cd3.js"></script>
+<script src="/_assets/c252d26e7c64ece0ba90.js"></script>
+<script src="/_assets/ec1fc953c903a83b51f8.js"></script>
+<script src="/_assets/0625d7d3eef573435be4.js"></script>
+<script src="/_assets/dff6d0baa56ecdbd4857.js"></script>
+<script src="/_assets/40d5e9efec0e2af0fe07.js"></script>
+<script src="/_assets/e494ae7da5bbdca10bd4.js"></script>
+<script src="/_assets/44c42bf7d3ca5b5e6fb8.js"></script>
+<script src="/_assets/22b7ceaf83465547b4ec.js"></script>
+<script src="/_assets/85de03db16a0f8731e67.js"></script>
+<script src="/_assets/fe12d000e1e69b6e44f2.js"></script>
+<script src="/_assets/bce8e0025fc039b7933f.js"></script>
+<script src="/_assets/125eddcb1755a757b5bf.js"></script>
+<script src="/_assets/648038c690f2bbc4ff4e.js"></script>
+<script src="/_assets/3bd539b6e9476fb2059b.js"></script>
+<script src="/_assets/1cfad61aa0246bb9841d.js"></script>
+<script src="/_assets/c6b108cce72b1d9da883.js"></script>
+<script src="/_assets/49dade120c5066c971f0.js"></script>
+<script src="/_assets/9611d63efda6d07b02ac.js"></script>
+<script src="/_assets/2ba33a7ba5339f358b1d.js"></script>
+<script src="/_assets/9c4b882174b74637aef8.js"></script>
+<script src="/_assets/5e9f626e73fa61a08fef.js"></script>
+<script src="/_assets/24bf94c9d0d97aea589d.js"></script>
+<script src="/_assets/fdc3715009914cb427bd.js"></script>
+<script src="/_assets/3dbb75c1b670e3d1dd35.js"></script>
+<script src="/_assets/4a32f928ec4bc0576374.js"></script>
+<script src="/_assets/04dcd1b961dab7eaecf0.js"></script>
+<script src="/_assets/fe6d162aefe9f30becd0.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<script>
+
+    (function() {
+        //Initialization
+        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+
+        //Create a renderer
+        game.getRenderer().createStandardCanvas(document.body);
+
+        //Bind keyboards/mouse/touch events
+        game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+
+        //Load all assets and start the game
+        game.loadAllAssets(function() {
+            game.startGameLoop();
+        });
+    })();
+
+	</script><canvas height="960" style="touch-action: none; position: absolute; top: 0px; left: 420px; width: 600px; height: 900px; cursor: inherit;" width="640"></canvas>
+</body></html>

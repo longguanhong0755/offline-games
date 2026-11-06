@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="Html" id="Html"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title>
+      Lost
+    </title>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="Body" id="Body">
+<div class="LoadingDiv" id="LoadingDiv" style="display: none;">
+      Loading
+      <hr class="LoadingBar" id="LoadingBar" style="width: 10%;"/>
+<div class="LoadingInfo" id="LoadingInfo">Revealing Secrets</div>
+</div>
+<div class="Main" id="Main" style="display: flex;">
+<div class="ResourceManager" id="ResourceManager">
+<div class="FoodDiv" id="FoodDiv">
+          Food:
+          <span class="Food" id="Food">93</span>
+<span class="FoodInfo" id="FoodInfo">-1 / tick</span>
+</div>
+<div class="WoodDiv" id="WoodDiv">
+          Wood:
+          <span class="Wood" id="Wood">0</span>
+<span class="WoodInfo" id="WoodInfo">0 / tick</span>
+</div>
+<div class="ScrapDiv" id="ScrapDiv">
+          Scrap:
+          <span class="Scrap" id="Scrap">0</span>
+<span class="ScrapInfo" id="ScrapInfo">0 / tick</span>
+</div>
+</div>
+<div class="ControlPanel" id="ControlPanel">
+<div class="Tab">
+<button class="HomeLink" id="HomeLink" onclick="OpenHome()">
+            Home
+          </button>
+<button class="WanderLink" id="WanderLink" onclick="OpenWander()">
+            Wander
+          </button>
+<button class="FarmingLink" id="FarmingLink" onclick="OpenFarming()">
+            Farming
+          </button>
+<button class="StatsLink" id="StatsLink" onclick="OpenStats()">
+            Stats
+          </button>
+</div>
+<br/>
+<div class="HomeControls" id="HomeControls">
+<div class="HomeRow1" id="HomeRow1">
+<div class="ScavengeDiv" id="ScavengeDiv">
+<button class="ScavengeButton" id="ScavengeButton" onclick="Scavenge()" onmouseout="ScavengeInfo(0)" onmouseover="ScavengeInfo(1)">
+                Scavenge for Scraps
+              </button>
+<div class="ScavengeButtonInfo" id="ScavengeButtonInfo">
+                yes
+              </div>
+</div>
+</div>
+<div class="HomeRow2" id="HomeRow2">
+<div class="FarmDiv" id="FarmDiv">
+<button class="FarmButton" id="FarmButton" onclick="BuyFarm()" onmouseout="FarmInfo(0)" onmouseover="FarmInfo(1)">
+                Farm
+              </button>
+<div class="FarmButtonInfo" id="FarmButtonInfo">
+</div>
+</div>
+</div>
+<div class="HomeRow3" id="HomeRow3">
+</div>
+</div>
+<div class="WanderControls" id="WanderControls">
+<hr class="WanderCooldown" id="WanderCooldown"/>
+<button class="WanderButton" id="WanderButton" onclick="Wander()">
+            Wander
+          </button>
+<br/>
+<hr class="HealthBar" id="HealthBar" style="width: 31%;"/>
+<div class="CurrentHealthDiv" id="CurrentHealthDiv">
+            Health:
+            <span class="CurrentHealth" id="CurrentHealth">100</span>
+</div>
+<div class="WeaponDisplay" id="WeaponDisplay">
+            Weapon:
+            <span class="CurrentWeapon" id="CurrentWeapon">
+              None
+            </span>
+</div>
+<div class="ArmorDisplay" id="ArmorDisplay">
+            Armor:
+            <span class="CurrentArmor" id="CurrentArmor">
+              None
+            </span>
+</div>
+<div class="AttackDisplay" id="AttackDisplay">
+<div class="AttackDamageDiv" id="AttackDamageDiv">
+              Attack Damage:
+              <span class="AttackDamage" id="AttackDamage">
+                1
+              </span>
+</div>
+<div class="AttackSpeedDiv" id="AttackSpeedDiv">
+              Attack Speed:
+              <span class="AttackSpeed" id="AttackSpeed">
+                0.5
+              </span>
+</div>
+</div>
+<div class="DamageReductionDisplay" id="DamageReductionDisplay">
+            Damage Reduction:
+            <span class="DamageReduction" id="DamageReduction">
+              0
+            </span>
+            %
+          </div>
+<div class="DodgeChanceDisplay" id="DodgeChanceDisplay">
+            Dodge Chance:
+            <span class="DodgeChance" id="DodgeChance">
+              0
+            </span>
+            %
+          </div>
+<div class="EnemyDisplay" id="EnemyDisplay">
+<div class="EnemyNameDiv" id="EnemyNameDiv">
+              Enemy:
+              <span class="EnemyName" id="EnemyName"></span>
+</div>
+<br/>
+<div class="EnemyHealthDiv" id="EnemyHealthDiv">
+              Enemy Health:
+              <span class="EnemyHealth" id="EnemyHealth">0</span>
+<hr class="EnemyHealthBar" id="EnemyHealthBar"/>
+</div>
+<br/>
+<div class="EnemyAttackDiv" id="EnemyAttackDiv">
+              Enemy Attack:
+              <span class="EnemyAttack" id="EnemyAttack">0</span>
+</div>
+<div class="EnemyAttackSpeedDiv" id="EnemyAttackSpeedDiv">
+              Enemy Attack Speed:
+              <span class="EnemyAttackSpeed" id="EnemyAttackSpeed">0</span>
+</div>
+<br/>
+<div class="EnemyDamageReductionDiv" id="EnemyDamageReductionDiv">
+              Enemy Damage Reduction:
+              <span class="EnemyDamageReduction" id="EnemyDamageReduction">0</span>
+              %
+            </div>
+<div class="EnemyDodgeChanceDiv" id="EnemyDodgeChanceDiv">
+              Enemy Dodge Chance:
+              <span class="EnemyDodgeChance" id="EnemyDodgChance">
+                0
+              </span>
+              %
+            </div>
+</div>
+<div class="WanderControlButtonsDiv" id="WanderControlButtonsDiv">
+<button class="WanderYesButton" id="WanderYesButton">
+              Yes
+            </button>
+<div class="WanderButtonDivider" id="WanderButtonDivider">
+</div>
+<button class="WanderNoButton" id="WanderNoButton">
+              No
+            </button>
+</div>
+</div>
+<div class="FarmingControls" id="FarmingControls">
+</div>
+<div class="StatsControls" id="StatsControls">
+<div class="StatsStatsDiv" id="StatsStatsDiv">
+<div class="StatsStatsTitle" id="StatsStatsTitle">
+              Personal Stats
+            </div>
+            Max Health:
+            <span class="MaxHealthStat" id="MaxHealthStat">100</span>
+<br/>
+            Health Regeneration:
+            <span class="HealthRegenStat" id="HealthRegenStat">1</span>
+<br/>
+            Strength:
+            <span class="StrengthStat" id="StrengthStat">0</span>
+<br/>
+            Agility:
+            <span class="AgilityStat" id="AgilityStat">0</span>
+<br/>
+            Intelligence:
+            <span class="IntelligenceStat" id="IntelligenceStat">0</span>
+<br/>
+            Defence:
+            <span class="DefenceStat" id="DefenceStat">0</span>
+</div>
+<br/>
+<div class="SkillStatsDiv" id="SkillStatsDiv">
+<div class="SkillStatsTitle" id="SkillStatsTitle">
+              Skills
+            </div>
+            Farming:
+            <span class="FarmingStatsLevel" id="FarmingStatsLevel">0</span>
+<br/>
+            Woodcutting:
+            <span class="WoodcuttingStatsLevel" id="WoodcuttingStatsLevel">0</span>
+<br/>
+            Combat:
+            <span class="CombatStatsLevel" id="CombatStatsLevel">0</span>
+<br/>
+            Fishing:
+            <span class="FishingStatsLevel" id="FishingStatsLevel">0</span>
+<br/>
+            Crafting:
+            <span class="CraftingStatsLevel" id="CraftingStatsLevel">0</span>
+<br/>
+            Research:
+            <span class="ResearchStatsLevel" id="ResearchStatsLevel">0</span>
+</div>
+<br/>
+<div class="WanderingStatsDiv" id="WanderingStatsDiv">
+<div class="WanderingStatsTitle" id="WanderingStatsTitle">
+              Wandering
+            </div>
+            Times Wandered:
+            <span class="TimesWanderedStat" id="TimesWanderedStat">0</span>
+<br/>
+            Enemies Encountered:
+            <span class="EnemiesEncounteredStat" id="EnemiesEncounteredStat">0</span>
+<br/>
+            Enemies Defeated:
+            <span class="EnemiesDefeatedStat" id="EnemiesDefeatedStat">0</span>
+</div>
+<br/>
+<div class="MiscStatsDiv" id="MiscStatsDiv">
+<div class="MiscStatsTitle" id="MiscStatsTitle">
+              Other Stats
+            </div>
+            Playtime:
+            <span class="PlaytimeStat" id="PlaytimeStat">0 hours, 0 minutes, and 6 seconds</span>
+<br/>
+            Version: 0.4.1
+          </div>
+</div>
+</div>
+<div class="RightBox" id="RightBox">
+<div class="InfoBoxBox" id="InfoBoxBox">
+<div class="InfoBox" id="InfoBox">You wake up in a desolate world<br/>
+</div>
+</div>
+<button class="SaveButton" id="SaveButton" onclick="Save()">
+          Save
+        </button>
+<button class="ClearButton" id="ClearButton" onclick="ClearSave()">
+          Clear
+        </button>
+</div>
+</div>
+<div class="PageBottom" id="PageBottom">
+      Made by BinaryKiwi
+      <br/>
+      Sorry for the annoying scroll bar, the whole game broke when I removed it bruh
+    </div>
+<link href="/_assets/663f10ee3ee7debf0dfd.css" rel="stylesheet" type="text/css"/>
+<script src="/_assets/f092919d90e2db7f07eb.js"></script>
+</body></html>

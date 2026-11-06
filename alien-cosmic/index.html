@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="menu-active game-desktop" data-input="desktop" lang="ru"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+<!-- Пакет Q: maximum-scale/user-scalable — страховка зума страницы на Android;
+       iOS игнорирует их (доступность, iOS 10+) — там зум закрыт touch-action-политикой
+       (style.css) и gesturestart-гвардом (game.js). См. design/MOBILE_VIEWPORT_AUDIT.md. -->
+<title>Alien Cosmic — RTS о войне корпорации и улья</title>
+<meta content="Alien Cosmic — стратегия в реальном времени: корпорация «Гелиос» добывает кристаллы на чужих планетах, а кристаллорождённые кхарид защищают свой дом. Кампания, миссии-обороны, две расы, авто-режимы." name="description"/>
+<meta content="Alien Cosmic — Frontier-64 RTS" property="og:title"/>
+<meta content="Choose a side and lead an expedition across an uncharted world. Campaign and quick battle at the edge of space." property="og:description"/>
+<meta content="https://bestdeejay-design.github.io/alien-cosmic/assets/og-image.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Alien Cosmic: teal and fire signals above a dark frontier world" property="og:image:alt"/>
+<meta content="website" property="og:type"/>
+<meta content="https://bestdeejay-design.github.io/alien-cosmic/" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Alien Cosmic — Frontier-64" name="twitter:title"/>
+<meta content="A real-time strategy at the edge of space: choose a side, then enter the fight." name="twitter:description"/>
+<meta content="https://bestdeejay-design.github.io/alien-cosmic/assets/og-image.png" name="twitter:image"/>
+<!-- og-адреса абсолютные: Pages этого репозитория, подтверждено владельцем 2026-10-21. -->
+<!-- Пакет V (Ф1): марка «сигнал-ромб» — SVG для современных браузеров,
+       PNG 32/48 фолбэк, apple-touch 180 (full-bleed, iOS маскирует сам),
+       theme-color — цвет космоса #071218. Генерация: scripts/make_favicons.mjs. -->
+<link href="./assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="./assets/favicon-48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="./assets/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="./assets/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#071218" name="theme-color"/>
+<link href="/_assets/2b27a349fe823e16c447.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="menu-active">
+<div id="game-root">
+<canvas height="900" id="game-canvas" style="width: 1440px; height: 900px; cursor: default;" width="1440"></canvas>
+<div id="topbar">
+<div class="brand">ALIEN <b>COSMIC</b><small>RTS</small></div>
+<div class="res res-minerals"><span class="dot mineral"></span><span id="res-minerals">150</span></div>
+<div class="res res-supply"><span class="dot supply" id="res-supply-dot"></span><span id="res-supply">4/10</span></div>
+<div class="res res-time"><span id="res-time">00:00</span></div>
+<div class="res objective" id="res-objective">Уничтожьте гнёзда кхарид в регионе</div>
+<div class="spacer"></div>
+<button aria-label="Звук: вкл" class="tb-btn" id="btn-sound" title="Звук: вкл" type="button">Звук: вкл</button>
+<button aria-label="Пауза" class="tb-btn" data-i18n="ui.topbar.pause" id="btn-pause" title="Пауза" type="button">Пауза</button>
+<button class="tb-btn" data-i18n="ui.topbar.restart" data-i18n-title="ui.topbar.restart" id="btn-restart" title="Заново" type="button">Заново</button>
+<button class="tb-btn" data-i18n="ui.topbar.exit" data-i18n-title="ui.topbar.exit" id="btn-exit" title="Выход" type="button">Выход</button>
+</div>
+<div id="bottom-panel">
+<div id="minimap-box" style="width: 202px; height: 202px;"><canvas aria-label="Миникарта" height="200" id="minimap" width="200"></canvas></div>
+<div id="sel-info"><div class="hint">Выделите юнита ЛКМ или рамкой.<br/>ПКМ — идти / добывать / атаковать / ремонтировать.<br/>ПКМ по бункеру — занять его.</div></div>
+<div id="cmd-grid"></div>
+<div id="panel-ctl">
+<button aria-expanded="true" aria-label="Свернуть командную панель" class="mini-btn" data-i18n-title="ui.panel.expandTitle" id="panel-compact-toggle" title="Свернуть командную панель" type="button">Свернуть</button>
+<button aria-label="Панель: низ. Положение панели: низ → слева → справа → верх" class="mini-btn" data-i18n="ui.panel.pos" data-i18n-title="ui.panel.posTitle" id="panel-pos" title="Положение панели: низ → слева → справа → верх" type="button">Панель: низ</button>
+<button class="mini-btn" data-i18n="ui.panel.hide" data-i18n-title="ui.panel.hideTitle" id="panel-hide" title="Скрыть панель (V)" type="button">Скрыть</button>
+</div>
+</div>
+<button aria-label="Показать панель (V)" class="mini-btn" data-i18n="ui.panel.show" data-i18n-title="ui.panel.showTitle" id="panel-show" title="Показать панель (V)" type="button">Панель</button>
+<button aria-label="Cancel placement" class="placement-cancel" data-i18n-title="ui.placement.cancelTitle" hidden="" id="placement-cancel" title="Отменить размещение здания" type="button">×</button>
+<div aria-label="Zoom controls" hidden="" id="zoom-controls" role="group">
+<button aria-label="Zoom out" data-i18n-title="ui.zoom.out" id="zoom-out" title="Отдалить" type="button">−</button>
+<output aria-live="polite" id="zoom-value">100%</output>
+<button aria-label="Zoom in" data-i18n-title="ui.zoom.in" id="zoom-in" title="Приблизить" type="button">+</button>
+</div>
+<div id="toasts" style="bottom: 225px; left: 720px;"></div>
+<!-- Campaign, briefing, lore, and in-game overlays stay in the game viewport. -->
+<div class="overlay hidden" id="mission-overlay">
+<div class="overlay-box wide">
+<h1 data-i18n="ui.missionsScr.h1">Кампания «Alien Cosmic»</h1>
+<p class="sub" data-i18n="ui.missionsScr.sub">15 миссий · 3 акта + «Главы Хроники» после финала · Гелиос против роя и мятежников «Красного флага»</p>
+<div id="mission-list"></div>
+<button class="big-btn ghost-btn" data-i18n="ui.missionsScr.back" id="btn-missions-back">← Назад</button>
+</div>
+</div>
+<div class="overlay hidden" id="brief-overlay">
+<div class="overlay-box brief-box">
+<div class="brief-head">
+<span class="badge" id="brief-badge"></span>
+<h1 data-i18n="ui.brief.title" id="brief-title">Миссия</h1>
+</div>
+<p class="sub" id="brief-place"></p>
+<div id="brief-text"></div>
+<div class="objective-line" id="brief-objective"></div>
+<div class="menu-buttons">
+<button class="big-btn" data-i18n="ui.brief.go" id="btn-brief-go">В бой!</button>
+<button class="big-btn ghost-btn" data-i18n="ui.missionsScr.backToMissions" id="btn-brief-back">← Миссии</button>
+</div>
+</div>
+</div>
+<div class="overlay hidden" id="codex-overlay">
+<div class="overlay-box wide codex-box">
+<h1 data-i18n="ui.codexScr.universeTitle">Вселенная</h1>
+<p class="sub" data-i18n="ui.codexScr.sub">Мир Рубежа-64: эрг, рой, мятеж и три планеты</p>
+<div id="codex-tabs"></div>
+<div id="codex-body"></div>
+<button class="big-btn ghost-btn" data-i18n="ui.codexScr.back" id="btn-codex-back">← Назад</button>
+</div>
+</div>
+<div class="overlay hidden" id="end-overlay">
+<div class="overlay-box">
+<h1 id="end-title"></h1>
+<div class="end-reason" id="end-reason"></div>
+<div id="end-stats"></div>
+<div class="end-epilogue" id="end-epilogue"></div>
+<div class="end-actions" id="end-actions">
+<button class="big-btn ghost-btn" data-i18n="ui.end.home" id="btn-end-home" type="button">На главный экран</button>
+<button class="big-btn" data-i18n="ui.end.again" id="btn-again" type="button">Играть снова</button>
+<button class="big-btn" data-i18n="ui.end.next" hidden="" id="btn-next" type="button">Следующая миссия →</button>
+</div>
+</div>
+</div>
+<div class="overlay thin hidden" id="pause-overlay"><div class="pause-text" data-i18n="ui.pauseText">ПАУЗА</div><button class="big-btn ghost-btn" data-i18n="ui.menu.reload" id="btn-pause-reload" type="button">Перезагрузить экран</button></div>
+</div>
+<main class="site-page" id="landing-page">
+<header class="site-header">
+<div class="site-header-inner page-shell">
+<a aria-label="Alien Cosmic" class="site-brand" href="#hero">
+<span>ALIEN</span><b>COSMIC</b><small>FRONTIER 64</small>
+</a>
+<nav class="site-nav">
+<a data-i18n="ui.menu.quickBattleTitle" href="#quick-battle">Быстрый бой</a>
+<a data-i18n="ui.menu.campaignTitle" href="#campaign">Кампания</a>
+<a data-i18n="ui.menu.universe" href="#universe">Вселенная</a>
+<a data-i18n="ui.menu.controls" href="#controls">Управление</a>
+<a data-i18n="ui.menu.more" href="#more">Ещё</a>
+</nav>
+<div class="site-tools">
+<div class="ver-badge" id="ver-badge">версия Y · 22.10.2026</div>
+<div class="lang-row">
+<label data-i18n="ui.langLabel" for="lang-select">Язык</label>
+<select id="lang-select"><option value="ru">Русский</option><option value="en">English</option></select>
+</div>
+</div>
+</div>
+</header>
+<section aria-labelledby="hero-title" class="hero-section" id="hero">
+<div class="hero-inner page-shell">
+<div class="hero-copy">
+<p class="hero-eyebrow"><span aria-hidden="true" class="status-led"></span><span data-i18n="ui.menu.heroEyebrow">СИГНАЛ С РУБЕЖА-64</span></p>
+<h1 class="hero-title" id="hero-title">ALIEN <span>COSMIC</span></h1>
+<p class="hero-tagline" data-i18n="ui.menu.heroTagline">Там, где кончается карта, начинается война.</p>
+<p class="hero-description" data-i18n="ui.menu.heroDescription">Возглавьте экспедицию на чужую планету: выберите сторону, удержите рубеж и решите судьбу высадки в кампании или быстром бою.</p>
+<div class="hero-action">
+<button aria-controls="quick-battle" aria-describedby="hero-quick-status" class="big-btn hero-cta" data-i18n="ui.menu.heroQuickCta" id="btn-quick-primary" type="button">Быстрая игра</button>
+<p aria-live="polite" class="hero-quick-status" id="hero-quick-status" role="status">Выбор ещё не сохранён. Эта кнопка приведёт к выбору карты и стороны.</p>
+</div>
+<div class="hero-scroll-note"><span aria-hidden="true" class="scan-mark"></span><span data-i18n="ui.menu.heroScrollCue">ПРОСМОТРЕТЬ ПОЛЕ</span></div>
+</div>
+<div aria-hidden="true" class="hero-visual">
+<div class="hero-visual-grid"></div>
+<div class="hero-art-frame">
+<img alt="" class="hero-artwork" src="/_assets/043d82705d016d308be2.svg"/>
+<div class="hero-visual-label">
+<span class="visual-label-kicker" data-i18n="ui.menu.heroVisualKicker">ОРБИТАЛЬНАЯ РАЗВЕДКА</span>
+<span class="visual-label-main" data-i18n="ui.menu.heroVisualTitle">СЕЛЕНИТ-Б · СЕКТОР 04</span>
+</div>
+<div class="hero-coordinate"><span class="status-led warm"></span><span data-i18n="ui.menu.heroVisualStatus">СИГНАЛ СТАБИЛЕН</span></div>
+<span class="hero-corner hero-corner-a"></span>
+<span class="hero-corner hero-corner-b"></span>
+</div>
+<div class="hero-vertical-code">AC // 64.04</div>
+</div>
+</div>
+<div class="hero-bottomline page-shell"><span data-i18n="ui.menu.heroBottomLine">СВЯЗЬ УСТАНОВЛЕНА · РУБЕЖ-64</span><span class="bottomline-rule"></span><span>01 / 05</span></div>
+</section>
+<!-- Сезон 3: Alien Cosmic: Expedition (полигон r/, облако сейвов, вход ник+пин) -->
+<section aria-labelledby="season3-title" class="page-section season3-section" id="expedition">
+<div class="page-shell">
+<header class="section-heading">
+<div>
+<p class="menu-eyebrow" data-i18n="ui.menu.s3Eyebrow">Сезон 3 · Открыт</p>
+<h2 data-i18n="ui.menu.s3Title" id="season3-title">Alien Cosmic: Expedition</h2>
+</div>
+<p class="section-summary" data-i18n="ui.menu.s3Sub">Постоянная база-КЦ, экспедиции за эргом, входящие рейды и командир. Прогресс живёт в облаке — вход по нику и пину с любого устройства.</p>
+</header>
+<div class="season3-grid" id="season3-link">
+<a class="season3-card">
+<span class="season3-kicker" data-i18n="ui.menu.s3F1Kick">База-КЦ</span>
+<strong class="season3-card-title" data-i18n="ui.menu.s3F1Title">Постоянная база командира</strong>
+<span class="season3-card-text" data-i18n="ui.menu.s3F1Text">Штаб экспедиции живёт между вылазками: стройка, грейды, склад и оборона сохраняются от рейда к рейду.</span>
+</a>
+<a class="season3-card">
+<span class="season3-kicker" data-i18n="ui.menu.s3F2Kick">Рейды</span>
+<strong class="season3-card-title" data-i18n="ui.menu.s3F2Title">Входящая угроза и добыча</strong>
+<span class="season3-card-text" data-i18n="ui.menu.s3F2Text">Тревога, осада и учение из карточки КЦ: рой идёт за ресурсами, эрги — за убийства, XP — только за победу.</span>
+</a>
+<a class="season3-card">
+<span class="season3-kicker" data-i18n="ui.menu.s3F3Kick">Прогресс</span>
+<strong class="season3-card-title" data-i18n="ui.menu.s3F3Title">Командир и облако</strong>
+<span class="season3-card-text" data-i18n="ui.menu.s3F3Text">Офицерская карьера и навыки, сейвы в облаке: вход по нику и пину с любого устройства.</span>
+</a>
+</div>
+<div class="season3-actions">
+<a aria-label=" " class="big-btn" data-i18n="ui.menu.s3Cta">Войти в Экспедицию</a>
+<p class="season3-note" data-i18n="ui.menu.s3Note">Экспедиция идёт на отдельном сервере — прогресс сезона не смешивается с кампанией.</p>
+</div>
+</div>
+</section>
+<section aria-labelledby="quick-battle-title" class="page-section quick-section-page" id="quick-battle">
+<div class="page-shell">
+<header class="section-heading">
+<div>
+<p class="menu-eyebrow" data-i18n="ui.menu.quickBattleEyebrow">ПРОТОКОЛ ВЫЛЕТА</p>
+<h2 data-i18n="ui.menu.quickBattleTitle" id="quick-battle-title">Быстрый бой</h2>
+</div>
+<p class="section-summary" data-i18n="ui.menu.quickBattleSub">Выберите поле и сторону, затем подтвердите вылет. Ваш выбор останется с вами.</p>
+</header>
+<div class="quick-battle-card">
+<div class="quick-battle-head">
+<div class="quick-battle-copy-wrap">
+<p class="quick-battle-copy" data-i18n="ui.menu.quickBattleChoiceHint">Шесть конфигураций поля, два лагеря. Сторона не выбирается автоматически.</p>
+</div>
+</div>
+<div class="quick-section">
+<h3 data-i18n="ui.menu.quickBattleMapLabel" id="quick-map-label">Размер карты · тайлы</h3>
+<div aria-labelledby="quick-map-label" class="quick-map-grid" id="quick-map-grid" role="group">
+<button aria-label="Малая, карта 48×48" aria-pressed="false" class="quick-preset" data-preset-id="square-48" id="quick-preset-square-48" type="button">
+<span class="preset-name" data-i18n="ui.menu.quickPresetNames.compact">Малая</span><span class="preset-dims">48×48</span>
+</button>
+<button aria-label="Рубеж, карта 64×64" aria-pressed="true" class="quick-preset is-selected" data-preset-id="square-64" id="quick-preset-square-64" type="button">
+<span class="preset-name" data-i18n="ui.menu.quickPresetNames.standard">Рубеж</span><span class="preset-dims">64×64</span>
+<span class="quick-recommended" data-i18n="ui.menu.quickBattleRecommended">СОВЕТУЕМ</span>
+</button>
+<button aria-label="Простор, карта 80×80" aria-pressed="false" class="quick-preset" data-preset-id="square-80" id="quick-preset-square-80" type="button">
+<span class="preset-name" data-i18n="ui.menu.quickPresetNames.large">Простор</span><span class="preset-dims">80×80</span>
+</button>
+<button aria-label="Дальний рубеж, карта 96×96" aria-pressed="false" class="quick-preset" data-preset-id="square-96" id="quick-preset-square-96" type="button">
+<span class="preset-name" data-i18n="ui.menu.quickPresetNames.expanse">Дальний рубеж</span><span class="preset-dims">96×96</span>
+</button>
+<button aria-label="Широкий фронт, карта 96×64" aria-pressed="false" class="quick-preset" data-preset-id="wide-96x64" id="quick-preset-wide-96x64" type="button">
+<span class="preset-name" data-i18n="ui.menu.quickPresetNames.wide">Широкий фронт</span><span class="preset-dims">96×64</span>
+</button>
+<button aria-label="Глубокий рубеж, карта 64×96" aria-pressed="false" class="quick-preset" data-preset-id="tall-64x96" id="quick-preset-tall-64x96" type="button">
+<span class="preset-name" data-i18n="ui.menu.quickPresetNames.tall">Глубокий рубеж</span><span class="preset-dims">64×96</span>
+</button>
+</div>
+</div>
+<div class="quick-section">
+<h3 data-i18n="ui.menu.quickBattleFactionLabel" id="quick-faction-label">Выберите сторону</h3>
+<div aria-labelledby="quick-faction-label" class="fac-cards" id="quick-faction-grid" role="group">
+<button aria-label="Играть за сторону ГЕЛИОС" aria-pressed="false" class="fac-card fac-human" id="quick-faction-human" type="button">
+<span class="fc-title" data-i18n="ui.skirmish.humanCard.title">ГЕЛИОС</span>
+<span class="fc-sub" data-i18n="ui.skirmish.humanCard.sub">Экспедиционный корпус корпорации</span>
+</button>
+<button aria-label="Играть за сторону КХАРИД" aria-pressed="false" class="fac-card fac-alien" id="quick-faction-alien" type="button">
+<span class="fc-title" data-i18n="ui.skirmish.alienCard.title">КХАРИД</span>
+<span class="fc-sub" data-i18n="ui.skirmish.alienCard.sub">Кристаллорождённые аборигены</span>
+</button>
+</div>
+</div>
+<div class="quick-battle-actions">
+<p aria-live="polite" class="quick-battle-status" id="quick-battle-status" role="status">Первый вылет: советуем карту 64×64. Выберите сторону, чтобы выйти на поле.</p>
+<button aria-describedby="quick-battle-status" aria-disabled="true" aria-label="Выберите сторону, чтобы начать бой" class="big-btn quick-start is-disabled" data-i18n="ui.menu.quickBattleNeedFaction" id="btn-quick-battle-start" type="button">Выберите сторону, чтобы начать бой</button>
+</div>
+</div>
+</div>
+</section>
+<section aria-labelledby="campaign-section-title" class="page-section campaign-section" id="campaign">
+<div class="page-shell">
+<header class="section-heading">
+<div>
+<p class="menu-eyebrow" data-i18n="ui.menu.campaignEyebrow">СЮЖЕТНАЯ ЛИНИЯ</p>
+<h2 data-i18n="ui.menu.campaignTitle" id="campaign-section-title">Кампания</h2>
+</div>
+<p class="section-summary" data-i18n="ui.menu.campaignIntro">Пятнадцать миссий проведут через три акта войны за Рубеж-64.</p>
+</header>
+<div class="campaign-card">
+<div class="campaign-card-copy">
+<span aria-hidden="true" class="campaign-mark">01</span>
+<h3 data-i18n="ui.menu.campaignTitle">Кампания</h3>
+<p data-i18n="ui.menu.campaignSub">Миссии, брифинги и путь через три акта.</p>
+</div>
+<div class="campaign-actions">
+<button aria-label="Начать кампанию · миссия 1" class="big-btn campaign-start" id="btn-start" type="button">Начать кампанию · миссия 1</button>
+<button class="big-btn ghost-btn campaign-browse" data-i18n="ui.menu.campaignBrowse" id="btn-season1" type="button">Все миссии</button>
+</div>
+</div>
+</div>
+</section>
+<section aria-labelledby="universe-title" class="page-section universe-section" id="universe">
+<div class="page-shell universe-layout">
+<div aria-hidden="true" class="universe-signal">
+<div class="universe-orbit orbit-a"></div><div class="universe-orbit orbit-b"></div>
+<span class="universe-core"></span><span class="universe-signal-code">AC / LOG 01</span>
+</div>
+<div class="universe-copy">
+<p class="menu-eyebrow" data-i18n="ui.menu.universeEyebrow">АРХИВ КОНТАКТА</p>
+<h2 data-i18n="ui.menu.universe" id="universe-title">Вселенная</h2>
+<p class="section-summary" data-i18n="ui.menu.universeIntro">Хроники Гелиоса и кхарид, планеты и сигналы, которые связали их войной.</p>
+<button class="big-btn ghost-btn universe-open" data-i18n="ui.menu.universeOpen" id="btn-codex" type="button">Открыть архив вселенной</button>
+</div>
+</div>
+</section>
+<section aria-labelledby="controls-title" class="page-section controls-section" id="controls">
+<div class="page-shell">
+<header class="section-heading">
+<div>
+<p class="menu-eyebrow" data-i18n="ui.menu.controlsEyebrow">ПОЛЕВОЙ ИНТЕРФЕЙС</p>
+<h2 data-i18n="ui.menu.controls" id="controls-title">Управление</h2>
+</div>
+<p class="section-summary" data-i18n="ui.menu.controlsIntro">Команды и сочетания клавиш собраны в компактной справке.</p>
+</header>
+<details class="menu-disclosure" id="menu-controls">
+<summary data-i18n="ui.menu.controlsSummary">Показать команды и сочетания</summary>
+<div class="help">
+<p data-i18n="ui.menu.help.0"><b>ЛКМ / тап</b> — выбрать · <b>двойной клик / двойной тап</b> — все такие же юниты на экране · <b>ПКМ / удержание поля 450 мс</b> — приказ идти / добывать / атаковать / ремонтировать</p>
+<p data-i18n="ui.menu.help.1"><b>Свайп пустого поля</b> — панорама · <b>перетаскивание от своего юнита</b> — рамка выделения · <b>pinch / + / −</b> — зум с якорем · <b>A + ЛКМ</b> — атака-движение · <b>колесо / стрелки / край</b> — камера · <b>V</b> — панель · <b>P</b> — пауза</p>
+<p data-i18n="ui.menu.help.2"><b>Ctrl/Alt + 1…9</b> — отряд, <b>цифра</b> — выбрать, <b>дважды</b> — прыгнуть · <b>B</b> — стройка: все 8 зданий · в режиме стройки <b>✕</b> отменяет, тап по другому типу меняет здание · <b>S</b> — стоп</p>
+<p data-i18n="ui.menu.help.3"><b>.</b> — свободный рабочий · <b>,</b> — вся армия · <b>Tab</b> — перебор бойцов · <b>H</b> — к последней тревоге · на трекпаде ПКМ — тап двумя пальцами или Ctrl+тап</p>
+<p data-i18n="ui.menu.help.4"><b>Лаборатория</b> — исследования: оружие и броня пехоты, орудия и плиты техники · точка сбора на кристалле — новые рабочие сразу добывают</p>
+<p data-i18n="ui.menu.help.5">Дроны-техники после стройки сами возвращаются к добыче · без приказа бойцы сами атакуют врага в радиусе обзора · наниты сами лечат ближайшую пехоту и останавливаются на лечении · наведите курсор на кнопку — полная справка</p>
+<p data-i18n="ui.menu.help.6">Добыча: рабочие сами распределяются по жилам (оптимум — 2 на кристалл) · достроенные турель, казарма, завод и бункер улучшаются: <b>R</b> — грейд, <b>X</b> — отмена</p>
+</div>
+</details>
+</div>
+</section>
+<section aria-labelledby="more-title" class="page-section more-section" id="more">
+<div class="page-shell">
+<header class="section-heading">
+<div>
+<p class="menu-eyebrow" data-i18n="ui.menu.moreEyebrow">СЛУЖЕБНЫЕ РАЗДЕЛЫ</p>
+<h2 data-i18n="ui.menu.moreTitle" id="more-title">Дополнительно</h2>
+</div>
+<p class="section-summary" data-i18n="ui.menu.moreIntro">Будущие главы и управление прогрессом кампании.</p>
+</header>
+<details class="menu-disclosure menu-more" id="menu-more">
+<summary data-i18n="ui.menu.more">Ещё</summary>
+<div class="more-actions">
+<div class="profile-row">
+<label data-i18n="ui.menu.profileLabel" for="ui-profile-select">Интерфейс</label>
+<select id="ui-profile-select">
+<option data-i18n="ui.menu.profileAuto" value="auto">Авто — по устройству</option>
+<option data-i18n="ui.menu.profileTouch" value="touch">Телефон — тач</option>
+<option data-i18n="ui.menu.profileDesktop" value="desktop">Компьютер — мышь</option>
+</select>
+</div>
+<button class="season-teaser" data-i18n="ui.menu.season2" id="btn-season2" type="button">Сезон 2 · СКОРО</button>
+<button class="big-btn ghost-btn small-start" data-i18n="ui.menu.reload" id="btn-reload-screen" type="button">Перезагрузить экран</button>
+<button class="big-btn ghost-btn small-start" data-i18n="ui.menu.reset" id="btn-reset" type="button">Сбросить прогресс</button>
+</div>
+</details>
+</div>
+</section>
+<footer class="site-footer">
+<div class="page-shell footer-inner">
+<span class="footer-brand">ALIEN <b>COSMIC</b></span>
+<span data-i18n="ui.menu.footerNote">ОДИНОЧНАЯ СТРАТЕГИЯ · РУБЕЖ-64</span>
+<a data-i18n="ui.menu.backToTop" href="#hero">Наверх</a>
+</div>
+</footer>
+</main>
+<script src="/_assets/da3d3444901dfb25a69e.js" type="module"></script>
+</body></html>

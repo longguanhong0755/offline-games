@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Toilet Tycoon: Flush to Riches</title>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: rainbow 3s ease-in-out infinite;
+        }
+
+        @keyframes rainbow {
+            0%, 100% { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); }
+            33% { background: linear-gradient(45deg, #4ecdc4, #45b7d1); }
+            66% { background: linear-gradient(45deg, #45b7d1, #ff6b6b); }
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5em;
+            text-shadow: 3px 3px 0px #333;
+            margin-bottom: 10px;
+        }
+
+        .currency-display {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .currency-item {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .currency-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .currency-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .toilet-section {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .toilet-display {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .toilet {
+            font-size: 8em;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.1s;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .toilet:hover {
+            transform: scale(1.05);
+        }
+
+        .toilet.flushing {
+            animation: flush 0.5s ease-in-out;
+        }
+
+        @keyframes flush {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1) rotate(5deg); }
+            100% { transform: scale(1); }
+        }
+
+        .flush-button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .flush-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255,107,107,0.6);
+        }
+
+        .upgrade-section {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .upgrade-section h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .upgrade-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .upgrade-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+
+        .upgrade-item.affordable {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .upgrade-item.maxed {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+        }
+
+        .upgrade-info {
+            flex: 1;
+        }
+
+        .upgrade-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .upgrade-description {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .upgrade-level {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .upgrade-cost {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+            min-width: 100px;
+        }
+
+        .managers-section {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .manager-item {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .manager-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+
+        .manager-item.hired {
+            background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+        }
+
+        .manager-item.affordable {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .stats-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.7);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .prestige-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .prestige-button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+            font-family: inherit;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .prestige-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255,107,107,0.6);
+        }
+
+        .prestige-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .floating-number {
+            position: fixed;
+            pointer-events: none;
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #2ecc71;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+            animation: floatUp 2s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+        }
+
+        .toilet-effects {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            font-size: 2em;
+            animation: sparkle 1s ease-out;
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .toilet {
+                font-size: 6em;
+            }
+        }
+    </style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="game-container">
+<div class="header">
+<h1>🚽 Toilet Tycoon: Flush to Riches 🚽</h1>
+<p>Build your bathroom empire, one flush at a time!</p>
+</div>
+<div class="currency-display">
+<div class="currency-item">
+<div class="currency-value" id="flushCoins">0</div>
+<div class="currency-label">💰 FlushCoins</div>
+</div>
+<div class="currency-item">
+<div class="currency-value" id="stinkGems">0</div>
+<div class="currency-label">💎 Stink Gems</div>
+</div>
+<div class="currency-item">
+<div class="currency-value" id="flushesPerSecond">0.0</div>
+<div class="currency-label">🌊 Flushes/sec</div>
+</div>
+</div>
+<div class="main-content">
+<div class="toilet-section">
+<div class="toilet-display">
+<div class="toilet" id="mainToilet">🚽</div>
+<div id="toiletName">Basic Toilet</div>
+<button class="flush-button" id="flushButton">FLUSH! 🌊</button>
+</div>
+</div>
+<div class="upgrade-section">
+<h2>🔧 Toilet Upgrades</h2>
+<div id="upgradesList"><div class="upgrade-item">
+<div class="upgrade-info">
+<div class="upgrade-name">💪 Flush Power</div>
+<div class="upgrade-description">More coins per flush</div>
+<div class="upgrade-level">Level: 0</div>
+</div>
+<div class="upgrade-cost">10</div>
+</div><div class="upgrade-item">
+<div class="upgrade-info">
+<div class="upgrade-name">⚡ Auto-Flush</div>
+<div class="upgrade-description">Automatic flushing</div>
+<div class="upgrade-level">Level: 0</div>
+</div>
+<div class="upgrade-cost">50</div>
+</div><div class="upgrade-item">
+<div class="upgrade-info">
+<div class="upgrade-name">🌊 Water Pressure</div>
+<div class="upgrade-description">Faster flush recovery</div>
+<div class="upgrade-level">Level: 0</div>
+</div>
+<div class="upgrade-cost">100</div>
+</div><div class="upgrade-item">
+<div class="upgrade-info">
+<div class="upgrade-name">🪑 Seat Comfort</div>
+<div class="upgrade-description">Multiplies all income</div>
+<div class="upgrade-level">Level: 0</div>
+</div>
+<div class="upgrade-cost">250</div>
+</div><div class="upgrade-item">
+<div class="upgrade-info">
+<div class="upgrade-name">🎨 Bathroom Decor</div>
+<div class="upgrade-description">Attracts more customers</div>
+<div class="upgrade-level">Level: 0</div>
+</div>
+<div class="upgrade-cost">500</div>
+</div></div>
+</div>
+</div>
+<div class="managers-section">
+<h2>👨‍🔧 Bathroom Managers</h2>
+<div id="managersList"><div class="manager-item">
+<div class="upgrade-info">
+<div class="upgrade-name">🧘‍♂️ The Plumber Monk</div>
+<div class="upgrade-description">Meditates to boost income by 200%</div>
+</div>
+<div class="upgrade-cost">1.0K</div>
+</div><div class="manager-item">
+<div class="upgrade-info">
+<div class="upgrade-name">👴 Toilet Guru</div>
+<div class="upgrade-description">Ancient wisdom increases efficiency by 300%</div>
+</div>
+<div class="upgrade-cost">5.0K</div>
+</div><div class="manager-item">
+<div class="upgrade-info">
+<div class="upgrade-name">🧙‍♂️ Flush Wizard</div>
+<div class="upgrade-description">Magic spells create 5x more coins</div>
+</div>
+<div class="upgrade-cost">25.0K</div>
+</div><div class="manager-item">
+<div class="upgrade-info">
+<div class="upgrade-name">🎩 Bidet Master</div>
+<div class="upgrade-description">Luxury expertise grants 10x multiplier</div>
+</div>
+<div class="upgrade-cost">100.0K</div>
+</div></div>
+</div>
+<div class="prestige-section">
+<h2>🌟 Prestige System</h2>
+<p>Reset your empire to earn Stink Gems for permanent bonuses!</p>
+<p>Next prestige will give you <span id="prestigeGems">0</span> Stink Gems</p>
+<button class="prestige-button" disabled="" id="prestigeButton">Flush the World!</button>
+</div>
+</div>
+<script>
+        // Game state
+        let gameState = {
+            flushCoins: 0,
+            stinkGems: 0,
+            totalFlushes: 0,
+            prestigeLevel: 0,
+            lastUpdate: Date.now(),
+            toiletLevel: 0,
+            upgrades: [
+                { id: 'flushPower', name: 'Flush Power', level: 0, baseCost: 10, multiplier: 1.5, description: 'More coins per flush', emoji: '💪' },
+                { id: 'flushSpeed', name: 'Auto-Flush', level: 0, baseCost: 50, multiplier: 2, description: 'Automatic flushing', emoji: '⚡' },
+                { id: 'waterPressure', name: 'Water Pressure', level: 0, baseCost: 100, multiplier: 1.8, description: 'Faster flush recovery', emoji: '🌊' },
+                { id: 'comfort', name: 'Seat Comfort', level: 0, baseCost: 250, multiplier: 2.2, description: 'Multiplies all income', emoji: '🪑' },
+                { id: 'decor', name: 'Bathroom Decor', level: 0, baseCost: 500, multiplier: 2.5, description: 'Attracts more customers', emoji: '🎨' }
+            ],
+            managers: [
+                { id: 'plumberMonk', name: 'The Plumber Monk', cost: 1000, hired: false, description: 'Meditates to boost income by 200%', emoji: '🧘‍♂️', bonus: 2 },
+                { id: 'toiletGuru', name: 'Toilet Guru', cost: 5000, hired: false, description: 'Ancient wisdom increases efficiency by 300%', emoji: '👴', bonus: 3 },
+                { id: 'flushWizard', name: 'Flush Wizard', cost: 25000, hired: false, description: 'Magic spells create 5x more coins', emoji: '🧙‍♂️', bonus: 5 },
+                { id: 'bidetMaster', name: 'Bidet Master', cost: 100000, hired: false, description: 'Luxury expertise grants 10x multiplier', emoji: '🎩', bonus: 10 }
+            ]
+        };
+
+        // Toilet evolution
+        const toiletEvolution = [
+            { level: 0, emoji: '🚽', name: 'Basic Toilet' },
+            { level: 5, emoji: '🚿', name: 'Power Flush Toilet' },
+            { level: 10, emoji: '🏺', name: 'Ancient Toilet' },
+            { level: 15, emoji: '🌟', name: 'Golden Toilet' },
+            { level: 20, emoji: '🌈', name: 'Rainbow Toilet' },
+            { level: 25, emoji: '🔥', name: 'Fire Toilet' },
+            { level: 30, emoji: '❄️', name: 'Ice Toilet' },
+            { level: 35, emoji: '⚡', name: 'Electric Toilet' },
+            { level: 40, emoji: '🌙', name: 'Moon Toilet' },
+            { level: 50, emoji: '🚀', name: 'Rocket Toilet' },
+            { level: 60, emoji: '👹', name: 'Demon Toilet' },
+            { level: 70, emoji: '🌳', name: 'Tree Toilet' },
+            { level: 80, emoji: '👑', name: 'Royal Toilet' },
+            { level: 90, emoji: '🌌', name: 'Cosmic Toilet' },
+            { level: 100, emoji: '💎', name: 'Diamond Toilet' }
+        ];
+
+        // Load game state
+        function loadGame() {
+            const saved = localStorage.getItem('toiletTycoonSave');
+            if (saved) {
+                const savedState = JSON.parse(saved);
+                gameState = { ...gameState, ...savedState };
+            }
+        }
+
+        // Save game state
+        function saveGame() {
+            localStorage.setItem('toiletTycoonSave', JSON.stringify(gameState));
+        }
+
+        // Format numbers
+        function formatNumber(num) {
+            if (num < 1000) return Math.floor(num).toString();
+            if (num < 1000000) return (num / 1000).toFixed(1) + 'K';
+            if (num < 1000000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num < 1000000000000) return (num / 1000000000).toFixed(1) + 'B';
+            return (num / 1000000000000).toFixed(1) + 'T';
+        }
+
+        // Calculate coins per flush
+        function getCoinsPerFlush() {
+            let base = 1;
+            let flushPowerMultiplier = 1 + (gameState.upgrades[0].level * 0.5);
+            let comfortMultiplier = 1 + (gameState.upgrades[3].level * 0.3);
+            let managerMultiplier = 1;
+            
+            gameState.managers.forEach(manager => {
+                if (manager.hired) {
+                    managerMultiplier *= manager.bonus;
+                }
+            });
+
+            let stinkGemMultiplier = 1 + (gameState.stinkGems * 0.1);
+            
+            return Math.floor(base * flushPowerMultiplier * comfortMultiplier * managerMultiplier * stinkGemMultiplier);
+        }
+
+        // Calculate flushes per second
+        function getFlushesPerSecond() {
+            let base = gameState.upgrades[1].level * 0.1; // Auto-flush upgrade
+            let speedMultiplier = 1 + (gameState.upgrades[2].level * 0.2); // Water pressure
+            let decorMultiplier = 1 + (gameState.upgrades[4].level * 0.1); // Decor
+            
+            return base * speedMultiplier * decorMultiplier;
+        }
+
+        // Manual flush
+        function manualFlush() {
+            const toilet = document.getElementById('mainToilet');
+            toilet.classList.add('flushing');
+            setTimeout(() => toilet.classList.remove('flushing'), 500);
+
+            const coins = getCoinsPerFlush();
+            gameState.flushCoins += coins;
+            gameState.totalFlushes++;
+
+            // Show floating number
+            showFloatingNumber(coins, toilet);
+
+            // Add sparkle effect
+            addSparkleEffect();
+
+            updateDisplay();
+            saveGame();
+        }
+
+        // Show floating number
+        function showFloatingNumber(amount, element) {
+            const rect = element.getBoundingClientRect();
+            const floatingNumber = document.createElement('div');
+            floatingNumber.className = 'floating-number';
+            floatingNumber.textContent = '+' + formatNumber(amount);
+            floatingNumber.style.left = (rect.left + rect.width / 2) + 'px';
+            floatingNumber.style.top = rect.top + 'px';
+            document.body.appendChild(floatingNumber);
+
+            setTimeout(() => {
+                document.body.removeChild(floatingNumber);
+            }, 2000);
+        }
+
+        // Add sparkle effect
+        function addSparkleEffect() {
+            const toilet = document.getElementById('mainToilet');
+            const sparkle = document.createElement('div');
+            sparkle.className = 'toilet-effects';
+            sparkle.textContent = '✨💫⭐';
+            toilet.parentElement.style.position = 'relative';
+            toilet.parentElement.appendChild(sparkle);
+
+            setTimeout(() => {
+                if (sparkle.parentElement) {
+                    sparkle.parentElement.removeChild(sparkle);
+                }
+            }, 1000);
+        }
+
+        // Buy upgrade
+        function buyUpgrade(upgradeId) {
+            const upgrade = gameState.upgrades.find(u => u.id === upgradeId);
+            if (!upgrade) return;
+
+            const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.multiplier, upgrade.level));
+            if (gameState.flushCoins >= cost) {
+                gameState.flushCoins -= cost;
+                upgrade.level++;
+                updateToiletEvolution();
+                updateDisplay();
+                saveGame();
+            }
+        }
+
+        // Hire manager
+        function hireManager(managerId) {
+            const manager = gameState.managers.find(m => m.id === managerId);
+            if (!manager || manager.hired) return;
+
+            if (gameState.flushCoins >= manager.cost) {
+                gameState.flushCoins -= manager.cost;
+                manager.hired = true;
+                updateDisplay();
+                saveGame();
+            }
+        }
+
+        // Update toilet evolution
+        function updateToiletEvolution() {
+            const totalUpgradeLevel = gameState.upgrades.reduce((sum, upgrade) => sum + upgrade.level, 0);
+            const currentEvolution = toiletEvolution.slice().reverse().find(evo => totalUpgradeLevel >= evo.level);
+            
+            if (currentEvolution) {
+                document.getElementById('mainToilet').textContent = currentEvolution.emoji;
+                document.getElementById('toiletName').textContent = currentEvolution.name;
+                gameState.toiletLevel = currentEvolution.level;
+            }
+        }
+
+        // Prestige system
+        function prestige() {
+            if (gameState.totalFlushes < 1000) return;
+
+            const gemsToEarn = Math.floor(Math.sqrt(gameState.totalFlushes / 1000));
+            gameState.stinkGems += gemsToEarn;
+            gameState.prestigeLevel++;
+
+            // Reset progress
+            gameState.flushCoins = 0;
+            gameState.totalFlushes = 0;
+            gameState.upgrades.forEach(upgrade => upgrade.level = 0);
+            gameState.managers.forEach(manager => manager.hired = false);
+            gameState.toiletLevel = 0;
+
+            updateToiletEvolution();
+            updateDisplay();
+            saveGame();
+
+            alert(`🌟 Prestige Complete! 🌟\nYou earned ${gemsToEarn} Stink Gems!\nEach gem gives +10% income permanently!`);
+        }
+
+        // Update display
+        function updateDisplay() {
+            document.getElementById('flushCoins').textContent = formatNumber(gameState.flushCoins);
+            document.getElementById('stinkGems').textContent = formatNumber(gameState.stinkGems);
+            document.getElementById('flushesPerSecond').textContent = getFlushesPerSecond().toFixed(1);
+
+            // Update upgrades
+            const upgradesList = document.getElementById('upgradesList');
+            upgradesList.innerHTML = '';
+            
+            gameState.upgrades.forEach(upgrade => {
+                const cost = Math.floor(upgrade.baseCost * Math.pow(upgrade.multiplier, upgrade.level));
+                const canAfford = gameState.flushCoins >= cost;
+                const isMaxed = upgrade.level >= 100;
+
+                const upgradeElement = document.createElement('div');
+                upgradeElement.className = `upgrade-item ${canAfford && !isMaxed ? 'affordable' : ''} ${isMaxed ? 'maxed' : ''}`;
+                upgradeElement.onclick = () => !isMaxed && buyUpgrade(upgrade.id);
+                
+                upgradeElement.innerHTML = `
+                    <div class="upgrade-info">
+                        <div class="upgrade-name">${upgrade.emoji} ${upgrade.name}</div>
+                        <div class="upgrade-description">${upgrade.description}</div>
+                        <div class="upgrade-level">Level: ${upgrade.level}${isMaxed ? ' (MAX)' : ''}</div>
+                    </div>
+                    <div class="upgrade-cost">${isMaxed ? 'MAX' : formatNumber(cost)}</div>
+                `;
+                
+                upgradesList.appendChild(upgradeElement);
+            });
+
+            // Update managers
+            const managersList = document.getElementById('managersList');
+            managersList.innerHTML = '';
+            
+            gameState.managers.forEach(manager => {
+                const canAfford = gameState.flushCoins >= manager.cost && !manager.hired;
+
+                const managerElement = document.createElement('div');
+                managerElement.className = `manager-item ${manager.hired ? 'hired' : ''} ${canAfford ? 'affordable' : ''}`;
+                managerElement.onclick = () => hireManager(manager.id);
+                
+                managerElement.innerHTML = `
+                    <div class="upgrade-info">
+                        <div class="upgrade-name">${manager.emoji} ${manager.name}</div>
+                        <div class="upgrade-description">${manager.description}</div>
+                    </div>
+                    <div class="upgrade-cost">${manager.hired ? 'HIRED' : formatNumber(manager.cost)}</div>
+                `;
+                
+                managersList.appendChild(managerElement);
+            });
+
+            // Update prestige
+            const canPrestige = gameState.totalFlushes >= 1000;
+            const prestigeGems = Math.floor(Math.sqrt(gameState.totalFlushes / 1000));
+            document.getElementById('prestigeGems').textContent = prestigeGems;
+            document.getElementById('prestigeButton').disabled = !canPrestige;
+        }
+
+        // Game loop
+        function gameLoop() {
+            const now = Date.now();
+            const deltaTime = (now - gameState.lastUpdate) / 1000;
+            gameState.lastUpdate = now;
+
+            // Passive income
+            const passiveIncome = getFlushesPerSecond() * getCoinsPerFlush() * deltaTime;
+            if (passiveIncome > 0) {
+                gameState.flushCoins += passiveIncome;
+                gameState.totalFlushes += getFlushesPerSecond() * deltaTime;
+            }
+
+            updateDisplay();
+            setTimeout(gameLoop, 100);
+        }
+
+        // Initialize game
+        function initGame() {
+            loadGame();
+            updateToiletEvolution();
+            updateDisplay();
+            gameLoop();
+
+            // Event listeners
+            document.getElementById('flushButton').onclick = manualFlush;
+            document.getElementById('mainToilet').onclick = manualFlush;
+            document.getElementById('prestigeButton').onclick = prestige;
+
+            // Auto-save every 30 seconds
+            setInterval(saveGame, 30000);
+        }
+
+        // Start the game
+        initGame();
+    </script>
+</body></html>

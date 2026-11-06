@@ -1,0 +1,726 @@
+/**
+ * game.js — Navigation, investigation logic, NPC interaction, time/weather
+ * Milestone 2: NPC availability, dialogue selection, relationship stages
+ */
+const Game = (() => {
+  const content = {};
+
+  async function init() {
+    const load = url => fetch(url).then(r => {
+      if (!r.ok) throw new Error('Could not load ' + url);
+      return r.json();
+    });
+    content.config = await load('content/config.json');
+    content.locations = await load('content/locations.json');
+    content.thoughts = await load('content/thoughts.json');
+    content.npcs = await load('content/npcs.json');
+    content.investigations = await load('content/investigations.json');
+    content.fragments = await load('content/fragments.json');
+  }
+
+  // --- Time ---
+
+  function getTimePeriod() {
+    const hour = new Date().getHours();
+    const periods = content.config.time.periods;
+    for (const [name, p] of Object.entries(periods)) {
+      if (name === 'night') {
+        if (hour >= p.startHour || hour < p.endHour) return name;
+      } else {
+        if (hour >= p.startHour && hour < p.endHour) return name;
+      }
+    }
+    return 'night';
+  }
+
+  function getTimePalette() {
+    return content.config.time.palette[getTimePeriod()];
+  }
+
+  // --- Weather ---
+  let _weather = 'clear';
+  let _weatherNavCount = 0;
+  function getWeather() { return _weather; }
+  function rollWeather() {
+    _weatherNavCount++;
+    // Only reroll every 3-5 navigations
+    if (_weatherNavCount >= 3 + Math.floor(Math.random() * 3)) {
+      _weather = Math.random() < 0.25 ? 'rain' : 'clear';
+      _weatherNavCount = 0;
+    }
+    return _weather;
+  }
+
+  // --- The Forgetting ---
+  function isForgettingActive() {
+    const now = Date.now();
+    const daysSinceEpoch = Math.floor(now / 86400000);
+    // Use a hash-like formula for less predictable windows
+    const cycle = Math.floor(daysSinceEpoch / 7);
+    const offset = ((cycle * 13 + 5) % 7); // varies which day each week
+    const weekPos = daysSinceEpoch % 7;
+    return weekPos === offset || weekPos === ((offset + 1) % 7);
+  }
+
+  // --- Navigation ---
+
+  function navigate(targetId) {
+    const fromId = State.get('location');
+    const target = content.locations[targetId];
+    if (!target) return null;
+
+    const currentLoc = content.locations[State.get('location')];
+    if (currentLoc && currentLoc.adjacentLocations && !currentLoc.adjacentLocations.includes(targetId)) {
+      console.warn('Invalid navigation: ' + targetId + ' not adjacent to ' + State.get('location'));
+      return null;
+    }
+
+    // Pick a walking thought for this route
+    const thought = pickThought(fromId, targetId);
+
+    // Update state
+    State.visitLocation(targetId);
+
+    return { thought, location: target };
+  }
+
+  function pickThought(fromId, toId) {
+    const trait = State.get('trait');
+
+    // Route-specific thoughts from destination location
+    const dest = content.locations[toId];
+    if (dest && dest.walkingThoughts) {
+      const route = dest.walkingThoughts['from_' + fromId];
+      if (route && route.length) return pick(route);
+    }
+
+    // Flat-specific thoughts
+    if (toId === 'flat' && content.thoughts.flat) {
+      const pool = content.thoughts.flat.returning;
+      if (pool && pool.length) return pick(pool);
+    }
+    if (fromId === 'flat' && content.thoughts.flat) {
+      const pool = content.thoughts.flat.leaving;
+      if (pool && pool.length) return pick(pool);
+    }
+
+    // Determine neighborhood for thought selection
+    const nbr = (dest && dest.neighborhood) || 'limehouse';
+    const nbrThoughts = content.thoughts[nbr] || content.thoughts.limehouse;
+
+    // Weather-specific thought
+    if (_weather === 'rain' && nbrThoughts.weather && nbrThoughts.weather.rain) {
+      if (Math.random() < 0.4) return pick(nbrThoughts.weather.rain);
+    }
+
+    // Time-specific thought
+    const timePeriod = getTimePeriod();
+    const timeThought = nbrThoughts.time && nbrThoughts.time[timePeriod];
+    if (timeThought && Math.random() < 0.3) return timeThought;
+
+    // Trait-specific thought
+    if (trait && nbrThoughts[trait] && Math.random() < 0.25) {
+      return pick(nbrThoughts[trait]);
+    }
+
+    // General neighborhood thought
+    // Guard: fall back to limehouse neutral if the resolved neighborhood has no neutral array
+    const neutralPool = (nbrThoughts && nbrThoughts.neutral && nbrThoughts.neutral.length)
+      ? nbrThoughts.neutral
+      : (content.thoughts.limehouse && content.thoughts.limehouse.neutral) || [];
+    if (!neutralPool.length) return '';
+    return pick(neutralPool);
+  }
+
+  function pick(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  // --- Location Queries ---
+
+  function getLocation(id) {
+    return content.locations[id || State.get('location')];
+  }
+
+  function getAdjacentLocations(fromId) {
+    const loc = content.locations[fromId || State.get('location')];
+    if (!loc) return [];
+    return loc.adjacentLocations
+      .filter(id => content.locations[id])
+      .map(id => ({ id, name: content.locations[id].name }));
+  }
+
+  function isLocationAvailable(id) {
+    const loc = content.locations[id];
+    if (!loc || !loc.available) return true;
+    const period = getTimePeriod();
+    return loc.available.timeOfDay.includes(period);
+  }
+
+  // --- NPCs ---
+
+  // Seasonal NPC availability modifiers (A6-world-systems.md)
+  // extraSlots: additional time periods when NPC is available this season
+  // reduced: true = NPC is less likely to appear (50% chance of being treated as unavailable)
+  const SEASONAL_NPC_MODIFIERS = {
+    spring: {
+      canal_painter:  { extraSlots: ['morning', 'afternoon', 'evening'] }, // outside more
+      market_vendor:  { extraSlots: ['morning'] }                          // market wakes earlier
+    },
+    summer: {
+      bike_courier:         { extraSlots: ['evening'] },   // works later
+      nightclub_promoter:   { extraSlots: ['afternoon'] }, // outdoor events
+      old_man:              { extraSlots: ['evening'] }    // longer days, stays later
+    },
+    autumn: {
+      old_man:       { extraSlots: ['evening'] },  // dusk earlier, stays for it
+      sound_artist:  { extraSlots: ['morning', 'evening'] }, // records more
+      data_scientist:{ extraSlots: ['evening'] }   // anomalies intensify
+    },
+    winter: {
+      canal_painter: { reduced: true },  // moves inside, less available outdoors
+      old_man:       { reduced: true },  // colder, comes less
+      pub_landlord:  { extraSlots: ['morning'] },    // longer evenings in pub
+      warehouse_guard:{ extraSlots: ['night'] },     // longest nights
+      clockmaker:    { extraSlots: ['evening'] }     // longer indoor hours
+    }
+  };
+
+  function getNpcsAtLocation(locId) {
+    const loc = content.locations[locId || State.get('location')];
+    if (!loc || !loc.npcs_present) return [];
+    const period = getTimePeriod();
+    const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const today = dayNames[new Date().getDay()];
+    const season = getSeason();
+    const seasonMods = SEASONAL_NPC_MODIFIERS[season] || {};
+
+    // First-session grace: if the player has never met any NPC, override schedule
+    // for the first NPC at this location so the world is never entirely empty on
+    // the player's very first exploration.
+    const allNpcMem = State.get('npcMemory') || {};
+    const anyNpcEverMet = Object.values(allNpcMem).some(m => m && m.visitCount > 0);
+    const graceActive = !anyNpcEverMet;
+
+    const result = [];
+    let graceUsed = false;
+    for (const [npcId, schedule] of Object.entries(loc.npcs_present)) {
+      const npc = content.npcs[npcId];
+      if (!npc) continue;
+
+      // Base schedule check
+      let normallyAvailable = schedule.timeOfDay.includes(period) && schedule.days.includes(today);
+
+      // Apply seasonal modifier
+      const mod = seasonMods[npcId];
+      if (mod) {
+        if (mod.extraSlots && mod.extraSlots.includes(period) && schedule.days.includes(today)) {
+          normallyAvailable = true; // season extends their hours
+        }
+        if (mod.reduced && normallyAvailable) {
+          // 50% chance of being unavailable in this season
+          const daySeed = new Date().getDate() + npcId.charCodeAt(0);
+          if (daySeed % 2 === 0) normallyAvailable = false;
+        }
+      }
+
+      // Grace: make the first (and only the first) NPC at this location available,
+      // but only if no NPC here is normally available and grace hasn't been used yet.
+      const available = normallyAvailable || (graceActive && !graceUsed && !result.some(e => e.available));
+      if (available && !normallyAvailable) graceUsed = true;
+      result.push({ id: npcId, npc, available });
+    }
+    return result;
+  }
+
+  function getNpcStage(npcId) {
+    const npc = content.npcs[npcId];
+    if (!npc) return 'stranger';
+    const mem = State.getNpcMemory(npcId);
+    const stages = ['acquaintance', 'familiar', 'confidant'];
+    let highestStage = null;
+    for (const stage of stages) {
+      const trigger = npc.dialogue[stage] && npc.dialogue[stage].trigger;
+      if (!trigger) continue;
+      if (mem.visitCount < trigger.visitCount) continue;
+      if (trigger.acrossDays && mem.visitDays.length < 2) continue;
+      // requiresInvestigation check — skip for now if investigation not started
+      if (trigger.requiresInvestigation) {
+        const inv = State.get('investigations') || {};
+        if (!inv[trigger.requiresInvestigation]) continue;
+      }
+      // If an investigation choice forced a variant of this stage (e.g. familiar_aware),
+      // honour that variant rather than returning the base stage.
+      if (mem.stage && mem.stage.startsWith(stage + '_') && npc.dialogue[mem.stage]) {
+        highestStage = mem.stage;
+      } else {
+        highestStage = stage;
+      }
+    }
+    return highestStage || 'stranger';
+  }
+
+  function interactWithNpc(npcId) {
+    const npc = content.npcs[npcId];
+    if (!npc) return null;
+
+    State.recordNpcVisit(npcId);
+    const forgetting = isForgettingActive();
+    const mem = State.getNpcMemory(npcId);
+
+    // Calculate stage and update if changed
+    const newStage = getNpcStage(npcId);
+    const oldStage = mem.stage;
+    const stageChanged = newStage !== oldStage;
+    if (stageChanged) State.setNpcStage(npcId, newStage);
+
+    // Advance any investigation step whose trigger is reaching this NPC's stage.
+    // Called here so it fires once per visit regardless of which dialogue path is taken.
+    checkInvestigationAdvanceOnNpc(npcId);
+
+    const stageData = npc.dialogue[newStage];
+    if (!stageData) return null;
+
+    // The Forgetting: familiar NPCs feel like acquaintances — the mythological
+    // warmth recedes and only the surface relationship remains
+    const effectiveStageData = forgetting && (newStage.startsWith('familiar') || newStage === 'confidant') && npc.dialogue['acquaintance']
+      ? npc.dialogue['acquaintance']
+      : stageData;
+
+    // On stage transition or first visit in this stage, show entry line
+    if (stageChanged || mem.visitCount === 1) {
+      return { line: effectiveStageData.entry, stage: newStage, stageChanged, npc, forgetting };
+    }
+
+    // Meier: soft progression hint — when close to next stage, show warmth
+    const nextStages = ['acquaintance', 'familiar', 'confidant'];
+    for (const ns of nextStages) {
+      const nsTrigger = npc.dialogue[ns] && npc.dialogue[ns].trigger;
+      if (nsTrigger && newStage !== ns && mem.visitCount === nsTrigger.visitCount - 1) {
+        return { line: effectiveStageData.entry, stage: newStage, stageChanged: false, npc, nearStageShift: true, forgetting };
+      }
+    }
+
+    // Weather-variant line (20% chance)
+    const weather = getWeather();
+    if (effectiveStageData.weatherLines && effectiveStageData.weatherLines[weather] && Math.random() < 0.20) {
+      return { line: effectiveStageData.weatherLines[weather], stage: newStage, stageChanged: false, npc, forgetting };
+    }
+
+    // Time-variant line (20% chance)
+    const timePd = getTimePeriod();
+    if (effectiveStageData.timeLines && effectiveStageData.timeLines[timePd] && Math.random() < 0.20) {
+      return { line: effectiveStageData.timeLines[timePd], stage: newStage, stageChanged: false, npc, forgetting };
+    }
+
+    // Trait-specific line (25% chance) — suppressed during Forgetting (mythological layer quiet)
+    const trait = State.get('trait');
+    if (!forgetting && trait && effectiveStageData.traitLines && effectiveStageData.traitLines[trait] && Math.random() < 0.25) {
+      return { line: effectiveStageData.traitLines[trait], stage: newStage, stageChanged: false, npc, forgetting };
+    }
+
+    // Cross-reference lines — suppressed during Forgetting, fires once per NPC
+    // Stat interaction: high awareness + connection reduces the NPC threshold by 1
+    if (!forgetting && stageData.crossReference && !State.get('crossRef_' + npcId)) {
+      const npcMemAll = State.get('npcMemory') || {};
+      const metCount = Object.keys(npcMemAll).filter(id => npcMemAll[id] && npcMemAll[id].visitCount > 0).length;
+      const stats = State.get('stats') || {};
+      const crossRefThreshold = ((stats.awareness || 0) >= 6 && (stats.connection || 0) >= 4)
+        ? Math.max(1, stageData.crossReference.minNpcsMet - 1)
+        : stageData.crossReference.minNpcsMet;
+      if (metCount >= crossRefThreshold) {
+        State.set('crossRef_' + npcId, true);
+        return { line: { text: stageData.crossReference.text, tag: 'neutral' }, stage: newStage, stageChanged: false, npc, forgetting };
+      }
+    }
+
+    // Ambient line
+    if (effectiveStageData.ambient && effectiveStageData.ambient.length) {
+      return { line: pick(effectiveStageData.ambient), stage: newStage, stageChanged: false, npc, forgetting };
+    }
+
+    return { line: effectiveStageData.entry, stage: newStage, stageChanged: false, npc, forgetting };
+  }
+
+  // --- Noticing ---
+
+  function checkDetailAt(cx, cy) {
+    const locId = State.get('location');
+    const loc = content.locations[locId];
+    if (!loc || !loc.interactableDetails) return null;
+
+    const trait = State.get('trait');
+    const awareness = (State.get('stats') || {}).awareness || 0;
+
+    const period = getTimePeriod();
+
+    // Collect all details under the tap and return the smallest (most specific) hitbox, so
+    // a precise detail is never shadowed by a large whole-scene one that overlaps the point.
+    let best = null, bestArea = Infinity;
+    for (const detail of loc.interactableDetails) {
+      if (State.isDiscovered(detail.id)) continue;
+      if (detail.trait_required && detail.trait_required !== trait) continue;
+      if (detail.awareness_required > awareness) continue;
+      // Time-of-day gate
+      if (detail.timeOfDay && !detail.timeOfDay.includes(period)) continue;
+      // Weather gate
+      if (detail.weather && !detail.weather.includes(getWeather())) continue;
+      // Investigation gate
+      if (detail.requires_investigation) {
+        const req = detail.requires_investigation;
+        const inv = State.getInvestigation(req.id);
+        if (inv.currentStep < req.minStep) continue;
+      }
+      // Deep discovery gate — only appears when all other freely-discoverable details
+      // at this location are found. Investigation-gated details are excluded: they only
+      // become tappable mid-investigation, so they must not block the deep detail.
+      if (detail.requires_all_discovered) {
+        const otherDetails = loc.interactableDetails.filter(d => d.id !== detail.id && !d.requires_all_discovered && !d.requires_investigation);
+        const allOthersFound = otherDetails.every(d => State.isDiscovered(d.id));
+        if (!allOthersFound) continue;
+      }
+      const h = detail.hitbox;
+      if (cx >= h.x && cx <= h.x + h.w && cy >= h.y && cy <= h.y + h.h) {
+        const area = h.w * h.h;
+        if (area < bestArea) { best = detail; bestArea = area; }
+      }
+    }
+    return best;
+  }
+
+  function discoverDetail(detail) {
+    const isNew = State.recordDiscovery(detail.id, detail.xp);
+    if (isNew) checkInvestigationAdvance(detail.id);
+    return isNew;
+  }
+
+  // Check if tapping a previously discovered detail
+  function checkDiscoveredDetailAt(cx, cy) {
+    const locId = State.get('location');
+    const loc = content.locations[locId];
+    if (!loc || !loc.interactableDetails) return null;
+    for (const detail of loc.interactableDetails) {
+      if (!State.isDiscovered(detail.id)) continue;
+      const h = detail.hitbox;
+      if (cx >= h.x && cx <= h.x + h.w && cy >= h.y && cy <= h.y + h.h) {
+        return detail;
+      }
+    }
+    return null;
+  }
+
+  // --- Investigations ---
+
+  function checkInvestigationTriggers() {
+    const triggered = [];
+    const playerTrait = State.get('trait');
+    for (const [id, inv] of Object.entries(content.investigations)) {
+      // Trait gate: skip investigations meant for a specific trait the player doesn't have
+      if (inv.trait && inv.trait !== 'all' && inv.trait !== playerTrait) continue;
+      const stateInv = State.getInvestigation(id);
+      if (stateInv.currentStep > 0 || stateInv.complete) continue;
+      if (meetsConditions(inv.trigger.conditions)) {
+        State.advanceInvestigation(id, 1);
+        // Settle: roll through any 'automatic' steps, catch up on already-discovered
+        // detail triggers, and auto-complete single-step / choiceless investigations.
+        settleInvestigation(id, inv);
+        triggered.push({ id, investigation: inv, step: inv.steps[0] });
+      }
+    }
+    // A trigger or settle above may have satisfied another investigation's
+    // already-discovered detail trigger; do one catch-up pass so nothing stalls.
+    settleAllInvestigations();
+    return triggered;
+  }
+
+  // Roll a single investigation forward as far as it can go without further player
+  // input: advance through every 'automatic' step, advance through any detail/discovery
+  // trigger whose detail is already in the player's discoveries (handles out-of-order
+  // discovery), stop at npc_stage steps (which need an interaction) and at the choice
+  // gate, and auto-complete choiceless investigations that reach their final step.
+  function settleInvestigation(id, inv) {
+    if (!inv) return;
+    let stateInv = State.getInvestigation(id);
+    let guard = 0;
+    while (guard++ < 64) {
+      if (stateInv.complete) break;
+      const curStep = stateInv.currentStep; // 1-indexed; 0 = not triggered
+      if (curStep === 0) break;
+      // Reached (or passed) the final step: auto-complete if there is no choice.
+      if (curStep >= inv.steps.length) {
+        if (!inv.choice) {
+          State.completeInvestigation(id, null, inv.rewards && inv.rewards.completion);
+          // Award the node's top-level flatObject (LI-05, LI-13, GI-04/08, BI-05/08/09/11, …).
+          // Choice nodes award theirs through makeInvestigationChoice; choiceless ones had
+          // no award path, so their flat object never accumulated.
+          if (inv.flatObject) State.addFlatObject(inv.flatObject);
+          stateInv = State.getInvestigation(id);
+        }
+        break;
+      }
+      const nextStep = inv.steps[curStep]; // step we may advance INTO (array is 0-indexed)
+      const at = nextStep.advanceTrigger;
+      let canAdvance = false;
+      if (at === 'automatic') {
+        canAdvance = true;
+      } else if (at && (at.type === 'detail' || at.type === 'discovery') && State.isDiscovered(at.detail)) {
+        // Out-of-order catch-up: the trigger detail was discovered before this step
+        // became current, so no discoverDetail event will fire — advance now.
+        canAdvance = true;
+      }
+      if (!canAdvance) break; // npc_stage or undiscovered detail — wait for the player
+      State.advanceInvestigation(id, nextStep.id);
+      stateInv = State.getInvestigation(id);
+    }
+  }
+
+  // Settle every active investigation (catch-up pass after any state change that
+  // could satisfy a now-current step's already-discovered detail trigger).
+  function settleAllInvestigations() {
+    for (const [id, inv] of Object.entries(content.investigations)) {
+      const stateInv = State.getInvestigation(id);
+      if (stateInv.complete || stateInv.currentStep === 0) continue;
+      settleInvestigation(id, inv);
+    }
+  }
+
+  function meetsConditions(conditions) {
+    for (const cond of conditions) {
+      switch (cond.type) {
+        case 'npc_stage': {
+          const mem = State.getNpcMemory(cond.npc);
+          const stages = ['stranger', 'acquaintance', 'familiar', 'confidant'];
+          // Normalize familiar_aware / familiar_unknowing to 'familiar' for ordering purposes
+          const normalizeStage = s => (s && s.startsWith('familiar')) ? 'familiar' : s;
+          if (stages.indexOf(normalizeStage(mem.stage)) < stages.indexOf(normalizeStage(cond.minStage))) return false;
+          break;
+        }
+        case 'discovery':
+          if (!State.isDiscovered(cond.detail)) return false;
+          break;
+        case 'visit_count': {
+          const visits = State.getLocationVisitCount(cond.location);
+          if (visits < cond.count) return false;
+          break;
+        }
+        case 'stat_min': {
+          const stats = State.get('stats') || {};
+          if ((stats[cond.stat] || 0) < cond.value) return false;
+          break;
+        }
+      }
+    }
+    return true;
+  }
+
+  function checkInvestigationAdvance(detailId) {
+    for (const [id, inv] of Object.entries(content.investigations)) {
+      const stateInv = State.getInvestigation(id);
+      if (stateInv.complete || stateInv.currentStep === 0) continue;
+      const nextStepIdx = stateInv.currentStep; // steps are 1-indexed, array is 0-indexed
+      if (nextStepIdx >= inv.steps.length) continue;
+      const nextStep = inv.steps[nextStepIdx];
+      if (!nextStep.advanceTrigger || nextStep.advanceTrigger === 'automatic') continue;
+      // Accept both 'detail' and 'discovery' advance-trigger types (same semantics:
+      // the step advances when the named location detail is discovered).
+      const at = nextStep.advanceTrigger;
+      if ((at.type === 'detail' || at.type === 'discovery') && at.detail === detailId) {
+        State.advanceInvestigation(id, nextStep.id);
+        // Roll through any following 'automatic' steps and auto-complete if choiceless.
+        settleInvestigation(id, inv);
+      }
+    }
+  }
+
+  // Check if interacting with an NPC advances any investigation step whose
+  // advanceTrigger is type 'npc_stage'. Called at the end of interactWithNpc.
+  // Mirrors checkInvestigationAdvance but for NPC-relationship triggers rather
+  // than detail discoveries.
+  function checkInvestigationAdvanceOnNpc(npcId) {
+    const stages = ['stranger', 'acquaintance', 'familiar', 'confidant'];
+    const normalizeStage = s => (s && s.startsWith('familiar')) ? 'familiar' : (s || 'stranger');
+    const currentStage = getNpcStage(npcId);
+    for (const [id, inv] of Object.entries(content.investigations)) {
+      const stateInv = State.getInvestigation(id);
+      if (stateInv.complete || stateInv.currentStep === 0) continue;
+      const nextStepIdx = stateInv.currentStep;
+      if (nextStepIdx >= inv.steps.length) continue;
+      const nextStep = inv.steps[nextStepIdx];
+      if (!nextStep.advanceTrigger || nextStep.advanceTrigger === 'automatic') continue;
+      if (nextStep.advanceTrigger.type !== 'npc_stage') continue;
+      if (nextStep.advanceTrigger.npc !== npcId) continue;
+      const reqStage = normalizeStage(nextStep.advanceTrigger.minStage);
+      if (stages.indexOf(normalizeStage(currentStage)) < stages.indexOf(reqStage)) continue;
+      State.advanceInvestigation(id, nextStep.id);
+      // Roll through any following 'automatic' steps and auto-complete if choiceless.
+      settleInvestigation(id, inv);
+    }
+  }
+
+  function getActiveInvestigations() {
+    const result = [];
+    for (const [id, inv] of Object.entries(content.investigations)) {
+      const stateInv = State.getInvestigation(id);
+      if (stateInv.currentStep > 0) {
+        result.push({ id, investigation: inv, state: stateInv });
+      }
+    }
+    return result;
+  }
+
+  function getInvestigationChoice(invId) {
+    const inv = content.investigations[invId];
+    const stateInv = State.getInvestigation(invId);
+    if (!inv || !inv.choice || stateInv.complete) return null;
+    if (stateInv.currentStep >= inv.choice.triggeredAfterStep) {
+      return inv.choice;
+    }
+    return null;
+  }
+
+  function makeInvestigationChoice(invId, optionId) {
+    const inv = content.investigations[invId];
+    if (!inv) return null;
+    if (!inv.choice) return null;
+    const stateInv = State.getInvestigation(invId);
+    if (stateInv.complete) return null;
+    const option = inv.choice.options.find(o => o.id === optionId);
+    if (!option) return null;
+    const consequence = option.consequence;
+
+    // Award choice XP
+    State.completeInvestigation(invId, optionId, consequence.xp);
+
+    // Award completion rewards
+    if (inv.rewards && inv.rewards.completion) {
+      for (const [stat, val] of Object.entries(inv.rewards.completion)) {
+        if (typeof val === 'number') {
+          const stats = State.get('stats');
+          stats[stat] = (stats[stat] || 0) + val;
+          State.set('stats', stats);
+        }
+      }
+    }
+
+    // NPC effects
+    if (consequence.npcEffect) {
+      for (const [npcId, effect] of Object.entries(consequence.npcEffect)) {
+        if (effect.stageUnlock) {
+          State.setNpcStage(npcId, effect.stageUnlock);
+        }
+      }
+    }
+
+    // Flat object
+    if (consequence.flatObject) {
+      State.addFlatObject(consequence.flatObject);
+    }
+
+    return consequence;
+  }
+
+  // --- Seasons, Tides, City Events ---
+
+  // Returns 'spring' | 'summer' | 'autumn' | 'winter'
+  function getSeason() {
+    const month = new Date().getMonth(); // 0-11
+    if (month >= 2 && month <= 4) return 'spring';
+    if (month >= 5 && month <= 7) return 'summer';
+    if (month >= 8 && month <= 10) return 'autumn';
+    return 'winter';
+  }
+
+  // Returns 'restless' | 'deep' | 'bright' | 'still'
+  // Seeded by day-of-year so it's consistent within a day
+  function getMythologicalTide() {
+    const season = getSeason();
+    const tideConfig = (content.config && content.config.tides) || {};
+    const now = new Date();
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+
+    // Build weighted pool based on season
+    const tideTypes = ['restless', 'deep', 'bright', 'still'];
+    const pool = [];
+    tideTypes.forEach(t => {
+      const cfg = tideConfig[t];
+      const weight = cfg ? (cfg.seasonWeights[season] || 0) : 1;
+      for (let i = 0; i < weight; i++) pool.push(t);
+    });
+    // Fallback if pool is empty (e.g. winter with no bright entries)
+    if (!pool.length) pool.push('still');
+
+    // Simulate cycling: use the seed to determine current position in a cycle
+    // Each tide lasts roughly 4 days; divide the year into periods
+    const periodSeed = Math.floor(dayOfYear / 4);
+    const tideSeed = (periodSeed * 1664525 + 1013904223) >>> 0;
+    const idx = tideSeed % pool.length;
+    return pool[idx];
+  }
+
+  // Returns the current active city event object or null
+  function getCurrentCityEvent() {
+    const events = (content.config && content.config.cityEvents) || [];
+    if (!events.length) return null;
+
+    const now = new Date();
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+
+    // New event every ~18 days (roughly 2-3 weeks)
+    const eventPeriod = 18;
+    const eventIndex = Math.floor(dayOfYear / eventPeriod) % events.length;
+    const event = events[eventIndex];
+
+    // Check if within the event's duration window
+    const dayInPeriod = dayOfYear % eventPeriod;
+    if (dayInPeriod < event.duration) return event;
+    return null;
+  }
+
+  // --- Leave London ---
+
+  function canLeaveLondon() {
+    const investigations = State.get('investigations') || {};
+    const completed = Object.values(investigations).filter(i => i.complete).length;
+    const npcMem = State.get('npcMemory') || {};
+    const npcsMet = Object.keys(npcMem).filter(id => npcMem[id] && npcMem[id].visitCount > 0).length;
+    return completed >= 3 && npcsMet >= 5;
+  }
+
+  // --- Lore Fragments ---
+
+  function checkFragmentAtLocation(locId) {
+    if (!content.fragments) return null;
+    const trait = State.get('trait');
+    const stats = State.get('stats') || {};
+    const awareness = stats.awareness || 0;
+    // Stat interaction: high resonance lowers the awareness threshold for fragments
+    const resonanceBonus = (stats.resonance || 0) >= 4 ? 1 : 0;
+    for (const [id, frag] of Object.entries(content.fragments)) {
+      if (frag.location !== locId) continue;
+      if (frag.trait !== trait) continue;
+      if (awareness < frag.awareness_required - resonanceBonus) continue;
+      if (State.get('discoveries').includes('frag_' + id)) continue;
+      return frag;
+    }
+    return null;
+  }
+
+  function discoverFragment(fragId) {
+    const key = 'frag_' + fragId;
+    if (State.get('discoveries').includes(key)) return false;
+    State.recordDiscovery(key, { awareness: 1, resonance: 1 });
+    return true;
+  }
+
+  return {
+    init, content,
+    getTimePeriod, getTimePalette, getWeather, rollWeather, isForgettingActive,
+    navigate, getLocation, getAdjacentLocations, isLocationAvailable,
+    getNpcsAtLocation, getNpcStage, interactWithNpc,
+    checkDetailAt, discoverDetail, checkDiscoveredDetailAt,
+    checkInvestigationTriggers, getActiveInvestigations, getInvestigationChoice, makeInvestigationChoice,
+    checkFragmentAtLocation, discoverFragment,
+    canLeaveLondon,
+    getSeason, getMythologicalTide, getCurrentCityEvent
+  };
+})();

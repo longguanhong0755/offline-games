@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html data-host-layout="compact" data-host-platform="web" lang="zh-CN"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="#f2efe7" name="theme-color"/>
+<title>拓扑五子棋</title>
+<script src="/_assets/8ffd4e2ba197e6d37aef.js"></script>
+<link href="/_assets/49aefd3f0b5cacf49874.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="app-shell" id="appShell">
+<div aria-hidden="true" class="ambient ambient-one"></div>
+<div aria-hidden="true" class="ambient ambient-two"></div>
+<main class="screens">
+<section aria-label="关卡选择" class="screen home-screen is-active" id="homeScreen">
+<div class="home-scroll">
+<div class="hero">
+<div class="hero-copy">
+<h1>拓扑<br/>五子棋</h1>
+</div>
+<img alt="" aria-hidden="true" class="hero-brand" src="/_assets/f41f91e2fdfc0cb69442.png"/>
+</div>
+<div aria-label="对弈模式" class="mode-selection" id="modeSelection" role="group">
+<div class="mode-options">
+<button aria-pressed="true" class="tool-button mode-option is-active" data-mode="ai" type="button">人机对弈</button>
+<button aria-pressed="false" class="tool-button mode-option" data-mode="duel" type="button">离线双人</button>
+</div>
+</div>
+<div class="level-grid" id="levelGrid">
+<button aria-disabled="false" aria-label="方庭" class="level-card is-revealed" data-level="0" type="button">
+<img alt="" aria-hidden="true" class="level-glyph" src="/_assets/89b30b302e5ae8e00cc5.svg"/>
+<span class="level-type">平面</span>
+<span class="level-name">方庭</span>
+</button>
+<button aria-disabled="true" aria-label="回廊 · 图鉴未揭示" class="level-card is-locked" data-level="1" type="button">
+<img alt="" aria-hidden="true" class="level-glyph" src="/_assets/9a24f1308430b5c5cd12.svg"/>
+<span aria-hidden="true" class="level-mystery"><img alt="" class="level-silhouette" src="/_assets/fcd28f2a839bca9fd280.svg"/><span>?</span></span>
+<span class="level-type">圆柱</span>
+<span class="level-name">回廊</span>
+</button>
+<button aria-disabled="true" aria-label="环游 · 图鉴未揭示" class="level-card is-locked" data-level="2" type="button">
+<img alt="" aria-hidden="true" class="level-glyph" src="/_assets/bc0d0de4be0a6bc3a947.svg"/>
+<span aria-hidden="true" class="level-mystery"><img alt="" class="level-silhouette" src="/_assets/d26b448686290ad316bf.svg"/><span>?</span></span>
+<span class="level-type">环面</span>
+<span class="level-name">环游</span>
+</button>
+<button aria-disabled="true" aria-label="扭带 · 图鉴未揭示" class="level-card is-locked" data-level="3" type="button">
+<img alt="" aria-hidden="true" class="level-glyph" src="/_assets/aa47532d9061a2f4de2f.svg"/>
+<span aria-hidden="true" class="level-mystery"><img alt="" class="level-silhouette" src="/_assets/a8ddc908ee236f8b4643.svg"/><span>?</span></span>
+<span class="level-type">莫比乌斯环</span>
+<span class="level-name">扭带</span>
+</button>
+<button aria-disabled="true" aria-label="瓶界 · 图鉴未揭示" class="level-card is-locked" data-level="4" type="button">
+<img alt="" aria-hidden="true" class="level-glyph" src="/_assets/560e5e45ec535518c00c.svg"/>
+<span aria-hidden="true" class="level-mystery"><img alt="" class="level-silhouette" src="/_assets/b9d1d970a741961dd539.svg"/><span>?</span></span>
+<span class="level-type">克莱因瓶</span>
+<span class="level-name">瓶界</span>
+</button>
+<button aria-disabled="true" aria-label="双生 · 图鉴未揭示" class="level-card is-locked" data-level="5" type="button">
+<img alt="" aria-hidden="true" class="level-glyph" src="/_assets/7129d8e1ccca88b026af.svg"/>
+<span aria-hidden="true" class="level-mystery"><img alt="" class="level-silhouette" src="/_assets/aa3052760dbf542b9fe0.svg"/><span>?</span></span>
+<span class="level-type">实射影平面</span>
+<span class="level-name">双生</span>
+</button>
+<button aria-disabled="true" aria-label="归圆 · 图鉴未揭示" class="level-card level-card-finale is-locked" data-level="6" type="button">
+<img alt="" aria-hidden="true" class="level-glyph" src="/_assets/99ed02c6132d5e8fb08e.svg"/>
+<span aria-hidden="true" class="level-mystery"><img alt="" class="level-silhouette" src="/_assets/9d1747ecd328ecabb5ce.svg"/><span>?</span></span>
+<span class="level-type">球面</span>
+<span class="level-name">归圆</span>
+</button>
+</div>
+</div>
+</section>
+<section aria-label="对局" class="screen game-screen" id="gameScreen">
+<header class="topbar game-topbar">
+<button aria-label="返回关卡" class="icon-button" id="backButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="m15 5-7 7 7 7"></path></svg>
+</button>
+<div class="game-title">
+<strong id="gameLevelName">方庭</strong>
+</div>
+<button aria-label="设置" class="icon-button" id="gameSettingsButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 5v4M6 15v4"></path>
+</svg>
+</button>
+</header>
+<div class="match-strip">
+<div class="player-chip is-active" id="humanChip">
+<span class="mini-stone stone-dark"></span>
+<span id="humanChipLabel">你</span>
+</div>
+<div class="turn-status" id="turnStatus" role="status">你的回合</div>
+<div class="player-chip" id="aiChip">
+<span id="difficultyLabel">机敏</span>
+<span class="mini-stone stone-light"></span>
+</div>
+</div>
+<div class="board-stage" id="boardStage">
+<canvas aria-label="五子棋棋盘" height="486" id="boardCanvas" width="486"></canvas>
+<div aria-hidden="true" class="thinking" id="thinkingIndicator">
+<i></i><i></i><i></i>
+</div>
+</div>
+<div class="dimension-control" hidden="" id="dimensionControl">
+<button aria-label="二维" aria-pressed="false" class="tool-button dimension-endpoint" id="viewFlatButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 4h16v16H4zM9.33 4v16M14.67 4v16M4 9.33h16M4 14.67h16"></path></svg>
+<span>二维</span>
+</button>
+<div class="dimension-range" id="dimensionRange">
+<span aria-hidden="true" class="dimension-track"></span>
+<i aria-hidden="true" class="dimension-glass-thumb" id="dimensionThumb"><span class="dimension-lens-track"></span></i>
+<input aria-label="二维/三维" class="dimension-slider" id="dimensionSlider" max="1" min="0" step="0.001" type="range" value="0"/>
+</div>
+<button aria-label="三维" aria-pressed="false" class="tool-button dimension-endpoint" id="viewSpatialButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 6c0-1.7 3.1-3 7-3s7 1.3 7 3-3.1 3-7 3-7-1.3-7-3Zm0 0v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"></path></svg>
+<span>三维</span>
+</button>
+</div>
+<div class="game-action-deck">
+<div class="endgame-review-tools" hidden="" id="endgameReviewTools">
+<button aria-label="上一步" class="tool-button endgame-tool" disabled="" id="reviewPreviousButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M19 12H6m5-5-5 5 5 5"></path></svg>
+<span>上一步</span>
+</button>
+<button aria-label="复盘棋局" class="tool-button endgame-tool review-toggle-button" id="reviewToggleButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M9 8H5V4M5 8c2-3 5-4 8-4 5 0 8 4 8 8s-3 8-8 8c-3 0-6-2-7-4" id="reviewToggleIconPath"></path></svg>
+<span id="reviewToggleButtonText">复盘</span>
+</button>
+<button aria-label="下一步" class="tool-button endgame-tool" disabled="" id="reviewNextButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5"></path></svg>
+<span>下一步</span>
+</button>
+</div>
+<div class="game-tools" id="gameTools">
+<button aria-label="悔棋" class="tool-button" id="undoButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M9 8H5v-4M5 8c2-3 5-4 8-4 5 0 8 4 8 8s-3 8-8 8c-3 0-6-2-7-4" id="undoIconPath"></path></svg>
+<span id="undoButtonText">悔棋</span>
+</button>
+<button aria-label="重新体验本关边界指引" class="tool-button boundary-demo-button" id="boundaryDemoButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M9 18h6M10 22h4M15.1 14c.2-.7.7-1.2 1.2-1.7A6 6 0 1 0 7.7 12.3c.5.5 1 1 1.2 1.7h6.2Z"></path></svg>
+<span>边界演示</span>
+</button>
+<button aria-label="返回旅程" class="tool-button journey-button" hidden="" id="journeyButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="m15 6-6 6 6 6"></path></svg>
+<span>旅程</span>
+</button>
+<button aria-label="再玩一次" class="tool-button settled-replay-button" hidden="" id="settledReplayButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M20 7v5h-5M19 12a7 7 0 1 0-2 5" id="settledReplayIconPath"></path></svg>
+<span id="settledReplayButtonText">再来</span>
+</button>
+<button aria-label="进入下一关" class="tool-button next-level-button" hidden="" id="nextLevelButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="m9 6 6 6-6 6" id="nextLevelIconPath"></path></svg>
+<span id="nextLevelButtonText">下一关</span>
+</button>
+<button aria-label="重新开始" class="tool-button" id="restartButton" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M20 7v5h-5M19 12a7 7 0 1 0-2 5" id="restartIconPath"></path></svg>
+<span id="restartButtonText">重来</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<div class="scrim" hidden="" id="scrim"></div>
+<button aria-label="开发者工具" class="developer-fab" hidden="" id="developerButton" type="button">DEV</button>
+<section aria-labelledby="settingsTitle" aria-modal="true" class="sheet settings-sheet" hidden="" id="settingsSheet" role="dialog">
+<div class="settings-softbody">
+<div aria-hidden="true" class="sheet-handle"></div>
+<div class="sheet-head">
+<h2 id="settingsTitle">设置</h2>
+<button aria-label="关闭" class="close-button" id="closeSettingsButton" type="button">×</button>
+</div>
+<div class="setting-row setting-stack">
+<span class="setting-label">对手</span>
+<div aria-label="对手水平" class="segmented" data-index="1" id="difficultyControl" role="group">
+<i aria-hidden="true" class="segmented-glass-thumb" id="difficultyThumb" style="--lens-track-width: 0px; --lens-track-offset: -8px; --lens-origin-x: 8.5px;">
+<span class="segmented-lens-track"><b>随性</b><b>机敏</b><b>深思</b></span>
+</i>
+<button aria-pressed="false" data-difficulty="easy" type="button">随性</button>
+<button aria-pressed="true" class="is-active" data-difficulty="normal" type="button">机敏</button>
+<button aria-pressed="false" data-difficulty="hard" type="button">深思</button>
+</div>
+</div>
+<div class="setting-row">
+<span class="setting-label">落点提示</span>
+<button aria-checked="true" class="switch is-on" id="hintSwitch" role="switch" type="button"><i style="--lens-track-width: 0px; --lens-track-offset: -4px; --lens-origin-x: 4px;"><span class="switch-lens-track"></span></i></button>
+</div>
+<div class="setting-row">
+<span class="setting-label">声音</span>
+<button aria-checked="true" class="switch is-on" id="soundSwitch" role="switch" type="button"><i style="--lens-track-width: 0px; --lens-track-offset: -4px; --lens-origin-x: 4px;"><span class="switch-lens-track"></span></i></button>
+</div>
+<button class="sheet-done" id="settingsDoneButton" type="button">完成</button>
+</div>
+</section>
+<section aria-labelledby="developerTitle" aria-modal="true" class="sheet settings-sheet developer-sheet" hidden="" id="developerSheet" role="dialog">
+<div class="settings-softbody developer-softbody">
+<div aria-hidden="true" class="sheet-handle"></div>
+<div class="sheet-head">
+<h2 id="developerTitle">测试控制台</h2>
+<button aria-label="关闭开发者工具" class="close-button" id="closeDeveloperButton" type="button">×</button>
+</div>
+<div class="developer-section" id="developerGameControls">
+<div class="developer-section-head">
+<span>当前对局</span>
+<small id="developerGameStatus">未进入棋局</small>
+</div>
+<div class="setting-row developer-toggle-row">
+<span class="setting-label">暂停 AI 落子</span>
+<button aria-checked="false" class="switch" id="developerPauseSwitch" role="switch" type="button"><i><span class="switch-lens-track"></span></i></button>
+</div>
+<div class="developer-control-row">
+<span class="setting-label">点棋盘时落下</span>
+<div aria-label="开发者落子身份" class="segmented developer-piece-control" data-index="0" id="developerPieceControl" role="group">
+<i aria-hidden="true" class="segmented-glass-thumb"></i>
+<button aria-pressed="true" class="is-active" data-developer-player="1" type="button">玩家 · 黑</button>
+<button aria-pressed="false" data-developer-player="-1" type="button">对手 · 白</button>
+</div>
+</div>
+<div class="developer-action-grid">
+<button id="developerPlayerWin" type="button">玩家胜利</button>
+<button id="developerAiWin" type="button">对手胜利</button>
+<button id="developerDraw" type="button">平局通关</button>
+<button id="developerClearBoard" type="button">清空棋盘</button>
+</div>
+<div class="developer-action-grid developer-hint-grid">
+<button id="developerHintThree" type="button">活三提示</button>
+<button id="developerHintFour" type="button">四子提示</button>
+</div>
+</div>
+<div class="developer-section developer-unlock-section">
+<div class="developer-section-head">
+<span>解锁至</span>
+<button class="developer-reset" id="developerResetProgress" type="button">重置</button>
+</div>
+<div aria-label="手动解锁关卡" class="developer-unlock-grid" role="group">
+<button data-developer-unlock="0" type="button">01</button>
+<button data-developer-unlock="1" type="button">02</button>
+<button data-developer-unlock="2" type="button">03</button>
+<button data-developer-unlock="3" type="button">04</button>
+<button data-developer-unlock="4" type="button">05</button>
+<button data-developer-unlock="5" type="button">06</button>
+<button data-developer-unlock="6" type="button">07</button>
+</div>
+</div>
+<button class="sheet-done" id="developerDoneButton" type="button">完成</button>
+</div>
+</section>
+</div>
+<script src="/_assets/b41b99bef6f966d54f4a.js"></script>
+<script src="/_assets/eaae7651051e0d017d0e.js"></script>
+<script src="/_assets/bc2b9d06c2f8f10cb73f.js"></script>
+<script src="/_assets/7e5a50265b715f36d183.js"></script>
+<script src="/_assets/a268376e759ef0c8536e.js"></script>
+<script src="/_assets/f3a99a8c9e331daf5c9c.js"></script>
+<script src="/_assets/25af6c24758b53ae24c5.js"></script>
+<script src="/_assets/cb24ab7ba6b7ba721658.js"></script>
+</body></html>

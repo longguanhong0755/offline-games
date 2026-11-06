@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>2048 Professional - The Ultimate Tile Game</title>
+<meta content="Play the professional version of 2048 with multiple grid sizes, advanced statistics, achievements, and offline support. The ultimate tile puzzle game experience." name="description"/>
+<!-- PWA Manifest -->
+<link href="manifest.json" rel="manifest"/>
+<!-- PWA Meta Tags -->
+<meta content="#5D4E37" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="2048 Pro" name="apple-mobile-web-app-title"/>
+<meta content="#8B4513" name="msapplication-TileColor"/>
+<!-- Icons -->
+<link href="img/2048.png" rel="icon" type="image/png"/>
+<link href="img/2048.png" rel="apple-touch-icon" sizes="192x192"/>
+<link href="img/2048.png" rel="apple-touch-icon" sizes="512x512"/>
+
+<!-- Google tag (gtag.js) -->
+
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-9MBX5GXMM9');
+    </script>
+<link href="/_assets/9b822cb9129314b006c9.css" rel="stylesheet"/>
+<link href="/_assets/8d321d88cb97fdedc318.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container">
+<div class="game-section">
+<div class="header">
+<div class="title-section">
+<div class="title-stack">
+<h1>2048</h1>
+<div class="supreme-badge">
+<i class="fas fa-crown"></i>
+                            Supreme Edition
+                        </div>
+</div>
+<div class="score-container">
+<div class="score-box">
+<span class="score-label">SCORE</span>
+<span id="score">0</span>
+</div>
+<div class="score-box">
+<span class="score-label">BEST</span>
+<span id="best-score">0</span>
+</div>
+</div>
+</div>
+<p class="supreme-tagline">Ascend the tiles. Claim the throne. Rule the grid.</p>
+<div class="grid-size-selector">
+<label for="grid-size">Difficulty Level:</label>
+<select id="grid-size">
+<option value="6">6×6 - Easy</option>
+<option value="5">5×5 - Intermediate</option>
+<option value="4">4×4 - Expert</option>
+</select>
+</div>
+<p class="game-intro">Join the tiles and get to <strong>2048!</strong></p>
+<p class="instructions">Use your <strong>arrow keys</strong> or <strong>WASD</strong> to move the tiles.
+                </p>
+</div>
+<div class="game-container">
+<div class="game-layout">
+<div class="grid-area">
+<div class="grid-container grid-4x4" id="grid-container"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"><div class="tile tile-2" style="width: 100%; height: 100%; position: relative;"><span>2</span></div></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"><div class="tile tile-2" style="width: 100%; height: 100%; position: relative;"><span>2</span></div></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+</div>
+<div class="control-area">
+<button class="game-control-btn" id="new-game" title="New Game">
+<i class="fas fa-plus"></i>
+</button>
+<button class="game-control-btn" id="undo" title="Undo Last Move">
+<i class="fas fa-undo"></i>
+</button>
+<button class="game-control-btn" id="help-btn" title="Show Help">
+<i class="fas fa-question-circle"></i>
+</button>
+</div>
+</div>
+<div class="game-message" id="game-over">
+<p>Game Over!</p>
+<div class="final-stats">
+<div class="stat-box">
+<div class="stat-value" id="final-score">0</div>
+<div class="stat-label">Final Score</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="highest-tile">0</div>
+<div class="stat-label">Highest Tile</div>
+</div>
+</div>
+<button id="try-again"><i class="fas fa-redo"></i> Try Again</button>
+</div>
+<div class="game-message" id="game-won">
+<p>You Won!</p>
+<button id="keep-playing"><i class="fas fa-play"></i> Keep Playing</button>
+</div>
+</div>
+</div>
+<div class="info-section">
+<h3><i class="fas fa-chart-bar"></i> Advanced Statistics</h3>
+<div class="stats-container">
+<div class="stat-box">
+<div class="stat-value" id="games-played">0</div>
+<div class="stat-label">Games Played</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="games-won">0</div>
+<div class="stat-label">Games Won</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="win-rate">0%</div>
+<div class="stat-label">Win Rate</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="avg-score">0</div>
+<div class="stat-label">Average Score</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="avg-moves">0</div>
+<div class="stat-label">Avg Moves</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="avg-time">0:00</div>
+<div class="stat-label">Avg Time</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="current-streak">0</div>
+<div class="stat-label">Win Streak</div>
+</div>
+<div class="stat-box">
+<div class="stat-value" id="best-streak">0</div>
+<div class="stat-label">Best Streak</div>
+</div>
+</div>
+<div class="performance-section">
+<h4><i class="fas fa-chart-line"></i> Performance Metrics</h4>
+<div class="performance-grid">
+<div class="performance-card">
+<div class="performance-title">Efficiency Rating</div>
+<div class="performance-value" id="efficiency-rating">0</div>
+<div class="performance-desc">Score per move ratio</div>
+</div>
+<div class="performance-card">
+<div class="performance-title">Speed Rating</div>
+<div class="performance-value" id="speed-rating">0</div>
+<div class="performance-desc">Score per minute</div>
+</div>
+<div class="performance-card">
+<div class="performance-title">Highest Tile</div>
+<div class="performance-value" id="highest-achieved">2</div>
+<div class="performance-desc">Best tile reached</div>
+</div>
+</div>
+</div>
+<div class="leaderboard">
+<h3 class="leaderboard-title"><i class="fas fa-trophy"></i> Top Scores</h3>
+<div id="leaderboard-entries"></div>
+</div>
+<div class="achievements">
+<h3 class="achievements-title"><i class="fas fa-medal"></i> Achievements</h3>
+<div id="achievements-list">
+<div class="achievement-item" data-score="128" title="Getting Started - Reach 128">
+<i class="achievement-icon fas fa-star"></i>
+<span>Reach 128</span>
+</div>
+<div class="achievement-item" data-score="256" title="Building Up - Reach 256">
+<i class="achievement-icon fas fa-star"></i>
+<span>Reach 256</span>
+</div>
+<div class="achievement-item" data-score="512" title="Half Way - Reach 512">
+<i class="achievement-icon fas fa-star"></i>
+<span>Reach 512</span>
+</div>
+<div class="achievement-item" data-score="1024" title="Almost There - Reach 1024">
+<i class="achievement-icon fas fa-star"></i>
+<span>Reach 1024</span>
+</div>
+<div class="achievement-item" data-score="2048" title="Victory! - Reach 2048">
+<i class="achievement-icon fas fa-crown"></i>
+<span>Win the Game!</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Navigation -->
+<footer class="game-footer">
+<div class="footer-content">
+<div class="footer-links">
+<a class="footer-link" href="terms.html">
+<i class="fas fa-file-contract"></i> Terms
+                </a>
+<a class="footer-link" href="privacy.html">
+<i class="fas fa-shield-alt"></i> Privacy
+                </a>
+<a class="footer-link" href="about.html">
+<i class="fas fa-info-circle"></i> About
+                </a>
+</div>
+<div class="footer-copyright">
+<p>© 2025 2048 Professional. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<div class="help-overlay" id="help-overlay">
+<div class="help-content">
+<h2><i class="fas fa-question-circle"></i> How to Play</h2>
+<p>Combine tiles with the same numbers to create larger numbers. Reach 2048 to win!</p>
+<div class="shortcut-list">
+<div class="shortcut-item">
+<span class="key">↑</span> or <span class="key">W</span>
+<span>Move Up</span>
+</div>
+<div class="shortcut-item">
+<span class="key">↓</span> or <span class="key">S</span>
+<span>Move Down</span>
+</div>
+<div class="shortcut-item">
+<span class="key">←</span> or <span class="key">A</span>
+<span>Move Left</span>
+</div>
+<div class="shortcut-item">
+<span class="key">→</span> or <span class="key">D</span>
+<span>Move Right</span>
+</div>
+<div class="shortcut-item">
+<span class="key">Z</span>
+<span>Undo Move</span>
+</div>
+<div class="shortcut-item">
+<span class="key">R</span>
+<span>New Game</span>
+</div>
+<div class="shortcut-item">
+<span class="key">H</span>
+<span>Show/Hide Help</span>
+</div>
+</div>
+<button id="close-help"><i class="fas fa-times"></i> Close</button>
+</div>
+</div>
+<!-- PWA Install Prompt -->
+<div class="pwa-install-prompt" id="pwa-install-prompt" style="display: none;">
+<div class="pwa-prompt-content">
+<h3><i class="fas fa-mobile-alt"></i> Install 2048 Pro</h3>
+<p>Add to your home screen for the best experience!</p>
+<div class="pwa-prompt-buttons">
+<button class="pwa-install-btn" id="pwa-install-btn">
+<i class="fas fa-download"></i> Install App
+                </button>
+<button class="pwa-dismiss-btn" id="pwa-dismiss-btn">
+<i class="fas fa-times"></i> Not Now
+                </button>
+</div>
+</div>
+</div>
+<script src="/_assets/9134b8983554d01d55ca.js"></script>
+<!-- PWA Service Worker Registration -->
+<script>
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWA Install Prompt Handler
+        let deferredPrompt;
+        let installPromptShown = localStorage.getItem('pwaInstallPromptShown') === 'true';
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            
+            // Show custom install prompt after a delay if not shown before
+            if (!installPromptShown) {
+                setTimeout(() => {
+                    showInstallPrompt();
+                }, 5000); // Show after 5 seconds
+            }
+        });
+
+        function showInstallPrompt() {
+            const installPrompt = document.getElementById('pwa-install-prompt');
+            const installBtn = document.getElementById('pwa-install-btn');
+            const dismissBtn = document.getElementById('pwa-dismiss-btn');
+            
+            installPrompt.style.display = 'flex';
+            
+            installBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the A2HS prompt');
+                        }
+                        deferredPrompt = null;
+                        installPrompt.style.display = 'none';
+                        localStorage.setItem('pwaInstallPromptShown', 'true');
+                    });
+                }
+            });
+            
+            dismissBtn.addEventListener('click', () => {
+                installPrompt.style.display = 'none';
+                localStorage.setItem('pwaInstallPromptShown', 'true');
+            });
+        }
+
+        // Handle successful installation
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('2048 Pro was installed successfully');
+        });
+
+        // Enable background sync for offline functionality
+        if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+            // Register for sync when the game state changes
+            window.addEventListener('beforeunload', () => {
+                navigator.serviceWorker.ready.then(registration => {
+                    return registration.sync.register('save-game-data');
+                });
+            });
+        }
+    </script>
+</body></html>

@@ -1,0 +1,106 @@
+body {
+  background-image: url("c2623fa44942be6f4de0.jpg");
+  background-color: #1d1d1d;
+  color: white;
+  background-size: cover;
+}
+
+.cost-qty, .stat-qty {
+  font-family: sans-serif;
+}
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
+}
+
+.neutral {
+  color: white;
+}
+
+.gain-qty {
+}
+
+button {
+  background-color: black;
+  color: white;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.tab-btn {
+	-moz-user-select: none;
+	user-select: none;
+	border-top: 1px black solid;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-right: 1px black solid;
+	border-left: 1px black solid;
+	border-bottom: none;
+	padding: 1em;
+	margin-bottom: none;
+	color: gray;
+	background-color: black;
+	display: inline-block;
+}
+
+.tab-btn:hover {
+	background-color: #202020;
+}
+
+.tab-btn.selected {
+	font-weight: bold;
+	color: white;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.tab-btn.new::after {
+  content: "*";
+  color: red;
+}
+
+#content {
+  border: solid black 1px;
+	margin-top: none;
+  padding: 1em;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+}
+
+th td {
+	font-weight: bold;
+	border: solid 1px black;
+}
+
+td {
+	border-top: solid 1px black;
+	padding: 0.5em;
+}
+
+td.numeric {
+	text-align: right;
+}
+
+table {
+	border-collapse: collapse;
+	border: solid 1px black;
+}
+
+div.stats {
+  display: inline-block;
+  border: 2px solid black;
+  padding: 1em;
+  text-align: center;
+}
+
+div.stats > span.stat-name {
+  font-variant: small-caps;
+}
+
+div.stats > span.stat-delta {
+  text-align: center;
+} 
+

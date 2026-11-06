@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Landscaper Game</title>
+<link href="/_assets/7e8ae22b5f3ace4cac9d.css" rel="stylesheet"/>
+<script src="/_assets/160a426ff2894252cd7c.js"></script>
+<script charset="utf-8" src="/_assets/5d5acbf388603f523d02.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<center>
+<h1 class="title">Landscape Tycoon</h1>
+<div id="cash">Bank: $100</div>
+<div id="stamina">Stamina: 100</div>
+</center>
+<div id="buttons">
+<div class="teeth">
+<div id="toolName">Teeth</div>
+<div id="teethAmt">Qty: 1</div>
+<div id="teethPrice">Price: Free</div>
+<br/>
+<div id="staminaCost">Stamina Cost: -50</div>
+<br/>
+<button id="use" onclick="useTeeth()">USE</button>
+</div>
+<div class="scissors">
+<div id="toolName">Rusty Scissors</div>
+<div id="scissorsAmt">Qty: 0</div>
+<div id="scissorsPrice">Price: $5</div>
+<br/>
+<div id="staminaCost">Stamina Cost: -40</div>
+<br/>
+<button id="purchase" onclick="purchaseScissors()">PURCHASE</button>
+<button id="use" onclick="useScissors()">USE</button>
+<button id="sell" onclick="sellScissors()">SELL</button>
+</div>
+<div class="mower">
+<div id="toolName">Old-timey Push Lawnmower</div>
+<div id="mowerAmt">Qty: 0</div>
+<div id="mowerPrice">Price: $25</div>
+<br/>
+<div id="staminaCost">Stamina Cost: -30</div>
+<br/>
+<button id="purchase" onclick="purchaseMower()">PURCHASE</button>
+<button id="use" onclick="useMower()">USE</button>
+<button id="sell" onclick="sellMower()">SELL</button>
+</div>
+<div class="batteryMower">
+<div id="toolName">Fancy Battery Lawnmower</div>
+<div id="batteryAmt">Qty: 0</div>
+<div id="batteryPrice">Price: $250</div>
+<br/>
+<div id="staminaCost">Stamina Cost: -20</div>
+<br/>
+<button id="purchase" onclick="purchaseBatteryMower()">PURCHASE</button>
+<button id="use" onclick="useBatteryMower()">USE</button>
+<button id="sell" onclick="sellBatteryMower()">SELL</button>
+</div>
+<div class="students">
+<div id="toolName">Starving Students</div>
+<div id="studentsAmt">Hired: 0</div>
+<div id="studentsPrice">Salary: $500</div>
+<br/>
+<div id="staminaCost">Stamina Cost: -10</div>
+<br/>
+<button id="purchase" onclick="purchaseStudents()">HIRE</button>
+<button id="use" onclick="useStudents()">DEPLOY</button>
+<button id="sell" onclick="sellStudents()">FIRE</button>
+</div>
+</div>
+<div id="status">
+<p id="terminal">Welcome to your own lanscape empire! <br/> Do you have what it takes to be a mogul?</p>
+</div>
+<div class="gamePlay">
+<button id="mowBtn" onclick="mowLawn()">Mow Lawn</button>
+<button id="breakBtn" onclick="takeBreak()">Take a Break</button>
+<button id="reset" onclick="reset()">Reset Game</button>
+</div>
+</body></html>

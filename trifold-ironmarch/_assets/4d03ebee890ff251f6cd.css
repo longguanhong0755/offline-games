@@ -1,0 +1,377 @@
+/* ============================================================================
+   TRIFOLD: IRONMARCH — dark painterly gothic UI
+   ========================================================================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #0c0d11;
+  --panel: #16181f;
+  --panel2: #1d2029;
+  --line: #3a3f4d;
+  --text: #c9cedb;
+  --dim: #6a7288;
+  --gold: #d8b45a;
+  --blood: #b8483a;
+  --blue: #6fb3e8;
+  --serif: Georgia, 'Palatino Linotype', 'Times New Roman', serif;
+}
+
+html, body { height: 100%; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--serif);
+  overflow: hidden;
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+canvas { touch-action: none; }
+
+.hidden { display: none !important; }
+.dim { color: var(--dim); }
+.small { font-size: 12px; }
+.gold { color: var(--gold); }
+
+/* Canvases inside a screen are position:absolute/inset:0 so they still bleed
+   full-bleed under a notch/home-indicator; normal-flow chrome (bars, tray,
+   buttons) sits inside this padding and stays clear of it. */
+.screen {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+button {
+  font-family: var(--serif);
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  padding: 9px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  transition: border-color .15s, color .15s, background .15s;
+}
+@media (hover: hover) {
+  button:hover:not(:disabled) { border-color: var(--gold); color: #efe6cd; }
+}
+button:disabled { opacity: 0.4; cursor: default; }
+.ghostBtn { background: transparent; border-color: #2c3040; color: var(--dim); }
+.bigBtn { font-size: 18px; padding: 14px 44px; letter-spacing: 0.22em; }
+
+/* ======================= TITLE ======================= */
+#title {
+  align-items: center; justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 118%, #2a1b1466 0%, transparent 60%),
+    radial-gradient(ellipse at 82% 8%, #1a222e88 0%, transparent 50%),
+    linear-gradient(#0b0c10, #101218 55%, #0b0c10);
+}
+#titleCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.titleInner { text-align: center; position: relative; z-index: 1; padding: 0 16px; }
+.versionTag {
+  /* #title (a .screen) already pads in by the safe area, so plain offsets are enough here */
+  position: absolute; right: 10px; bottom: 8px;
+  z-index: 1; font-size: 11px; letter-spacing: 0.05em; color: var(--dim); opacity: 0.7;
+}
+.titleKicker { letter-spacing: clamp(0.24em, 1.4vw, 0.55em); color: var(--dim); font-size: clamp(11px, 3vw, 13px); }
+.titleName {
+  font-size: clamp(36px, 10.5vw, 92px); font-weight: normal;
+  letter-spacing: clamp(0.03em, 0.8vw, 0.18em);
+  color: #e4dcc8;
+  text-shadow: 0 0 34px #d8b45a33, 0 3px 0 #0006, 0 0 2px #d8b45a55;
+  margin: 6px 0 4px;
+  white-space: nowrap;
+}
+.titleSub { color: #8b93a8; line-height: 1.7; margin-bottom: clamp(16px, 4vh, 34px); font-size: clamp(12px, 3.4vw, 16px); }
+.titleSub br { display: none; }
+@media (min-width: 700px) { .titleSub br { display: block; } }
+.titleBtns { align-items: center; }
+.titleBtns > button { width: min(320px, 80vw); }
+.titleBtns .btnRow { margin-top: 6px; flex-wrap: wrap; }
+#titleStats { margin-top: clamp(12px, 3vh, 26px); letter-spacing: 0.08em; font-size: clamp(11px, 3vw, 13px); padding: 0 10px; }
+.bigBtn { font-size: clamp(15px, 4vw, 18px); padding: clamp(10px, 2.6vw, 14px) 20px; letter-spacing: clamp(0.12em, 1vw, 0.22em); }
+
+/* ======================= TOP BARS ======================= */
+.topBar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 22px; border-bottom: 1px solid #23262f;
+  background: linear-gradient(#191c24, #14161d);
+}
+.actName { font-size: 20px; letter-spacing: 0.14em; color: #e4dcc8; }
+.topStats { display: flex; gap: 14px; align-items: center; }
+.stat { font-size: 15px; letter-spacing: 0.05em; }
+.relicGem {
+  display: inline-block; min-width: 26px; text-align: center;
+  background: #242835; border: 1px solid var(--gold); border-radius: 50%;
+  padding: 4px 3px; margin-right: 4px; font-size: 11px; color: var(--gold);
+  cursor: help;
+}
+
+/* ======================= MAP ======================= */
+#map { background: #0b0c10; }
+#mapCanvas { flex: 1; width: 100%; height: 100%; cursor: pointer; }
+
+/* ======================= BATTLE ======================= */
+#battle { background: #0b0c10; }
+.battleTop {
+  display: grid; grid-template-columns: 1fr auto 1fr auto; gap: 18px; align-items: center;
+  padding: 8px 16px; background: linear-gradient(#181b23, #12141a);
+  border-bottom: 1px solid #23262f;
+}
+.hpBlock .hpLabel { font-size: 11px; letter-spacing: 0.18em; color: var(--dim); margin-bottom: 3px; }
+.hpBlock.right { text-align: right; }
+.hpTrack { height: 10px; background: #000a; border: 1px solid #2c3040; }
+.hpFill { height: 100%; transition: width .2s; }
+.hpFill.blue { background: linear-gradient(#8cc8f4, #4a7fb0); }
+.hpFill.red { background: linear-gradient(#e07a5a, #a03828); float: right; }
+.encName { font-size: 15px; letter-spacing: 0.12em; color: #e4dcc8; }
+
+.battleCtl { display: flex; gap: 12px; align-items: center; }
+.fightBtn {
+  border-color: var(--gold); color: var(--gold);
+  letter-spacing: 0.14em; font-size: 15px; padding: 10px 20px;
+  box-shadow: 0 0 18px #d8b45a22;
+}
+.fightBtn:hover { background: #d8b45a1a; }
+.speedBox button { padding: 4px 10px; font-size: 12px; }
+.speedBox .on { border-color: var(--gold); color: var(--gold); }
+.stanceBox { display: flex; gap: 4px; }
+.stanceBtn { font-size: 11px; padding: 7px 10px; letter-spacing: 0.05em; }
+#stnAdvance.on { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 12px #d8b45a22; }
+#stnHold.on { border-color: var(--blue); color: var(--blue); box-shadow: 0 0 12px #6fb3e822; }
+#stnFallback.on { border-color: #e8a34a; color: #e8a34a; box-shadow: 0 0 12px #e8a34a22; }
+#reserveSquads { font-size: 11px; }
+#reserveBox .hpLabel { margin-bottom: 2px; }
+.reserveTrack { height: 5px; width: 110px; background: #000a; border: 1px solid #2c3040; }
+#reserveFill { height: 100%; background: var(--gold); }
+#reserveNum { color: var(--gold); }
+.abilityBtn { font-size: 11px; padding: 8px 12px; letter-spacing: 0.06em; }
+.abilityBtn.armed { border-color: #e8635a; color: #e8635a; box-shadow: 0 0 12px #e8635a33; }
+.abilityBtn:disabled { opacity: 0.4; cursor: default; }
+#abilityBox .hpLabel { margin-bottom: 2px; }
+#abilityFill { height: 100%; background: #e8635a; }
+
+.canvasWrap { position: relative; flex: 1; min-height: 0; display: flex; }
+#battleCanvas {
+  width: 100%; height: 100%;
+  background: #07080b; cursor: crosshair;
+}
+#phaseBanner {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  color: #d8b45acc; font-size: 14px; letter-spacing: 0.16em; pointer-events: none;
+  text-shadow: 0 1px 4px #000;
+  max-width: 88%; text-align: center;
+}
+#phaseBanner .enemyIntel {
+  display: block; margin-top: 4px;
+  font-size: 11px; letter-spacing: 0.06em; color: #c88a6acc;
+}
+.wounded { color: #e8a34a; }
+#hintBanner {
+  position: absolute; top: 44px; left: 50%; transform: translateX(-50%);
+  background: #0e1015dd; border: 1px solid var(--blood); color: #e8a49a;
+  padding: 6px 20px; font-size: 13px; letter-spacing: 0.06em; pointer-events: none;
+}
+
+/* ======================= ROSTER TRAY ======================= */
+#tray {
+  display: flex; gap: 10px; align-items: stretch; overflow-x: auto;
+  padding: 10px 16px 12px; background: linear-gradient(#12141a, #181b23);
+  border-top: 1px solid #23262f; min-height: 128px;
+}
+.chip {
+  position: relative; width: 124px; flex-shrink: 0;
+  background: linear-gradient(#20242f, #171a22);
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 5px; cursor: pointer; user-select: none;
+  transition: transform .12s, border-color .12s, box-shadow .12s;
+}
+@media (hover: hover) {
+  .chip:hover { transform: translateY(-4px); border-color: #8b93a8; z-index: 5; }
+}
+.chip.selected { border-color: var(--gold); box-shadow: 0 0 16px #d8b45a44; transform: translateY(-4px); }
+.chip.wiped { opacity: 0.25; cursor: default; filter: grayscale(1); }
+.chip.wiped::after {
+  content: 'WIPED'; position: absolute; inset: auto 0 40%;
+  text-align: center; color: var(--blood); letter-spacing: 0.3em; font-size: 12px;
+}
+.chipArt { width: 100%; height: 46px; display: block; border-radius: 3px; object-fit: cover; }
+.chipName { font-size: 12px; margin-top: 4px; color: #e4dcc8; white-space: nowrap; overflow: hidden; }
+.chipStats { font-size: 10px; line-height: 1.4; color: #98a0b4; }
+.chipStats b { color: #c9cedb; }
+.chip[data-hotkey]:not([data-hotkey=""])::before {
+  content: attr(data-hotkey);
+  position: absolute; top: 2px; right: 5px; z-index: 2;
+  font-size: 10px; color: #d8b45a88; text-shadow: 0 1px 2px #000;
+}
+.trayNote { align-self: center; margin-left: 8px; line-height: 1.5; flex-shrink: 0; }
+
+/* ======================= CARDS (overlays) ======================= */
+.card {
+  position: relative; width: 158px; flex-shrink: 0;
+  background: linear-gradient(#20242f, #171a22);
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 8px 8px 9px; cursor: pointer; user-select: none;
+  transition: transform .12s, border-color .12s, box-shadow .12s;
+}
+@media (hover: hover) {
+  .card:hover { transform: translateY(-6px); border-color: #8b93a8; box-shadow: 0 8px 24px #000c; z-index: 5; }
+  .card.pickable:hover { border-color: var(--gold); }
+}
+.card.small { width: 132px; }
+.card.small .cardArt { height: 66px; }
+.card.sold { opacity: 0.3; pointer-events: none; }
+.card.rar-uncommon { border-color: #4a6a8a; }
+.card.rar-rare { border-color: #8a6a2a; }
+.card.upgraded { box-shadow: inset 0 0 18px #d8b45a22; }
+.card.upgraded .cardName { color: var(--gold); }
+
+.cardArt { width: 100%; height: 88px; display: block; border-radius: 3px; }
+.cardName { font-size: 13px; margin-top: 6px; color: #e4dcc8; letter-spacing: 0.03em; }
+.cardType { font-size: 9px; letter-spacing: 0.2em; color: var(--dim); margin: 2px 0 4px; }
+.cardDesc { font-size: 11px; line-height: 1.45; color: #98a0b4; min-height: 26px; }
+.cardDesc b { color: #c9cedb; }
+.cardPrice {
+  margin-top: 6px; text-align: center; color: var(--gold);
+  border-top: 1px solid #2c3040; padding-top: 5px; font-size: 13px;
+}
+
+/* ======================= OVERLAY PANELS ======================= */
+#overlay {
+  align-items: center; justify-content: center;
+  background: #07080bee;
+}
+.panel {
+  max-width: min(880px, 94vw); max-height: 92vh; overflow-y: auto;
+  background: linear-gradient(#191c25, #12141b);
+  border: 1px solid var(--line); outline: 1px solid #23262f; outline-offset: 5px;
+  padding: 34px 44px; text-align: center;
+}
+.panel h2 { letter-spacing: 0.2em; font-weight: normal; color: #e4dcc8; margin-bottom: 14px; }
+.panel h2.loss, .panel .loss { color: var(--blood); }
+.panel h2.loss { text-shadow: 0 0 22px #b8483a44; }
+.panel h2.win { color: var(--gold); text-shadow: 0 0 22px #d8b45a44; }
+.panel p { margin-bottom: 12px; line-height: 1.6; }
+.evText { color: #aab2c4; font-style: italic; }
+.relicGain { color: #b8a8e0; }
+.cardRow { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 16px 0 20px; }
+.cardRow.wrap { flex-wrap: wrap; max-width: 780px; }
+.relicRow { display: flex; flex-direction: column; gap: 8px; margin: 6px 0 16px; }
+.relicShopItem { text-align: left; font-size: 13px; }
+.btnRow { display: flex; gap: 12px; justify-content: center; }
+.btnCol { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.btnCol button { font-size: 15px; padding: 12px 20px; }
+#unlockList { margin: 10px 0; }
+
+/* scrollbars */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0e1015; }
+::-webkit-scrollbar-thumb { background: #2c3040; border-radius: 5px; }
+
+/* ======================= MENUS & SETTINGS ======================= */
+.menuBtn { padding: 6px 13px; font-size: 16px; line-height: 1; }
+button.armed { border-color: var(--blood); color: var(--blood); }
+.setList { margin: 6px auto 0; max-width: 380px; text-align: left; }
+.setRow {
+  display: flex; justify-content: space-between; align-items: center; gap: 24px;
+  padding: 9px 0; border-bottom: 1px solid #23262f; font-size: 14px;
+}
+.setRow button { padding: 5px 14px; font-size: 12px; min-width: 56px; }
+.setOpts { display: flex; gap: 6px; }
+.setRow button.on { border-color: var(--gold); color: var(--gold); }
+/* endless mode select */
+.modeRow { display: flex; gap: 10px; justify-content: center; }
+.modeRow button.on { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 12px #d8b45a22; }
+
+/* faction select */
+.brutalToggle {
+  display: block; max-width: 520px; margin: 14px auto 0; text-align: left;
+  font-size: 12px; line-height: 1.5; color: #98a0b4; cursor: pointer;
+}
+.brutalToggle b { color: var(--blood); }
+.brutalToggle input { vertical-align: middle; margin-right: 4px; }
+.facRow { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin: 16px 0 18px; }
+.facCard {
+  width: min(260px, 86vw); text-align: left; cursor: pointer;
+  background: linear-gradient(#20242f, #171a22);
+  border: 1px solid var(--line); border-radius: 6px; padding: 10px;
+  transition: transform .12s, border-color .12s, box-shadow .12s;
+}
+@media (hover: hover) {
+  .facCard:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 8px 24px #000c; }
+}
+.facArt { width: 100%; height: 90px; object-fit: cover; border-radius: 3px; display: block; }
+.facName { font-size: 16px; letter-spacing: 0.1em; color: #e4dcc8; margin-top: 8px; }
+.facMotto { font-size: 12px; color: var(--gold); font-style: italic; margin: 2px 0 6px; }
+.facPerks { margin: 0 0 8px 16px; padding: 0; font-size: 11.5px; line-height: 1.5; color: #98a0b4; }
+.facStart { line-height: 1.4; }
+
+/* codex */
+.loreText { text-align: left; color: #aab2c4; line-height: 1.65; font-size: 13.5px; margin-bottom: 12px; }
+.loreUnits { margin-top: 18px; text-align: left; display: flex; flex-direction: column; gap: 10px; }
+.loreUnit {
+  display: flex; gap: 12px; align-items: flex-start;
+  border-top: 1px solid #23262f; padding-top: 10px;
+}
+.loreUnit canvas { width: 88px; height: 70px; flex-shrink: 0; border-radius: 4px; }
+.loreUnitName { color: #e4dcc8; font-size: 13px; letter-spacing: 0.06em; margin-bottom: 3px; }
+.loreUnitText { color: #98a0b4; font-size: 12px; line-height: 1.55; }
+
+/* armory sections */
+.amFac { letter-spacing: 0.18em; font-weight: normal; color: var(--gold); font-size: 14px; margin: 20px 0 2px; }
+
+.saveBox {
+  width: 100%; min-height: 110px; margin: 10px 0 2px;
+  background: #0e1015; color: var(--text); border: 1px solid var(--line);
+  font: 11px/1.5 monospace; padding: 8px; resize: vertical;
+  -webkit-user-select: text; user-select: text;
+}
+.card.locked { opacity: 0.45; filter: grayscale(0.9); cursor: default; }
+.lockNote {
+  position: absolute; inset: auto 4px 34%;
+  text-align: center; color: var(--gold); font-size: 10px; letter-spacing: 0.08em;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000;
+}
+
+/* ======================= PHONES ======================= */
+/* Compact chrome on short screens (landscape phones) so the field gets the room. */
+@media (max-height: 520px) {
+  .topBar { padding: 6px 12px; }
+  .actName { font-size: 15px; }
+  .battleTop { gap: 10px; padding: 4px 10px; }
+  .fightBtn { font-size: 12px; padding: 7px 12px; }
+  .stanceBtn { font-size: 10.5px; padding: 6px 10px; }
+  .encName { font-size: 11px; }
+  .hpTrack { width: 120px; }
+  #tray { min-height: 92px; padding: 6px 10px 8px; gap: 7px; }
+  .chip { width: 92px; padding: 4px; }
+  .chipArt { height: 34px; }
+  .chipName { font-size: 10px; margin-top: 3px; }
+  .chipStats { font-size: 8.5px; }
+  .trayNote { font-size: 10px; }
+  .panel { padding: 18px 20px; max-height: 96vh; }
+  .card { width: 118px; }
+  .card .cardArt { height: 62px; }
+  .card.small { width: 108px; }
+  .card.small .cardArt { height: 54px; }
+  .titleName { font-size: clamp(34px, 9vh, 54px); }
+}
+
+/* Portrait phones: stack the battle HUD, wrap the bars */
+@media (max-width: 700px) and (orientation: portrait) {
+  .battleTop { display: flex; flex-wrap: wrap; gap: 4px 10px; padding: 6px 10px; }
+  .encName { order: 0; width: 100%; text-align: center; font-size: 11px; }
+  .battleTop .hpBlock { order: 1; flex: 1; }
+  .battleTop .hpBlock.right { order: 2; flex: 1; }
+  .battleCtl { order: 3; width: 100%; justify-content: center; flex-wrap: wrap; gap: 8px; }
+  .fightBtn { font-size: 12px; padding: 8px 14px; }
+  .topBar { flex-wrap: wrap; gap: 6px 12px; padding: 8px 12px; }
+  .topStats { flex-wrap: wrap; gap: 8px; }
+  .actName { font-size: 16px; }
+  #tray { min-height: 104px; padding: 8px 10px 10px; gap: 8px; }
+  .chip { width: 104px; }
+  .chipArt { height: 38px; }
+  .panel { padding: 20px 16px; }
+}

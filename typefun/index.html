@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<link href="/_assets/a4483310254d7504c02d.css" rel="stylesheet" type="text/css"/>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<!-- basic.html -->
+<title>TypeFun!</title>
+<meta charset="utf-8"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body onload="setup(); updateWord();">
+<div id="bd">
+<div id="yui-main">
+<div class="yui-b">
+<div class="yui-gb">
+<!-- <h1>TypingGame!</h1> -->
+<a target="_blank"><img alt="TypeGame" border="0" src="/_assets/7e81f774236a8c1df31d.png"/><br/></a>
+<p>
+    Type in the current word to get points! Then, when you have enough, buy stuff to do the typing for you =)
+  </p>
+<div style="font-size:30px">
+	Current word: <span id="curword">j</span>
+<span id="notification-area">
+<img id="good-notification" src="/_assets/ac01c228d3bbbc4eba4a.png"/>
+<img id="bad-notification" src="/_assets/12a2ce9ff87701226cea.png"/>
+</span>
+</div>
+<br/>
+<input id="textinput" oninput="if(this.value.trim() == curword ) { this.value=''; inputEntered(wordpoints); setNotification('good'); updateWord();} else{ if(this.value.trim().length &gt;= curword.length){ setNotification('bad');} }" type="text" value=" "/>
+<br/>
+	Points per word: <span id="wordpoints">1</span>
+<br/>
+	Points: <span id="points">0</span>
+<br/>
+<div class="yui-u first">
+<div class="content">
+<br/>
+<a target="_blank"><img alt="Monkey pic" border="0" height="100px" src="/_assets/a0ce1baa77425bbb90d2.png" width="100px"/></a>
+<br/>
+				Monkeys: <span id="monkeys[0]">0</span>
+<br/>
+				Monkey cost: <span id="monkeyCost[0]">10</span>
+<br/>
+<button onclick="buyMonkey(0)">Buy monkey</button>
+<br/>
+				Super monkeys: <span id="monkeys[1]">0</span>
+<br/>
+				Super monkey cost: <span id="monkeyCost[1]">50000</span>
+<br/>
+<button onclick="buyMonkey(1)">Buy super monkey</button>
+</div>
+</div>
+<div class="yui-u">
+<div class="content">
+<br/>
+<a target="_blank"><img alt="computer pic" border="0" height="100px" src="/_assets/eb81761bae955ec7fa06.png" width="100px"/></a>
+<br/>
+				Typists: <span id="typists[0]">0</span>
+<br/>
+				Typist cost: <span id="typistCost[0]">1000</span>
+<br/>
+<button onclick="buyTypist(0)">Buy typist</button>
+<br/>
+				Super typists: <span id="typists[1]">0</span>
+<br/>
+				Super typist cost: <span id="typistCost[1]">500000</span>
+<br/>
+<button onclick="buyTypist(1)">Buy super typist</button>
+</div>
+</div>
+<div class="yui-u">
+<div class="content">
+<br/>
+<a target="_blank"><img alt="computer pic" border="0" height="100px" src="/_assets/904ef82003edca883f51.png" width="100px"/></a>
+<br/>
+				Computers: <span id="computers[0]">0</span>
+<br/>
+				Computer cost: <span id="computerCost[0]">10000</span>
+<br/>
+<button onclick="buyComputer(0)">Buy computer</button>
+<br/>
+				Super computers: <span id="computers[1]">0</span>
+<br/>
+				Super computers cost: <span id="computerCost[1]">5000000</span>
+<br/>
+<button onclick="buyComputer(1)">Buy super computer</button>
+</div>
+</div>
+</div>
+</div>
+<div class="yui-b">
+<div id="secondary">Autotyper upgrades! <br/>
+	  Monkey upgrade cost: <span id="upgradecost[0]">12500</span>
+<button onclick="upgradeUnits(0);">Upgrade monkey</button>
+	  Typist upgrade cost: <span id="upgradecost[1]">125000</span>
+<button onclick="upgradeUnits(1);">Upgrade typist</button>
+	  Computer upgrade cost: <span id="upgradecost[2]">937500</span>
+<button onclick="upgradeUnits(2);">Upgrade computer</button>
+<br/>
+<p> Manual typing upgrades! </p>
+		Keyboard upgrade cost: <span id="keyboardupgradecost">100000</span>
+<button onclick="upgradeType();">Upgrade keyboard</button>
+<br/>
+</div>
+</div>
+</div>
+<div id="ft">
+<div id="footer">Achievements earned
+		<p id="achieveText" text-align="center"> </p>
+<button onclick="saveGame();">Save Game</button>
+<button onclick="deleteSave();">Delete Save</button>
+</div>
+</div>
+</div>
+<br/>
+<br/>
+<style type="text/css">
+   	#good-notification, #bad-notification{
+		/*  start our notification icons as hidden and give them
+			more opacity on certain input.
+			CSS transitions will give their appearance a "smooth" effect
+		*/
+		opacity: 0;
+		-webkit-transition: opacity 0.1s linear;
+		-moz-transition: opacity 0.1s linear;
+		-ms-transition: opacity 0.1s linear;
+		-o-transition: opacity 0.1s linear;
+		transition: opacity 0.1s linear;
+   	}
+   </style>
+<script src="/_assets/d1221fc490b2c1a6aec3.js" type="text/javascript"></script>
+</body></html>

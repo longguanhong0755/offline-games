@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="#0c0d11" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Ironmarch" name="apple-mobile-web-app-title"/>
+<title>Trifold: Ironmarch</title>
+<link href="manifest.webmanifest" rel="manifest"/>
+<link href="icons/icon-192.png" rel="icon"/>
+<link href="icons/icon-192.png" rel="apple-touch-icon"/>
+<link href="/_assets/4d03ebee890ff251f6cd.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- ======================= TITLE ======================= -->
+<div class="screen" id="title">
+<canvas height="900" id="titleCanvas" width="1440"></canvas>
+<div class="titleInner">
+<div class="titleKicker">A TRIFOLD TALE</div>
+<h1 class="titleName">IRONMARCH</h1>
+<p class="titleSub">The Vanguard's last column marches east — through the creep, the ash, and the blood.<br/>
+    Muster the squads. Place them well. Bring them home.</p>
+<div class="btnCol titleBtns">
+<button class="bigBtn" id="btnStart">BEGIN THE MARCH</button>
+<button class="bigBtn ghostBtn hidden" id="btnResume">RESUME THE MARCH</button>
+<button class="bigBtn ghostBtn" id="btnEndless">ENDLESS</button>
+<div class="btnRow">
+<button id="btnArmory">ARMORY</button>
+<button id="btnCodex">CODEX</button>
+<button id="btnSettings">SETTINGS</button>
+</div>
+</div>
+<p class="dim" id="titleStats">The column awaits its first order.</p>
+</div>
+<div class="versionTag" id="versionTag">v1.6.0</div>
+</div>
+<!-- ======================= MAP ======================= -->
+<div class="screen hidden" id="map">
+<div class="topBar">
+<div>
+<div class="actName" id="mapActName"></div>
+<div class="dim small" id="mapBlurb"></div>
+</div>
+<div class="topStats">
+<span class="stat gold" id="barScrap"></span>
+<span class="stat" id="barRoster"></span>
+<span id="barRelics"></span>
+<button id="btnRosterMap">THE COLUMN</button>
+<button class="menuBtn" id="btnMenuMap" title="Menu">☰</button>
+</div>
+</div>
+<canvas id="mapCanvas"></canvas>
+</div>
+<!-- ======================= BATTLE ======================= -->
+<div class="screen hidden" id="battle">
+<div class="battleTop">
+<div class="hpBlock">
+<div class="hpLabel"><span id="hqName">FIELD HQ</span> <span id="hqNum"></span></div>
+<div class="hpTrack"><div class="hpFill blue" id="hqFill"></div></div>
+</div>
+<div class="encName" id="encName"></div>
+<div class="hpBlock right">
+<div class="hpLabel"><span id="coreNum"></span> ENEMY CORE</div>
+<div class="hpTrack"><div class="hpFill red" id="coreFill"></div></div>
+</div>
+<div class="battleCtl">
+<div class="stanceBox" id="stanceBox">
+<button class="stanceBtn on" id="stnAdvance">⚑ ADVANCE</button>
+<button class="stanceBtn" id="stnHold">⛨ HOLD</button>
+<button class="stanceBtn" id="stnFallback">↩ FALLBACK</button>
+</div>
+<button class="fightBtn" id="btnFight">⚔ SOUND THE ADVANCE</button>
+<div class="speedBox hidden" id="speedBox">
+<button id="spd0">❚❚</button><button class="on" id="spd1">1×</button><button id="spd2">2×</button><button id="spd3">3×</button>
+</div>
+<div class="hidden" id="reserveBox">
+<div class="hpLabel">RESERVE DROPS <span id="reserveNum"></span> <span class="dim" id="reserveSquads"></span></div>
+<div class="reserveTrack"><div id="reserveFill"></div></div>
+</div>
+<div class="hidden" id="abilityBox">
+<button class="abilityBtn" id="btnAbility"></button>
+<div class="reserveTrack"><div id="abilityFill"></div></div>
+</div>
+<button class="menuBtn" id="btnMenuBattle" title="Menu">☰</button>
+</div>
+</div>
+<div class="canvasWrap">
+<canvas id="battleCanvas"></canvas>
+<div id="phaseBanner"></div>
+<div class="hidden" id="hintBanner"></div>
+</div>
+<div id="tray"></div>
+</div>
+<!-- ======================= OVERLAY ======================= -->
+<div class="screen hidden" id="overlay"></div>
+<script src="/_assets/2dfa8ee5423c16d2a4ee.js"></script>
+<script src="/_assets/28db3ef4a44f31887950.js"></script>
+<script src="/_assets/4911d508f22ca24c027c.js"></script>
+<script src="/_assets/208973db36491a1f89c1.js"></script>
+<script src="/_assets/139f9e0118e4681df9ca.js"></script>
+<script src="/_assets/ea3ec6090978107d2826.js"></script>
+<script src="/_assets/cb6edcbf326c73e99a0f.js"></script>
+<script src="/_assets/da1b27d20abc267109ab.js"></script>
+<script src="/_assets/552749182c426fbbfd8a.js"></script>
+<script src="/_assets/f6264f7f2deb0381c03b.js"></script>
+<script src="/_assets/c4a7e6857e4fef74a6d1.js"></script>
+</body></html>

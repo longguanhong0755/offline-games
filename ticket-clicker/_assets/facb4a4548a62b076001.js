@@ -1,0 +1,564 @@
+(() => {
+  const featuredIncidents = [
+    [
+      "The sibling matcher compared only the first and last letters. Jordan and Jonathan became one person, and every payment went to the sibling entered first.",
+      404,
+      12000,
+    ],
+    [
+      "The emergency payment fix added LIMIT 1 without ORDER BY. Finance calls the result 'first come, first funded'.",
+      512,
+      18000,
+    ],
+    [
+      "A family account merge treated twins as duplicate records and archived whichever one answered the phone second.",
+      286,
+      7000,
+    ],
+    [
+      "The refund batch used the customer's current bank account and the vendor's previous bank account. Everybody received closure.",
+      638,
+      26000,
+    ],
+    [
+      "A payroll validation rule rejected negative overtime by converting it into positive overtime. Morale briefly became expensive.",
+      731,
+      42000,
+    ],
+    [
+      "The deduplication job removed duplicate invoices and both originals for completeness.",
+      377,
+      9500,
+    ],
+    [
+      "The customer merge kept the oldest address. Three thousand parcels are returning to a student apartment from 2008.",
+      463,
+      15000,
+    ],
+    [
+      "The fraud model learned that every legitimate payment happens before lunch. Night-shift workers are now organized crime.",
+      589,
+      32000,
+    ],
+    [
+      "The new name parser stored 'Mary Ann' as Mary and assigned Ann as her emergency contact.",
+      247,
+      5200,
+    ],
+    [
+      "A date-of-birth import interpreted 03/04 consistently. Unfortunately, it chose the other consistency.",
+      341,
+      8400,
+    ],
+    [
+      "The account-linking API matched households by postcode. One apartment tower now shares a loyalty balance and several opinions.",
+      695,
+      38000,
+    ],
+    [
+      "The urgent hotfix corrected every payment except the urgent payment used to verify the hotfix.",
+      823,
+      60000,
+    ],
+  ].map(([label, amount, minResolved]) => ({ label, amount, minResolved }));
+
+  // Late-game incidents keep the failures recognisably real while scaling the
+  // resulting ticket storms to match the larger number system.
+  const highScaleIncidents = [
+    {
+      category: "General IT",
+      label:
+        "The CMDB reconciliation matched every unknown IP address to the same retired printer. Discovery opened one ticket per confidence score.",
+      amount: 2.4e15,
+      minResolved: 1e18,
+    },
+    {
+      category: "General IT",
+      label:
+        "The service-account rotation job now changes each password faster than applications can read the previous one. Every failed login is individually compliant.",
+      amount: 8e18,
+      minResolved: 1e21,
+    },
+    {
+      category: "Cloud and Kubernetes",
+      label:
+        "Monitoring began monitoring the dashboard that monitors monitoring. The recursive alert tree has requested its own platform team.",
+      amount: 3.2e24,
+      minResolved: 1e27,
+    },
+    {
+      category: "Cloud and Kubernetes",
+      label:
+        "The cloud cost optimiser deletes the estate at midnight and Terraform rebuilds it at 12:01. Finance is pleased with the monthly activity report.",
+      amount: 4.5e33,
+      minResolved: 1e36,
+    },
+    {
+      category: "Networking",
+      label:
+        "A global DNS search-and-replace changed every production hostname to the payroll kiosk. The kiosk is answering with admirable confidence.",
+      amount: 7e45,
+      minResolved: 1e48,
+    },
+    {
+      category: "Payroll & Billing",
+      label:
+        "A retroactive award was backdated to 1970. Payroll is recalculating every payslip, including the duplicates kept for audit confidence.",
+      amount: 6.7e15,
+      minResolved: 2.5e18,
+    },
+    {
+      category: "Payroll & Billing",
+      label:
+        "The fortnight calendar found a twenty-seventh pay run hidden between December and January. Every former employee has returned financially.",
+      amount: 9e21,
+      minResolved: 5e24,
+    },
+    {
+      category: "Payroll & Billing",
+      label:
+        "The payroll bot interpreted annual salary as an hourly rate and overtime as a multiplier. The executive team has volunteered for night shift.",
+      amount: 1.4e30,
+      minResolved: 1e33,
+    },
+    {
+      category: "Payroll & Billing",
+      label:
+        "The tax-table import used employee number as the tax bracket. Staff with short IDs are delighted and nobody else can afford lunch.",
+      amount: 2.8e42,
+      minResolved: 1e45,
+    },
+    {
+      category: "Payroll & Billing",
+      label:
+        "The termination import omitted its header row and treated the entire workforce as one departing employee. Final pay is now the largest department.",
+      amount: 5.1e57,
+      minResolved: 1e60,
+    },
+    {
+      category: "Finance and Spreadsheets",
+      label:
+        "An exchange-rate formula was dragged into the transaction-amount column across the finance data lake. Every currency is now worth Tuesday.",
+      amount: 1.2e18,
+      minResolved: 1e21,
+    },
+    {
+      category: "Finance and Spreadsheets",
+      label:
+        "Three-way matching joined every invoice to every purchase order and every goods receipt. Accounts Payable has achieved a perfect Cartesian product.",
+      amount: 7.4e27,
+      minResolved: 1e30,
+    },
+    {
+      category: "Finance and Spreadsheets",
+      label:
+        "The month-end reversal reversed last month's reversal of the previous reversal. The journal is technically balanced in several universes.",
+      amount: 3.3e36,
+      minResolved: 1e39,
+    },
+    {
+      category: "Finance and Spreadsheets",
+      label:
+        "Consolidation treated every cost centre as a legal entity and every spreadsheet tab as a subsidiary. Group Finance needs a larger group.",
+      amount: 6.6e48,
+      minResolved: 1e51,
+    },
+    {
+      category: "Finance and Spreadsheets",
+      label:
+        "The rounding reconciliation opened one case for every sub-cent ever removed from every currency. Audit would like each difference explained.",
+      amount: 9.9e63,
+      minResolved: 1e66,
+    },
+    {
+      category: "Finance and Spreadsheets",
+      label:
+        "A pivot-table cache duplicated the general ledger until the workbook developed its own monetary policy.",
+      amount: 2.2e81,
+      minResolved: 1e84,
+    },
+    {
+      category: "Banking",
+      label:
+        "The payment gateway retried without an idempotency key. One coffee purchase has become a diversified recurring investment.",
+      amount: 1.1e21,
+      minResolved: 1e24,
+    },
+    {
+      category: "Banking",
+      label:
+        "Leading zeroes disappeared from every BSB during migration. All accounts now belong to one extremely busy branch.",
+      amount: 5.5e30,
+      minResolved: 1e33,
+    },
+    {
+      category: "Banking",
+      label:
+        "The fraud model discovered that fraudulent transactions contain numbers. Digital banking has achieved complete fraud prevention.",
+      amount: 4.4e39,
+      minResolved: 1e42,
+    },
+    {
+      category: "Banking",
+      label:
+        "The overnight batch posted every debit as a credit and the balancing credit as another credit. Reconciliation has declared a prosperity event.",
+      amount: 8.8e51,
+      minResolved: 1e54,
+    },
+    {
+      category: "Banking",
+      label:
+        "The core migration interpreted dormant accounts as deleted, then recovery recreated each one as a new customer with a welcome bonus.",
+      amount: 3.1e69,
+      minResolved: 1e72,
+    },
+    {
+      category: "Banking",
+      label:
+        "The interest engine switched from daily compounding to every millisecond after a timezone patch. Savings customers have purchased the bank.",
+      amount: 7.7e87,
+      minResolved: 1e90,
+    },
+  ];
+
+  const incidentPacks = [
+    {
+      domain: "Networking",
+      incidents: [
+        "The internet is down on one desk. Its network cable is plugged into the phone's headset socket.",
+        "DHCP has no addresses left because every visitor's phone since 2021 still has a reservation.",
+        "DNS has three answers for the same server and is letting applications choose their own adventure.",
+        "A five-port switch under Reception has become the Spanning Tree root and demands respect.",
+        "The new VLAN is perfectly isolated from users, printers, servers, and its original purpose.",
+        "The firewall change allowed the application by blocking everybody who uses it.",
+        "VPN connects successfully, then routes the user's internet through a branch office printer.",
+        "An MTU mismatch permits pings, small talk, and absolutely no useful attachments.",
+        "The load balancer's health check says OK because the error page is loading beautifully.",
+        "The network diagram is current except for the buildings, circuits, switches, and Dave.",
+      ],
+    },
+    {
+      domain: "Windows",
+      incidents: [
+        "Windows Update says five minutes remaining and has been saying it with confidence since breakfast.",
+        "Group Policy mapped the shared drive successfully to a server that retired with a farewell cake.",
+        "BitLocker wants the recovery key stored in the spreadsheet on the BitLocker-locked laptop.",
+        "A temporary Windows profile has become permanent enough to receive calendar invitations.",
+        "RDP is enabled, the firewall is open, and the server has chosen not to participate.",
+        "The service-account password was changed everywhere except in the Windows service using it.",
+        "Active Directory replication has created two equally authoritative versions of the new starter.",
+        "A domain controller is taking time from the microwave and scheduling logons around lunch.",
+        "The blue screen displayed a QR code linking to a page that requires the blue-screened computer.",
+        "Windows activation believes the office moved countries because Finance changed the billing address.",
+      ],
+    },
+    {
+      domain: "Linux",
+      incidents: [
+        "The Linux filesystem has plenty of free gigabytes and zero free inodes, which feels unnecessarily specific.",
+        "A deleted 200 GB log file is still open and refusing to leave until its process gets closure.",
+        "The cron job works manually because cron was not invited to know about environment variables.",
+        "chmod 777 fixed the permissions issue and opened a thriving public-access program.",
+        "A sudoers typo removed sudo from the only person authorised to repair sudoers.",
+        "systemd started the application after networking but before networking had finished becoming network.",
+        "Production Linux is case-sensitive; the deployment script was raised in a more forgiving environment.",
+        "The kernel was patched six months ago and is waiting for a reboot nobody wants on their change record.",
+        "A Bash script arrived with Windows line endings and is being rejected on cultural grounds.",
+        "The container runs as root because least privilege was threatening the sprint deadline.",
+      ],
+    },
+    {
+      domain: "Databases",
+      incidents: [
+        "A production UPDATE forgot its WHERE clause and has achieved unprecedented consistency.",
+        "The index rebuild improved tomorrow's performance by blocking every customer today.",
+        "The read replica is six hours behind and still reporting yesterday as a strong quarter.",
+        "The database backup is encrypted with a password stored in the database backup.",
+        "The transaction log filled the disk while recording repeated attempts to clear the transaction log.",
+        "The connection pool has 500 connections, all waiting for the same connection to become available.",
+        "NULL, blank, zero, and 'N/A' have formed four separate customer segments.",
+        "The query is instant in the developer's console and geological in the application.",
+        "The schema migration was tested in production first to ensure the test environment stayed clean.",
+        "The integer primary key reached its maximum and the next customer has been asked to use an existing number.",
+      ],
+    },
+    {
+      domain: "Browsers",
+      incidents: [
+        "Chrome has 186 open tabs and the missing payroll tab is definitely one of them.",
+        "Clearing the browser cache fixed the page and deleted the only remembered password.",
+        "Third-party cookies are blocked, so the first party has asked IT to bring snacks.",
+        "The legacy portal needs Internet Explorer mode inside Edge inside a remote desktop session.",
+        "Browser zoom is set to 500%, leaving users with a detailed view of one button.",
+        "A coupon extension is rewriting the billing portal and offering ten percent off school fees.",
+        "The certificate is valid; the laptop clock believes it is already next financial year.",
+        "The pop-up blocker stopped the mandatory form and earned praise for reducing paperwork.",
+        "The Downloads folder contains 4,000 copies of Report (1) and no report anyone can find.",
+        "Two browser policies keep changing the default browser back and forth at every sign-in.",
+      ],
+    },
+    {
+      domain: "Payroll",
+      incidents: [
+        "Payroll completed successfully in the test company, where every employee is called Sample Person.",
+        "Overtime used a decimal comma and paid twelve and a half hours as one hundred twenty-five.",
+        "The salary CSV was sorted by surname without sorting the salary column. Everyone got a surprise mentor.",
+        "The terminated payroll administrator was removed before anybody transferred payroll administration.",
+        "The bank file was rejected for having the wrong newline, a financially significant piece of whitespace.",
+        "Superannuation rounded down per line and has been saving one cent with industrial determination.",
+        "Payroll closes at 5 PM; the vendor's maintenance window has independently chosen 4:55 PM.",
+        "Negative leave became a positive allowance after two minus signs achieved work-life balance.",
+        "Casual loading was entered as 17.5 instead of 17.5% and several shifts now require CFO approval.",
+        "A duplicated employee record was paid twice and has asked whether this is the new retention policy.",
+      ],
+    },
+    {
+      domain: "Billing",
+      incidents: [
+        "The billing run generated 8,000 invoice PDFs containing a logo and a powerful amount of blank space.",
+        "GST was applied to the subtotal and then again to demonstrate compounding compliance.",
+        "A credit note was imported as a positive invoice and has become aggressively encouraging.",
+        "Payment retries converted one declined card into seven successful expressions of persistence.",
+        "Changing the billing address recalculated every historical invoice as though the customer had always lived there.",
+        "Month-end closed in UTC while Finance was still working in Sydney and now nobody owns Tuesday.",
+        "Leading zeroes vanished from customer numbers and several accounts have moved in together.",
+        "Invoice emails were classified as spam because sending 10,000 identical payment demands looked suspicious.",
+        "The metering queue replayed after recovery and billed customers for enjoying the outage twice.",
+        "The pricing spreadsheet contains one hidden row labelled DO NOT DELETE, so naturally it was deleted.",
+      ],
+    },
+    {
+      domain: "Edumate",
+      incidents: [
+        "An attendance roll saved during a bell-time policy refresh and queued a polite verification pass.",
+        "The timetable rollover found a legacy room code and gave it one last cameo.",
+        "Edumate Sync matched sibling records a little too enthusiastically during overnight reconciliation.",
+        "The parent portal served fresh student details inside a cached page header.",
+        "A student note moved below the fold after a surname sort met a custom view.",
+        "The report export included six Student Name columns, because context is important and apparently plentiful.",
+        "New-year rollover completed cleanly, then asked why the promotion selection was still in last year.",
+        "Edumate Sync restored a recently withdrawn record from an older integration snapshot.",
+        "A permissions template gave the relief teacher every menu except the one needed before period one.",
+        "Edumate Sync sent a duplicate guardian notification and logged the second reply as extra confirmation.",
+      ],
+    },
+    {
+      domain: "EnrolHQ",
+      incidents: [
+        "An application workflow found a mandatory field on the next step and opened a philosophical dependency ticket.",
+        "The offer email used the sandbox link, where Test College remains undefeated in admissions.",
+        "EnrolHQ Sync received the deposit event before the finance webhook finished checking its calendar.",
+        "EnrolHQ Sync flagged a sibling application for review because matching rules were being responsibly cautious.",
+        "An HEIC preview loaded as a minimalist white rectangle and called it cross-platform diplomacy.",
+        "A workflow bounced Submitted and Reviewing until the audit log requested a chair.",
+        "The school-tour booking used UTC and discovered the campus is less available before sunrise.",
+        "The corrected email address updated the profile while an older workflow token kept a souvenir.",
+        "The EnrolHQ Sync export nudged emergency-contact columns one row south during a CSV relay.",
+        "A year-level rule compared calendar year, academic year, and one very confident configuration setting.",
+      ],
+    },
+    {
+      domain: "SMSGlobal",
+      incidents: [
+        "One emoji turned the SMSGlobal message into three billable messages and a tiny financial crisis.",
+        "The approved SMSGlobal sender ID was rejected for impersonating the organisation that approved it.",
+        "A parent replied STOP to one reminder and opted out of every message including the apology.",
+        "The SMSGlobal test campaign was sent to the production contact list for realistic volume testing.",
+        "SMS credits ran out halfway through 'School closed today', leaving half the community with 'School'.",
+        "Delivery receipts arrived six hours late and confidently confirmed the urgent alert was once urgent.",
+        "The SMSGlobal API secret expired during the emergency broadcast and has excellent timing.",
+        "Australian mobile numbers gained an extra zero after +61 and became internationally unavailable.",
+        "The shortened link triggered carrier spam filters and made the legitimate message look entrepreneurial.",
+        "A scheduled SMS used the server timezone and reminded families about tomorrow yesterday.",
+      ],
+    },
+    {
+      domain: "Identity",
+      incidents: [
+        "MFA is sending approvals to the work phone locked inside the office protected by MFA.",
+        "Single sign-on is unavailable; the support article begins with 'Sign in to continue'.",
+        "The new starter has twelve Microsoft 365 licences and no account.",
+        "The leaver's account was disabled, but it still owns every Power Automate flow keeping Finance alive.",
+        "Conditional Access requires VPN to reach Microsoft 365 and Microsoft 365 to approve VPN.",
+        "A shared mailbox has MFA enabled and nobody can agree whose phone should become the mailbox.",
+        "The password reset portal needs the password users are visiting the portal to reset.",
+        "An identity sync changed every display name to the payroll number, improving privacy and conversation.",
+        "The break-glass account is safely stored behind the glass door controlled by single sign-on.",
+        "Guest access expired during the meeting where the guest was presenting the access review.",
+      ],
+    },
+    {
+      domain: "Email and Teams",
+      incidents: [
+        "Outlook is offline because Work Offline was clicked and has taken the instruction seriously.",
+        "A distribution list contains itself and is now emailing at recursive enterprise scale.",
+        "The shared mailbox has 90,000 unread messages and one rule moving invoices into Birthday Cakes.",
+        "Teams joined the meeting through the laptop, phone, and room system, creating one employee in surround sound.",
+        "The microphone works in every application except the one hosting the mandatory webcast.",
+        "A 40 MB attachment was emailed to All Staff to explain the new storage policy.",
+        "The calendar accepted two meetings at the same time because both were marked optional and mandatory.",
+        "An Outlook rule forwards every message from Finance back to Finance for additional Finance.",
+        "Teams presence says everyone is Away; management has requested a productivity dashboard.",
+        "The meeting recording captured the pre-meeting gossip and stopped exactly when the meeting began.",
+      ],
+    },
+    {
+      domain: "Printers",
+      incidents: [
+        "The printer says there is no paper while sitting on three unopened trays of paper.",
+        "A stuck print job from 2019 is preventing the emergency print job from entering adulthood.",
+        "The colour printer has black toner; it refuses to print black until cyan feels supported.",
+        "Secure print sent the release code to the document currently waiting to be printed.",
+        "The printer's IP address is static, unique, and identical to the finance database.",
+        "A label printer produced 600 blank labels and one perfectly formatted label for Nobody.",
+        "The multifunction device can scan to every departed employee and no current folder.",
+        "A driver update taught the printer duplex, then removed its understanding of paper.",
+        "The print server sees the printer; the printer sees the print server; neither wants to make the first move.",
+        "Facilities unplugged the printer because its blinking network light looked wasteful.",
+      ],
+    },
+    {
+      domain: "Backups",
+      incidents: [
+        "The backup completed successfully after skipping every file that was open, large, or important.",
+        "The restore test restored the backup software and nothing the backup software backed up.",
+        "Immutable storage became mutable after the vendor enabled the convenience setting.",
+        "The off-site backup is in the other rack, safely six metres from the primary.",
+        "Retention keeps seven years of test data and seven days of financial records.",
+        "The backup account password expired, but failure alerts were sent using the same account.",
+        "A snapshot has been retained temporarily since 2018 and now owns most of the storage.",
+        "The tape catalogue says the required tape is in Box 4; there are three boxes labelled Box 4.",
+        "Database backups are perfect, encrypted, and missing the encryption key with equal thoroughness.",
+        "Disaster recovery failed over to a site that was decommissioned but remained optimistic in DNS.",
+      ],
+    },
+    {
+      domain: "Cybersecurity",
+      incidents: [
+        "The phishing simulation was reported as phishing and Security has marked the campaign unsuccessful.",
+        "Endpoint protection quarantined the payroll executable five minutes before payday.",
+        "The vulnerability scanner found a critical vulnerability in the vulnerability scanner.",
+        "A user pasted their password into the ticket to prove the password was not working.",
+        "Data Loss Prevention blocked the policy explaining how to request a Data Loss Prevention exception.",
+        "The penetration test locked out the CEO and has requested a testimonial.",
+        "The ransomware drill encrypted the ransomware drill folder for authenticity.",
+        "A secret was removed from Git and remains available in fourteen forks and one training slide.",
+        "The firewall exception is temporary, business-critical, and old enough to vote.",
+        "Security disabled the vulnerable application and reported a complete reduction in application risk.",
+      ],
+    },
+    {
+      domain: "Cloud and Kubernetes",
+      incidents: [
+        "Kubernetes replaced the failed pod so quickly that monitoring opened twelve separate incidents.",
+        "The cloud budget alert arrived after the experimental cluster finished mining executive attention.",
+        "A pod is CrashLoopBackOff and using every restart to reconsider its career.",
+        "Terraform plans to recreate production because somebody corrected a capital letter in a tag.",
+        "The autoscaler added 200 servers to handle monitoring traffic from the autoscaler dashboard.",
+        "The cloud region is healthy except for compute, storage, networking, identity, and the status page.",
+        "A public storage bucket was made private and immediately broke the private application using its public URL.",
+        "The Kubernetes secret is base64 encoded and therefore wearing a very convincing disguise.",
+        "The serverless function timed out while waiting for the serverless database to wake up.",
+        "Cost optimisation deleted the idle disaster-recovery environment moments before the disaster.",
+      ],
+    },
+    {
+      domain: "Integrations",
+      incidents: [
+        "The API returned HTTP 200 with a response body explaining that everything failed.",
+        "The integration uses customer_id as an integer, a UUID, and a personal interpretation.",
+        "A webhook retried until one enrolment deposit became twelve enrolment deposits.",
+        "The SFTP partner uploaded the .done file before the file that was allegedly done.",
+        "OAuth redirects production users to localhost, where the developer reports no issue.",
+        "The sync deleted records in one system and helpfully recreated them in the other.",
+        "An API rate limit of seventeen requests per minute was documented after request eighteen.",
+        "The integration account password expired exactly when the nightly integration began.",
+        "One poison message has been retried 40,000 times and now receives long-service leave.",
+        "The field mapping sends Surname to Country and Country to Additional Comments.",
+      ],
+    },
+    {
+      domain: "Hardware and AV",
+      incidents: [
+        "The conference-room screen is on HDMI 3; the cable is in HDMI 2; the labels say HDMI 1.",
+        "The webcam is broken because its physical privacy shutter is performing flawlessly.",
+        "Laptop audio is playing through a Bluetooth headset currently travelling home on the train.",
+        "The USB-C cable supports charging, data, and hope, but not the presentation.",
+        "The wireless keyboard is out of batteries. It is connected by a wire for decorative purposes.",
+        "The docking station works only when unplugged, rotated, encouraged, and reconnected before 9 AM.",
+        "The projector remote belongs to the projector replaced during the previous projector incident.",
+        "A monitor reports No Signal while the DisplayPort cable remains sealed in Procurement.",
+        "The laptop camera points at the ceiling after the new monitor arm achieved full articulation.",
+        "The meeting-room speakerphone muted itself to protect everyone from the meeting.",
+      ],
+    },
+    {
+      domain: "Service Desk",
+      incidents: [
+        "The ticket says 'computer broken' and includes a screenshot of the desk.",
+        "The requester marked the issue Critical because they are going to lunch in eight minutes.",
+        "A user reopened the resolved ticket to say thank you and reset the SLA.",
+        "The knowledge article says click the button removed in the screenshot directly above it.",
+        "The incident has nine resolver groups and is currently assigned to the requester.",
+        "A parent opened five tickets for the same issue to ensure the first ticket receives attention.",
+        "The service portal is unavailable and advises users to submit a ticket through the service portal.",
+        "The ticket was escalated to Level 3 without collecting the device name, error, user, or Level 1.",
+        "An auto-close reminder generated more replies than the original incident generated symptoms.",
+        "The major-incident bridge has 94 attendees and one person quietly fixing the problem.",
+      ],
+    },
+    {
+      domain: "Finance and Spreadsheets",
+      incidents: [
+        "Finance renamed Final.xlsx to Final_FINAL_v7_USE_THIS_ONE_revised.xlsx and archived the correct version.",
+        "A CSV was opened in Excel and the leading zeroes left without serving notice.",
+        "The workbook calculates manually because automatic calculation was affecting productivity.",
+        "A hidden column contains the real totals and an unhidden column contains confidence.",
+        "The spreadsheet database reached row 1,048,576 and has requested an enterprise extension.",
+        "A formula was copied one cell too far and the annual budget now includes the office car park.",
+        "The exchange rate is hardcoded, current, and from a year nobody can identify.",
+        "The month-end macro works only on the laptop of an employee currently on annual leave.",
+        "Two pivot tables disagree because each has selected a different interpretation of All.",
+        "The finance dashboard is green after conditional formatting was changed from red to corporate teal.",
+      ],
+    },
+  ];
+
+  function getCatalogIncidentCategory(domain, label) {
+    const text = label.toLowerCase();
+
+    if (
+      domain === "Edumate" &&
+      /edumate sync|overnight reconciliation|older integration snapshot|duplicate guardian notification/.test(text)
+    ) {
+      return "Edumate Sync";
+    }
+
+    if (
+      domain === "EnrolHQ" &&
+      /enrolhq sync|webhook|sibling application|sync export/.test(text)
+    ) {
+      return "EnrolHQ Sync";
+    }
+
+    return domain;
+  }
+
+  const patternedIncidents = incidentPacks.flatMap(
+    (pack, domainIndex) =>
+      pack.incidents.map((label, incidentIndex) => ({
+        label,
+        category: getCatalogIncidentCategory(pack.domain, label),
+        amount: 28 + domainIndex * 11 + incidentIndex * 17,
+        minResolved: Math.round(
+          40 * Math.pow(1.24, domainIndex + incidentIndex * 1.4),
+        ),
+      })),
+  );
+
+  window.ticketClickerIncidentCatalog = [
+    ...featuredIncidents,
+    ...highScaleIncidents,
+    ...patternedIncidents,
+  ];
+})();

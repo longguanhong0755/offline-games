@@ -1,0 +1,355 @@
+@font-face {
+  font-family: SuperMario256;
+  src: url('6e9eef4f6def32280211.ttf');
+}
+
+.start-screen {
+  width: 1280px;
+  height: 530px;
+  margin: 0 auto;
+  border: 1px solid black;
+  background: url('e84c48ab528a58c55159.png');
+  position: relative;
+}
+
+.editor-screen {
+  width: 1280px;
+  height: 480px;
+  margin: 0 auto;
+  border: 1px solid black;
+  background: url('b480e5b05d6529c35f61.png');
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+
+.game-screen {
+  width: 1280px;
+  height: 480px;
+  border: 1px solid black;
+  border-top: none;
+  background: url('b480e5b05d6529c35f61.png');
+  display: none;
+  margin: 0 auto;
+}
+
+.score-wrapper {
+  padding-left: 40px;
+  width: 1240px;
+  margin: 0 auto;
+  height: 50px;
+  display: none;
+  border: 1px solid black;
+  border-bottom: none;
+  line-height: 50px;
+  font-size: 20px;
+  background-color: #add1f3;
+  font-family: SuperMario256;
+  color: #ffffff;
+}
+
+.life-count {
+  background: url('fb785ae06f8fd2452d6b.png') left center no-repeat;
+  width: 100px;
+  float: left;
+  padding-left: 40px;
+}
+
+.coin-score {
+  background: url('2d2fe52d5ab2f1872a07.png') left center no-repeat;
+  width: 150px;
+  float: left;
+  padding-left: 40px;
+}
+
+.level-num {
+  width: 150px;
+  float: left;
+}
+
+.total-score {
+  float: left;
+}
+.cell {
+  width: 31px;
+  height: 31px;
+  border: 1px solid blue;
+}
+
+.active {
+  width: 31px;
+  height: 31px;
+  border: 1px solid blue;
+  background: red;
+  opacity: 0.5;
+}
+
+.element-wrapper {
+  width: 1280px;
+  height: 130px;
+  background: #d2d2d2;
+  margin: 0 auto;
+  border: 1px solid black;
+  display: none;
+}
+
+.platform {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') 0 0;
+}
+
+.coin-box {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -32px 0;
+}
+
+.power-up-box {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -64px 0;
+}
+
+.useless-box {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -96px 0;
+}
+
+.flag-pole {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -128px 0;
+}
+
+.flag {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -160px 0;
+}
+
+.pipe-left {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -192px 0;
+}
+
+.pipe-right {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -224px 0;
+}
+
+.pipe-top-left {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -256px 0;
+}
+
+.pipe-top-right {
+  width: 31px;
+  height: 31px;
+  background: url('a8d814ded82e2a16e181.png') -288px 0;
+}
+
+.goomba {
+  width: 31px;
+  height: 31px;
+  background: url('08b6469f37a7fe675ae3.png') 0 0;
+}
+
+.right-arrow {
+  width: 60px;
+  height: 60px;
+  top: 215px;
+  right: 0;
+  background: url('9bfbfed1185fbcb733d9.png');
+  position: absolute;
+}
+
+.left-arrow {
+  width: 60px;
+  height: 60px;
+  top: 215px;
+  left: 0;
+  background: url('5524d651fdf29e3f52a0.png');
+  position: absolute;
+}
+
+.element-wrapper * {
+  margin: 10px;
+  float: left;
+}
+
+.lvl-size {
+  clear: both;
+  float: left;
+  width: 115px;
+  height: 32px;
+  background: url('2beabbd44b9f6692522d.png');
+  margin-right: 10px;
+}
+
+.grid-small-btn {
+  float: left;
+  width: 64px;
+  height: 32px;
+  background: url('967caa9273dbb2c588b9.png');
+  border: none;
+  margin-right: 10px;
+}
+
+.grid-medium-btn:selected {
+  background: red;
+}
+
+.grid-medium-btn {
+  float: left;
+  width: 96px;
+  height: 32px;
+  background: url('9e8dc6a12f1b12071563.png');
+  border: none;
+  margin-right: 10px;
+}
+
+.grid-large-btn {
+  float: left;
+  width: 128px;
+  height: 32px;
+  background: url('5f2bb39d5c691c99c48a.png');
+  border: none;
+  margin-right: 10px;
+}
+
+.save-map-btn {
+  float: right;
+  width: 100px;
+  height: 100px;
+  background: url('346d5d7e677f1166fe87.png');
+  border: none;
+  border: 2px solid black;
+  margin-right: 10px;
+  margin-top: -35px;
+}
+
+.clear-map-btn {
+  float: right;
+  width: 100px;
+  height: 100px;
+  background: url('254b2a55f09f3796b74f.png');
+  border: none;
+  border: 2px solid black;
+  margin-right: 10px;
+  margin-top: -35px;
+}
+
+.levels-wrapper {
+  width: 1280px;
+  height: 530px;
+  margin: 0 auto;
+  border: 1px solid black;
+  position: relative;
+  overflow: hidden;
+  display: none;
+  background: url('b480e5b05d6529c35f61.png');
+}
+
+.start-btn {
+  width: 200px;
+  height: 50px;
+  color: #ffffff;
+  background: url('8d4eaf6b12d4f9a2514c.png');
+  position: absolute;
+  bottom: 100px;
+  left: 252px;
+  border: 2px solid black;
+}
+
+.editor-btn {
+  width: 200px;
+  height: 50px;
+  background: url('d06679ece9c69e9dd19c.png');
+  position: absolute;
+  bottom: 100px;
+  left: 530px;
+  color: #ffffff;
+  border: 2px solid black;
+}
+
+.created-btn {
+  width: 200px;
+  height: 50px;
+  background: url('0d094eeb022b5f2f4d44.png');
+  position: absolute;
+  bottom: 100px;
+  left: 810px;
+  color: #ffffff;
+  border: 2px solid black;
+}
+
+.back-btn {
+  width: 200px;
+  height: 50px;
+  background: url('728caa8cd2b5e89ad84c.png');
+  color: #ffffff;
+  border: 2px solid black;
+  margin: 10px;
+  display: none;
+}
+
+.level-btn {
+  font-family: SuperMario256;
+  font-size: 25px;
+  float: left;
+  line-height: 50px;
+  text-align: center;
+  width: 248px;
+  height: 50px;
+  color: #ffffff;
+  border: 2px solid black;
+  margin: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: #15a7d9;
+}
+
+.delete-all-btn {
+  width: 100px;
+  height: 100px;
+  background: url('82e5cef63a2353e9806e.png');
+  color: #ffffff;
+  border: 2px solid black;
+  margin: 10px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.btn-wrapper {
+  width: 1280px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.no-maps {
+  width: 1000px;
+  text-align: center;
+  font-family: SuperMario256;
+  font-size: 25px;
+  margin: 0 auto;
+  color: #ffffff;
+  background: #5fb952;
+  border: 2px solid black;
+}
+
+.loading-percentage {
+  font-size: 60px;
+  font-family: SuperMario256;
+  text-align: center;
+  padding: 100px;
+}
+
+.fb-comments {
+  margin: 0 auto;
+}

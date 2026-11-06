@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Neon Snake Game – Free Online Classic Snake | SnakeSys</title>
+<meta content="Play Neon Snake online for free – a retro-futuristic twist on the classic snake game. Choose easy, medium or hard difficulty, beat your high score and climb the all-time leaderboard. No download needed!" name="description"/>
+<meta content="snake game, neon snake game, play snake online, classic snake game, free snake game, browser snake game, retro snake, snake high score" name="keywords"/>
+<meta content="Neon Snake Game – Free Online Classic Snake" property="og:title"/>
+<meta content="Free retro neon snake game in your browser. 3 difficulty levels, leaderboard &amp; high scores." property="og:description"/>
+<meta content="website" property="og:type"/>
+
+<style>
+@import url('/_assets/a33830df430aa0e8fcc9.css');
+
+:root {
+  --bg:#020810; --accent:#00ffaa; --danger:#ff2d6b;
+  --warn:#ffaa00; --dim:rgba(160,255,214,0.35);
+  --easy:#00ffaa; --medium:#ffaa00; --hard:#ff2d6b;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  width:100%;min-height:100%;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;
+  font-family:'Share Tech Mono',monospace;
+  overflow-x:hidden;overflow-y:auto;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.13) 3px,rgba(0,0,0,0.13) 4px);
+  pointer-events:none;z-index:9999;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.75) 100%);
+  pointer-events:none;z-index:9998;
+}
+
+/* ── CHAI BUTTON ── */
+#chai-btn{
+  position:fixed;bottom:16px;right:16px;
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,200,0,0.12);
+  border:1px solid rgba(255,200,0,0.45);
+  color:#ffcc00;
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  padding:9px 16px;cursor:pointer;
+  text-decoration:none;
+  transition:background 0.2s,box-shadow 0.2s;
+  z-index:10000;
+}
+#chai-btn:hover{background:rgba(255,200,0,0.22);box-shadow:0 0 20px rgba(255,200,0,0.35);}
+/* ── QR POPUP ── */
+#qr-popup{
+  display:none;position:fixed;bottom:62px;right:16px;
+  background:#030d18;border:1px solid rgba(255,200,0,0.4);
+  box-shadow:0 0 30px rgba(255,200,0,0.12);
+  padding:20px 24px;z-index:10001;
+  flex-direction:column;align-items:center;gap:8px;
+  min-width:210px;
+}
+#qr-close{
+  position:absolute;top:8px;right:10px;
+  color:var(--dim);cursor:pointer;font-size:14px;line-height:1;
+}
+#qr-close:hover{color:#fff;}
+#qr-title{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;color:#ffcc00;}
+#qr-sub{font-size:9px;letter-spacing:2px;color:var(--dim);text-align:center;}
+#qr-canvas{border:4px solid #fff;display:block;margin:4px 0;}
+#qr-upi{font-size:12px;color:var(--accent);letter-spacing:1px;}
+#qr-note{font-size:9px;letter-spacing:2px;color:var(--dim);}
+#coffee-btn span{font-size:16px;}
+
+/* ── SHELL ── */
+#shell{
+  display:flex;flex-direction:column;
+  align-items:center;gap:10px;
+  padding:16px 0 80px;
+  position:relative;
+}
+
+/* ── HEADER ── */
+#header{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  width:100%;padding:0 4px;
+}
+.sys-label{
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;font-weight:700;
+  letter-spacing:4px;color:var(--dim);
+}
+#score-num{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(26px,6vw,42px);font-weight:900;
+  color:var(--accent);line-height:1;
+  text-shadow:0 0 20px rgba(0,255,170,0.7),0 0 40px rgba(0,255,170,0.3);
+  transition:transform 0.1s;text-align:center;
+}
+#score-num.pulse{transform:scale(1.3);}
+#score-tag{font-size:9px;letter-spacing:3px;color:var(--dim);margin-top:2px;text-align:center;}
+#best-num{
+  font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;
+  color:var(--warn);text-shadow:0 0 12px rgba(255,170,0,0.5);text-align:right;
+}
+#best-tag{font-size:9px;letter-spacing:3px;color:var(--dim);margin-top:2px;text-align:right;}
+
+/* ── CANVAS ── */
+#canvas-wrap{position:relative;line-height:0;}
+#canvas-wrap::before{content:'';position:absolute;inset:-2px;border:1px solid rgba(0,255,170,0.2);pointer-events:none;z-index:2;}
+#canvas-wrap::after{content:'';position:absolute;inset:-12px;border:1px solid rgba(0,255,170,0.06);pointer-events:none;z-index:2;}
+canvas{display:block;}
+#fx-canvas{position:absolute;inset:0;pointer-events:none;z-index:5;}
+
+/* ── OVERLAY ── */
+#overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:rgba(2,8,16,0.94);
+  z-index:10;transition:opacity 0.3s;
+  padding:16px;overflow-y:auto;
+}
+#overlay.hidden{opacity:0;pointer-events:none;}
+.ov-title{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:clamp(22px,6vw,44px);
+  color:var(--accent);letter-spacing:5px;
+  text-shadow:0 0 30px rgba(0,255,170,0.6),0 0 60px rgba(0,255,170,0.2);
+  margin-bottom:4px;text-align:center;
+}
+.ov-title.dead{
+  color:var(--danger);
+  text-shadow:0 0 30px rgba(255,45,107,0.6),0 0 60px rgba(255,45,107,0.2);
+}
+.ov-sub{font-size:10px;letter-spacing:4px;color:var(--dim);margin-bottom:16px;text-align:center;}
+.ov-score{
+  font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;
+  color:var(--accent);letter-spacing:2px;margin-bottom:4px;text-align:center;
+}
+.ov-best{font-size:10px;color:var(--warn);letter-spacing:3px;margin-bottom:16px;text-align:center;}
+
+/* ── DIFFICULTY ── */
+#diff-group{display:flex;gap:8px;margin-bottom:18px;}
+.diff-btn{
+  font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:2px;padding:8px 16px;
+  background:transparent;cursor:pointer;
+  text-transform:uppercase;transition:all 0.2s;border:2px solid;
+}
+.diff-btn.easy{border-color:var(--easy);color:var(--easy);}
+.diff-btn.medium{border-color:var(--medium);color:var(--medium);}
+.diff-btn.hard{border-color:var(--hard);color:var(--hard);}
+.diff-btn.easy.active{background:var(--easy);color:var(--bg);box-shadow:0 0 18px rgba(0,255,170,0.5);}
+.diff-btn.medium.active{background:var(--medium);color:var(--bg);box-shadow:0 0 18px rgba(255,170,0,0.5);}
+.diff-btn.hard.active{background:var(--hard);color:var(--bg);box-shadow:0 0 18px rgba(255,45,107,0.5);}
+
+/* ── SAVE SCORE FORM ── */
+#save-form{
+  display:none;flex-direction:column;align-items:center;
+  gap:8px;width:100%;max-width:260px;margin-bottom:16px;
+}
+#save-form input{
+  font-family:'Share Tech Mono',monospace;
+  font-size:13px;letter-spacing:1px;
+  background:rgba(0,255,170,0.05);
+  border:1px solid rgba(0,255,170,0.3);
+  color:var(--accent);padding:9px 14px;width:100%;
+  outline:none;transition:border-color 0.2s;
+}
+#save-form input::placeholder{color:rgba(0,255,170,0.3);}
+#save-form input:focus{border-color:var(--accent);box-shadow:0 0 10px rgba(0,255,170,0.2);}
+#save-note{font-size:9px;letter-spacing:2px;color:var(--dim);text-align:center;}
+#save-ok-msg{font-size:11px;color:var(--accent);letter-spacing:2px;display:none;text-align:center;}
+
+/* ── BUTTONS ── */
+.ov-btn{
+  font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:3px;padding:12px 34px;
+  background:transparent;border:2px solid var(--accent);
+  color:var(--accent);cursor:pointer;
+  text-transform:uppercase;position:relative;overflow:hidden;
+  transition:color 0.2s,box-shadow 0.2s;
+}
+.ov-btn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--accent);transform:translateX(-101%);
+  transition:transform 0.2s;z-index:-1;
+}
+.ov-btn:hover{color:var(--bg);box-shadow:0 0 24px rgba(0,255,170,0.4);}
+.ov-btn:hover::before{transform:translateX(0);}
+.ov-btn.danger{border-color:var(--danger);color:var(--danger);}
+.ov-btn.danger::before{background:var(--danger);}
+.ov-btn.danger:hover{color:var(--bg);box-shadow:0 0 24px rgba(255,45,107,0.4);}
+.ov-btn.small{font-size:11px;letter-spacing:2px;padding:8px 20px;}
+
+/* ── SPEED BAR ── */
+#level-bar{width:100%;display:flex;align-items:center;gap:10px;padding:0 4px;}
+#level-label{font-size:9px;letter-spacing:3px;color:var(--dim);white-space:nowrap;}
+#level-track{flex:1;height:3px;background:rgba(0,255,170,0.1);overflow:hidden;}
+#level-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#00cc88,#00ffaa);
+  box-shadow:0 0 8px rgba(0,255,170,0.8);
+  transition:width 0.4s ease;
+}
+#level-num{
+  font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
+  color:var(--accent);letter-spacing:1px;width:28px;text-align:right;
+}
+
+/* ── DIFF BADGE ── */
+#diff-badge{
+  font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:3px;padding:3px 10px;border:1px solid;
+  margin-bottom:0;
+}
+#diff-badge.easy{border-color:var(--easy);color:var(--easy);}
+#diff-badge.medium{border-color:var(--medium);color:var(--medium);}
+#diff-badge.hard{border-color:var(--hard);color:var(--hard);}
+
+/* ── LEADERBOARD ── */
+#leaderboard{
+  width:100%;max-width:460px;
+  border:1px solid rgba(0,255,170,0.12);
+  background:rgba(0,255,170,0.02);
+  padding:12px 16px;
+}
+#lb-title{
+  font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:4px;color:var(--dim);margin-bottom:10px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+#lb-title span{color:var(--accent);}
+.lb-row{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 0;border-bottom:1px solid rgba(0,255,170,0.06);
+  font-size:12px;
+}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{
+  font-family:'Orbitron',sans-serif;font-weight:700;
+  width:22px;text-align:center;flex-shrink:0;
+}
+.lb-rank.gold{color:#ffd700;text-shadow:0 0 8px rgba(255,215,0,0.6);}
+.lb-rank.silver{color:#c0c0c0;}
+.lb-rank.bronze{color:#cd7f32;}
+.lb-rank.rest{color:var(--dim);}
+.lb-name{flex:1;color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lb-diff{
+  font-size:9px;font-family:'Orbitron',sans-serif;
+  letter-spacing:1px;padding:2px 6px;border:1px solid;
+  flex-shrink:0;
+}
+.lb-diff.easy{border-color:var(--easy);color:var(--easy);}
+.lb-diff.medium{border-color:var(--medium);color:var(--medium);}
+.lb-diff.hard{border-color:var(--hard);color:var(--hard);}
+.lb-score{
+  font-family:'Orbitron',sans-serif;font-weight:700;
+  font-size:13px;color:var(--warn);
+  text-shadow:0 0 8px rgba(255,170,0,0.4);
+  flex-shrink:0;width:36px;text-align:right;
+}
+.lb-empty{font-size:11px;color:var(--dim);letter-spacing:2px;padding:8px 0;}
+
+/* ── DPAD ── */
+#dpad{
+  display:none;
+  grid-template-columns:repeat(3,52px);
+  grid-template-rows:repeat(3,52px);
+  gap:4px;
+}
+.dpad-btn{
+  background:rgba(0,255,170,0.05);border:1px solid rgba(0,255,170,0.2);
+  color:var(--accent);font-size:22px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;border-radius:6px;
+  transition:background 0.1s,box-shadow 0.1s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.dpad-btn:active{background:rgba(0,255,170,0.18);box-shadow:0 0 14px rgba(0,255,170,0.3);}
+.dpad-empty{background:transparent;border-color:transparent;pointer-events:none;}
+@media(pointer:coarse){#dpad{display:grid;}}
+
+/* ── ADMIN PANEL ── */
+#admin-panel{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:min(92vw,760px);
+  max-height:80vh;
+  background:#060d0a;
+  border:1px solid rgba(0,255,136,0.35);
+  box-shadow:0 0 40px rgba(0,255,136,0.1);
+  z-index:20000;
+  display:flex;flex-direction:column;
+  font-family:'Share Tech Mono',monospace;
+}
+#ap-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(0,255,136,0.2);
+  background:rgba(0,255,136,0.06);
+  flex-shrink:0;
+}
+#ap-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;font-weight:700;
+  letter-spacing:2px;color:#00ff88;
+}
+#ap-copy,#ap-clear,#ap-close{
+  font-family:'Orbitron',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:1px;
+  padding:5px 10px;cursor:pointer;border:none;
+}
+#ap-copy{ background:rgba(0,255,136,0.15);color:#00ff88;border:1px solid rgba(0,255,136,0.4); }
+#ap-copy:hover{ background:rgba(0,255,136,0.3); }
+#ap-clear{ background:rgba(255,45,107,0.1);color:#ff2d6b;border:1px solid rgba(255,45,107,0.3); }
+#ap-clear:hover{ background:rgba(255,45,107,0.25); }
+#ap-close{ background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.15); }
+#ap-close:hover{ color:#fff; }
+#ap-body{
+  overflow-y:auto;padding:8px;flex:1;
+}
+#ap-table{
+  width:100%;border-collapse:collapse;
+  font-size:11px;letter-spacing:0.5px;
+}
+#ap-table th{
+  font-family:'Orbitron',sans-serif;
+  font-size:9px;letter-spacing:2px;
+  color:#00ff88;padding:8px 10px;
+  border-bottom:1px solid rgba(0,255,136,0.25);
+  text-align:left;background:rgba(0,255,136,0.04);
+}
+#ap-table td{
+  padding:7px 10px;color:rgba(255,255,255,0.75);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+#ap-table tr:hover td{ background:rgba(0,255,136,0.04); }
+#ap-table td:nth-child(4){ color:#00ff88;font-weight:bold; }
+
+/* ── CHAI NUDGE ── */
+#chai-nudge{
+  position:fixed;bottom:70px;right:16px;
+  background:#0d1f14;
+  border:1px solid rgba(255,200,0,0.5);
+  box-shadow:0 0 24px rgba(255,200,0,0.15);
+  padding:14px 18px;
+  max-width:220px;
+  z-index:10002;
+  transform:translateX(260px);
+  transition:transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  pointer-events:none;
+}
+#chai-nudge.show{
+  transform:translateX(0);
+  pointer-events:all;
+}
+#nudge-close{
+  position:absolute;top:6px;right:8px;
+  color:var(--dim);cursor:pointer;
+  font-size:12px;line-height:1;
+}
+#nudge-close:hover{color:#fff;}
+#nudge-emoji{font-size:22px;margin-bottom:6px;}
+#nudge-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:2px;color:#ffcc00;
+  margin-bottom:5px;
+}
+#nudge-msg{
+  font-size:10px;letter-spacing:1px;
+  color:rgba(255,255,255,0.6);
+  line-height:1.5;margin-bottom:10px;
+}
+#nudge-btn{
+  display:block;width:100%;
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;font-weight:700;
+  letter-spacing:2px;padding:8px;
+  background:rgba(255,200,0,0.12);
+  border:1px solid rgba(255,200,0,0.4);
+  color:#ffcc00;cursor:pointer;
+  text-decoration:none;text-align:center;
+  transition:background 0.2s;
+}
+#nudge-btn:hover{background:rgba(255,200,0,0.25);}
+
+/* ── SOUND BTN ── */
+#sound-btn{
+  font-size:18px;background:transparent;border:none;
+  cursor:pointer;padding:4px 6px;
+  opacity:0.7;transition:opacity 0.2s,transform 0.1s;
+  -webkit-tap-highlight-color:transparent;
+}
+#sound-btn:hover{opacity:1;transform:scale(1.15);}
+#sound-btn.muted{opacity:0.3;}
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- Chai / UPI button -->
+<a href="upi://pay?pa=snakesys@ybl&amp;pn=SnakeSys&amp;cu=INR" id="chai-btn" onclick="handleChai(event)">☕ BUY ME A CHAI</a>
+<div id="qr-popup">
+<div id="qr-close" onclick="closeQR()">✕</div>
+<div id="qr-title">SCAN &amp; PAY</div>
+<div id="qr-sub">GPay · PhonePe · Paytm · Any UPI</div>
+<canvas height="160" id="qr-canvas" width="160"></canvas>
+<div id="qr-upi">snakesys@ybl</div>
+<div id="qr-note">ANY AMOUNT YOU LIKE ☕</div>
+</div>
+<div id="shell">
+<div id="header">
+<div style="position:relative;">
+<div class="sys-label">SNAKE//SYS</div>
+<div class="diff-badge easy" id="diff-badge">EASY</div>
+</div>
+<div>
+<div id="score-num">0</div>
+<div id="score-tag">SCORE</div>
+</div>
+<div>
+<div id="best-num">0</div>
+<div id="best-tag">BEST</div>
+</div>
+<div>
+<button id="sound-btn" onclick="toggleSound()">🔊</button>
+</div>
+</div>
+<div id="canvas-wrap">
+<canvas height="480" id="game" width="480"></canvas>
+<canvas height="480" id="fx-canvas" width="480"></canvas>
+<!-- MAIN OVERLAY -->
+<div id="overlay">
+<div class="ov-title" id="ov-title">SNAKE//SYS</div>
+<div class="ov-sub" id="ov-sub">FREE NEON SNAKE GAME</div>
+<div class="ov-score" id="ov-score" style="display:none"></div>
+<div class="ov-best" id="ov-best" style="display:none"></div>
+<!-- Difficulty selector (shown on start screen & game over) -->
+<div id="diff-group">
+<button class="diff-btn easy active" onclick="setDiff('easy')">EASY</button>
+<button class="diff-btn medium" onclick="setDiff('medium')">MEDIUM</button>
+<button class="diff-btn hard" onclick="setDiff('hard')">HARD</button>
+</div>
+<!-- Save score form (shown after game over) -->
+<div id="save-form">
+<div style="font-size:10px;letter-spacing:3px;color:var(--warn);margin-bottom:4px;">SAVE YOUR SCORE TO LEADERBOARD</div>
+<input autocomplete="off" id="inp-name" maxlength="20" placeholder="YOUR NAME" spellcheck="false" type="text"/>
+<input autocomplete="off" id="inp-email" maxlength="60" placeholder="YOUR EMAIL" type="email"/>
+<div id="save-note">YOUR EMAIL STAYS ON THIS DEVICE ONLY</div>
+<div id="save-ok-msg">✓ SCORE SAVED!</div>
+<button class="ov-btn small" onclick="saveScore()">SAVE SCORE</button>
+</div>
+<button class="ov-btn" id="start-btn" onclick="startGame()">EXECUTE</button>
+</div>
+</div>
+<div id="level-bar">
+<div id="level-label">SPD</div>
+<div id="level-track"><div id="level-fill"></div></div>
+<div id="level-num">1</div>
+</div>
+<div id="dpad">
+<div class="dpad-empty"></div>
+<div class="dpad-btn" onmousedown="dpadPress('up')" ontouchstart="dpadPress('up');event.preventDefault()">▲</div>
+<div class="dpad-empty"></div>
+<div class="dpad-btn" onmousedown="dpadPress('left')" ontouchstart="dpadPress('left');event.preventDefault()">◀</div>
+<div class="dpad-empty"></div>
+<div class="dpad-btn" onmousedown="dpadPress('right')" ontouchstart="dpadPress('right');event.preventDefault()">▶</div>
+<div class="dpad-empty"></div>
+<div class="dpad-btn" onmousedown="dpadPress('down')" ontouchstart="dpadPress('down');event.preventDefault()">▼</div>
+<div class="dpad-empty"></div>
+</div>
+<!-- ALL-TIME LEADERBOARD -->
+<div id="leaderboard">
+<div id="lb-title">ALL-TIME HIGH SCORES <span id="lb-diff-filter">ALL</span></div>
+<div id="lb-body"><div class="lb-empty">NO SCORES YET — BE THE FIRST!</div></div>
+</div>
+</div><!-- /shell -->
+<!-- Chai Nudge Notification -->
+<div id="chai-nudge">
+<div id="nudge-close" onclick="closeNudge()">✕</div>
+<div id="nudge-emoji">☕</div>
+<div id="nudge-title">ENJOYING THE GAME?</div>
+<div id="nudge-msg">You've played <span id="nudge-count">5</span> games! Keep it free &amp; running.</div>
+<a href="upi://pay?pa=snakesys@ybl&amp;pn=SnakeSys&amp;cu=INR" id="nudge-btn" onclick="handleChai(event)">BUY ME A CHAI ☕</a>
+</div>
+<script>
+// ── CONFIG ─────────────────────────────────────────────────────────────────
+const COLS=24,ROWS=24;
+const CELL=(()=>{
+  const maxW=Math.min(window.innerWidth-40,window.innerHeight-320,480);
+  return Math.floor(maxW/COLS);
+})();
+const W=COLS*CELL,H=ROWS*CELL;
+
+const DIFFICULTIES={
+  easy:  {baseSpeed:160,speedStep:6,minSpeed:90,label:'EASY',scoreMulti:1},
+  medium:{baseSpeed:110,speedStep:8,minSpeed:60,label:'MEDIUM',scoreMulti:2},
+  hard:  {baseSpeed:70, speedStep:10,minSpeed:40,label:'HARD',scoreMulti:3},
+};
+
+// ── CANVAS ──────────────────────────────────────────────────────────────────
+const canvas=document.getElementById('game');
+canvas.width=W;canvas.height=H;
+const ctx=canvas.getContext('2d');
+const fxCanvas=document.getElementById('fx-canvas');
+fxCanvas.width=W;fxCanvas.height=H;
+const fxCtx=fxCanvas.getContext('2d');
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+let snake,dir,nextDir,food,score,running,gameLoop,particles=[],flashTimer,level,speed;
+let currentDiff='easy';
+let pendingScore=null; // score to save after game over
+
+// ── LEADERBOARD (localStorage) ──────────────────────────────────────────────
+function getLeaderboard(){
+  try{ return JSON.parse(localStorage.getItem('snakeLB')||'[]'); }
+  catch(e){ return []; }
+}
+function saveLeaderboard(lb){
+  localStorage.setItem('snakeLB',JSON.stringify(lb));
+}
+function addEntry(name,email,sc,diff){
+  const lb=getLeaderboard();
+  lb.push({name:name.trim()||'ANONYMOUS',email:email.trim(),score:sc,diff,date:Date.now()});
+  lb.sort((a,b)=>b.score-a.score);
+  if(lb.length>20)lb.length=20; // keep top 20
+  saveLeaderboard(lb);
+  renderLeaderboard();
+}
+function renderLeaderboard(){
+  const lb=getLeaderboard();
+  const body=document.getElementById('lb-body');
+  if(!lb.length){
+    body.innerHTML='<div class="lb-empty">NO SCORES YET — BE THE FIRST!</div>';
+    return;
+  }
+  const rankSymbols=['🥇','🥈','🥉'];
+  const rankClasses=['gold','silver','bronze'];
+  body.innerHTML=lb.slice(0,10).map((e,i)=>`
+    <div class="lb-row">
+      <div class="lb-rank ${rankClasses[i]||'rest'}">${rankSymbols[i]||'#'+(i+1)}</div>
+      <div class="lb-name">${escHtml(e.name)}</div>
+      <div class="lb-diff ${e.diff}">${e.diff.toUpperCase()}</div>
+      <div class="lb-score">${e.score}</div>
+    </div>`).join('');
+}
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Personal best per difficulty
+function getBest(diff){
+  return parseInt(localStorage.getItem('snakeBest_'+diff)||'0');
+}
+function setBest(diff,val){
+  localStorage.setItem('snakeBest_'+diff,val);
+}
+
+// ── DIFFICULTY ───────────────────────────────────────────────────────────────
+function setDiff(d){
+  currentDiff=d;
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.diff-btn.'+d).classList.add('active');
+  const badge=document.getElementById('diff-badge');
+  badge.className='diff-badge '+d;
+  badge.textContent=DIFFICULTIES[d].label;
+  updateBestDisplay();
+}
+function updateBestDisplay(){
+  const b=getBest(currentDiff);
+  document.getElementById('best-num').textContent=b;
+}
+
+// ── PARTICLES ────────────────────────────────────────────────────────────────
+function spawnParticles(x,y,color,count){
+  for(let i=0;i<count;i++){
+    const angle=(Math.PI*2/count)*i+Math.random()*0.5;
+    const sp=1.5+Math.random()*3.5;
+    particles.push({
+      x:x*CELL+CELL/2,y:y*CELL+CELL/2,
+      vx:Math.cos(angle)*sp,vy:Math.sin(angle)*sp,
+      life:1,decay:0.04+Math.random()*0.04,
+      size:2+Math.random()*3,color
+    });
+  }
+}
+
+// ── FOOD ─────────────────────────────────────────────────────────────────────
+function spawnFood(){
+  let pos;
+  do{pos={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)};}
+  while(snake.some(s=>s.x===pos.x&&s.y===pos.y));
+  food={...pos,pulse:0};
+}
+
+// ── START ─────────────────────────────────────────────────────────────────────
+function startGame(){
+  const cfg=DIFFICULTIES[currentDiff];
+  snake=[{x:12,y:12},{x:11,y:12},{x:10,y:12}];
+  dir={x:1,y:0};nextDir={x:1,y:0};
+  score=0;level=1;speed=cfg.baseSpeed;
+  particles=[];flashTimer=0;
+  // Don't reset pendingScore here — autoSaveScore may still need it
+  document.getElementById('score-num').textContent='0';
+  document.getElementById('level-fill').style.width='0%';
+  document.getElementById('level-num').textContent='1';
+  // Fully reset overlay for clean state every game
+  document.getElementById('save-form').style.display='none';
+  document.getElementById('save-ok-msg').style.display='none';
+  document.getElementById('ov-score').style.display='none';
+  document.getElementById('ov-best').style.display='none';
+  document.getElementById('ov-title').className='ov-title';
+  document.getElementById('ov-title').textContent='SNAKE//SYS';
+  document.getElementById('ov-sub').textContent='FREE NEON SNAKE GAME';
+  const btn=document.getElementById('start-btn');
+  btn.textContent='EXECUTE'; btn.className='ov-btn';
+  btn.disabled=false;
+  updateBestDisplay();
+  spawnFood();
+  document.getElementById('overlay').classList.add('hidden');
+  running=true;
+  clearInterval(gameLoop);
+  gameLoop=setInterval(tick,speed);
+  playStart();
+}
+
+// ── TICK ──────────────────────────────────────────────────────────────────────
+function tick(){
+  if(!running)return;
+  dir={...nextDir};
+  const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+  if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS){die();return;}
+  if(snake.some(s=>s.x===head.x&&s.y===head.y)){die();return;}
+  snake.unshift(head);
+
+  if(head.x===food.x&&head.y===food.y){
+    score++;
+    document.getElementById('score-num').textContent=score;
+    const sn=document.getElementById('score-num');
+    sn.classList.add('pulse');
+    setTimeout(()=>sn.classList.remove('pulse'),120);
+
+    spawnParticles(food.x,food.y,'#ff2d6b',16);
+    spawnParticles(food.x,food.y,'#ffaa00',8);
+    playEat();
+
+    const cfg=DIFFICULTIES[currentDiff];
+    const newLevel=1+Math.floor(score/5);
+    if(newLevel!==level){
+      level=newLevel;
+      speed=Math.max(cfg.minSpeed,cfg.baseSpeed-(level-1)*cfg.speedStep);
+      clearInterval(gameLoop);gameLoop=setInterval(tick,speed);
+      document.getElementById('level-num').textContent=level;
+      playLevelUp();
+    }
+    const pct=Math.min(100,((cfg.baseSpeed-speed)/(cfg.baseSpeed-cfg.minSpeed))*100);
+    document.getElementById('level-fill').style.width=pct+'%';
+
+    const prev=getBest(currentDiff);
+    if(score>prev){
+      setBest(currentDiff,score);
+      document.getElementById('best-num').textContent=score;
+    }
+    spawnFood();flashTimer=6;
+  }else{
+    snake.pop();
+  }
+}
+
+// ── DIE ───────────────────────────────────────────────────────────────────────
+function die(){
+  running=false;
+  clearInterval(gameLoop);
+  pendingScore=score;
+  gamesPlayed++;
+  spawnParticles(snake[0].x,snake[0].y,'#ff2d6b',28);
+  spawnParticles(snake[0].x,snake[0].y,'#ffffff',12);
+  playDie();
+  // Show chai nudge every 5 games
+  if(gamesPlayed > 0 && gamesPlayed % 5 === 0) {
+    setTimeout(showChaiNudge, 1200);
+  }
+
+  setTimeout(()=>{
+    document.getElementById('ov-title').textContent='TERMINATED';
+    document.getElementById('ov-title').className='ov-title dead';
+    document.getElementById('ov-sub').textContent=DIFFICULTIES[currentDiff].label+' MODE';
+    const ovS=document.getElementById('ov-score');
+    const ovB=document.getElementById('ov-best');
+    ovS.textContent='SCORE // '+score;
+    ovS.style.display='block';
+    const pb=getBest(currentDiff);
+    ovB.textContent=score>=pb&&score>0?'★ NEW PERSONAL BEST ★':'BEST // '+pb;
+    ovB.style.display='block';
+    // If already have session email, auto-save silently, skip form
+    if(alreadySaved){
+      document.getElementById('save-form').style.display='none';
+      document.getElementById('inp-name').value=sessionName;
+      document.getElementById('inp-email').value=sessionEmail;
+      document.getElementById('save-ok-msg').textContent='SCORE SAVED!';
+      document.getElementById('save-ok-msg').style.color='var(--accent)';
+      document.getElementById('save-ok-msg').style.display='block';
+      autoSaveScore();
+    } else {
+      document.getElementById('save-form').style.display='flex';
+      document.getElementById('save-ok-msg').style.display='none';
+    }
+    const btn=document.getElementById('start-btn');
+    btn.textContent='PLAY AGAIN';
+    btn.className='ov-btn danger';
+    document.getElementById('overlay').classList.remove('hidden');
+    renderLeaderboard();
+  },400);
+}
+
+// ── SAVE SCORE ────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://zojonjvktegheqljupix.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpvam9uanZrdGVnaGVxbGp1cGl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTA1NjEsImV4cCI6MjA4ODcyNjU2MX0.-vhif-8lII2RWGZvzfT1HFk33NH29y1bNa_K8U7_hLg';
+
+// Session memory
+let sessionName  = '';
+let sessionEmail = '';
+let alreadySaved = false;
+let gamesPlayed  = 0; // track total games this session
+
+function isValidEmail(e){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
+function saveScore(){
+  if(pendingScore===null) return;
+
+  const nameEl  = document.getElementById('inp-name');
+  const emailEl = document.getElementById('inp-email');
+  const name    = nameEl.value.trim() || 'ANONYMOUS';
+  const email   = emailEl.value.trim();
+
+  // Validate email
+  if(!email || !isValidEmail(email)){
+    emailEl.style.borderColor='var(--danger)';
+    emailEl.placeholder='ENTER VALID EMAIL!';
+    emailEl.value='';
+    emailEl.focus();
+    setTimeout(()=>{
+      emailEl.style.borderColor='';
+      emailEl.placeholder='YOUR EMAIL';
+    }, 2500);
+    return;
+  }
+
+  // Remember for session
+  sessionName  = name;
+  sessionEmail = email;
+  alreadySaved = true;
+
+  // Lock button
+  const btn=document.querySelector('#save-form .ov-btn');
+  if(btn){btn.textContent='SAVING...';btn.disabled=true;}
+
+  // Capture score immediately before anything can reset it
+  const scoreCopy = pendingScore;
+  const diffCopy  = currentDiff.toUpperCase();
+  pendingScore = null;
+
+  submitToForm(name, email, scoreCopy, diffCopy, function(){
+    addEntry(name, email, scoreCopy, diffCopy);
+    savePlayer(name, email, scoreCopy, diffCopy);
+    showSaved();
+  });
+}
+
+function autoSaveScore(){
+  if(pendingScore===null||!alreadySaved) return;
+  // Capture score immediately before anything resets it
+  const scoreCopy = pendingScore;
+  const diffCopy  = currentDiff.toUpperCase();
+  pendingScore = null;
+  submitToForm(sessionName, sessionEmail, scoreCopy, diffCopy, function(){
+    addEntry(sessionName, sessionEmail, scoreCopy, diffCopy);
+    savePlayer(sessionName, sessionEmail, scoreCopy, diffCopy);
+  });
+}
+
+function submitToForm(name, email, score, diff, cb){
+  fetch(SUPABASE_URL + '/rest/v1/scores', {
+    method:  'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'apikey':        SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer':        'return=minimal'
+    },
+    body: JSON.stringify({
+      name:       name.trim() || 'ANONYMOUS',
+      email:      email.trim(),
+      score:      score,
+      difficulty: diff
+    })
+  })
+  .then(async res => {
+    if(res.ok){
+      console.log('✅ Supabase saved!');
+    } else {
+      const txt = await res.text();
+      console.warn('❌ Supabase HTTP ' + res.status + ':', txt);
+      // If table missing, log clear message
+      if(res.status === 404) console.warn('👉 Table "scores" not found — run the SQL in Supabase dashboard');
+      if(res.status === 401) console.warn('👉 Auth error — check anon key');
+      if(res.status === 403) console.warn('👉 RLS blocking insert — check policies');
+    }
+    if(cb) cb();
+  })
+  .catch(err => {
+    console.warn('❌ Supabase fetch failed:', err.message);
+    console.warn('👉 Possible causes: table not created, project paused, or network issue');
+    if(cb) cb();
+  });
+}
+
+function showSaved(){
+  document.getElementById('save-ok-msg').textContent='SCORE SAVED!';
+  document.getElementById('save-ok-msg').style.color='var(--accent)';
+  document.getElementById('save-ok-msg').style.display='block';
+  document.getElementById('save-form').style.display='none';
+  pendingScore=null;
+  const btn=document.querySelector('#save-form .ov-btn');
+  if(btn){btn.textContent='SAVE SCORE';btn.disabled=false;}
+}
+
+// ── DRAW ──────────────────────────────────────────────────────────────────────
+function roundRect(c,x,y,w,h,r){
+  c.beginPath();
+  c.moveTo(x+r,y);c.lineTo(x+w-r,y);
+  c.quadraticCurveTo(x+w,y,x+w,y+r);
+  c.lineTo(x+w,y+h-r);
+  c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  c.lineTo(x+r,y+h);
+  c.quadraticCurveTo(x,y+h,x,y+h-r);
+  c.lineTo(x,y+r);
+  c.quadraticCurveTo(x,y,x+r,y);
+  c.closePath();
+}
+
+// Difficulty-tinted snake head colours
+const DIFF_COLORS={
+  easy:'#00ffaa',
+  medium:'#ffaa00',
+  hard:'#ff2d6b'
+};
+const DIFF_GLOW={
+  easy:'rgba(0,255,170,0.7)',
+  medium:'rgba(255,170,0,0.7)',
+  hard:'rgba(255,45,107,0.7)'
+};
+
+function draw(){
+  ctx.fillStyle='#020810';
+  ctx.fillRect(0,0,W,H);
+  // grid
+  ctx.strokeStyle='rgba(0,255,170,0.04)';ctx.lineWidth=0.5;
+  for(let x=0;x<=COLS;x++){ctx.beginPath();ctx.moveTo(x*CELL,0);ctx.lineTo(x*CELL,H);ctx.stroke();}
+  for(let y=0;y<=ROWS;y++){ctx.beginPath();ctx.moveTo(0,y*CELL);ctx.lineTo(W,y*CELL);ctx.stroke();}
+  if(!snake)return;
+
+  if(flashTimer>0){
+    flashTimer--;
+    ctx.fillStyle=`rgba(255,45,107,${flashTimer*0.013})`;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  // food
+  if(food){
+    food.pulse+=0.09;
+    const fp=Math.sin(food.pulse)*0.28+0.72;
+    const fx=food.x*CELL,fy=food.y*CELL,fc=CELL/2;
+    const r=CELL*0.37*fp;
+    ctx.save();
+    ctx.shadowBlur=18+Math.sin(food.pulse)*7;ctx.shadowColor='#ff2d6b';
+    ctx.fillStyle='#ff2d6b';
+    ctx.beginPath();ctx.arc(fx+fc,fy+fc,r,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#ffccdd';ctx.shadowBlur=6;
+    ctx.beginPath();ctx.arc(fx+fc,fy+fc,r*0.42,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+  }
+
+  // snake
+  const headColor=DIFF_COLORS[currentDiff];
+  const headGlow=DIFF_GLOW[currentDiff];
+  for(let i=snake.length-1;i>=0;i--){
+    const seg=snake[i];
+    const t=i/Math.max(snake.length-1,1);
+    const sx=seg.x*CELL+1,sy=seg.y*CELL+1,sw=CELL-2;
+    if(i===0){
+      ctx.save();
+      ctx.shadowBlur=18;ctx.shadowColor=headColor;
+      ctx.fillStyle=headColor;
+      roundRect(ctx,sx-1,sy-1,sw+2,sw+2,4);ctx.fill();
+      ctx.shadowBlur=0;ctx.fillStyle='#020810';
+      const ex=dir.x,ey=dir.y,eyeOff=CELL*0.22,eyeR=CELL*0.09;
+      ctx.beginPath();ctx.arc(sx+sw/2+ex*eyeOff,sy+sw/2+ey*eyeOff,eyeR,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    }else{
+      const alpha=0.92-t*0.65;
+      const g=Math.floor(210-t*140);
+      ctx.save();
+      ctx.globalAlpha=Math.max(0.1,alpha);
+      ctx.shadowBlur=(1-t)*10;ctx.shadowColor=headColor;
+      ctx.fillStyle=`rgb(0,${g},${Math.floor(g*0.52)})`;
+      const inset=Math.floor(t*2);
+      roundRect(ctx,sx+inset,sy+inset,sw-inset*2,sw-inset*2,3);ctx.fill();
+      ctx.restore();
+    }
+  }
+}
+
+function updateParticles(){
+  fxCtx.clearRect(0,0,W,H);
+  particles=particles.filter(p=>p.life>0);
+  for(const p of particles){
+    p.x+=p.vx;p.y+=p.vy;p.vy+=0.09;p.life-=p.decay;
+    fxCtx.save();
+    fxCtx.globalAlpha=Math.max(0,p.life);
+    fxCtx.fillStyle=p.color;fxCtx.shadowBlur=7;fxCtx.shadowColor=p.color;
+    fxCtx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
+    fxCtx.restore();
+  }
+}
+
+function loop(){requestAnimationFrame(loop);draw();updateParticles();}
+
+// ── CONTROLS ─────────────────────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  // Don't hijack keys when user is typing in an input field
+  const tag = document.activeElement.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA') return;
+
+  const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',
+             w:'up',s:'down',a:'left',d:'right',W:'up',S:'down',A:'left',D:'right'};
+  if(e.key===' '&&!running){startGame();e.preventDefault();return;}
+  const d=map[e.key];if(!d)return;
+  e.preventDefault();dpadPress(d);
+});
+
+function dpadPress(d){
+  if(!running)return;
+  let changed=false;
+  if(d==='up'&&dir.y!==1){nextDir={x:0,y:-1};changed=true;}
+  if(d==='down'&&dir.y!==-1){nextDir={x:0,y:1};changed=true;}
+  if(d==='left'&&dir.x!==1){nextDir={x:-1,y:0};changed=true;}
+  if(d==='right'&&dir.x!==-1){nextDir={x:1,y:0};changed=true;}
+  if(changed)playTurn();
+}
+
+let tx,ty;
+canvas.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;e.preventDefault();},{passive:false});
+canvas.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)<10&&Math.abs(dy)<10)return;
+  Math.abs(dx)>Math.abs(dy)?dpadPress(dx>0?'right':'left'):dpadPress(dy>0?'down':'up');
+  e.preventDefault();
+},{passive:false});
+
+// ── PLAYER DATA + ADMIN PANEL ────────────────────────────────────────────────
+const PLAYERS_KEY = 'snakePlayers';
+
+function savePlayer(name, email, score, diff){
+  try {
+    const raw = localStorage.getItem(PLAYERS_KEY);
+    let list = raw ? JSON.parse(raw) : [];
+    list.push({
+      name:  name.trim() || 'ANONYMOUS',
+      email: email.trim(),
+      score: score,
+      diff:  diff,
+      ts:    new Date().toISOString()
+    });
+    // Keep only latest 200 entries — prevents localStorage bloat
+    if(list.length > 200) list = list.slice(-200);
+    localStorage.setItem(PLAYERS_KEY, JSON.stringify(list));
+  } catch(e){ console.warn('savePlayer error', e); }
+}
+
+function getPlayers(){
+  try {
+    const raw = localStorage.getItem(PLAYERS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e){ return []; }
+}
+
+// Secret admin panel: type "ADMIN" while on game screen, or ?admin=1 in URL
+let adminKeySeq = '';
+document.addEventListener('keydown', function(e){
+  if(document.activeElement && document.activeElement.tagName === 'INPUT') return;
+  adminKeySeq += e.key.toUpperCase();
+  if(adminKeySeq.length > 5) adminKeySeq = adminKeySeq.slice(-5);
+  if(adminKeySeq === 'ADMIN') showAdminPanel();
+});
+
+// Also open via URL param
+if(new URLSearchParams(location.search).get('admin') === '1'){
+  window.addEventListener('load', ()=> setTimeout(showAdminPanel, 500));
+}
+
+function showAdminPanel(){
+  const players = getPlayers();
+  const existing = document.getElementById('admin-panel');
+  if(existing) { existing.remove(); return; } // toggle
+
+  const panel = document.createElement('div');
+  panel.id = 'admin-panel';
+  panel.innerHTML = `
+    <div id="ap-header">
+      <span id="ap-title">📋 PLAYER DATA &nbsp;(${players.length} entries)</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button onclick="copyPlayerCSV()" id="ap-copy">⬇ COPY CSV</button>
+        <button onclick="clearPlayerData()" id="ap-clear">🗑 CLEAR</button>
+        <button onclick="document.getElementById('admin-panel').remove()" id="ap-close">✕</button>
+      </div>
+    </div>
+    <div id="ap-body">
+      ${players.length === 0
+        ? '<div style="color:rgba(255,255,255,0.4);padding:20px;text-align:center">No player data yet</div>'
+        : `<table id="ap-table">
+            <thead><tr><th>#</th><th>NAME</th><th>EMAIL</th><th>SCORE</th><th>DIFF</th><th>DATE</th></tr></thead>
+            <tbody>${players.map((p,i)=>`
+              <tr>
+                <td>${i+1}</td>
+                <td>${escHtml(p.name)}</td>
+                <td>${escHtml(p.email)}</td>
+                <td>${p.score}</td>
+                <td>${p.diff}</td>
+                <td>${p.ts ? p.ts.slice(0,10) : '?'}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`
+      }
+    </div>
+  `;
+  document.body.appendChild(panel);
+}
+
+function copyPlayerCSV(){
+  const players = getPlayers();
+  if(!players.length){ alert('No data to copy'); return; }
+  const header = 'Name,Email,Score,Difficulty,Date';
+  const rows = players.map(p =>
+    [p.name, p.email, p.score, p.diff, p.ts ? p.ts.slice(0,10) : ''].join(',')
+  );
+  const csv = [header, ...rows].join('\n');
+  navigator.clipboard.writeText(csv).then(()=>{
+    const btn = document.getElementById('ap-copy');
+    if(btn){ btn.textContent='✓ COPIED!'; setTimeout(()=>btn.textContent='⬇ COPY CSV',2000); }
+  }).catch(()=>{ prompt('Copy this CSV:', csv); });
+}
+
+function clearPlayerData(){
+  if(confirm('Clear ALL player data from this browser?')){
+    localStorage.removeItem(PLAYERS_KEY);
+    document.getElementById('admin-panel').remove();
+  }
+}
+
+// ── CHAI NUDGE ───────────────────────────────────────────────────────────────
+let nudgeTimer = null;
+
+const nudgeMessages = [
+  "You've played {n} games! Keep it free & running.",
+  "{n} games deep! Enjoying it? A chai keeps me coding.",
+  "Still going after {n} games! Fuel the dev with a chai.",
+  "{n} games and counting! Buy me a chai to say thanks.",
+];
+
+function showChaiNudge(){
+  const nudge = document.getElementById('chai-nudge');
+  const msg   = nudgeMessages[Math.floor(Math.random() * nudgeMessages.length)];
+  document.getElementById('nudge-msg').textContent = msg.replace('{n}', gamesPlayed);
+  nudge.classList.add('show');
+  // Auto-hide after 6 seconds
+  clearTimeout(nudgeTimer);
+  nudgeTimer = setTimeout(closeNudge, 6000);
+}
+
+function closeNudge(){
+  document.getElementById('chai-nudge').classList.remove('show');
+  clearTimeout(nudgeTimer);
+}
+
+// ── UPI CHAI BUTTON ──────────────────────────────────────────────────────────
+// Tiny QR code generator (no external library needed)
+// Uses Google Charts API to generate QR — works offline fallback too
+function handleChai(e){
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if(isMobile){
+    // On mobile: let the UPI deep link open natively
+    return true;
+  }
+  // On desktop: show QR popup
+  e.preventDefault();
+  showQR();
+}
+
+function showQR(){
+  const popup = document.getElementById('qr-popup');
+  const canvas = document.getElementById('qr-canvas');
+  popup.style.display = 'flex';
+
+  // Draw QR via Google Charts API into an image then onto canvas
+  const upiUrl = encodeURIComponent('upi://pay?pa=snakesys@ybl&pn=SnakeSys&cu=INR');
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function(){
+    const ctx2 = canvas.getContext('2d');
+    ctx2.fillStyle = '#ffffff';
+    ctx2.fillRect(0,0,160,160);
+    ctx2.drawImage(img,0,0,160,160);
+  };
+  img.onerror = function(){
+    // Fallback: just show text if QR fails
+    const ctx2 = canvas.getContext('2d');
+    ctx2.fillStyle='#ffffff';ctx2.fillRect(0,0,160,160);
+    ctx2.fillStyle='#000';ctx2.font='12px monospace';ctx2.textAlign='center';
+    ctx2.fillText('snakesys@ybl',80,85);
+  };
+  img.src = 'https://chart.googleapis.com/chart?chs=160x160&cht=qr&chl='+upiUrl+'&choe=UTF-8';
+}
+
+function closeQR(){
+  document.getElementById('qr-popup').style.display='none';
+}
+
+// Close QR if clicking outside
+document.addEventListener('click', function(e){
+  const popup = document.getElementById('qr-popup');
+  const btn = document.getElementById('chai-btn');
+  if(popup.style.display==='flex' && !popup.contains(e.target) && e.target!==btn){
+    popup.style.display='none';
+  }
+});
+
+// ── SOUND ENGINE (Web Audio API — no files needed) ──────────────────────────
+let audioCtx = null;
+let soundOn = true;
+
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function toggleSound() {
+  soundOn = !soundOn;
+  const btn = document.getElementById('sound-btn');
+  btn.textContent = soundOn ? '🔊' : '🔇';
+  btn.classList.toggle('muted', !soundOn);
+}
+
+// Smooth beep helper
+function beep(freq, type, duration, vol, startFreq) {
+  if (!soundOn) return;
+  try {
+    const ac = getAudio();
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.type = type || 'square';
+    const now = ac.currentTime;
+    osc.frequency.setValueAtTime(startFreq || freq, now);
+    if (startFreq) osc.frequency.exponentialRampToValueAtTime(freq, now + duration * 0.6);
+    gain.gain.setValueAtTime(vol || 0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    osc.start(now);
+    osc.stop(now + duration);
+  } catch(e) {}
+}
+
+function playEat() {
+  // Rising chirp — satisfying collect sound
+  beep(520, 'square', 0.06, 0.18, 260);
+  setTimeout(() => beep(780, 'square', 0.06, 0.12), 55);
+}
+
+function playLevelUp() {
+  // Ascending three-tone fanfare
+  beep(440, 'square', 0.08, 0.15);
+  setTimeout(() => beep(550, 'square', 0.08, 0.15), 80);
+  setTimeout(() => beep(660, 'square', 0.12, 0.18), 160);
+}
+
+function playTurn() {
+  // Subtle low click
+  beep(160, 'square', 0.03, 0.06);
+}
+
+function playDie() {
+  // Descending death crunch
+  beep(300, 'sawtooth', 0.12, 0.2, 520);
+  setTimeout(() => beep(180, 'sawtooth', 0.15, 0.2, 300), 110);
+  setTimeout(() => beep(80,  'sawtooth', 0.25, 0.15, 180), 220);
+}
+
+function playStart() {
+  // Boot-up blip sequence
+  [220, 330, 440, 550].forEach((f, i) => {
+    setTimeout(() => beep(f, 'square', 0.07, 0.1), i * 60);
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+setDiff('easy');
+renderLeaderboard();
+draw();
+loop();
+</script>
+</body></html>

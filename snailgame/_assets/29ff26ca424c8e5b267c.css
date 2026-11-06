@@ -1,0 +1,108 @@
+body {
+  background: #1b1b1b;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+canvas {
+  background: #dedede;
+  display: none;
+  margin: 1em;
+}
+
+.imgHidden {
+  display: none;
+}
+
+#ckoch {
+  background: #dedede;
+}
+
+#divPrestige {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 33em;
+  /*height: 16em;*/
+  padding: 1em;
+  padding-bottom: 2em;
+  background: #3998af;
+  border: 2px solid black;
+  display: none;
+}
+
+#divPTitle {
+  text-align: center;
+  font-size: 4em;
+}
+
+#divPDesc {
+  font-size: 2em;
+  margin-top: 1em;
+}
+
+.spanBold {
+  font-weight: bold;
+  font-variant: small-caps;
+}
+
+#divPPrice {
+  font-size: 2em;
+  margin-top: 2em;
+}
+
+#divPWDesc {
+  font-size: 2em;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+#inputAddress {
+  font-size: 2em;
+  width: 8em;
+}
+
+.pDialogButton {
+  font-size: 2em;
+}
+
+#buttonHover {
+  border: none;
+  font-size: 2em;
+}
+
+#divInfoHover {
+}
+
+.buttonInfo {
+  font-size: 1em;
+  margin-left: 2em;
+}
+
+#divInfo {
+  border: 2px solid #d2d2d2;
+  background: #3998af;
+  padding: 0.4em;
+  display: none;
+  font-size: 2em;
+}
+
+#divInfoHover:hover #divInfo {
+  display: inline-block;
+}
+
+#divPrestigeBonusWrapper {
+  display: none;
+  font-size: 2em;
+  color: #3998af;
+  margin: 0.5em;
+}
+
+#spanPrestigeBonus {
+
+}

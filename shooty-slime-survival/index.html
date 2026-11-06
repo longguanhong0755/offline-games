@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title>Shooty Slime Survival!</title>
+<meta charset="utf-8"/>
+<script src="/_assets/8558a5b5c6ddd655fad8.js"></script>
+<link href="/_assets/8222a773282c84b36fcb.css" rel="stylesheet"/>
+<style>
+    body {
+      display: flex;
+      height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Roboto', sans-serif;
+      background: #8b8c79;
+      background: url(/_assets/fe8fa194bf829c49a286.png);
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      color: white;
+      margin: 0;
+    }
+    
+    .slime {
+      color: #80ff80;
+    }
+
+    canvas {
+      border: 1px solid #00491a;
+      width: 500px;
+      height: 500px;
+      background: black;
+    }
+    canvas:focus {
+      outline: none;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .content {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .instructions, .counterweight {
+      margin-right: 20px;
+      width: 200px;
+      
+    }
+
+    .instruction-list {
+      list-style-type: disc;
+    }
+      
+    .protip {
+      color: #6bdc6b;
+    }
+
+    .developer {
+      color: #6bdc6b;
+      text-decoration: none;
+    }
+
+    .developer:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 30%;
+      font-size: 24px;
+    }
+
+    i {
+      color: #6bdc6b;
+    }
+    i:hover {
+      color: white;
+    }
+
+  </style>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-118007407-1');
+  </script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<h1 class="title">Shooty <span class="slime">Slime</span> Survival</h1>
+<section class="content">
+<div class="instructions">
+<h2>Instructions</h2>
+<ul class="instruction-list">
+<li>
+          Move with WASD or the Arrow Keys
+        </li>
+<li>
+          Aim and Shoot with the Mouse
+        </li>
+<li>
+<span class="protip">Protip</span>: You can hold down the mouse button to shoot
+        </li>
+</ul>
+</div>
+<canvas height="500" id="game" tabindex="1" width="500"></canvas>
+<div class="counterweight"></div>
+</section>
+<h3>About the <a class="developer">Developer</a></h3>
+<ul class="footer-links">
+<li><a><i class="fa fa-github"></i></a></li>
+<li><a><i class="fa fa-linkedin"></i></a></li>
+<li><a><i class="fa fa-graduation-cap"></i></a></li>
+</ul>
+</body></html>

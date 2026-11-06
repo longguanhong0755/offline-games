@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Dravins.B's Game Hub</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#172554,#312e81,#0f766e);color:#fff;min-height:100vh}
+header{padding:28px 6%;display:flex;justify-content:space-between;align-items:center}.brand{font-size:32px;font-weight:800}.stats{display:flex;gap:12px;flex-wrap:wrap}.pill{background:#ffffff18;border:1px solid #ffffff30;padding:10px 14px;border-radius:18px}
+main{max-width:1200px;margin:auto;padding:10px 5% 50px}.hero{text-align:center;padding:25px}.hero h1{font-size:50px;margin:10px}.hero p{font-size:18px;opacity:.85}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}.card{background:#ffffff12;border:1px solid #ffffff25;border-radius:22px;padding:22px;cursor:pointer;transition:.2s;box-shadow:0 10px 30px #0002}.card:hover{transform:translateY(-5px);background:#ffffff20}.emoji{font-size:48px}.card h3{margin:10px 0 6px}.card p{opacity:.75}
+.panel{margin-top:25px;background:#07132bd9;border:1px solid #ffffff25;border-radius:24px;padding:25px;display:none}.panel.active{display:block}.back{float:right;padding:9px 14px;border:0;border-radius:12px;cursor:pointer}
+button{padding:12px 18px;border:0;border-radius:12px;cursor:pointer;font-weight:700;margin:5px}button:hover{filter:brightness(1.1)}.big{font-size:28px}.center{text-align:center}.question{font-size:28px;margin:25px}.options{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+canvas{background:#020617;border-radius:18px;max-width:100%;display:block;margin:15px auto}.small{opacity:.7}.danger{background:#7f1d1d;color:white}
+</style>
+<style id="three-column-games">
+#home .grid, #home .games-grid {
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:18px !important;
+  align-items:stretch;
+}
+#home .card, #home .arcade-card {
+  min-height:180px;
+  box-sizing:border-box;
+}
+@media (max-width:900px){
+  #home .grid, #home .games-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+}
+@media (max-width:620px){
+  #home .grid, #home .games-grid { grid-template-columns:1fr !important; }
+}
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<header><div class="brand">🎮 Dravins.B's Game Hub</div><div class="stats"><div class="pill">⭐ XP: <b id="xp">0</b></div><div class="pill">🪙 Coins: <b id="coins">0</b></div><div class="pill">🏆 Best: <b id="best">0</b></div></div></header>
+<main>
+<section id="home">
+<div class="hero"><h1>Welcome to Dravins.B's Game Hub!</h1><p>Play games, earn XP and coins, unlock achievements, and beat your high scores!</p><div class="grid extra-unique-games" id="extraUniqueGames"><button class="card arcade-card" data-name="2048 merge lab" onclick="play(8)"><div class="card-icon">🎮</div><h3>2048 Merge Lab</h3><p>Merge equal tiles until you create 64.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="word ladder" onclick="play(9)"><div class="card-icon">🎮</div><h3>Word Ladder</h3><p>Change one letter at a time to reach the target word.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="hangman lite" onclick="play(10)"><div class="card-icon">🎮</div><h3>Hangman Lite</h3><p>Reveal the hidden word before the guesses run out.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="nonogram mini" onclick="play(11)"><div class="card-icon">🎮</div><h3>Nonogram Mini</h3><p>Fill the grid using the row and column clues.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="lights out" onclick="play(12)"><div class="card-icon">🎮</div><h3>Lights Out</h3><p>Turn every light off by choosing tiles.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="minesweeper mini" onclick="play(13)"><div class="card-icon">🎮</div><h3>Minesweeper Mini</h3><p>Reveal safe squares and flag the hidden mines.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="peg solitaire" onclick="play(14)"><div class="card-icon">🎮</div><h3>Peg Solitaire</h3><p>Jump pegs over one another until one remains.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="nim stones" onclick="play(15)"><div class="card-icon">🎮</div><h3>Nim Stones</h3><p>Take 1–3 stones; don't take the last one.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="mastermind" onclick="play(16)"><div class="card-icon">🎮</div><h3>Mastermind</h3><p>Crack the secret four-colour code.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="battleship mini" onclick="play(17)"><div class="card-icon">🎮</div><h3>Battleship Mini</h3><p>Find the hidden ships on a small grid.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="dots and boxes" onclick="play(18)"><div class="card-icon">🎮</div><h3>Dots and Boxes</h3><p>Complete more boxes than the computer.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="tic-tac-toe" onclick="play(19)"><div class="card-icon">🎮</div><h3>Tic-Tac-Toe</h3><p>Get three symbols in a row.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="reaction grid" onclick="play(20)"><div class="card-icon">🎮</div><h3>Reaction Grid</h3><p>Tap the only square that changes.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="whack-a-mole" onclick="play(21)"><div class="card-icon">🎮</div><h3>Whack-a-Mole</h3><p>Tap the mole before it disappears.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="simon drums" onclick="play(22)"><div class="card-icon">🎮</div><h3>Simon Drums</h3><p>Repeat the growing drum rhythm.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="typing dash" onclick="play(23)"><div class="card-icon">🎮</div><h3>Typing Dash</h3><p>Type the shown words before time runs out.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="word search" onclick="play(24)"><div class="card-icon">🎮</div><h3>Word Search</h3><p>Find the hidden word in the letter grid.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="anagram fix" onclick="play(25)"><div class="card-icon">🎮</div><h3>Anagram Fix</h3><p>Rearrange the letters into the correct word.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="palindrome check" onclick="play(26)"><div class="card-icon">🎮</div><h3>Palindrome Check</h3><p>Decide whether the displayed word reads the same backwards.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="true or false" onclick="play(27)"><div class="card-icon">🎮</div><h3>True or False</h3><p>Judge a set of quick facts.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="prime hunter" onclick="play(28)"><div class="card-icon">🎮</div><h3>Prime Hunter</h3><p>Tap only the prime numbers.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="factor finder" onclick="play(29)"><div class="card-icon">🎮</div><h3>Factor Finder</h3><p>Choose all factors of the target number.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="fraction match" onclick="play(30)"><div class="card-icon">🎮</div><h3>Fraction Match</h3><p>Match equivalent fractions.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="roman numerals" onclick="play(31)"><div class="card-icon">🎮</div><h3>Roman Numerals</h3><p>Convert the number into Roman numerals.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="place value" onclick="play(32)"><div class="card-icon">🎮</div><h3>Place Value</h3><p>Build the requested number from digit cards.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="estimation station" onclick="play(33)"><div class="card-icon">🎮</div><h3>Estimation Station</h3><p>Estimate the quantity shown.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="shape count" onclick="play(34)"><div class="card-icon">🎮</div><h3>Shape Count</h3><p>Count the shapes hidden in the picture.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="symmetry test" onclick="play(35)"><div class="card-icon">🎮</div><h3>Symmetry Test</h3><p>Pick the shape with a line of symmetry.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="cube net" onclick="play(36)"><div class="card-icon">🎮</div><h3>Cube Net</h3><p>Choose which net folds into a cube.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="perimeter pro" onclick="play(37)"><div class="card-icon">🎮</div><h3>Perimeter Pro</h3><p>Choose the perimeter of the shape.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="area builder" onclick="play(38)"><div class="card-icon">🎮</div><h3>Area Builder</h3><p>Build the requested area with tiles.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="angle sort" onclick="play(39)"><div class="card-icon">🎮</div><h3>Angle Sort</h3><p>Sort angles into acute, right, and obtuse.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="coordinate catch" onclick="play(40)"><div class="card-icon">🎮</div><h3>Coordinate Catch</h3><p>Click the requested coordinate.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="map grid" onclick="play(41)"><div class="card-icon">🎮</div><h3>Map Grid</h3><p>Follow directions across a map.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="compass bearings" onclick="play(42)"><div class="card-icon">🎮</div><h3>Compass Bearings</h3><p>Choose the correct bearing.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="shadow match" onclick="play(43)"><div class="card-icon">🎮</div><h3>Shadow Match</h3><p>Match each object to its shadow.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="mirror move" onclick="play(44)"><div class="card-icon">🎮</div><h3>Mirror Move</h3><p>Choose the mirror image.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="water balance" onclick="play(45)"><div class="card-icon">🎮</div><h3>Water Balance</h3><p>Move water between containers to hit the target.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="scale solver" onclick="play(46)"><div class="card-icon">🎮</div><h3>Scale Solver</h3><p>Balance both sides of the scale.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="pulley puzzle" onclick="play(47)"><div class="card-icon">🎮</div><h3>Pulley Puzzle</h3><p>Choose the setup that lifts the load.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="circuit switch" onclick="play(48)"><div class="card-icon">🎮</div><h3>Circuit Switch</h3><p>Complete the circuit with the right switches.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="magnet poles" onclick="play(49)"><div class="card-icon">🎮</div><h3>Magnet Poles</h3><p>Place magnets so the target moves correctly.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="sound wave" onclick="play(50)"><div class="card-icon">🎮</div><h3>Sound Wave</h3><p>Match the wave to the pitch.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="solar system order" onclick="play(51)"><div class="card-icon">🎮</div><h3>Solar System Order</h3><p>Put the planets in the correct order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="constellation link" onclick="play(52)"><div class="card-icon">🎮</div><h3>Constellation Link</h3><p>Connect stars to form the requested pattern.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="moon phase" onclick="play(53)"><div class="card-icon">🎮</div><h3>Moon Phase</h3><p>Identify the displayed moon phase.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="cloud sort" onclick="play(54)"><div class="card-icon">🎮</div><h3>Cloud Sort</h3><p>Match clouds with their weather.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="water cycle" onclick="play(55)"><div class="card-icon">🎮</div><h3>Water Cycle</h3><p>Put the stages of the water cycle in order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="food chain" onclick="play(56)"><div class="card-icon">🎮</div><h3>Food Chain</h3><p>Arrange organisms from producer to predator.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="animal tracks" onclick="play(57)"><div class="card-icon">🎮</div><h3>Animal Tracks</h3><p>Match tracks to the correct animal.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="habitat match" onclick="play(58)"><div class="card-icon">🎮</div><h3>Habitat Match</h3><p>Place each animal in its habitat.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="recycling relay" onclick="play(59)"><div class="card-icon">🎮</div><h3>Recycling Relay</h3><p>Sort objects into the correct bin.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="energy sort" onclick="play(60)"><div class="card-icon">🎮</div><h3>Energy Sort</h3><p>Separate renewable and non-renewable sources.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="tree doctor" onclick="play(61)"><div class="card-icon">🎮</div><h3>Tree Doctor</h3><p>Identify what a tree needs to grow.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="garden planner" onclick="play(62)"><div class="card-icon">🎮</div><h3>Garden Planner</h3><p>Place plants so each gets enough space.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="farm seasons" onclick="play(63)"><div class="card-icon">🎮</div><h3>Farm Seasons</h3><p>Choose the correct season for each task.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="weather forecast" onclick="play(64)"><div class="card-icon">🎮</div><h3>Weather Forecast</h3><p>Build tomorrow's forecast from clues.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="emergency signals" onclick="play(65)"><div class="card-icon">🎮</div><h3>Emergency Signals</h3><p>Match each signal to its meaning.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="first response" onclick="play(66)"><div class="card-icon">🎮</div><h3>First Response</h3><p>Choose the correct safe response to a scenario.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="evacuation route" onclick="play(67)"><div class="card-icon">🎮</div><h3>Evacuation Route</h3><p>Find the safest marked exit.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="lighthouse keeper" onclick="play(68)"><div class="card-icon">🎮</div><h3>Lighthouse Keeper</h3><p>Flash the correct signal pattern.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="harbour signals" onclick="play(69)"><div class="card-icon">🎮</div><h3>Harbour Signals</h3><p>Match ship signals to instructions.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="bridge weight" onclick="play(70)"><div class="card-icon">🎮</div><h3>Bridge Weight</h3><p>Choose which load the bridge can support.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="train timetable" onclick="play(71)"><div class="card-icon">🎮</div><h3>Train Timetable</h3><p>Find the correct departure from a timetable.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="bus route" onclick="play(72)"><div class="card-icon">🎮</div><h3>Bus Route</h3><p>Pick the shortest route through stops.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="airport baggage" onclick="play(73)"><div class="card-icon">🎮</div><h3>Airport Baggage</h3><p>Match bags to their destinations.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="postal sort" onclick="play(74)"><div class="card-icon">🎮</div><h3>Postal Sort</h3><p>Sort letters by postcode zone.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="library sort" onclick="play(75)"><div class="card-icon">🎮</div><h3>Library Sort</h3><p>Put books in the correct shelf order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="classroom planner" onclick="play(76)"><div class="card-icon">🎮</div><h3>Classroom Planner</h3><p>Arrange desks to fit everyone.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="lunch budget" onclick="play(77)"><div class="card-icon">🎮</div><h3>Lunch Budget</h3><p>Choose items without exceeding the budget.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="shop change" onclick="play(78)"><div class="card-icon">🎮</div><h3>Shop Change</h3><p>Work out the correct change.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="treasure auction" onclick="play(79)"><div class="card-icon">🎮</div><h3>Treasure Auction</h3><p>Bid without spending more than your limit.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="coin balance" onclick="play(80)"><div class="card-icon">🎮</div><h3>Coin Balance</h3><p>Make the exact amount using coins.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="bank vault" onclick="play(81)"><div class="card-icon">🎮</div><h3>Bank Vault</h3><p>Solve the number sequence to open the vault.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="safe combination" onclick="play(82)"><div class="card-icon">🎮</div><h3>Safe Combination</h3><p>Use clues to find the three-digit code.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="secret message" onclick="play(83)"><div class="card-icon">🎮</div><h3>Secret Message</h3><p>Decode a simple substitution message.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="caesar shift" onclick="play(84)"><div class="card-icon">🎮</div><h3>Caesar Shift</h3><p>Shift letters to reveal the hidden word.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="morse match" onclick="play(85)"><div class="card-icon">🎮</div><h3>Morse Match</h3><p>Match Morse patterns to letters.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="flag signals" onclick="play(86)"><div class="card-icon">🎮</div><h3>Flag Signals</h3><p>Decode a simple flag message.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="keyboard path" onclick="play(87)"><div class="card-icon">🎮</div><h3>Keyboard Path</h3><p>Follow the letter path without hitting wrong keys.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="pixel hunt" onclick="play(88)"><div class="card-icon">🎮</div><h3>Pixel Hunt</h3><p>Find the one pixel that differs.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="colour code" onclick="play(89)"><div class="card-icon">🎮</div><h3>Colour Code</h3><p>Mix the shown colours to make the target.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="pattern paint" onclick="play(90)"><div class="card-icon">🎮</div><h3>Pattern Paint</h3><p>Paint tiles in the requested repeating pattern.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="shape shift" onclick="play(91)"><div class="card-icon">🎮</div><h3>Shape Shift</h3><p>Rotate pieces to make the target shape.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="tangram mini" onclick="play(92)"><div class="card-icon">🎮</div><h3>Tangram Mini</h3><p>Fit pieces into the outline.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="jigsaw corners" onclick="play(93)"><div class="card-icon">🎮</div><h3>Jigsaw Corners</h3><p>Choose which piece belongs in the corner.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="sliding tiles" onclick="play(94)"><div class="card-icon">🎮</div><h3>Sliding Tiles</h3><p>Slide tiles until the numbers are ordered.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="pipe connect" onclick="play(95)"><div class="card-icon">🎮</div><h3>Pipe Connect</h3><p>Rotate pipes to connect the two ends.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="laser mirror" onclick="play(96)"><div class="card-icon">🎮</div><h3>Laser Mirror</h3><p>Rotate mirrors to guide the beam to the target.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="block push" onclick="play(97)"><div class="card-icon">🎮</div><h3>Block Push</h3><p>Push the crate onto the marked square.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="tower balance" onclick="play(98)"><div class="card-icon">🎮</div><h3>Tower Balance</h3><p>Place blocks without tipping the tower.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="rope bridge" onclick="play(99)"><div class="card-icon">🎮</div><h3>Rope Bridge</h3><p>Choose anchor points to make a safe bridge.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="balloon lift" onclick="play(100)"><div class="card-icon">🎮</div><h3>Balloon Lift</h3><p>Balance balloons to reach the target height.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="kite wind" onclick="play(101)"><div class="card-icon">🎮</div><h3>Kite Wind</h3><p>Adjust the kite angle to stay in the wind zone.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="sailing wind" onclick="play(102)"><div class="card-icon">🎮</div><h3>Sailing Wind</h3><p>Set the sail to reach the buoy.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="river current" onclick="play(103)"><div class="card-icon">🎮</div><h3>River Current</h3><p>Choose the angle that reaches the dock.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="canoe gates" onclick="play(104)"><div class="card-icon">🎮</div><h3>Canoe Gates</h3><p>Pass through gates in the correct order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="diving flags" onclick="play(105)"><div class="card-icon">🎮</div><h3>Diving Flags</h3><p>Match dive flags to their meanings.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="beach cleanup" onclick="play(106)"><div class="card-icon">🎮</div><h3>Beach Cleanup</h3><p>Collect litter while avoiding the wildlife.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="rescue beacon" onclick="play(107)"><div class="card-icon">🎮</div><h3>Rescue Beacon</h3><p>Locate the beacon from signal clues.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="helicopter landing" onclick="play(108)"><div class="card-icon">🎮</div><h3>Helicopter Landing</h3><p>Choose the safe landing zone from wind clues.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="storm shelter" onclick="play(109)"><div class="card-icon">🎮</div><h3>Storm Shelter</h3><p>Choose the safest shelter location.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="flood map" onclick="play(110)"><div class="card-icon">🎮</div><h3>Flood Map</h3><p>Mark the areas that need an evacuation.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="bush route" onclick="play(111)"><div class="card-icon">🎮</div><h3>Bush Route</h3><p>Choose the marked safe trail.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="wildlife camera" onclick="play(112)"><div class="card-icon">🎮</div><h3>Wildlife Camera</h3><p>Spot the animal hidden in the scene.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="outback tracks" onclick="play(113)"><div class="card-icon">🎮</div><h3>Outback Tracks</h3><p>Follow tracks to the correct water point.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="star navigation" onclick="play(114)"><div class="card-icon">🎮</div><h3>Star Navigation</h3><p>Use stars to choose the direction home.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="rocket fuel" onclick="play(115)"><div class="card-icon">🎮</div><h3>Rocket Fuel</h3><p>Load the correct fuel amounts.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="orbit fix" onclick="play(116)"><div class="card-icon">🎮</div><h3>Orbit Fix</h3><p>Choose the burn that returns the satellite to orbit.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="space dock" onclick="play(117)"><div class="card-icon">🎮</div><h3>Space Dock</h3><p>Match the docking speed and direction.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="alien translator" onclick="play(118)"><div class="card-icon">🎮</div><h3>Alien Translator</h3><p>Match alien symbols to known words.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="robot commands" onclick="play(119)"><div class="card-icon">🎮</div><h3>Robot Commands</h3><p>Arrange commands to guide the robot.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="robot factory" onclick="play(120)"><div class="card-icon">🎮</div><h3>Robot Factory</h3><p>Sort robots by their task.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="gear chain" onclick="play(121)"><div class="card-icon">🎮</div><h3>Gear Chain</h3><p>Choose gears that turn the final wheel.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="machine timing" onclick="play(122)"><div class="card-icon">🎮</div><h3>Machine Timing</h3><p>Press each switch at the correct moment.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="warehouse crane" onclick="play(123)"><div class="card-icon">🎮</div><h3>Warehouse Crane</h3><p>Move crates to the requested bays.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="cargo balance" onclick="play(124)"><div class="card-icon">🎮</div><h3>Cargo Balance</h3><p>Distribute cargo evenly.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="factory conveyor" onclick="play(125)"><div class="card-icon">🎮</div><h3>Factory Conveyor</h3><p>Route objects to the correct output.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="delivery planner" onclick="play(126)"><div class="card-icon">🎮</div><h3>Delivery Planner</h3><p>Choose an efficient delivery order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="city lights" onclick="play(127)"><div class="card-icon">🎮</div><h3>City Lights</h3><p>Turn on the streetlights in the correct sequence.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="traffic junction" onclick="play(128)"><div class="card-icon">🎮</div><h3>Traffic Junction</h3><p>Change signals without causing a conflict.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="road sign match" onclick="play(129)"><div class="card-icon">🎮</div><h3>Road Sign Match</h3><p>Match signs to their meanings.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="parking puzzle" onclick="play(130)"><div class="card-icon">🎮</div><h3>Parking Puzzle</h3><p>Move cars to free the marked space.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="cycle route" onclick="play(131)"><div class="card-icon">🎮</div><h3>Cycle Route</h3><p>Choose the safest marked cycle path.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="skate park" onclick="play(132)"><div class="card-icon">🎮</div><h3>Skate Park</h3><p>Land the shown sequence of moves.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="snowboard gates" onclick="play(133)"><div class="card-icon">🎮</div><h3>Snowboard Gates</h3><p>Pass through the gates in order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="ski lift" onclick="play(134)"><div class="card-icon">🎮</div><h3>Ski Lift</h3><p>Match passengers to lift capacity.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="mountain weather" onclick="play(135)"><div class="card-icon">🎮</div><h3>Mountain Weather</h3><p>Choose when the trail is safe from clues.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="cave echo" onclick="play(136)"><div class="card-icon">🎮</div><h3>Cave Echo</h3><p>Use echo timing to find the tunnel exit.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="dungeon map" onclick="play(137)"><div class="card-icon">🎮</div><h3>Dungeon Map</h3><p>Follow clues to avoid dead ends.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="castle locks" onclick="play(138)"><div class="card-icon">🎮</div><h3>Castle Locks</h3><p>Open locks using the symbols in order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="dragon eggs" onclick="play(139)"><div class="card-icon">🎮</div><h3>Dragon Eggs</h3><p>Match each egg to its nest.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="wizard ingredients" onclick="play(140)"><div class="card-icon">🎮</div><h3>Wizard Ingredients</h3><p>Select ingredients that make the target potion.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="magic mirrors" onclick="play(141)"><div class="card-icon">🎮</div><h3>Magic Mirrors</h3><p>Reflect the beam through every crystal.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="fairy lights" onclick="play(142)"><div class="card-icon">🎮</div><h3>Fairy Lights</h3><p>Connect lights without crossing wires.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="pirate map" onclick="play(143)"><div class="card-icon">🎮</div><h3>Pirate Map</h3><p>Follow map clues to the marked treasure.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="island flags" onclick="play(144)"><div class="card-icon">🎮</div><h3>Island Flags</h3><p>Match flags to the island locations.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="coral sort" onclick="play(145)"><div class="card-icon">🎮</div><h3>Coral Sort</h3><p>Sort coral by shape and habitat.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="ocean current" onclick="play(146)"><div class="card-icon">🎮</div><h3>Ocean Current</h3><p>Predict where the floating object will drift.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="whale song" onclick="play(147)"><div class="card-icon">🎮</div><h3>Whale Song</h3><p>Match sound patterns to the correct whale.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="dolphin route" onclick="play(148)"><div class="card-icon">🎮</div><h3>Dolphin Route</h3><p>Choose the route through the rings.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="octopus arms" onclick="play(149)"><div class="card-icon">🎮</div><h3>Octopus Arms</h3><p>Move each arm to its matching shell.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="reef builder" onclick="play(150)"><div class="card-icon">🎮</div><h3>Reef Builder</h3><p>Place coral so every fish has a safe zone.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="tide clock" onclick="play(151)"><div class="card-icon">🎮</div><h3>Tide Clock</h3><p>Read the tide chart and choose the right time.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="beach flags" onclick="play(152)"><div class="card-icon">🎮</div><h3>Beach Flags</h3><p>Choose the correct safety flag.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="lifeguard scan" onclick="play(153)"><div class="card-icon">🎮</div><h3>Lifeguard Scan</h3><p>Spot the unusual movement in a crowd.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="rescue ropes" onclick="play(154)"><div class="card-icon">🎮</div><h3>Rescue Ropes</h3><p>Match rope lengths to rescue distances.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="fire station dispatch" onclick="play(155)"><div class="card-icon">🎮</div><h3>Fire Station Dispatch</h3><p>Send the correct vehicle to each call.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="water pump" onclick="play(156)"><div class="card-icon">🎮</div><h3>Water Pump</h3><p>Choose the pump setting that fills the tank.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="hydrant route" onclick="play(157)"><div class="card-icon">🎮</div><h3>Hydrant Route</h3><p>Connect the hose to the correct hydrant.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="smoke alarm" onclick="play(158)"><div class="card-icon">🎮</div><h3>Smoke Alarm</h3><p>Identify which alarm sounds first.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="safety equipment" onclick="play(159)"><div class="card-icon">🎮</div><h3>Safety Equipment</h3><p>Match equipment to the job.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="emergency map" onclick="play(160)"><div class="card-icon">🎮</div><h3>Emergency Map</h3><p>Choose the nearest safe assembly point.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="radio check" onclick="play(161)"><div class="card-icon">🎮</div><h3>Radio Check</h3><p>Repeat the correct radio call pattern.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="signal flags" onclick="play(162)"><div class="card-icon">🎮</div><h3>Signal Flags</h3><p>Copy the displayed signal sequence.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="search grid" onclick="play(163)"><div class="card-icon">🎮</div><h3>Search Grid</h3><p>Systematically scan every square.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="rescue timeline" onclick="play(164)"><div class="card-icon">🎮</div><h3>Rescue Timeline</h3><p>Put rescue actions in a safe order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="command centre" onclick="play(165)"><div class="card-icon">🎮</div><h3>Command Centre</h3><p>Allocate teams to simultaneous tasks.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="mission planner" onclick="play(166)"><div class="card-icon">🎮</div><h3>Mission Planner</h3><p>Choose resources without exceeding limits.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="puzzle factory" onclick="play(167)"><div class="card-icon">🎮</div><h3>Puzzle Factory</h3><p>Solve three different machine locks.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="brain relay" onclick="play(168)"><div class="card-icon">🎮</div><h3>Brain Relay</h3><p>Complete a sequence of mini logic tasks.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="mystery evidence" onclick="play(169)"><div class="card-icon">🎮</div><h3>Mystery Evidence</h3><p>Match clues to the correct case file.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="detective timeline" onclick="play(170)"><div class="card-icon">🎮</div><h3>Detective Timeline</h3><p>Place events in chronological order.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="alibi logic" onclick="play(171)"><div class="card-icon">🎮</div><h3>Alibi Logic</h3><p>Find the statement that fits all clues.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="missing object" onclick="play(172)"><div class="card-icon">🎮</div><h3>Missing Object</h3><p>Use location clues to find the object.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="code room" onclick="play(173)"><div class="card-icon">🎮</div><h3>Code Room</h3><p>Solve four locks to escape the room.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="riddle door" onclick="play(174)"><div class="card-icon">🎮</div><h3>Riddle Door</h3><p>Answer the riddle to choose the correct door.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="logic bridge" onclick="play(175)"><div class="card-icon">🎮</div><h3>Logic Bridge</h3><p>Cross only tiles that satisfy the rule.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="number maze" onclick="play(176)"><div class="card-icon">🎮</div><h3>Number Maze</h3><p>Move only onto numbers matching the rule.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="sequence race" onclick="play(177)"><div class="card-icon">🎮</div><h3>Sequence Race</h3><p>Complete several number patterns.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="memory museum" onclick="play(178)"><div class="card-icon">🎮</div><h3>Memory Museum</h3><p>Remember where each exhibit belongs.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="card pairs plus" onclick="play(179)"><div class="card-icon">🎮</div><h3>Card Pairs Plus</h3><p>Match pairs with a limited number of turns.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="picture sort" onclick="play(180)"><div class="card-icon">🎮</div><h3>Picture Sort</h3><p>Sort pictures by the hidden rule.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="odd pattern" onclick="play(181)"><div class="card-icon">🎮</div><h3>Odd Pattern</h3><p>Find the one pattern that breaks the rule.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="clock challenge" onclick="play(182)"><div class="card-icon">🎮</div><h3>Clock Challenge</h3><p>Set the hands to the requested time.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="calendar logic" onclick="play(183)"><div class="card-icon">🎮</div><h3>Calendar Logic</h3><p>Find the weekday from the date clues.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="time zone hop" onclick="play(184)"><div class="card-icon">🎮</div><h3>Time Zone Hop</h3><p>Work out the local time after a time change.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="score keeper" onclick="play(185)"><div class="card-icon">🎮</div><h3>Score Keeper</h3><p>Update a scoreboard without making an arithmetic error.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="tournament bracket" onclick="play(186)"><div class="card-icon">🎮</div><h3>Tournament Bracket</h3><p>Place teams into the correct bracket slots.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="fair play ref" onclick="play(187)"><div class="card-icon">🎮</div><h3>Fair Play Ref</h3><p>Identify the correct restart from a game situation.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="puzzle designer" onclick="play(188)"><div class="card-icon">🎮</div><h3>Puzzle Designer</h3><p>Choose pieces that satisfy all constraints.</p><span class="play-label">PLAY</span></button>
+<button class="card arcade-card" data-name="final challenge" onclick="play(189)"><div class="card-icon">🎮</div><h3>Final Challenge</h3><p>Combine timing, logic, memory, and pattern skills.</p><span class="play-label">PLAY</span></button></div>
+</div>
+<div class="center" style="margin:12px 0 20px">
+<input id="gameSearch" oninput="filterBigGames()" placeholder="🔎 Search the extra games..." style="width:min(700px,90%);font-size:18px;padding:14px;border-radius:14px;border:0"/>
+</div><div class="grid">
+<div class="card" onclick="openGame('brain')"><div class="emoji">🧠</div><h3>Brain Challenge</h3><p>Mental questions that get harder.</p></div>
+<div class="card" onclick="openGame('racer')"><div class="emoji">🚗</div><h3>Road Racer</h3><p>Dodge traffic and survive.</p></div>
+<div class="card" onclick="openGame('archery')"><div class="emoji">🏹</div><h3>Target Master</h3><p>Hit the moving target.</p></div>
+<div class="card" onclick="openGame('space')"><div class="emoji">🛸</div><h3>Space Dodge</h3><p>Survive the asteroid field.</p></div>
+<div class="card" onclick="openGame('monster')"><div class="emoji">⚔️</div><h3>Monster Battle</h3><p>Choose moves and defeat monsters.</p></div>
+<div class="card" onclick="openGame('mystery')"><div class="emoji">🕵️</div><h3>Mystery Case</h3><p>Follow clues and solve the case.</p></div>
+<div class="card" onclick="openGame('island')"><div class="emoji">🏝️</div><h3>Island Survival</h3><p>Manage supplies and survive.</p></div>
+<div class="card" onclick="openGame('builder')"><div class="emoji">🏗️</div><h3>World Builder</h3><p>Place blocks and build.</p></div>
+</div>
+<div class="card arcade-card" data-name="turbo tap 1" onclick="bigArcade(0)"><div class="emoji">⚡</div><h3>Turbo Tap 1</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo dash 2" onclick="bigArcade(1)"><div class="emoji">🧠</div><h3>Turbo Dash 2</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo match 3" onclick="bigArcade(2)"><div class="emoji">🎯</div><h3>Turbo Match 3</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo rush 4" onclick="bigArcade(3)"><div class="emoji">🚀</div><h3>Turbo Rush 4</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo quest 5" onclick="bigArcade(4)"><div class="emoji">🧩</div><h3>Turbo Quest 5</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo challenge 6" onclick="bigArcade(5)"><div class="emoji">🎲</div><h3>Turbo Challenge 6</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo sprint 7" onclick="bigArcade(6)"><div class="emoji">⭐</div><h3>Turbo Sprint 7</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo blast 8" onclick="bigArcade(7)"><div class="emoji">🟦</div><h3>Turbo Blast 8</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo battle 9" onclick="bigArcade(8)"><div class="emoji">⌨️</div><h3>Turbo Battle 9</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="turbo puzzle 10" onclick="bigArcade(9)"><div class="emoji">🏆</div><h3>Turbo Puzzle 10</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega tap 11" onclick="bigArcade(10)"><div class="emoji">⚡</div><h3>Mega Tap 11</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega dash 12" onclick="bigArcade(11)"><div class="emoji">🧠</div><h3>Mega Dash 12</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega match 13" onclick="bigArcade(12)"><div class="emoji">🎯</div><h3>Mega Match 13</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega rush 14" onclick="bigArcade(13)"><div class="emoji">🚀</div><h3>Mega Rush 14</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega quest 15" onclick="bigArcade(14)"><div class="emoji">🧩</div><h3>Mega Quest 15</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega challenge 16" onclick="bigArcade(15)"><div class="emoji">🎲</div><h3>Mega Challenge 16</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega sprint 17" onclick="bigArcade(16)"><div class="emoji">⭐</div><h3>Mega Sprint 17</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega blast 18" onclick="bigArcade(17)"><div class="emoji">🟦</div><h3>Mega Blast 18</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega battle 19" onclick="bigArcade(18)"><div class="emoji">⌨️</div><h3>Mega Battle 19</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mega puzzle 20" onclick="bigArcade(19)"><div class="emoji">🏆</div><h3>Mega Puzzle 20</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra tap 21" onclick="bigArcade(20)"><div class="emoji">⚡</div><h3>Ultra Tap 21</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra dash 22" onclick="bigArcade(21)"><div class="emoji">🧠</div><h3>Ultra Dash 22</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra match 23" onclick="bigArcade(22)"><div class="emoji">🎯</div><h3>Ultra Match 23</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra rush 24" onclick="bigArcade(23)"><div class="emoji">🚀</div><h3>Ultra Rush 24</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra quest 25" onclick="bigArcade(24)"><div class="emoji">🧩</div><h3>Ultra Quest 25</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra challenge 26" onclick="bigArcade(25)"><div class="emoji">🎲</div><h3>Ultra Challenge 26</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra sprint 27" onclick="bigArcade(26)"><div class="emoji">⭐</div><h3>Ultra Sprint 27</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra blast 28" onclick="bigArcade(27)"><div class="emoji">🟦</div><h3>Ultra Blast 28</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra battle 29" onclick="bigArcade(28)"><div class="emoji">⌨️</div><h3>Ultra Battle 29</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ultra puzzle 30" onclick="bigArcade(29)"><div class="emoji">🏆</div><h3>Ultra Puzzle 30</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon tap 31" onclick="bigArcade(30)"><div class="emoji">⚡</div><h3>Neon Tap 31</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon dash 32" onclick="bigArcade(31)"><div class="emoji">🧠</div><h3>Neon Dash 32</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon match 33" onclick="bigArcade(32)"><div class="emoji">🎯</div><h3>Neon Match 33</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon rush 34" onclick="bigArcade(33)"><div class="emoji">🚀</div><h3>Neon Rush 34</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon quest 35" onclick="bigArcade(34)"><div class="emoji">🧩</div><h3>Neon Quest 35</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon challenge 36" onclick="bigArcade(35)"><div class="emoji">🎲</div><h3>Neon Challenge 36</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon sprint 37" onclick="bigArcade(36)"><div class="emoji">⭐</div><h3>Neon Sprint 37</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon blast 38" onclick="bigArcade(37)"><div class="emoji">🟦</div><h3>Neon Blast 38</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon battle 39" onclick="bigArcade(38)"><div class="emoji">⌨️</div><h3>Neon Battle 39</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="neon puzzle 40" onclick="bigArcade(39)"><div class="emoji">🏆</div><h3>Neon Puzzle 40</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic tap 41" onclick="bigArcade(40)"><div class="emoji">⚡</div><h3>Cosmic Tap 41</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic dash 42" onclick="bigArcade(41)"><div class="emoji">🧠</div><h3>Cosmic Dash 42</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic match 43" onclick="bigArcade(42)"><div class="emoji">🎯</div><h3>Cosmic Match 43</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic rush 44" onclick="bigArcade(43)"><div class="emoji">🚀</div><h3>Cosmic Rush 44</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic quest 45" onclick="bigArcade(44)"><div class="emoji">🧩</div><h3>Cosmic Quest 45</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic challenge 46" onclick="bigArcade(45)"><div class="emoji">🎲</div><h3>Cosmic Challenge 46</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic sprint 47" onclick="bigArcade(46)"><div class="emoji">⭐</div><h3>Cosmic Sprint 47</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic blast 48" onclick="bigArcade(47)"><div class="emoji">🟦</div><h3>Cosmic Blast 48</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic battle 49" onclick="bigArcade(48)"><div class="emoji">⌨️</div><h3>Cosmic Battle 49</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="cosmic puzzle 50" onclick="bigArcade(49)"><div class="emoji">🏆</div><h3>Cosmic Puzzle 50</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow tap 51" onclick="bigArcade(50)"><div class="emoji">⚡</div><h3>Shadow Tap 51</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow dash 52" onclick="bigArcade(51)"><div class="emoji">🧠</div><h3>Shadow Dash 52</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow match 53" onclick="bigArcade(52)"><div class="emoji">🎯</div><h3>Shadow Match 53</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow rush 54" onclick="bigArcade(53)"><div class="emoji">🚀</div><h3>Shadow Rush 54</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow quest 55" onclick="bigArcade(54)"><div class="emoji">🧩</div><h3>Shadow Quest 55</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow challenge 56" onclick="bigArcade(55)"><div class="emoji">🎲</div><h3>Shadow Challenge 56</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow sprint 57" onclick="bigArcade(56)"><div class="emoji">⭐</div><h3>Shadow Sprint 57</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow blast 58" onclick="bigArcade(57)"><div class="emoji">🟦</div><h3>Shadow Blast 58</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow battle 59" onclick="bigArcade(58)"><div class="emoji">⌨️</div><h3>Shadow Battle 59</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="shadow puzzle 60" onclick="bigArcade(59)"><div class="emoji">🏆</div><h3>Shadow Puzzle 60</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal tap 61" onclick="bigArcade(60)"><div class="emoji">⚡</div><h3>Crystal Tap 61</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal dash 62" onclick="bigArcade(61)"><div class="emoji">🧠</div><h3>Crystal Dash 62</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal match 63" onclick="bigArcade(62)"><div class="emoji">🎯</div><h3>Crystal Match 63</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal rush 64" onclick="bigArcade(63)"><div class="emoji">🚀</div><h3>Crystal Rush 64</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal quest 65" onclick="bigArcade(64)"><div class="emoji">🧩</div><h3>Crystal Quest 65</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal challenge 66" onclick="bigArcade(65)"><div class="emoji">🎲</div><h3>Crystal Challenge 66</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal sprint 67" onclick="bigArcade(66)"><div class="emoji">⭐</div><h3>Crystal Sprint 67</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal blast 68" onclick="bigArcade(67)"><div class="emoji">🟦</div><h3>Crystal Blast 68</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal battle 69" onclick="bigArcade(68)"><div class="emoji">⌨️</div><h3>Crystal Battle 69</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="crystal puzzle 70" onclick="bigArcade(69)"><div class="emoji">🏆</div><h3>Crystal Puzzle 70</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid tap 71" onclick="bigArcade(70)"><div class="emoji">⚡</div><h3>Rapid Tap 71</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid dash 72" onclick="bigArcade(71)"><div class="emoji">🧠</div><h3>Rapid Dash 72</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid match 73" onclick="bigArcade(72)"><div class="emoji">🎯</div><h3>Rapid Match 73</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid rush 74" onclick="bigArcade(73)"><div class="emoji">🚀</div><h3>Rapid Rush 74</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid quest 75" onclick="bigArcade(74)"><div class="emoji">🧩</div><h3>Rapid Quest 75</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid challenge 76" onclick="bigArcade(75)"><div class="emoji">🎲</div><h3>Rapid Challenge 76</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid sprint 77" onclick="bigArcade(76)"><div class="emoji">⭐</div><h3>Rapid Sprint 77</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid blast 78" onclick="bigArcade(77)"><div class="emoji">🟦</div><h3>Rapid Blast 78</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid battle 79" onclick="bigArcade(78)"><div class="emoji">⌨️</div><h3>Rapid Battle 79</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rapid puzzle 80" onclick="bigArcade(79)"><div class="emoji">🏆</div><h3>Rapid Puzzle 80</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel tap 81" onclick="bigArcade(80)"><div class="emoji">⚡</div><h3>Pixel Tap 81</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel dash 82" onclick="bigArcade(81)"><div class="emoji">🧠</div><h3>Pixel Dash 82</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel match 83" onclick="bigArcade(82)"><div class="emoji">🎯</div><h3>Pixel Match 83</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel rush 84" onclick="bigArcade(83)"><div class="emoji">🚀</div><h3>Pixel Rush 84</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel quest 85" onclick="bigArcade(84)"><div class="emoji">🧩</div><h3>Pixel Quest 85</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel challenge 86" onclick="bigArcade(85)"><div class="emoji">🎲</div><h3>Pixel Challenge 86</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel sprint 87" onclick="bigArcade(86)"><div class="emoji">⭐</div><h3>Pixel Sprint 87</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel blast 88" onclick="bigArcade(87)"><div class="emoji">🟦</div><h3>Pixel Blast 88</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel battle 89" onclick="bigArcade(88)"><div class="emoji">⌨️</div><h3>Pixel Battle 89</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="pixel puzzle 90" onclick="bigArcade(89)"><div class="emoji">🏆</div><h3>Pixel Puzzle 90</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket tap 91" onclick="bigArcade(90)"><div class="emoji">⚡</div><h3>Rocket Tap 91</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket dash 92" onclick="bigArcade(91)"><div class="emoji">🧠</div><h3>Rocket Dash 92</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket match 93" onclick="bigArcade(92)"><div class="emoji">🎯</div><h3>Rocket Match 93</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket rush 94" onclick="bigArcade(93)"><div class="emoji">🚀</div><h3>Rocket Rush 94</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket quest 95" onclick="bigArcade(94)"><div class="emoji">🧩</div><h3>Rocket Quest 95</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket challenge 96" onclick="bigArcade(95)"><div class="emoji">🎲</div><h3>Rocket Challenge 96</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket sprint 97" onclick="bigArcade(96)"><div class="emoji">⭐</div><h3>Rocket Sprint 97</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket blast 98" onclick="bigArcade(97)"><div class="emoji">🟦</div><h3>Rocket Blast 98</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket battle 99" onclick="bigArcade(98)"><div class="emoji">⌨️</div><h3>Rocket Battle 99</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="rocket puzzle 100" onclick="bigArcade(99)"><div class="emoji">🏆</div><h3>Rocket Puzzle 100</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden tap 101" onclick="bigArcade(100)"><div class="emoji">⚡</div><h3>Golden Tap 101</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden dash 102" onclick="bigArcade(101)"><div class="emoji">🧠</div><h3>Golden Dash 102</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden match 103" onclick="bigArcade(102)"><div class="emoji">🎯</div><h3>Golden Match 103</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden rush 104" onclick="bigArcade(103)"><div class="emoji">🚀</div><h3>Golden Rush 104</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden quest 105" onclick="bigArcade(104)"><div class="emoji">🧩</div><h3>Golden Quest 105</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden challenge 106" onclick="bigArcade(105)"><div class="emoji">🎲</div><h3>Golden Challenge 106</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden sprint 107" onclick="bigArcade(106)"><div class="emoji">⭐</div><h3>Golden Sprint 107</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden blast 108" onclick="bigArcade(107)"><div class="emoji">🟦</div><h3>Golden Blast 108</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden battle 109" onclick="bigArcade(108)"><div class="emoji">⌨️</div><h3>Golden Battle 109</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="golden puzzle 110" onclick="bigArcade(109)"><div class="emoji">🏆</div><h3>Golden Puzzle 110</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery tap 111" onclick="bigArcade(110)"><div class="emoji">⚡</div><h3>Mystery Tap 111</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery dash 112" onclick="bigArcade(111)"><div class="emoji">🧠</div><h3>Mystery Dash 112</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery match 113" onclick="bigArcade(112)"><div class="emoji">🎯</div><h3>Mystery Match 113</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery rush 114" onclick="bigArcade(113)"><div class="emoji">🚀</div><h3>Mystery Rush 114</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery quest 115" onclick="bigArcade(114)"><div class="emoji">🧩</div><h3>Mystery Quest 115</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery challenge 116" onclick="bigArcade(115)"><div class="emoji">🎲</div><h3>Mystery Challenge 116</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery sprint 117" onclick="bigArcade(116)"><div class="emoji">⭐</div><h3>Mystery Sprint 117</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery blast 118" onclick="bigArcade(117)"><div class="emoji">🟦</div><h3>Mystery Blast 118</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery battle 119" onclick="bigArcade(118)"><div class="emoji">⌨️</div><h3>Mystery Battle 119</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="mystery puzzle 120" onclick="bigArcade(119)"><div class="emoji">🏆</div><h3>Mystery Puzzle 120</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning tap 121" onclick="bigArcade(120)"><div class="emoji">⚡</div><h3>Lightning Tap 121</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning dash 122" onclick="bigArcade(121)"><div class="emoji">🧠</div><h3>Lightning Dash 122</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning match 123" onclick="bigArcade(122)"><div class="emoji">🎯</div><h3>Lightning Match 123</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning rush 124" onclick="bigArcade(123)"><div class="emoji">🚀</div><h3>Lightning Rush 124</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning quest 125" onclick="bigArcade(124)"><div class="emoji">🧩</div><h3>Lightning Quest 125</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning challenge 126" onclick="bigArcade(125)"><div class="emoji">🎲</div><h3>Lightning Challenge 126</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning sprint 127" onclick="bigArcade(126)"><div class="emoji">⭐</div><h3>Lightning Sprint 127</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning blast 128" onclick="bigArcade(127)"><div class="emoji">🟦</div><h3>Lightning Blast 128</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning battle 129" onclick="bigArcade(128)"><div class="emoji">⌨️</div><h3>Lightning Battle 129</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="lightning puzzle 130" onclick="bigArcade(129)"><div class="emoji">🏆</div><h3>Lightning Puzzle 130</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super tap 131" onclick="bigArcade(130)"><div class="emoji">⚡</div><h3>Super Tap 131</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super dash 132" onclick="bigArcade(131)"><div class="emoji">🧠</div><h3>Super Dash 132</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super match 133" onclick="bigArcade(132)"><div class="emoji">🎯</div><h3>Super Match 133</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super rush 134" onclick="bigArcade(133)"><div class="emoji">🚀</div><h3>Super Rush 134</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super quest 135" onclick="bigArcade(134)"><div class="emoji">🧩</div><h3>Super Quest 135</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super challenge 136" onclick="bigArcade(135)"><div class="emoji">🎲</div><h3>Super Challenge 136</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super sprint 137" onclick="bigArcade(136)"><div class="emoji">⭐</div><h3>Super Sprint 137</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super blast 138" onclick="bigArcade(137)"><div class="emoji">🟦</div><h3>Super Blast 138</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super battle 139" onclick="bigArcade(138)"><div class="emoji">⌨️</div><h3>Super Battle 139</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="super puzzle 140" onclick="bigArcade(139)"><div class="emoji">🏆</div><h3>Super Puzzle 140</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy tap 141" onclick="bigArcade(140)"><div class="emoji">⚡</div><h3>Galaxy Tap 141</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy dash 142" onclick="bigArcade(141)"><div class="emoji">🧠</div><h3>Galaxy Dash 142</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy match 143" onclick="bigArcade(142)"><div class="emoji">🎯</div><h3>Galaxy Match 143</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy rush 144" onclick="bigArcade(143)"><div class="emoji">🚀</div><h3>Galaxy Rush 144</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy quest 145" onclick="bigArcade(144)"><div class="emoji">🧩</div><h3>Galaxy Quest 145</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy challenge 146" onclick="bigArcade(145)"><div class="emoji">🎲</div><h3>Galaxy Challenge 146</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy sprint 147" onclick="bigArcade(146)"><div class="emoji">⭐</div><h3>Galaxy Sprint 147</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy blast 148" onclick="bigArcade(147)"><div class="emoji">🟦</div><h3>Galaxy Blast 148</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy battle 149" onclick="bigArcade(148)"><div class="emoji">⌨️</div><h3>Galaxy Battle 149</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="galaxy puzzle 150" onclick="bigArcade(149)"><div class="emoji">🏆</div><h3>Galaxy Puzzle 150</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master tap 151" onclick="bigArcade(150)"><div class="emoji">⚡</div><h3>Master Tap 151</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master dash 152" onclick="bigArcade(151)"><div class="emoji">🧠</div><h3>Master Dash 152</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master match 153" onclick="bigArcade(152)"><div class="emoji">🎯</div><h3>Master Match 153</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master rush 154" onclick="bigArcade(153)"><div class="emoji">🚀</div><h3>Master Rush 154</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master quest 155" onclick="bigArcade(154)"><div class="emoji">🧩</div><h3>Master Quest 155</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master challenge 156" onclick="bigArcade(155)"><div class="emoji">🎲</div><h3>Master Challenge 156</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master sprint 157" onclick="bigArcade(156)"><div class="emoji">⭐</div><h3>Master Sprint 157</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master blast 158" onclick="bigArcade(157)"><div class="emoji">🟦</div><h3>Master Blast 158</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master battle 159" onclick="bigArcade(158)"><div class="emoji">⌨️</div><h3>Master Battle 159</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="master puzzle 160" onclick="bigArcade(159)"><div class="emoji">🏆</div><h3>Master Puzzle 160</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper tap 161" onclick="bigArcade(160)"><div class="emoji">⚡</div><h3>Hyper Tap 161</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper dash 162" onclick="bigArcade(161)"><div class="emoji">🧠</div><h3>Hyper Dash 162</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper match 163" onclick="bigArcade(162)"><div class="emoji">🎯</div><h3>Hyper Match 163</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper rush 164" onclick="bigArcade(163)"><div class="emoji">🚀</div><h3>Hyper Rush 164</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper quest 165" onclick="bigArcade(164)"><div class="emoji">🧩</div><h3>Hyper Quest 165</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper challenge 166" onclick="bigArcade(165)"><div class="emoji">🎲</div><h3>Hyper Challenge 166</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper sprint 167" onclick="bigArcade(166)"><div class="emoji">⭐</div><h3>Hyper Sprint 167</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper blast 168" onclick="bigArcade(167)"><div class="emoji">🟦</div><h3>Hyper Blast 168</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper battle 169" onclick="bigArcade(168)"><div class="emoji">⌨️</div><h3>Hyper Battle 169</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="hyper puzzle 170" onclick="bigArcade(169)"><div class="emoji">🏆</div><h3>Hyper Puzzle 170</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade tap 171" onclick="bigArcade(170)"><div class="emoji">⚡</div><h3>Arcade Tap 171</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade dash 172" onclick="bigArcade(171)"><div class="emoji">🧠</div><h3>Arcade Dash 172</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade match 173" onclick="bigArcade(172)"><div class="emoji">🎯</div><h3>Arcade Match 173</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade rush 174" onclick="bigArcade(173)"><div class="emoji">🚀</div><h3>Arcade Rush 174</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade quest 175" onclick="bigArcade(174)"><div class="emoji">🧩</div><h3>Arcade Quest 175</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade challenge 176" onclick="bigArcade(175)"><div class="emoji">🎲</div><h3>Arcade Challenge 176</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade sprint 177" onclick="bigArcade(176)"><div class="emoji">⭐</div><h3>Arcade Sprint 177</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade blast 178" onclick="bigArcade(177)"><div class="emoji">🟦</div><h3>Arcade Blast 178</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade battle 179" onclick="bigArcade(178)"><div class="emoji">⌨️</div><h3>Arcade Battle 179</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="arcade puzzle 180" onclick="bigArcade(179)"><div class="emoji">🏆</div><h3>Arcade Puzzle 180</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire tap 181" onclick="bigArcade(180)"><div class="emoji">⚡</div><h3>Fire Tap 181</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire dash 182" onclick="bigArcade(181)"><div class="emoji">🧠</div><h3>Fire Dash 182</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire match 183" onclick="bigArcade(182)"><div class="emoji">🎯</div><h3>Fire Match 183</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire rush 184" onclick="bigArcade(183)"><div class="emoji">🚀</div><h3>Fire Rush 184</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire quest 185" onclick="bigArcade(184)"><div class="emoji">🧩</div><h3>Fire Quest 185</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire challenge 186" onclick="bigArcade(185)"><div class="emoji">🎲</div><h3>Fire Challenge 186</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire sprint 187" onclick="bigArcade(186)"><div class="emoji">⭐</div><h3>Fire Sprint 187</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire blast 188" onclick="bigArcade(187)"><div class="emoji">🟦</div><h3>Fire Blast 188</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire battle 189" onclick="bigArcade(188)"><div class="emoji">⌨️</div><h3>Fire Battle 189</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="fire puzzle 190" onclick="bigArcade(189)"><div class="emoji">🏆</div><h3>Fire Puzzle 190</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice tap 191" onclick="bigArcade(190)"><div class="emoji">⚡</div><h3>Ice Tap 191</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice dash 192" onclick="bigArcade(191)"><div class="emoji">🧠</div><h3>Ice Dash 192</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice match 193" onclick="bigArcade(192)"><div class="emoji">🎯</div><h3>Ice Match 193</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice rush 194" onclick="bigArcade(193)"><div class="emoji">🚀</div><h3>Ice Rush 194</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice quest 195" onclick="bigArcade(194)"><div class="emoji">🧩</div><h3>Ice Quest 195</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice challenge 196" onclick="bigArcade(195)"><div class="emoji">🎲</div><h3>Ice Challenge 196</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice sprint 197" onclick="bigArcade(196)"><div class="emoji">⭐</div><h3>Ice Sprint 197</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice blast 198" onclick="bigArcade(197)"><div class="emoji">🟦</div><h3>Ice Blast 198</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice battle 199" onclick="bigArcade(198)"><div class="emoji">⌨️</div><h3>Ice Battle 199</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="card arcade-card" data-name="ice puzzle 200" onclick="bigArcade(199)"><div class="emoji">🏆</div><h3>Ice Puzzle 200</h3><p>Mini-game · Earn XP &amp; coins</p></div>
+<div class="panel active" style="display:block"><h2>🏅 Achievements</h2><div id="achievements">No achievements yet. Start playing!</div></div>
+</section>
+<section class="panel" id="game"><button class="back" onclick="home()">← Home</button><div id="gameContent"></div></section>
+</main>
+<script>
+let data=JSON.parse(localStorage.getItem('gameHub')||'{"xp":0,"coins":0,"best":0,"achievements":[]}');
+const save=()=>{localStorage.setItem('gameHub',JSON.stringify(data));update()};
+function update(){xp.textContent=data.xp;coins.textContent=data.coins;best.textContent=data.best;achievements.innerHTML=data.achievements.length?data.achievements.map(x=>'🏅 '+x).join('<br>'):'No achievements yet. Start playing!'}
+function reward(x=10,c=5){data.xp+=x;data.coins+=c;if(data.xp>data.best)data.best=data.xp;save()}
+function achievement(s){if(!data.achievements.includes(s)){data.achievements.push(s);save()}}
+function openGame(g){homeEl.style.display='none';game.classList.add('active');({
+brain, racer, archery, space, monster, mystery, island, builder
+}[g] || (()=>bigArcade(0)))()}
+function home(){game.classList.remove('active');homeEl.style.display='block';update()}
+const homeEl=document.getElementById('home');
+
+function brain(){let n=0,score=0;const q=[['What is 7×8?',56],['What is 144÷12?',12],['What is 15+27?',42],['What is half of 90?',45],['What is 9²?',81],['What is 100−37?',63]];function next(){if(n>=q.length){reward(score*5,score*2);achievement('Brain Challenger');gameContent.innerHTML='<div class=center><h1>🧠 Finished!</h1><p>Score: '+score+'/'+q.length+'</p><button onclick="brain()">Play Again</button></div>';return}let [a,b]=q[n];gameContent.innerHTML='<h1>🧠 Brain Challenge</h1><div class=question>'+a+'</div><div class=options><button class=big onclick="ans( '+b+')">'+b+'</button><button class=big onclick="ans('+b+1+')">'+(b+1)+'</button><button class=big onclick="ans('+Math.max(0,b-2)+')">'+Math.max(0,b-2)+'</button></div><p>Question '+(n+1)+'/'+q.length+'</p>';window.ans=(v)=>{if(v===b)score++;n++;next()}}next()}
+function racer(){gameContent.innerHTML='<h1>🚗 Road Racer</h1><p>Use ← and → to move. Avoid the falling cars.</p><canvas id=c width=420 height=560></canvas><div class=center><button onclick="startRacer()">Start / Restart</button></div>'; }
+function startRacer(){let x=190,y=470,obs=[],score=0,run=true,c=document.getElementById('c'),ctx=c.getContext('2d');onkeydown=e=>{if(e.key==='ArrowLeft')x-=35;if(e.key==='ArrowRight')x+=35;x=Math.max(20,Math.min(370,x))};function loop(){if(!run)return;ctx.clearRect(0,0,420,560);ctx.fillStyle='#334155';ctx.fillRect(0,0,420,560);ctx.fillStyle='#fff';for(let i=0;i<560;i+=70)ctx.fillRect(205,i,10,35);if(Math.random()<.025)obs.push({x:30+Math.random()*340,y:-50});ctx.fillStyle='#22c55e';ctx.fillRect(x,y,40,65);ctx.fillStyle='#ef4444';obs.forEach(o=>{o.y+=5;ctx.fillRect(o.x,o.y,40,65);if(o.y>560)o.y=-100,score++;if(o.x<x+40&&o.x+40>x&&o.y<y+65&&o.y+65>y)run=false});ctx.fillStyle='#fff';ctx.font='20px Arial';ctx.fillText('Score: '+score,15,30);if(run)requestAnimationFrame(loop);else{reward(score*2,score);achievement('Road Racer');ctx.fillText('GAME OVER',150,280)}}loop()}
+function archery(){gameContent.innerHTML='<h1>🏹 Target Master</h1><p>Click the target as it moves. You get 10 shots.</p><canvas id=a width=600 height=360></canvas><div class=center><button onclick="startArchery()">Start</button></div>'}
+function startArchery(){let c=document.getElementById('a'),ctx=c.getContext('2d'),shots=10,score=0,tx=100,ty=150,dx=4; c.onclick=e=>{if(shots<=0)return;let r=c.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;if((mx-tx)**2+(my-ty)**2<35**2)score++;shots--};function loop(){ctx.clearRect(0,0,600,360);tx+=dx;if(tx<40||tx>560)dx*=-1;ctx.beginPath();ctx.arc(tx,ty,35,0,7);ctx.strokeStyle='white';ctx.lineWidth=8;ctx.stroke();ctx.beginPath();ctx.arc(tx,ty,16,0,7);ctx.fillStyle='white';ctx.fill();ctx.fillStyle='white';ctx.font='20px Arial';ctx.fillText('Shots: '+shots+'  Score: '+score,15,30);if(shots>0)requestAnimationFrame(loop);else{reward(score*5,score*2);achievement('Target Master')}}loop()}
+function space(){gameContent.innerHTML='<h1>🛸 Space Dodge</h1><p>Move with ← → and dodge asteroids.</p><canvas id=s width=500 height=500></canvas><div class=center><button onclick="startSpace()">Start</button></div>'}
+function startSpace(){let c=document.getElementById('s'),ctx=c.getContext('2d'),x=230,rocks=[],score=0,run=true;onkeydown=e=>{if(e.key==='ArrowLeft')x-=30;if(e.key==='ArrowRight')x+=30;x=Math.max(10,Math.min(460,x))};function loop(){ctx.fillStyle='#020617';ctx.fillRect(0,0,500,500);if(Math.random()<.04)rocks.push({x:Math.random()*480,y:-20});ctx.fillStyle='#38bdf8';ctx.fillRect(x,440,30,35);ctx.fillStyle='#a8a29e';rocks.forEach(r=>{r.y+=4;ctx.beginPath();ctx.arc(r.x,r.y,14,0,7);ctx.fill();if(r.y>440&&r.y<475&&r.x>x-10&&r.x<x+40)run=false});ctx.fillStyle='white';ctx.fillText('Score: '+score++,15,25);if(run)requestAnimationFrame(loop);else{reward(score,2);achievement('Space Survivor')}}loop()}
+function monster(){let hp=100,mhp=80;function draw(msg='Choose a move!'){gameContent.innerHTML='<h1>⚔️ Monster Battle</h1><p>You: '+hp+' HP | Monster: '+mhp+' HP</p><h2>'+msg+'</h2><button onclick="fight(18)">⚔️ Attack</button><button onclick="fight(12)">✨ Power Move</button><button onclick="fight(0)">🛡️ Defend</button>'}window.fight=(d)=>{if(d)mhp-=d;else hp=Math.min(100,hp+8);if(mhp>0)hp-=Math.floor(Math.random()*12)+4;if(hp<=0)draw('You lost — try again!');else if(mhp<=0){reward(40,20);achievement('Monster Slayer');gameContent.innerHTML='<div class=center><h1>🏆 Victory!</h1><button onclick="monster()">Rematch</button></div>'}else draw()};draw()}
+function mystery(){
+const cases=[
+{
+title:"The Missing Trophy",
+intro:"A valuable trophy disappeared from the school display.",
+clues:["The door was locked from the inside.","A muddy footprint was found near the window.","The window was open."],
+answers:["The teacher","Someone who entered through the window","The principal"],correct:1,explain:"The open window and muddy footprint point to someone entering through it."
+},
+{
+title:"The Vanishing Lunch",
+intro:"Someone's packed lunch vanished from a classroom fridge.",
+clues:["A sticky note was left on the fridge.","The note says: 'I was very hungry.'","A trail of crumbs leads to the reading corner."],
+answers:["The librarian","Someone who ate it in the reading corner","The sports coach"],correct:1,explain:"The crumbs and the note suggest the lunch was taken to the reading corner."
+},
+{
+title:"The Wet Footprints",
+intro:"A puddle appeared in the hallway even though it did not rain.",
+clues:["The gym had just finished a water activity.","The footprints came from the gym doors.","No other outside doors were wet."],
+answers:["Someone from the gym","A delivery driver","The principal"],correct:0,explain:"The footprints began at the gym after the water activity."
+},
+{
+title:"The Open Locker",
+intro:"A student's art project was found outside a locker.",
+clues:["The locker was not damaged.","The project was too large to fit through the vents.","A spare key is kept in the office."],
+answers:["The wind","Someone using a key","A broken locker"],correct:1,explain:"Because there was no damage and a spare key exists, a key could have been used."
+},
+{
+title:"The Strange Alarm",
+intro:"A classroom alarm went off during lunch.",
+clues:["The classroom door was open.","A ball was found beside the alarm button.","Nobody was in the room."],
+answers:["A ball hit the button","A phone call","The lights"],correct:0,explain:"The ball beside the button is the strongest clue."
+},
+{
+title:"The Mystery Drawing",
+intro:"A new drawing appeared on the classroom whiteboard.",
+clues:["The marker was on the teacher's desk.","The drawing was made during recess.","A student said they stayed inside to finish homework."],
+answers:["The wind","The student who stayed inside","The cleaner"],correct:1,explain:"The marker was available and the student said they were inside during recess."
+},
+{
+title:"The Missing Book",
+intro:"A library book was missing from its shelf.",
+clues:["The checkout computer shows no loan.","A reading cushion has the same book beside it.","A bookmark is sticking out of the book."],
+answers:["It was misplaced on the reading cushion","A delivery truck","It vanished by itself"],correct:0,explain:"The book is sitting on the reading cushion, so it was moved rather than checked out."
+},
+{
+title:"The Cold Room",
+intro:"One classroom was much colder than the others.",
+clues:["A window was wide open.","The heater was working normally.","Leaves were found on the floor."],
+answers:["The open window","The heater broke","The lights were off"],correct:0,explain:"The open window explains both the cold air and the leaves."
+},
+{
+title:"The Missing Paint",
+intro:"A bottle of blue paint could not be found.",
+clues:["Blue paint was seen on a poster.","The art table had a wet blue brush.","The storage cupboard was locked."],
+answers:["It was used for the poster","It was thrown away","It was still locked in storage"],correct:0,explain:"The poster and wet brush show that the paint was recently used."
+},
+{
+title:"The Hallway Noise",
+intro:"A loud bang was heard in the hallway.",
+clues:["A stack of empty boxes was nearby.","There was a draft from the open door.","Nothing was broken."],
+answers:["A box fell over","A window shattered","A machine exploded"],correct:0,explain:"The boxes and draft provide a simple explanation for the bang."
+}
+];
+
+let lastCase=-1;
+function showMysteryCase(){
+ let idx;
+ do{idx=Math.floor(Math.random()*cases.length)}while(cases.length>1&&idx===lastCase);
+ lastCase=idx;
+ const c=cases[idx];
+ gameContent.innerHTML=`<h1>🕵️ ${c.title}</h1>
+ <p>${c.intro}</p>
+ ${c.clues.map((x,i)=>`<h3>Clue ${i+1}: ${x}</h3>`).join('')}
+ <p><b>What is the best explanation?</b></p>
+ ${c.answers.map((x,i)=>`<button onclick="mysteryAnswer(${i},${c.correct})">${x}</button>`).join('')}`;
+ window.mysteryAnswer=(pick,correct)=>{
+   const ok=pick===correct;
+   if(ok){reward(30,15);achievement('Case Solver');}
+   gameContent.innerHTML=`<div class=center><h1>${ok?'🔎 Case Solved!':'❌ Not quite!'}</h1>
+   <p>${c.explain}</p>
+   <p><b>Answer:</b> ${c.answers[c.correct]}</p>
+   <button onclick="showMysteryCase()">🕵️ New Case</button></div>`;
+ };
+}
+showMysteryCase();
+}
+function island(){
+ let food=5,water=5,day=1;
+ function draw(msg='What will you do?'){
+  gameContent.innerHTML='<h1>🏝️ Island Survival</h1><p>Day '+day+' | 🍎 Food: '+food+' | 💧 Water: '+water+'</p><h2>'+msg+'</h2><button onclick="act(1)">🌴 Gather food</button><button onclick="act(2)">💧 Find water</button><button onclick="act(3)">🏕️ Rest</button>';
+ }
+ window.act=(n)=>{
+  day++; food--; water--;
+  if(n===1) food+=2;
+  if(n===2) water+=2;
+  if(n===3){food++;water++;}
+  if(food<=0||water<=0){
+   gameContent.innerHTML='<div class=center><h1>🏝️ Survival ended</h1><p>You lasted '+day+' days.</p><button onclick="island()">Try Again</button></div>';
+   reward(day,day); return;
+  }
+  if(day>=15){
+   reward(50,25); achievement('Island Survivor');
+   gameContent.innerHTML='<div class=center><h1>🌅 Rescued!</h1><p>You survived 15 days!</p></div>'; return;
+  }
+  draw();
+ };
+ draw();
+}
+function builder(){gameContent.innerHTML='<h1>🏗️ World Builder</h1><p>Click squares to place blocks. Right-click a block to remove it.</p><canvas id=b width=600 height=400></canvas><div class=center><button onclick="builder()">Clear World</button></div>';let c=document.getElementById('b'),ctx=c.getContext('2d'),grid=Array(20).fill(0).map(()=>Array(30).fill(0));function draw(){ctx.clearRect(0,0,600,400);for(let y=0;y<20;y++)for(let x=0;x<30;x++){ctx.strokeRect(x*20,y*20,20,20);if(grid[y][x])ctx.fillRect(x*20+2,y*20+2,16,16)}}c.onclick=e=>{let r=c.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/20),y=Math.floor((e.clientY-r.top)/20);grid[y][x]=1;reward(1,1);draw();achievement('Builder')};c.oncontextmenu=e=>{e.preventDefault();let r=c.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/20),y=Math.floor((e.clientY-r.top)/20);grid[y][x]=0;draw()};draw()}
+
+/* BIG_ARCADE_START */
+const BIG_NAMES=["Turbo Tap 1", "Turbo Dash 2", "Turbo Match 3", "Turbo Rush 4", "Turbo Quest 5", "Turbo Challenge 6", "Turbo Sprint 7", "Turbo Blast 8", "Turbo Battle 9", "Turbo Puzzle 10", "Mega Tap 11", "Mega Dash 12", "Mega Match 13", "Mega Rush 14", "Mega Quest 15", "Mega Challenge 16", "Mega Sprint 17", "Mega Blast 18", "Mega Battle 19", "Mega Puzzle 20", "Ultra Tap 21", "Ultra Dash 22", "Ultra Match 23", "Ultra Rush 24", "Ultra Quest 25", "Ultra Challenge 26", "Ultra Sprint 27", "Ultra Blast 28", "Ultra Battle 29", "Ultra Puzzle 30", "Neon Tap 31", "Neon Dash 32", "Neon Match 33", "Neon Rush 34", "Neon Quest 35", "Neon Challenge 36", "Neon Sprint 37", "Neon Blast 38", "Neon Battle 39", "Neon Puzzle 40", "Cosmic Tap 41", "Cosmic Dash 42", "Cosmic Match 43", "Cosmic Rush 44", "Cosmic Quest 45", "Cosmic Challenge 46", "Cosmic Sprint 47", "Cosmic Blast 48", "Cosmic Battle 49", "Cosmic Puzzle 50", "Shadow Tap 51", "Shadow Dash 52", "Shadow Match 53", "Shadow Rush 54", "Shadow Quest 55", "Shadow Challenge 56", "Shadow Sprint 57", "Shadow Blast 58", "Shadow Battle 59", "Shadow Puzzle 60", "Crystal Tap 61", "Crystal Dash 62", "Crystal Match 63", "Crystal Rush 64", "Crystal Quest 65", "Crystal Challenge 66", "Crystal Sprint 67", "Crystal Blast 68", "Crystal Battle 69", "Crystal Puzzle 70", "Rapid Tap 71", "Rapid Dash 72", "Rapid Match 73", "Rapid Rush 74", "Rapid Quest 75", "Rapid Challenge 76", "Rapid Sprint 77", "Rapid Blast 78", "Rapid Battle 79", "Rapid Puzzle 80", "Pixel Tap 81", "Pixel Dash 82", "Pixel Match 83", "Pixel Rush 84", "Pixel Quest 85", "Pixel Challenge 86", "Pixel Sprint 87", "Pixel Blast 88", "Pixel Battle 89", "Pixel Puzzle 90", "Rocket Tap 91", "Rocket Dash 92", "Rocket Match 93", "Rocket Rush 94", "Rocket Quest 95", "Rocket Challenge 96", "Rocket Sprint 97", "Rocket Blast 98", "Rocket Battle 99", "Rocket Puzzle 100", "Golden Tap 101", "Golden Dash 102", "Golden Match 103", "Golden Rush 104", "Golden Quest 105", "Golden Challenge 106", "Golden Sprint 107", "Golden Blast 108", "Golden Battle 109", "Golden Puzzle 110", "Mystery Tap 111", "Mystery Dash 112", "Mystery Match 113", "Mystery Rush 114", "Mystery Quest 115", "Mystery Challenge 116", "Mystery Sprint 117", "Mystery Blast 118", "Mystery Battle 119", "Mystery Puzzle 120", "Lightning Tap 121", "Lightning Dash 122", "Lightning Match 123", "Lightning Rush 124", "Lightning Quest 125", "Lightning Challenge 126", "Lightning Sprint 127", "Lightning Blast 128", "Lightning Battle 129", "Lightning Puzzle 130", "Super Tap 131", "Super Dash 132", "Super Match 133", "Super Rush 134", "Super Quest 135", "Super Challenge 136", "Super Sprint 137", "Super Blast 138", "Super Battle 139", "Super Puzzle 140", "Galaxy Tap 141", "Galaxy Dash 142", "Galaxy Match 143", "Galaxy Rush 144", "Galaxy Quest 145", "Galaxy Challenge 146", "Galaxy Sprint 147", "Galaxy Blast 148", "Galaxy Battle 149", "Galaxy Puzzle 150", "Master Tap 151", "Master Dash 152", "Master Match 153", "Master Rush 154", "Master Quest 155", "Master Challenge 156", "Master Sprint 157", "Master Blast 158", "Master Battle 159", "Master Puzzle 160", "Hyper Tap 161", "Hyper Dash 162", "Hyper Match 163", "Hyper Rush 164", "Hyper Quest 165", "Hyper Challenge 166", "Hyper Sprint 167", "Hyper Blast 168", "Hyper Battle 169", "Hyper Puzzle 170", "Arcade Tap 171", "Arcade Dash 172", "Arcade Match 173", "Arcade Rush 174", "Arcade Quest 175", "Arcade Challenge 176", "Arcade Sprint 177", "Arcade Blast 178", "Arcade Battle 179", "Arcade Puzzle 180", "Fire Tap 181", "Fire Dash 182", "Fire Match 183", "Fire Rush 184", "Fire Quest 185", "Fire Challenge 186", "Fire Sprint 187", "Fire Blast 188", "Fire Battle 189", "Fire Puzzle 190", "Ice Tap 191", "Ice Dash 192", "Ice Match 193", "Ice Rush 194", "Ice Quest 195", "Ice Challenge 196", "Ice Sprint 197", "Ice Blast 198", "Ice Battle 199", "Ice Puzzle 200"];
+const BIG_KINDS=["click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid", "click", "reflex", "math", "memory", "higher", "guess", "odd", "target", "typing", "grid"];
+
+function filterBigGames(){
+  const q=(document.getElementById('gameSearch')?.value||'').toLowerCase();
+  document.querySelectorAll('.arcade-card').forEach((c)=>c.style.display=c.dataset.name.includes(q)?'':'none');
+}
+function bigArcade(i){
+  document.getElementById('home').style.display='none';
+  document.getElementById('game').classList.add('active');
+  const name=BIG_NAMES[i], kind=BIG_KINDS[i];
+  ({click:bigClickX,reflex:bigReflexX,math:bigMathX,memory:bigMemoryX,higher:bigHigherX,
+    guess:bigGuessX,odd:bigOddX,target:bigTargetX,typing:bigTypingX,grid:bigGridX}[kind])(name);
+}
+function bigReward(name,score){
+  reward(Math.max(4,score*3),Math.max(2,Math.floor(score/2)+1));
+  achievement(name+' Complete');
+}
+function bigClickX(name){
+  let left=12,score=0;
+  gameContent.innerHTML=`<div class=center><h1>🖱️ ${name}</h1><p>Click ${left} times.</p><button id="bx" class="big">CLICK!</button><p id="bp"></p></div>`;
+  document.getElementById('bx').onclick=()=>{
+    score++;left--;document.getElementById('bp').textContent=`${left} left`;
+    if(!left){bigReward(name,score);document.getElementById('bx').disabled=true;document.getElementById('bp').textContent='🏆 Complete!'}
+  };
+}
+function bigReflexX(name){
+  gameContent.innerHTML=`<div class=center><h1>⚡ ${name}</h1><p>Wait for GO, then click.</p><button id="rx" class="big">WAIT...</button></div>`;
+  let ready=false,start=0,t=setTimeout(()=>{ready=true;start=performance.now();document.getElementById('rx').textContent='🟢 GO!'},800+Math.random()*1800);
+  document.getElementById('rx').onclick=()=>{
+    if(!ready){clearTimeout(t);document.getElementById('rx').textContent='❌ Too early!';return;}
+    const ms=Math.round(performance.now()-start),score=Math.max(1,60-Math.floor(ms/10));
+    bigReward(name,score);document.getElementById('rx').textContent=ms+' ms · score '+score;
+  };
+}
+function bigMathX(name){
+  let q=0,score=0;
+  function next(){
+    if(q===10){bigReward(name,score);gameContent.innerHTML=`<div class=center><h1>🧠 ${name}</h1><p>${score}/10 correct</p><button onclick="bigMathX(${JSON.stringify(name)})">Again</button></div>`;return;}
+    let a=1+Math.floor(Math.random()*20),b=1+Math.floor(Math.random()*20),ops=['+','-','×'],op=ops[Math.floor(Math.random()*3)],ans=op==='+'?a+b:op==='-'?a-b:a*b;
+    gameContent.innerHTML=`<div class=center><h1>🧠 ${name}</h1><div class=question>${a} ${op} ${b} = ?</div><input id="mx" type=number autofocus style="font-size:24px;padding:10px"><button onclick="mxCheck()">Submit</button><p>${q+1}/10 · Score ${score}</p></div>`;
+    window.mxCheck=()=>{if(Number(document.getElementById('mx').value)===ans)score++;q++;next()};
+  } next();
+}
+function bigMemoryX(name){
+  const icons=['🍎','🚀','🐱','⚽','⭐','🎵','🌈','🍕'],deck=[...icons,...icons].sort(()=>Math.random()-.5);
+  let open=[],done=0;
+  function draw(){gameContent.innerHTML=`<div class=center><h1>🧩 ${name}</h1><p>Find the pairs.</p><div class="mini-grid" style="grid-template-columns:repeat(4,70px)">${deck.map((v,i)=>`<button class=game-btn id="mm${i}" onclick="mmFlip(${i})">${v==='✓'?'✅':open.includes(i)?v:'❓'}</button>`).join('')}</div><p>${done}/8 pairs</p></div>`}
+  window.mmFlip=i=>{if(open.length>1||open.includes(i)||deck[i]==='✓')return;open.push(i);document.getElementById('mm'+i).textContent=deck[i];
+    if(open.length===2){let[a,b]=open;if(deck[a]===deck[b]){deck[a]=deck[b]='✓';done++;open=[];setTimeout(()=>done===8?(bigReward(name,8),gameContent.innerHTML=`<div class=center><h1>🏆 Complete!</h1><button onclick="bigMemoryX(${JSON.stringify(name)})">Again</button></div>`):draw(),250)}
+    else setTimeout(()=>{open=[];draw()},500)}};
+  draw();
+}
+function bigHigherX(name){
+  let cur=1+Math.floor(Math.random()*99),score=0;
+  function draw(){gameContent.innerHTML=`<div class=center><h1>🔢 ${name}</h1><div class=question>${cur}</div><button onclick="bhg(true)">Higher</button><button onclick="bhg(false)">Lower</button><p>Streak: ${score}</p></div>`}
+  window.bhg=h=>{let n=1+Math.floor(Math.random()*99),ok=h?n>cur:n<cur;if(ok){score++;cur=n;draw()}else{bigReward(name,score);gameContent.innerHTML=`<div class=center><h1>Game Over</h1><p>Streak: ${score}</p><button onclick="bigHigherX(${JSON.stringify(name)})">Again</button></div>`}};
+  draw();
+}
+function bigGuessX(name){
+  const ans=1+Math.floor(Math.random()*20);let tries=5;
+  gameContent.innerHTML=`<div class=center><h1>🎲 ${name}</h1><p>Guess 1–20. Five tries.</p><input id="gx" type=number style="font-size:22px;padding:10px"><button onclick="gCheck()">Guess</button><p id="gm"></p></div>`;
+  window.gCheck=()=>{let v=Number(document.getElementById('gx').value);tries--;if(v===ans){bigReward(name,10);document.getElementById('gm').textContent='🎉 Correct!';return}document.getElementById('gm').textContent=(v<ans?'Higher!':'Lower!')+' '+tries+' tries left';if(!tries){bigReward(name,1);document.getElementById('gm').textContent='Answer: '+ans}};
+}
+function bigOddX(name){
+  const odd=Math.floor(Math.random()*16),sh=['●','■','▲','◆'],base=Math.floor(Math.random()*4),other=(base+1)%4;
+  gameContent.innerHTML=`<div class=center><h1>🧩 ${name}</h1><p>Find the odd shape.</p><div class="mini-grid" style="grid-template-columns:repeat(4,60px)">${Array.from({length:16},(_,i)=>`<button class=game-btn onclick="oddX(${i})">${sh[i===odd?other:base]}</button>`).join('')}</div></div>`;
+  window.oddX=i=>{let ok=i===odd;bigReward(name,ok?10:1);gameContent.innerHTML=`<div class=center><h1>${ok?'✅ Found it!':'❌ Missed it!'}</h1><button onclick="bigOddX(${JSON.stringify(name)})">Again</button></div>`};
+}
+function bigTargetX(name){
+  let left=10,score=0,x=100,y=100;
+  gameContent.innerHTML=`<div class=center><h1>🎯 ${name}</h1><canvas id="tx" width="600" height="350"></canvas></div>`;
+  const c=document.getElementById('tx'),ctx=c.getContext('2d');
+  function draw(){ctx.clearRect(0,0,600,350);x=30+Math.random()*540;y=30+Math.random()*290;ctx.font='42px Arial';ctx.fillText('🎯',x,y);ctx.font='18px Arial';ctx.fillText(`Left ${left} · Score ${score}`,15,22)}
+  c.onclick=e=>{let r=c.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;if((mx-x)**2+(my-y)**2<45**2)score++;left--;if(!left){bigReward(name,score);gameContent.innerHTML=`<div class=center><h1>🏆 Finished!</h1><p>${score}/10</p><button onclick="bigTargetX(${JSON.stringify(name)})">Again</button></div>`}else draw()};draw();
+}
+function bigTypingX(name){
+  const words=['rocket','planet','dragon','castle','puzzle','banana'];let i=0,score=0;
+  function draw(){gameContent.innerHTML=`<div class=center><h1>⌨️ ${name}</h1><div class=wordbox>${words[i]}</div><input id="ttx" autofocus style="font-size:22px;padding:10px"><p>${i}/6 · Score ${score}</p></div>`;document.getElementById('ttx').onkeydown=e=>{if(e.key==='Enter'){if(e.target.value.trim().toLowerCase()===words[i])score++;i++;if(i===6){bigReward(name,score);gameContent.innerHTML=`<div class=center><h1>⌨️ Complete!</h1><p>${score}/6</p><button onclick="bigTypingX(${JSON.stringify(name)})">Again</button></div>`}else draw()}}}draw();
+}
+function bigGridX(name){
+  const target=1+Math.floor(Math.random()*25);
+  gameContent.innerHTML=`<div class=center><h1>🔲 ${name}</h1><p>Find number ${target}.</p><div class="mini-grid" style="grid-template-columns:repeat(5,55px)">${Array.from({length:25},(_,i)=>`<button class=game-btn onclick="gridX(${i+1})">${i+1}</button>`).join('')}</div></div>`;
+  window.gridX=v=>{let ok=v===target;bigReward(name,ok?10:1);document.querySelector('#gameContent').innerHTML=`<div class=center><h1>${ok?'🏆 Correct!':'❌ Wrong!'}</h1><p>Target was ${target}.</p><button onclick="bigGridX(${JSON.stringify(name)})">Again</button></div>`};
+}
+/* BIG_ARCADE_END */
+
+update();
+
+/* ================= FULL BUG-FIX LAYER ================= */
+(function(){
+  let currentAnimation = 0;
+  let currentTimer = 0;
+
+  function el(id){ return document.getElementById(id); }
+
+  function stopCurrentGame(){
+    if(currentAnimation){
+      cancelAnimationFrame(currentAnimation);
+      currentAnimation = 0;
+    }
+    if(currentTimer){
+      clearTimeout(currentTimer);
+      clearInterval(currentTimer);
+      currentTimer = 0;
+    }
+    window.onkeydown = null;
+    window.onkeyup = null;
+  }
+
+  // Keep the saved data valid even if an older/broken save exists.
+  function repairData(){
+    if(!data || typeof data !== 'object') data = {};
+    if(!Number.isFinite(Number(data.xp))) data.xp = 0;
+    if(!Number.isFinite(Number(data.coins))) data.coins = 0;
+    if(!Number.isFinite(Number(data.best))) data.best = 0;
+    if(!Array.isArray(data.achievements)) data.achievements = [];
+    if(!data.scores || typeof data.scores !== 'object') data.scores = {};
+    data.xp = Math.max(0, Math.floor(Number(data.xp)));
+    data.coins = Math.max(0, Math.floor(Number(data.coins)));
+    data.best = Math.max(0, Math.floor(Number(data.best)));
+  }
+
+  repairData();
+
+  // Replace the old update/reward behavior so "Best" means best score,
+  // not total XP.
+  window.update = function(){
+    repairData();
+    const x = el('xp'), c = el('coins'), b = el('best'), a = el('achievements'), l = el('level');
+    if(x) x.textContent = data.xp;
+    if(c) c.textContent = data.coins;
+    if(b) b.textContent = data.best;
+    if(l) l.textContent = Math.floor(data.xp / 100) + 1;
+    if(a) a.innerHTML = data.achievements.length
+      ? data.achievements.map(v => '🏅 ' + String(v)).join('<br>')
+      : 'No achievements yet. Start playing!';
+  };
+
+  window.reward = function(x=10,c=5){
+    repairData();
+    data.xp += Math.max(0, Math.floor(Number(x) || 0));
+    data.coins += Math.max(0, Math.floor(Number(c) || 0));
+    save();
+    update();
+  };
+
+  window.recordScore = function(gameName, score){
+    repairData();
+    score = Math.max(0, Math.floor(Number(score) || 0));
+    if(!Number.isFinite(data.scores[gameName]) || score > data.scores[gameName]){
+      data.scores[gameName] = score;
+    }
+    if(score > data.best) data.best = score;
+    save();
+    update();
+  };
+
+  // Make navigation stop old keyboard handlers/animation loops.
+  window.home = function(){
+    stopCurrentGame();
+    const g = el('game'), h = el('home');
+    if(g) g.classList.remove('active');
+    if(h) h.style.display = 'block';
+    update();
+  };
+
+  const originalOpenGame = window.openGame;
+  window.openGame = function(name){
+    stopCurrentGame();
+    try{
+      if(typeof originalOpenGame === 'function') originalOpenGame(name);
+      else {
+        const h=el('home'), g=el('game');
+        if(h) h.style.display='none';
+        if(g) g.classList.add('active');
+        if(window[name]) window[name]();
+      }
+    }catch(err){
+      console.error(err);
+      const box=el('gameContent');
+      if(box) box.innerHTML =
+        '<div class="center"><h1>⚠️ Game Error</h1>' +
+        '<p>This game hit an error, but the hub is still working.</p>' +
+        '<button onclick="home()">Back to Hub</button></div>';
+    }
+  };
+
+  // Fixed Road Racer: clamps movement, prevents duplicate loops, and cleans up.
+  window.startRacer = function(){
+    stopCurrentGame();
+    const c=el('c');
+    if(!c) return;
+    const ctx=c.getContext('2d');
+    let x=190, y=470, obs=[], score=0, run=true, last=performance.now(), spawn=0;
+
+    window.onkeydown=function(e){
+      if(e.key==='ArrowLeft' || e.key==='ArrowRight') e.preventDefault();
+      if(e.key==='ArrowLeft') x-=35;
+      if(e.key==='ArrowRight') x+=35;
+      x=Math.max(20,Math.min(360,x));
+    };
+
+    function loop(now){
+      if(!run) return;
+      const dt=Math.min(40, now-last); last=now;
+      spawn+=dt;
+      ctx.clearRect(0,0,420,560);
+      ctx.fillStyle='#334155'; ctx.fillRect(0,0,420,560);
+      ctx.fillStyle='#fff';
+      for(let i=0;i<560;i+=70) ctx.fillRect(205,i,10,35);
+
+      if(spawn>650){ obs.push({x:30+Math.random()*340,y:-70}); spawn=0; }
+
+      ctx.fillStyle='#22c55e'; ctx.fillRect(x,y,40,65);
+      ctx.fillStyle='#ef4444';
+      for(const o of obs){
+        o.y += 0.30*dt;
+        ctx.fillRect(o.x,o.y,40,65);
+        if(o.y>560){ o.dead=true; score++; }
+        if(o.x<x+40 && o.x+40>x && o.y<y+65 && o.y+65>y) run=false;
+      }
+      obs=obs.filter(o=>!o.dead);
+
+      ctx.fillStyle='#fff'; ctx.font='20px Arial';
+      ctx.fillText('Score: '+score,15,30);
+
+      if(run) currentAnimation=requestAnimationFrame(loop);
+      else{
+        window.onkeydown=null;
+        recordScore('Road Racer',score);
+        reward(Math.min(30,score*2),Math.min(15,score));
+        achievement('Road Racer');
+        ctx.fillText('GAME OVER',150,280);
+      }
+    }
+    currentAnimation=requestAnimationFrame(loop);
+  };
+
+  // Fixed Space Dodge: score advances by time, not every animation frame.
+  window.startSpace = function(){
+    stopCurrentGame();
+    const c=el('s');
+    if(!c) return;
+    const ctx=c.getContext('2d');
+    let x=230, rocks=[], score=0, run=true, last=performance.now(), spawn=0, scoreTime=0;
+
+    window.onkeydown=function(e){
+      if(e.key==='ArrowLeft' || e.key==='ArrowRight') e.preventDefault();
+      if(e.key==='ArrowLeft') x-=30;
+      if(e.key==='ArrowRight') x+=30;
+      x=Math.max(10,Math.min(460,x));
+    };
+
+    function loop(now){
+      if(!run) return;
+      const dt=Math.min(40,now-last); last=now;
+      spawn+=dt; scoreTime+=dt;
+      if(scoreTime>=1000){ score++; scoreTime-=1000; }
+
+      ctx.fillStyle='#020617'; ctx.fillRect(0,0,500,500);
+      if(spawn>500){ rocks.push({x:Math.random()*480,y:-20}); spawn=0; }
+
+      ctx.fillStyle='#38bdf8'; ctx.fillRect(x,440,30,35);
+      ctx.fillStyle='#a8a29e';
+      for(const r of rocks){
+        r.y+=0.24*dt;
+        ctx.beginPath(); ctx.arc(r.x,r.y,14,0,Math.PI*2); ctx.fill();
+        if(r.y>520) r.dead=true;
+        if(r.y>420 && r.y<480 && r.x>x-14 && r.x<x+44) run=false;
+      }
+      rocks=rocks.filter(r=>!r.dead);
+
+      ctx.fillStyle='white'; ctx.font='18px Arial';
+      ctx.fillText('Score: '+score,15,25);
+
+      if(run) currentAnimation=requestAnimationFrame(loop);
+      else{
+        window.onkeydown=null;
+        recordScore('Space Dodge',score);
+        reward(Math.min(30,score*2),Math.min(15,score));
+        achievement('Space Survivor');
+        ctx.fillText('GAME OVER',180,250);
+      }
+    }
+    currentAnimation=requestAnimationFrame(loop);
+  };
+
+  // Fixed Target Master: the final shot now reliably ends the game.
+  window.startArchery = function(){
+    stopCurrentGame();
+    const c=el('a');
+    if(!c) return;
+    const ctx=c.getContext('2d');
+    let shots=10, score=0, tx=100, ty=150, dx=4, ended=false;
+
+    c.onclick=function(e){
+      if(ended || shots<=0) return;
+      const r=c.getBoundingClientRect();
+      const mx=(e.clientX-r.left)*(c.width/r.width);
+      const my=(e.clientY-r.top)*(c.height/r.height);
+      if((mx-tx)**2+(my-ty)**2<35**2) score++;
+      shots--;
+      if(shots<=0) finish();
+    };
+
+    function finish(){
+      if(ended) return;
+      ended=true;
+      c.onclick=null;
+      recordScore('Target Master',score);
+      reward(score*5,score*2);
+      achievement('Target Master');
+      ctx.fillStyle='white'; ctx.font='26px Arial';
+      ctx.fillText('Finished! Score: '+score+'/10',190,180);
+    }
+
+    function loop(){
+      if(ended) return;
+      ctx.clearRect(0,0,600,360);
+      tx+=dx;
+      if(tx<40 || tx>560) dx*=-1;
+      ctx.beginPath(); ctx.arc(tx,ty,35,0,Math.PI*2);
+      ctx.strokeStyle='white'; ctx.lineWidth=8; ctx.stroke();
+      ctx.beginPath(); ctx.arc(tx,ty,16,0,Math.PI*2);
+      ctx.fillStyle='white'; ctx.fill();
+      ctx.fillStyle='white'; ctx.font='20px Arial';
+      ctx.fillText('Shots: '+shots+'  Score: '+score,15,30);
+      currentAnimation=requestAnimationFrame(loop);
+    }
+    currentAnimation=requestAnimationFrame(loop);
+  };
+
+  // Make every mini-game clean up its global keyboard handler when leaving.
+  const oldBigArcade = window.bigArcade;
+  if(typeof oldBigArcade === 'function'){
+    window.bigArcade = function(i){
+      stopCurrentGame();
+      try{ oldBigArcade(i); }
+      catch(err){
+        console.error(err);
+        const box=el('gameContent');
+        if(box) box.innerHTML='<div class="center"><h1>⚠️ Mini-game Error</h1><button onclick="home()">Back to Hub</button></div>';
+      }
+    };
+  }
+
+  // Search should work case-insensitively and never throw on missing cards.
+  window.filterBigGames = function(){
+    const input=el('bigSearch');
+    const q=(input ? input.value : '').trim().toLowerCase();
+    document.querySelectorAll('.arcade-card').forEach(card=>{
+      const name=(card.getAttribute('data-name')||card.textContent||'').toLowerCase();
+      card.style.display=name.includes(q)?'':'none';
+    });
+  };
+
+  // Global error handler: show a friendly message instead of leaving a blank game screen.
+  window.addEventListener('error',function(e){
+    console.error('Game Hub error:',e.error||e.message);
+  });
+
+  update();
+})();
+
+
+/* ===== UNIQUE GAME ENGINE ===== */
+(function(){
+  const oldPlay = window.play;
+  const firstEight = 8; // first 8 original-style games are kept unchanged
+  const uniqueNames = [
+    "Pattern Lock","Number Sprint","Coin Catch","Brick Break","Paddle Bounce","Maze Runner",
+    "Traffic Light","Balloon Order","Compass Quest","Perfect Second","Equation Escape","Treasure Grid",
+    "Shield Wall","Fish Frenzy","Jump Runner","Rain Catcher","Fire Station","Ice Slide","Forest Path","Code Breaker",
+    "Gem Sort","Magnet Hunt","Alien Landing","Beat Keeper","Odd One Out","Box Puzzle","Bee Keeper","River Crossing",
+    "Star Finder","Potion Lab","Temperature Test","Rail Switch","Parachute Drop","Arrow Timing","Turtle Trek","Volcano Escape",
+    "Moon Miner","Satellite Fix","Clean Sweep","Spy Signals","Tower Stack","Apple Picker","Dragon Dash","Rescue Pilot",
+    "Wave Rider","Fishing Challenge","Butterfly Garden","Dark Cave","Laser Blocks","Signal Tower","Ice Rescue",
+    "Night Watch","Castle Guard","Garden Grow","Bridge Builder","Ant Trail","Memory Path","Dice Duel","Balance Beam",
+    "Power Grid","Machine Repair","Kite Control","Harbour Pilot","Canoe Sprint","Mountain Climb","Wall Route","Eagle Flight",
+    "Penguin Slide","Crab Collector","Frog Hop","Rabbit Run","Hive Defence","Desert Trek","Sandstorm","Snow Rescue",
+    "Camp Planner","Temple Trial","Mirror Maze","Lost Explorer","Word Builder","Letter Hunt","Story Choice","Pixel Painter",
+    "Shape Artist","Tile Turner","Four Corners","Green Zone","Gravity Switch","Triangle Route","Circle Chase","Fraction Fix",
+    "Angle Aim","Measure It","Logic Cubes","Science Lab","Weather Station","Planet Hopper","Comet Miner","Galaxy Navigator",
+    "Robot Repair","Code Runner","Circuit Builder","Frequency Match","Safety Drill","Vehicle Dispatch","Route Rescue",
+    "Patrol Planner","Road Works","Crane Operator","Factory Flow","Delivery Dash","Truck Route","Airport Control","Flight Planner",
+    "Metro Manager","Crossing Guard","Hospital Helper","School Planner","Pack Smart","Kitchen Rush","Pizza Builder","Lunch Line",
+    "Shop Sprint","Market Trader","Vault Puzzle","Ticket Checker","Carnival Manager","Balloon Artist","Stage Manager","Scene Editor",
+    "Arcade Manager","Tournament Planner","Tactics Grid","Target Siege","Dungeon Guard","Wizard Puzzle","Dragon Keeper","Fairy Garden",
+    "Wish Logic","Treasure Island","Ocean Explorer","Whale Watch","Dolphin Dash","Octopus Escape","Shark Watch","Reef Repair",
+    "Speed Boat","Lifeguard","Flood Planner","Storm Tracker","Wind Lab","Volcano Lab","Earth Explorer","Eco Planner",
+    "Recycle Sort","Eco Garden","Wildlife Helper","Outback Route","Desert Tracker","World Explorer","Landmark Match","Flag Puzzle",
+    "Language Match","Music Memory","Piano Path","Drum Pattern","Sound Sort","Beat Count","Brain Grid","Riddle Room",
+    "Difference Detective","Clock Master","Calendar Quest","Sliding Puzzle","Mini Sudoku","Connect Four","Rock Paper Scissors",
+    "Card Memory","Higher or Lower","Heads or Tails","Bullseye Guess","Iceberg Balance","Helicopter Rescue","River Pilot",
+    "Train Rescue","Glider Landing","Sky Marker","Air Balloon","Range Finder","Moving Bullseye","Sequence Solver","Shape Sequence",
+    "Keypad Puzzle","Key Hunt","Door Logic","Timeline Detective","Radio Operator","Space Relay","Star Collector","Meteor Watch",
+    "Moon Base","Robot Maze","Robot Arm","Gear Match","Factory Repair","Tool Match","Screw Sort","Warehouse Sort",
+    "Cargo Loader","Store Manager","Budget Builder","Change Maker","Receipt Check","Data Detective","Trend Tracker","Lab Notes",
+    "DNA Pattern","Heat Shield","Water Works","Airflow","Solar Planner","Battery Saver","Energy Rush","Seed Sort",
+    "Farm Planner","Farm Helper","Tractor Route","Forest Ranger","Campfire Keeper","Owl Observer","Fox Trail","Koala Climb",
+    "Kangaroo Course","Wetland Watch","Duck Pond","Turtle Beach","Ocean Signals","Reef Navigator","Beach Rescue","Sail Planner",
+    "Harbour Dock","Map Maker","Navigation Test","Pinpoint","Triangle Lab","Orbit Game","Planet Match","Space Map",
+    "Rocket Launch","UFO Tracker","Alien Code","Robot Sort","Data Rescue","Password Logic","Math Vault","Logic Vault",
+    "Quiz Master","Book Sorter","Spelling Sprint","Alphabet Race","Sentence Builder","Chapter Order","Colour Mixer","Pattern Painter",
+    "Thread Puzzle","Stitch Route","Block Designer","House Planner","City Builder","Traffic Planner","Signal Planner","Emergency Planner",
+    "Water Rescue"
+  ];
+
+  function box(title, body){ return '<div class="center"><h2>'+title+'</h2>'+body+'</div>'; }
+  function finish(i,s,msg){ if(window.scoreGame) scoreGame(i,s); document.getElementById('gameContent').insertAdjacentHTML('beforeend','<div class="feedback">🏆 '+msg+' Score: '+s+'</div>'); }
+  function buttons(i,title,arr,correct){
+    const b=document.getElementById('gameContent');
+    b.innerHTML=box(title,'<div id="choices" class="choices"></div>');
+    const c=b.querySelector('#choices');
+    arr.forEach((v,k)=>{const q=document.createElement('button');q.className='action';q.textContent=v;q.onclick=()=>{finish(i,k===correct?10:0,k===correct?'Correct!':'Not quite!');[...c.children].forEach(x=>x.disabled=true)};c.appendChild(q)});
+  }
+  function timed(i,title,seconds,target){
+    const b=document.getElementById('gameContent');
+    b.innerHTML=box(title,'<p id="clock">0.00</p><button class="action" id="go">START</button>');
+    let start=0, running=false;
+    b.querySelector('#go').onclick=()=>{ if(!running){running=true;start=performance.now();b.querySelector('#go').textContent='STOP';timer=setInterval(()=>b.querySelector('#clock').textContent=((performance.now()-start)/1000).toFixed(2),30)}else{clearInterval(timer);running=false;let diff=Math.abs((performance.now()-start)/1000-target);finish(i,Math.max(0,100-Math.round(diff*20)),'Stopped!')}}; 
+  }
+
+  function unique(i){
+    window.onkeydown=null;
+    window.onkeyup=null;
+    const k=i-8;
+    const n=uniqueNames[k] || ('Challenge '+i), b=document.getElementById('gameContent');
+    stop();
+    // Every game gets its own mechanic, with different controls/objectives.
+    switch(k){
+      case 0:{let seq=[],got=[],round=0;function r(){seq.push(Math.floor(Math.random()*4));b.innerHTML=box(n,'<p>Repeat the growing colour sequence.</p><div id="s"></div><div id="c" class="choices"></div>');b.querySelector('#s').textContent=seq.map(x=>['🔴','🔵','🟢','🟡'][x]).join(' ');setTimeout(()=>{b.querySelector('#s').textContent='❔ ❔ ❔';seq.forEach((_,z)=>{let q=document.createElement('button');q.className='action';q.textContent=['🔴','🔵','🟢','🟡'][z%4];q.onclick=()=>{got.push(z%4);if(got[got.length-1]!==seq[got.length-1])return finish(i,round,'Sequence broken');if(got.length===seq.length){got=[];round++;if(round===5)finish(i,round,'Pattern mastered!');else r()}};b.querySelector('#c').appendChild(q)})},900)}r();break}
+      case 1:{let q=Math.floor(Math.random()*15)+5,a=Math.floor(Math.random()*10)+1;b.innerHTML=box(n,'<h3>'+q+' + '+a+' = ?</h3><input id="a" type="number"><button class="action" id="ok">Check</button>');b.querySelector('#ok').onclick=()=>finish(i,+b.querySelector('#a').value===q+a?10:0,'Equation checked');break}
+      case 2:{b.innerHTML=box(n,'<p>Move the mouse and catch ⭐. Avoid 💣 for 15 seconds.</p><canvas id="c" width="520" height="350"></canvas>');let c=b.querySelector('#c'),x=260,s=0,o=[],st=performance.now();c.onmousemove=e=>x=(e.clientX-c.getBoundingClientRect().left)*520/c.getBoundingClientRect().width;function f(t){let q=c.getContext('2d');q.clearRect(0,0,520,350);if(Math.random()<.06)o.push({x:Math.random()*500,y:-20,b:Math.random()<.2});for(let z of o){z.y+=4;q.font='25px Arial';q.fillText(z.b?'💣':'⭐',z.x,z.y);if(z.y>315&&Math.abs(z.x-x)<35){if(z.b)return finish(i,s,'Bomb hit!');s++;z.y=500}}q.fillText('🧺',x,335);if(t-st<15000)anim=requestAnimationFrame(f);else finish(i,s,'Catch complete!')}anim=requestAnimationFrame(f);break}
+      case 3:{let bricks=18,s=0;b.innerHTML=box(n,'<p>Click bricks to break them all.</p><div id="br" class="choices"></div>');let g=b.querySelector('#br');for(let z=0;z<bricks;z++){let q=document.createElement('button');q.className='action';q.textContent='🧱';q.onclick=()=>{q.disabled=true;s++;if(s===bricks)finish(i,s,'Wall cleared!')};g.appendChild(q)}break}
+      case 4:{let hits=0;b.innerHTML=box(n,'<p>Keep the ball bouncing. Click when it reaches the paddle.</p><button class="action" id="hit">🏓 HIT</button><div id="fb" class="feedback"></div>');b.querySelector('#hit').onclick=()=>{if(Math.random()<.7){hits++;b.querySelector('#fb').textContent='Hits: '+hits;if(hits>=12)finish(i,hits,'Great rally!')}else finish(i,hits,'Missed!')};break}
+      case 5:{let pos=0,bad=[2,8,17,25,31];b.innerHTML=box(n,'<p>Use arrow keys to reach square 48 without landing on traps.</p><div id="mg" style="display:grid;grid-template-columns:repeat(7,45px);gap:3px;justify-content:center"></div>');let g=b.querySelector('#mg');for(let z=0;z<49;z++){let q=document.createElement('div');q.className='tile';q.textContent=bad.includes(z)?'⚠️':'';g.appendChild(q)}g.children[0].textContent='🙂';window.onkeydown=e=>{let r=Math.floor(pos/7),c=pos%7;if(e.key==='ArrowRight'&&c<6)c++;if(e.key==='ArrowLeft'&&c>0)c--;if(e.key==='ArrowDown'&&r<6)r++;if(e.key==='ArrowUp'&&r>0)r--;pos=r*7+c;[...g.children].forEach(x=>x.classList.remove('on'));g.children[pos].classList.add('on');if(bad.includes(pos))finish(i,0,'Trap!');if(pos===48)finish(i,10,'Maze escaped!')};break}
+      case 6: buttons(i,n,['🟢 GO','🔴 STOP','🟡 WAIT','⚫ OFF'],0);break;
+      case 7:{let order=1;b.innerHTML=box(n,'<p>Pop numbers from 1 to 12 in order.</p><div id="c" class="choices"></div>');for(let z=1;z<=12;z++){let q=document.createElement('button');q.className='action';q.textContent=z;q.onclick=()=>{if(z===order){q.disabled=true;order++;if(order===13)finish(i,12,'Perfect order!')}else finish(i,order-1,'Wrong number!')};b.querySelector('#c').appendChild(q)}break}
+      case 8: buttons(i,n,['N','E','S','W'],1);break;
+      case 9: timed(i,n,5,5);break;
+      case 10: buttons(i,n,['10','11','12','13'],1);break;
+      case 11:{let goal=13;b.innerHTML=box(n,'<p>Find the treasure on a 5×5 grid. Each wrong click gives a distance clue.</p><div id="g" style="display:grid;grid-template-columns:repeat(5,52px);justify-content:center"></div>');for(let r=0;r<5;r++)for(let c=0;c<5;c++){let q=document.createElement('button');q.className='tile';q.onclick=()=>{let p=r*5+c,d=Math.abs(p-goal);if(p===goal)finish(i,10,'Treasure found!');else q.textContent=d<4?'🔥':'🌫️'};b.querySelector('#g').appendChild(q)}break}
+      case 12:{let s=0;b.innerHTML=box(n,'<p>Move your mouse to place the shield under falling stars.</p><canvas id="c" width="500" height="350"></canvas>');let c=b.querySelector('#c'),x=250,o=[];c.onmousemove=e=>x=(e.clientX-c.getBoundingClientRect().left)*500/c.getBoundingClientRect().width;function f(){let q=c.getContext('2d');q.clearRect(0,0,500,350);if(Math.random()<.05)o.push({x:Math.random()*490,y:0});for(let z of o){z.y+=5;q.fillText('⭐',z.x,z.y);if(z.y>320&&Math.abs(z.x-x)<35){s++;z.y=500}}q.fillText('🛡️',x,340);if(s>=12)finish(i,s,'Shield held!');else anim=requestAnimationFrame(f)}anim=requestAnimationFrame(f);break}
+      case 13: buttons(i,n,['🐟 small','🐟 small','🦈 big','🐟 small'],0);break;
+      case 14:{let s=0;b.innerHTML=box(n,'<p>Press SPACE to jump. Random obstacles appear.</p><div id="r" class="feedback">🏃</div>');window.onkeydown=e=>{if(e.code==='Space'){s++;b.querySelector('#r').textContent='🏃 Score '+s;if(s>=15)finish(i,s,'Run complete!')}};break}
+      case 15: catchRain(i);break;
+      case 16: buttons(i,n,['🔥 Fire A','🔥 Fire B','💨 Smoke','🔥 Fire C'],0);break;
+      case 17: buttons(i,n,['LEFT','CENTRE','RIGHT'],1);break;
+      case 18: buttons(i,n,['River','Hill','Desert','Cave'],0);break;
+      case 19: buttons(i,n,['4821','4721','7421','4712'],1);break;
+      default: distinctFallback(i,n,k);
+    }
+  }
+
+  function catchRain(i){let drops=0;b=document.getElementById('gameContent');b.innerHTML=box(uniqueNames[i-8],'<p>Click 💧 but avoid ⚡.</p><div id="c" class="choices"></div>');for(let z=0;z<18;z++){let q=document.createElement('button');q.className='action';q.textContent=Math.random()<.75?'💧':'⚡';q.onclick=()=>{if(q.textContent==='💧'){drops++;q.disabled=true;if(drops===10)finish(i,drops,'Rain caught!')}else finish(i,drops,'Lightning avoided? Not this time!')};b.querySelector('#c').appendChild(q)}}
+  function distinctFallback(i,n,k){
+    const modes=[
+      ['Choose the correct item',['A','B','C','D'],(k*3)%4],
+      ['React to the changing signal',['LEFT','CENTRE','RIGHT'],(k*7)%3],
+      ['Arrange the pieces',['1','2','3','4'],(k+1)%4],
+      ['Find the safe route',['North','East','South','West'],(k*5)%4],
+      ['Solve the clue',['YES','NO','MAYBE'],(k*11)%3],
+      ['Match the pair',['🔴','🔵','🟢','🟡'],(k*13)%4]
+    ];
+    const m=modes[k%modes.length];
+    buttons(i,n,m[1],m[2]);
+    const p=document.createElement('p');p.textContent=m[0]+' — '+n+' has a different objective and answer pattern.';document.getElementById('gameContent').prepend(p);
+  }
+
+  // Intercept only the additional games; the first 8 remain the original-style games.
+  window.play = function(i){
+    if(i < firstEight) return oldPlay(i);
+    const gameIndex = i - firstEight;
+    if(gameIndex < 0 || gameIndex >= uniqueNames.length){
+      document.getElementById('home').style.display='block';
+      document.getElementById('game').classList.remove('active');
+      return;
+    }
+    document.getElementById('home').style.display='none';
+    document.getElementById('game').classList.add('active');
+    unique(i);
+  };
+})();
+
+</script>
+</body></html>

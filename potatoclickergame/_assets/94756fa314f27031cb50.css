@@ -1,0 +1,235 @@
+/* Everything is separated by type and sorted alphabetically */
+
+/* Tags */
+
+body {
+    text-align: center;
+    background-image: url("data:,");
+    background-size:cover;
+}
+
+button {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+p {
+    line-height: 14px;
+}
+
+
+
+
+/* Classes */
+
+.innerDiv {
+    background-color: black;
+    color:white;
+    font-size: 15px;
+    width: 99%;
+    height: 99%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.progress-green {
+    background-color: #4CAF50;
+}
+
+.progress-grey {
+    background-color: #9e9e9e;
+    width:250px;
+    margin:0 auto;
+}
+
+.saveData {
+    background-color: black;
+}
+
+.topbar {
+    background-color: darkorchid;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.topBarLinks {
+    color: white;
+}
+
+.towers {
+    background-color: #006600;
+    width: 20%;
+    line-height: 3px;
+}
+
+.upgradeBlocks {
+    width: 98%;
+    height:85px;
+    margin-bottom: 10px;
+    justify-content:center;
+    align-items: center;
+    line-height: 3px;
+    background-color: #006600;
+    padding: 0px;
+    font-size: 13px;
+}
+
+.upgradeBlocks2 {
+    width: 75px;
+    height: 75px;
+    background-color: white;
+    margin-top: 95px;
+    margin-left: 5px;
+    margin-right: 5px;
+    position: fixed;
+}
+
+.towerDesc {
+    font-size: 12px;
+}
+
+.towerText {
+    font-size: 14.5px;
+}
+
+
+
+
+/* IDs */
+
+#counts {
+    background-color: #4CAF50;
+    color:white;
+    font-size: 20px;
+    margin-left: 88%;
+    position:fixed;
+    width: 11%;
+    height: 70%;
+    line-height: 10px;
+    overflow-y: auto;
+}
+
+#innerPatchCheck {
+    background-color: black;
+    color:white;
+    font-size: 15px;
+    width: 99%;
+    height: 99%;
+    align-items: normal;
+    display: block;
+    justify-content: center;
+}
+
+#innerUpgrades {
+    background-color: black;
+    color:white;
+    font-size: 15px;
+    width: 99%;
+    height: 99%;
+    align-items: normal;
+    display: block;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+#outerPatchCheck {
+    background-color: darkorchid;
+    width: 20%;
+    height: 110px;
+    margin-right: 89%;
+    top: 46%;
+    position:fixed;
+    padding: 10px;
+}
+
+#outerUpgrades {
+    background-color: darkorchid;
+    color:white;
+    font-size: 20px;
+    margin-right: 89%;
+    position:fixed;
+    width: calc(20%);
+    height: 40%;
+    padding: 10px;
+}
+
+#PpSCount {
+    font-size: 18px;
+}
+
+#removeData {
+    background-color: red;
+}
+
+#row1 {
+    color:white;
+    font-size: 15px;
+    width: 99%;
+    height: 20%;
+    align-items: normal;
+    justify-content: center;
+}
+
+#row2 {
+    color:white;
+    font-size: 15px;
+    width: 99%;
+    height: 40%;
+    align-items: normal;
+    justify-content: center;
+    display: block;
+}
+
+#saveBlock {
+    background-color: black;
+    color:white;
+    font-size: 25px;
+    width: 99%;
+    height: 99%;
+}
+
+#showVar {
+    position: relative;
+    text-align: center;
+    border-radius: 12px;
+    font-size: 30px;
+    line-height: 30px;
+    padding-top: 10px;
+    color:white;
+    margin: 0 auto;
+    background-color: darkorchid;
+    height: 175px;
+    width: 300px;
+}
+
+#surroundSave {
+    background-color: darkorchid;
+    width: 11%;
+    height: 13%;
+    margin-left: 89%;
+    bottom:10px;
+    right: 10px;
+    position:fixed;
+    padding: 10px;
+}
+
+#topBar2 {
+    background-color: black;
+    color: white;
+    width: 99%;
+    height: 20px;
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<link href="/_assets/94756fa314f27031cb50.css" rel="stylesheet"/>
+<script src="/_assets/314265e079b126da8b18.js"></script>
+<title>Potato Clicker!!</title>
+
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body onload="retrieveSessionVariables(); checkVersion()">
+<!--Navigation Bar-->
+<!-- <div class="topbar">
+            <div class="innerDiv" id="topBar2">
+                <a class="topBarLinks" href="./index.html" onclick="setSessionVariables()">Home</a>
+                <p>&nbsp;&nbsp; | &nbsp;&nbsp;</p>
+                <a class="topBarLinks" href="./index2.html" onclick="setSessionVariables()"></a>
+            </div>
+        </div> -->
+<br/>
+<!--Upgrades Div-->
+<div id="outerUpgrades">
+<div class="innerDiv" id="innerUpgrades">
+<p style="font-size: 20px; font-weight:bold;">Upgrades</p>
+<button class="upgradeBlocks" id="firstUpgrade" onclick="upgrades(1)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>Bigger Yields</h3>
+<p>Cost: 500 Potatoes</p>
+<p>Doubles the PpS of your Farmers</p>
+</button>
+<button class="upgradeBlocks" id="secondUpgrade" onclick="upgrades(2)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>More Fields</h3>
+<p>Cost: 3,000 Potatoes</p>
+<p>Doubles the PpS of your Farms</p>
+</button>
+<button class="upgradeBlocks" id="thirdUpgrade" onclick="upgrades(3)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>Looser Laws</h3>
+<p>Cost: 10,000 Potatoes</p>
+<p>Doubles the PpS of your Factories</p>
+</button>
+<button class="upgradeBlocks" id="fourthUpgrade" onclick="upgrades(4)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>District Expansion</h3>
+<p>Cost: 50,000 Potatoes</p>
+<p>Doubles the PpS of your Industrial Districts</p>
+</button>
+<button class="upgradeBlocks" id="fifthUpgrade" onclick="upgrades(5)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>More Booths</h3>
+<p>Cost: 200,000 Potatoes</p>
+<p>Doubles the PpS of your Potato Conventions</p>
+</button>
+<button class="upgradeBlocks" id="sixthUpgrade" onclick="upgrades(6)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>Sleeker Designs</h3>
+<p>Cost: 1,000,000 Potatoes</p>
+<p>Doubles the PpS of your Potato Merchandise</p>
+</button>
+<button class="upgradeBlocks" id="seventhUpgrade" onclick="upgrades(7)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>Potato Skin Sacrifice</h3>
+<p>Cost: 6,666,666 Potatoes</p>
+<p>Doubles the PpS of your Potato Cults</p>
+</button>
+<button class="upgradeBlocks" id="eighthUpgrade" onclick="upgrades(8)" style="background-color: rgb(0, 102, 0);" type="button">
+<h3>More Brands</h3>
+<p>Cost: 10,000,000 Potatoes</p>
+<p>Doubles the PpS of your Potato Sponsorships</p>
+</button>
+<br/>
+<br/>
+</div>
+</div>
+<div id="outerPatchCheck">
+<div class="innerDiv">
+<p id="patchCheck" style="font-size: 20px;"></p>
+</div>
+</div>
+<!--Amounts Div-->
+<div id="counts">
+<button class="saveData" onclick="setSessionVariables(1)" type="button">Save</button>
+<button id="removeData" onclick="deleteData()" type="button">Clear Data</button>
+<p>Amounts <br/>---------------</p>
+<p id="spudCount">Spud Spitters: 0</p>
+<p id="farmerCount">Potato Farmers: 0</p>
+<p id="farmCount">Potato Farms: 0</p>
+<p id="factoryCount">Potato Factories: 0</p>
+<p id="districtCount">Industrial Districts: 0</p>
+<p id="conventionCount">Potato Conventions: 0</p>
+<p id="merchandiseCount">Potato Merchandise: 0</p>
+<p id="cultCount">Potato Cults: 0</p>
+<p id="sponsorshipsCount">Potato Sponsorships: 0</p>
+</div>
+<!--Main Div with Potatoes and PpS-->
+<div id="showVar">
+<p id="varCount">Potatoes: 0</p>
+<p id="PpSCount">PpS: 0</p>
+<!-- Progress Bar -->
+<div class="progress-grey">
+<div class="progress-green" id="progressBar" style="height: 24px; width: 80%;"></div>
+</div>
+</div>
+<br/>
+<br/>
+<!--Make a Potato Button-->
+<button onclick="clickFirstButton()" type="button">Make a Potato!</button>
+<br/>
+<br/>
+<!-- Spud Spitter Tower Button -->
+<button class="towers" id="spudSpitter" onclick="towers(1)" style="background-color: rgb(0, 102, 0);" type="button">
+<p>Spud Spitter</p>
+<p class="towerText" id="spudText">Cost: 10</p>
+<p class="towerDesc">Makes more potatoes per click.</p>
+</button>
+<br/>
+<!-- Potato Farmer Tower Button -->
+<button class="towers" id="potatoFarmer" onclick="towers(2)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Potato Farmer</p>
+<p class="towerText" id="farmerText">Cost: 50</p>
+<p class="towerDesc" id="farmerDesc">This Honest Man gives you his potatoes (1 PpS)</p>
+</button>
+<!-- Potato Farm Tower Button -->
+<button class="towers" id="potatoFarm" onclick="towers(3)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Potato Farm</p>
+<p class="towerText" id="farmText">Cost: 300</p>
+<p class="towerDesc" id="farmDesc">A whole farm dedicated to your potatoes. (5 PpS)</p>
+</button>
+<br/>
+<!-- Potato Factory Tower Button -->
+<button class="towers" id="potatoFactory" onclick="towers(4)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Potato Factory</p>
+<p class="towerText" id="factoryText">Cost: 1,000</p>
+<p class="towerDesc" id="factoryDesc">Streamline Production in Potato Factories. (20 PpS)</p>
+</button>
+<!-- Industrial District Tower Button -->
+<button class="towers" id="industrialDistrict" onclick="towers(5)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Industrial Disrict</p>
+<p class="towerText" id="districtText">Cost: 5,000</p>
+<p class="towerDesc" id="districtDesc">An entire district of factories dedicated to Potatoes. (50 PpS)</p>
+</button>
+<br/>
+<!-- Potato Convention Tower Button -->
+<button class="towers" id="potatoConvention" onclick="towers(6)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Potato Convention</p>
+<p class="towerText" id="conventionText">Cost: 20,000</p>
+<p class="towerDesc" id="conventionDesc">Host a convention for potatoes - "Potato-Con"! (100 PpS)</p>
+</button>
+<!-- Potato Merchandise Tower Button -->
+<button class="towers" id="potatoMerchandise" onclick="towers(7)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Potato Merchandise</p>
+<p class="towerText" id="merchandiseText">Cost: 100,000</p>
+<p class="towerDesc" id="merchandiseDesc">Sell Merchandise with Potato Branding. (500 PpS)</p>
+</button>
+<br/>
+<!-- Potato Cult Tower Button -->
+<button class="towers" id="potatoCult" onclick="towers(8)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Potato Cult</p>
+<p class="towerText" id="cultText">Cost: 666,666</p>
+<p class="towerDesc" id="cultDesc">Start Cults worshipping Potatoes. (3,000 PpS)</p>
+</button>
+<!-- Potato Sponsorships Tower Button -->
+<button class="towers" id="potatoSponsorships" onclick="towers(9)" style="background-color: rgb(0, 102, 0);" type="Button">
+<p>Potato Sponsorships</p>
+<p class="towerText" id="sponsorshipsText">Cost: 1,234,567</p>
+<p class="towerDesc" id="sponsorshipsDesc">Sponsor Events with Potatoes. (10,000 PpS)</p>
+</button>
+<!--Save Data Visual Confirmation-->
+<div id="surroundSave">
+<div class="innerDiv" id="saveBlock">
+<p id="saveText"></p>
+</div>
+</div>
+</body></html>

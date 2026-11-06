@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>Space Invaders</title>
+<link href="/_assets/404e7fc07c4412ffb3e5.css" rel="stylesheet"/>
+<script charset="utf-8" src="/_assets/ce2ee86faec6123489f6.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<h1>
+<img alt="Space Invaders" src="/_assets/b9d71d5eb72068fe4a47.png"/>
+</h1>
+<section>
+<p class:"scoreboard"="">Score: <span class="score">0</span></p>
+<p class:"difficultyboard"="">Level: <span class="difficulty">1</span></p>
+</section>
+<section class="gameOverHide">
+<h2>G A M E   O V E R</h2>
+<button class="losePlayAgain">Play Again</button>
+</section>
+<section class="levelTwoHide">
+<h2>W I N N E R !</h2>
+<button class="winPlayAgain">Play Again</button>
+</section>
+<div class="grid">
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class="bomb"></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class="invader"></div>
+<div class=""></div>
+<div class="invader"></div>
+<div class=""></div>
+<div class="invader"></div>
+<div class=""></div>
+<div class="invader"></div>
+<div class=""></div>
+<div class="invader"></div>
+<div class=""></div>
+<div class="invader"></div>
+<div class=""></div>
+<div class="invader"></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div class=""></div>
+<div class="spaceShip"></div>
+<div></div>
+<div class=""></div>
+<div class=""></div>
+<div></div>
+<div class=""></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</body></html>

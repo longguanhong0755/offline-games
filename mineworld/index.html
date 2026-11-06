@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="像素方块世界 - 3D像素风格方块世界探索游戏" name="description"/>
+<title>像素方块世界</title>
+<link href="/_assets/aca6688dcba4636da2b5.css" rel="stylesheet"/>
+<!-- 使用 importmap 引入 Three.js ES Module -->
+<script type="importmap">
+  {
+    "imports": {
+      "three": "/_assets/76dea8151bc9352aef35.js"
+    }
+  }
+  </script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- 游戏渲染画布 -->
+<canvas data-engine="three.js r160" height="900" id="gameCanvas" style="width: 1440px; height: 900px;" width="1440"></canvas>
+<!-- 十字准星 -->
+<div id="crosshair">+</div>
+<!-- 当前选中方块名称提示 -->
+<div id="selectedBlockName">草地</div>
+<!-- 底部物品栏 -->
+<div id="hotbar"><div class="hotbar-slot selected" data-index="0"><div class="block-preview" style="background: rgb(90, 158, 50); box-shadow: rgba(0, 0, 0, 0.25) -3px -3px 0px inset, rgba(255, 255, 255, 0.15) 3px 3px 0px inset;"></div><span class="slot-key">1</span></div><div class="hotbar-slot" data-index="1"><div class="block-preview" style="background: rgb(134, 96, 67); box-shadow: rgba(0, 0, 0, 0.25) -3px -3px 0px inset, rgba(255, 255, 255, 0.15) 3px 3px 0px inset;"></div><span class="slot-key">2</span></div><div class="hotbar-slot" data-index="2"><div class="block-preview" style="background: rgb(128, 128, 128); box-shadow: rgba(0, 0, 0, 0.25) -3px -3px 0px inset, rgba(255, 255, 255, 0.15) 3px 3px 0px inset;"></div><span class="slot-key">3</span></div><div class="hotbar-slot" data-index="3"><div class="block-preview" style="background: rgb(220, 204, 130); box-shadow: rgba(0, 0, 0, 0.25) -3px -3px 0px inset, rgba(255, 255, 255, 0.15) 3px 3px 0px inset;"></div><span class="slot-key">4</span></div><div class="hotbar-slot" data-index="4"><div class="block-preview" style="background: rgb(120, 80, 58); box-shadow: rgba(0, 0, 0, 0.25) -3px -3px 0px inset, rgba(255, 255, 255, 0.15) 3px 3px 0px inset;"></div><span class="slot-key">5</span></div><div class="hotbar-slot" data-index="5"><div class="block-preview" style="background: rgb(45, 110, 30); box-shadow: rgba(0, 0, 0, 0.25) -3px -3px 0px inset, rgba(255, 255, 255, 0.15) 3px 3px 0px inset;"></div><span class="slot-key">6</span></div></div>
+<!-- 目标方块提示 -->
+<div id="blockHighlight" style="display: none;"></div>
+<!-- 调试信息 -->
+<div id="debugInfo">FPS: 11<br/>FOV: 75°<br/>XYZ: 5.4 / -27.0 / 22.6<br/>区块: 0, 1 | 已加载: 49<br/>机器人: 8 只</div>
+<!-- 右上角操作说明面板（桌面端常驻） -->
+<div class="desktop-only" id="controlsPanel">
+<div class="controls-trigger">?</div>
+<div class="controls-body">
+<div class="control-row"><span class="key">W A S D</span><span>移动</span></div>
+<div class="control-row"><span class="key">鼠标</span><span>视角旋转</span></div>
+<div class="control-row"><span class="key">左键</span><span>放置方块</span></div>
+<div class="control-row"><span class="key">右键</span><span>破坏方块</span></div>
+<div class="control-row"><span class="key">空格</span><span>跳跃</span></div>
+<div class="control-row"><span class="key">1-6</span><span>选择方块</span></div>
+<div class="control-row"><span class="key">滚轮</span><span>切换方块</span></div>
+<div class="control-row"><span class="key">ESC</span><span>暂停</span></div>
+</div>
+</div>
+<!-- 加载进度 -->
+<div id="loadingBar" style="display: none;">
+<div class="loading-text">生成世界中...</div>
+<div class="loading-progress"><div class="loading-fill" id="loadingFill" style="width: 100%;"></div></div>
+</div>
+<!-- 暂停界面 -->
+<div id="pauseScreen">
+<div class="pause-text">暂停</div>
+<div class="pause-hint">点击继续游戏</div>
+</div>
+<!-- 开始界面 -->
+<div id="startScreen">
+<div class="start-title">像素方块世界</div>
+<div class="start-subtitle">VOXEL BLOCK WORLD</div>
+<div class="start-hint">点击开始游戏</div>
+<div class="controls-info desktop-only">
+<h3>操作说明</h3>
+<div class="control-row"><span class="key">W A S D</span><span>移动</span></div>
+<div class="control-row"><span class="key">鼠标</span><span>视角旋转</span></div>
+<div class="control-row"><span class="key">空格</span><span>跳跃</span></div>
+<div class="control-row"><span class="key">左键</span><span>放置方块</span></div>
+<div class="control-row"><span class="key">右键</span><span>破坏方块</span></div>
+<div class="control-row"><span class="key">1-6</span><span>选择方块</span></div>
+<div class="control-row"><span class="key">滚轮</span><span>切换方块</span></div>
+<div class="control-row"><span class="key">ESC</span><span>暂停</span></div>
+<div class="control-row"><span class="key">= / Ctrl+滚轮上</span><span>放大画面</span></div>
+<div class="control-row"><span class="key">- / Ctrl+滚轮下</span><span>缩小画面</span></div>
+<div class="control-row"><span class="key">0</span><span>重置视野</span></div>
+</div>
+</div>
+<!-- 移动端触控 UI -->
+<div id="mobileControls" style="display:none;">
+<!-- 虚拟摇杆（左下角） -->
+<div id="joystickZone">
+<div id="joystickThumb"></div>
+</div>
+<!-- 右侧操作按钮 -->
+<div id="actionButtons">
+<button class="action-btn" id="btnJump">跳</button>
+<button class="action-btn" id="btnBreak">拆</button>
+<button class="action-btn" id="btnPlace">放</button>
+</div>
+<!-- 移动端方块选择栏 -->
+<div id="mobileHotbar"></div>
+</div>
+<!-- 游戏主模块 -->
+<script src="/_assets/ad7929f7c5176d09b2a5.js" type="module"></script>
+</body></html>

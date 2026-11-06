@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Memory Game</title>
+<link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🎮&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="/_assets/c41b01c263fe96999be8.css" rel="stylesheet"/>
+
+
+
+<link href="/_assets/13a8d32ddcd97ceb6000.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="min-h-screen bg-gradient-to-tr from-blue-600 via-purple-700 to-cyan-400 text-white flex flex-col items-center justify-start p-2 sm:p-4 font-sans">
+<main class="w-full max-w-4xl flex flex-col items-center space-y-3 md:space-y-6">
+<div class="glass-container p-3 sm:p-6 md:p-8 rounded-xl max-w-3xl w-full mx-auto bg-white/20 backdrop-blur-md border border-white/30">
+<h1 class="game-title box-decoration-clone bg-linear-to-r from-indigo-600 to-pink-500 px-4 sm:px-8 md:px-12 py-2 text-white text-xl sm:text-2xl md:text-4xl text-center font-bold tracking-wider mt-2 md:mt-4 rounded-lg">
+  🎮 Memory Card Game
+</h1>
+<br/>
+<!-- Difficulty Selection -->
+<section class="flex flex-col items-center gap-2 md:gap-3">
+<h2 class="text-base sm:text-lg md:text-xl font-semibold text-white">Choose Difficulty</h2>
+<div class="difficulty-buttons flex flex-wrap justify-center gap-2 md:gap-4">
+<button class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-red-500 hover:bg-red-600 transition-colors text-sm sm:text-base" id="e">Easy</button>
+<button class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 transition-colors text-sm sm:text-base" id="m">Medium</button>
+<button class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-green-500 hover:bg-green-600 transition-colors text-sm sm:text-base" id="h">Hard</button>
+</div>
+</section>
+<!-- Game Board + Lives -->
+<section class="w-full container disabled opacity-40 pointer-events-none transition-all duration-500 mt-4 md:mt-6">
+<div class="lives-text text-sm sm:text-base md:text-lg mb-3 md:mb-4 text-center text-white" id="lives-display">
+  ❤️ Lives Left: <span class="playersLivescount font-bold">--</span>
+</div>
+<div class="game-board grid grid-cols-4 gap-1.5 sm:gap-3 md:gap-4 place-items-center px-1 sm:px-4 max-w-4xl mx-auto">
+<!-- Cards will be injected here -->
+</div>
+</section>
+</div></main>
+<!-- Game Over Modal -->
+<div class="fixed inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-500 z-50" id="game-over-modal">
+<div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 md:p-8 rounded-3xl shadow-2xl max-w-sm w-full mx-4 text-center transform scale-90 transition-all duration-500">
+<h2 class="modal-title text-2xl md:text-4xl font-bold mb-4" id="modal-title"></h2>
+<p class="text-base md:text-lg mb-8 text-blue-100" id="modal-message"></p>
+<button class="play-again-btn w-full py-3 md:py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-pink-500 text-white font-bold text-lg md:text-xl hover:from-indigo-700 hover:to-pink-600 shadow-lg hover:shadow-indigo-500/50 transition-all active:scale-95" id="play-again-btn">
+        Play Again!
+      </button>
+</div>
+</div>
+<script src="/_assets/1b6ece580af3de4b499d.js"></script>
+</body></html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html><!-- "Education is what you make of it."
+                           ./ssssssss-
+                         :hy:`      :sy/
+                        hh--/--:/.:/--+yh-
+                        M- `----` `---. ho
+                       /m``  -hyo-+o/:  h+
+                       :m:ydmNsy+/:+ym+/M.
+                        -ysNmd+-oso+hNNNy
+                         `/NmmNmMNhmNMd-
+                           /.`oo-My:.-/
+                                `M.
+                                sM+`
+  ``                         `-soMyo.
+ `myso++++++++o-          `./o/.`M..s/`
+ `M.``........ho        -/s+-   `M. `+o-   /soo//`
+ `M``..`.```. yo    .:/sy/`     `M.   `/oysmmyyhM-
+ `M`. B. R` H yo   `s+-.        `M.      hym/```N-
+ `M`````````` yo                `M.      `+m:..+h`
+ -Mo++++++++++ds                `M.        -++++` 
+ ho...........-h/               `M`               
+-N/---.````````.ho             /sh:               
+-++++++ooooooooooo           `y+  oo.             
+                            .h/    `os.           
+                          `+s.       -h/          
+                         -h:          `d:         
+                       .o+`            `os.       
+                    `+s+`                -do.     
+                     .                     ::   
+CSS Tag Info:
+https://www.w3schools.com/
+Flexbox help:
+https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+List of system fonts: 
+https://atomiks.github.io/30-seconds-of-css/
+=======
+--><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>Brian Simulator</title>
+<meta content="Our great team" name="author"/>
+<meta content="Brian Hall clicker?" name="description"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<script src="/_assets/7063c04c362e21e6f65d.js"></script>
+<style>
+</style>
+<link href="/_assets/e2586aa6a638a2eb0197.css" rel="stylesheet" type="text/css"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="overContainer">
+<div class="container">
+<div class="storybox"> <!--STORY GOES HERE.-->
+<h3 id="season">It is currently the Fall. Tuesday - day 2</h3>
+<p id="work">Brian is feeling relaxed.</p>
+<p id="story">You are Brian R Hall, a new professor at Champlain College. It is your job to grade everyone's assignments.</p>
+<p id="classList">Brian is taking on: CSI-330</p>
+<br/>
+<p id="stressText">Stress Level</p>
+<div id="stressProgress">
+<div id="stressBar" style="width: 6%;"></div>
+</div>
+<marquee>
+<p id="overload"></p>
+</marquee>
+</div>
+<div class="statsbox"><!--NUMBERS GO HERE.-->
+<p id="money">Brian has $0.</p>
+<p id="papersToGrade">Brian has 6 assignments to grade.</p>
+<p id="papersGraded">Brian has graded 0 assignment.</p>
+<p id="numEmployee"></p>
+<br/>
+<p id="booksWritten">Books Written: 0</p>
+<button class="bookButton" id="book" onclick="book();" title="Write a Book.">Write Book.</button>
+<div id="myProgress">
+<div id="myBar"></div>
+</div>
+</div>
+<div class="eList">
+<ul id="employeeList">
+<li><div class="employeeInside">
+<p>
+					  Brian Hall<br/>
+					  Lv. 1<br/>
+<button class="upgrade" onclick="upgrade(0)">Upgrade</button>
+</p>
+</div></li>
+</ul>
+</div>
+<script src="/_assets/daff5bd7783b1ba8f719.js">
+</script>
+<script type="text/javascript">
+        //init();
+        loop();
+      </script>
+</div>
+<div class="buttonContainer">
+<button class="gradeButton buttonGroup" id="sauce" onclick="makeSauce();" style="visibility: hidden" title="Make Barbecue Sauce.">Make sauce.</button>
+<div id="buttonGroup" style="visibility: visible;">
+<button class="gradeButton buttonGroup" id="grade" onclick="grade();" style="visibility: visible;" title="Grade a paper.">Grade.</button>
+<button class="gradeButton buttonGroup" id="meeting" onclick="attendMeeting();" style="visibility: hidden">Attend Meeting.</button>
+</div>
+<div id="upgrades">
+<div id="buttonGroup2" style="visibility: visible;">
+<button class="employee buttonGroup" id="ta" onclick="hire(0);" title="Costs $1000. Allows you to teach one more class.">Hire TA.</button>
+<button class="employee buttonGroup" id="pa" onclick="hire(1);" title="Costs $100000. Allows you to teach three more classes.">Hire Personal Assistant.</button>
+<button class="employee buttonGroup" id="rb" onclick="hire(2);" title="Costs $2000000. Allows you to teach five more classes.">Order Grading Robot.</button>
+</div>
+</div>
+<div id="buttonGroup3" style="visibility: visible;">
+<button class="upgrade buttonGroup" id="bhU" onclick="upgrade(0);" title="Costs $1000. Allows you grade assignments quicker.">Upgrade GPC</button>
+<button class="upgrade buttonGroup" id="taU" onclick="upgrade(1);" title="Costs $1500. Allows you grade assignments quicker.">Upgrade TA</button>
+<button class="upgrade buttonGroup" id="paU" onclick="upgrade(2);" title="Costs $150000. Allows you grade assignments quicker.">Upgrade PA</button>
+<button class="upgrade buttonGroup" id="rbU" onclick="upgrade(3);" title="Costs $3000000. Allows you grade assignments quicker.">Upgrade GR</button>
+</div>
+<div id="buttonGroup4" style="visibility: visible;">
+<button class="classInc buttonGroup" id="more" onclick="moreClasses();" title="Take on another class.">Teach More</button>
+<button class="classInc buttonGroup" id="less" onclick="lessClasses();" title="Stop Teaching one of your classes.">Teach Less</button>
+</div>
+</div>
+</div>
+</body></html>

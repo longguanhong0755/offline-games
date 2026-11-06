@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><script src="/_assets/82ba5bd6e4f3251c4c95.js"></script>
+<script src="/_assets/0397ff843eab03998412.js"></script>
+<style id="main-style">* {font-family: 'Charm'};</style>
+<link href="/_assets/0aa7ba5d5c30e6f3ae8e.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head><body>
+<div id="main_div">
+<div id="title_div">
+<div id="title-text" style="font-weight: bold;">
+<span style="--i:0">C</span><span style="--i:1">A</span><span style="--i:2">V</span><span style="--i:3">E</span><span style="--i:4">R</span><span style="--i:5">N</span> <span style="--i:6">C</span><span style="--i:7">R</span><span style="--i:8">A</span><span style="--i:9">W</span><span style="--i:10">L</span><span style="--i:11">E</span><span style="--i:12">R</span>
+<span style="--i:13; font-size: 75%; font-weight: bold;">PROTOTYPE (v0.0.8)</span>
+</div>
+</div>
+<div class="seperator"></div>
+<div id="game_tab_select_container">
+<button class="game_tab_select" data-selected="true" id="select_tab_main" onclick="changetab('main')">Main</button>
+<button class="game_tab_select" data-selected="false" id="select_tab_upgrades" onclick="changetab('upgrades')" style="display: none;">Upgrades</button>
+<button class="game_tab_select" data-selected="false" id="select_tab_prestige" onclick="changetab('prestige')" style="display: none;">Prestige</button>
+<button class="game_tab_select" data-selected="false" id="select_tab_settings" onclick="changetab('settings')">Settings</button>
+</div>
+<div class="seperator"></div>
+<div id="currency_display" style="justify-content: center; height: 0px; display: flex;">
+<div id="research_display"></div>
+<div id="prestige_point_display"></div>
+</div>
+<div class="seperator"></div>
+<div id="game_tab_container">
+<div id="tab_main" style="display: block;">
+<button id="start_run_button">Delve into the caverns</button>
+<div class="seperator"></div>
+<div id="floor_record_text" style="text-align: center;"></div>
+<div id="active_run_container" style="display: none; padding-bottom: 4px;">
+<div id="active_run_info" style="text-align: center; height: 24px;">Floor 1 - 0/10</div>
+<div id="dungeon_container">
+<span class="dungeon_entity_icon" id="run_player_icon" style="--progress: 0;">
+<img src="/_assets/107992b4a9c382ae9e97.png"/>
+</span>
+<span id="enemy_container"></span>
+<span id="dungeon_tiles">
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+<img class="dungeon_background" src="/_assets/a3f310f476928ea90d89.png"/>
+</span>
+</div>
+</div>
+<div class="seperator"></div>
+<div id="stats_container">
+<div id="player_stats_container" style="display: none;">
+<div style="height: 24px;">Your Stats:</div>
+<div class="fill_bar_base" id="courage_bar">
+<div class="bar_text" style="position: absolute; margin-left: 4px; margin-top: 4px;">Courage: 5.0/5</div>
+<div class="fill_bar" style="--percent: 1; background-color: rgb(214, 114, 64);"></div>
+</div>
+<div class="fill_bar_base" id="health_bar" style="display: none;">
+<div class="bar_text" style="position: absolute; margin-left: 4px; margin-top: 4px;">Health: 5.0/5.0</div>
+<div class="fill_bar" style="--percent: 1; background-color: rgb(24, 226, 125);"></div>
+</div>
+<div id="player_attack" style="display: none;">Attack: 1.0</div>
+<div id="player_defense" style="display: none;">Defense: 0.0</div>
+<div id="player_attack_speed" style="display: none;">Attack Speed: 1.00x</div>
+<div id="player_speed">Move Speed: 1.00x</div>
+</div><div id="enemy_stats_container" style="display: none;">
+<div style="height: 24px;">Enemy Stats:</div>
+<div class="fill_bar_base" id="enemy_health_bar">
+<div class="bar_text" style="position: absolute; margin-left: 4px; margin-top: 4px;">Health: 5/5</div>
+<div class="fill_bar" style="--percent: 0.5; background-color: rgb(24, 226, 125);"></div>
+</div>
+<div id="enemy_attack">Attack: 1</div>
+<div id="enemy_defense">Defense: 0</div>
+<div id="enemy_speed">Attack Speed: 1.00x</div>
+</div>
+</div>
+</div>
+<div id="tab_upgrades" style="display: none;">
+<div id="game_tab_select_container">
+<button class="game_tab_select" data-selected="true" id="upgrade_tab_basic" onclick="changeupgradetab('basic')">Basic</button>
+<button class="game_tab_select" data-selected="false" id="upgrade_tab_combat" onclick="changeupgradetab('combat')" style="display: none;">Combat</button>
+<button class="game_tab_select" data-selected="false" id="upgrade_tab_prestige" onclick="changeupgradetab('prestige')" style="display: none;">Prestige</button>
+</div>
+<div class="seperator"></div>
+<div class="upgrade_container" id="upgrade_container_basic" style="display: flex;"><button class="upgrade_button" disabled="disabled" id="basic_torch" style="order: 0; display: block;"><div class="upgrade_title">Torch</div><div class="upgrade_level">(0/1)</div><div class="upgrade_description">You should probably bring a light source with you. Slows down courage loss.</div><div class="upgrade_effect">Effect: +0.00 Courage/s</div><br/><div class="upgrade_cost">-0.5 Research</div></button><button class="upgrade_button" id="basic_torch_buff" style="order: 1; display: none;"><div class="upgrade_title">Torch Power</div><div class="upgrade_level">(0/5)</div><div class="upgrade_description">Make your torch shine brighter than before.. Slows down courage loss further.</div><div class="upgrade_effect">Effect: +0.00  Courage/s</div><br/><div class="upgrade_cost">-0.25 Research</div></button><button class="upgrade_button" id="basic_torch_buff1" style="order: 2; display: none;"><div class="upgrade_title">Torch Power+</div><div class="upgrade_level">(0/5)</div><div class="upgrade_description">Make your torch shine even brighter than before.. Slows down courage loss multiplicatively.</div><div class="upgrade_effect">Effect: -0.00  x Courage Loss/s</div><br/><div class="upgrade_cost">-1 Research</div></button><button class="upgrade_button" id="basic_swallow_inhibitions" style="order: 3; display: none;"><div class="upgrade_title">Swallow your inhibitions</div><div class="upgrade_level">(0/5)</div><div class="upgrade_description">You might not want to be here, but you have something in mind here. Start with more courage.</div><div class="upgrade_effect">Effect: +0.00 Courage</div><br/><div class="upgrade_cost">-0.75 Research</div></button><button class="upgrade_button" id="basic_basic_routine" style="order: 4; display: none;"><div class="upgrade_title">Versed Routine</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Solve your other problems first, then come try again. Start with even more courage.</div><div class="upgrade_effect">Effect: +0.00 Courage</div><br/><div class="upgrade_cost">-5 Research</div></button><button class="upgrade_button" id="basic_careful_looking" style="order: 5; display: none;"><div class="upgrade_title">Careful Looking</div><div class="upgrade_level">(0/5)</div><div class="upgrade_description">Take note of everything, even if it kind of creeps you out. Gain more Research but lose 10% more courage.</div><div class="upgrade_effect">Effect: +0.00 x Research</div><br/><div class="upgrade_cost">-1 Research</div></button><button class="upgrade_button" id="basic_growing_pace" style="order: 6; display: none;"><div class="upgrade_title">Panicked Pace</div><div class="upgrade_level">(0/5)</div><div class="upgrade_description">Never too late to pick up the pace! The less courage you have, the faster you move.</div><div class="upgrade_effect">Effect: +0.00 Move Speed</div><br/><div class="upgrade_cost">-1 Research</div></button><button class="upgrade_button" id="basic_auto_delve" style="order: 7; display: none;"><div class="upgrade_title">Auto. Delve</div><div class="upgrade_level">(0/1)</div><div class="upgrade_description">Hire a friend to go into the cavern for you. Beats going in there yourself.</div><div class="upgrade_effect">Effect: Automatic Delving </div><br/><div class="upgrade_cost">-25 Research</div></button><button class="upgrade_button" id="basic_compound_research" style="order: 8; display: none;"><div class="upgrade_title">Compounding Discoveries</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">The deeper you go, the more everything before makes sense. Earn 10% more research per floor you've passed this run.</div><div class="upgrade_effect">Effect: +0.00 x Research</div><br/><div class="upgrade_cost">-10 Research</div></button><button class="upgrade_button" id="basic_compound_courage" style="order: 9; display: none;"><div class="upgrade_title">Mental Endurance</div><div class="upgrade_level">(0/20)</div><div class="upgrade_description">It's mindnumbing how many times you've gone through the caverns. Lose courage slower.</div><div class="upgrade_effect">Effect: 0.00 x Courage Loss</div><br/><div class="upgrade_cost">-20 Research</div></button></div>
+<div class="upgrade_container" id="upgrade_container_combat" style="display: none;"><button class="upgrade_button" id="combat_train_endurance" style="order: 0; display: none;"><div class="upgrade_title">Endurance Training</div><div class="upgrade_level">(0/25)</div><div class="upgrade_description">Better get it in now. Increases health.</div><div class="upgrade_effect">Effect: +0.00 Health</div><br/><div class="upgrade_cost">-5 Research</div></button><button class="upgrade_button" id="combat_train_agility" style="order: 1; display: none;"><div class="upgrade_title">Agility Training</div><div class="upgrade_level">(0/25)</div><div class="upgrade_description">Make fights go quicker. Increases attack speed.</div><div class="upgrade_effect">Effect: +0.00 x Attack Speed</div><br/><div class="upgrade_cost">-5 Research</div></button><button class="upgrade_button" id="combat_combat_sword" style="order: 2; display: none;"><div class="upgrade_title">Prepare Sword</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Best be prepared for the next fight. Slows down courage loss by 10% and increases attack power.</div><div class="upgrade_effect">Effect: +0.00 Attack</div><br/><div class="upgrade_cost">-5 Research</div></button><button class="upgrade_button" id="combat_enhance_sword" style="order: 3; display: none;"><div class="upgrade_title">Enhance Sword</div><div class="upgrade_level">(0/20)</div><div class="upgrade_description">Work on making your blade the best it can be. Further increases attack power.</div><div class="upgrade_effect">Effect: +0.00 Attack</div><br/><div class="upgrade_cost">-100 Research</div></button><button class="upgrade_button" id="combat_combat_armor" style="order: 4; display: none;"><div class="upgrade_title">Prepare Armor</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Would be good to be able to take a few hits. Slows down courage loss by 10% and increases defense.</div><div class="upgrade_effect">Effect: +0.00 Defense</div><br/><div class="upgrade_cost">-10 Research</div></button><button class="upgrade_button" id="combat_enhance_armor" style="order: 5; display: none;"><div class="upgrade_title">Enhance Armor</div><div class="upgrade_level">(0/20)</div><div class="upgrade_description">Toughen up your armor. Further increases defense.</div><div class="upgrade_effect">Effect: +0.00 Defense</div><br/><div class="upgrade_cost">-600 Research</div></button><button class="upgrade_button" id="combat_combat_boots" style="order: 6; display: none;"><div class="upgrade_title">Prepare Boots</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Would be good to ease the foot pain. Slows down courage loss by 10% and increases move speed.</div><div class="upgrade_effect">Effect: +0.00 x Move Speed</div><br/><div class="upgrade_cost">-5 Research</div></button><button class="upgrade_button" id="combat_enemy_bounty" style="order: 7; display: none;"><div class="upgrade_title">Bounty Hunter</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">If you're gonna kill things, you might as well understand them better. Gain research on kill.</div><div class="upgrade_effect">Effect: +0.00  Research/kill</div><br/><div class="upgrade_cost">-7.5 Research</div></button><button class="upgrade_button" id="combat_slow_recover" style="order: 8; display: none;"><div class="upgrade_title">Slow Recovery</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Regenerate health when outside of combat.</div><div class="upgrade_effect">Effect: +0.00 Health/s</div><br/><div class="upgrade_cost">-15 Research</div></button><button class="upgrade_button" id="combat_well_cheers" style="order: 9; display: none;"><div class="upgrade_title">Well cheers!</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">(Locks Feelin' fine)<br/>As long as your spirit's up, nothing can stop you. While courage is above 50%, lose 25% less courage and regenerate health.</div><div class="upgrade_effect">Effect: +0.00 Health/s</div><br/><div class="upgrade_cost">-10 Research</div></button><button class="upgrade_button" id="combat_feeling_fine" style="order: 10; display: none;"><div class="upgrade_title">Feelin' fine</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">(Locks Well cheers!)<br/>I'll just walk it off. While health is above 50%, gain 1 defense and regenerate courage.</div><div class="upgrade_effect">Effect: +0.00 Courage/s</div><br/><div class="upgrade_cost">-12.5 Research</div></button></div>
+<div class="upgrade_container" id="upgrade_container_prestige" style="display: none;"><button class="upgrade_button" id="prestige_prestige_research" style="order: 0; display: none;"><div class="upgrade_title">P-Research</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Gain significantly more research.</div><div class="upgrade_effect">Effect: +0.00 x Research</div><br/><div class="upgrade_cost">-1 Prestige Points</div></button><button class="upgrade_button" id="prestige_prestige_courage" style="order: 1; display: none;"><div class="upgrade_title">P-Courage</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Start with significantly more courage.</div><div class="upgrade_effect">Effect: +0.00 x Courage</div><br/><div class="upgrade_cost">-1 Prestige Points</div></button><button class="upgrade_button" id="prestige_prestige_courage_loss" style="order: 2; display: none;"><div class="upgrade_title">P-Courage Retention</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Lose courage significantly slower.</div><div class="upgrade_effect">Effect: 0.00 x Courage Loss</div><br/><div class="upgrade_cost">-1 Prestige Points</div></button><button class="upgrade_button" id="prestige_prestige_health" style="order: 3; display: none;"><div class="upgrade_title">P-Health</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Gain exponentially more health.</div><div class="upgrade_effect">Effect: +0.00  Health</div><br/><div class="upgrade_cost">-1 Prestige Points</div></button><button class="upgrade_button" id="prestige_prestige_defense" style="order: 4; display: none;"><div class="upgrade_title">P-Defense</div><div class="upgrade_level">(0/10)</div><div class="upgrade_description">Gain more defense.</div><div class="upgrade_effect">Effect: +0.00  Defense</div><br/><div class="upgrade_cost">-2 Prestige Points</div></button></div>
+</div>
+<div id="tab_prestige" style="display: none;">
+<div id="prestige_counter" style="text-align: center; font-weight: bold;">Prestige 0</div>
+<div class="seperator"></div>
+<div style="text-align: center;">Lose everything up to this point, But start with an extra <b>0.5 Research per Prestige</b> and gain <b>Prestige Points</b> to use on Prestige Upgrades.</div>
+<div class="seperator"></div>
+<button disabled="" id="prestige_button">Reach Floor 6 to Prestige</button>
+</div>
+<div id="tab_settings" style="display: none;">
+<div id="last_save_display" style="text-align: center;">Last saved 10.5s ago.</div>
+<div style="text-align: center;"><button id="reset_data_button">Reset Data (10)</button></div>
+<br/>
+<div style="text-align: center;">
+                        Font: <button id="font_switcher">Charm (Default)</button>
+</div>
+<div style="text-align: center;">
+                        Hide Completed Upgrades: <button id="hide_upgrade_switch">No</button>
+</div>
+<br/>
+<div style="text-align: center;">
+                        Credits:<br/>
+                        developer: oreiboon<br/>
+                        thats it lol
+                    </div>
+</div>
+</div>
+</div>
+</body></html>

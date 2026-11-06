@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" name="viewport"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="#180927" name="theme-color"/>
+<meta content="GlidieBirdie — a calm, ergonomic, modern take on the one-tap arcade flyer, with normalized physics, comfortable controls, and a relaxing UI." name="description"/>
+
+<!-- PWA / iOS / Android install metadata -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="GlidieBirdie" name="apple-mobile-web-app-title"/>
+<link href="manifest.webmanifest" rel="manifest"/>
+<!-- Real raster icon: iOS silently ignores SVG data-URI apple-touch-icons. -->
+<link href="docs/assets/icon-180.png" rel="apple-touch-icon" sizes="180x180"/>
+<!-- Open Graph / Twitter -->
+<meta content="GlidieBirdie — a calm arcade game" property="og:title"/>
+<meta content="Gentle physics, bigger gaps, slower pacing — pure relaxation." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://0thernes.github.io/glidiebirdie/" property="og:url"/>
+<meta content="https://0thernes.github.io/glidiebirdie/docs/assets/social-preview-calm.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="GlidieBirdie — a calm arcade game" name="twitter:title"/>
+<meta content="Calm, accessible, dependency-free browser game." name="twitter:description"/>
+<meta content="https://0thernes.github.io/glidiebirdie/docs/assets/social-preview-calm.jpg" name="twitter:image"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🐦&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<title>GlidieBirdie — a calm arcade game</title>
+<link as="style" href="/_assets/166be9b3ea7d03a7c599.css" rel="preload"/>
+<link href="/_assets/166be9b3ea7d03a7c599.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="theme-sunset">
+<a class="skip-link" href="#game">Skip to game</a>
+<main class="shell">
+<p aria-atomic="true" aria-live="polite" class="sr-only" id="srStatus">Ready to glide. Relax and start when you like.</p>
+<p class="sr-only" id="controlHelp">
+      On desktop: Space or click to flap, Shift to soften descent, Down Arrow to dive, Escape to pause,
+      M to mute, R to restart, F for fullscreen, P for postcard, C to save a picture.
+      On phone: use the on-screen Brake, Flap, and Dive buttons below the canvas.
+      With a gamepad: Cross or A flaps, left shoulder or left trigger brakes, right shoulder, right trigger, or D-pad down dives, Start pauses, Back mutes.
+    </p>
+<header class="panel hero" id="heroPanel" inert="">
+<p class="eyebrow">Relaxed arcade • ergonomic controls • normalized physics</p>
+<div class="hero-layout">
+<div class="hero-copy">
+<h1>🐦 GlidieBirdie</h1>
+<p class="lede">
+            A softer, more readable, less stressful one-tap arcade flyer. Gentle pacing,
+            full touch controls on phones, refresh-rate-safe physics, and a UI built for comfort.
+            Every flap an invitation to breathe and glide.
+          </p>
+</div>
+<div aria-label="Design qualities" class="status-cluster">
+<span class="status-pill">Relaxed mode</span>
+<span class="status-pill">60–240Hz safe</span>
+<span class="status-pill">Procedural audio</span>
+<span class="status-pill">PWA</span>
+</div>
+</div>
+</header>
+<section aria-labelledby="playfield-title" class="panel stage">
+<div class="stage-topbar" inert="">
+<div class="stage-copy">
+<h2 id="playfield-title">Playfield</h2>
+<p>Larger gaps, slower travel, accessible contrast, and forgiving timing make the run feel playful instead of punishing.</p>
+</div>
+<div aria-label="Game actions" class="toolbar" role="group">
+<button aria-controls="game" aria-keyshortcuts="R" class="ui-button" id="restartButton" type="button">Restart</button>
+<button aria-controls="game" aria-keyshortcuts="Escape" aria-pressed="false" class="ui-button" disabled="" id="pauseToggle" type="button">Pause</button>
+<button aria-controls="game" aria-keyshortcuts="P" aria-pressed="false" class="ui-button" disabled="" id="postcardButton" title="Serene Postcard — capture a calm moment" type="button">🪶 Postcard</button>
+<button class="ui-button postcard-action" id="postcardCopyBtn" style="display: none;" title="Save this serene moment as PNG" type="button">📸 Copy</button>
+<button aria-controls="game" aria-keyshortcuts="M" aria-pressed="false" class="ui-button" id="muteToggle" type="button">🔊 Sound</button>
+<button aria-controls="game" aria-keyshortcuts="F" aria-pressed="false" class="ui-button" id="fullscreenToggle" type="button">Fullscreen</button>
+<button class="ui-button" id="shareBtn" type="button">Share</button>
+<button aria-controls="customizerDrawer" aria-expanded="false" aria-pressed="false" class="ui-button" id="drawerToggle" type="button">Customize</button>
+</div>
+</div>
+<div class="canvas-wrap">
+<canvas aria-describedby="controlHelp srStatus" aria-keyshortcuts="Space ArrowUp ArrowDown Shift Escape M R F P C" aria-label="Interactive GlidieBirdie playfield" height="640" id="game" inert="" role="application" tabindex="0" width="420"></canvas>
+<!-- Tutorial overlay: shown on first run, dismissable -->
+<div aria-hidden="false" aria-label="How to play" aria-modal="true" class="tutorial-overlay show" id="tutorialOverlay" role="dialog">
+<div class="tutorial-card">
+<h3>How to play</h3>
+<ul>
+<li><span class="t-key">Tap / Space</span> — Flap</li>
+<li><span class="t-key">Brake</span> button or <span class="t-key">Shift</span> — Soften descent</li>
+<li><span class="t-key">Dive</span> button or <span class="t-key">↓</span> — Controlled dive</li>
+<li><span class="t-key">Esc</span> — Pause · <span class="t-key">M</span> — Mute · <span class="t-key">R</span> — Restart</li>
+</ul>
+<button class="ui-button" id="tutorialDismiss" type="button">Got it — let me glide</button>
+</div>
+</div>
+</div>
+<!-- Mobile control bar (visible only on coarse pointers) -->
+<div aria-label="Touch controls" class="mobile-controls" id="mobileControls" inert="" role="group">
+<button aria-label="Brake (hold)" class="m-btn m-brake" id="mBrake" type="button">⏸ Brake</button>
+<button aria-label="Flap" class="m-btn m-flap" id="mFlap" type="button">🪶 Flap</button>
+<button aria-label="Dive (hold)" class="m-btn m-dive" id="mDive" type="button">⬇ Dive</button>
+</div>
+</section>
+<section aria-label="Game guide and controls" class="meta-grid" inert="">
+<article class="panel card">
+<h2>Comfortable controls</h2>
+<ul class="control-list">
+<li><kbd>Space</kbd><span>Feather flap</span></li>
+<li><kbd>Click</kbd><span>Tap-friendly flap</span></li>
+<li><kbd>Brake</kbd><span>On-screen or Shift</span></li>
+<li><kbd>Dive</kbd><span>On-screen or ↓</span></li>
+<li><kbd>Esc</kbd><span>Pause or resume</span></li>
+<li><kbd>M</kbd><span>Mute or unmute</span></li>
+<li><kbd>R</kbd><span>Fresh restart</span></li>
+<li><kbd>F</kbd><span>Fullscreen</span></li>
+</ul>
+</article>
+<article class="panel card">
+<h2>Comfort-first design notes</h2>
+<p>
+          Balanced typography, reduced-motion awareness, better spacing, higher legibility,
+          and normalized simulation timing keep the experience calm across laptops, desktops,
+          phones, and high-refresh-rate displays.
+        </p>
+<p class="microcopy">
+          Tip: the bird is forgiving. Tap lightly, hold Brake on a phone (or Shift on a keyboard)
+          to soften descents, and play for flow.
+        </p>
+</article>
+</section>
+</main>
+<aside aria-hidden="true" aria-labelledby="drawerTitle" aria-modal="true" class="customizer-drawer" id="customizerDrawer" inert="" role="dialog" tabindex="-1">
+<div class="drawer-header">
+<h2 id="drawerTitle">Zen Customizer</h2>
+<button aria-label="Close customizer" class="close-btn" id="drawerClose" type="button">×</button>
+</div>
+<div class="drawer-section">
+<h3>Cozy Visual Theme</h3>
+<div class="theme-cluster">
+<button aria-pressed="true" class="theme-btn active" data-theme="sunset" type="button">🌅 Sunset</button>
+<button aria-pressed="false" class="theme-btn" data-theme="midnight" type="button">🌌 Midnight</button>
+<button aria-pressed="false" class="theme-btn" data-theme="rain" type="button">🌧️ Cozy Rain</button>
+<button aria-pressed="false" class="theme-btn" data-theme="aurora" type="button">✨ Aurora</button>
+<button aria-pressed="false" class="theme-btn" data-theme="meadow" type="button">🌿 Meadow</button>
+</div>
+</div>
+<div class="drawer-section">
+<h3>Calm Physics Overrides</h3>
+<div class="control-grid-vertical">
+<div class="control-item">
+<label class="control-label" for="gravitySlider">
+            Gravity Strength
+            <span class="control-value" id="gravityVal">Calm</span>
+</label>
+<input class="slider-custom" id="gravitySlider" max="4" min="1" step="1" type="range" value="2"/>
+</div>
+<div class="control-item">
+<label class="control-label" for="speedSlider">
+            Scrolling Speed
+            <span class="control-value" id="speedVal">Chill</span>
+</label>
+<input class="slider-custom" id="speedSlider" max="4" min="1" step="1" type="range" value="2"/>
+</div>
+</div>
+</div>
+<div class="drawer-section">
+<h3>Soothing Audio Volumes</h3>
+<div class="control-grid-vertical">
+<div class="control-item">
+<label class="control-label" for="musicVolumeSlider">
+            Ambient Background Music
+            <span class="control-value" id="musicVolumeVal">60%</span>
+</label>
+<input class="slider-custom" id="musicVolumeSlider" max="100" min="0" type="range" value="60"/>
+</div>
+<div class="control-item">
+<label class="control-label" for="sfxVolumeSlider">
+            Synthesizer Sound Effects
+            <span class="control-value" id="sfxVolumeVal">80%</span>
+</label>
+<input class="slider-custom" id="sfxVolumeSlider" max="100" min="0" type="range" value="80"/>
+</div>
+<button class="ui-button drawer-inline-btn" id="audioTestBtn" type="button">▶ Test audio</button>
+</div>
+</div>
+<div class="drawer-section">
+<h3>Daily Seed</h3>
+<!-- Layout mirrors shadcn Field + Switch (field-switch example) -->
+<div class="field-switch">
+<div class="field-content">
+<label class="field-label" for="dailySeedToggle" id="dailySeedLabel">Daily Seed</label>
+<p class="field-description" id="dailySeedDescription">
+            When on, every player on the same day gets the same pipe pattern. Compare scores with friends.
+          </p>
+<p aria-live="polite" class="field-status" id="dailySeedStatus">Off — random pipes each run</p>
+</div>
+<input aria-checked="false" aria-describedby="dailySeedDescription dailySeedStatus" aria-labelledby="dailySeedLabel" class="switch" id="dailySeedToggle" role="switch" type="checkbox"/>
+</div>
+<!-- Layout mirrors shadcn Field + Switch (field-switch example) -->
+<div class="field-switch">
+<div class="field-content">
+<label class="field-label" for="fpsToggle" id="fpsLabel">Show FPS counter</label>
+<p class="field-description" id="fpsDescription">
+            Overlays a small frames-per-second readout in the top-right of the playfield. Handy on low-end phones.
+          </p>
+</div>
+<input aria-checked="false" aria-describedby="fpsDescription" aria-labelledby="fpsLabel" class="switch" id="fpsToggle" role="switch" type="checkbox"/>
+</div>
+</div>
+<div class="drawer-section">
+<h3>Zen Dashboard Stats</h3>
+<div class="stats-grid">
+<div class="stat-card">
+<p class="stat-num" id="statZenMinutes">0.0</p>
+<p class="stat-label">Zen Min Played</p>
+</div>
+<div class="stat-card">
+<p class="stat-num" id="statShieldsSaved">0</p>
+<p class="stat-label">Shields Saved</p>
+</div>
+<div class="stat-card">
+<p class="stat-num" id="statRunsCompleted">0</p>
+<p class="stat-label">Runs Finished</p>
+</div>
+<div class="stat-card">
+<p class="stat-num" id="statNearMisses">0</p>
+<p class="stat-label">Near Misses</p>
+</div>
+<div class="stat-card">
+<p class="stat-num" id="statLongestSurvival">0s</p>
+<p class="stat-label">Longest Survival</p>
+</div>
+<div class="stat-card">
+<p class="stat-num" id="statStreak">0</p>
+<p class="stat-label">Day Streak</p>
+</div>
+</div>
+<p aria-live="polite" class="session-run" id="sessionRun">Run #0</p>
+<p class="sr-only" id="scoreSummary">No completed runs yet.</p>
+<div aria-hidden="true" class="sparkline-wrap">
+<canvas height="32" id="sparkline" width="200"></canvas>
+</div>
+<button class="ui-button drawer-inline-btn danger" id="resetStatsBtn" type="button">Reset all stats</button>
+</div>
+<div class="drawer-section">
+<h3>Cozy Milestones</h3>
+<div class="achievements-list">
+<div class="achievement-item" id="achFirstFlight">
+<span class="achievement-badge">🕊️</span>
+<div class="achievement-details">
+<h4 class="achievement-title">First Flight</h4>
+<p class="achievement-desc">Successfully pass 1 pipe gap</p>
+<p aria-live="polite" class="achievement-progress">0/1</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achZenMaster">
+<span class="achievement-badge">🧘</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Zen Master</h4>
+<p class="achievement-desc">Score 15 points in a single run</p>
+<p class="achievement-progress">0/15</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achShieldSavior">
+<span class="achievement-badge">🛡️</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Shield Savior</h4>
+<p class="achievement-desc">Pop a shield and continue flying</p>
+<p class="achievement-progress">0/1</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achThemeExplorer">
+<span class="achievement-badge">🎨</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Theme Explorer</h4>
+<p class="achievement-desc">Play under all five visual themes</p>
+<p class="achievement-progress">1/5</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achCalmMarathon">
+<span class="achievement-badge">⏱️</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Calm Marathon</h4>
+<p class="achievement-desc">Accumulate 5 zen minutes total</p>
+<p class="achievement-progress">0/5 min</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achFeatherweight">
+<span class="achievement-badge">🪶</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Featherweight</h4>
+<p class="achievement-desc">Score 30 points in a single run</p>
+<p class="achievement-progress">0/30</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achFeatherlight">
+<span class="achievement-badge">✨</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Featherlight</h4>
+<p class="achievement-desc">Score 50 points in a single run</p>
+<p class="achievement-progress">0/50</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achStreakKeeper">
+<span class="achievement-badge">🎯</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Streak Keeper</h4>
+<p class="achievement-desc">5 near misses in one run</p>
+<p class="achievement-progress">0/5</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achBrakeMaster">
+<span class="achievement-badge">🛑</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Brake Master</h4>
+<p class="achievement-desc">Use brake 10 times in one run</p>
+<p class="achievement-progress">0/10</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achDiver">
+<span class="achievement-badge">🪂</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Diver</h4>
+<p class="achievement-desc">Use dive 10 times in one run</p>
+<p class="achievement-progress">0/10</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achIronCalm">
+<span class="achievement-badge">🧊</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Iron Calm</h4>
+<p class="achievement-desc">Played 3 days in a row</p>
+<p class="achievement-progress">0/3</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+<div class="achievement-item" id="achLongHaul">
+<span class="achievement-badge">🌙</span>
+<div class="achievement-details">
+<h4 class="achievement-title">Long Haul</h4>
+<p class="achievement-desc">Survive 60 seconds in a single run</p>
+<p class="achievement-progress">0/60s</p>
+</div>
+<span aria-hidden="true" class="achievement-check">✔</span>
+</div>
+</div>
+</div>
+</aside>
+<noscript>
+<p class="noscript-message">
+      JavaScript is required to play GlidieBirdie.
+    </p>
+</noscript>
+<!-- Toast container for achievement / share / serene moment feedback (calm, non-intrusive) -->
+<div aria-atomic="false" aria-live="polite" class="toast-container" id="toastContainer"></div>
+<script src="/_assets/e7a2865bc3aa83464148.js" type="module"></script>
+</body></html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<title>Memory Block</title>
+<link href="/_assets/1a32dc94beb2c7898a01.css" rel="stylesheet"/> <!-- CSS file for styling-->
+<script src="/_assets/cbccdb3dca03fe375502.js" type="text/javascript"></script> <!-- JavaScript file -->
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<!--
+    data-isopen : if a block is opened this attribute is changed to true else false
+    data-islocked : if image of two blocks matched then both are locked and won't be locked
+-->
+<body onload="hideIntro();">
+<div class="intro" style="display: none;">
+<h1>TechMemoryBlocks<sub>The game.</sub></h1>
+</div>
+<div class="difficulty" style="display: block;">
+<ul class="difficulty-levels">
+<li onclick="setDifficulty(0)">Easy</li>
+<li onclick="setDifficulty(1)">Intermediate</li>
+<li onclick="setDifficulty(2)">Difficult</li>
+</ul>
+</div>
+<div class="modal">
+<div class="alert-message">
+<h1>Game Over!</h1>
+<button onclick="hideModal(0)">Ok</button>
+</div>
+</div>
+<div class="modal">
+<div class="alert-message">
+<h1>Restart game? All progress will be lost.</h1>
+<button onclick="restartGame()">Restart</button>
+<button onclick="hideModal(1)">Cancel</button>
+</div>
+</div>
+<div class="container">
+<div class="header">
+<h1 class="header-title">TechMemoryBlocks<sub>The game.</sub>
+<attempt>Attempts : 0</attempt>
+</h1>
+</div>
+<div class="leader">
+<ul class="options">
+<li onclick="document.getElementsByClassName('modal')[1].style.display='block';" title="Restart"><img src="/_assets/a6f3786f59f1a0e6c34d.png"/></li>
+<li title="Help"><a href="help.html" target="_blank"><img src="/_assets/2585fe1bd6f74319253e.png"/></a></li>
+</ul>
+<h1 class="leaderboard">Leaderboard</h1>
+<ul class="score">
+</ul>
+</div>
+<table cellspacing="10" name="matrix" style="display: inline-block;">
+<tbody><tr>
+<td class="ele" id="0" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="1" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="2" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="3" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="4" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="5" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+</tr>
+<tr>
+<td class="ele" id="6" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="7" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="8" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="9" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="10" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="11" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+</tr>
+<tr>
+<td class="ele" id="12" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="13" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="14" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="15" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="16" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="17" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+</tr>
+<tr>
+<td class="ele" id="18" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="19" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="20" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="21" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="22" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="23" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+</tr>
+<tr>
+<td class="ele" id="24" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="25" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="26" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="27" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="28" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="29" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+</tr>
+<tr>
+<td class="ele" id="30" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="31" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="32" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="33" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="34" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+<td class="ele" id="35" onclick="changeImage(this)" style="background-color: black; background-image: none; visibility: visible;"></td>
+</tr>
+</tbody></table>
+<h1 class="message" style="display: none;"></h1>
+<button class="message-button" onclick="playAgain()" style="display: none;">Play Again &gt;</button>
+</div>
+</body></html>

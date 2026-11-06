@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>JavaScriptris</title>
+<link href="./favicon.ico" rel="shortcut icon"/>
+<style>
+			body {
+				font: 1em "Segoe UI", Tahoma, sans-serif;
+			}
+			canvas {
+				display: block;
+				position: absolute;
+				left: 50%;
+			}
+			td:first-child {
+				text-align: left;
+			}
+			td:last-child {
+				text-align: right;
+			}
+			#header {
+				font-size: 1.3em;
+				text-align: center;
+				margin-bottom: 10px;
+			}
+			#footer {
+				font-size: 0.7em;
+				color: gray;
+				text-align: center;
+				margin-top: 4px;
+			}
+			#game {
+				position: relative;
+			}
+			#landedCanvas, #activeCanvas {
+				border: 1px solid gray;
+			}
+			#scoreLevelContainer {
+				margin: 4px auto 10px;
+			}
+			#combo {
+				visibility: hidden;
+				text-align: center;
+				font-weight: bold;
+			}
+		</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="header">JavaScriptris v<span id="version">0.3.1</span></div>
+<div id="game" style="height: 600px;">
+<canvas height="600" id="landedCanvas" style="margin-left: -150px;" width="300">
+				Your browser does not support the HTML5 <code>canvas</code> element!
+			</canvas>
+<canvas height="600" id="activeCanvas" style="margin-left: -150px;" width="300"></canvas>
+<canvas height="120" id="nextCanvas" style="margin-left: -300px;" width="180"></canvas>
+</div>
+<div id="scoreLevelContainer" style="width: 300px;">
+<span style="float: left">Score: <span id="score">0</span></span>
+<span style="float: right">Level: <span id="level">1</span></span>
+<div style="clear: both"></div>
+</div>
+<div id="combo">0</div>
+<div id="footer">
+<table style="width: 200px; margin: 0 auto;">
+<tbody><tr>
+<td>LEFT:</td>
+<td>move left</td>
+</tr>
+<tr>
+<td>RIGHT:</td>
+<td>move right</td>
+</tr>
+<tr>
+<td>UP/X:</td>
+<td>rotate clockwise</td>
+</tr>
+<tr>
+<td>CTRL/Z:</td>
+<td>rotate anticlockwise</td>
+</tr>
+<tr>
+<td>DOWN:</td>
+<td>soft drop</td>
+</tr>
+<tr>
+<td>SPACE:</td>
+<td>hard drop</td>
+</tr>
+<tr>
+<td>G:</td>
+<td>show/hide ghost</td>
+</tr>
+<tr>
+<td>P:</td>
+<td>pause</td>
+</tr>
+<tr>
+<td>R:</td>
+<td>restart</td>
+</tr>
+</tbody></table>
+</div>
+<script src="/_assets/3305fa9eab3599ff8468.js"></script>
+<script defer="" src="/_assets/5d11c9682ffd60a0f531.js"></script>
+</body></html>

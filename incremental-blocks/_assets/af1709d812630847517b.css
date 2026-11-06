@@ -1,0 +1,1260 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Major Mono Display', monospace;
+  user-select: none;
+
+  transition: all 0.2s;
+}
+.num0 {
+  color: #d4d4d4 !important;
+  text-shadow: 0 0 10px #d4d4d4 !important;
+}
+#warpAll {
+  height: 100vh;
+  width: 100vw;
+}
+.contentBlock {
+  position: relative;
+  z-index: 5;
+}
+.unlockedBlock {
+  width: 100%;
+  height: 100%;
+}
+.lockedBlock {
+  width: 100%;
+  height: 100%;
+  font-size: 2.5vh;
+  color: white;
+  font-weight: bolder;
+  background-color: #2b2b2b;
+  cursor: pointer;
+}
+.lockedBlock:hover {
+  background-color: #575757;
+}
+#containerI {
+  display: block;
+  float: left;
+  height: 100vh;
+  width: 20vw;
+}
+#basicBlock {
+  width: 20vw;
+  height: 30vh;
+  background-color: #404040;
+}
+#timeSpeed {
+  padding-top: 2vh;
+  width: 100%; height: 3vh;
+  font-size: 1.8vh; text-align: center; color: #e8c6be; text-shadow: 0 0 3px #e8c6be; font-weight: bold;
+  animation: hueRotateAnimation 5s infinite alternate;
+}
+#blocks {
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  width: 20vw;
+  height: 9vh;
+}
+#blockCount {
+  font-size: 2vw;
+  animation-duration: 10s;
+  animation-name: blockCountShiny;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes blockCountShiny {
+  from {
+    text-shadow: 0 0 20px white;
+  }
+  40% {
+    text-shadow: 0 0 10px white;
+  }
+  50% {
+    text-shadow: 0 0 0px white;
+  }
+  60% {
+    text-shadow: 0 0 10px white;
+  }
+  to {
+    text-shadow: 0 0 20px white;
+  }
+}
+#blockTxt {
+  font-size: 1vw;
+}
+#blockPSCount {
+  padding-left: 2vw;
+  font-size: 1.3vw;
+  color: white;
+}
+#blockPSTxt {
+  margin-bottom: 1vh;
+  padding-left: 2vw;
+  font-size: 0.7vw;
+  color: white;
+}
+#blockClick {
+  margin-left: 1vw;
+  width: 18vw;
+  height: 5vh;
+  background-color: rgba(40, 40, 40, 0.6);
+  cursor: pointer;
+
+  transition: background-color 1s;
+}
+#blockClick:hover {
+  background-color: rgba(40, 40, 40, 1);
+
+  transition: background-color 1s;
+}
+#blockClick:active {
+  background-color: white;
+
+  transition: background-color 0s;
+}
+#blockClickTxtWarp {
+  margin-left: 1vw;
+  padding-top: 1vh;
+  width: 16vw;
+  height: 3vh;
+  color: white;
+}
+#blockClickPlus {
+  padding-top: 0.5vh;
+  float: left;
+  font-size: 2vh;
+}
+#blockPerClick {
+  font-size: 2vh;
+}
+#blocClickTxt {
+  font-size: 1vh;
+}
+#otherRes {
+  margin-top: 1vh;
+  width: 20vw; height: 5vh;
+}
+.innerOtherRes {
+  display: block; float: left;
+  width: 10vw; height: 5vh;
+  text-align: center;
+}
+.otherResNum {
+  font-size: 2.5vh;
+  color: #fff; text-shadow: 0 0 5px #fff;
+}
+.otehrResName {
+  font-size: 0.5vh;
+}
+#bpTxt {
+  color: #d3e1f0; text-shadow: 0 0 5px #d3e1f0;
+}
+#apTxt {
+  color: #d3f0d8; text-shadow: 0 0 5px #d3f0d8;
+}
+#basicUpgrade {
+  width: 20vw;
+  height: 70vh;
+  background-color: #6e6e6e;
+}
+#upgradeBanner {
+  padding-left: 1vw;
+  padding-top: 1vh;
+  width: 20vw;
+  height: 4vh;
+  font-weight: bolder;
+  text-align: center;
+  background-color: rgba(40, 40, 40, 0.2);
+  animation-duration: 2s;
+  animation-name: upgradeBannerShiny;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+#upgradeBanner > p:nth-child(1) {
+  float: left;
+  font-size: 3vh;
+}
+#upgradeBanner > p:nth-child(2) {
+  padding-left: 1vw;
+  padding-top: 1.5vh;
+  float: left;
+  font-size: 1vh;
+}
+@keyframes upgradeBannerShiny {
+  from {
+    color: #fff;
+  }
+  50% {
+    color: #bbb;
+  }
+  to {
+    color: #fff;
+  }
+}
+#upgradesList {
+  width: 20vw;
+  height: 64vh;
+}
+.upgradeContent.upN {
+  background-color: rgba(219, 138, 138, 0.3);
+}
+.upgradeContent.upY {
+  background-color: rgba(40, 40, 40, 0.3);
+  cursor: pointer;
+}
+.upgradeContent {
+  padding: 0.5vh 0 0 0.5vw;
+  margin: 0.4166vh 0 0.4166vh 1vw;
+  width: 17vw;
+  height: 8.5vh;
+}
+.upgradeContent.upY:hover {
+  background-color: rgba(40, 40, 40, 0.6);
+}
+.upgradeContent.upY:active {
+  background-color: rgba(255, 255, 255, 0.8);
+
+  transition: all 0s;
+}
+.upgradeContent > div {
+  color: white;
+  text-shadow: 0 0 3px white;
+}
+.upgradeContent > div:nth-child(1) {
+  padding: 0.4vh 0;
+  margin-right: 11vw;
+  width: 16vw;
+  height: 2.2vh;
+  font-size: 2.2vh;
+  background-color: rgba(40, 40, 40, 0.2);
+}
+.upgradeContent > div:nth-child(2) {
+  padding: 1vh 0 0.4vh 0;
+  margin-right: 11vw;
+  width: 16vw;
+  height: 2.5vh;
+  font-size: 2.5vh;
+}
+.mystUpgrade {
+  background: linear-gradient(90deg, #e0b8b8, #d8e0b8, #b8e0c8, #b8c8e0, #d8b8e0);
+  animation-duration: 0.5s;
+  animation-name: hueRotateAnimation;
+  animation-iteration-count: infinite;
+}
+.mystUpgrade:hover {
+  opacity: 0.8;
+}
+#mystUpgrade {
+  width: 20vw; height: 70vh;
+  background-color: #25424f;
+}
+#mystUpgradeBanner {
+  padding-left: 1vw;
+  padding-top: 1vh;
+  width: 19vw;
+  height: 4vh;
+  font-weight: bolder;
+  text-align: center;
+  background: linear-gradient(90deg, #e0b8b8, #d8e0b8, #b8e0c8, #b8c8e0, #d8b8e0);
+  animation: hueRotateAnimation 2s infinite alternate;
+}
+#mystUpgradeBanner > p:nth-child(1) {
+  float: left;
+  font-size: 3vh;
+  animation: mystTxtShiny 20s infinite alternate;
+}
+.mystUpgradeContent {
+  padding: 0.25vh 0 0.25vh 0.5vw;
+  margin: 0.8vh 0 1.2vh 1vw;
+  width: 17vw;
+  height: 4.5vh;
+}
+.mystUpgradeContent.upN {
+  filter: brightness(0.5);
+}
+.mystUpgradeContent.upY {
+  cursor: pointer;
+}
+.mystUpgradeContent.upY:hover {
+  filter: brightness(1.5);
+}
+.mystUpgradeContent.upY:active {
+  background-color: rgba(255, 255, 255, 0.8);
+
+  transition: all 0s;
+}
+.mystUpgradeContent > div:nth-child(1) {
+  background: linear-gradient(to right, #ed93ed, #22e3d6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  text-shadow: 0 0 3px white;
+  margin-right: 11vw;
+  width: 16vw;
+  height: 1.7vh;
+  font-size: 1.7vh;
+  background-color: rgba(40, 40, 40, 0.2);
+}
+.mystUpgradeContent > div:nth-child(2) {
+  padding: 0.5vh 0 0.5vh 0;
+  margin-right: 11vw;
+  width: 16vw;
+  height: 1.8vh;
+  font-size: 1.8vh;
+  color: white;
+  background-color: rgba(40, 40, 40, 0.2);
+}
+#hypeUpgradeBanner > p {
+  width: 100%; text-align: center; font-size: 0.4vh;
+  color: #606060;
+}
+@keyframes mystTxtShiny {
+  from {
+    color: #fff;
+    text-shadow: 0 0 5px #45254f;
+  }
+  50% {
+    color: #45254f;
+    text-shadow: 0 0 15px #45254f;
+  }
+  to {
+    color: #fff;
+    text-shadow: 0 0 5px #45254f;
+  }
+}
+@keyframes hueRotateAnimation {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+#containerII {
+  display: block;
+  float: left;
+  height: 100vh;
+  width: 60vw;
+  background-color: yellow;
+}
+#middleContent {
+  width: 60vw;
+  height: 68.5vh;
+  background-color: rgba(200, 200, 200, 0.5);
+  background-image: url(782785d922b80430f05b.jpg);
+  background-size: 60vw auto;
+  background-blend-mode: color;
+}
+#middleContentNav {
+  position: relative;
+  z-index: 5;
+  width: 60vw;
+  height: 3vh;
+}
+#middleContentNav > span {
+  display: block;
+  float: left;
+  padding: 1vh 0;
+  width: 20vw;
+  font-size: 1.7vh;
+  font-weight: bold;
+  text-align: center;
+}
+#middleContentWarp {
+  margin-top: 2vh;
+  margin-left: 0.5vw;
+  width: 59vw;
+  height: 63.5vh;
+}
+#buildMenu {
+  height: 100%;
+}
+#buildMenu > span:nth-child(1) {
+  display: block;
+  float: left;
+  width: 39.5vw;
+  height: 99%;
+}
+#buildMenu > span:nth-child(1) > div:nth-child(1) {
+  width: 39.5vw;
+  height: 80%;
+}
+#buildDisplay {
+  margin-left: 10.75vw;
+  width: 18vw;
+  height: 18vw;
+}
+.buildLine {
+  width: 18vw;
+  height: 3vw;
+}
+.buildBlock {
+  display: block;
+  float: left;
+  width: 3vw;
+  height: 3vw;
+}
+#buildMenu > span:nth-child(2) {
+  padding-top: 1.905vh;
+  display: block;
+  float: left;
+  width: 19.5vw;
+  height: 96%;
+  background-color: rgba(230, 196, 165, 0.6);
+}
+.openedNav {
+  background-color: #555;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 3px 3px #333;
+}
+.openedNav:hover {
+  background-color: #aaa;
+  color: black;
+}
+.openedNav:active {
+  background-color: #fff;
+  color: #fff;
+  box-shadow: 0 5px 10px #fff;
+
+  transition: all 0s;
+}
+.lockedNav {
+  background-color: #333;
+  color: black;
+  box-shadow: 0 3px 3px #333;
+}
+.lockedNav:hover {
+  filter: blur(1px);
+}
+#buildClick {
+  margin-left: 8.75vw;
+  width: 22vw;
+  height: 5vh;
+  background-color: rgba(40, 40, 40, 0.6);
+  cursor: pointer;
+
+  transition: background-color 1s;
+}
+#buildClick:hover {
+  background-color: rgba(40, 40, 40, 1);
+
+  transition: background-color 0.3s;
+}
+#buildClick:active {
+  background-color: white;
+
+  transition: background-color 0s;
+}
+#buildClickTxtWarp {
+  margin-left: 1vw;
+  padding-top: 1vh;
+  width: 16vw;
+  height: 3vh;
+  color: white;
+}
+#buildClickPlus {
+  padding-top: 0.5vh;
+  float: left;
+  font-size: 2vh;
+}
+#buildPerClick {
+  font-size: 2vh;
+}
+#buildClickTxt {
+  font-size: 1vh;
+}
+#baseBlockVaule {
+  margin: 2vh 0 0 10%; padding-top: 1vh;
+  width: 80%; height: 3vh;
+  color: white; font-size: 2vh; text-align: center;
+  background-color: rgba(40, 40, 40, 0.6);
+  border-radius: 4px;
+}
+#baseBlockVauleMinNum {
+  font-size: 1.5vh;
+}
+#baseBlockVauleMaxNum {
+  font-size: 2vh;
+}
+#buildingNav {
+  margin-left: 0.75vw;
+  width: 18vw;
+  height: 10%;
+}
+#buildingNav > span {
+  margin: 0 0.5vw;
+  display: block;
+  float: left;
+  width: 8vw;
+  height: 100%;
+  background-color: rgba(155, 155, 155, 0.6);
+  font-size: 6vh;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+#buildingNav > span:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: black;
+}
+#buildingNav > span:active {
+  transform: scale(1.2);
+}
+#buildingNum {
+  height: 5%;
+  font-size: 3.1vh;
+  color: #e37919;
+  text-shadow: 2px 2px 0 #777;
+  font-weight: bold;
+  text-align: center;
+}
+#rebuildNum {
+  height: 5%;
+  font-size: 3.1vh;
+  color: #19e323;
+  text-shadow: 2px 2px 0 #777;
+  font-weight: bold;
+  text-align: center;
+}
+#buildMult {
+  margin-top: 3%;
+  height: 6%;
+  font-size: 1.2vh;
+  color: #e37919;
+  text-shadow: 0.5px 0.5px 0 #777;
+  font-weight: bold;
+  text-align: center;
+}
+#buildMult > span {
+  height: 6%;
+  font-size: 2em;
+  color: #e37919;
+  font-weight: 600;
+  text-align: center;
+}
+#rebuildMult {
+  margin-top: 7%;
+  height: 6%;
+  font-size: 1.2vh;
+  color: #19e323;
+  text-shadow: 1px 1px 0 #777;
+  font-weight: bold;
+  text-align: center;
+}
+#rebuildMult > span {
+  height: 6%;
+  font-size: 2em;
+  color: #19e323;
+  font-weight: 600;
+  text-align: center;
+}
+#toggleAutoBuild {
+  margin: 12% auto; padding: 2%;
+  width: 50%;
+  font-size: 2vh; font-weight: bold; color: white; text-shadow: 2px 2px 0 #222; text-align: center;
+  cursor: pointer;
+}
+#toggleAutoBuild:hover {
+  box-shadow: 5px 5px 5px rgba(120, 120, 120, .5);
+  transform: scale(1.1);
+  background-color: rgba(230, 199, 133, 0.8);
+}
+#toggleAutoBuild:active {
+  transform: scale(1);
+  filter: brightness(1);
+  color: black; text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  background-color: rgba(255, 255, 255, 0.8);
+
+  transition: all 0s;
+}
+#runeRotation {
+  animation: runesRotation 60s linear infinite;
+}
+#runeLine {
+  position: absolute;
+  width: 59w; height: 38.1vh;
+  overflow: hidden;
+}
+#runes {
+  width: 59vw; height: 38.1vh;
+  margin-left: 5px;
+}
+.runeBottom {
+  position: absolute;
+  width: 4vw; height: 4vw;
+  background-size: 4vw 4vw;
+  animation: runeBackgroundRotation linear 3s infinite;
+  cursor: pointer;
+}
+.rune {
+  position: absolute;
+  width: 4vw; height: 4vw;
+  background-size: 4vw 4vw;
+  animation: runeBackgroundRotation linear 3s infinite;
+  cursor: pointer;
+}
+.rune:hover {
+  filter: brightness(1.4);
+}
+@keyframes runeBackgroundRotation {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+.rune > div {
+  width: 4vw; height: 4vw;
+  background-size: 4vw;
+  animation: runeRortationOffset linear 3s infinite;
+}
+.rune > div > div {
+  padding-top: 1vw; margin-left: 1vw;
+  width: 2vw; height: 2vw;
+  background-size: 2vw 2vw; background-repeat: no-repeat; background-position: bottom;
+}
+@keyframes runesRotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes runeRortationOffset {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#runes > div:nth-child(1) > .rune {
+  background-image: url(Resource/Rune/alphaRuneBase.png);
+}
+#runes > div:nth-child(1) > .rune > div {
+  background-image: url(Resource/Rune/alphaRuneTable.png);
+}
+#runes > div:nth-child(1) > .rune:nth-child(1) > div > div {
+  background-image: url(Resource/Rune/11.png);
+}
+#runes > div:nth-child(1) > .rune:nth-child(2) > div > div {
+  background-image: url(Resource/Rune/12.png);
+}
+#runes > div:nth-child(1) > .rune:nth-child(3) > div > div {
+  background-image: url(Resource/Rune/13.png);
+}
+#runes > div:nth-child(2) > .rune {
+  background-image: url(Resource/Rune/betaRuneBase.png);
+}
+#runes > div:nth-child(2) > .rune > div {
+  background-image: url(Resource/Rune/betaRuneTable.png);
+}
+#runes > div:nth-child(2) > .rune:nth-child(1) > div > div {
+  background-image: url(Resource/Rune/21.png);
+}
+#runes > div:nth-child(2) > .rune:nth-child(2) > div > div {
+  background-image: url(Resource/Rune/22.png);
+}
+#runes > div:nth-child(2) > .rune:nth-child(3) > div > div {
+  background-image: url(Resource/Rune/23.png);
+}
+#runes > div:nth-child(3) > .rune {
+  background-image: url(Resource/Rune/gammaRuneBase.png);
+}
+#runes > div:nth-child(3) > .rune > div {
+  background-image: url(Resource/Rune/gammaRuneTable.png);
+}
+#runes > div:nth-child(3) > .rune:nth-child(1) > div > div {
+  background-image: url(Resource/Rune/31.png);
+}
+#runes > div:nth-child(3) > .rune:nth-child(2) > div > div {
+  background-image: url(Resource/Rune/32.png);
+}
+#runes > div:nth-child(3) > .rune:nth-child(3) > div > div {
+  background-image: url(Resource/Rune/33.png);
+}
+#runes > div:nth-child(4) > .rune:nth-child(1) > div > div {
+  background-image: url(Resource/Rune/41.png);
+}
+#runeEtc {
+  position: absolute;
+  top: 54vh;
+  width: 59vw; height: 12vh;
+  background-color: rgba(200, 200, 200, 0.4);
+}
+#runeNameTxt {
+  display: block; float: left;
+  width: 15vw;
+  margin: 1vh 0; padding: 2vh 0;
+  font-size: 3vh; text-align: center;
+  border-right: 1px solid #333;
+}
+.runeRedMarkup {
+  color: #a22;
+  text-shadow: 0 0 4px #a22;
+}
+.runeBlueMarkup {
+  color: #22a;
+  text-shadow: 0 0 4px #22a;
+}
+.runeGreenMarkup {
+  color: #177817;
+  text-shadow: 0 0 4px #2a2;
+}
+.runeWhiteMarkup {
+  color: #fff;
+  text-shadow: 0 0 4px #fff;
+}
+#runeInfo {
+  display: black; float: left;
+  margin: 1vh 0 0 2vw;
+  width: 40vw; height: 10vh;
+}
+#selRuneLevel {
+  padding: 0.25vh 0 0 0.25vw; margin: 0 0 0.5vh 0;
+  width: 14.75vw; height: 2vh;
+  font-size: 1.75vh;
+  color: #fff; text-shadow: 0 0 3px #fff;
+  background-color: rgba(200, 200, 200, 0.4);
+}
+#selRuneBoostInfo {
+  padding: 0.25vh 0 0 0.25vw; margin: 0 0 0.5vh 0;
+  width: 29.75vw; height: 3.75vh;
+  background-color: rgba(200, 200, 200, 0.4);
+}
+#selRuneBoostName {
+  font-size: 1.2vh;
+  color: #222;
+  text-shadow: 0 0 2px #222;
+}
+#selRuneBoostInfoNum {
+  font-size: 1.9vh;
+}
+#selRuneCost {
+  padding: 0.25vh 0 0 0.25vw;
+  width: 19.75vw; height: 2vh;
+  color: white;
+  background-color: rgba(200, 200, 200, 0.4);
+}
+#beyondButton {
+  margin: 0 auto; padding: 0.75vh 0 0 0;
+  width: 35vw; height: 5vh;
+  font-size: 2vh; text-align: center; color: white;
+  background-color: rgba(190, 190, 190, 0.4);
+  box-shadow: 5px 5px 5px #fff;
+}
+#beyondButton.beyNo:hover {
+  transform: translateX(-2px) translateY(-2px);
+  color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(190, 190, 190, 0.1);
+  box-shadow: 7px 7px 7px #aaa;
+}
+#beyondButton.beyYes:hover {
+  transform: translateX(-2px) translateY(-2px);
+  color: #ddd;
+  background-color: rgba(190, 190, 190, 0.6);
+  box-shadow: 7px 7px 7px #fff;
+}
+#beyondButton.beyYes:active {
+  transform: translateX(5px) translateY(5px);
+  color: #aaa;
+  background-color: rgba(230, 230, 230, 0.9);
+  box-shadow: 0 0 50px #fff;
+
+  transition: all 0.1s;
+}
+#rTreeTxt {
+  margin: 3vh 0 0 0; padding: 0.5vh 0 0 0;
+  width: 100%; height: 3.5vh;
+  font-size: 3vh; text-align: center;
+  animation: rTreeTxtShiny linear 10s infinite;
+  background-color: rgba(200, 200, 200, 0.6);
+}
+@keyframes rTreeTxtShiny {
+  from {
+    color: #fff; text-shadow: 0 0 8px #fff;
+  }
+  50% {
+    color: #ccc; text-shadow: 0 0 4px #aaa;
+  }
+  to {
+    color: #fff; text-shadow: 0 0 8px #fff;
+  }
+}
+#rTreeDesc {
+  margin: 1vh 0 0 15%; padding: 0.5vh 0 0 0;
+  width: 70%; height: 7.5vh;
+  background-color: rgba(200, 200, 200, 0.6);
+}
+#rtBasicDesc {
+  margin: 0.25vh 0 0 0.5vw; padding: 0.25vh 0 0 0.5vw;
+  width: 50%; height: 2vh;
+  font-size: 1.75vh; color: #fff; text-shadow: 0 0 3px #fff; font-weight: bold;
+  background-color: rgba(200, 200, 200, 0.6);
+}
+#rtNum {
+  color: #222; text-shadow: 0 0 3px #222; font-weight: bolder;
+}
+#rtAdvencedDesc {
+  margin: 0.25vh 0 0 0.5vw; padding: 0.25vh 0 0 0.5vw;
+  width: 95%; height: 4vh;
+  font-size: 1.5vh; color: #fff; text-shadow: 0 0 3px #fff; font-weight: bold;
+  background-color: rgba(200, 200, 200, 0.6);
+}
+#rtUI {
+  margin: 0.5vh 0 0 5%;
+  width: 90%; height: 37vh;
+  background-color: rgba(200, 200, 200, 0.3);
+}
+.rotationButtonWarp {
+  display: block; float: left;
+  padding: 4vh 0 0 5.1375vw;
+  width: 8.1375vw; height: 100%;
+}
+.rotationButton {
+  padding: 0.1vw 0 0 0;
+  width: 3vw; height: 2.8vw;
+  font-size: 2vw; text-align: center; color: white; text-shadow: 0 0 3px black;
+  background-color: rgba(180, 180, 180, 0.9);
+  box-shadow: 3px 3px 3px #fff;
+}
+.rotationButton:hover {
+  transform: translateX(-1px) translateY(-1px);
+  box-shadow: 4px 4px 4px #fff;
+  background-color: rgba(160, 160, 160, 0.9);
+}
+.rotationButton:active {
+  transform: translateX(3px) translateY(3px);
+  box-shadow: 0 0 0 #fff;
+  background-color: rgba(160, 160, 160, 0.9);
+
+  transition: all 0.1s;
+}
+#rtBorder {
+  display: block; float: left;
+  width: 26.55vw; height: 37vh;
+  background-color: black;
+  background-color: rgba(210, 210, 210, 0.1);
+}
+#rotationTree {
+  margin: 0.5vh auto 0 auto; padding: 0.3% 0 0 0;
+  width: 36vh; height: 36vh;
+}
+.rTreeLine {
+  margin-top: 1%;
+  width: 100%; height: 18.8%;
+}
+.rTreeBlock {
+  display: block; float: left;
+  margin-left: 1%;
+  width: 18.8%; height: 100%;
+  background-color: rgba(210, 210, 210, 0.3);
+  background-size: 90% 90%; background-repeat: no-repeat; background-position: center center;
+  border-radius: 3px;
+}
+.rTreeBlock.buyN {
+  background-color: rgba(150, 0, 0, 0.2);
+}
+.rTreeBlock.buyN:hover {
+  background-color: rgba(190, 0, 0, 0.4);
+}
+.rTreeBlock.buyM {
+  background-color: rgba(230, 205, 156, 0.4);
+}
+.rTreeBlock.buyM:hover {
+  background-color: rgba(230, 205, 156, 0.8);
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}
+.rTreeBlock.buyM:active {
+  transform: scale(0.9);
+  filter: brightness(1.6);
+  box-shadow: 0 0 5px #fff;
+
+  transition: all 0s;
+}
+.rTreeBlock.buyY {
+  background-color: rgba(156, 230, 166, 0.4);
+}
+.rTreeBlock.buyY:hover {
+  transform: scale(1.2);
+  background-color: rgba(156, 230, 166, 1);
+}
+.rTreeBlock.buyY:active {
+  transform: scale(1.1);
+}
+#rotationTree {
+
+}
+#containerIInI {
+  width: 60vw;
+  height: 28.5vh;
+}
+#boostSelect {
+  display: block;
+  float: left;
+  width: 45vw;
+  height: 28.5vh;
+  background-color: #858585;
+}
+.boostActive {
+  animation-duration: 9s;
+  animation-name: boostShiny;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes boostShiny {
+  from {
+    box-shadow: 0px 0px 15px 15px #aaa inset;
+  }
+  50% {
+    box-shadow: 0px 0px 10px 5px #ccc inset;
+  }
+  to {
+    box-shadow: 0px 0px 15px 15px #aaa inset;
+  }
+}
+#boostTopLayer {
+  margin-top: 1vh;
+  width: 45vw; height: 5vh;
+}
+#boostToken {
+  display: block; float: left;
+  width: 80%; height: 5vh;
+}
+#cancelBoost {
+  padding-top: 1.5vh;
+  display: block; float: left;
+  width: 15%; height: 3.5vh;
+  font-size: 2vh; text-align: center; font-weight: bold; color: #ed731c; text-shadow: 0 0 2px #ed731c;
+  box-shadow: 0 0 10px 5px #fff inset, 3px 3px 5px #555;
+  background-color: rgba(220, 220, 220, 0.9);
+}
+#cancelBoost:hover {
+  box-shadow: 0 0 15px 10px #f2dfdf inset, 6px 6px 8px #555;
+}
+#cancelBoost:active {
+  box-shadow: 0 0 0px 0px #fff inset, 3px 3px 4px #555;
+  transition: all 0.1s;
+}
+#tokenImage {
+  margin-left: 5vh;
+  float: left;
+  width: 5vh;
+  height: 5vh;
+  background-image: url(Resource/boostToken.png);
+  background-size: 5vh 5vh;
+}
+#tokenNum {
+  float: left;
+  height: 5vh;
+  font-size: 5vh;
+  color: #f5c20f;
+  text-align: right;
+  text-shadow: 0 0 4px #d4ac1e;
+}
+#boostSelect > div:nth-child(1) > div:not(:first-child) {
+  text-align: center;
+}
+#boostSelect > div:nth-child(1) > div:nth-child(2) {
+
+}
+.boostCell {
+  padding: 1vh 0;
+  margin: 1vh 1vw;
+  display: block;
+  float: left;
+  width: 13vw;
+  height: 17.5vh;
+  background-color: rgba(200, 200, 200, 0.6);
+}
+.boostCell:hover {
+  transform: scale(1.08);
+  box-shadow: 6px 6px 8px #666;
+}
+.boostCell:active {
+  transform: scale(1);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition: all 0.05s;
+}
+.boostType {
+  font-size: 5vh;
+  color: #e05e3a;
+  text-shadow: 0 0 4px #e05e3a;
+}
+.boostBuff {
+  font-size: 4vh;
+  color: #e05e3a;
+  text-shadow: 0 0 4px #e05e3a;
+}
+.boostTime {
+  margin: 1.5vh 0 1.5vh 0;
+  font-size: 3vh;
+  color: white;
+  text-shadow: 0 0 4px #fff;
+}
+.boostCost {
+  font-size: 2vh;
+  color: #e8d61e;
+  text-shadow: 0 0 4px #333;
+}
+#boostSelect > div:nth-child(1) > div:nth-child(3) {
+
+}
+#boostSelect > div:nth-child(1) > div:nth-child(4) {
+  font-size: 4.4vh;
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+}
+#boostCoolTimeNum {
+  font-size: 8.8vh;
+}
+#innerSelectedBoost {
+  margin: 0.5vh 1vw;
+  height: 21vh;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+#boostInfo {
+  width: 100%;
+  height: 5vh;
+  font-size: 5vh;
+  color: #e05e3a;
+  text-shadow: 0 0 4px #e05e3a;
+  text-align: left;
+}
+#activeBoostTime {
+  width: 100%;
+  height: 8vh;
+  font-size: 4vh;
+  color: #fff;
+  text-shadow: 0 0 4px #fff;
+  text-align: left;
+}
+#activeBoostTimeNum {
+  font-size: 8vh;
+}
+#activeBoostTimeLeft {
+  margin: 2% 0 0 1.5%;
+  width: 90%;
+  height: 2.5em;
+}
+#powerProduction {
+  display: block;
+  float: left;
+  width: 15vw;
+  height: 28.5vh;
+  background-color: #636363;
+}
+#powerNum {
+  margin-top: 0.5vh;
+  width: 15vw; height: 4vh;
+  font-size: 4vh;
+  text-align: center;
+  animation: powerNumPulse linear 20s infinite;
+}
+#powerTxt {
+  margin-top: 0.2vh;
+  width: 15vw; height: 1.5vh;
+  font-size: 1.5vh;
+  text-align: center;
+  animation: powerNumPulse linear 20s infinite;
+}
+@keyframes powerNumPulse {
+  from {
+    color: #d97777;
+    text-shadow: 0 0 2px #d97777;
+  }
+  25% {
+    color: #7787d9;
+    text-shadow: 0 0 4px #7787d9;
+  }
+  50% {
+    color: #7fd977;
+    text-shadow: 0 0 6px #7fd977;
+  }
+  75% {
+    color: #fff;
+    text-shadow: 0 0 8px #fff;
+  }
+  to {
+    color: #d97777;
+    text-shadow: 0 0 2px #d97777;
+  }
+}
+#togglePower {
+  margin: 0.5vh 0 0 1vw; padding: 0.25vh 0 0 0;
+  width: 13vw; height: 5vh;
+  background: linear-gradient(90deg, rgba(237, 179, 71, 0.3) 20% 20%, #404040 20%);
+  cursor: pointer;
+}
+#togglePower:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+#togglePower:active {
+  transform: scale(1);
+  filter: brightness(1);
+
+  transition: all 0.05s;
+}
+#togglePowerBlock {
+  margin: 0.5vh 0 0 0.5vw;
+  font-size: 1.5vh;
+  color: white;
+}
+#togglePowerBlockNum {
+  font-size: 2vh;
+  color: white;
+}
+#togglePowerPower {
+  margin: 0.25vh 0 0 0.5vw;
+  font-size: 1.5vh;
+  color: white;
+}
+#togglePowerPowerNum {
+  font-size: 2vh;
+  color: white;
+}
+.powerBulkButton {
+  margin: 0.5vh 0 0 3vw; padding: 1.1vh 0 0 0;
+  width: 9vw; height: 3.1vh;
+  font-size: 2vh; font-weight: bold; color: white;
+  text-align: center;
+  background-color: rgba(190, 190, 190, 0.5);
+}
+.powerBulkButton:hover {
+  transform: scale(1.1);
+  color: #333;
+  box-shadow: 5px 5px 3px rgba(60, 60, 60, 0.7);
+  background-color: rgba(190, 190, 190, 0.3);
+}
+.powerBulkButton:active {
+  transform: scale(0.95);
+  color: #aaa;
+  box-shadow: 0px 0px 0px #fff;
+  background-color: #fff;
+
+  transition: all 0.05s;
+}
+#powerBulkNum {
+  margin: 0.5vh 0; padding: 0 0 0 0;
+  height: 2.1vh;
+  color: white; text-shadow: 0 0 5px #fff; text-align: center; font-size: 1.6vh;
+}
+#powerGenOptions{
+  margin: 0.5vh 0 0 5%;
+  width: 90%; height: 3vh;
+  background-color: rgba(200, 200, 200, 0.2); box-shadow: 0 0 6px #ddd;
+}
+#powerGenOptions > span {
+  display: block; float: left;
+  margin: 0 0 0 3%; padding: 0.7vh 0 0 0;
+  width: 30%; height: 2.3vh;
+  color: white; text-align: center; font-size: 1.6vh;
+}
+#powerGenOptions > span:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+#powerGenOptions > span.genSel {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+#unlockProgress {
+  width: 60vw;
+  height: 3vh;
+  background-color: #b3b3b3;
+}
+#uProgressTxt {
+  margin: 0.25vh 0 0 0.25vh;
+  font-size: 2.5vh; color: black; font-weight: bold;
+}
+#containerIII {
+  display: block;
+  float: left;
+  width: 20vw;
+  height: 100vh;
+}
+#stat {
+  position: relative;
+  z-index: 5;
+  width: 20vw;
+  height: 80vh;
+  background-color: #7d7d7d;
+}
+#statBanner {
+  padding-top: 0.5vh;
+  margin-bottom: 0.5vh;
+  width: 20vw;
+  height: 2vh;
+  font-size: 1.7vh;
+  font-weight: bolder;
+  text-align: center;
+  color: white;
+  background-color: rgba(40, 40, 40, 0.2);
+}
+.statEra {
+  padding: 0.5vh 0 0.5vh 0.5vw;
+  margin-bottom: 0.5vh;
+  margin-left: 1vw;
+  width: 17.5vw;
+  background-color: rgba(20, 20, 20, 0.3);
+}
+.statEra > div {
+  font-size: 1.6vh;
+  color: white
+}
+.statEra > div:not(:last-child) {
+  margin-bottom: 0.5vh;
+}
+#option {
+  width: 20vw;
+  height: 20vh;
+  background-color: #616161;
+}
+.optionLine:first-child {
+  padding-top: 1vh;
+}
+.optionLine {
+  margin-left: 1vw;
+  margin-bottom: 1vh;
+  padding-left: 1vw;
+  width: 17vw;
+  height: 5.3333vh;
+}
+.optionBlock {
+  display: block;
+  float: left;
+  margin-right: 1vw;
+  padding: 1.6665vh 0;
+  width: 7.5vw;
+  background-color: rgba(150, 150, 150, 0.6);
+  text-align: center;
+  font-size: 2vh;
+  color: white;
+  cursor: pointer;
+}
+.optionBlock:hover {
+  background-color: rgba(150, 150, 150, 0.9);
+  box-shadow: 10px 10px 7px #555;
+  transform: scale(1.1);
+
+  transition: all 0.2s ease;
+}
+.optionBlock:active {
+  background-color: #fff;
+  box-shadow: 0 0 0 #fff;
+  color: #000;
+  transform: scale(1);
+
+  transition: all 0s;
+}
+.optionBlock > a {
+  text-decoration: none;
+  color: white;
+}

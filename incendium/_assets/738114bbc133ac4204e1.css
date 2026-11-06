@@ -1,0 +1,58 @@
+#background {
+    height: 100%;
+    width: 100%;
+}
+
+#makeBackgroundFullScreen{
+    background-color:black;
+    margin-top:100%;
+}
+
+#buyShop{
+    margin-left:50%;
+    margin-right:50%;
+}
+
+.round{
+    border-radius:5px;
+}
+
+.whiteText{
+    color:white;
+}
+
+.whiteBackground{
+    background-color:white;
+}
+
+.blackBackground{
+    background-color:black;
+}
+
+.redBackground{
+    background-color:#ff4040;
+}
+
+.blueBackground{
+    background-color:#7ac5cd;
+}
+
+.greenBackground{
+    background-color:green;
+}
+
+.yellowBackground{
+    background-color:yellow;
+}
+
+.greenColour{
+    color:green;
+}
+
+.blueColour{
+    color:#7ac5cd;
+}
+
+.orangeColour{
+    color:orange;
+}

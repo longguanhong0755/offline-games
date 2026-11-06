@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0, height=device-height" name="viewport"/>
+<meta content="idle, clicker, mouse, cursor, idle clicker, idleclicker, cjscode, game, clicker game, clickergame, cjs, fun, notblocked" name="keywords"/>
+<meta content="A fun, easy, Idle Clicker game. Plus, NO ADS." name="description"/>
+<title>Idle Clicker v1</title>
+<link href="/_assets/78c715b7a76f2181916c.css" rel="stylesheet"/>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<style>
+        body {
+            background-color: lightblue;
+        }
+        .title {
+            text-align: center;
+            font-size: 350%;
+            font-family: Inconsolata, sans-serif;
+            font-weight: bold;
+        }
+        .main {
+            background-color: darkgrey;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .moneytext {
+            font-size: 225%;
+            font-family: Inconsolata, sans-serif;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .clickbutton {
+            background-color: darkgrey;
+            border: 0px darkgrey solid;
+            height: 35%;
+            width: 35%;
+        }
+        .clickimg {
+            height: 100%;
+            width: 100%;
+        }
+        button {
+            border: none;
+            color: black;
+            background-color: grey;
+            border: grey 1px solid;
+            border-radius: 5px;
+            font-family: Inconsolata, sans-serif;
+            font-weight: bold;
+            font-size: 20px
+        }
+        h2 {
+            font-family: Inconsolata, sans-serif;
+        }
+        .nextcursortext {
+            color: green;
+        }
+        .erasegame {
+            color: red;
+        }
+        p {
+            font-size: 150%;
+            font-family: Inconsolata, sans-serif;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        a {
+            font-size: 100%;
+            font-family: Inconsolata, sans-serif;
+            overflow: hidden;
+            white-space: nowrap;
+            color: blue;
+        }
+    </style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="main">
+<h1 class="title">Idle Clicker v1</h1>
+<p class="moneytext" id="moneytext">Money: $0 (0/s)</p><p>
+<button class="clickbutton" id="clickbutton" onclick="moneyinc()"><img class="clickimg" id="clickimg" src="/_assets/cf96cd1ff7ec52527606.png"/></button>
+</p><div class="shop">
+<br/><br/><br/>
+<h2>+1 Money Per Click:</h2>
+<button id="mpc" onclick="buyitem(1)">$50</button><br/><br/>
+<h2>Auto Clicker T1: (1/s)</h2>
+<button id="ac1" onclick="buyitem(2)">$500</button><br/><br/>
+<h2>Auto Clicker T2: (15/s)</h2>
+<button id="ac2" onclick="buyitem(3)">$5k</button><br/><br/>
+<h2>Auto Clicker T3: (160/s)</h2>
+<button id="ac3" onclick="buyitem(4)">$50k</button><br/><br/>
+<h2>Auto Clicker T4: (1750/s)</h2>
+<button id="ac4" onclick="buyitem(5)">$500k</button><br/><br/>
+<h2 class="nextcursortext">Next Cursor</h2>
+<button class="nextcursorbutton" id="ncursor" onclick="nextcursor()">$7.5M</button><br/><br/>
+</div>
+<div class="stats">
+<br/><br/><br/>
+<h2 class="stats">Total Money Made:</h2>
+<p class="stats" id="moneymadetext">0</p><br/>
+<h2 class="stats">Total Clicks:</h2>
+<p class="stats" id="clickstext">0</p><br/>
+<h2 class="stats">Current Cursor:</h2>
+<p class="stats" id="currentcursortext">1</p>
+</div>
+<div class="settings">
+<br/><br/><br/>
+<h2 class="erasegame">Erase Game</h2>
+<button class="erasegame" onclick="resetgame()">Erase Game</button><br/><br/>
+<h2 class="savegame">Save Game To Code</h2>
+<button class="savegame" onclick="savegamecode()">Save Game</button><br/><br/>
+<h2 class="loadgame">Load Game From Code</h2>
+<button class="loadgame" onclick="loadgamecode()">Load Game</button><br/><br/>
+</div>
+<div class="bottom">
+<a>Github</a>
+</div>
+</div>
+<script>
+    //setup and load game
+    if (confirm("Do you want to try Idle Clicker 2?")) {
+        location.replace("https://cjscode.github.io/IdleClicker2")
+    }
+    const starttime = new Date()
+    let prevtime = 0
+    let time = new Date()
+    let timer = 0
+    let fps = 1
+    let money = parseInt(localStorage.getItem("MoneyStorage"))
+    if (!(money >= 0)) {
+        money = 0
+    }
+    let shopPrice1 = parseInt(localStorage.getItem("ShopPrice1Storage"))
+    if (!(shopPrice1 >= 0)) {
+        shopPrice1 = 50
+    }
+    let shopAmount1 = parseInt(localStorage.getItem("ShopAmount1Storage"))
+    if (!(shopAmount1 >= 0)) {
+        shopAmount1 = 0
+    }
+    let shopPrice2 = parseInt(localStorage.getItem("ShopPrice2Storage"))
+    if (!(shopPrice2 >= 0)) {
+        shopPrice2 = 500
+    }
+    let shopAmount2 = parseInt(localStorage.getItem("ShopAmount2Storage"))
+    if (!(shopAmount2 >= 0)) {
+        shopAmount2 = 0
+    }
+    let shopPrice3 = parseInt(localStorage.getItem("ShopPrice3Storage"))
+    if (!(shopPrice3 >= 0)) {
+        shopPrice3 = 5000
+    }
+    let shopAmount3 = parseInt(localStorage.getItem("ShopAmount3Storage"))
+    if (!(shopAmount3 >= 0)) {
+        shopAmount3 = 0
+    }
+    let shopPrice4 = parseInt(localStorage.getItem("ShopPrice4Storage"))
+    if (!(shopPrice4 >= 0)) {
+        shopPrice4 = 50000
+    }
+    let shopAmount4 = parseInt(localStorage.getItem("ShopAmount4Storage"))
+    if (!(shopAmount4 >= 0)) {
+        shopAmount4 = 0
+    }
+    let shopPrice5 = parseInt(localStorage.getItem("ShopPrice5Storage"))
+    if (!(shopPrice5 >= 0)) {
+        shopPrice5 = 500000
+    }
+    let shopAmount5 = parseInt(localStorage.getItem("ShopAmount5Storage"))
+    if (!(shopAmount5 >= 0)) {
+        shopAmount5 = 0
+    }
+    let moneyincAmount = parseInt(localStorage.getItem("MoneyincAmountStorage"))
+    if (!(moneyincAmount >= 0)) {
+        moneyincAmount = 1
+    }
+    let nextCursorCost = parseInt(localStorage.getItem("NextCursorCostStorage"))
+    if (!(nextCursorCost >= 0)) {
+        nextCursorCost = 7500000
+    }
+    let currentCursor = parseInt(localStorage.getItem("CurrentCursorStorage"))
+    if (!(currentCursor >= 0)) {
+        currentCursor = 1
+    }
+    let currentMult = parseInt(localStorage.getItem("CurrentMultStorage"))
+    if (!(currentMult >= 0)) {
+        currentMult = 1
+    }
+    let date = new Date()
+    let lastOnline = parseInt(localStorage.getItem("LastOnlineStorage"))
+    if (!(lastOnline >= 0)) {
+        lastOnline = Math.round(date.getTime()/1000)
+    } else {
+        alert("While you were gone, you made $"+getshorternumber((Math.round(date.getTime()/1000) - lastOnline)*(((1*shopAmount2) * currentMult)+((15*shopAmount3) * currentMult)+((160*shopAmount4) * currentMult)+((1750*shopAmount5) * currentMult)))+" over "+(Math.round(date.getTime()/1000) - lastOnline)+" seconds.")
+    }
+    let totalClicks = parseInt(localStorage.getItem("TotalClicksStorage"))
+    if (!(totalClicks >= 0)) {
+        totalClicks = 0
+    }
+    let totalMoney = parseInt(localStorage.getItem("TotalMoneyStorage"))
+    if (!(totalMoney >= 0)) {
+        totalMoney = 0
+    }
+
+    //change money by seconds since last online * money per sec
+    money += (Math.round(date.getTime()/1000) - lastOnline)*(((1*shopAmount2) * currentMult)+((15*shopAmount3) * currentMult)+((160*shopAmount4) * currentMult)+((1750*shopAmount5) * currentMult))
+    totalMoney += (Math.round(date.getTime()/1000) - lastOnline)*(((1*shopAmount2) * currentMult)+((15*shopAmount3) * currentMult)+((160*shopAmount4) * currentMult)+((1750*shopAmount5) * currentMult))
+
+    //changes money by moneyincAmount
+    function moneyinc () {
+        money += moneyincAmount * currentMult
+        totalMoney += moneyincAmount * currentMult
+        totalClicks += 1
+    }
+
+    //buys selected item if possible
+    function buyitem (itemNum) {
+        if (itemNum === 1 && money >= shopPrice1) {
+            money -= shopPrice1
+            moneyincAmount += 1
+            shopPrice1 = Math.round(shopPrice1*1.025)
+            shopAmount1 += 1
+        } else if (itemNum === 2 && money >=shopPrice2) {
+            money -= shopPrice2
+            shopPrice2 = Math.round(shopPrice2*1.025)
+            shopAmount2 += 1
+        } else if (itemNum === 3 && money >=shopPrice3) {
+            money -= shopPrice3
+            shopPrice3 = Math.round(shopPrice3*1.025)
+            shopAmount3 += 1
+        } else if (itemNum === 4 && money >=shopPrice4) {
+            money -= shopPrice4
+            shopPrice4 = Math.round(shopPrice4*1.025)
+            shopAmount4 += 1
+        } else if (itemNum === 5 && money >=shopPrice5) {
+            money -= shopPrice5
+            shopPrice5 = Math.round(shopPrice5*1.025)
+            shopAmount5 += 1
+        } else {
+            console.log("ERROR: Unable to register purchase request")
+        }
+    }
+
+    let reset = ""
+    //resets game
+    function resetgame () {
+        reset = prompt("Type 'erase' to erase your game save.","")
+        if (reset === "erase") {
+            localStorage.removeItem("MoneyStorage")
+            localStorage.removeItem("MoneyincAmountStorage")
+            localStorage.removeItem("ShopPrice1Storage")
+            localStorage.removeItem("ShopAmount1Storage")
+            localStorage.removeItem("ShopPrice2Storage")
+            localStorage.removeItem("ShopAmount2Storage")
+            localStorage.removeItem("ShopPrice3Storage")
+            localStorage.removeItem("ShopAmount3Storage")
+            localStorage.removeItem("ShopPrice4Storage")
+            localStorage.removeItem("ShopAmount4Storage")
+            localStorage.removeItem("ShopPrice5Storage")
+            localStorage.removeItem("ShopAmount5Storage")
+            localStorage.removeItem("CurrentCursorStorage")
+            localStorage.removeItem("NextCursorCostStorage")
+            localStorage.removeItem("CurrentMultStorage")
+            localStorage.removeItem("LastOnlineStorage")
+            localStorage.removeItem("TotalClicksStorage")
+            localStorage.removeItem("TotalMoneyStorage")
+            location.reload()
+        }
+    }
+
+    //runs autominers and autosaves
+    setInterval(savegame, 500)
+    function automine () {
+        money += ((1*shopAmount2) * currentMult)/fps
+        totalMoney += ((1*shopAmount2) * currentMult)/fps
+        money += ((15*shopAmount3) * currentMult)/fps
+        totalMoney += ((15*shopAmount3) * currentMult)/fps
+        money += ((160*shopAmount4) * currentMult)/fps
+        totalMoney += ((160*shopAmount4) * currentMult)/fps
+        money += ((1750*shopAmount5) * currentMult)/fps
+        totalMoney += ((1750*shopAmount5) * currentMult)/fps
+    }
+
+    //advances to the next cursor
+    function nextcursor () {
+        if (money >= nextCursorCost && !(currentCursor === 13)) {
+            money = 0
+            currentCursor += 1
+            nextCursorCost *= 1.9
+            nextCursorCost = Math.round(nextCursorCost)
+            moneyincAmount = 1
+            currentMult *= 2
+            shopAmount1 = 0
+            shopAmount2 = 0
+            shopAmount3 = 0
+            shopAmount4 = 0
+            shopAmount5 = 0
+            shopPrice1 = Math.round(50 * (currentMult * 0.95))
+            shopPrice2 = Math.round(500 * (currentMult * 0.95))
+            shopPrice3 = Math.round(5000 * (currentMult * 0.95))
+            shopPrice4 = Math.round(50000 * (currentMult * 0.95))
+            shopPrice5 = Math.round(500000 * (currentMult * 0.95))
+        }
+    }
+
+    //saves game
+    function savegame () {
+        localStorage.setItem("MoneyStorage", money)
+        localStorage.setItem("MoneyincAmountStorage", moneyincAmount)
+        localStorage.setItem("ShopPrice1Storage", shopPrice1)
+        localStorage.setItem("ShopAmount1Storage", shopAmount1)
+        localStorage.setItem("ShopPrice2Storage", shopPrice2)
+        localStorage.setItem("ShopAmount2Storage", shopAmount2)
+        localStorage.setItem("ShopPrice3Storage", shopPrice3)
+        localStorage.setItem("ShopAmount3Storage", shopAmount3)
+        localStorage.setItem("ShopPrice4Storage", shopPrice4)
+        localStorage.setItem("ShopAmount4Storage", shopAmount4)
+        localStorage.setItem("ShopPrice5Storage", shopPrice5)
+        localStorage.setItem("ShopAmount5Storage", shopAmount5)
+        localStorage.setItem("CurrentCursorStorage", currentCursor)
+        localStorage.setItem("NextCursorCostStorage", nextCursorCost)
+        localStorage.setItem("CurrentMultStorage", currentMult)
+        date = new Date()
+        localStorage.setItem("LastOnlineStorage", Math.round(date.getTime()/1000))
+        localStorage.setItem("TotalClicksStorage", totalClicks)
+        localStorage.setItem("TotalMoneyStorage", totalMoney)
+    }
+    
+    //game loop
+    function loop () {
+        updatefpsone()
+        document.getElementById("moneytext").innerHTML = "Money: $"+getshorternumber(money)+" ("+getshorternumber((((1*shopAmount2)+(15*shopAmount3)+(160*shopAmount4)+(1750*shopAmount5)) * currentMult))+"/s)"
+        document.getElementById("mpc").innerHTML = "$"+getshorternumber(shopPrice1)
+        document.getElementById("ac1").innerHTML = "$"+getshorternumber(shopPrice2)
+        document.getElementById("ac2").innerHTML = "$"+getshorternumber(shopPrice3)
+        document.getElementById("ac3").innerHTML = "$"+getshorternumber(shopPrice4)
+        document.getElementById("ac4").innerHTML = "$"+getshorternumber(shopPrice5)
+        document.getElementById("currentcursortext").innerHTML = currentCursor
+        document.getElementById("clickstext").innerHTML = getshorternumber(totalClicks)
+        document.getElementById("moneymadetext").innerHTML = getshorternumber(totalMoney)
+        if (!(currentCursor === 13)) {
+            document.getElementById("ncursor").innerHTML = "$"+getshorternumber(nextCursorCost)
+        } else {
+            document.getElementById("ncursor").innerHTML = "MAX"
+        }
+        document.getElementById("clickimg").src = "Assets/CursorImg"+currentCursor+".png"
+        updatefpstwo()
+        automine()
+        requestAnimationFrame(loop)
+    }
+    function savegamecode () {
+        let gamesavecode = money+";"+moneyincAmount+";"+shopPrice1+";"+shopAmount1+";"+shopPrice2+";"+shopAmount2+";"+shopPrice3+";"+shopAmount3+";"+shopPrice4+";"+shopAmount4+";"+shopPrice5+";"+shopAmount5+";"+currentCursor+";"+nextCursorCost+";"+currentMult+";"
+        alert(gamesavecode)
+    }
+    function loadgamecode () {
+        let gamecode = prompt("Please enter code:","")
+        let sepstring = ""
+        let sepstrings = []
+        for (let index = 0; index <= gamecode.length; index++) {
+            if (gamecode.charAt(index) == ";") {
+                sepstrings.push(parseFloat(sepstring))
+                sepstring = ""
+                index += 1
+            }
+            sepstring = sepstring+gamecode.charAt(index)
+        }
+        if (!(sepstrings.length === 15)) {
+            alert("Invalid Code! Please try again.")
+        } else {
+            money = sepstrings[0] 
+            moneyincAmount = sepstrings[1] 
+            shopPrice1 = sepstrings[2]  
+            shopAmount1 = sepstrings[3] 
+            shopPrice2 = sepstrings[4]  
+            shopAmount2 = sepstrings[5] 
+            shopPrice3 = sepstrings[6]  
+            shopAmount3 = sepstrings[7] 
+            shopPrice4 = sepstrings[8]  
+            shopAmount4 = sepstrings[9] 
+            shopPrice5 = sepstrings[10]  
+            shopAmount5 = sepstrings[11] 
+            currentCursor = sepstrings[12]  
+            nextCursorCost = sepstrings[13] 
+            currentMult = sepstrings[14]
+            savegame()
+            location.reload()
+        }
+    }
+    function updatefpsone () {
+      time = new Date()
+      timer = time.getTime()-starttime
+    }
+    function updatefpstwo () {
+        fps = 60 //1000/(timer-prevtime)
+        prevtime = timer
+    }
+    //shorten number
+    function getshorternumber (number) {
+        if (number < 1000) {
+            return Math.floor(number)
+        } else if (number < 1000000) {
+            return Math.floor(number/10)/100 + "k"
+        } else if (number < 1000000000) {
+            return Math.floor(number/10000)/100 + "M"
+        } else if (number < 1000000000000) {
+            return Math.floor(number/10000000)/100 + "B"
+        } else if (number < 1000000000000000) {
+            return Math.floor(number/10000000000)/100 + "T"
+        } else {
+            return Math.floor(number/10000000000000)/100 + "Q"
+        }
+    }
+    //run game
+    loop()
+    </script>
+</body></html>

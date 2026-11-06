@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<meta content="ie=edge" http-equiv="x-ua-compatible"/>
+<title>ClickJS</title>
+<!-- Bootstrap core CSS -->
+<link href="/_assets/80a14abaec942605c9ee.css" rel="stylesheet"/>
+<!-- Material Design Bootstrap -->
+<link href="/_assets/202ff191fe9735278461.css" rel="stylesheet"/>
+<!-- Your custom styles (optional) -->
+<link href="/_assets/a18e279342d3bd2b8dbd.css" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="/_assets/43730866612149a27f49.css" rel="stylesheet"/>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-120354349-1');
+    </script>
+<style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- Start your project here-->
+<div class="container-fluid">
+<!-- Games panels (unvisible until clicked on welcoming text)-->
+<div id="divGameContainer"><div class="row unique-color py-2"><div class="col-12 col-sm-auto" id="divResMoney"><span class="h1 text-white text-left pt-4"> Money 1 $ </span> <span class="text-left red-text">(+0 $/s)</span></div> <div class="col-12 col-sm-auto ml-auto" id="divResLabor"><button class="btn btn-primary btn-block" id="btnResLabor" type="button"><span class="text-light"><i class="fas fa-shoe-prints"></i>  Manual Labor</span></button></div></div> <div class="row text-center"><div class="col-sm col-xs-6 my-2" style="display: none;"><div class="stylish-color-dark rounded hoverable"><div class="row"><div class="col-2 col-xs"><i class="p-2 fa-2x fa-fw fa fa-bicycle red-text"></i></div> <div class="col-auto col-xs-8 text-left"><span class="h4 white-text">Bicycle</span> <span class="text-light">+1 $/s</span> <strong class="red-text"><br/>50 $</strong></div> <div class="col col-xs text-right"><h1 class="text-light pr-4">0</h1></div></div> <div class="progress"><div aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" class="progress-bar unique-color progress-bar-striped progress-bar-animated" role="progressbar" style="width: 2%;"></div></div></div></div><div class="col-sm col-xs-6 my-2" style="display: none;"><div class="stylish-color-dark rounded hoverable"><div class="row"><div class="col-2 col-xs"><i class="p-2 fa-2x fa-fw fa fa-motorcycle red-text"></i></div> <div class="col-auto col-xs-8 text-left"><span class="h4 white-text">Scooter</span> <span class="text-light">+3 $/s</span> <strong class="red-text"><br/>500 $</strong></div> <div class="col col-xs text-right"><h1 class="text-light pr-4">0</h1></div></div> <div class="progress"><div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0.2" class="progress-bar unique-color progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0.2%;"></div></div></div></div><div class="col-sm col-xs-6 my-2" style="display: none;"><div class="stylish-color-dark rounded hoverable"><div class="row"><div class="col-2 col-xs"><i class="p-2 fa-2x fa-fw fa fa-car red-text"></i></div> <div class="col-auto col-xs-8 text-left"><span class="h4 white-text">Car</span> <span class="text-light">+10 $/s</span> <strong class="red-text"><br/>1000 $</strong></div> <div class="col col-xs text-right"><h1 class="text-light pr-4">0</h1></div></div> <div class="progress"><div aria-valuemax="100" aria-valuemin="0" aria-valuenow="0.1" class="progress-bar unique-color progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0.1%;"></div></div></div></div></div> <div class="row elegant-color"><p class="text-muted">Total clicks : 0</p></div> <div class="row elegant-color p-5" style="height: auto;"><div id="planet"><div id="circleBicycle"></div> <div id="circleScooter"></div> <div></div><div></div><div></div></div></div></div>
+</div>
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script src="/_assets/160a426ff2894252cd7c.js" type="text/javascript"></script>
+<!-- Bootstrap tooltips -->
+<script src="/_assets/625b022a42ed5d9c3991.js" type="text/javascript"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="/_assets/0bca10549df770ab6790.js" type="text/javascript"></script>
+<!-- MDB core JavaScript -->
+<script src="/_assets/e6034d045bddd22aa460.js" type="text/javascript"></script>
+<!-- VueJS 2.5.16 JavaScript -->
+<script src="/_assets/08c313ae3e601b03805c.js" type="text/javascript"></script>
+<!-- Vuex 3.0.1 JavaScript -->
+<script src="/_assets/9770ab10ca4b365d1abe.js" type="text/javascript"></script>
+<!-- ClickJS core JavaScript -->
+<script src="/_assets/483964c6db9399f2d449.js" type="text/javascript"></script>
+<!-- //SCRIPTS -->
+<script type="text/javascript">
+        Vue.component('div-money', {
+            computed: {
+                totalMoney: function () {
+                  return this.$store.state.moneyAmount
+                },
+                totalMoneyPerSecond: function () {
+                  return this.$store.state.moneyPerSecond
+                }
+            },
+            template:   `<div class="col-12 col-sm-auto" id="divResMoney">
+                            <span class="h1 text-white text-left pt-4"> Money {{ totalMoney }} $ </span>
+                            <span class="text-left red-text">(+{{ totalMoneyPerSecond }} $/s)</span>
+                        </div>`,
+        });
+
+        Vue.component('div-labor', {
+            computed: {
+                laborObject: function () {
+                  return this.$store.state.labor
+                }
+            },
+            methods: {
+                laborClick: function (e) {
+                    store.commit('doLabor')
+                    popUp("+1$", '24px', 'white', 'fadeOutUp', e)
+                }
+            },
+            template:   `<div class="col-12 col-sm-auto ml-auto" id="divResLabor">
+                            <button type="button" class="btn btn-primary btn-block" id="btnResLabor" v-on:click="laborClick"><span class="text-light"><i class="fas fa-shoe-prints"></i>  Manual Labor</span></button>
+                        </div>`,
+        });
+
+        Vue.component('vehicle-list-button', {
+            props: ['vehicle'],
+            computed: {
+                totalMoney: function () {
+                  return this.$store.state.moneyAmount
+                },
+                canBuy: function () {
+                    store.commit('discoverVehicle')
+                    return this.totalMoney >= this.vehicle.costMoney
+                },
+                progress: function () {
+                    let progressPc = ((this.totalMoney / this.vehicle.costMoney) * 100)
+                    return ( progressPc <= 100 ? progressPc : 100)
+                }
+            },
+            methods: {
+                vehicleClick: function (e) {
+                    if (this.canBuy) {
+                        store.commit('buyVehicle', this.vehicle.id)
+                        popUp("-"+this.vehicle.costMoney+"$", '24px', 'red', 'fadeOutUp', e)
+                    }
+                }
+            },
+            template:   `<div class="col-sm col-xs-6 my-2" v-show="vehicle.discovered">
+                            <div v-on:click="vehicleClick" class="stylish-color-dark rounded hoverable">
+                                <div class="row">
+                                    <div class="col-2 col-xs">
+                                        <i class="p-2 fa-2x fa-fw" v-bind:class="[vehicle.srcIco, {'green-text': canBuy === true, 'red-text': canBuy === false }]"></i>
+                                    </div>
+                                    <div class="col-auto col-xs-8 text-left">
+                                        <span class="h4 white-text">{{ vehicle.name }}</span>
+                                        <span class="text-light">+{{ vehicle.moneyPerSeconds }} $/s</span>
+                                        <strong v-bind:class="{'green-text': canBuy === true, 'red-text': canBuy === false }"><br>{{ vehicle.costMoney }} $</strong>
+                                    </div>
+                                    <div class="col col-xs text-right">
+                                        <h1 class="text-light pr-4">{{ vehicle.purchased }}</h1>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar unique-color progress-bar-striped progress-bar-animated" v-bind:style="'width: '+progress+'%'" role="progressbar" v-bind:aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>`,
+        });
+
+        Vue.component('animated-spritesheet', {
+            props: ['vehicle'],
+            template:   `<div><img v-bind:src="'assets/images/'+vehicle.name+'_h63px.gif'" v-bind:class="'vehicle-' + vehicle.name" v-for="qty in vehicle.purchased"></img></div>`,
+        });
+
+        var vm = new Vue({
+            el: '#divGameContainer',
+            store,
+            computed: {
+                vehicles: function () {
+                    return this.$store.state.vehicles
+                }
+            },
+            mounted () {
+                this.moneyProducer()
+            },
+            methods: {
+                laborClick: function () {
+                    store.commit('doLabor')
+                },
+                moneyProducer: function () {
+                    setInterval(() => {
+                        store.commit('countMoneyPerSecond')
+                        store.commit('incrementMoney')
+                    }, 1000)
+                },
+            },
+        });
+    </script>
+<div class="hiddendiv common"></div></body></html>

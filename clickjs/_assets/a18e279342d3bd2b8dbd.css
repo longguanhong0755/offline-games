@@ -1,0 +1,110 @@
+.vehicle-Bicycle {
+    position: absolute;
+    margin: auto;
+    width: 63px;
+    height: 63px;
+    top: 170px;
+    left: 170px;
+    z-index: 5;
+    animation: myBicycleOrbit 15s linear infinite;
+}
+@keyframes myBicycleOrbit {
+    from { transform: rotate(0deg) translateY(-140px); }
+    to   { transform: rotate(360deg) translateY(-140px); }
+}
+
+.vehicle-Scooter {
+    position: absolute;
+    margin: auto;
+    width: 63px;
+    height: 63px;
+    top: 170px;
+    left: 170px;
+    z-index: 4;
+    animation: myScooterOrbit 10s linear infinite;
+}
+@keyframes myScooterOrbit {
+    from { transform: rotate(0deg) translateY(-180px); }
+    to   { transform: rotate(360deg) translateY(-180px); }
+}
+
+.vehicle-Car {
+    position: absolute;
+    margin: auto;
+    width: 63px;
+    height: 63px;
+    top: 170px;
+    left: 170px;
+    z-index: 3;
+    animation: myVehicleOrbit 5s linear infinite;
+}
+
+@keyframes myVehicleOrbit {
+    from { transform: rotate(0deg) translateY(-230px); }
+    to   { transform: rotate(360deg) translateY(-230px); }
+}
+
+#planet {
+    position: relative;
+    margin: auto;
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+    background-color: #5E8249;
+    background: url(b4985ec1daa3e04470be.jpg) 0 0 repeat;
+    background-size:800px;
+    box-shadow: inset 20px 0 80px 6px #496282;
+    animation: myPlanetRotation 50s linear infinite;
+}
+#planet:after {
+  content: "";
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: -80px 15px 80px 10px rgba(0,0,0,.9) inset;
+}
+#planet:before {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.2;
+  background: radial-gradient(circle at 100px 100px, #fff, #000);
+}
+
+@keyframes myPlanetRotation {
+    0% {background-position: 0 0;}
+    100% {background-position: 800px 0;}
+}
+
+#circleBicycle {
+    position: absolute;
+    margin: auto;
+    height: 230px;
+    width: 230px;
+    top: 85px;
+    left: 85px;
+    border:1px dashed LightGray;
+    border-radius:50%;
+    opacity: 0.2;
+    background-color: tomato;
+}
+
+#circleScooter {
+    position: absolute;
+    margin: auto;
+    height: 300px;
+    width: 300px;
+    top: 50px;
+    left: 50px;
+    border:1px dashed LightGray;
+    border-radius:50%;
+    opacity: 0.2;
+    background-color: CornflowerBlue;
+}

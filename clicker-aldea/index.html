@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<title>Clicker</title>
+<link href="/_assets/56c449f445cbf2a022f5.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body onload="Deglucion(),Actualizar_Coste(),Actualizar_produccionM(),Actualizar_produccionP(),Actualizar_produccionC()" style="background-color:#2f353c">
+<div class="container">
+<div class="Campo" id="recoleccion">
+<table>
+<tbody><tr>
+<td><button id="clickM" type="button">Recolectar</button></td>
+<td><span>Madera: <span id="totalM">0</span></span></td>
+<td><span id="ProduccionM"> 0/s</span></td>
+</tr>
+<tr>
+<td><button id="clickP" type="button">Recolectar</button></td>
+<td><span>Piedra: <span id="totalP">0</span></span></td>
+<td><span id="ProduccionP"> 0/s</span></td>
+</tr>
+<tr>
+<td><button id="clickC" type="button">Recolectar</button></td>
+<td><span>Comida: <span id="totalC">0</span></span></td>
+<td><span id="ProduccionC"> 0/s</span></td>
+</tr>
+<tr>
+<td><button id="Mejorar_recoleccion" type="button">Mejorar la recoleccion</button></td>
+<td colspan="2"><span>-<span id="click_incrp">3</span> de Piedra -<span id="click_incrm">3</span> de Madera</span><span class="Sin" id="SinRecoleccion"></span></td>
+</tr>
+</tbody></table>
+</div>
+<div class="Campo" id="Edificios">
+<table>
+<tbody><tr>
+<td><button id="clickA" type="button">Generar</button></td>
+<td><span>Aldeanos: <span id="totalA">0</span><span> -20 de comida</span><span class="Sin" id="SinAldeano"></span></span></td>
+</tr>
+<tr>
+<td><button id="clickC1" type="button">Construir</button></td>
+<td><span>Choza: <span id="totalC1">0</span><span> -20 de Madera</span><span class="Sin" id="SinChoza"></span></span></td>
+</tr>
+</tbody></table>
+</div>
+<div class="Campo" id="Trabajadores">
+<table>
+<tbody><tr>
+<td colspan="2"><span>Aldeanos sin trabajo: <span id="WorkNo">0</span></span></td>
+</tr>
+<tr>
+<td><button id="clickworkM" type="button">Entrenar</button></td>
+<td><span>Leñador: <span id="WorkM">0</span><span class="Sin" id="SinWorkM"></span></span></td>
+</tr>
+<tr>
+<td><button id="clickworkP" type="button">Entrenar</button></td>
+<td><span>Minero: <span id="WorkP">0</span><span class="Sin" id="SinWorkP"></span></span></td>
+</tr>
+<tr>
+<td><button id="clickworkC" type="button">Entrenar</button></td>
+<td><span>Granjeros: <span id="WorkC">0</span><span class="Sin" id="SinWorkC"></span></span></td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<script src="/_assets/232114d9a3e9fb60dc54.js" type="text/javascript"></script>
+</body></html>

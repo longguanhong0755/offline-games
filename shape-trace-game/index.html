@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="ja"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<link href="/shape-trace-game/vite.svg" rel="icon" type="image/svg+xml"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Shape Trace Game" property="og:title"/>
+<meta content="指定した図形にどれだけ似せて描けるかを競うゲーム。" property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://seiya-matsuoka.github.io/shape-trace-game/" property="og:url"/>
+<!-- プレビュー画像 -->
+<meta content="https://seiya-matsuoka.github.io/shape-trace-game/social-1200x630.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="https://seiya-matsuoka.github.io/shape-trace-game/social-1200x1200.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="1200" property="og:image:height"/>
+<meta content="ゲームのスクリーンショット" property="og:image:alt"/>
+<title>Shape Trace Game</title>
+<script src="/_assets/9478ce1cb201cdfa9605.js" type="module"></script>
+<link href="/_assets/448178d7cabf5216deb1.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="min-h-screen">
+<header class="border-b bg-white/70 backdrop-blur dark:bg-slate-900/70">
+<div class="flex w-full items-center gap-3 px-4 py-3 md:px-6">
+<h1 class="text-xl font-semibold tracking-tight md:text-2xl">
+          Shape Trace Game
+        </h1>
+</div>
+</header>
+<main class="w-full py-6">
+<div class="grid grid-cols-12 gap-y-6">
+<div class="hidden md:col-span-1 md:block lg:col-span-2"></div>
+<div class="col-span-12 px-0 md:col-span-10 md:px-4 lg:col-span-8">
+<!-- 上部ツールバー -->
+<section class="w-full">
+<div class="mx-auto flex w-full max-w-[min(92vw,640px)] flex-col gap-4 px-4 md:mx-0 md:max-w-none md:flex-row md:items-end md:justify-between md:px-0">
+<div class="flex flex-wrap items-end gap-4">
+<div>
+<label class="mb-1 block text-sm font-medium" for="shapeSelect">形状</label>
+<select class="w-64 rounded-md border-slate-300 md:w-56 dark:border-slate-700" id="shapeSelect">
+<option value="circle">丸</option>
+<option value="triangle">三角</option>
+<option value="square">四角</option>
+<option value="star">星</option>
+<option value="pentagon">五角形</option>
+<option value="heart">ハート</option>
+</select>
+</div>
+<div>
+<label class="mb-1 block text-sm font-medium" for="sizeSelect">サイズ</label>
+<select class="w-40 rounded-md border-slate-300 md:w-32 dark:border-slate-700" id="sizeSelect">
+<option value="lg">大</option>
+<option value="sm">小</option>
+</select>
+</div>
+<div>
+<div class="mb-1 block text-sm font-medium">表示</div>
+<div class="flex flex-wrap gap-2">
+<button aria-pressed="true" class="rounded-md bg-slate-900 px-3 py-2 text-white" id="toggleGhost">
+                      手本
+                    </button>
+<button aria-pressed="true" class="rounded-md px-3 py-2 bg-slate-900 text-white" id="toggleGrid">
+                      グリッド
+                    </button>
+<button aria-pressed="true" class="rounded-md px-3 py-2 bg-slate-900 text-white" id="toggleCross">
+                      十字
+                    </button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 md:min-w-[360px] md:justify-end">
+<div class="min-w-[240px] flex-1">
+<div class="flex items-baseline gap-3">
+<span class="text-sm opacity-70">スコア:</span>
+<output class="text-lg font-semibold" id="scoreOut">—</output>
+<span class="text-sm opacity-70">ベスト:</span>
+<output class="text-sm font-medium" id="bestOut">—</output>
+</div>
+<div class="mt-2 h-2 w-full rounded-full bg-slate-500 dark:bg-slate-700">
+<div class="h-2 rounded-full bg-indigo-500 transition-all" id="scoreBar" style="width: 0%; background-color: rgb(138, 148, 168);"></div>
+</div>
+</div>
+<button class="shrink-0 rounded-md bg-indigo-600 px-4 py-2 text-white shadow-sm hover:bg-indigo-700" id="clearBtn">
+                  クリア
+                </button>
+</div>
+</div>
+</section>
+<section class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+<div class="relative order-2 mx-auto h-[320px] w-full max-w-[min(92vw,640px)] overflow-hidden rounded-2xl bg-white shadow-sm md:order-1 md:mx-0 md:h-[min(70vh,38vw)] md:max-w-none dark:bg-slate-800">
+<canvas class="absolute inset-0 h-full w-full select-none" height="547" id="sampleCanvas" width="452"></canvas>
+</div>
+<div class="relative order-1 mx-auto h-[320px] w-full max-w-[min(92vw,640px)] overflow-hidden rounded-2xl bg-white shadow-sm md:order-2 md:mx-0 md:h-[min(70vh,38vw)] md:max-w-none dark:bg-slate-800">
+<canvas class="absolute inset-0 h-full w-full touch-none select-none" height="547" id="drawCanvas" width="452"></canvas>
+</div>
+</section>
+<p class="mt-2 text-xs opacity-70">
+            一筆書きで描いてください。描き直す場合は「クリア」。スマホ/タブレットではスワイプで描けます。
+          </p>
+</div>
+<div class="hidden md:col-span-1 md:block lg:col-span-2"></div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,219 @@
+body {
+  font-family: arial, helvetica, sans-serif;
+  font-size: 0.8125em;
+  line-height: 1.3em;
+  margin: 0;
+}
+
+a {
+  color: white;
+}
+
+#container {
+  margin-top: 30px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#playerHealth {
+  background-color: black;
+  border: 2px solid black;
+}
+
+#playerCombatText {
+  vertical-align: middle;
+  line-height: 20px;
+  color: red;
+}
+
+#enemyHealth {
+  background-color: black;
+  border: 2px solid white;
+}
+
+#enemyCombatText {
+  vertical-align: middle;
+  line-height: 20px;
+  color: red;
+}
+
+#experience {
+  text-align: center;
+  background-color:#000;
+  border: 2px solid black;
+}
+
+#experienceBar {
+  width: 0;
+  margin-left:0;
+  margin-right:auto;
+  background-color: #909;
+}
+
+#experienceBarText {
+  text-align: center;
+}
+
+
+
+#inventory {
+  float: right;
+  width: 307px;
+  margin-right: 5px;
+  color: white;
+  background-color: black;
+}
+
+#character {
+  float: right;
+  background-color: black;
+}
+
+#money {
+  text-align: right;
+  color: white;
+  background-color: #333;
+  padding: 5px;
+}
+
+#autoSell {
+  color: white;
+  background-color: #333;
+  padding: 5px;
+}
+
+#autoSellCheckboxes {
+  font-size: 1.4em;
+}
+
+#autoSellCheckboxes a {
+  text-decoration: none;
+}
+
+#sell {
+  text-align: right;
+  float: right;
+  color: white;
+  background-color: #333;
+  padding: 5px;
+}
+
+#stats {
+  background-color: #333;
+}
+
+.stats {
+  font-size: 0.8125em;
+  color: white;
+  padding: 5px;
+}
+
+.stats td {
+  width: auto !important;
+  height: auto !important;
+  padding: 2px;
+}
+
+.tooltipHeader {
+  font-weight: bold;
+  font-size: 1.0em;
+  margin-bottom: 10px;
+}
+
+.tooltipHeader .slotName {
+  font-weight: normal;
+  font-size: 0.8125em;
+  color: white;
+}
+
+.tooltipStats {
+  font-size: 0.9em;
+  color: white;
+  border: 0;
+  margin-bottom: 10px;
+  border-spacing: 0px;
+}
+
+.tooltipStats td {
+  width: auto !important;
+  height: auto !important;
+  background: #002 !important;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+.alignRight {
+  text-align: right;
+}
+
+.smallBar {
+  width: 150px;
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+.smallBarText {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 20px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #000;
+  position: absolute;
+}
+
+.popupText {
+  float: right;
+  width: 80px;
+  height: 20px;
+}
+
+.fullWidthBar {
+  height: 20px;
+  width: calc(100% - 4px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.snappedTopBar {
+  position: absolute;
+  top: 0;
+}
+
+.healthContainer {
+  width: 240px;
+}
+
+.itemTable {
+  border-spacing: 1px;
+}
+
+.itemTable td {
+  height: 50px;
+  width: 50px;
+  background-color: #666;
+}
+
+.itemTable td .item {
+  height: 46px;
+  width: 46px;
+}
+
+
+.item .tooltip {
+  position: fixed;
+  font-size: 0.8125em;
+  white-space: nowrap;
+  padding: 5px;
+  color: #ddd;
+  background: #002;
+  opacity: 0.9;
+  z-index: 10;
+  display: none;
+}
+
+.item .tooltip .info {
+  font-size: 0.8em;
+  color: #666;
+}

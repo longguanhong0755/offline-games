@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>Parachuting robots</title>
+<meta content="David Peter" name="author"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Interactive version of robots with parachutes puzzle." name="description"/>
+<link href="/_assets/4d350cd10a7c6eda5d63.css" rel="stylesheet" type="text/css"/>
+
+<link href="/_assets/008a1d103902f15fdb1c.css" rel="stylesheet" type="text/css"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="outer">
+<div id="container">
+<h1>Two robots with parachutes</h1>
+<blockquote>
+                    This classic puzzle can be found on <a>many</a> <a>different</a> <a>websites</a> (Spoilers!). It seems to originate from a Microsoft interview question. This is an interactive version of the puzzle where you can immediately try your ideas.
+                </blockquote>
+<p>
+                    Two robots are to be parachuted onto random locations on an
+                    infinite line. When they land, their parachutes detach and remain
+                    where they are. The robots may be programmed from the following
+                    instruction set:
+                </p>
+<table class="instructions">
+<tbody><tr><td><code>left</code></td><td>Go left one unit</td></tr>
+<tr><td><code>right</code></td><td>Go right one unit</td></tr>
+<tr><td><code>skipNext</code></td><td>Skip next instruction if there is a parachute here</td></tr>
+<tr><td><code>goto <i>label</i></code></td><td>Go to label</td></tr>
+</tbody></table>
+<p>
+                    Each of these instruction can be prepended by an optional label (<code><i>label</i>: instruction</code>).
+                </p>
+<p>
+                    Your goal is to program the robots to meet (collide). They both run the same code.
+                </p>
+<div id="component"><div data-reactid=".0"><div class="canvas" data-reactid=".0.0"><div class="robot1" data-reactid=".0.0.0" style="left:350.0px;position:absolute;"></div><div class="robot2" data-reactid=".0.0.1" style="left:450.0px;position:absolute;"></div><div class="parachute1" data-reactid=".0.0.2" style="left:350.0px;"></div><div class="parachute2" data-reactid=".0.0.3" style="left:450.0px;"></div></div><div class="panel" data-reactid=".0.1"><div class="editor" data-reactid=".0.1.0"><textarea data-reactid=".0.1.0.0" placeholder="Enter your code here..." rows="10" spellcheck="false"># Useless example program
+start: left
+       goto start</textarea></div><div class="program" data-reactid=".0.1.1"><table data-reactid=".0.1.1.0"><tbody data-reactid=".0.1.1.0.0"></tbody></table></div></div><div class="buttons" data-reactid=".0.2"><button data-reactid=".0.2.0" title="Transfer your program to the robots"><i class="fa fa-cogs" data-reactid=".0.2.0.0"></i><span data-reactid=".0.2.0.1"> Parse</span></button><button data-reactid=".0.2.1" disabled="" id="step" title="You need to parse your program first"><i class="fa fa-step-forward" data-reactid=".0.2.1.0"></i><span data-reactid=".0.2.1.1"> Step</span></button><button data-reactid=".0.2.2" disabled="" title="You need to parse your program first"><i class="fa fa-play" data-reactid=".0.2.2.0"></i><span data-reactid=".0.2.2.1"> Run</span></button><button data-reactid=".0.2.3" title="Deploy the robots to new starting positions"><i class="fa fa-random" data-reactid=".0.2.3.0"></i><span data-reactid=".0.2.3.1"> Randomize</span></button></div></div></div>
+<p class="credits">
+                    A game by <a>David Peter</a>. Source code on <a>Github</a>.<br/>
+<iframe id="ghstars" src="/_assets/ea62216563585ae3e3be.html" style="width: 80px; height: 20px; border: none; overflow: hidden"></iframe>
+</p>
+</div>
+</div>
+<script src="/_assets/d0838679645b89202dec.js" type="text/javascript"></script>
+<script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','about:blank','ga');
+
+            ga('create', 'UA-39945208-2', 'david-peter.de');
+            ga('send', 'pageview');
+        </script>
+</body></html>

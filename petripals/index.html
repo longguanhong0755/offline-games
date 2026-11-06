@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>PetriPals: A Microbiology Game</title>
+<meta content="A free microbiology game you play in your browser: pick a bacterium, grow your colony, dodge antibiotics, and race rival microbes." name="description"/>
+
+<!-- How the link looks when it's shared (iMessage, Slack, Discord, social media) -->
+<meta content="website" property="og:type"/>
+<meta content="PetriPals" property="og:site_name"/>
+<meta content="PetriPals: A Microbiology Game" property="og:title"/>
+<meta content="A free microbiology game you play in your browser: pick a bacterium, grow your colony, dodge antibiotics, and race rival microbes." property="og:description"/>
+<meta content="https://jessicasogge.github.io/petripals/" property="og:url"/>
+<meta content="https://jessicasogge.github.io/petripals/social-preview.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="The eight PetriPals, cartoon bacteria, above the words PetriPals: Grow your colony. Dodge antibiotics." property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="./favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="./apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="PetriPals" name="apple-mobile-web-app-title"/>
+<link as="font" href="/_assets/ee61b48acab42fcfee4e.woff2" rel="preload" type="font/woff2"/>
+<link href="/_assets/46bc975d18f58576c846.css" rel="stylesheet"/>
+<!-- What PetriPals is, for search engines (schema.org structured data):
+         a free educational game about microbiology, for kids. -->
+<script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["VideoGame", "LearningResource"],
+        "name": "PetriPals",
+        "url": "https://jessicasogge.github.io/petripals/",
+        "description": "A free microbiology game you play in your browser: pick a bacterium, grow your colony, dodge antibiotics, and race rival microbes.",
+        "image": "https://jessicasogge.github.io/petripals/social-preview.png",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "genre": "Educational",
+        "gamePlatform": "Web browser",
+        "playMode": "SinglePlayer",
+        "learningResourceType": "Game",
+        "educationalUse": "Self-directed learning",
+        "audience": { "@type": "EducationalAudience", "educationalRole": "student" },
+        "about": [
+          { "@type": "Thing", "name": "Microbiology" },
+          { "@type": "Thing", "name": "Bacteria" },
+          { "@type": "Thing", "name": "Antibiotics" },
+          { "@type": "Thing", "name": "Gram stain" }
+        ],
+        "author": { "@type": "Person", "name": "Jessica Sogge" }
+      }
+    </script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- The pals, drawn by script.js from game/pals.js -->
+<div class="friends splittable"><svg aria-label="Terra, an olive drumstick-shaped Clostridium tetani rod with a round spore at one end" class="pal bob" role="img" style="width: 108px;" viewbox="0 0 200 200">
+<!-- flagella along her rod -->
+<path class="flagellum" d="M56 80 C62.7 66.0 36.8 67.1 43.3 52.8" fill="none" stroke="#65751c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.7s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M56 80 C62.7 66.0 36.8 67.1 43.3 52.8;M56 80 C54.5 69.8 44.9 63.3 43.3 52.8;M56 80 C40.9 76.1 58.5 57.0 43.3 52.8;M56 80 C49.1 72.3 50.4 60.8 43.3 52.8;M56 80 C62.7 66.0 36.8 67.1 43.3 52.8"></animate></path><path class="flagellum" d="M98 80 C111.5 72.3 89.6 58.4 103.2 50.5" fill="none" stroke="#65751c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.66s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M98 80 C111.5 72.3 89.6 58.4 103.2 50.5;M98 80 C102.7 70.8 98.5 60.0 103.2 50.5;M98 80 C87.9 68.2 113.3 62.6 103.2 50.5;M98 80 C96.8 69.7 104.4 61.0 103.2 50.5;M98 80 C111.5 72.3 89.6 58.4 103.2 50.5"></animate></path><path class="flagellum" d="M56 120 C40.9 123.9 58.5 143.0 43.3 147.2" fill="none" stroke="#65751c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.72s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M56 120 C40.9 123.9 58.5 143.0 43.3 147.2;M56 120 C49.1 127.7 50.4 139.2 43.3 147.2;M56 120 C62.7 134.0 36.8 132.9 43.3 147.2;M56 120 C54.5 130.2 44.9 136.7 43.3 147.2;M56 120 C40.9 123.9 58.5 143.0 43.3 147.2"></animate></path><path class="flagellum" d="M98 120 C87.9 131.8 113.3 137.4 103.2 149.5" fill="none" stroke="#65751c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.68s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M98 120 C87.9 131.8 113.3 137.4 103.2 149.5;M98 120 C96.8 130.3 104.4 139.0 103.2 149.5;M98 120 C111.5 127.7 89.6 141.6 103.2 149.5;M98 120 C102.7 129.2 98.5 140.0 103.2 149.5;M98 120 C87.9 131.8 113.3 137.4 103.2 149.5"></animate></path><path class="flagellum" d="M30 100 C20.8 88.0 11.5 112.0 2.0 100.0" fill="none" stroke="#65751c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.6s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M30 100 C20.8 88.0 11.5 112.0 2.0 100.0;M30 100 C20.8 97.0 11.5 103.0 2.0 100.0;M30 100 C20.8 112.0 11.5 88.0 2.0 100.0;M30 100 C20.8 103.0 11.5 97.0 2.0 100.0;M30 100 C20.8 88.0 11.5 112.0 2.0 100.0"></animate></path>
+<!-- one outline: a slim rod that swells into a round spore at the right end -->
+<path d="M50 80 L133.9 80 A27 27 0 1 1 133.9 120 L50 120 A20 20 0 0 1 50 80 Z" fill="#d9dfa0" stroke="#65751c" stroke-linejoin="round" stroke-width="4"></path>
+<circle cx="44" cy="90" fill="#f4f7d9" r="3.5"></circle>
+<!-- the spore: bright and glassy, and pure white so a Gram stain leaves it clear, as on a real slide -->
+<circle cx="153" cy="100" fill="#ffffff" r="16" stroke="#65751c" stroke-opacity="0.45" stroke-width="2"></circle>
+<circle cx="157" cy="104" fill="#f4f7d9" opacity="0.7" r="8"></circle>
+<g class="face">
+<circle cx="74" cy="97" fill="#3a4410" r="5.5"></circle>
+<circle cx="98" cy="97" fill="#3a4410" r="5.5"></circle>
+<circle cx="75.8" cy="95.2" fill="white" r="1.9"></circle>
+<circle cx="99.8" cy="95.2" fill="white" r="1.9"></circle>
+<ellipse cx="62" cy="108" fill="#f9a8d4" opacity="0.9" rx="6" ry="3.6"></ellipse>
+<ellipse cx="110" cy="108" fill="#f9a8d4" opacity="0.9" rx="6" ry="3.6"></ellipse>
+<path d="M81 108 Q86 113 91 108" fill="none" stroke="#3a4410" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg><svg aria-label="Penny, a bluish-purple pair of round Streptococcus pneumoniae cells wearing round glasses" class="pal bob" role="img" viewbox="-12 -12 224 224">
+<!-- left cell: a little narrower at the outside end, rounder where the pair meets -->
+<path d="M98 100 C98 79 84 67 64 67 C41 67 26 84 26 100 C26 116 41 133 64 133 C84 133 98 121 98 100 Z" fill="#a5b4fc" stroke="#4f46e5" stroke-linejoin="round" stroke-width="4"></path>
+<circle cx="52" cy="84" fill="#e0e7ff" r="4"></circle>
+<!-- right cell, with her face -->
+<path d="M102 100 C102 79 116 67 136 67 C159 67 174 84 174 100 C174 116 159 133 136 133 C116 133 102 121 102 100 Z" fill="#a5b4fc" stroke="#4f46e5" stroke-linejoin="round" stroke-width="4"></path>
+<circle cx="158" cy="83" fill="#e0e7ff" r="3.5"></circle>
+<g class="face">
+<!-- eyes -->
+<circle cx="127" cy="97" fill="#312e81" r="5.5"></circle>
+<circle cx="151" cy="97" fill="#312e81" r="5.5"></circle>
+<circle cx="128.8" cy="95.2" fill="white" r="1.9"></circle>
+<circle cx="152.8" cy="95.2" fill="white" r="1.9"></circle>
+<!-- round glasses -->
+<circle cx="127" cy="97" fill="#eef2ff" fill-opacity="0.35" r="10.5" stroke="#312e81" stroke-width="2.6"></circle>
+<circle cx="151" cy="97" fill="#eef2ff" fill-opacity="0.35" r="10.5" stroke="#312e81" stroke-width="2.6"></circle>
+<path d="M137.5 96 Q139 93.5 140.5 96" fill="none" stroke="#312e81" stroke-linecap="round" stroke-width="2.6"></path>
+<path d="M116.5 95 L111 92" stroke="#312e81" stroke-linecap="round" stroke-width="2.6"></path>
+<path d="M161.5 95 L166 92" stroke="#312e81" stroke-linecap="round" stroke-width="2.6"></path>
+<!-- a glint on one lens -->
+<path d="M121 91 Q123 89 125.5 89" fill="none" opacity="0.9" stroke="white" stroke-linecap="round" stroke-width="1.6"></path>
+<!-- cheeks and smile -->
+<ellipse cx="118" cy="114" fill="#f9a8d4" opacity="0.85" rx="6" ry="3.6"></ellipse>
+<ellipse cx="160" cy="114" fill="#f9a8d4" opacity="0.85" rx="6" ry="3.6"></ellipse>
+<path d="M133 113 Q139 119 145 113" fill="none" stroke="#312e81" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg><svg aria-label="Vi, an orange comma-shaped Vibrio cholerae" class="pal wobble" role="img" style="width: 108px;" viewbox="0 0 200 200">
+<!-- flagellum -->
+<path class="flagellum" d="M34 92 C24 76 16 108 4 92" fill="none" stroke="#c2410c" stroke-linecap="round" stroke-width="4">
+<animate attributename="d" calcmode="spline" dur="0.6s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M34 92 C24 76 16 108 4 92;M34 92 C24 88.8 16 95.2 4 92;M34 92 C24 108 16 76 4 92;M34 92 C24 95.2 16 88.8 4 92;M34 92 C24 76 16 108 4 92"></animate>
+</path>
+<!-- comma-shaped body: outline, then fill -->
+<path d="M58 92 Q108 62 150 122" fill="none" stroke="#c2410c" stroke-linecap="round" stroke-width="58"></path>
+<path d="M58 92 Q108 62 150 122" fill="none" stroke="#fdba74" stroke-linecap="round" stroke-width="50"></path>
+<circle cx="70" cy="80" fill="#ffedd5" r="5"></circle>
+<circle cx="146" cy="126" fill="#ffedd5" r="4"></circle>
+<g class="face">
+<circle cx="96" cy="88" fill="#7c2d12" r="7"></circle>
+<circle cx="120" cy="92" fill="#7c2d12" r="7"></circle>
+<circle cx="98" cy="86" fill="white" r="2.5"></circle>
+<circle cx="122" cy="90" fill="white" r="2.5"></circle>
+<ellipse cx="84" cy="101" fill="#f9a8d4" opacity="0.8" rx="6" ry="4"></ellipse>
+<ellipse cx="132" cy="108" fill="#f9a8d4" opacity="0.8" rx="6" ry="4"></ellipse>
+<path d="M101 102 Q108 109 116 104" fill="none" stroke="#7c2d12" stroke-linecap="round" stroke-width="3.5"></path>
+</g>
+</svg><svg aria-label="Goldie, a golden grape-like cluster of Staphylococcus" class="pal squish" role="img" viewbox="0 0 200 200">
+<!-- grape-like cluster of cocci (Staphylococcus) -->
+<circle cx="84" cy="58" fill="#fde68a" r="22" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="76" cy="49" fill="#fef3c7" r="4"></circle>
+<circle cx="120" cy="56" fill="#fde68a" r="21" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="112" cy="47" fill="#fef3c7" r="4"></circle>
+<circle cx="62" cy="88" fill="#fde68a" r="22" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="54" cy="79" fill="#fef3c7" r="4"></circle>
+<circle cx="100" cy="84" fill="#fde68a" r="22" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="92" cy="75" fill="#fef3c7" r="4"></circle>
+<circle cx="138" cy="88" fill="#fde68a" r="22" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="130" cy="79" fill="#fef3c7" r="4"></circle>
+<circle cx="56" cy="124" fill="#fde68a" r="21" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="48" cy="115" fill="#fef3c7" r="4"></circle>
+<circle cx="146" cy="124" fill="#fde68a" r="21" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="138" cy="115" fill="#fef3c7" r="4"></circle>
+<circle cx="76" cy="150" fill="#fde68a" r="20" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="68" cy="141" fill="#fef3c7" r="4"></circle>
+<circle cx="124" cy="154" fill="#fde68a" r="20" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="116" cy="145" fill="#fef3c7" r="4"></circle>
+<!-- front coccus with face -->
+<circle cx="100" cy="122" fill="#fde68a" r="30" stroke="#b45309" stroke-width="4"></circle>
+<circle cx="88" cy="108" fill="#fef3c7" r="5"></circle>
+<circle cx="90" cy="120" fill="#78350f" r="6"></circle>
+<circle cx="110" cy="120" fill="#78350f" r="6"></circle>
+<circle cx="92" cy="118" fill="white" r="2"></circle>
+<circle cx="112" cy="118" fill="white" r="2"></circle>
+<ellipse cx="81" cy="132" fill="#f9a8d4" opacity="0.8" rx="5" ry="3"></ellipse>
+<ellipse cx="119" cy="132" fill="#f9a8d4" opacity="0.8" rx="5" ry="3"></ellipse>
+<path d="M95 132 Q100 137 105 132" fill="none" stroke="#78350f" stroke-linecap="round" stroke-width="3"></path>
+</svg><svg aria-label="Ana, a pink Y-shaped Bifidobacterium bifidum cheering with her arms up" class="pal bob" role="img" viewbox="-14 2 228 228">
+<!-- outline: the stem and two branches, drawn thick in the darker pink -->
+<g fill="none" stroke="#be185d" stroke-linecap="round" stroke-linejoin="round" stroke-width="42">
+<path d="M100 118 L100 166"></path>
+<path d="M100 116 Q92 92 70 66"></path>
+<path d="M100 116 Q108 92 130 66"></path>
+</g>
+<circle cx="100" cy="114" fill="#be185d" r="22"></circle>
+<!-- fill: the same shapes a little thinner, in strawberry-yogurt pink -->
+<g fill="none" stroke="#f9a8d4" stroke-linecap="round" stroke-linejoin="round" stroke-width="34">
+<path d="M100 118 L100 166"></path>
+<path d="M100 116 Q92 92 70 66"></path>
+<path d="M100 116 Q108 92 130 66"></path>
+</g>
+<circle cx="100" cy="114" fill="#f9a8d4" r="18"></circle>
+<circle cx="72" cy="70" fill="#fdf2f8" r="3.5"></circle>
+<circle cx="126" cy="68" fill="#fdf2f8" r="3"></circle>
+<circle cx="96" cy="158" fill="#fdf2f8" r="3"></circle>
+<g class="face">
+<circle cx="93" cy="108" fill="#831843" r="5"></circle>
+<circle cx="107" cy="108" fill="#831843" r="5"></circle>
+<circle cx="94.6" cy="106.4" fill="white" r="1.7"></circle>
+<circle cx="108.6" cy="106.4" fill="white" r="1.7"></circle>
+<ellipse cx="88" cy="118" fill="#f472b6" opacity="0.7" rx="4" ry="2.6"></ellipse>
+<!-- a little heart on her other cheek -->
+<path d="M108.6 116.6 C108.6 114.6 111.5 114.3 111.8 116.2 C112.1 114.3 115 114.6 115 116.6 C115 118.6 111.8 120.6 111.8 121.4 C111.8 120.6 108.6 118.6 108.6 116.6 Z" fill="#ec4899"></path>
+<path d="M96 118 Q100 123 104 118" fill="none" stroke="#831843" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg><svg aria-label="Lissie, a short denim-blue rod-shaped Listeria monocytogenes with a few flagella around her" class="pal bob" role="img" viewbox="0 0 200 200">
+<!-- a few flagella around her short rod -->
+<path class="flagellum" d="M72 78 C80.1 65.2 54.4 64.7 62.4 51.7" fill="none" stroke="#2c4f7c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.8s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M72 78 C80.1 65.2 54.4 64.7 62.4 51.7;M72 78 C71.7 68.3 62.9 61.7 62.4 51.7;M72 78 C57.6 73.4 77.0 56.5 62.4 51.7;M72 78 C66.0 70.3 68.5 59.6 62.4 51.7;M72 78 C80.1 65.2 54.4 64.7 62.4 51.7"></animate></path><path class="flagellum" d="M128 78 C142.4 73.4 123.0 56.5 137.6 51.7" fill="none" stroke="#2c4f7c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.75s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M128 78 C142.4 73.4 123.0 56.5 137.6 51.7;M128 78 C134.0 70.3 131.5 59.6 137.6 51.7;M128 78 C119.9 65.2 145.6 64.7 137.6 51.7;M128 78 C128.3 68.3 137.1 61.7 137.6 51.7;M128 78 C142.4 73.4 123.0 56.5 137.6 51.7"></animate></path><path class="flagellum" d="M72 122 C57.6 126.6 77.0 143.5 62.4 148.3" fill="none" stroke="#2c4f7c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.78s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M72 122 C57.6 126.6 77.0 143.5 62.4 148.3;M72 122 C66.0 129.7 68.5 140.4 62.4 148.3;M72 122 C80.1 134.8 54.4 135.3 62.4 148.3;M72 122 C71.7 131.7 62.9 138.3 62.4 148.3;M72 122 C57.6 126.6 77.0 143.5 62.4 148.3"></animate></path><path class="flagellum" d="M128 122 C119.9 134.8 145.6 135.3 137.6 148.3" fill="none" stroke="#2c4f7c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.82s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M128 122 C119.9 134.8 145.6 135.3 137.6 148.3;M128 122 C128.3 131.7 137.1 138.3 137.6 148.3;M128 122 C142.4 126.6 123.0 143.5 137.6 148.3;M128 122 C134.0 129.7 131.5 140.4 137.6 148.3;M128 122 C119.9 134.8 145.6 135.3 137.6 148.3"></animate></path><path class="flagellum" d="M50 100 C41.4 88.0 32.8 112.0 24.0 100.0" fill="none" stroke="#2c4f7c" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.7s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M50 100 C41.4 88.0 32.8 112.0 24.0 100.0;M50 100 C41.4 97.0 32.8 103.0 24.0 100.0;M50 100 C41.4 112.0 32.8 88.0 24.0 100.0;M50 100 C41.4 103.0 32.8 97.0 24.0 100.0;M50 100 C41.4 88.0 32.8 112.0 24.0 100.0"></animate></path>
+<rect fill="#9fbbdc" height="48" rx="24" stroke="#2c4f7c" stroke-width="4" width="96" x="52" y="76"></rect>
+<circle cx="131" cy="88" fill="#e6eef8" r="3.8"></circle>
+<circle cx="66" cy="114" fill="#e6eef8" r="2.8"></circle>
+<g class="face">
+<circle cx="89" cy="98" fill="#1b3150" r="5.5"></circle>
+<circle cx="111" cy="98" fill="#1b3150" r="5.5"></circle>
+<circle cx="90.8" cy="96.2" fill="white" r="1.9"></circle>
+<circle cx="112.8" cy="96.2" fill="white" r="1.9"></circle>
+<ellipse cx="76" cy="109" fill="#f9a8d4" opacity="0.9" rx="6" ry="3.6"></ellipse>
+<ellipse cx="124" cy="109" fill="#f9a8d4" opacity="0.9" rx="6" ry="3.6"></ellipse>
+<path d="M95 109 Q100 114 105 109" fill="none" stroke="#1b3150" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg><svg aria-label="Scarlett, a red chain of round Streptococcus pyogenes cells" class="pal bob" role="img" viewbox="0 0 200 200">
+<!-- chain of cocci (Streptococcus) -->
+<circle cx="26" cy="116" fill="#fca5a5" r="18" stroke="#b91c1c" stroke-width="4"></circle>
+<circle cx="20" cy="109" fill="#fee2e2" r="3.5"></circle>
+<circle cx="60" cy="106" fill="#fca5a5" r="19" stroke="#b91c1c" stroke-width="4"></circle>
+<circle cx="54" cy="99" fill="#fee2e2" r="3.5"></circle>
+<circle cx="140" cy="106" fill="#fca5a5" r="19" stroke="#b91c1c" stroke-width="4"></circle>
+<circle cx="134" cy="99" fill="#fee2e2" r="3.5"></circle>
+<circle cx="174" cy="116" fill="#fca5a5" r="18" stroke="#b91c1c" stroke-width="4"></circle>
+<circle cx="168" cy="109" fill="#fee2e2" r="3.5"></circle>
+<!-- middle coccus with face -->
+<circle cx="100" cy="100" fill="#fca5a5" r="25" stroke="#b91c1c" stroke-width="4"></circle>
+<circle cx="91" cy="89" fill="#fee2e2" r="4"></circle>
+<circle cx="91" cy="100" fill="#7f1d1d" r="5"></circle>
+<circle cx="109" cy="100" fill="#7f1d1d" r="5"></circle>
+<circle cx="92.5" cy="98.5" fill="white" r="1.8"></circle>
+<circle cx="110.5" cy="98.5" fill="white" r="1.8"></circle>
+<ellipse cx="84" cy="110" fill="#f9a8d4" opacity="0.9" rx="4.5" ry="3"></ellipse>
+<ellipse cx="116" cy="110" fill="#f9a8d4" opacity="0.9" rx="4.5" ry="3"></ellipse>
+<path d="M95 110 Q100 115 105 110" fill="none" stroke="#7f1d1d" stroke-linecap="round" stroke-width="3"></path>
+</svg><svg aria-label="Coco, a small coffee-with-cream brown Haemophilus influenzae" class="pal bob" role="img" viewbox="0 0 200 200">
+<!-- coccobacillus: a short, plump oval between a coccus and a rod (no flagellum) -->
+<rect fill="#d4b08c" height="62" rx="31" stroke="#7c4a2d" stroke-width="4" width="96" x="52" y="70"></rect>
+<circle cx="126" cy="84" fill="#f5e6d6" r="4"></circle>
+<circle cx="70" cy="118" fill="#f5e6d6" r="3"></circle>
+<g class="face">
+<circle cx="89" cy="100" fill="#4a2c17" r="5.5"></circle>
+<circle cx="111" cy="100" fill="#4a2c17" r="5.5"></circle>
+<circle cx="90.8" cy="98.2" fill="white" r="1.9"></circle>
+<circle cx="112.8" cy="98.2" fill="white" r="1.9"></circle>
+<ellipse cx="78" cy="111" fill="#f9a8d4" opacity="0.85" rx="6" ry="3.6"></ellipse>
+<ellipse cx="122" cy="111" fill="#f9a8d4" opacity="0.85" rx="6" ry="3.6"></ellipse>
+<path d="M95 111 Q100 116 105 111" fill="none" stroke="#4a2c17" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg><svg aria-label="Mona, a green rod-shaped Pseudomonas with one flagellum" class="pal bob" role="img" viewbox="0 0 200 200">
+<!-- flagellum -->
+<path class="flagellum" d="M34 105 C24 88 16 122 6 105" fill="none" stroke="#15803d" stroke-linecap="round" stroke-width="4">
+<animate attributename="d" calcmode="spline" dur="0.6s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M34 105 C24 88 16 122 6 105;M34 105 C24 101.6 16 108.4 6 105;M34 105 C24 122 16 88 6 105;M34 105 C24 108.4 16 101.6 6 105;M34 105 C24 88 16 122 6 105"></animate>
+</path>
+<rect fill="#86efac" height="60" rx="30" stroke="#15803d" stroke-width="4" width="140" x="30" y="75"></rect>
+<circle cx="145" cy="90" fill="#dcfce7" r="4"></circle>
+<circle cx="55" cy="122" fill="#dcfce7" r="3"></circle>
+<g class="face">
+<circle cx="86" cy="101" fill="#14532d" r="6"></circle>
+<circle cx="114" cy="101" fill="#14532d" r="6"></circle>
+<circle cx="88" cy="99" fill="white" r="2"></circle>
+<circle cx="116" cy="99" fill="white" r="2"></circle>
+<ellipse cx="70" cy="113" fill="#f9a8d4" opacity="0.8" rx="7" ry="4"></ellipse>
+<ellipse cx="130" cy="113" fill="#f9a8d4" opacity="0.8" rx="7" ry="4"></ellipse>
+<path d="M94 113 Q100 119 106 113" fill="none" stroke="#14532d" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg><svg aria-label="Elia, a light purple corkscrew-shaped Borrelia burgdorferi" class="pal slither" role="img" viewbox="8 0 200 200">
+<!-- corkscrew body: outline, then fill (her flagella are inside the cell) -->
+<path class="wave" d="M33.0 100.0 L34.9 104.3 L36.8 108.2 L38.7 111.3 L40.6 113.3 L42.5 114.0 L44.4 113.3 L46.3 111.3 L48.2 108.2 L50.1 104.3 L52.0 100.0 L53.9 95.7 L55.8 91.8 L57.7 88.7 L59.6 86.7 L61.5 86.0 L63.4 86.7 L65.3 88.7 L67.2 91.8 L69.1 95.7 L71.0 100.0 L72.9 104.3 L74.8 108.2 L76.7 111.3 L78.6 113.3 L80.5 114.0 L82.4 113.3 L84.3 111.3 L86.2 108.2 L88.1 104.3 L90.0 100.0 L91.9 95.7 L93.8 91.8 L95.7 88.7 L97.6 86.7 L99.5 86.0 L101.4 86.7 L103.3 88.7 L105.2 91.8 L107.1 95.7 L109.0 100.0 L110.9 104.3 L112.8 108.2 L114.7 111.3 L116.6 113.3 L118.5 114.0 L120.4 113.3 L122.3 111.3 L124.2 108.2 L126.1 104.3 L128.0 100.0 L129.9 95.7 L131.8 91.8 L133.7 88.7 L135.6 86.7 L137.5 86.0 L139.4 86.7 L141.3 88.7 L143.2 91.8 L145.1 95.7 L147.0 100.0 L148.9 104.0 L150.8 107.0 L152.7 108.9 L154.6 109.5 L156.5 108.9 L158.4 107.5 L160.3 105.6 L162.2 103.5 L164.1 101.5 L166.0 100.0" fill="none" stroke="#7e22ce" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"><animate attributename="d" dur="0.9s" repeatcount="indefinite" values="M33.0 100.0 L34.9 104.3 L36.8 108.2 L38.7 111.3 L40.6 113.3 L42.5 114.0 L44.4 113.3 L46.3 111.3 L48.2 108.2 L50.1 104.3 L52.0 100.0 L53.9 95.7 L55.8 91.8 L57.7 88.7 L59.6 86.7 L61.5 86.0 L63.4 86.7 L65.3 88.7 L67.2 91.8 L69.1 95.7 L71.0 100.0 L72.9 104.3 L74.8 108.2 L76.7 111.3 L78.6 113.3 L80.5 114.0 L82.4 113.3 L84.3 111.3 L86.2 108.2 L88.1 104.3 L90.0 100.0 L91.9 95.7 L93.8 91.8 L95.7 88.7 L97.6 86.7 L99.5 86.0 L101.4 86.7 L103.3 88.7 L105.2 91.8 L107.1 95.7 L109.0 100.0 L110.9 104.3 L112.8 108.2 L114.7 111.3 L116.6 113.3 L118.5 114.0 L120.4 113.3 L122.3 111.3 L124.2 108.2 L126.1 104.3 L128.0 100.0 L129.9 95.7 L131.8 91.8 L133.7 88.7 L135.6 86.7 L137.5 86.0 L139.4 86.7 L141.3 88.7 L143.2 91.8 L145.1 95.7 L147.0 100.0 L148.9 104.0 L150.8 107.0 L152.7 108.9 L154.6 109.5 L156.5 108.9 L158.4 107.5 L160.3 105.6 L162.2 103.5 L164.1 101.5 L166.0 100.0;M33.0 109.9 L34.9 112.5 L36.8 113.8 L38.7 113.8 L40.6 112.5 L42.5 109.9 L44.4 106.4 L46.3 102.2 L48.2 97.8 L50.1 93.6 L52.0 90.1 L53.9 87.5 L55.8 86.2 L57.7 86.2 L59.6 87.5 L61.5 90.1 L63.4 93.6 L65.3 97.8 L67.2 102.2 L69.1 106.4 L71.0 109.9 L72.9 112.5 L74.8 113.8 L76.7 113.8 L78.6 112.5 L80.5 109.9 L82.4 106.4 L84.3 102.2 L86.2 97.8 L88.1 93.6 L90.0 90.1 L91.9 87.5 L93.8 86.2 L95.7 86.2 L97.6 87.5 L99.5 90.1 L101.4 93.6 L103.3 97.8 L105.2 102.2 L107.1 106.4 L109.0 109.9 L110.9 112.5 L112.8 113.8 L114.7 113.8 L116.6 112.5 L118.5 109.9 L120.4 106.4 L122.3 102.2 L124.2 97.8 L126.1 93.6 L128.0 90.1 L129.9 87.5 L131.8 86.2 L133.7 86.2 L135.6 87.5 L137.5 90.1 L139.4 93.6 L141.3 97.8 L143.2 102.2 L145.1 106.4 L147.0 109.9 L148.9 111.6 L150.8 111.8 L152.7 110.8 L154.6 108.9 L156.5 106.3 L158.4 103.6 L160.3 101.1 L162.2 99.1 L164.1 97.8 L166.0 97.3;M33.0 114.0 L34.9 113.3 L36.8 111.3 L38.7 108.2 L40.6 104.3 L42.5 100.0 L44.4 95.7 L46.3 91.8 L48.2 88.7 L50.1 86.7 L52.0 86.0 L53.9 86.7 L55.8 88.7 L57.7 91.8 L59.6 95.7 L61.5 100.0 L63.4 104.3 L65.3 108.2 L67.2 111.3 L69.1 113.3 L71.0 114.0 L72.9 113.3 L74.8 111.3 L76.7 108.2 L78.6 104.3 L80.5 100.0 L82.4 95.7 L84.3 91.8 L86.2 88.7 L88.1 86.7 L90.0 86.0 L91.9 86.7 L93.8 88.7 L95.7 91.8 L97.6 95.7 L99.5 100.0 L101.4 104.3 L103.3 108.2 L105.2 111.3 L107.1 113.3 L109.0 114.0 L110.9 113.3 L112.8 111.3 L114.7 108.2 L116.6 104.3 L118.5 100.0 L120.4 95.7 L122.3 91.8 L124.2 88.7 L126.1 86.7 L128.0 86.0 L129.9 86.7 L131.8 88.7 L133.7 91.8 L135.6 95.7 L137.5 100.0 L139.4 104.3 L141.3 108.2 L143.2 111.3 L145.1 113.3 L147.0 114.0 L148.9 112.3 L150.8 109.7 L152.7 106.4 L154.6 103.1 L156.5 100.0 L158.4 97.6 L160.3 95.9 L162.2 95.2 L164.1 95.4 L166.0 96.2;M33.0 109.9 L34.9 106.4 L36.8 102.2 L38.7 97.8 L40.6 93.6 L42.5 90.1 L44.4 87.5 L46.3 86.2 L48.2 86.2 L50.1 87.5 L52.0 90.1 L53.9 93.6 L55.8 97.8 L57.7 102.2 L59.6 106.4 L61.5 109.9 L63.4 112.5 L65.3 113.8 L67.2 113.8 L69.1 112.5 L71.0 109.9 L72.9 106.4 L74.8 102.2 L76.7 97.8 L78.6 93.6 L80.5 90.1 L82.4 87.5 L84.3 86.2 L86.2 86.2 L88.1 87.5 L90.0 90.1 L91.9 93.6 L93.8 97.8 L95.7 102.2 L97.6 106.4 L99.5 109.9 L101.4 112.5 L103.3 113.8 L105.2 113.8 L107.1 112.5 L109.0 109.9 L110.9 106.4 L112.8 102.2 L114.7 97.8 L116.6 93.6 L118.5 90.1 L120.4 87.5 L122.3 86.2 L124.2 86.2 L126.1 87.5 L128.0 90.1 L129.9 93.6 L131.8 97.8 L133.7 102.2 L135.6 106.4 L137.5 109.9 L139.4 112.5 L141.3 113.8 L143.2 113.8 L145.1 112.5 L147.0 109.9 L148.9 105.9 L150.8 101.9 L152.7 98.3 L154.6 95.5 L156.5 93.7 L158.4 93.0 L160.3 93.2 L162.2 94.2 L164.1 95.7 L166.0 97.3;M33.0 100.0 L34.9 95.7 L36.8 91.8 L38.7 88.7 L40.6 86.7 L42.5 86.0 L44.4 86.7 L46.3 88.7 L48.2 91.8 L50.1 95.7 L52.0 100.0 L53.9 104.3 L55.8 108.2 L57.7 111.3 L59.6 113.3 L61.5 114.0 L63.4 113.3 L65.3 111.3 L67.2 108.2 L69.1 104.3 L71.0 100.0 L72.9 95.7 L74.8 91.8 L76.7 88.7 L78.6 86.7 L80.5 86.0 L82.4 86.7 L84.3 88.7 L86.2 91.8 L88.1 95.7 L90.0 100.0 L91.9 104.3 L93.8 108.2 L95.7 111.3 L97.6 113.3 L99.5 114.0 L101.4 113.3 L103.3 111.3 L105.2 108.2 L107.1 104.3 L109.0 100.0 L110.9 95.7 L112.8 91.8 L114.7 88.7 L116.6 86.7 L118.5 86.0 L120.4 86.7 L122.3 88.7 L124.2 91.8 L126.1 95.7 L128.0 100.0 L129.9 104.3 L131.8 108.2 L133.7 111.3 L135.6 113.3 L137.5 114.0 L139.4 113.3 L141.3 111.3 L143.2 108.2 L145.1 104.3 L147.0 100.0 L148.9 96.0 L150.8 93.0 L152.7 91.1 L154.6 90.5 L156.5 91.1 L158.4 92.5 L160.3 94.4 L162.2 96.5 L164.1 98.5 L166.0 100.0;M33.0 90.1 L34.9 87.5 L36.8 86.2 L38.7 86.2 L40.6 87.5 L42.5 90.1 L44.4 93.6 L46.3 97.8 L48.2 102.2 L50.1 106.4 L52.0 109.9 L53.9 112.5 L55.8 113.8 L57.7 113.8 L59.6 112.5 L61.5 109.9 L63.4 106.4 L65.3 102.2 L67.2 97.8 L69.1 93.6 L71.0 90.1 L72.9 87.5 L74.8 86.2 L76.7 86.2 L78.6 87.5 L80.5 90.1 L82.4 93.6 L84.3 97.8 L86.2 102.2 L88.1 106.4 L90.0 109.9 L91.9 112.5 L93.8 113.8 L95.7 113.8 L97.6 112.5 L99.5 109.9 L101.4 106.4 L103.3 102.2 L105.2 97.8 L107.1 93.6 L109.0 90.1 L110.9 87.5 L112.8 86.2 L114.7 86.2 L116.6 87.5 L118.5 90.1 L120.4 93.6 L122.3 97.8 L124.2 102.2 L126.1 106.4 L128.0 109.9 L129.9 112.5 L131.8 113.8 L133.7 113.8 L135.6 112.5 L137.5 109.9 L139.4 106.4 L141.3 102.2 L143.2 97.8 L145.1 93.6 L147.0 90.1 L148.9 88.4 L150.8 88.2 L152.7 89.2 L154.6 91.1 L156.5 93.7 L158.4 96.4 L160.3 98.9 L162.2 100.9 L164.1 102.2 L166.0 102.7;M33.0 86.0 L34.9 86.7 L36.8 88.7 L38.7 91.8 L40.6 95.7 L42.5 100.0 L44.4 104.3 L46.3 108.2 L48.2 111.3 L50.1 113.3 L52.0 114.0 L53.9 113.3 L55.8 111.3 L57.7 108.2 L59.6 104.3 L61.5 100.0 L63.4 95.7 L65.3 91.8 L67.2 88.7 L69.1 86.7 L71.0 86.0 L72.9 86.7 L74.8 88.7 L76.7 91.8 L78.6 95.7 L80.5 100.0 L82.4 104.3 L84.3 108.2 L86.2 111.3 L88.1 113.3 L90.0 114.0 L91.9 113.3 L93.8 111.3 L95.7 108.2 L97.6 104.3 L99.5 100.0 L101.4 95.7 L103.3 91.8 L105.2 88.7 L107.1 86.7 L109.0 86.0 L110.9 86.7 L112.8 88.7 L114.7 91.8 L116.6 95.7 L118.5 100.0 L120.4 104.3 L122.3 108.2 L124.2 111.3 L126.1 113.3 L128.0 114.0 L129.9 113.3 L131.8 111.3 L133.7 108.2 L135.6 104.3 L137.5 100.0 L139.4 95.7 L141.3 91.8 L143.2 88.7 L145.1 86.7 L147.0 86.0 L148.9 87.7 L150.8 90.3 L152.7 93.6 L154.6 96.9 L156.5 100.0 L158.4 102.4 L160.3 104.1 L162.2 104.8 L164.1 104.6 L166.0 103.8;M33.0 90.1 L34.9 93.6 L36.8 97.8 L38.7 102.2 L40.6 106.4 L42.5 109.9 L44.4 112.5 L46.3 113.8 L48.2 113.8 L50.1 112.5 L52.0 109.9 L53.9 106.4 L55.8 102.2 L57.7 97.8 L59.6 93.6 L61.5 90.1 L63.4 87.5 L65.3 86.2 L67.2 86.2 L69.1 87.5 L71.0 90.1 L72.9 93.6 L74.8 97.8 L76.7 102.2 L78.6 106.4 L80.5 109.9 L82.4 112.5 L84.3 113.8 L86.2 113.8 L88.1 112.5 L90.0 109.9 L91.9 106.4 L93.8 102.2 L95.7 97.8 L97.6 93.6 L99.5 90.1 L101.4 87.5 L103.3 86.2 L105.2 86.2 L107.1 87.5 L109.0 90.1 L110.9 93.6 L112.8 97.8 L114.7 102.2 L116.6 106.4 L118.5 109.9 L120.4 112.5 L122.3 113.8 L124.2 113.8 L126.1 112.5 L128.0 109.9 L129.9 106.4 L131.8 102.2 L133.7 97.8 L135.6 93.6 L137.5 90.1 L139.4 87.5 L141.3 86.2 L143.2 86.2 L145.1 87.5 L147.0 90.1 L148.9 94.1 L150.8 98.1 L152.7 101.7 L154.6 104.5 L156.5 106.3 L158.4 107.0 L160.3 106.8 L162.2 105.8 L164.1 104.3 L166.0 102.7;M33.0 100.0 L34.9 104.3 L36.8 108.2 L38.7 111.3 L40.6 113.3 L42.5 114.0 L44.4 113.3 L46.3 111.3 L48.2 108.2 L50.1 104.3 L52.0 100.0 L53.9 95.7 L55.8 91.8 L57.7 88.7 L59.6 86.7 L61.5 86.0 L63.4 86.7 L65.3 88.7 L67.2 91.8 L69.1 95.7 L71.0 100.0 L72.9 104.3 L74.8 108.2 L76.7 111.3 L78.6 113.3 L80.5 114.0 L82.4 113.3 L84.3 111.3 L86.2 108.2 L88.1 104.3 L90.0 100.0 L91.9 95.7 L93.8 91.8 L95.7 88.7 L97.6 86.7 L99.5 86.0 L101.4 86.7 L103.3 88.7 L105.2 91.8 L107.1 95.7 L109.0 100.0 L110.9 104.3 L112.8 108.2 L114.7 111.3 L116.6 113.3 L118.5 114.0 L120.4 113.3 L122.3 111.3 L124.2 108.2 L126.1 104.3 L128.0 100.0 L129.9 95.7 L131.8 91.8 L133.7 88.7 L135.6 86.7 L137.5 86.0 L139.4 86.7 L141.3 88.7 L143.2 91.8 L145.1 95.7 L147.0 100.0 L148.9 104.0 L150.8 107.0 L152.7 108.9 L154.6 109.5 L156.5 108.9 L158.4 107.5 L160.3 105.6 L162.2 103.5 L164.1 101.5 L166.0 100.0"></animate></path>
+<circle cx="176" cy="100" fill="#7e22ce" r="16"></circle>
+<path class="wave" d="M33.0 100.0 L34.9 104.3 L36.8 108.2 L38.7 111.3 L40.6 113.3 L42.5 114.0 L44.4 113.3 L46.3 111.3 L48.2 108.2 L50.1 104.3 L52.0 100.0 L53.9 95.7 L55.8 91.8 L57.7 88.7 L59.6 86.7 L61.5 86.0 L63.4 86.7 L65.3 88.7 L67.2 91.8 L69.1 95.7 L71.0 100.0 L72.9 104.3 L74.8 108.2 L76.7 111.3 L78.6 113.3 L80.5 114.0 L82.4 113.3 L84.3 111.3 L86.2 108.2 L88.1 104.3 L90.0 100.0 L91.9 95.7 L93.8 91.8 L95.7 88.7 L97.6 86.7 L99.5 86.0 L101.4 86.7 L103.3 88.7 L105.2 91.8 L107.1 95.7 L109.0 100.0 L110.9 104.3 L112.8 108.2 L114.7 111.3 L116.6 113.3 L118.5 114.0 L120.4 113.3 L122.3 111.3 L124.2 108.2 L126.1 104.3 L128.0 100.0 L129.9 95.7 L131.8 91.8 L133.7 88.7 L135.6 86.7 L137.5 86.0 L139.4 86.7 L141.3 88.7 L143.2 91.8 L145.1 95.7 L147.0 100.0 L148.9 104.0 L150.8 107.0 L152.7 108.9 L154.6 109.5 L156.5 108.9 L158.4 107.5 L160.3 105.6 L162.2 103.5 L164.1 101.5 L166.0 100.0" fill="none" stroke="#d8b4fe" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"><animate attributename="d" dur="0.9s" repeatcount="indefinite" values="M33.0 100.0 L34.9 104.3 L36.8 108.2 L38.7 111.3 L40.6 113.3 L42.5 114.0 L44.4 113.3 L46.3 111.3 L48.2 108.2 L50.1 104.3 L52.0 100.0 L53.9 95.7 L55.8 91.8 L57.7 88.7 L59.6 86.7 L61.5 86.0 L63.4 86.7 L65.3 88.7 L67.2 91.8 L69.1 95.7 L71.0 100.0 L72.9 104.3 L74.8 108.2 L76.7 111.3 L78.6 113.3 L80.5 114.0 L82.4 113.3 L84.3 111.3 L86.2 108.2 L88.1 104.3 L90.0 100.0 L91.9 95.7 L93.8 91.8 L95.7 88.7 L97.6 86.7 L99.5 86.0 L101.4 86.7 L103.3 88.7 L105.2 91.8 L107.1 95.7 L109.0 100.0 L110.9 104.3 L112.8 108.2 L114.7 111.3 L116.6 113.3 L118.5 114.0 L120.4 113.3 L122.3 111.3 L124.2 108.2 L126.1 104.3 L128.0 100.0 L129.9 95.7 L131.8 91.8 L133.7 88.7 L135.6 86.7 L137.5 86.0 L139.4 86.7 L141.3 88.7 L143.2 91.8 L145.1 95.7 L147.0 100.0 L148.9 104.0 L150.8 107.0 L152.7 108.9 L154.6 109.5 L156.5 108.9 L158.4 107.5 L160.3 105.6 L162.2 103.5 L164.1 101.5 L166.0 100.0;M33.0 109.9 L34.9 112.5 L36.8 113.8 L38.7 113.8 L40.6 112.5 L42.5 109.9 L44.4 106.4 L46.3 102.2 L48.2 97.8 L50.1 93.6 L52.0 90.1 L53.9 87.5 L55.8 86.2 L57.7 86.2 L59.6 87.5 L61.5 90.1 L63.4 93.6 L65.3 97.8 L67.2 102.2 L69.1 106.4 L71.0 109.9 L72.9 112.5 L74.8 113.8 L76.7 113.8 L78.6 112.5 L80.5 109.9 L82.4 106.4 L84.3 102.2 L86.2 97.8 L88.1 93.6 L90.0 90.1 L91.9 87.5 L93.8 86.2 L95.7 86.2 L97.6 87.5 L99.5 90.1 L101.4 93.6 L103.3 97.8 L105.2 102.2 L107.1 106.4 L109.0 109.9 L110.9 112.5 L112.8 113.8 L114.7 113.8 L116.6 112.5 L118.5 109.9 L120.4 106.4 L122.3 102.2 L124.2 97.8 L126.1 93.6 L128.0 90.1 L129.9 87.5 L131.8 86.2 L133.7 86.2 L135.6 87.5 L137.5 90.1 L139.4 93.6 L141.3 97.8 L143.2 102.2 L145.1 106.4 L147.0 109.9 L148.9 111.6 L150.8 111.8 L152.7 110.8 L154.6 108.9 L156.5 106.3 L158.4 103.6 L160.3 101.1 L162.2 99.1 L164.1 97.8 L166.0 97.3;M33.0 114.0 L34.9 113.3 L36.8 111.3 L38.7 108.2 L40.6 104.3 L42.5 100.0 L44.4 95.7 L46.3 91.8 L48.2 88.7 L50.1 86.7 L52.0 86.0 L53.9 86.7 L55.8 88.7 L57.7 91.8 L59.6 95.7 L61.5 100.0 L63.4 104.3 L65.3 108.2 L67.2 111.3 L69.1 113.3 L71.0 114.0 L72.9 113.3 L74.8 111.3 L76.7 108.2 L78.6 104.3 L80.5 100.0 L82.4 95.7 L84.3 91.8 L86.2 88.7 L88.1 86.7 L90.0 86.0 L91.9 86.7 L93.8 88.7 L95.7 91.8 L97.6 95.7 L99.5 100.0 L101.4 104.3 L103.3 108.2 L105.2 111.3 L107.1 113.3 L109.0 114.0 L110.9 113.3 L112.8 111.3 L114.7 108.2 L116.6 104.3 L118.5 100.0 L120.4 95.7 L122.3 91.8 L124.2 88.7 L126.1 86.7 L128.0 86.0 L129.9 86.7 L131.8 88.7 L133.7 91.8 L135.6 95.7 L137.5 100.0 L139.4 104.3 L141.3 108.2 L143.2 111.3 L145.1 113.3 L147.0 114.0 L148.9 112.3 L150.8 109.7 L152.7 106.4 L154.6 103.1 L156.5 100.0 L158.4 97.6 L160.3 95.9 L162.2 95.2 L164.1 95.4 L166.0 96.2;M33.0 109.9 L34.9 106.4 L36.8 102.2 L38.7 97.8 L40.6 93.6 L42.5 90.1 L44.4 87.5 L46.3 86.2 L48.2 86.2 L50.1 87.5 L52.0 90.1 L53.9 93.6 L55.8 97.8 L57.7 102.2 L59.6 106.4 L61.5 109.9 L63.4 112.5 L65.3 113.8 L67.2 113.8 L69.1 112.5 L71.0 109.9 L72.9 106.4 L74.8 102.2 L76.7 97.8 L78.6 93.6 L80.5 90.1 L82.4 87.5 L84.3 86.2 L86.2 86.2 L88.1 87.5 L90.0 90.1 L91.9 93.6 L93.8 97.8 L95.7 102.2 L97.6 106.4 L99.5 109.9 L101.4 112.5 L103.3 113.8 L105.2 113.8 L107.1 112.5 L109.0 109.9 L110.9 106.4 L112.8 102.2 L114.7 97.8 L116.6 93.6 L118.5 90.1 L120.4 87.5 L122.3 86.2 L124.2 86.2 L126.1 87.5 L128.0 90.1 L129.9 93.6 L131.8 97.8 L133.7 102.2 L135.6 106.4 L137.5 109.9 L139.4 112.5 L141.3 113.8 L143.2 113.8 L145.1 112.5 L147.0 109.9 L148.9 105.9 L150.8 101.9 L152.7 98.3 L154.6 95.5 L156.5 93.7 L158.4 93.0 L160.3 93.2 L162.2 94.2 L164.1 95.7 L166.0 97.3;M33.0 100.0 L34.9 95.7 L36.8 91.8 L38.7 88.7 L40.6 86.7 L42.5 86.0 L44.4 86.7 L46.3 88.7 L48.2 91.8 L50.1 95.7 L52.0 100.0 L53.9 104.3 L55.8 108.2 L57.7 111.3 L59.6 113.3 L61.5 114.0 L63.4 113.3 L65.3 111.3 L67.2 108.2 L69.1 104.3 L71.0 100.0 L72.9 95.7 L74.8 91.8 L76.7 88.7 L78.6 86.7 L80.5 86.0 L82.4 86.7 L84.3 88.7 L86.2 91.8 L88.1 95.7 L90.0 100.0 L91.9 104.3 L93.8 108.2 L95.7 111.3 L97.6 113.3 L99.5 114.0 L101.4 113.3 L103.3 111.3 L105.2 108.2 L107.1 104.3 L109.0 100.0 L110.9 95.7 L112.8 91.8 L114.7 88.7 L116.6 86.7 L118.5 86.0 L120.4 86.7 L122.3 88.7 L124.2 91.8 L126.1 95.7 L128.0 100.0 L129.9 104.3 L131.8 108.2 L133.7 111.3 L135.6 113.3 L137.5 114.0 L139.4 113.3 L141.3 111.3 L143.2 108.2 L145.1 104.3 L147.0 100.0 L148.9 96.0 L150.8 93.0 L152.7 91.1 L154.6 90.5 L156.5 91.1 L158.4 92.5 L160.3 94.4 L162.2 96.5 L164.1 98.5 L166.0 100.0;M33.0 90.1 L34.9 87.5 L36.8 86.2 L38.7 86.2 L40.6 87.5 L42.5 90.1 L44.4 93.6 L46.3 97.8 L48.2 102.2 L50.1 106.4 L52.0 109.9 L53.9 112.5 L55.8 113.8 L57.7 113.8 L59.6 112.5 L61.5 109.9 L63.4 106.4 L65.3 102.2 L67.2 97.8 L69.1 93.6 L71.0 90.1 L72.9 87.5 L74.8 86.2 L76.7 86.2 L78.6 87.5 L80.5 90.1 L82.4 93.6 L84.3 97.8 L86.2 102.2 L88.1 106.4 L90.0 109.9 L91.9 112.5 L93.8 113.8 L95.7 113.8 L97.6 112.5 L99.5 109.9 L101.4 106.4 L103.3 102.2 L105.2 97.8 L107.1 93.6 L109.0 90.1 L110.9 87.5 L112.8 86.2 L114.7 86.2 L116.6 87.5 L118.5 90.1 L120.4 93.6 L122.3 97.8 L124.2 102.2 L126.1 106.4 L128.0 109.9 L129.9 112.5 L131.8 113.8 L133.7 113.8 L135.6 112.5 L137.5 109.9 L139.4 106.4 L141.3 102.2 L143.2 97.8 L145.1 93.6 L147.0 90.1 L148.9 88.4 L150.8 88.2 L152.7 89.2 L154.6 91.1 L156.5 93.7 L158.4 96.4 L160.3 98.9 L162.2 100.9 L164.1 102.2 L166.0 102.7;M33.0 86.0 L34.9 86.7 L36.8 88.7 L38.7 91.8 L40.6 95.7 L42.5 100.0 L44.4 104.3 L46.3 108.2 L48.2 111.3 L50.1 113.3 L52.0 114.0 L53.9 113.3 L55.8 111.3 L57.7 108.2 L59.6 104.3 L61.5 100.0 L63.4 95.7 L65.3 91.8 L67.2 88.7 L69.1 86.7 L71.0 86.0 L72.9 86.7 L74.8 88.7 L76.7 91.8 L78.6 95.7 L80.5 100.0 L82.4 104.3 L84.3 108.2 L86.2 111.3 L88.1 113.3 L90.0 114.0 L91.9 113.3 L93.8 111.3 L95.7 108.2 L97.6 104.3 L99.5 100.0 L101.4 95.7 L103.3 91.8 L105.2 88.7 L107.1 86.7 L109.0 86.0 L110.9 86.7 L112.8 88.7 L114.7 91.8 L116.6 95.7 L118.5 100.0 L120.4 104.3 L122.3 108.2 L124.2 111.3 L126.1 113.3 L128.0 114.0 L129.9 113.3 L131.8 111.3 L133.7 108.2 L135.6 104.3 L137.5 100.0 L139.4 95.7 L141.3 91.8 L143.2 88.7 L145.1 86.7 L147.0 86.0 L148.9 87.7 L150.8 90.3 L152.7 93.6 L154.6 96.9 L156.5 100.0 L158.4 102.4 L160.3 104.1 L162.2 104.8 L164.1 104.6 L166.0 103.8;M33.0 90.1 L34.9 93.6 L36.8 97.8 L38.7 102.2 L40.6 106.4 L42.5 109.9 L44.4 112.5 L46.3 113.8 L48.2 113.8 L50.1 112.5 L52.0 109.9 L53.9 106.4 L55.8 102.2 L57.7 97.8 L59.6 93.6 L61.5 90.1 L63.4 87.5 L65.3 86.2 L67.2 86.2 L69.1 87.5 L71.0 90.1 L72.9 93.6 L74.8 97.8 L76.7 102.2 L78.6 106.4 L80.5 109.9 L82.4 112.5 L84.3 113.8 L86.2 113.8 L88.1 112.5 L90.0 109.9 L91.9 106.4 L93.8 102.2 L95.7 97.8 L97.6 93.6 L99.5 90.1 L101.4 87.5 L103.3 86.2 L105.2 86.2 L107.1 87.5 L109.0 90.1 L110.9 93.6 L112.8 97.8 L114.7 102.2 L116.6 106.4 L118.5 109.9 L120.4 112.5 L122.3 113.8 L124.2 113.8 L126.1 112.5 L128.0 109.9 L129.9 106.4 L131.8 102.2 L133.7 97.8 L135.6 93.6 L137.5 90.1 L139.4 87.5 L141.3 86.2 L143.2 86.2 L145.1 87.5 L147.0 90.1 L148.9 94.1 L150.8 98.1 L152.7 101.7 L154.6 104.5 L156.5 106.3 L158.4 107.0 L160.3 106.8 L162.2 105.8 L164.1 104.3 L166.0 102.7;M33.0 100.0 L34.9 104.3 L36.8 108.2 L38.7 111.3 L40.6 113.3 L42.5 114.0 L44.4 113.3 L46.3 111.3 L48.2 108.2 L50.1 104.3 L52.0 100.0 L53.9 95.7 L55.8 91.8 L57.7 88.7 L59.6 86.7 L61.5 86.0 L63.4 86.7 L65.3 88.7 L67.2 91.8 L69.1 95.7 L71.0 100.0 L72.9 104.3 L74.8 108.2 L76.7 111.3 L78.6 113.3 L80.5 114.0 L82.4 113.3 L84.3 111.3 L86.2 108.2 L88.1 104.3 L90.0 100.0 L91.9 95.7 L93.8 91.8 L95.7 88.7 L97.6 86.7 L99.5 86.0 L101.4 86.7 L103.3 88.7 L105.2 91.8 L107.1 95.7 L109.0 100.0 L110.9 104.3 L112.8 108.2 L114.7 111.3 L116.6 113.3 L118.5 114.0 L120.4 113.3 L122.3 111.3 L124.2 108.2 L126.1 104.3 L128.0 100.0 L129.9 95.7 L131.8 91.8 L133.7 88.7 L135.6 86.7 L137.5 86.0 L139.4 86.7 L141.3 88.7 L143.2 91.8 L145.1 95.7 L147.0 100.0 L148.9 104.0 L150.8 107.0 L152.7 108.9 L154.6 109.5 L156.5 108.9 L158.4 107.5 L160.3 105.6 L162.2 103.5 L164.1 101.5 L166.0 100.0"></animate></path>
+<circle cx="176" cy="100" fill="#d8b4fe" r="13"></circle>
+<circle cx="42.5" cy="112.0" fill="#f3e8ff" r="2"><animate attributename="cy" dur="0.9s" repeatcount="indefinite" values="112.0;107.9;98.0;88.1;84.0;88.1;98.0;107.9;112.0"></animate></circle>
+<circle cx="99.5" cy="84.0" fill="#f3e8ff" r="2"><animate attributename="cy" dur="0.9s" repeatcount="indefinite" values="84.0;88.1;98.0;107.9;112.0;107.9;98.0;88.1;84.0"></animate></circle>
+<circle cx="171" cy="93" fill="#f3e8ff" r="2.5"></circle>
+<g class="face">
+<circle cx="171.5" cy="99" fill="#581c87" r="3"></circle>
+<circle cx="180.5" cy="99" fill="#581c87" r="3"></circle>
+<circle cx="172.4" cy="97.9" fill="white" r="1.1"></circle>
+<circle cx="181.4" cy="97.9" fill="white" r="1.1"></circle>
+<ellipse cx="167.5" cy="104.5" fill="#f9a8d4" opacity="0.9" rx="2.4" ry="1.6"></ellipse>
+<ellipse cx="184.5" cy="104.5" fill="#f9a8d4" opacity="0.9" rx="2.4" ry="1.6"></ellipse>
+<path d="M173.5 104.5 Q176 107.5 178.5 104.5" fill="none" stroke="#581c87" stroke-linecap="round" stroke-width="1.8"></path>
+</g>
+</svg><svg aria-label="Ceres, a sky-blue chain of three Bacillus cereus rods" class="pal wobble" role="img" viewbox="0 0 200 200">
+<!-- left rod, tipped down at its outer end -->
+<g transform="rotate(14 42 112)">
+<rect fill="#bae6fd" height="38" rx="11" stroke="#0369a1" stroke-width="4" width="56" x="14" y="93"></rect>
+<circle cx="26" cy="103" fill="#f0f9ff" r="4"></circle>
+</g>
+<!-- right rod -->
+<g transform="rotate(-14 158 112)">
+<rect fill="#bae6fd" height="38" rx="11" stroke="#0369a1" stroke-width="4" width="56" x="130" y="93"></rect>
+<circle cx="142" cy="103" fill="#f0f9ff" r="4"></circle>
+</g>
+<!-- middle rod, with her face -->
+<rect fill="#bae6fd" height="46" rx="13" stroke="#0369a1" stroke-width="4" width="66" x="67" y="80"></rect>
+<circle cx="79" cy="90" fill="#f0f9ff" r="4.5"></circle>
+<g class="face">
+<circle cx="90" cy="101" fill="#0c4a6e" r="5.5"></circle>
+<circle cx="110" cy="101" fill="#0c4a6e" r="5.5"></circle>
+<circle cx="91.8" cy="99.2" fill="white" r="1.9"></circle>
+<circle cx="111.8" cy="99.2" fill="white" r="1.9"></circle>
+<ellipse cx="80" cy="113" fill="#f9a8d4" opacity="0.9" rx="5" ry="3.2"></ellipse>
+<ellipse cx="120" cy="113" fill="#f9a8d4" opacity="0.9" rx="5" ry="3.2"></ellipse>
+<path d="M94 112 Q100 118 106 112" fill="none" stroke="#0c4a6e" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg><svg aria-label="Sallie, a grey rod-shaped Salmonella Typhi with flagella all around her" class="pal bob" role="img" style="width: 104px;" viewbox="0 0 200 200">
+<!-- flagella all over her body -->
+<path class="flagellum" d="M62 76 C66.8 60.3 40.4 62.6 45.0 46.6" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.7s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M62 76 C66.8 60.3 40.4 62.6 45.0 46.6;M62 76 C59.0 64.8 48.2 58.1 45.0 46.6;M62 76 C46.0 72.3 61.2 50.6 45.0 46.6;M62 76 C53.8 67.8 53.4 55.1 45.0 46.6;M62 76 C66.8 60.3 40.4 62.6 45.0 46.6"></animate></path><path class="flagellum" d="M100 74 C112.0 63.4 88.0 52.9 100.0 42.0" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.65s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M100 74 C112.0 63.4 88.0 52.9 100.0 42.0;M100 74 C103.0 63.4 97.0 52.9 100.0 42.0;M100 74 C88.0 63.4 112.0 52.9 100.0 42.0;M100 74 C97.0 63.4 103.0 52.9 100.0 42.0;M100 74 C112.0 63.4 88.0 52.9 100.0 42.0"></animate></path><path class="flagellum" d="M138 76 C154.0 72.3 138.8 50.6 155.0 46.6" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.75s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M138 76 C154.0 72.3 138.8 50.6 155.0 46.6;M138 76 C146.2 67.8 146.6 55.1 155.0 46.6;M138 76 C133.2 60.3 159.6 62.6 155.0 46.6;M138 76 C141.0 64.8 151.8 58.1 155.0 46.6;M138 76 C154.0 72.3 138.8 50.6 155.0 46.6"></animate></path><path class="flagellum" d="M62 124 C46.0 127.7 61.2 149.4 45.0 153.4" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.72s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M62 124 C46.0 127.7 61.2 149.4 45.0 153.4;M62 124 C53.8 132.2 53.4 144.9 45.0 153.4;M62 124 C66.8 139.7 40.4 137.4 45.0 153.4;M62 124 C59.0 135.2 48.2 141.9 45.0 153.4;M62 124 C46.0 127.7 61.2 149.4 45.0 153.4"></animate></path><path class="flagellum" d="M100 126 C88.0 136.6 112.0 147.1 100.0 158.0" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.68s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M100 126 C88.0 136.6 112.0 147.1 100.0 158.0;M100 126 C97.0 136.6 103.0 147.1 100.0 158.0;M100 126 C112.0 136.6 88.0 147.1 100.0 158.0;M100 126 C103.0 136.6 97.0 147.1 100.0 158.0;M100 126 C88.0 136.6 112.0 147.1 100.0 158.0"></animate></path><path class="flagellum" d="M138 124 C133.2 139.7 159.6 137.4 155.0 153.4" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.7s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M138 124 C133.2 139.7 159.6 137.4 155.0 153.4;M138 124 C141.0 135.2 151.8 141.9 155.0 153.4;M138 124 C154.0 127.7 138.8 149.4 155.0 153.4;M138 124 C146.2 132.2 146.6 144.9 155.0 153.4;M138 124 C133.2 139.7 159.6 137.4 155.0 153.4"></animate></path><path class="flagellum" d="M40 100 C29.4 88.0 18.9 112.0 8.0 100.0" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.6s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M40 100 C29.4 88.0 18.9 112.0 8.0 100.0;M40 100 C29.4 97.0 18.9 103.0 8.0 100.0;M40 100 C29.4 112.0 18.9 88.0 8.0 100.0;M40 100 C29.4 103.0 18.9 97.0 8.0 100.0;M40 100 C29.4 88.0 18.9 112.0 8.0 100.0"></animate></path><path class="flagellum" d="M160 100 C169.9 112.0 179.8 88.0 190.0 100.0" fill="none" stroke="#52525b" stroke-linecap="round" stroke-width="3.5"><animate attributename="d" calcmode="spline" dur="0.66s" keysplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" keytimes="0;0.25;0.5;0.75;1" repeatcount="indefinite" values="M160 100 C169.9 112.0 179.8 88.0 190.0 100.0;M160 100 C169.9 103.0 179.8 97.0 190.0 100.0;M160 100 C169.9 88.0 179.8 112.0 190.0 100.0;M160 100 C169.9 97.0 179.8 103.0 190.0 100.0;M160 100 C169.9 112.0 179.8 88.0 190.0 100.0"></animate></path>
+<rect fill="#d4d4d8" height="52" rx="26" stroke="#52525b" stroke-width="4" width="120" x="40" y="74"></rect>
+<circle cx="140" cy="87" fill="#f4f4f5" r="4"></circle>
+<circle cx="58" cy="115" fill="#f4f4f5" r="3"></circle>
+<g class="face">
+<circle cx="87" cy="98" fill="#27272a" r="6"></circle>
+<circle cx="113" cy="98" fill="#27272a" r="6"></circle>
+<circle cx="89" cy="96" fill="white" r="2"></circle>
+<circle cx="115" cy="96" fill="white" r="2"></circle>
+<ellipse cx="72" cy="110" fill="#f9a8d4" opacity="0.9" rx="7" ry="4"></ellipse>
+<ellipse cx="128" cy="110" fill="#f9a8d4" opacity="0.9" rx="7" ry="4"></ellipse>
+<path d="M94 110 Q100 116 106 110" fill="none" stroke="#27272a" stroke-linecap="round" stroke-width="3"></path>
+</g>
+</svg></div>
+<h1 class="logo">PetriPals</h1>
+<p class="tagline">Grow your colony. Dodge antibiotics.</p>
+<button class="start-btn" type="button">Press Start to Play</button>
+<a class="guess-link" href="./whos-that-pal.html">Who’s That Pal?</a>
+<p class="about">
+      Pick a real bacterium, drawn as a cartoon. Eat nutrients to
+      divide, steer clear of antibiotic disks, or race a rival pal to take over
+      the plate.
+    </p>
+<p class="sister-game">
+      The sister game to
+      <a>FunGals</a>.
+    </p>
+<footer class="signature">jsogge 2026</footer>
+<script src="/_assets/57ac3ddc97fb356fedb1.js" type="module"></script>
+
+</body></html>

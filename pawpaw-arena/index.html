@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport"/>
+<title>PawPaw Arena</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+  #game { display: block; background: #d7ecc8; touch-action: none; }
+  .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; }
+  #menu { background: rgba(215, 236, 200, .95); flex-direction: column; z-index: 10; }
+  #menu > * { margin-bottom: 18px; }
+  #menu h1 { font-size: 44px; color: #4a6b3a; }
+  #menu input { font-size: 18px; padding: 10px 14px; border: 2px solid #9fc487; border-radius: 12px; width: 240px; text-align: center; }
+  .animals { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px; max-width: 360px; margin: 0 auto; }
+  .animals label { position: relative; cursor: pointer; background: #fff; border: 3px solid transparent; border-radius: 16px; padding: 10px 6px; font-size: 30px; text-align: center; }
+  .animals label small { display: block; font-size: 12px; color: #666; }
+  .animals input { display: none; }
+  .animals input:checked + span { outline: 3px solid #6aa84f; outline-offset: 6px; border-radius: 12px; }
+  .animals label.locked { opacity: .48; filter: grayscale(.4); }
+  .animals label.locked input:checked + span { outline: none; }
+  .animals .lock-badge { position: absolute; top: 2px; right: 4px; font-size: 15px; display: none; }
+  .animals label.locked .lock-badge { display: block; }
+  @media (max-width: 420px) {
+    #menu h1 { font-size: 32px; }
+    .animals { grid-gap: 6px; }
+    .animals label { font-size: 24px; padding: 8px 3px; border-width: 2px; }
+    .animals label small { font-size: 10px; }
+    #menu input { width: 200px; }
+  }
+  #play { font-size: 20px; padding: 12px 44px; border: 0; border-radius: 14px; background: #6aa84f; color: #fff; cursor: pointer; }
+  #hud { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); width: 320px; text-align: center; z-index: 5; }
+  #hud-hp { height: 14px; background: rgba(0,0,0,.25); border-radius: 7px; overflow: hidden; }
+  #hud-hp-fill { height: 100%; width: 100%; background: #6fce6f; transition: width .15s; }
+  #hud-level { color: #333; font-size: 14px; margin-top: 4px; text-shadow: 0 1px 0 #fff; }
+  #leaderboard { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,.75); border-radius: 12px; padding: 10px 14px; font-size: 13px; min-width: 170px; z-index: 5; }
+  #killfeed { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); text-align: center; font-size: 14px; color: #444; z-index: 5; }
+  #killfeed div { background: rgba(255,255,255,.7); border-radius: 8px; padding: 2px 10px; margin-bottom: 4px; }
+  #upgrade { position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%); display: none; z-index: 6; }
+  #upgrade button { font-size: 15px; padding: 10px 16px; margin: 0 5px; border: 0; border-radius: 12px; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); cursor: pointer; }
+  #respawn { display: none; background: rgba(0,0,0,.35); color: #fff; font-size: 28px; z-index: 8; }
+  #online-btn { position: absolute; top: 12px; left: 12px; display: none; font-size: 14px; padding: 8px 14px; border: 0; border-radius: 10px; background: #4e5ae8; color: #fff; cursor: pointer; z-index: 6; }
+  #mode-tag { position: absolute; bottom: 8px; left: 12px; font-size: 12px; color: #6a6a6a; z-index: 5; }
+  #touch-joy-base, #touch-joy-knob { position: fixed; left: 0; top: 0; border-radius: 50%; background: rgba(255,255,255,.28); pointer-events: none; z-index: 4; display: none; }
+  #touch-joy-base { width: 120px; height: 120px; border: 2px solid rgba(255,255,255,.5); }
+  #touch-joy-knob { width: 50px; height: 50px; background: rgba(255,255,255,.55); }
+  #touch-joy-base.tc-visible, #touch-joy-knob.tc-visible { display: block; }
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<canvas height="900" id="game" width="1440"></canvas>
+<div id="hud">
+<div id="hud-hp"><div id="hud-hp-fill"></div></div>
+<div id="hud-level">Lv 1 · 0</div>
+</div>
+<div id="leaderboard"></div>
+<div id="killfeed"></div>
+<div id="upgrade"></div>
+<button data-i18n="online" id="online-btn">Join online room</button>
+<div id="mode-tag"></div>
+<div class="overlay" data-i18n="respawn" id="respawn">Eaten! Respawning…</div>
+<div class="overlay" id="menu">
+<h1>🐾 <span data-i18n="title">PawPaw Arena</span></h1>
+<input data-i18n-ph="nick" id="name" maxlength="12" placeholder="Nickname"/>
+<div class="animals">
+<label data-animal="cat"><input checked="" name="animal" type="radio" value="cat"/><span>🐱<small data-i18n="cat">Fast · Squishy</small></span></label>
+<label data-animal="dog"><input name="animal" type="radio" value="dog"/><span>🐶<small data-i18n="dog">Balanced</small></span></label>
+<label data-animal="pig"><input name="animal" type="radio" value="pig"/><span>🐷<small data-i18n="pig">Slow · Tank</small></span></label>
+<label class="locked" data-animal="rabbit"><input name="animal" type="radio" value="rabbit"/><span>🐰<small data-i18n="rabbit">Very fast · Fragile</small></span><span class="lock-badge">🔒</span></label>
+<label class="locked" data-animal="duck"><input name="animal" type="radio" value="duck"/><span>🦆<small data-i18n="duck">Balanced+</small></span><span class="lock-badge">🔒</span></label>
+<label class="locked" data-animal="fox"><input name="animal" type="radio" value="fox"/><span>🦊<small data-i18n="fox">Burst · Mid-range</small></span><span class="lock-badge">🔒</span></label>
+</div>
+<button data-i18n="play" id="play">Fight!</button>
+<div data-i18n="controls" style="font-size:13px;color:#557">Move WASD · Aim &amp; fire with mouse</div>
+</div>
+<script src="/_assets/b16dae418a019da777d5.js" type="module"></script>
+<div id="touch-joy-base"></div><div id="touch-joy-knob"></div></body></html>

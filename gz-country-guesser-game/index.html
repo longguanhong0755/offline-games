@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Country Guesser</title>
+<link href="/_assets/680af6669abc319f9803.css" rel="stylesheet"/>
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+<link href="/_assets/d0633cff3d9fc2ccdb86.css" rel="stylesheet"/>
+<script defer="" src="/_assets/13e1b9854dd2a5566424.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div style="text-align:center;margin-top: 30px;
+    font-size: 30px; "><a href=".https://kunjgit.github.io/GameZone/"><i class="fas fa-home home-icon" style="color:black;"></i></a></div>
+<div class="container">
+<h3>Guess All The Countries!</h3>
+<button id="start-btn">Start Game</button>
+<button id="instructions-btn">Instructions</button>
+<div class="hidden" id="mode-container">
+<h3>Select Difficulty:</h3>
+<button id="easy-btn">Easy </button>
+<button id="medium-btn">Medium</button>
+<button id="hard-btn">Hard</button>
+</div>
+<div class="hidden" id="game-container">
+<div id="timer"></div>
+<h6>Your Progress: <span id="progress">0</span>/195 Countries Guessed.</h6>
+<input class="form-control search" id="country" onkeydown="search(this)" placeholder="e.g. India" type="text"/>
+<p class="misMatch"></p>
+<h6 class="listNations"></h6>
+</div>
+</div>
+<div class="modal hidden" id="modal">
+<div class="modal-content">
+<p id="modal-text"></p>
+<button id="new-game-btn">Replay</button>
+</div>
+</div>
+<div class="instructions hidden" id="instructions">
+<div class="instructions-content">
+<span class="close-btn">×</span>
+<p id="instructions-text"></p>
+</div>
+</div>
+</body></html>

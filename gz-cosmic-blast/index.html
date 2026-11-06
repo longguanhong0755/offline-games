@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cosmic Blast</title>
+<link href="/_assets/8ad6bf54a81ddb4687ad.css" rel="stylesheet"/>
+<link href="./assets/images/gamezone.png" rel="shortcut icon" type="image/x-icon"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div style="text-align:center;
+        font-size: 30px; "><a><i class="fas fa-home home-icon" style="color:black;"></i></a></div>
+<!-- === INTERFACE === -->
+<div id="interface">
+<h1>Cosmic Blast</h1>
+<p>Welcome to the Cosmic Blast Game! Save the Earth from incoming asteroids by clicking on them.</p>
+<p>Instructions:</p>
+<ul>
+<li>Click on the asteroids to destroy them and increase your score.</li>
+<li>Missed asteroids will damage Earth, causing it to slowly fade as its health decreases</li>
+<li>If health reaches zero, the game is over.</li>
+</ul>
+<button class="start-btn" id="start-btn">Start Game</button>
+<!-- <button class="start-btn"><a href="https://kunjgit.github.io/GameZone/">HOME</a></button> -->
+</div>
+<!-- === GAME CONTAINER === -->
+<div id="game-container">
+<button id="quit-btn">✖</button>
+<div id="earth"></div>
+<div id="health-bar">
+<div id="health-text"></div>
+</div>
+<div id="score"></div>
+</div>
+<!-- === END SCREEN === -->
+<div class="hidden" id="end-screen">
+<div class="popup">
+<h2>Earth has been destroyed by the asteroids</h2>
+<p>Your final score: <span id="final-score"></span></p>
+<button id="play-again-btn">Play Again</button>
+<!-- <button id="home-btn">BACK</button> -->
+</div>
+</div>
+<script src="/_assets/e973688f35ea4d6b3ae2.js"></script>
+</body></html>

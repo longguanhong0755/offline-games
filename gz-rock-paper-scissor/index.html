@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rock Paper Scissors Game</title>
+<link href="/_assets/8839652d5ff011e09feb.css" rel="stylesheet"/>
+<link href="/_assets/6752b9ba151a25703b2e.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<pre class="info">        Note:=&gt;
+         How to play?
+        To play your turn click on your 
+        choice (eg.Rock,Paper,Scissors)
+    </pre>
+<div class="header">
+<div style="text-align: left;
+      font-size: 30px;
+      "><a><i class="fas fa-home home-icon" style="color:black;"></i></a></div>
+<h1>Rock Paper Scissors</h1>
+</div>
+<div class="choices">
+<div class="choice" id="rock">
+<img src="/_assets/3e811c392f92cae4b68f.png"/>
+</div>
+<div class="choice" id="paper">
+<img src="/_assets/e34add0068e27f355a29.png"/>
+</div>
+<div class="choice" id="scissors">
+<img src="/_assets/8f0ac3efd4661cea004c.png"/>
+</div>
+</div>
+<div class="board">
+<button class="reset" onclick="
+    userScore=0;
+    compScore=0;
+    updateScore(userScore,compScore);
+    msg.innerText='Play your move';
+    ">Reset score</button>
+<p class="p"> Wins </p>
+<div class="score-board">
+<div class="score">
+<p id="user-score">0</p>
+<p>You</p>
+</div>
+<div class="score">
+<p id="comp-score">0</p>
+<p>Computer</p>
+</div>
+</div>
+</div>
+<div class="msg-container">
+<p id="msg">Play your move</p>
+</div>
+<script src="/_assets/7dea5851001fd70b6a29.js"></script>
+</body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title>Rock Paper Scissors</title>
+<link href="/_assets/6752b9ba151a25703b2e.css" rel="stylesheet"/>
+<link href="/_assets/ad55f224b40ec98befe6.css" rel="stylesheet" type="text/css"/>
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div style="text-align: left; margin-left: 40px;
+    margin-top:-30px;
+        font-size: 30px;
+        padding: 5px; "><a><i class="fas fa-home home-icon" style="color:white;"></i></a></div>
+<h1>Rock Paper Scissors</h1>
+<div id="game">
+<div id="userPanel">
+<p>Your Choice:</p>
+<button class="emojiButton" id="rockButton" onclick="play('rock')">👊</button>
+<button class="emojiButton" id="paperButton" onclick="play('paper')">✋</button>
+<button class="emojiButton" id="scissorsButton" onclick="play('scissors')">✌️</button>
+</div>
+<div id="resultPanel">
+<p id="resultText">Make your move!</p>
+<p id="scoreText">Score: You - 0 | Computer - 0</p>
+<p id="tieText">Ties: 0</p>
+</div>
+<div id="computerPanel">
+<p>Computer's Choice:</p>
+<div id="computerEmoji"></div>
+</div>
+</div>
+<button class="btn" onclick="
+    userScore=0;
+    computerScore=0;
+    tieScore=0;
+    updateResult();
+    ">Reset Score</button>
+<button class="but5 btn" onclick="
+    change();
+    autoPlay();
+    ">Auto Play</button>
+<script src="/_assets/ead83e772893bf2ac698.js"></script>
+</body></html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<link href="/_assets/e2260e363583bcac36a2.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container">
+<div class="screen-overlay" id="overlay" style="display: block; opacity: 0.6;"></div>
+<div id="contenders" style="display: block; opacity: 1;">
+<svg class="player-one" height="67.7" id="player1" version="1" viewbox="0 0 741 1255" width="67.7" xmlns="http://www.w3.org/2000/svg">
+<path d="M565 728c-6 68-15 130-29 186 88 38 156 106 187 188 12-32 18-65 18-100 0-116-70-217-176-274zM265 1020l8 25h194l9-25H265z" fill="#1560d6"></path>
+<path d="M210 937c8 30 17 58 26 83h269c9-25 18-53 26-83H210z" fill="#e83d37"></path>
+<path d="M0 1002c0 35 6 68 18 100 31-82 99-150 187-188-14-55-23-118-29-186A314 314 0 0 0 0 1002z" fill="#1560d6"></path>
+<path d="M571 585c0-125-30-241-67-337a395 395 0 0 1-270 0c-36 94-64 209-64 337a1658 1658 0 0 0 34 329l6 23h321l5-23a1313 1313 0 0 0 35-329z" fill="#DFE3E5"></path>
+<circle cx="370" cy="481" fill="#B8BDBF" r="100"></circle>
+<path d="M455 481a85 85 0 1 1-170 0 85 85 0 0 1 170 0z" fill="#ead3b0"></path>
+<path d="M234 248a394 394 0 0 0 270 0C446 98 370 0 370 0c-9 10-81 104-136 248z" fill="#1560d6"></path>
+</svg>
+<svg class="player-two" height="67.7" id="player2" version="1" viewbox="0 0 741 1255" width="67.7" xmlns="http://www.w3.org/2000/svg">
+<path d="M565 728c-6 68-15 130-29 186 88 38 156 106 187 188 12-32 18-65 18-100 0-116-70-217-176-274zM265 1020l8 25h194l9-25H265z" fill="#ED1C24"></path>
+<path d="M210 937c8 30 17 58 26 83h269c9-25 18-53 26-83H210z" fill="#8074B5"></path>
+<path d="M0 1002c0 35 6 68 18 100 31-82 99-150 187-188-14-55-23-118-29-186A314 314 0 0 0 0 1002z" fill="#ED1C24"></path>
+<path d="M571 585c0-125-30-241-67-337a395 395 0 0 1-270 0c-36 94-64 209-64 337a1658 1658 0 0 0 34 329l6 23h321l5-23a1313 1313 0 0 0 35-329z" fill="#DFE3E5"></path>
+<circle cx="370" cy="481" fill="#B8BDBF" r="100"></circle>
+<path d="M455 481a85 85 0 1 1-170 0 85 85 0 0 1 170 0z" fill="#B3E3F4"></path>
+<path d="M234 248a394 394 0 0 0 270 0C446 98 370 0 370 0c-9 10-81 104-136 248z" fill="#ED1C24"></path>
+</svg>
+</div>
+<div class="popup-box" id="popup" style="display: block; opacity: 1;">
+<h1 class="rs">Rocket Showdown</h1>
+<div class="popup-text">
+<div class="options">
+<button class="toggle button option-blue" id="playerOne">Computer</button>
+<h2 class="vs">VS</h2>
+<button class="toggle button option-red" id="playerTwo">Human</button>
+</div>
+<div class="options-lower">
+<button class="toggle button option-obstacles" id="obstacles">Asteroids: On</button>
+<br/>
+<button class="start-button" id="start">Start</button>
+</div>
+</div>
+</div>
+<!--POPUP END-->
+<div class="popup-results" id="results">
+<div class="popup-text">
+<h3 class="result"></h3>
+<h3 class="message"></h3>
+<button class="start-button" id="restart">Play Again?</button>
+</div>
+</div>
+<!--RESULTS END-->
+<div class="scoreboard" style="opacity: 0;">
+<div>
+<p class="counter p1"><span class="shield_p1">0</span>%</p>
+</div>
+<div>
+<p class="counter p2"><span class="shield_p2">0</span>%</p>
+</div>
+</div>
+<canvas class="gameboard" height="900" width="1440"></canvas>
+<canvas class="canvasPlanet"></canvas>
+<div class="crash">
+<svg class="explosion" height="512" version="1" width="512">
+<path d="M309 5l-77 156-29-31-7 58-170-49 112 114-32 16 50 26-40 88 73-17-7 141 69-129 61 55 6-75 140 50-103-101 131-47-143-35 20-39-50 8-4-189z" fill="#f24501" stroke="#9f0001" stroke-linejoin="miter" stroke-width="10"></path>
+<path d="M275 126l-37 86-16-16-3 31-92-21 63 58-16 9 27 12-18 49 38-12v76l34-71 34 28 1-41 76 23-58-51 69-29-78-14 10-22-26 6-8-101z" fill="#fcdd09" stroke="#ff9702" stroke-linejoin="miter" stroke-width="3"></path>
+</svg>
+</div>
+<!--CRASH END-->
+<svg class="planet-one" height="100%" id="planet" style="opacity: 1; transform: translate(206px, 143px) scale(1.4018);" version="1" viewbox="0 0 1402 1402" width="100%" xmlns="http://www.w3.org/2000/svg">
+<circle class="p1bg" cx="701" cy="701" fill="#018FD5" r="701"></circle>
+<path class="p1c" d="M232 900c-7-89-111-70-171-145s228-60 264-398c15-141-13-196-51-212A700 700 0 0 0 49 958c63 10 189 19 183-58zM997 312c-22 53-270 127-46 182 79 20 49 113 112 103s-23-106 56-181c19-18 102-81 149-128a705 705 0 0 0-167-163c-4 4-37 30-104 187zM549 239c29 152 441-57 482-157a698 698 0 0 0-696 21c98 41 192 20 214 136zM1355 450c-32 80-126 316-244 294-88-16-246 26-272 152-38 185-18 290 120 239 84-31 187 43 282-71 23-28 84-91 128-152a700 700 0 0 0-14-462zM557 450c-321 18-115 332-99 379 16 46 95 180 172 145s161-287 125-415c-39-134-134-112-198-109zM513 1175c30-241-234-60-304 25a699 699 0 0 0 805 128c72-161-534 109-501-153z" fill="#75B84B"></path>
+<path d="M959 1186A701 701 0 0 1 393 71a701 701 0 1 0 874 1044c-93 45-198 71-308 71z" fill="#186DA0" opacity=".2"></path>
+</svg>
+<div class="planet-two" style="opacity: 1; transform: translate(247px, 265px) scale(1.04895);">
+<svg version="1" viewbox="0 0 1443 1443">
+<circle class="p2bg" cx="721" cy="721" fill="#FCEE21" r="721"></circle>
+<circle class="p2c" cx="303" cy="408" fill="#E0C922" r="110"></circle>
+<circle class="p2c" cx="219" cy="715" fill="#E0C922" r="103"></circle>
+<circle class="p2c" cx="522" cy="619" fill="#E0C922" r="71"></circle>
+<circle class="p2c" cx="536" cy="864" fill="#E0C922" r="71"></circle>
+<circle class="p2c" cx="324" cy="942" fill="#E0C922" r="47"></circle>
+<circle class="p2c" cx="577" cy="359" fill="#E0C922" r="107"></circle>
+<circle class="p2c" cx="771" cy="164" fill="#E0C922" r="84"></circle>
+<circle class="p2c" cx="462" cy="183" fill="#E0C922" r="38"></circle>
+<circle class="p2c" cx="921" cy="607" fill="#E0C922" r="125"></circle>
+<circle class="p2c" cx="846" cy="957" fill="#E0C922" r="102"></circle>
+<circle class="p2c" cx="641" cy="1213" fill="#E0C922" r="145"></circle>
+<circle class="p2c" cx="388" cy="1170" fill="#E0C922" r="55"></circle>
+<circle class="p2c" cx="715" cy="735" fill="#E0C922" r="42"></circle>
+<circle class="p2c" cx="1180" cy="916" fill="#E0C922" r="121"></circle>
+<circle class="p2c" cx="1038" cy="1188" fill="#E0C922" r="57"></circle>
+<circle class="p2c" cx="1059" cy="346" fill="#E0C922" r="114"></circle>
+<circle class="p2c" cx="1280" cy="646" fill="#E0C922" r="99"></circle>
+<path d="M1030 1209A721 721 0 0 1 457 50a722 722 0 1 0 838 1109c-82 32-171 50-265 50z" fill="#000" opacity=".15"></path>
+</svg>
+</div>
+<!--PLANET-TWO END-->
+<div class="star">
+<svg id="star" version="1" viewbox="0 0 513 513">
+<path class="star-body" d="M400 503c-3 0-7-1-10-3l-134-68-134 68a23 23 0 0 1-33-24l23-149L7 219a23 23 0 0 1 12-38l148-25 69-134a23 23 0 0 1 40 0l69 134 148 25a23 23 0 0 1 12 38L400 327l23 149a23 23 0 0 1-23 27z" fill="#f5ede7"></path>
+</svg>
+</div>
+<!--STAR END-->
+<div class="space" style="opacity: 1;">
+<div class="star star0" style="left:408px; top:44px; height:0.97vmax; width:0.82vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star1" style="left:504px; top:262px; height:0.29vmax; width:0.51vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star2" style="left:899px; top:589px; height:0.87vmax; width:0.44vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star3" style="left:697px; top:877px; height:0.29vmax; width:0.79vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star4" style="left:1220px; top:408px; height:0.85vmax; width:0.39vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star5" style="left:402px; top:406px; height:0.99vmax; width:0.38vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star6" style="left:774px; top:368px; height:0.04vmax; width:0.04vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star7" style="left:1435px; top:611px; height:0.21vmax; width:0.03vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star8" style="left:428px; top:673px; height:0.25vmax; width:0.58vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star9" style="left:500px; top:776px; height:0.52vmax; width:0.47vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star10" style="left:1162px; top:9px; height:0.12vmax; width:0.82vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star11" style="left:713px; top:252px; height:0.82vmax; width:0.23vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star12" style="left:1106px; top:415px; height:0.36vmax; width:0.73vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star13" style="left:431px; top:171px; height:0.64vmax; width:0.25vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star14" style="left:91px; top:350px; height:0.62vmax; width:0.91vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star15" style="left:857px; top:378px; height:0.96vmax; width:0.98vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star16" style="left:267px; top:4px; height:0.79vmax; width:0.67vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star17" style="left:645px; top:849px; height:0.19vmax; width:0.61vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star18" style="left:1347px; top:861px; height:0.06vmax; width:0.08vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star19" style="left:0px; top:528px; height:0.6vmax; width:0.7vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star20" style="left:645px; top:51px; height:0.24vmax; width:0.16vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star21" style="left:283px; top:330px; height:0.59vmax; width:0.95vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star22" style="left:888px; top:744px; height:0.42vmax; width:0.79vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star23" style="left:1139px; top:60px; height:0.1vmax; width:0.06vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star24" style="left:973px; top:750px; height:0.43vmax; width:0.82vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star25" style="left:1136px; top:709px; height:0.74vmax; width:0.24vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star26" style="left:200px; top:281px; height:0.44vmax; width:0.51vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star27" style="left:580px; top:284px; height:0.38vmax; width:0.67vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star28" style="left:97px; top:163px; height:0.49vmax; width:0.46vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star29" style="left:1070px; top:145px; height:0.02vmax; width:0.16vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star30" style="left:296px; top:845px; height:0.2vmax; width:0.03vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star31" style="left:425px; top:493px; height:0.89vmax; width:0.49vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star32" style="left:357px; top:400px; height:0.87vmax; width:0.92vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star33" style="left:1299px; top:852px; height:0.77vmax; width:0.45vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star34" style="left:989px; top:303px; height:0.09vmax; width:0.11vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star35" style="left:1289px; top:514px; height:0.97vmax; width:0.58vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star36" style="left:1421px; top:136px; height:0.21vmax; width:0.69vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star37" style="left:993px; top:388px; height:0.96vmax; width:0.05vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star38" style="left:1428px; top:512px; height:0.03vmax; width:0.56vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star39" style="left:588px; top:753px; height:0.37vmax; width:0.37vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star40" style="left:1153px; top:811px; height:0.64vmax; width:0.32vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star41" style="left:1045px; top:880px; height:0.49vmax; width:0.32vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star42" style="left:651px; top:173px; height:0.49vmax; width:0.59vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star43" style="left:483px; top:438px; height:0.38vmax; width:0.91vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star44" style="left:243px; top:382px; height:0.34vmax; width:0.18vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star45" style="left:1211px; top:195px; height:0.17vmax; width:0.48vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star46" style="left:984px; top:434px; height:0.75vmax; width:0.88vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star47" style="left:533px; top:377px; height:0.57vmax; width:0.68vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star48" style="left:288px; top:58px; height:0.27vmax; width:0.28vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div>
+<div class="star star49" style="left:1264px; top:240px; height:0.62vmax; width:0.08vmax;"><svg viewbox="0 0 513 513"><use xlink:href="#star"></use></svg></div></div>
+</div>
+<div class="hidden-assets">
+<svg height="67.7" id="flicker" version="1" viewbox="0 0 741 1255" width="67.7" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M370 1255c31 0 60-79 83-210H288c23 131 51 210 82 210z" fill="#F7931E"></path>
+<path d="M370 1145c26 0 50-38 69-100H302c19 62 43 100 68 100z" fill="#EDBB0B"></path>
+</g>
+</svg>
+</div>
+<script src="/_assets/317e27683b0b3b3bb239.js"></script>
+</body></html>

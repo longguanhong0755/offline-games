@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>DASH//BREAK</title>
+<meta content="DASH//BREAK — an isometric bullet-hell arena where you only move by dashing. Outrun the chaos. Break the limit." name="description"/>
+<meta content="#05060a" name="theme-color"/>
+<link href="./favicon.svg" rel="icon" type="image/svg+xml"/>
+<script src="/_assets/360e2b642d4d3a08ee40.js" type="module"></script>
+<link href="/_assets/6590b4c5f8ab71b75d81.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="app"><canvas data-engine="three.js r186" height="900" id="gl" style="display: block; width: 1440px; height: 900px;" width="1440"></canvas></div>
+<!-- damage edge flash -->
+<div id="damage"></div>
+<!-- ============ HUD ============ -->
+<section class="screen hud" id="scr-hud">
+<div class="hud-tl">
+<div class="hud-lives" id="hud-lives">◆◆◆</div>
+<div class="hud-time"><span>TIME</span> <b id="hud-time">00:00</b></div>
+<div class="hud-phase"><span>PHASE</span><div class="bar"><i id="hud-phase"></i></div></div>
+</div>
+<div class="hud-tr">
+<div class="hud-score" id="hud-score">0</div>
+<div class="hud-mult"><b id="hud-mult">×1.0</b> <span id="hud-chain"></span></div>
+<div class="bar chainbar"><i id="hud-chainbar"></i></div>
+<div class="hud-kills"><span>KILLS</span> <b id="hud-kills">0</b></div>
+<div class="feed" id="feed"></div>
+</div>
+<div class="hud-boss" id="hud-boss">
+<div id="hud-bossname">OVERSEER</div>
+<div class="bar boss"><i id="hud-bossfill"></i></div>
+</div>
+<div class="combo" id="combo"><div id="combo-name"></div><div id="combo-keys"></div></div>
+<div class="banner" id="banner"><div id="banner-title"></div><div id="banner-sub"></div></div>
+<div class="hud-keys">
+<kbd id="key-E">E</kbd><kbd id="key-W">W</kbd><kbd id="key-A">A</kbd><kbd id="key-B">B</kbd><kbd class="atk" id="key-R">R</kbd>
+<div class="chord" id="hud-chord"></div>
+</div>
+<button aria-label="Pause" class="pause-btn" data-action="pause">II</button>
+<div class="tutorial" id="tutorial">
+<div class="tut-step" id="tut-step"></div>
+<div class="tut-title" id="tut-title"></div>
+<div class="tut-text" id="tut-text"></div>
+<div class="tut-keys" id="tut-keys"></div>
+<div class="tut-progress" id="tut-progress"></div>
+<div class="tut-actions">
+<button class="btn small" data-action="skip-tutorial" id="tut-skip">SKIP TUTORIAL</button>
+<button class="btn small primary" data-action="tutorial-start" id="tut-go">START RUN</button>
+</div>
+</div>
+</section>
+<!-- ============ MENU ============ -->
+<section class="screen menu on" id="scr-menu">
+<div class="menu-col">
+<h1 class="logo"><span class="l1">DASH</span><span class="sl">//</span><span class="l2">BREAK</span></h1>
+<p class="tagline">OUTRUN THE CHAOS. BREAK THE LIMIT.</p>
+<div class="menu-buttons">
+<button class="btn primary big" data-action="play">PLAY</button>
+<button class="btn" data-action="tutorial">TUTORIAL</button>
+<button class="btn" data-action="howto">HOW TO PLAY</button>
+<button class="btn" data-action="settings">SETTINGS</button>
+</div>
+<div class="records">
+<div><span>BEST SCORE</span><b id="rec-score">0</b></div>
+<div><span>LONGEST RUN</span><b id="rec-time">00:00</b></div>
+<div><span>BEST CHAIN</span><b id="rec-chain">0</b></div>
+</div>
+<p class="hint">Mouse aims · E W A B dash · R attacks · press dash keys together for combos</p>
+</div>
+</section>
+<!-- ============ HOW TO PLAY / CONTROLS ============ -->
+<section class="screen panel-screen" id="scr-howto">
+<div class="panel wide">
+<h2>HOW TO PLAY</h2>
+<p class="lead">You never walk. You move only by dashing toward the cursor — as often as you want. Survive, chain hits, and break your record.</p>
+<div class="cols">
+<div>
+<h3>DASHES</h3>
+<ul class="controls">
+<li><kbd>E</kbd> Phantom Dash <em>cyan afterimages</em></li>
+<li><kbd>W</kbd> Blink Dash <em>you vanish mid-dash</em></li>
+<li><kbd>A</kbd> Phase Dash <em>longest i-frames</em></li>
+<li><kbd>B</kbd> Reversal Dash <em>recoil, then launch</em></li>
+<li><kbd class="atk">R</kbd> Rupture Dash <em>your attack</em></li>
+</ul>
+<h3>RULES</h3>
+<ul class="rules">
+<li>3 lives. A hit costs one and clears nearby bullets.</li>
+<li>Dashes make you briefly untouchable — but spamming drains <b>PHASE</b> and the protection fades until it refills.</li>
+<li>Pillars block bullets. Attacks commit you for a moment.</li>
+<li>Hits build your chain and multiplier; getting hit resets it.</li>
+<li>Graze bullets without i-frames for bonus points.</li>
+</ul>
+</div>
+<div>
+<h3>COMBOS <em>press together</em></h3>
+<ul class="combos">
+<li><kbd>E</kbd>+<kbd>W</kbd> Cross Break</li>
+<li><kbd>E</kbd>+<kbd>A</kbd> Phantom Pierce</li>
+<li><kbd>E</kbd>+<kbd>B</kbd> Shockwave</li>
+<li><kbd>W</kbd>+<kbd>A</kbd> Spiral Cut</li>
+<li><kbd>W</kbd>+<kbd>B</kbd> Afterimage</li>
+<li><kbd>A</kbd>+<kbd>B</kbd> Rift Split</li>
+<li><kbd>E</kbd>+<kbd>W</kbd>+<kbd>A</kbd> Trinity Rush</li>
+<li><kbd>E</kbd>+<kbd>W</kbd>+<kbd>B</kbd> Phantom Storm</li>
+<li><kbd>E</kbd>+<kbd>A</kbd>+<kbd>B</kbd> Breaker Wave <em>erases bullets</em></li>
+<li><kbd>W</kbd>+<kbd>A</kbd>+<kbd>B</kbd> Rift Collapse</li>
+<li class="ult"><kbd>E</kbd>+<kbd>W</kbd>+<kbd>A</kbd>+<kbd>B</kbd> ZERO//BREAK</li>
+</ul>
+</div>
+</div>
+<div class="row"><button class="btn" data-action="back">BACK</button></div>
+</div>
+</section>
+<!-- ============ SETTINGS ============ -->
+<section class="screen panel-screen" id="scr-settings">
+<div class="panel">
+<h2>SETTINGS</h2>
+<div class="set-row"><label for="set-master">MASTER</label><input id="set-master" max="100" min="0" type="range"/><span id="val-master">80%</span></div>
+<div class="set-row"><label for="set-music">MUSIC</label><input id="set-music" max="100" min="0" type="range"/><span id="val-music">55%</span></div>
+<div class="set-row"><label for="set-sfx">EFFECTS</label><input id="set-sfx" max="100" min="0" type="range"/><span id="val-sfx">85%</span></div>
+<button class="toggle off" data-action="toggle" data-key="muted">MUTE <b>OFF</b></button>
+<button class="toggle" data-action="toggle" data-key="shake">SCREEN SHAKE <b>ON</b></button>
+<button class="toggle off" data-action="toggle" data-key="reducedMotion">REDUCED MOTION <b>OFF</b></button>
+<div class="set-row"><label>GRAPHICS</label>
+<div class="seg"><button data-action="quality" data-value="low">LOW</button><button class="sel" data-action="quality" data-value="high">HIGH</button><button data-action="quality" data-value="ultra">ULTRA</button></div>
+</div>
+<div class="set-row"><label>AIM ASSIST</label>
+<div class="seg"><button data-action="assist" data-value="off">OFF</button><button class="sel" data-action="assist" data-value="light">LIGHT</button><button data-action="assist" data-value="strong">STRONG</button></div>
+</div>
+<div class="set-row"><label for="set-window">COMBO WINDOW</label><input id="set-window" max="180" min="50" step="5" type="range"/><span id="val-window">110 ms</span></div>
+<p class="note">Combo window: how close together keys must be to count as one combo. Lower feels snappier, higher is more forgiving.</p>
+<div class="row">
+<button class="btn small" data-action="reset-records">RESET RECORDS</button>
+<button class="btn" data-action="back">BACK</button>
+</div>
+</div>
+</section>
+<!-- ============ PAUSE ============ -->
+<section class="screen panel-screen" id="scr-pause">
+<div class="panel">
+<h2>PAUSED</h2>
+<div class="col">
+<button class="btn primary" data-action="resume">RESUME</button>
+<button class="btn" data-action="restart">RESTART</button>
+<button class="btn" data-action="settings">SETTINGS</button>
+<button class="btn" data-action="menu">MAIN MENU</button>
+</div>
+<div class="mini-ref">
+<div><kbd>E</kbd><kbd>W</kbd><kbd>A</kbd><kbd>B</kbd> dash toward cursor · <kbd class="atk">R</kbd> attack</div>
+<div>Press dash keys together: 2 = combo · 3 = heavy combo · all 4 = ZERO//BREAK</div>
+</div>
+</div>
+</section>
+<!-- ============ GAME OVER ============ -->
+<section class="screen panel-screen" id="scr-gameover">
+<div class="panel">
+<h2 class="dead">SIGNAL LOST</h2>
+<div class="record-badge" id="go-record">NEW PERSONAL BEST</div>
+<div class="go-score" id="go-score">0</div>
+<div class="go-grid">
+<div><span>SURVIVED</span><b id="go-time">00:00</b></div>
+<div><span>ENEMIES</span><b id="go-kills">0</b></div>
+<div><span>BEST CHAIN</span><b id="go-chain">0</b></div>
+<div><span>MULTI-KILLS</span><b id="go-multi">0</b></div>
+<div><span>GRAZES</span><b id="go-grazes">0</b></div>
+<div><span>BOSSES</span><b id="go-bosses">0</b></div>
+</div>
+<div class="best">BEST <b id="go-best">0</b></div>
+<div class="row">
+<button class="btn primary big" data-action="retry">RETRY</button>
+<button class="btn" data-action="menu">MAIN MENU</button>
+</div>
+<p class="hint">Space / Enter to retry</p>
+</div>
+</section>
+<div class="fatal" id="fatal"></div>
+</body></html>

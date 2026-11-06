@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Retro Flight Sim</title>
+<link href="/_assets/2ee6e0f4bcc85aeccd0c.css" rel="stylesheet"/>
+<script src="/_assets/26c0a0d02ed63aa83f4b.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="container"><canvas data-engine="three.js r136" height="900" style="display: block; width: 1440px; height: 900px;" width="1440"></canvas></div>
+<div id="panel">
+<nav>
+<div id="help-button">?</div>
+<div id="settings-button">⋮</div>
+</nav>
+<section id="help">
+<h1>Help</h1>
+<h2>Controls</h2>
+<div>
+<h3>Keyboard</h3>
+<ul>
+<li><span id="key-pitch-neg">W</span>/<span id="key-pitch-pos">S</span>: Pitch</li>
+<li><span id="key-roll-neg">A</span>/<span id="key-roll-pos">D</span>: Roll</li>
+<li><span id="key-yaw-neg">Q</span>/<span id="key-yaw-pos">E</span>: Yaw</li>
+<li><span id="key-throttle-pos">Z</span>/<span id="key-throttle-neg">X</span>: Throttle</li>
+</ul>
+</div>
+<div>
+<h3>Joystick</h3>
+<div id="joystick-id">No device detected</div>
+<ul class="hidden" id="joystick">
+<li id="axis-pitch"><span>Axis 1</span>: Pitch</li>
+<li id="axis-roll"><span>Axis 0</span>: Roll</li>
+<li id="axis-yaw"><span>Axis 3</span>: Yaw</li>
+<li id="axis-throttle"><span>Axis 2</span>: Throttle</li>
+</ul>
+</div>
+<h2>Systems</h2>
+<ul>
+<li><span>G</span>: Landing gear</li>
+<li><span>F</span>: Flaps</li>
+<li><span>T</span>: Select target</li>
+<li><span>I</span>: Target night view</li>
+<li><span>H</span>: Cycle HUD focus</li>
+</ul>
+<h2>Views</h2>
+<ul>
+<li><span>N</span>: Day/night</li>
+<li><span>1</span>: Cockpit</li>
+<li><span>2</span>: Exterior back/front</li>
+<li><span>3</span>: Exterior left/right</li>
+<li><span>4</span>: To/from target</li>
+</ul>
+</section>
+<section id="settings">
+<h1>Settings</h1>
+<h2>Generation</h2>
+<ul>
+<li>
+<input id="gen-cga" name="gen" type="radio" value="CGA"/>
+<label for="gen-cga">286 / CGA</label>
+</li>
+<li>
+<input id="gen-ega" name="gen" type="radio" value="EGA"/>
+<label for="gen-ega">286 / EGA</label>
+</li>
+<li>
+<input checked="" id="gen-vga" name="gen" type="radio" value="VGA"/>
+<label for="gen-vga">386 / VGA</label>
+</li>
+<li>
+<input id="gen-svga" name="gen" type="radio" value="SVGA"/>
+<label for="gen-svga">486 / SVGA</label>
+</li>
+</ul>
+<h2>Flight model</h2>
+<ul>
+<li>
+<input id="flightmodel-debug" name="flightmodel" type="radio" value="debug"/>
+<label for="flightmodel-debug">Debug</label>
+</li>
+<li>
+<input checked="" id="flightmodel-arcade" name="flightmodel" type="radio" value="arcade"/>
+<label for="flightmodel-arcade">Arcade</label>
+</li>
+<li>
+<input disabled="" id="flightmodel-realistic" name="flightmodel" type="radio" value="realistic"/>
+<label for="flightmodel-realistic">Realistic</label>
+</li>
+</ul>
+<h2>Keyboard layout</h2>
+<ul>
+<li>
+<input checked="" id="layout-qwerty" name="layout" type="radio" value="qwerty"/>
+<label for="layout-qwerty">QWERTY</label>
+</li>
+<li>
+<input id="layout-azerty" name="layout" type="radio" value="azerty"/>
+<label for="layout-azerty">AZERTY</label>
+</li>
+<li>
+<input id="layout-dvorak" name="layout" type="radio" value="dvorak"/>
+<label for="layout-dvorak">Dvorak</label>
+</li>
+</ul>
+</section>
+</div>
+<div id="credits">
+        By Ruben Moreno<br/>
+<a>GitHub</a> | <a>Twitter</a>
+</div>
+</body></html>

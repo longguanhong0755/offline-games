@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<script>/* w3-canonical */(function(){try{var m=location.pathname.match(/^\/games\/([^\/]+)\//);if(!m)return;var h=location.hostname.replace(/^g\./,'');if(h===location.hostname)return;if(['gugi.io','yaw.gg','y2.ee','classroom6x.gg'].indexOf(h)<0)return;var l=document.createElement('link');l.rel='canonical';l.href='https://'+h+'/g/'+m[1];(document.head||document.documentElement).appendChild(l);}catch(e){}})();</script>
+<!-- W3-MOCKLOC-SHIM --><script src="/_assets/6a6d9ac66ed948ca5351.js"></script>
+<!-- W3-SITELOCK-KILLER v1 -->
+<script>
+(function(){
+  if (window.__w3SitelockKilled) return;
+  window.__w3SitelockKilled = true;
+  var bad = /poki\.com\/sitelock|poki-gdn\.com\/sitelock|poki\.com\/embed-error/i;
+  // Block window.open
+  var _open = window.open;
+  window.open = function(url){ if (url && bad.test(String(url))) return null; return _open.apply(window, arguments); };
+  // Block document.location/window.location assignments to sitelock
+  try {
+    var origAssign = window.location.assign && window.location.assign.bind(window.location);
+    var origReplace = window.location.replace && window.location.replace.bind(window.location);
+    if (origAssign) window.location.assign = function(u){ if (u && bad.test(String(u))) return; return origAssign(u); };
+    if (origReplace) window.location.replace = function(u){ if (u && bad.test(String(u))) return; return origReplace(u); };
+  } catch(e){}
+  // Block top-level location.href setter via wrapping (some scripts do `top.location.href = '...'`)
+  try {
+    var _href = Object.getOwnPropertyDescriptor(window.Location.prototype, 'href');
+    if (_href && _href.set) {
+      Object.defineProperty(window.Location.prototype, 'href', {
+        configurable: true, enumerable: true, get: _href.get,
+        set: function(v){ if (v && bad.test(String(v))) return; return _href.set.call(this, v); }
+      });
+    }
+  } catch(e){}
+  // Stop submission of forms targeting sitelock
+  document.addEventListener('submit', function(e){
+    try { if (e.target && bad.test(String(e.target.action || ''))) e.preventDefault(); } catch(_){}
+  }, true);
+  // Final defensive: if at any point location is on sitelock URL, navigate back.
+  try {
+    setInterval(function(){
+      try { if (bad.test(window.location.href)) window.history.back(); } catch(_){}
+    }, 500);
+  } catch(e){}
+})();
+</script>
+<meta charset="utf-8"/>
+<title>Armadio_3html2024</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" id="viewport" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<link href="./favicon.jpg" rel="shortcut icon" type="image/png"/>
+<script src="/_assets/e848a4596cb353040c98.js"></script>
+<script src="/_assets/37e28e3d9616dd981f0f.js"></script>
+<script>
+		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, { capture: false, passive: false });
+		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
+			var meta = document.getElementById ("viewport");
+			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+		}
+	</script>
+<style>
+		html,body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+		#openfl-content { background: #000000; width: 100%; height: 100%; }
+		#progress { position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; }
+
+	</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
+<div id="openfl-content"><canvas height="480" style="transform: translateZ(0px); width: 1440px; height: 864px; margin-left: 0px; margin-top: 18px;" width="800"></canvas></div>
+<script>
+		lime.embed ("Armadio_3html2024", "openfl-content", 800, 480, { parameters: {} });
+	</script>
+</body></html>

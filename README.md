@@ -1,6 +1,6 @@
 # 离线网页游戏合集
 
-这是一个集中存放可离线运行网页游戏的项目。当前共收录 **659 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
+这是一个集中存放可离线运行网页游戏的项目。当前共收录 **842 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
 
 ## 运行方式
 
@@ -701,6 +701,189 @@ python -B server.py
 | 657 | Verdant 100 | `verdant-100/` | <http://localhost:9637/> |
 | 658 | Vilify | `vilify/` | <http://localhost:9638/> |
 | 659 | Vue2048 | `vue2048/` | <http://localhost:9639/> |
+| 660 | 2048 Game | `avin-2048-game/` | <http://localhost:9640/> |
+| 661 | 2048 React | `2048-react/` | <http://localhost:9642/> |
+| 662 | 3 | `3/` | <http://localhost:9645/> |
+| 663 | Ademonsmaze | `ademonsmaze/` | <http://localhost:9647/> |
+| 664 | Age Of Administration | `age-of-administration/` | <http://localhost:9649/> |
+| 665 | Aircraft Manufacturer | `aircraft-manufacturer/` | <http://localhost:9650/> |
+| 666 | Aku Rubik | `aku-rubik/` | <http://localhost:9651/> |
+| 667 | Ammn | `ammn/` | <http://localhost:9653/> |
+| 668 | Asteroids | `asteroids/` | <http://localhost:9654/> |
+| 669 | Asylum | `asylum/` | <http://localhost:9655/> |
+| 670 | Battle Snake | `battle-snake/` | <http://localhost:9656/> |
+| 671 | Battleship | `mephistodevelop-battleship/` | <http://localhost:9657/> |
+| 672 | Bomberman | `bomberman/` | <http://localhost:9658/> |
+| 673 | Bottomgun | `bottomgun/` | <http://localhost:9659/> |
+| 674 | Breakout Game | `breakout-game/` | <http://localhost:9660/> |
+| 675 | Brian Simulator | `brian-simulator/` | <http://localhost:9661/> |
+| 676 | Bushed Bricks | `bushed-bricks/` | <http://localhost:9662/> |
+| 677 | Canvas Shooter Javascript | `canvas-shooter-javascript/` | <http://localhost:9663/> |
+| 678 | Card Game | `card-game/` | <http://localhost:9664/> |
+| 679 | Catch The Falling Objects | `catch-the-falling-objects/` | <http://localhost:9666/> |
+| 680 | Cavern Crawler | `cavern-crawler/` | <http://localhost:9667/> |
+| 681 | Caviardeul | `caviardeul/` | <http://localhost:9668/> |
+| 682 | Cfantasyclick | `cfantasyclick/` | <http://localhost:9669/> |
+| 683 | Citygame | `citygame/` | <http://localhost:9671/> |
+| 684 | Clicker Aldea | `clicker-aldea/` | <http://localhost:9672/> |
+| 685 | Clicker Game | `dreanx-clicker-game/` | <http://localhost:9673/> |
+| 686 | Clicker Game | `milesden-clicker-game/` | <http://localhost:9674/> |
+| 687 | Clickjs | `clickjs/` | <http://localhost:9675/> |
+| 688 | Clicky Clicky | `clicky-clicky/` | <http://localhost:9676/> |
+| 689 | Codebo The Game | `codebo-the-game/` | <http://localhost:9677/> |
+| 690 | Collectfruits | `collectfruits/` | <http://localhost:9678/> |
+| 691 | Colorful Fills | `colorful-fills/` | <http://localhost:9679/> |
+| 692 | Core Debt | `core-debt/` | <http://localhost:9682/> |
+| 693 | Crappyclicker | `crappyclicker/` | <http://localhost:9683/> |
+| 694 | Creations | `creations/` | <http://localhost:9684/> |
+| 695 | Crush Factory | `crush-factory/` | <http://localhost:9685/> |
+| 696 | Csnake | `csnake/` | <http://localhost:9686/> |
+| 697 | Cursedsouls | `cursedsouls/` | <http://localhost:9687/> |
+| 698 | Dash Break | `dash-break/` | <http://localhost:9689/> |
+| 699 | Dogelon Much | `dogelon-much/` | <http://localhost:9690/> |
+| 700 | Dress Up Game | `dress-up-game/` | <http://localhost:9692/> |
+| 701 | Dungeonclicker | `dungeonclicker/` | <http://localhost:9693/> |
+| 702 | Durkasell.Ru | `durkasell-ru/` | <http://localhost:9694/> |
+| 703 | Dynasty Incremental | `dynasty-incremental/` | <http://localhost:9695/> |
+| 704 | Elm 2048 | `stepheneb-elm-2048/` | <http://localhost:9697/> |
+| 705 | Emoji Clicker | `emoji-clicker/` | <http://localhost:9698/> |
+| 706 | Energy | `energy/` | <http://localhost:9699/> |
+| 707 | Exponential Madness | `exponential-madness/` | <http://localhost:9701/> |
+| 708 | Exponentiality Incremental | `exponentiality-incremental/` | <http://localhost:9702/> |
+| 709 | Exponentiation | `exponentiation/` | <http://localhost:9703/> |
+| 710 | Faiig | `faiig/` | <http://localhost:9704/> |
+| 711 | Farmblade | `farmblade/` | <http://localhost:9705/> |
+| 712 | Fend Arcade Game | `fend-arcade-game/` | <http://localhost:9706/> |
+| 713 | Fifaconquest | `fifaconquest/` | <http://localhost:9707/> |
+| 714 | Fifteen Puzzle | `fifteen-puzzle/` | <http://localhost:9708/> |
+| 715 | Fight Game With Js | `fight-game-with-js/` | <http://localhost:9709/> |
+| 716 | Flickshot V1 | `flickshot-v1/` | <http://localhost:9710/> |
+| 717 | Flipit | `flipit/` | <http://localhost:9711/> |
+| 718 | Flower Game | `flower-game/` | <http://localhost:9712/> |
+| 719 | Fortify | `fortify/` | <http://localhost:9713/> |
+| 720 | Froggy | `froggy/` | <http://localhost:9714/> |
+| 721 | Game Noir Walking Simulator | `game-noir-walking-simulator/` | <http://localhost:9715/> |
+| 722 | Game Snake | `game-snake/` | <http://localhost:9716/> |
+| 723 | Gamin Through Mood | `gamin-through-mood/` | <http://localhost:9717/> |
+| 724 | Garden Project | `garden-project/` | <http://localhost:9718/> |
+| 725 | Gemclicker | `gemclicker/` | <http://localhost:9719/> |
+| 726 | Geometry Monster Play | `geometry-monster-play/` | <http://localhost:9720/> |
+| 727 | Gh Space Shooter | `gh-space-shooter/` | <http://localhost:9721/> |
+| 728 | Goldfish | `goldfish/` | <http://localhost:9722/> |
+| 729 | Gorilla Brawl | `gorilla-brawl/` | <http://localhost:9723/> |
+| 730 | Guess My Number | `guess-my-number/` | <http://localhost:9724/> |
+| 731 | Hangmanjs | `hangmanjs/` | <http://localhost:9725/> |
+| 732 | Hashi | `hashi/` | <http://localhost:9726/> |
+| 733 | Hbd Tictactoe | `hbd-tictactoe/` | <http://localhost:9727/> |
+| 734 | Hedgehogs | `hedgehogs/` | <http://localhost:9728/> |
+| 735 | Idle Chicken Farm | `idle-chicken-farm/` | <http://localhost:9730/> |
+| 736 | Idle Space | `idle-space/` | <http://localhost:9731/> |
+| 737 | Idleclicker | `idleclicker/` | <http://localhost:9732/> |
+| 738 | Incendium | `incendium/` | <http://localhost:9733/> |
+| 739 | Incremental | `incremental/` | <http://localhost:9734/> |
+| 740 | Incremental Blocks | `incremental-blocks/` | <http://localhost:9735/> |
+| 741 | Incremental Game | `redfadeyt-incremental-game/` | <http://localhost:9736/> |
+| 742 | Infinite Tic Tac Toe | `infinite-tic-tac-toe/` | <http://localhost:9738/> |
+| 743 | Iqpuzzle | `iqpuzzle/` | <http://localhost:9739/> |
+| 744 | Javascriptris | `javascriptris/` | <http://localhost:9741/> |
+| 745 | Js Bubble Shooter | `js-bubble-shooter/` | <http://localhost:9742/> |
+| 746 | Jsklondike | `jsklondike/` | <http://localhost:9743/> |
+| 747 | Jumplama | `jumplama/` | <http://localhost:9744/> |
+| 748 | Kardashev | `kardashev/` | <http://localhost:9745/> |
+| 749 | Klotski | `klotski/` | <http://localhost:9749/> |
+| 750 | Kuruto | `kuruto/` | <http://localhost:9750/> |
+| 751 | Landscape Tycoon | `landscape-tycoon/` | <http://localhost:9751/> |
+| 752 | Laser Chess | `laser-chess/` | <http://localhost:9752/> |
+| 753 | Littlejsworld | `littlejsworld/` | <http://localhost:9753/> |
+| 754 | Mars | `mars/` | <http://localhost:9754/> |
+| 755 | Mastermind | `mastermind/` | <http://localhost:9755/> |
+| 756 | Memorygame | `memorygame/` | <http://localhost:9756/> |
+| 757 | Menja Game Clone | `menja-game-clone/` | <http://localhost:9757/> |
+| 758 | Minecraft Clone | `minecraft-clone/` | <http://localhost:9759/> |
+| 759 | Minecraft Web | `alungranpj-minecraft-web/` | <http://localhost:9760/> |
+| 760 | Mobx React Tetris | `mobx-react-tetris/` | <http://localhost:9761/> |
+| 761 | Moria8 | `moria8/` | <http://localhost:9762/> |
+| 762 | Mortal | `mortal/` | <http://localhost:9763/> |
+| 763 | My Data Center | `my-data-center/` | <http://localhost:9765/> |
+| 764 | My Game Project | `my-game-project/` | <http://localhost:9766/> |
+| 765 | Ngx Tetris | `ngx-tetris/` | <http://localhost:9767/> |
+| 766 | Ns Shaft | `ns-shaft/` | <http://localhost:9768/> |
+| 767 | Nucleogenesis | `nucleogenesis/` | <http://localhost:9770/> |
+| 768 | Number Guesser | `number-guesser/` | <http://localhost:9771/> |
+| 769 | Number Guessing Game | `number-guessing-game/` | <http://localhost:9772/> |
+| 770 | Oceanpop | `oceanpop/` | <http://localhost:9773/> |
+| 771 | Office Typer Incremental | `office-typer-incremental/` | <http://localhost:9774/> |
+| 772 | Openclaw Puzzle Game | `openclaw-puzzle-game/` | <http://localhost:9775/> |
+| 773 | Opening The Candy Box | `opening-the-candy-box/` | <http://localhost:9776/> |
+| 774 | Outrun | `outrun/` | <http://localhost:9777/> |
+| 775 | Pacman | `idanstrul-pacman/` | <http://localhost:9778/> |
+| 776 | Pancake Shop | `pancake-shop/` | <http://localhost:9779/> |
+| 777 | Parity | `parity/` | <http://localhost:9780/> |
+| 778 | Pianohero | `pianohero/` | <http://localhost:9781/> |
+| 779 | Pig Game | `ahmedmohamedabdelaty-pig-game/` | <http://localhost:9783/> |
+| 780 | Pig Game | `surajaswal29-pig-game/` | <http://localhost:9784/> |
+| 781 | Ping Pong | `ping-pong/` | <http://localhost:9785/> |
+| 782 | Planet X Searching | `planet-x-searching/` | <http://localhost:9786/> |
+| 783 | Plants Union Game | `plants-union-game/` | <http://localhost:9788/> |
+| 784 | Popcat Click | `popcat-click/` | <http://localhost:9790/> |
+| 785 | Potatoclickergame | `potatoclickergame/` | <http://localhost:9791/> |
+| 786 | Projectone | `projectone/` | <http://localhost:9793/> |
+| 787 | Puyovs | `puyovs/` | <http://localhost:9794/> |
+| 788 | React Game Snake | `react-game-snake/` | <http://localhost:9798/> |
+| 789 | React Game Tetris | `react-game-tetris/` | <http://localhost:9799/> |
+| 790 | React Tetris | `mpirescarvalho-react-tetris/` | <http://localhost:9800/> |
+| 791 | Reactor Knockoff Enhanced | `reactor-knockoff-enhanced/` | <http://localhost:9801/> |
+| 792 | Residue | `residue/` | <http://localhost:9803/> |
+| 793 | Rhinodressup | `rhinodressup/` | <http://localhost:9804/> |
+| 794 | River Raid 2K | `river-raid-2k/` | <http://localhost:9805/> |
+| 795 | Robbo | `robbo/` | <http://localhost:9806/> |
+| 796 | Rock Scissors Paper | `rock-scissors-paper/` | <http://localhost:9807/> |
+| 797 | Rotu | `rotu/` | <http://localhost:9808/> |
+| 798 | Rpgclicker | `rpgclicker/` | <http://localhost:9809/> |
+| 799 | Sammyyellow07.Github.Io | `sammyyellow07-github-io/` | <http://localhost:9810/> |
+| 800 | Scope Creep | `scope-creep/` | <http://localhost:9811/> |
+| 801 | Shape Trace Game | `shape-trace-game/` | <http://localhost:9813/> |
+| 802 | Sheep Incremental | `sheep-incremental/` | <http://localhost:9814/> |
+| 803 | Shooty Slime Survival | `shooty-slime-survival/` | <http://localhost:9816/> |
+| 804 | Simple Snake | `simple-snake/` | <http://localhost:9817/> |
+| 805 | Simple Tic Tac Toe | `simple-tic-tac-toe/` | <http://localhost:9818/> |
+| 806 | Size Incremental | `size-incremental/` | <http://localhost:9819/> |
+| 807 | Snailgame | `snailgame/` | <http://localhost:9821/> |
+| 808 | Snake Js | `lucasrmagalhaes-snake-js/` | <http://localhost:9822/> |
+| 809 | Snakesys | `snakesys/` | <http://localhost:9823/> |
+| 810 | Space Invader Game | `space-invader-game/` | <http://localhost:9824/> |
+| 811 | Space Shooter | `space-shooter/` | <http://localhost:9825/> |
+| 812 | Still Insane | `still-insane/` | <http://localhost:9827/> |
+| 813 | Structure | `structure/` | <http://localhost:9828/> |
+| 814 | Tetris | `ytiurin-tetris/` | <http://localhost:9830/> |
+| 815 | Tetriss | `tetriss/` | <http://localhost:9832/> |
+| 816 | Tetromino | `tetromino/` | <http://localhost:9833/> |
+| 817 | Tetromino Fall Game | `tetromino-fall-game/` | <http://localhost:9834/> |
+| 818 | The 13Th Door | `the-13th-door/` | <http://localhost:9835/> |
+| 819 | The Forbidden21 Game | `the-forbidden21-game/` | <http://localhost:9836/> |
+| 820 | The Kings Missing Page | `the-kings-missing-page/` | <http://localhost:9837/> |
+| 821 | The Number Factory | `the-number-factory/` | <http://localhost:9838/> |
+| 822 | Thelostadventurer | `thelostadventurer/` | <http://localhost:9840/> |
+| 823 | Toilettycoon | `toilettycoon/` | <http://localhost:9842/> |
+| 824 | Topology Gomoku | `topology-gomoku/` | <http://localhost:9843/> |
+| 825 | Trace Game | `trace-game/` | <http://localhost:9847/> |
+| 826 | Trick Or Treat Game | `trick-or-treat-game/` | <http://localhost:9848/> |
+| 827 | Trifold Ironmarch | `trifold-ironmarch/` | <http://localhost:9849/> |
+| 828 | Turn The Dice | `turn-the-dice/` | <http://localhost:9850/> |
+| 829 | Tycoon Dofe | `tycoon-dofe/` | <http://localhost:9851/> |
+| 830 | Typefun | `typefun/` | <http://localhost:9852/> |
+| 831 | Ultimate Tic Tac Toe | `ultimate-tic-tac-toe/` | <http://localhost:9853/> |
+| 832 | Username S Incremental Game | `username-s-incremental-game/` | <http://localhost:9854/> |
+| 833 | Vodka Tycoon | `vodka-tycoon/` | <http://localhost:9855/> |
+| 834 | Voynich | `voynich/` | <http://localhost:9856/> |
+| 835 | Vue 8 Puzzle | `vue-8-puzzle/` | <http://localhost:9857/> |
+| 836 | Wall Go | `wall-go/` | <http://localhost:9858/> |
+| 837 | Web Game X O | `web-game-x-o/` | <http://localhost:9859/> |
+| 838 | Web Sudoku Puzzle Game | `web-sudoku-puzzle-game/` | <http://localhost:9860/> |
+| 839 | Xiantu | `xiantu/` | <http://localhost:9861/> |
+| 840 | Zombie Rush City | `zombie-rush-city/` | <http://localhost:9862/> |
+| 841 | Zoo Dots | `zoo-dots/` | <http://localhost:9863/> |
+| 842 | 404 Orbiting Asteroids | `404-orbiting-asteroids/` | <http://localhost:9641/> |
 
 ## 离线与安全说明
 

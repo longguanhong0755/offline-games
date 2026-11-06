@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html style="font-size: 87.8906px;"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Threes Demo by Monday Chen</title>
+<link href="/_assets/f99e9b70f40113d3833d.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="wrapper"><div id="home-view">
+<h1><span class="blue">T</span><span class="pink">H</span>REES!</h1>
+<div><a class="button button-play" href="#playing">Play now!</a></div>
+<h2>About this game</h2>
+<p>This is a copy of the popular iOS game <a target="_blank">Threes</a> with web technologies by <a target="_blank">Monday Chen (Chen Mengdi)</a>.</p>
+<p>The project is <a target="_blank">hosted on Github</a>.</p>
+<h2>Browser compatibility</h2>
+<p>Compatible with most modern browsers such as Chrome, Firefox, Safari, and adaptive to the mobile browsers too.
+    </p>
+<h3>Play it on your iPhone / iPad!</h3>
+<p>You can scan this QR code to open this address.</p>
+<div><img alt="QR code" src="/_assets/8a5ca63f77eee4702e03.png"/></div>
+<h2>Available on the App Store</h2>
+<p>You can download the original version of Threes, with cuter animation and carefree music, from the App Store.
+      </p>
+<a class="button-appstore" target="_blank"></a>
+<footer>
+      Made By Monday Chen<br/>
+<a href="mailto:monday.chen@gmail.com">monday.chen@gmail.com</a>
+</footer>
+</div></div>
+<script id="tmpl-home" type="text/template">
+    <h1><span class="blue">T</span><span class="pink">H</span>REES!</h1>
+    <div><a class="button button-play" href="#playing">Play now!</a></div>
+    <h2>About this game</h2>
+    <p>This is a copy of the popular iOS game <a href="http://asherv.com/threes/" target="_blank">Threes</a> with web technologies by <a href="https://github.com/mondaychen" target="_blank">Monday Chen (Chen Mengdi)</a>.</p>
+    <p>The project is <a target="_blank" href="https://github.com/mondaychen/threes">hosted on Github</a>.</p>
+    <h2>Browser compatibility</h2>
+    <p>Compatible with most modern browsers such as Chrome, Firefox, Safari, and adaptive to the mobile browsers too.
+    </p>
+    <h3>Play it on your iPhone / iPad!</h3>
+    <p>You can scan this QR code to open this address.</p>
+    <div><img src="/_assets/8a5ca63f77eee4702e03.png" alt="QR code"></div>
+    <h2>Available on the App Store</h2>
+    <p>You can download the original version of Threes, with cuter animation and carefree music, from the App Store.
+      </p>
+    <a class="button-appstore"
+      href="https://itunes.apple.com/app/threes!/id779157948?mt=8"
+      target="_blank"></a>
+    <footer>
+      Made By Monday Chen<br>
+      <a href="mailto:monday.chen@gmail.com">monday.chen@gmail.com</a>
+    </footer>
+  </script>
+<script id="tmpl-playing-header" type="text/template">
+    <div class="transition-container">
+      <div class="main">
+        <div class="button-menu"><a href="javascript:;">menu</a></div>
+        <div class="button-help"><a href="javascript:;">help</a></div>
+        <div class="up-coming-number">
+          <div class="tile num-<%= number %>">
+            <div class="number"><%= mark %></div>
+          </div>
+          <div class="word">next</div>
+        </div>
+      </div>
+    </div>
+  </script>
+<script id="tmpl-playing-footer" type="text/template">
+    <div class="transition-container">
+      <div class="main">
+      </div>
+    </div>
+  </script>
+<script id="tmpl-playing-menu" type="text/template">
+    <div class="white-popup playing-menu">
+      <h1>Menu</h1>
+      <div class="menu">
+        <button class="full-size pink restart my-mfp-close">Restart</button>
+        <button class="full-size home my-mfp-close">Home</button>
+      </div>
+      <p>Wanna play with cute animation and carefree music?<br>
+        Download the full version from the App Store!</p>
+      <a class="button-appstore"
+        href="https://itunes.apple.com/app/threes!/id779157948?mt=8"
+        target="_blank"></a>
+    </div>
+  </script>
+<script class="tmpl-help" id="tmpl-help-1" type="text/template">
+    <div class="white-popup">
+      <h1><span class="blue">T</span><span class="pink">H</span>REES!</h1>
+      <h2>Rules</h2>
+      <p>Make the highest number you can!</p>
+      <ul>
+        <li>Swipe anywhere or use arrow keys on your keyboard to play</li>
+        <li>All cards are moved together, but walls will stop them</li>
+        <li>A new card appears every turn</li>
+        <li><span class="blue">1</span> + <span class="pink">2</span> = 3</li>
+        <li>Numbers 3 and higer will only add together if they are twins</li>
+      </ul>
+      <div class="actions">
+        <button class="my-mfp-close">Skip</button>
+        <button class="pink my-mfp-next">Next: Controllers</button>
+      </div>
+      <div>
+        <img src="./img/THREES_trailer.gif" alt="THREES trailer">
+      </div>
+    </div>
+  </script>
+<script class="tmpl-help" id="tmpl-help-2" type="text/template">
+    <div class="white-popup">
+      <h2>Controllers</h2>
+      <h3>Swipe</h3>
+      <p>Try use your finger or mouse to swipe on the screen to make a move!</p>
+      <p>You can swipe slowly to preview.</p>
+      <h3>Keyboard</h3>
+      <p>You can also use the arrow keys (←, ↑, →, ↓) on your keyboard to make a move.</p>
+      <div class="actions">
+        <button class="pink my-mfp-close">Continue to play!</button>
+      </div>
+    </div>
+  </script>
+<script src="/_assets/a183f16791af181cb97d.js"></script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','about:blank','ga');
+
+    ga('create', 'UA-49114607-1', 'mondaychen.github.io');
+    ga('send', 'pageview');
+  </script>
+</body></html>

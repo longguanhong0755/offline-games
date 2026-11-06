@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>3D 扭魔方</title>
+<script src="/_assets/523547ee40f9f0534dac.js" type="module"></script>
+<link href="/_assets/58caef2af2f7cededb1f.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="app">
+<canvas data-engine="three.js r184" height="900" id="game" style="touch-action: none;" width="1440"></canvas>
+<section aria-label="game status" class="hud hud-left">
+<div class="brand">
+<span class="brand-mark"></span>
+<div>
+<h1>3D 扭魔方</h1>
+<p id="status">选择一个面块开始转动</p>
+</div>
+</div>
+<div class="stats">
+<span><b id="moveCount">0</b> 步</span>
+<span id="timer">00:00</span>
+</div>
+</section>
+<section aria-label="move controls" class="hud hud-right">
+<div class="move-grid" id="moveGrid"><button title="U 转层" type="button">U</button><button title="U' 转层" type="button">U'</button><button title="D 转层" type="button">D</button><button title="D' 转层" type="button">D'</button><button title="L 转层" type="button">L</button><button title="L' 转层" type="button">L'</button><button title="R 转层" type="button">R</button><button title="R' 转层" type="button">R'</button><button title="F 转层" type="button">F</button><button title="F' 转层" type="button">F'</button><button title="B 转层" type="button">B</button><button title="B' 转层" type="button">B'</button></div>
+<div class="actions">
+<button id="scrambleBtn" type="button">打乱</button>
+<button disabled="" id="undoBtn" type="button">撤销</button>
+<button id="resetBtn" type="button">重置</button>
+</div>
+</section>
+<div class="hint" id="hint">拖拽空白处旋转视角，按住色块拖动可直接扭层</div>
+<div class="win" hidden="" id="winMessage">
+<strong>复原完成</strong>
+<span>漂亮，这一局魔方已经回到六面纯色。</span>
+</div>
+</div>
+</body></html>

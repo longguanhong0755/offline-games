@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<!-- 
+    Clicker Ultimate
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.  -->
+<title>Clicker Ultimate</title>
+<meta content="game" property="og:type"/>
+<meta content="https://clickerultimate.github.io" property="og:url"/>
+<meta content="Clicker Ultimate" property="og:title"/>
+<meta content="The Ultimate Clicker Game" property="og:description"/>
+<meta content="Sam" property="og:author"/>
+<meta content="The Ultimate Clicker Game" name="description"/>
+<meta content="Clicker, Ultimate, clickerultimate, Idle, Browser, Game" name="keywords"/>
+<meta content="Sam" name="author"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- BASE URL <base href="url" target="_blank"> -->
+<link href="/_assets/ee954c18d0984a7e3cdf.css" rel="stylesheet"/>
+<link href="/_assets/7e8a12e8eaa0589afbee.css" rel="stylesheet"/>
+<link href="./favicon.ico" rel="icon"/>
+<script defer="" src="/_assets/a3134b5bb3eb920acd7d.js" type="text/javascript"></script>
+<script defer="" src="/_assets/ea87c1eda8459bd1adf2.js" type="text/javascript"></script>
+<script defer="" src="/_assets/e8d096f39f879561b940.js" type="text/javascript"></script>
+<script defer="" src="/_assets/f69267b4bd864db25d09.js" type="text/javascript"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="defaultTheme">
+<div id="topRow">
+<div class="area container" id="JobsArea">
+<div class="jbTitle locked" id="WorkersTitle">Workers</div>
+<div class="jbOutline locked" id="WorkersContainer"><!-- Insert workers here --></div>
+<div class="jbTitle locked" id="BuildingsTitle">Buildings</div>
+<div class="jbOutline locked" id="BuildingsContainer"><!-- Insert buildings here --></div>
+<div class="jbTitle" id="UpgradesTitle">Upgrades</div>
+<div class="jbOutline" id="UpgradesContainer"><!-- Insert upgrades here --><div class="jbBlock" id="upgWaterBlock"><div class="jbButton button clickable jbFree" id="upgWaterButton" onclick="clickBuy('upgWater')" onmouseleave="tooltip()" onmouseover="tooltip('upgWater', event)"><div class="upgIndicator"><span>Water</span></div></div></div></div>
+<div class="locked" id="TradesTitle">
+<hr/>
+<div class="advTitle">Commerce</div>
+<div class="advPointsIndicator">
+<span>Current Gold:</span>
+<span id="TradesGoldIndicator">0</span>
+</div>
+</div>
+<div class="jbOutline locked" id="TradesContainer"><!-- Insert trades here --></div>
+<div class="jbTitle locked" id="LeadersTitle">Leaders</div>
+<div class="jbOutline locked" id="LeadersContainer"><!-- Insert leaders here --></div>
+</div>
+<div class="area container locked" id="ResourcesArea">
+<div class="rsRow" id="ResourcesContainer"><!-- Insert resources here --></div>
+</div>
+</div>
+<div id="midRow">
+<div class="area container locked" id="AdvancementsArea">
+<div class="advTitle">Advancements</div>
+<div class="advPointsIndicator">
+<span id="AdvancementsPoints"><span>0 Point</span> Available</span>
+</div>
+<hr/>
+<div id="AdvancementsContainer"><!-- Insert advancements here --></div>
+</div>
+<div class="area" id="MenuSpacer"></div>
+<div class="area container locked" id="MenuArea">
+<div id="MenuSelector">
+<!-- menu buttons -->
+<div class="mnuButton button selected" id="mnuMessagesButton" onclick="switchMenu('messages')">
+<div id="mnuMessagesLabel">Messages</div>
+<div id="mnuUnreadMessages"></div>
+</div>
+<div class="mnuButton button" id="mnuStatisticsButton" onclick="switchMenu('statistics')">
+<span>Statistics</span>
+</div>
+<div class="mnuButton button" id="mnuAchievementsButton" onclick="switchMenu('achievements')">
+<span>Achievements</span>
+</div>
+<div class="mnuButton button" id="mnuPrestigeButton" onclick="switchMenu('prestige')">
+<span id="mnuPrestigeLabel">???</span>
+</div>
+<div class="mnuButton button" id="mnuSettingsButton" onclick="switchMenu('settings')">
+<span>Settings</span>
+</div>
+</div>
+<div id="MenuMainPanel">
+<div class="mnuArea" id="MessagesArea">
+<div class="mnuTitle">Messages</div>
+<hr/>
+<div class="mnuContainer msgFontNormal" id="MessagesContainer"><!-- Insert messages here --><p class="msgBlock"><b>Welcome to Clicker Ultimate!</b></p><p class="msgBlock">Welcome to <b>v0.2.07</b>. Latest changes are as follows: <i>Added leader greetings &amp; minor bug fixes</i></p></div>
+</div>
+<div class="mnuArea locked" id="StatisticsArea">
+<div class="mnuTitle">Statistics</div>
+<hr/>
+<div class="mnuContainer" id="StatisticsContainer">
+<!-- Insert statistics here -->
+<div class="mnuStatsLabel" id="mnuStatsLabelName">Realm Name:</div>
+<div class="mnuStatsInfo" id="mnuStatsCurrentName">State of Francia</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelAge">Age:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentAge">-</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelColony">Colonies Started:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsColony">0</div>
+<div class="mnuStatsLabel">Clicks:</div>
+<div class="mnuStatsInfo" id="mnuStatsCurrentClicks">0</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelWorkers">Workers:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentWorkers">0</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelBuildings">Buildings:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentBuildings">0</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelTrades">Trades Done:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentTrades">0</div>
+<div class="mnuStatsLabel">Upgrades Bought:</div>
+<div class="mnuStatsInfo" id="mnuStatsCurrentUpgrades">0</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelLeaders">Leaders Hired:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentLeaders">0 / 1</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelAdvancements">Advancements Bought:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentAdvancements">0</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelPrestiges">Prestige Skills Bought:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentPrestiges">0</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelAchievements">Achievements Unlocked:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentAchievements">0</div>
+<div class="mnuStatsLabel">Base Click Power:</div>
+<div class="mnuStatsInfo" id="mnuStatsCurrentClickPower">100%</div>
+<div class="mnuStatsLabel">Progress Completion Multiplier:</div>
+<div class="mnuStatsInfo" id="mnuStatsCurrentParentValue">100%</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelWorkerCost">Worker Cost Multiplier:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentWorkerCost">100%</div>
+<div class="mnuStatsLabel locked" id="mnuStatsLabelBuildingCost">Building Cost Multiplier:</div>
+<div class="mnuStatsInfo locked" id="mnuStatsCurrentBuildingCost">100%</div>
+<div class="mnuStatsLabel">Upgrade Cost Multiplier:</div>
+<div class="mnuStatsInfo" id="mnuStatsCurrentUpgradeCost">100%</div>
+</div>
+</div>
+<div class="mnuArea locked" id="AchievementsArea">
+<div class="mnuTitle">Achievements</div>
+<hr/>
+<div class="mnuContainer" id="AchievementsContainer"><!-- Insert achievements here --><div class="jbBlock achBlock" id="achColonistBlock"><div class="jbButton achButton button unclickable" id="achColonistButton" onmouseleave="tooltip()" onmouseover="tooltip('achColonist', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achPioneerBlock"><div class="jbButton achButton button unclickable" id="achPioneerButton" onmouseleave="tooltip()" onmouseover="tooltip('achPioneer', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achLuminaryBlock"><div class="jbButton achButton button unclickable" id="achLuminaryButton" onmouseleave="tooltip()" onmouseover="tooltip('achLuminary', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achPatricianBlock"><div class="jbButton achButton button unclickable" id="achPatricianButton" onmouseleave="tooltip()" onmouseover="tooltip('achPatrician', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achCavemanBlock"><div class="jbButton achButton button unclickable" id="achCavemanButton" onmouseleave="tooltip()" onmouseover="tooltip('achCaveman', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achLordBlock"><div class="jbButton achButton button unclickable" id="achLordButton" onmouseleave="tooltip()" onmouseover="tooltip('achLord', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achDarkTimesBlock"><div class="jbButton achButton button unclickable" id="achDarkTimesButton" onmouseleave="tooltip()" onmouseover="tooltip('achDarkTimes', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achScholarBlock"><div class="jbButton achButton button unclickable" id="achScholarButton" onmouseleave="tooltip()" onmouseover="tooltip('achScholar', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achRebelBlock"><div class="jbButton achButton button unclickable" id="achRebelButton" onmouseleave="tooltip()" onmouseover="tooltip('achRebel', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achBeginnerBlock"><div class="jbButton achButton button unclickable" id="achBeginnerButton" onmouseleave="tooltip()" onmouseover="tooltip('achBeginner', event)"><div class="upgIndicator"><span>Beginner</span></div></div></div><div class="jbBlock achBlock" id="achApprenticeBlock"><div class="jbButton achButton button unclickable" id="achApprenticeButton" onmouseleave="tooltip()" onmouseover="tooltip('achApprentice', event)"><div class="upgIndicator"><span>Apprentice</span></div></div></div><div class="jbBlock achBlock" id="achJourneymanBlock"><div class="jbButton achButton button unclickable" id="achJourneymanButton" onmouseleave="tooltip()" onmouseover="tooltip('achJourneyman', event)"><div class="upgIndicator"><span>Journeyman</span></div></div></div><div class="jbBlock achBlock" id="achExpertBlock"><div class="jbButton achButton button unclickable" id="achExpertButton" onmouseleave="tooltip()" onmouseover="tooltip('achExpert', event)"><div class="upgIndicator"><span>Expert</span></div></div></div><div class="jbBlock achBlock" id="achPowerfulBlock"><div class="jbButton achButton button unclickable" id="achPowerfulButton" onmouseleave="tooltip()" onmouseover="tooltip('achPowerful', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achThirstyBlock"><div class="jbButton achButton button unclickable" id="achThirstyButton" onmouseleave="tooltip()" onmouseover="tooltip('achThirsty', event)"><div class="upgIndicator"><span>Thirsty</span></div></div></div><div class="jbBlock achBlock" id="achHungryBlock"><div class="jbButton achButton button unclickable" id="achHungryButton" onmouseleave="tooltip()" onmouseover="tooltip('achHungry', event)"><div class="upgIndicator"><span>Hungry</span></div></div></div><div class="jbBlock achBlock" id="achCravenBlock"><div class="jbButton achButton button unclickable" id="achCravenButton" onmouseleave="tooltip()" onmouseover="tooltip('achCraven', event)"><div class="upgIndicator"><span>Craven</span></div></div></div><div class="jbBlock achBlock" id="achSmithyBlock"><div class="jbButton achButton button unclickable" id="achSmithyButton" onmouseleave="tooltip()" onmouseover="tooltip('achSmithy', event)"><div class="upgIndicator"><span>Smithy</span></div></div></div><div class="jbBlock achBlock" id="achMonkBlock"><div class="jbButton achButton button unclickable" id="achMonkButton" onmouseleave="tooltip()" onmouseover="tooltip('achMonk', event)"><div class="upgIndicator"><span>Monk</span></div></div></div><div class="jbBlock achBlock" id="achLightBlock"><div class="jbButton achButton button unclickable" id="achLightButton" onmouseleave="tooltip()" onmouseover="tooltip('achLight', event)"><div class="upgIndicator"><span>Light</span></div></div></div><div class="jbBlock achBlock" id="achTheologianBlock"><div class="jbButton achButton button unclickable" id="achTheologianButton" onmouseleave="tooltip()" onmouseover="tooltip('achTheologian', event)"><div class="upgIndicator"><span>Theologian</span></div></div></div><div class="jbBlock achBlock" id="achBankerBlock"><div class="jbButton achButton button unclickable" id="achBankerButton" onmouseleave="tooltip()" onmouseover="tooltip('achBanker', event)"><div class="upgIndicator"><span>Banker</span></div></div></div><div class="jbBlock achBlock" id="achMasonryBlock"><div class="jbButton achButton button unclickable" id="achMasonryButton" onmouseleave="tooltip()" onmouseover="tooltip('achMasonry', event)"><div class="upgIndicator"><span>Going Somewhere</span></div></div></div><div class="jbBlock achBlock" id="achTraderBlock"><div class="jbButton achButton button unclickable" id="achTraderButton" onmouseleave="tooltip()" onmouseover="tooltip('achTrader', event)"><div class="upgIndicator"><span>Trader</span></div></div></div><div class="jbBlock achBlock" id="achPureGreedBlock"><div class="jbButton achButton button unclickable" id="achPureGreedButton" onmouseleave="tooltip()" onmouseover="tooltip('achPureGreed', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achGlittersBlock"><div class="jbButton achButton button unclickable" id="achGlittersButton" onmouseleave="tooltip()" onmouseover="tooltip('achGlitters', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achPolymathBlock"><div class="jbButton achButton button unclickable" id="achPolymathButton" onmouseleave="tooltip()" onmouseover="tooltip('achPolymath', event)"><div class="upgIndicator"><span>Polymath</span></div></div></div><div class="jbBlock achBlock" id="achMetalCasterBlock"><div class="jbButton achButton button unclickable" id="achMetalCasterButton" onmouseleave="tooltip()" onmouseover="tooltip('achMetalCaster', event)"><div class="upgIndicator"><span>Metal Caster</span></div></div></div><div class="jbBlock achBlock" id="achForemanBlock"><div class="jbButton achButton button unclickable" id="achForemanButton" onmouseleave="tooltip()" onmouseover="tooltip('achForeman', event)"><div class="upgIndicator"><span>Foreman</span></div></div></div><div class="jbBlock achBlock" id="achWillOfThePeopleBlock"><div class="jbButton achButton button unclickable" id="achWillOfThePeopleButton" onmouseleave="tooltip()" onmouseover="tooltip('achWillOfThePeople', event)"><div class="upgIndicator"><span>Will of the People</span></div></div></div><div class="jbBlock achBlock" id="achSleeperBlock"><div class="jbButton achButton button unclickable" id="achSleeperButton" onmouseleave="tooltip()" onmouseover="tooltip('achSleeper', event)"><div class="upgIndicator"><span>The Sleeper</span></div></div></div><div class="jbBlock achBlock" id="achInformedBlock"><div class="jbButton achButton button unclickable" id="achInformedButton" onmouseleave="tooltip()" onmouseover="tooltip('achInformed', event)"><div class="upgIndicator"><span>Informed</span></div></div></div><div class="jbBlock achBlock" id="achMathematicianBlock"><div class="jbButton achButton button unclickable" id="achMathematicianButton" onmouseleave="tooltip()" onmouseover="tooltip('achMathematician', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achGreatOneBlock"><div class="jbButton achButton button unclickable" id="achGreatOneButton" onmouseleave="tooltip()" onmouseover="tooltip('achGreatOne', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achRepublicBlock"><div class="jbButton achButton button unclickable" id="achRepublicButton" onmouseleave="tooltip()" onmouseover="tooltip('achRepublic', event)"><div class="upgIndicator"><span>???</span></div></div></div><div class="jbBlock achBlock" id="achSpartaBlock"><div class="jbButton achButton button unclickable" id="achSpartaButton" onmouseleave="tooltip()" onmouseover="tooltip('achSparta', event)"><div class="upgIndicator"><span>???</span></div></div></div></div>
+<div class="achPointsLabel">Current Achievement Points: <div id="achCurrentPoints">0</div>
+</div>
+</div>
+<div class="mnuArea locked" id="PrestigeArea">
+<div class="mnuTitle">Prestige</div>
+<hr/>
+<div class="mnuContainer" id="PrestigeContainer">
+<!-- Insert prestiges here -->
+<div class="jbTitle">Active Master</div>
+<div class="jbOutline" id="PrestigeActiveContainer"><!-- Insert active prestiges here --><div class="jbBlock ptgBlock" id="ptgSoftTapBlock"><div class="jbButton button unclickable" id="ptgSoftTapButton" onclick="clickBuy('ptgSoftTap')" onmouseleave="tooltip()" onmouseover="tooltip('ptgSoftTap', event)"><div class="jbIndicator"><span>Soft Tap</span></div><div class="jbCurrent"><span id="ptgSoftTapCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgWaterDancerBlock"><div class="jbButton button unclickable" id="ptgWaterDancerButton" onclick="clickBuy('ptgWaterDancer')" onmouseleave="tooltip()" onmouseover="tooltip('ptgWaterDancer', event)"><div class="jbIndicator"><span>Water Dancer</span></div><div class="jbCurrent"><span id="ptgWaterDancerCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgMechanicalClickerBlock"><div class="jbButton button unclickable" id="ptgMechanicalClickerButton" onclick="clickBuy('ptgMechanicalClicker')" onmouseleave="tooltip()" onmouseover="tooltip('ptgMechanicalClicker', event)"><div class="jbIndicator"><span>Mechanical Clicker</span></div><div class="jbCurrent"><span id="ptgMechanicalClickerCurrentLevel">0/3</span></div></div></div><div class="jbBlock ptgBlock" id="ptgDruidryBlock"><div class="jbButton button unclickable" id="ptgDruidryButton" onclick="clickBuy('ptgDruidry')" onmouseleave="tooltip()" onmouseover="tooltip('ptgDruidry', event)"><div class="jbIndicator"><span>Druidry</span></div><div class="jbCurrent"><span id="ptgDruidryCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgHeadStartBlock"><div class="jbButton button unclickable" id="ptgHeadStartButton" onclick="clickBuy('ptgHeadStart')" onmouseleave="tooltip()" onmouseover="tooltip('ptgHeadStart', event)"><div class="jbIndicator"><span>Head Start</span></div><div class="jbCurrent"><span id="ptgHeadStartCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgFireDancerBlock"><div class="jbButton button unclickable" id="ptgFireDancerButton" onclick="clickBuy('ptgFireDancer')" onmouseleave="tooltip()" onmouseover="tooltip('ptgFireDancer', event)"><div class="jbIndicator"><span>Fire Dancer</span></div><div class="jbCurrent"><span id="ptgFireDancerCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgLoopClickingBlock"><div class="jbButton button unclickable" id="ptgLoopClickingButton" onclick="clickBuy('ptgLoopClicking')" onmouseleave="tooltip()" onmouseover="tooltip('ptgLoopClicking', event)"><div class="jbIndicator"><span>Loop Clicking</span></div><div class="jbCurrent"><span id="ptgLoopClickingCurrentLevel">0/1</span></div></div></div><div class="jbBlock ptgBlock" id="ptgHarvesterBlock"><div class="jbButton button unclickable" id="ptgHarvesterButton" onclick="clickBuy('ptgHarvester')" onmouseleave="tooltip()" onmouseover="tooltip('ptgHarvester', event)"><div class="jbIndicator"><span>Harvester</span></div><div class="jbCurrent"><span id="ptgHarvesterCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgSmartTapBlock"><div class="jbButton button unclickable" id="ptgSmartTapButton" onclick="clickBuy('ptgSmartTap')" onmouseleave="tooltip()" onmouseover="tooltip('ptgSmartTap', event)"><div class="jbIndicator"><span>Smart Tap</span></div><div class="jbCurrent"><span id="ptgSmartTapCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgWeaponMasterBlock"><div class="jbButton button unclickable" id="ptgWeaponMasterButton" onclick="clickBuy('ptgWeaponMaster')" onmouseleave="tooltip()" onmouseover="tooltip('ptgWeaponMaster', event)"><div class="jbIndicator"><span>Weapon Master</span></div><div class="jbCurrent"><span id="ptgWeaponMasterCurrentLevel">0/2</span></div></div></div><div class="jbBlock ptgBlock" id="ptgDoubleClickingBlock"><div class="jbButton button unclickable" id="ptgDoubleClickingButton" onclick="clickBuy('ptgDoubleClicking')" onmouseleave="tooltip()" onmouseover="tooltip('ptgDoubleClicking', event)"><div class="jbIndicator"><span>Double Clicking</span></div><div class="jbCurrent"><span id="ptgDoubleClickingCurrentLevel">0/8</span></div></div></div><div class="jbBlock ptgBlock" id="ptgMasonBlock"><div class="jbButton button unclickable" id="ptgMasonButton" onclick="clickBuy('ptgMason')" onmouseleave="tooltip()" onmouseover="tooltip('ptgMason', event)"><div class="jbIndicator"><span>Mason</span></div><div class="jbCurrent"><span id="ptgMasonCurrentLevel">0/10</span></div></div></div></div>
+<div class="jbTitle">Passive Thinker</div>
+<div class="jbOutline" id="PrestigePassiveContainer"><!-- Insert passive prestiges here --><div class="jbBlock ptgBlock" id="ptgLeaderBlock"><div class="jbButton button unclickable" id="ptgLeaderButton" onclick="clickBuy('ptgLeader')" onmouseleave="tooltip()" onmouseover="tooltip('ptgLeader', event)"><div class="jbIndicator"><span>Leader</span></div><div class="jbCurrent"><span id="ptgLeaderCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgBuilderBlock"><div class="jbButton button unclickable" id="ptgBuilderButton" onclick="clickBuy('ptgBuilder')" onmouseleave="tooltip()" onmouseover="tooltip('ptgBuilder', event)"><div class="jbIndicator"><span>Builder</span></div><div class="jbCurrent"><span id="ptgBuilderCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgTaxmanBlock"><div class="jbButton button unclickable" id="ptgTaxmanButton" onclick="clickBuy('ptgTaxman')" onmouseleave="tooltip()" onmouseover="tooltip('ptgTaxman', event)"><div class="jbIndicator"><span>Taxman</span></div><div class="jbCurrent"><span id="ptgTaxmanCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgResearchBlock"><div class="jbButton button unclickable" id="ptgResearchButton" onclick="clickBuy('ptgResearch')" onmouseleave="tooltip()" onmouseover="tooltip('ptgResearch', event)"><div class="jbIndicator"><span>Research</span></div><div class="jbCurrent"><span id="ptgResearchCurrentLevel">0/3</span></div></div></div><div class="jbBlock ptgBlock" id="ptgFetchingBlock"><div class="jbButton button unclickable" id="ptgFetchingButton" onclick="clickBuy('ptgFetching')" onmouseleave="tooltip()" onmouseover="tooltip('ptgFetching', event)"><div class="jbIndicator"><span>Fetching</span></div><div class="jbCurrent"><span id="ptgFetchingCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgMillingBlock"><div class="jbButton button unclickable" id="ptgMillingButton" onclick="clickBuy('ptgMilling')" onmouseleave="tooltip()" onmouseover="tooltip('ptgMilling', event)"><div class="jbIndicator"><span>Milling</span></div><div class="jbCurrent"><span id="ptgMillingCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgEconomistBlock"><div class="jbButton button unclickable" id="ptgEconomistButton" onclick="clickBuy('ptgEconomist')" onmouseleave="tooltip()" onmouseover="tooltip('ptgEconomist', event)"><div class="jbIndicator"><span>Economist</span></div><div class="jbCurrent"><span id="ptgEconomistCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgHeroismBlock"><div class="jbButton button unclickable" id="ptgHeroismButton" onclick="clickBuy('ptgHeroism')" onmouseleave="tooltip()" onmouseover="tooltip('ptgHeroism', event)"><div class="jbIndicator"><span>Heroism</span></div><div class="jbCurrent"><span id="ptgHeroismCurrentLevel">0/2</span></div></div></div><div class="jbBlock ptgBlock" id="ptgLumbererBlock"><div class="jbButton button unclickable" id="ptgLumbererButton" onclick="clickBuy('ptgLumberer')" onmouseleave="tooltip()" onmouseover="tooltip('ptgLumberer', event)"><div class="jbIndicator"><span>Lumberer</span></div><div class="jbCurrent"><span id="ptgLumbererCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgEngineerBlock"><div class="jbButton button unclickable" id="ptgEngineerButton" onclick="clickBuy('ptgEngineer')" onmouseleave="tooltip()" onmouseover="tooltip('ptgEngineer', event)"><div class="jbIndicator"><span>Engineer</span></div><div class="jbCurrent"><span id="ptgEngineerCurrentLevel">0/4</span></div></div></div><div class="jbBlock ptgBlock" id="ptgMerchantBlock"><div class="jbButton button unclickable" id="ptgMerchantButton" onclick="clickBuy('ptgMerchant')" onmouseleave="tooltip()" onmouseover="tooltip('ptgMerchant', event)"><div class="jbIndicator"><span>Merchant</span></div><div class="jbCurrent"><span id="ptgMerchantCurrentLevel">0/2</span></div></div></div><div class="jbBlock ptgBlock" id="ptgResolveBlock"><div class="jbButton button unclickable" id="ptgResolveButton" onclick="clickBuy('ptgResolve')" onmouseleave="tooltip()" onmouseover="tooltip('ptgResolve', event)"><div class="jbIndicator"><span>Resolve</span></div><div class="jbCurrent"><span id="ptgResolveCurrentLevel">0/10</span></div></div></div></div>
+<div class="jbTitle">Variety Expert</div>
+<div class="jbOutline" id="PrestigeOtherContainer"><!-- Insert other prestiges here --><div class="jbBlock ptgBlock" id="ptgWoodMinimalismBlock"><div class="jbButton button unclickable" id="ptgWoodMinimalismButton" onclick="clickBuy('ptgWoodMinimalism')" onmouseleave="tooltip()" onmouseover="tooltip('ptgWoodMinimalism', event)"><div class="jbIndicator"><span>Wood Minimalism</span></div><div class="jbCurrent"><span id="ptgWoodMinimalismCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgOpportunistBlock"><div class="jbButton button unclickable" id="ptgOpportunistButton" onclick="clickBuy('ptgOpportunist')" onmouseleave="tooltip()" onmouseover="tooltip('ptgOpportunist', event)"><div class="jbIndicator"><span>Opportunist</span></div><div class="jbCurrent"><span id="ptgOpportunistCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgInvestmentBlock"><div class="jbButton button unclickable" id="ptgInvestmentButton" onclick="clickBuy('ptgInvestment')" onmouseleave="tooltip()" onmouseover="tooltip('ptgInvestment', event)"><div class="jbIndicator"><span>Investment</span></div><div class="jbCurrent"><span id="ptgInvestmentCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgAdvancedBlock"><div class="jbButton button unclickable" id="ptgAdvancedButton" onclick="clickBuy('ptgAdvanced')" onmouseleave="tooltip()" onmouseover="tooltip('ptgAdvanced', event)"><div class="jbIndicator"><span>Advanced</span></div><div class="jbCurrent"><span id="ptgAdvancedCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgStoneMinimalismBlock"><div class="jbButton button unclickable" id="ptgStoneMinimalismButton" onclick="clickBuy('ptgStoneMinimalism')" onmouseleave="tooltip()" onmouseover="tooltip('ptgStoneMinimalism', event)"><div class="jbIndicator"><span>Stone Minimalism</span></div><div class="jbCurrent"><span id="ptgStoneMinimalismCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgMaverickBlock"><div class="jbButton button unclickable" id="ptgMaverickButton" onclick="clickBuy('ptgMaverick')" onmouseleave="tooltip()" onmouseover="tooltip('ptgMaverick', event)"><div class="jbIndicator"><span>Maverick</span></div><div class="jbCurrent"><span id="ptgMaverickCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgHastyBlock"><div class="jbButton button unclickable" id="ptgHastyButton" onclick="clickBuy('ptgHasty')" onmouseleave="tooltip()" onmouseover="tooltip('ptgHasty', event)"><div class="jbIndicator"><span>Hasty</span></div><div class="jbCurrent"><span id="ptgHastyCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgHoardingBlock"><div class="jbButton button unclickable" id="ptgHoardingButton" onclick="clickBuy('ptgHoarding')" onmouseleave="tooltip()" onmouseover="tooltip('ptgHoarding', event)"><div class="jbIndicator"><span>Hoarding</span></div><div class="jbCurrent"><span id="ptgHoardingCurrentLevel">0/5</span></div></div></div><div class="jbBlock ptgBlock" id="ptgIronMinimalismBlock"><div class="jbButton button unclickable" id="ptgIronMinimalismButton" onclick="clickBuy('ptgIronMinimalism')" onmouseleave="tooltip()" onmouseover="tooltip('ptgIronMinimalism', event)"><div class="jbIndicator"><span>Iron Minimalism</span></div><div class="jbCurrent"><span id="ptgIronMinimalismCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgHagglerBlock"><div class="jbButton button unclickable" id="ptgHagglerButton" onclick="clickBuy('ptgHaggler')" onmouseleave="tooltip()" onmouseover="tooltip('ptgHaggler', event)"><div class="jbIndicator"><span>Haggler</span></div><div class="jbCurrent"><span id="ptgHagglerCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgWisdomBlock"><div class="jbButton button unclickable" id="ptgWisdomButton" onclick="clickBuy('ptgWisdom')" onmouseleave="tooltip()" onmouseover="tooltip('ptgWisdom', event)"><div class="jbIndicator"><span>Wisdom</span></div><div class="jbCurrent"><span id="ptgWisdomCurrentLevel">0/10</span></div></div></div><div class="jbBlock ptgBlock" id="ptgColonistBlock"><div class="jbButton button unclickable" id="ptgColonistButton" onclick="clickBuy('ptgColonist')" onmouseleave="tooltip()" onmouseover="tooltip('ptgColonist', event)"><div class="jbIndicator"><span>Colonist</span></div><div class="jbCurrent"><span id="ptgColonistCurrentLevel">0/1</span></div></div></div></div>
+</div>
+<div class="ptgColonyButton button clickable locked" id="PrestigeResetButton" onclick="tooltip('colony')">Start a Colony</div>
+<div class="ptgColonyLabel">Current Prestige Points: <div id="PrestigeCurrentPoints">0</div>
+</div>
+</div>
+<div class="mnuArea locked" id="SettingsArea">
+<div class="mnuTitle">Settings</div>
+<hr/>
+<div class="mnuContainer" id="SettingsContainer">
+<!-- Insert settings here -->
+<div class="mnuContentButton button clickable" onclick="toggleTutorial()">
+                            Toggle Tutorial Tips</div>
+<div class="mnuContentInfo">Tutorial: <span id="mnuCurrentTutorial">Enabled</span></div>
+<div class="mnuContentButton button clickable" onclick="toggleGreeting()">
+                            Change Greeting</div>
+<div class="mnuContentInfo">Current Greeting: <span id="mnuCurrentLatestChanges">Latest Changes</span></div>
+<div class="mnuContentButton button clickable" onclick="toggleRoundNumberSetting()">
+                            Toggle Resource Bar Rounding</div>
+<div class="mnuContentInfo">Currently Rounding: <span id="mnuCurrentRounding">Yes</span>
+</div>
+<div class="mnuContentButton button clickable" onclick="toggleDecimalPlacesSetting()">
+                            Change Resource Rate Decimals</div>
+<div class="mnuContentInfo">Decimal Places: <span id="mnuCurrentDecimals">2</span></div>
+<div class="mnuContentButton button clickable" onclick="switchTheme()">Change Theme</div>
+<div class="mnuContentInfo">Current Theme: <span id="mnuCurrentTheme">Default</span>
+</div>
+<div class="mnuContentButton button clickable" onclick="switchGraphics()">Change Graphics</div>
+<div class="mnuContentInfo">Current Graphics: <span id="mnuCurrentGraphics">Default</span>
+</div>
+<div class="mnuContentButton button clickable" onclick="toggleMsgFontSize()">
+                            Change Messages Text Size</div>
+<div class="mnuContentInfo">Current Size: <span id="mnuCurrentMsgSize">Normal</span></div>
+<div class="mnuContentButton button clickable" onclick="toggleTooltipModes()">
+                            Toggle Tooltip Modes</div>
+<div class="mnuContentInfo">Current Tooltips: <span id="mnuCurrentLimitedTooltip">Detailed</span></div>
+<div class="mnuContentButton button clickable" onclick="toggleAutoskipBeginning()">
+                            Toggle Autoskip Beginning</div>
+<div class="mnuContentInfo">Upon Reset: <span id="mnuCurrentAutoskipBeginning">Skip
+                                Beginning</span></div>
+<div class="mnuContentButton button clickable" onclick="toggleDefaultMenu()">
+                            Change Default Menu</div>
+<div class="mnuContentInfo">On Load: <span id="mnuCurrentDefaultMenu">Keep Last Tab</span></div>
+<div class="mnuContentButton button clickable" onclick="toggleDeleteSave()">
+                            Toggle Hard Reset Option</div>
+<div class="mnuContentInfo">Delete Save Button: <span id="mnuCurrentDeleteSave">Hidden</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="bottomRibbon">
+<div class="ribbonButton button" onclick="save()">
+<span>Save</span>
+</div>
+<div class="ribbonButton button autosaveON" id="autosaveButton" onclick="toggleAutosave()">
+<span id="autosaveLabel">Autosave (ON)</span>
+</div>
+<div class="ribbonButton button" id="exportButton" onclick="toggleExport()">
+<span>Export Save</span>
+</div>
+<div class="ribbonButton button" id="importButton" onclick="toggleImport()">
+<span>Import Save</span>
+</div>
+<div class="ribbonButton button" id="deleteSaveButton"></div>
+<div class="ribbonButton button">
+<!-- TODO: Add menu item -->
+</div>
+<div class="ribbonButton button">
+<!-- TODO: Add menu item -->
+</div>
+<div class="ribbonButton button">
+<!-- TODO: Add menu item -->
+</div>
+<div class="ribbonButton button" id="versionButton" onclick="window.open('./changelog.html', '_blank');">
+<span id="versionLabel">v0.2.07</span>
+</div>
+<div class="ribbonButton button" id="pauseButton" onclick="togglePause()">
+<span id="pauseLabel">Pause</span>
+</div>
+</div>
+<div id="achievementPill" onclick="hideAchievement()" style="visibility: hidden; opacity: 0;">
+<div class="left">
+<span id="achPoints">0</span>
+</div>
+<span id="achIndicator">Achievement Unlocked</span>
+<span id="achLabel">-</span>
+</div>
+<div class="ttContainer" id="tooltipContainer" style="display: none;">
+<div id="tooltipTop"></div>
+<hr/>
+<div id="tooltipMain"></div>
+<hr/>
+<div id="tooltipBottom"></div>
+</div>
+<div class="mdHide" id="bgDisable">
+</div>
+</body></html>

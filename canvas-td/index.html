@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>Canvas TD</title>
+<link href="/_assets/b53fd2f247b7ac40322a.css" rel="stylesheet"/>
+<link href="/_assets/83fe9278a7ffcd624aca.css" rel="stylesheet"/>
+
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="pages">
+<canvas height="500" id="pages-canvas" width="800"></canvas>
+<div id="pages-overlay"></div>
+<div id="pages-start">
+<div id="pages-start-maps">
+<a><img height="50" src="/_assets/889387b15edbdd328fc4.png" width="80"/>Loopy</a>
+<a><img height="50" src="/_assets/40a88ac7aed87e3e6935.png" width="80"/>Backtrack</a>
+<a><img height="50" src="/_assets/6993d419d3733dbb58d6.png" width="80"/>Dash</a>
+</div>
+<div id="pages-start-info">
+<p>A fully featured tower defense game built with &lt;canvas&gt;.</p>
+<h2>Instructions</h2>
+<p>Build and upgrade turrets (which costs money and increases score) to kill creeps (which generates money and increases score). Experiment with the turrets; each has a special ability when fully upgraded.</p>
+<h2>Shortcuts</h2>
+<dl>
+<dt><kbd>1</kbd></dt>
+<dd>Build Laser / Upgrade damage</dd>
+<dt><kbd>2</kbd></dt>
+<dd>Build Missile / Upgrade rate</dd>
+<dt><kbd>3</kbd></dt>
+<dd>Build Tazer / Upgrade range</dd>
+<dt><kbd>4</kbd></dt>
+<dd>Build Mortar / Move</dd>
+<dt><kbd>*</kbd></dt>
+<dd>Sell</dd>
+<dt><kbd>=</kbd></dt>
+<dd>Fast forward</dd>
+<dt><kbd>Esc</kbd></dt>
+<dd>Deselect / Cancel / Pause</dd>
+<dt><kbd>Enter</kbd></dt>
+<dd>Send wave</dd>
+</dl>
+<div id="pages-start-links">
+<a data-page="about">About</a>
+						(<a target="_blank">source</a> |
+						<a target="_blank">tkaz.ec</a>)
+					</div>
+</div>
+</div>
+<div id="pages-scores">
+<h3>Loopy</h3>
+<h3>Backtrack</h3>
+<h3>Dash</h3>
+<ul id="pages-scores-twitter-loopy"></ul>
+<ul id="pages-scores-twitter-backtrack"></ul>
+<ul id="pages-scores-twitter-dash"></ul>
+<ul id="pages-scores-local-loopy"></ul>
+<ul id="pages-scores-local-backtrack"></ul>
+<ul id="pages-scores-local-dash"></ul>
+<a data-page="" id="pages-scores-back">←</a>
+</div>
+<div id="pages-about">
+<p>Canvas TD was originally created for <a target="_blank">10k Apart</a> 2010, a challenge to build a web app in 10 KiB or less. Finished in less than twelve days, it failed to receive any prizes, but was ranked high in community voting and generated a significant amount of Twitter activity. While lacking much in the way of instructions, it was fully featured and quite enjoyable, and can still be played <a href="legacy.html" target="_blank">here</a>.</p>
+<p>After the contest ended, work was started on a rewrite. Completed in June 2011, it featured far better code, many UI improvements, new gameplay elements, and some real instructions. Technologies used include &lt;canvas&gt;, @font-face, the Twitter Search API, Web Storage, and many other HTML5/CSS3/ES5 features.</p>
+<p>The endless, increasingly difficult gameplay (and many other core elements) is inspired by <a target="_blank">Onslaught TD</a>. The retro look is heavily based on the excellent <a target="_blank">BIT.TRIP</a> games and <a target="_blank">Vector TD</a>. I'd also like to thank Alex K. and David S. for their plentiful ideas, testing, feedback, and motivation.</p>
+<img height="224" id="pages-about-logo" src="/_assets/145c0a52b8c72449291c.png" width="224"/>
+<a data-page="" id="pages-about-back">←</a>
+</div>
+</div>
+<div id="control">
+<div id="control-left">
+<div id="control-turrets">
+<a data-name="Laser"><img height="25" src="/_assets/c92a7f2210d2908a7b49.png" width="25"/><br/>Laser ($15)</a>
+<a data-name="Missile"><img height="25" src="/_assets/5500a08d1f08842e67de.png" width="25"/><br/>Missile ($25)</a>
+<a data-name="Tazer"><img height="25" src="/_assets/0f4b3ff4f47fad4c6280.png" width="25"/><br/>Tazer ($40)</a>
+<a data-name="Mortar"><img height="25" src="/_assets/d1839e4de81bf092e6fa.png" width="25"/><br/>Mortar ($60)</a>
+</div>
+<div id="control-manage">
+<a id="control-manage-damage"></a>
+<a id="control-manage-rate"></a>
+<a id="control-manage-range"></a>
+<a id="control-manage-move">Move<br/>$90</a>
+<a id="control-manage-sell"></a>
+<div id="control-manage-stats"></div>
+</div>
+<div id="control-score">
+					Game over! You scored <span id="control-score-text"></span>.<br/><br/>
+<a href="">Play again</a> or <a data-page="scores">view scores</a>
+					(maybe <a id="control-score-tweet" target="_blank">tweet yours</a>?)
+				</div>
+</div>
+<div id="control-right">
+<div id="control-right-1">
+<a id="control-timer"></a>
+<a id="control-fast"></a>
+</div>
+<div id="control-right-2">
+					Cash $<span id="control-cash">35</span><br/>
+					Lives <span id="control-lives">10</span><br/>
+					Wave #<span id="control-wave">1</span>
+</div>
+<div id="control-right-3">
+<span id="control-fps">60</span>FPS<br/>
+<a id="control-pause">Pause</a><br/>
+<a href="">Reset</a>
+</div>
+</div>
+</div>
+<script src="/_assets/162b03a9b5dd962f72bf.js"></script>
+<script src="/_assets/215ee5295997b5e0f542.js"></script>
+<script src="/_assets/88a2f318cb8bfda7d22d.js"></script>
+<script src="/_assets/6ab65f30d068c32567b2.js"></script>
+</body></html>

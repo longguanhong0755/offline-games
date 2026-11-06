@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Space Invaders: Cute Edition</title>
+<!-- Google Fonts -->
+
+
+<link href="/_assets/5a7aed8fa480eb49195f.css" rel="stylesheet"/>
+<link href="/_assets/7b28128ec569d0c56d90.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="game-container">
+<!-- HUD -->
+<div id="ui-layer">
+<div id="score-board">
+<span class="label">SCORE</span>
+<span id="score-value">0</span>
+</div>
+<div id="lives-board">
+<span class="label">LIVES</span>
+<div id="lives-container">
+<!-- Hearts will be injected here -->
+<span class="heart">❤️</span>
+<span class="heart">❤️</span>
+<span class="heart">❤️</span>
+</div>
+</div>
+</div>
+<!-- Game Canvas -->
+<canvas height="600" id="game-canvas" width="800"></canvas>
+<!-- Overlay Screens -->
+<div class="overlay active" id="start-screen">
+<h1 class="title">SPACE<br/>INVADERS</h1>
+<p class="subtitle">Cute Edition ✨</p>
+<p class="instructions">Use Arrow Keys or A/D to Move • Space to Shoot</p>
+<button class="primary-btn" id="start-btn">START GAME</button>
+</div>
+<div class="overlay hidden" id="game-over-screen">
+<h1 class="title">GAME OVER</h1>
+<p id="final-score">Score: 0</p>
+<button class="primary-btn" id="restart-btn">TRY AGAIN</button>
+</div>
+<div class="overlay hidden" id="victory-screen">
+<h1 class="title">YOU WIN!</h1>
+<p class="subtitle">Universe Saved! 🌟</p>
+<p id="victory-score">Score: 0</p>
+<button class="primary-btn" id="play-again-btn">PLAY AGAIN</button>
+</div>
+</div>
+<script src="/_assets/ff051c7586efcab42ca7.js" type="module"></script>
+</body></html>

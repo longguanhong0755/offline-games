@@ -1,6 +1,6 @@
 # 离线网页游戏合集
 
-这是一个集中存放可离线运行网页游戏的项目。当前共收录 **617 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
+这是一个集中存放可离线运行网页游戏的项目。当前共收录 **659 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
 
 ## 运行方式
 
@@ -659,6 +659,48 @@ python -B server.py
 | 615 | Wave Incremental | `wave-incremental/` | <http://localhost:9595/> |
 | 616 | Wibbly | `wibbly/` | <http://localhost:9596/> |
 | 617 | Wyrmsun | `wyrmsun/` | <http://localhost:9597/> |
+| 618 | 2048 Cupcakes | `0x0800-2048-cupcakes/` | <http://localhost:9598/> |
+| 619 | 2048 Cupcakes | `2048-cupcakes/` | <http://localhost:9599/> |
+| 620 | 2048 React | `ivanvergiliev-2048-react/` | <http://localhost:9600/> |
+| 621 | 90S Games | `90s-games/` | <http://localhost:9601/> |
+| 622 | Algebraic Progression | `algebraic-progression/` | <http://localhost:9602/> |
+| 623 | Alien Cosmic | `alien-cosmic/` | <http://localhost:9603/> |
+| 624 | Arc Congklak | `arc-congklak/` | <http://localhost:9604/> |
+| 625 | Axiom Incremental | `axiom-incremental/` | <http://localhost:9605/> |
+| 626 | Basic Game | `basic-game/` | <http://localhost:9606/> |
+| 627 | Blockninja | `blockninja/` | <http://localhost:9607/> |
+| 628 | Browser Mini Games | `browser-mini-games/` | <http://localhost:9608/> |
+| 629 | Bytes | `bytes/` | <http://localhost:9609/> |
+| 630 | Cashflowjs | `cashflowjs/` | <http://localhost:9610/> |
+| 631 | Cnake | `cnake/` | <http://localhost:9611/> |
+| 632 | Cyberfortress | `cyberfortress/` | <http://localhost:9612/> |
+| 633 | Dao 2048 | `dao-2048/` | <http://localhost:9613/> |
+| 634 | Draw Guess | `draw-guess/` | <http://localhost:9614/> |
+| 635 | Driftworld | `driftworld/` | <http://localhost:9615/> |
+| 636 | Earthdefense | `earthdefense/` | <http://localhost:9616/> |
+| 637 | Game.Snake | `aideink-game-snake/` | <http://localhost:9617/> |
+| 638 | Glidiebirdie | `glidiebirdie/` | <http://localhost:9618/> |
+| 639 | Grow Your Garden | `grow-your-garden/` | <http://localhost:9619/> |
+| 640 | Guess The Flag | `guess-the-flag/` | <http://localhost:9620/> |
+| 641 | It Tycoongame2 | `it-tycoongame2/` | <http://localhost:9621/> |
+| 642 | Lost Abandoned | `lost-abandoned/` | <http://localhost:9622/> |
+| 643 | Lost Signal | `lost-signal/` | <http://localhost:9623/> |
+| 644 | Math Sprint Game | `math-sprint-game/` | <http://localhost:9624/> |
+| 645 | Mini Browser Games | `mini-browser-games/` | <http://localhost:9625/> |
+| 646 | Ndshuge Game | `ndshuge-game/` | <http://localhost:9626/> |
+| 647 | Nhcoinmininggame | `nhcoinmininggame/` | <http://localhost:9627/> |
+| 648 | Pinball Hoops | `pinball-hoops/` | <http://localhost:9628/> |
+| 649 | Psycho Odin | `psycho-odin/` | <http://localhost:9629/> |
+| 650 | Rxbox | `rxbox/` | <http://localhost:9630/> |
+| 651 | Super Mario Run Using Javascript | `super-mario-run-using-javascript/` | <http://localhost:9631/> |
+| 652 | Tank War | `tank-war/` | <http://localhost:9632/> |
+| 653 | The Call Floor | `the-call-floor/` | <http://localhost:9633/> |
+| 654 | Thunder Math | `thunder-math/` | <http://localhost:9634/> |
+| 655 | Ticket Clicker | `ticket-clicker/` | <http://localhost:9635/> |
+| 656 | Unangband | `unangband/` | <http://localhost:9636/> |
+| 657 | Verdant 100 | `verdant-100/` | <http://localhost:9637/> |
+| 658 | Vilify | `vilify/` | <http://localhost:9638/> |
+| 659 | Vue2048 | `vue2048/` | <http://localhost:9639/> |
 
 ## 离线与安全说明
 

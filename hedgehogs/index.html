@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<style>
+            body {
+                wordwrap: normal;
+                padding-right:30px;
+                padding-left: 20px;
+                font-size:20px;
+            }
+            .column {float: left;
+                width: 45%;
+                padding-right:5px;
+                padding-left:5px;
+            }
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            button {
+                line-height:1.5;
+                font-size:18px;
+                margin-top: 2px;
+                margin-bottom:5px;
+                margin-right:5px;
+            }
+        </style>
+<script src="/_assets/4d6f8871a16a00f6aa80.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body onload="initializeGameObjects(); initializeAutomations();">
+<h1>
+    HEDGEHOGS :)
+    <img alt="Doodle of a hedgehog with quills fallen at its feet" src="/_assets/cf1a317ae92516c7e42d.jpg" style="float:right;width:10%;height:auto"/>
+</h1>
+<div class="row">
+<div class="column">
+<p>
+            You have 
+            </p><ul>
+<li> <span id="coins">100</span> coins </li>
+<li> <span id="hedgehogs">0</span> hedgehogs (<span id="hedgehogs">0</span> quills/s) </li>
+<div id="hedgehogsBought" style="display:none;">
+<li> <span id="quillsCollected">0</span> quills </li>
+</div>
+<div id="glueBought" style="display:none;">
+<li> <span id="glue">0</span> glue </li>
+</div>
+<div id="inkBought" style="display:none;">
+<li> <span id="ink">0</span> ink </li>
+</div>
+<div id="pensBought" style="display:none;">
+<li> <span id="pens">0</span> pens </li>
+</div>
+<div id="sittersBought" style="display:none;">
+<li> <span id="sitters">0</span> pet sitters (<span id="sitters">0</span> quills/s)</li>
+</div>
+<div id="gluersBought" style="display:none;">
+<li> <span id="gluers">0</span> glue buyers (<span id="gluers">0</span> glue/s)</li>
+</div>
+<div id="penmakersBought" style="display:none;">
+<li> <span id="penmakers">0</span> pen makers (<span id="penmakers">0</span> pens/s)</li>
+</div>
+<div id="pensellersBought" style="display:none;">
+<li> <span id="pensellers">0</span> pen sellers (<span id="pensellers">0</span> pens/s)</li>
+</div>
+</ul>
+<p></p>
+<!-- ACTIONS -->
+            Actions:
+            <br/>
+<button onclick="buyAutomation('hedgehogs', 50, 1, updateQuillsAvailable);" type="button"> Buy hedgehog</button>
+<br/>
+<div id="hedgehogsBought" style="display:none;">
+<button onclick="updateQuillsCollected();" type="button">Collect quill</button>
+<br/>
+<button onclick="buyItem('glue', 5);" type="button">Buy glue (5 coins)</button>
+<button onclick="buyItem('ink', 3); updateJournalLength();" type="button">Buy ink (3 coins)</button>
+<br/>
+<button onclick="makePen();" type="button">Make pen (5 quills, 1 glue)</button>
+<br/>
+<button onclick="sellItem('hedgehogs', 45);" type="button">Sell hedgehog (45 coins)</button>
+<div id="glueBought" style="display:none;">
+<button onclick="sellItem('glue', 4);" type="button">Sell glue (4 coins)</button>
+</div>
+<div id="inkBought" style="display:none;">
+<button onclick="sellItem('ink', 2);" type="button">Sell ink (2 coins)</button>
+</div>
+<div id="pensBought" style="display:none;">
+<button onclick="sellItem('pens', 10);" type="button">Sell pen (10 coins)</button>
+</div>
+<br/>
+<button onclick="writeEntry();" type="button">Write journal entry</button> Costs 1 ink per 100 characters in the entry 
+            </div>
+<br/>
+<button id="toggleJournalButton" onclick="toggleJournal();" style="display:none;" type="button">Open journal</button>
+<div id="writeJournal" style="display:none;">
+<p>
+<label for="journal">Write a journal entry here:</label>
+<br/>
+<textarea cols="53" id="journal" maxlength="100" name="journal" rows="4"></textarea>
+<br/>
+<button onclick="saveEntry();" type="button">Save entry to journal (uses 1 ink per 100 characters)</button>
+</p>
+</div>
+<p id="message"></p>
+</div>
+<div class="column">
+<div id="hedgehogsBought" style="display:none;">
+<p>
+                    There are
+                    </p><ul>
+<li> <span id="quillsAvailable">0</span> uncollected quills</li>
+</ul>
+<p></p>
+</div>
+<!-- UPGRADES -->
+<div id="hedgehogsBought" style="display:none;">
+                    Upgrades:
+                    <br/>
+<button onclick="buyAutomation('sitters', 100, 1, updateQuillsCollected);" type="button">Buy pet sitter (100 coins)</button> Collects 1 quill/s automatically
+                    <br/>
+<button onclick="buyAutomation('gluers', 150, 1, buyGlue);" type="button">Buy glue buyer (150 coins)</button> Buys 1 glue/s automatically
+                    <br/>
+<button onclick="buyAutomation('penmakers', 200, 1, makePen);" type="button"> Buy pen maker (200 coins)</button> Makes 1 pen/s automatically if possible
+                    <br/>
+<button onclick="buyAutomation('pensellers', 400, 1, sellPen);" type="button"> Buy pen seller (400 coins)</button> Sells 1 pen/s if possible
+                    <br/>
+<div id="sittersBought" style="display:none;">
+<button onclick="sellItem('sitters', 90);" type="button">Sell pet sitter (90 coins)</button>
+</div>
+<br/>
+<div id="gluersBought" style="display:none;">
+<button onclick="sellItem('gluers', 130);" type="button">Sell glue buyer (130 coins)</button>
+</div>
+<br/>
+<div id="penmakersBought" style="display:none;">
+<button onclick="sellItem('penmakers', 150);" type="button">Sell pen maker (150 coins)</button>
+</div>
+<br/>
+<div id="pensellersBought" style="display:none;">
+<button onclick="sellItem('pensellers', 300);" type="button">Sell pen seller (300 coins)</button>
+</div>
+</div>
+<div id="toggleJournal" style="display:none;">
+<p>Journal entry #<span id="entryNum"></span></p>
+<p id="journalViewing" style="word-wrap:normal"></p>
+<button onclick="previousEntry();" type="button">Previous entry</button>
+<button onclick="nextEntry();" type="button">Next entry</button>
+</div>
+</div>
+</div>
+</body></html>

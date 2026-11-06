@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title>Response_Reaction</title>
+<link href="/_assets/6752b9ba151a25703b2e.css" rel="stylesheet"/>
+<link href="/_assets/d1470c52129b099d1521.css" rel="stylesheet" type="text_assets/1ec1026382177d4ab2e5.css"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="selector">
+<svg enable-background="new 0 0 128 128" id="Layer_1" version="1.1" viewbox="0 0 128 128" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g>
+<g>
+<path d="M64,0C28.656,0,0,28.656,0,64s28.656,64,64,64s64-28.656,64-64S99.344,0,64,0z M64,120    C33.125,120,8,94.875,8,64S33.125,8,64,8s56,25.125,56,56S94.875,120,64,120z"></path>
+</g>
+</g>
+<g>
+<g>
+<path d="M64,48c-4.414,0-8,3.586-8,8v40c0,4.414,3.586,8,8,8s8-3.586,8-8V56C72,51.586,68.414,48,64,48z M64,40c4.414,0,8-3.586,8-8s-3.586-8-8-8s-8,3.586-8,8S59.586,40,64,40z"></path></g>
+</g>
+</svg>
+<div class="instructions">Choose Difficulty Level</div>
+<div class="level">
+<span class="levelicon" onclick="prepare('easy')" onmouseout="unhighlight()" onmouseover="highlight(1)" style="background-color: #555555;"></span>
+<span class="levelicon" onclick="prepare('medium')" onmouseout="unhighlight()" onmouseover="highlight(2)" style="background-color: #555555;"></span>
+<span class="levelicon" onclick="prepare('hard')" onmouseout="unhighlight()" onmouseover="highlight(3)" style="background-color: #555555;"></span>
+</div>
+<div class="countdown"></div>
+</div>
+<div id="howtoplay">
+<svg enable-background="new 0 0 128 128" id="Layer_1" version="1.1" viewbox="0 0 128 128" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g>
+<g>
+<path d="M64,0C28.656,0,0,28.656,0,64s28.656,64,64,64s64-28.656,64-64S99.344,0,64,0z M64,120    C33.125,120,8,94.875,8,64S33.125,8,64,8s56,25.125,56,56S94.875,120,64,120z"></path>
+</g>
+</g>
+<g>
+<g>
+<path d="M75.313,64l16.969-16.969c3.125-3.125,3.125-8.195,0-11.313c-3.117-3.125-8.188-3.125-11.313,0L64,52.688L47.031,35.719c-3.125-3.125-8.195-3.125-11.313,0c-3.125,3.117-3.125,8.188,0,11.313L52.688,64L35.719,80.969c-3.125,3.125-3.125,8.195,0,11.313c3.117,3.125,8.188,3.125,11.313,0L64,75.313l16.969,16.969c3.125,3.125,8.195,3.125,11.313,0c3.125-3.117,3.125-8.188,0-11.313L75.313,64z"></path>
+</g>
+</g>
+</svg>
+<div class="instructions">How To Play</div>
+<div class="instructionlist">
+<ol>
+<li>Select a difficulty level by clicking one of the three dots. The dot on the left is the easiest level, the dot in the center is the medium level and the dot on the right is the hardest level.</li>
+<li>The timer will countdown from 3 seconds and give you time to compose yourself.</li>
+<li>You will be presented with a grid of green squares: 3x3 for easy, 4x4 for medium or 5x5 for hard.</li>
+<li>A square will be highlighted in green. You will need to click the green highlighted square as fast as you can, if you're too slow...it's game over! The more squares you click correctly, the faster the game will get.</li>
+<li>The game will start at a slow pace for the easiest level and a medium pace for the hardest level.</li>
+<li>Each time you click a square you will gain one point and another square will be highlighted.</li>
+<li>Continue clicking the highlighted squares until the game either gets too fast or you fail to click the correct square.</li>
+</ol>
+</div>
+</div>
+<table id="easy">
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table id="medium">
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table id="hard">
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<div id="gameover">
+<span class="gameoverheader">GAME OVER!</span>
+<span class="gameovertext">Average Reaction Time</span>
+<span class="average gameovervalue"></span>
+<span class="gameovertext">Score</span>
+<span class="score gameovervalue"></span>
+<span class="gameovertext">Highest Score</span>
+<span class="highscore gameovervalue"></span>
+<a class="gameovertext" href="javascript:void(0)" onclick="restart()">Restart</a>
+</div>
+<script src="/_assets/13112b3dac64f176f736.js"></script>
+</body></html>

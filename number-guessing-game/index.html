@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title>Number Guessing Game 🎮</title>
+<style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+            color: white;
+            margin: 0;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #ff9800;
+            color: white;
+        }
+
+        button:hover {
+            background: #e68900;
+        }
+
+        #message {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        #attempts {
+            margin-top: 10px;
+        }
+
+        .reset {
+            background: #4caf50;
+        }
+
+        .reset:hover {
+            background: #3e8e41;
+        }
+    </style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="container">
+<h1>🎮 Number Guessing Game</h1>
+<p>Guess a number between <b>1 to 100</b></p>
+<input id="guess" placeholder="Enter your guess" type="number"/>
+<br/>
+<button onclick="checkGuess()">Guess</button>
+<button class="reset" onclick="resetGame()">Restart 🔄</button>
+<p id="message"></p>
+<p id="attempts"></p>
+</div>
+<script>
+    let myNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+    let maxAttempts = 7;
+
+    function checkGuess() {
+        let userGuess = document.getElementById("guess").value;
+
+        if(userGuess === ""){
+            document.getElementById("message").innerText = "⚠️ Enter a number!";
+            return;
+        }
+
+        userGuess = Number(userGuess);
+        attempts++;
+
+        if(userGuess === myNumber){
+            document.getElementById("message").innerText = "🎉 Correct! You win!";
+            disableGame();
+        }
+        else if(userGuess > myNumber){
+            document.getElementById("message").innerText = "Too large 📈";
+        }
+        else{
+            document.getElementById("message").innerText = "Too small 📉";
+        }
+
+        // Hint system
+        if(Math.abs(userGuess - myNumber) <= 5 && userGuess !== myNumber){
+            document.getElementById("message").innerText += " 🔥 Very close!";
+        }
+
+        document.getElementById("attempts").innerText =
+            "Attempts left: " + (maxAttempts - attempts);
+
+        if(attempts >= maxAttempts && userGuess !== myNumber){
+            document.getElementById("message").innerText =
+            "😢 Game Over! Number was " + myNumber;
+            disableGame();
+        }
+    }
+
+    function disableGame(){
+        document.getElementById("guess").disabled = true;
+    }
+
+    function resetGame(){
+        myNumber = Math.floor(Math.random() * 100) + 1;
+        attempts = 0;
+
+        document.getElementById("guess").disabled = false;
+        document.getElementById("guess").value = "";
+        document.getElementById("message").innerText = "";
+        document.getElementById("attempts").innerText = "";
+    }
+</script>
+</body></html>

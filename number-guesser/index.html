@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<title>Number Guesser</title>
+<link href="/_assets/67d7de6c63c125a41440.css" rel="stylesheet"/>
+
+
+<link href="/_assets/e5a8a86613d5dfb3290a.css" rel="stylesheet"/>
+<link href="/_assets/d54e1df993c73cdf7d0e.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="game-container">
+<header>
+<h1>Number Guesser!</h1>
+</header>
+<div class="rounds">
+<p class="round-label">Round <span id="round-number">1</span></p>
+<p class="guess-label">Target Number: <span id="target-number"> ?</span></p>
+</div>
+<div class="guessing-area">
+<div class="guess computer-guess">
+<div class="guess-title">
+<p class="guess-label">Computer</p>
+<p class="score-label">Score: <span id="computer-score">0</span></p>
+</div>
+<p id="computer-guess">?</p>
+<p class="winning-text" id="computer-wins"></p>
+</div>
+<div class="guess human-guess">
+<div class="guess-title">
+<p class="guess-label">You</p>
+<p class="score-label">Score: <span id="human-score">0</span></p>
+</div>
+<input id="human-guess" max="9" min="0" type="number" value="0"/>
+<div class="number-controls">
+<button class="number-control left" disabled="" id="subtract">-</button>
+<button class="number-control right" id="add">+</button>
+</div>
+<button class="button" id="guess">Make a Guess</button>
+</div>
+</div>
+<div class="next-round-container">
+<button class="button" disabled="" id="next-round">Next Round</button>
+</div>
+</div>
+<div class="instructions">
+<div class="instruction">
+<h3>Step 1</h3>
+<p>Input a number between 0 and 9</p>
+</div>
+<div class="instruction">
+<h3>Step 2</h3>
+<p>Click "Make a Guess" to submit your guess and see who won the round.</p>
+</div>
+<div class="instruction">
+<h3>Step 3</h3>
+<p>Click "Next Round" to play again.</p>
+</div>
+</div>
+<script src="/_assets/3035947027df00ac0008.js"></script>
+<script src="/_assets/e43505b1ed9ce4dc7bfb.js"></script>
+</body></html>

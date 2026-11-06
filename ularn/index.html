@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<link href="/_assets/46a2de362f54e3c988cc.css" rel="stylesheet"/>
+<link href="/_assets/cd5e3248a9cf17482bc3.css" rel="stylesheet"/>
+<script src="/_assets/fc9a93dd241f6b045cbf.js"></script>
+<script src="/_assets/fc1d94f50dd3822e1e53.js"></script>
+<script src="/_assets/66b4834247d4e84b4dec.js"></script>
+<script src="/_assets/c72459d6beba04786f99.js"></script>
+<script src="/_assets/cf5119d4190c154db35e.js"></script>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport"/>
+<meta content="A roguelike game based on the original Larn. Travel through dungeons collecting weapons, killing monsters, in order to find and sell the Eye of Larn to save your sick daughter before your time runs out." name="description"/>
+<title>Ularn</title>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<img id="graphics" src="/_assets/599d8b5e3d76fdabac70.png" style="display: none"/>
+<button style="display: none"></button>
+<div id="topBar" style="display: none;">
+<div id="quickStatus">
+<span>HP <span id="stat-hp"></span>/<span id="stat-hpMax"></span></span>
+<span>Spells <span id="stat-spells"></span>/<span id="stat-spellMax"></span></span>
+<span>Gold <span id="stat-gold"></span></span>
+<span>LV <span id="stat-levelName"></span></span>
+</div>
+<button class="btn btn-default btn-sm" id="statusButton">Status</button>
+</div>
+<div id="inputDirectionMessage">In which direction?</div>
+<div id="popup">
+<div id="popupContent" style="max-height: 790px;">
+<div id="title" style="">
+<h1>Ularn</h1>
+<button class="btn btn-default btn-block" id="newGameButton">New Game</button>
+<button class="btn btn-default btn-block" id="continueGameButton" style="display: none;">Continue Game</button>
+<button class="btn btn-default btn-block" id="settingsButton">Settings</button>
+<button class="btn btn-default btn-block" id="aboutButton">About</button>
+</div>
+<div id="about" style="display: none;">
+<h1>Ularn</h1>
+                    Created by Phil Cordier — based on Larn by Noah Morgan<br/>
+                    Updated by Josh Brandt and David Richerby<br/>
+                    Rewrite and Windows32/X11/Amiga graphics conversion by Julian Olds<br/>
+                    JavaScript conversion by <a target="_blank">David Peng</a>
+<button class="btn btn-default btn-block" id="aboutBackButton">Back</button>
+</div>
+<div id="menu" style="display: none;">
+<div class="popupHeader"></div>
+<div id="menuItems"></div>
+</div>
+<div id="numberInput" style="display: none;">
+<div class="popupHeader"></div>
+<form>
+<div class="input-group">
+<input class="form-control"/>
+<span class="input-group-btn">
+<button class="btn btn-default">OK</button>
+</span>
+</div>
+<div class="inputError">Invalid number!</div>
+</form>
+</div>
+<div id="status" style="display: none;">
+<table class="table table-bordered">
+<tbody><tr>
+<th>Class</th><td colspan="3" id="stat-class"></td>
+</tr>
+<tr>
+<th>Level</th><td class="text-right" id="stat-level"></td>
+<th>Experience</th><td class="text-right" id="stat-experience"></td>
+</tr>
+<tr>
+<th>Armor Class</th><td class="text-right" id="stat-ac"></td>
+<th>Weapon Class</th><td class="text-right" id="stat-wClass"></td>
+</tr>
+<tr>
+<th>Strength</th><td class="text-right" id="stat-strength"></td>
+<th>Intelligence</th><td class="text-right" id="stat-intelligence"></td>
+</tr>
+<tr>
+<th>Wisdom</th><td class="text-right" id="stat-wisdom"></td>
+<th>Constitution</th><td class="text-right" id="stat-constitution"></td>
+</tr>
+<tr>
+<th>Dexterity</th><td class="text-right" id="stat-dexterity"></td>
+<th>Charisma</th><td class="text-right" id="stat-charisma"></td>
+</tr>
+<tr>
+<th>Effects</th><td colspan="3" id="stat-effects"></td>
+</tr>
+<tr>
+<td colspan="4">The stuff you are carrying presently weighs <span id="stat-packWeight"></span> lb.</td>
+</tr>
+<tr>
+<td colspan="4">You presently owe <span id="stat-outstandingTaxes"></span> gp in taxes.</td>
+</tr>
+</tbody></table>
+<button class="btn btn-default btn-block backButton">Back</button>
+</div>
+<div id="settings" style="display: none;">
+<label>
+                        Difficulty:
+                        <select id="difficultySelect">
+<option value="0">0 (normal)</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9 (really, really hard)</option>
+</select>
+</label>
+<label>
+<input checked="checked" id="showGridlinesCheckbox" type="checkbox"/>
+                        Show gridlines
+                    </label>
+<button class="btn btn-default btn-block" id="settingsBackButton">Back</button>
+</div>
+<div id="score" style="display: none;">
+<table class="table table-bordered">
+<tbody><tr><th>Score</th><td id="score-score"></td></tr>
+<tr><th>Difficulty</th><td id="score-diff"></td></tr>
+<tr><th>Level</th><td id="score-level"></td></tr>
+<tr><th>Class</th><td id="score-char"></td></tr>
+<tr><th>Fate</th><td id="score-diedReason"></td></tr>
+</tbody></table>
+<button class="btn btn-default btn-block" id="startOverButton">Start Over</button>
+</div>
+</div>
+</div>
+<canvas class="noSelect" height="900" style="width: 1440px; height: 900px; display: none;" width="1440"></canvas>
+<div class="noSelect" id="overlay"></div>
+<div id="bottomBar" style="display: none;">
+<div class="noSelect" id="messages"></div>
+<button class="btn btn-default btn-sm" disabled="" id="inventoryButton">Inventory</button>
+<button class="btn btn-default btn-sm" disabled="" id="castButton">Cast</button>
+<div class="btn-group dropup">
+<button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" disabled="">More <span class="caret"></span></button>
+<ul class="dropdown-menu" role="menu">
+<li><a href="#" id="teleportOption">Teleport</a></li>
+<li><a href="#" id="identifyTrapsOption">Identify Traps</a></li>
+<li><a href="#" id="showDiscoveriesOption">Show Discoveries</a></li>
+<li><a href="#" id="saveGameOption">Save Game</a></li>
+<li><a href="#" id="settingsOption">Settings</a></li>
+</ul>
+</div>
+</div>
+</body></html>

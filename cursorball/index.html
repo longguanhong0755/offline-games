@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>cursorball</title>
+<style>
+  :root{color-scheme:dark}
+  html,body{height:100%;margin:0;background:#0b0d12;font-family:system-ui;overflow:hidden;user-select:none}
+  #wrap{position:fixed;inset:0;display:grid;grid-template-rows:auto 1fr}
+
+  /* Topbar */
+  #topbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 14px;
+    background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+    border-bottom:1px solid rgba(255,255,255,.10);
+    backdrop-filter:blur(10px);
+  }
+  .title{
+    font-weight:900;
+    letter-spacing:.4px;
+    font-size:13px;
+    text-transform:uppercase;
+    opacity:.92;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.03);
+  }
+  .scorePill{
+    font-weight:800;
+    letter-spacing:.3px;
+    padding:7px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.05);
+    box-shadow:0 8px 30px rgba(0,0,0,.22);
+  }
+  .kbdHint{
+    opacity:.60;
+    font-size:12px;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.02);
+  }
+  .pill{
+    padding:7px 12px;
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    font-size:13px;
+    white-space:nowrap;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)
+  }
+  .spacer{flex:1}
+  .iconbtn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:38px;height:34px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#e9edff;border-radius:12px;font-size:16px;line-height:1}
+  .iconbtn:hover{background:rgba(255,255,255,.10)}
+  #hintKeys{opacity:.55;font-size:12px;letter-spacing:.2px}
+
+  #game{width:100%;height:100%;display:block;cursor:none}
+
+  /* Modal */
+  #modalBack{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:30}
+  #modal{width:min(560px,calc(100vw - 28px));border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(18,20,28,0.92);backdrop-filter:blur(10px);box-shadow:0 18px 60px rgba(0,0,0,0.55);padding:16px}
+  #modalHeader{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  #modalHeader h2{font-size:15px;margin:0;font-weight:800;letter-spacing:.2px}
+  #modalHeader .sub{font-size:12px;opacity:.68}
+  #modalClose{margin-left:auto}
+
+  .row{display:grid;grid-template-columns: 1fr 1.2fr;gap:12px;align-items:center;padding:10px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+  .row + .row{margin-top:10px}
+  .row .label{font-size:13px;font-weight:700;opacity:.92}
+  .row .hint{font-size:12px;opacity:.6;margin-top:2px}
+  .control{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+  input[type=range]{width:100%}
+  .btn{cursor:pointer;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#e9edff;border-radius:12px;padding:9px 10px;font-size:13px}
+  .btn:hover{background:rgba(255,255,255,.10)}
+  .toggle{cursor:pointer;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#e9edff;border-radius:999px;padding:7px 10px;font-size:13px;min-width:120px;text-align:center}
+  .toggle:hover{background:rgba(255,255,255,.10)}
+
+  /* Tutorial overlay */
+  #tutorial{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.65);z-index:40}
+  #tutorialCard{max-width:640px;margin:20px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(18,20,28,0.95);backdrop-filter:blur(10px);box-shadow:0 18px 60px rgba(0,0,0,0.55);padding:18px}
+  #tutorialCard h1{margin:0 0 8px 0;font-size:22px;letter-spacing:.2px}
+  #tutorialCard p{margin:8px 0;color:#d9defc;line-height:1.55}
+  #tutorialCard ul{margin:10px 0 12px 18px;color:#d9defc}
+  #tutorialCard li{margin:6px 0}
+  #tutorialActions{display:flex;gap:10px;justify-content:flex-end}
+
+  /* End overlay */
+  #end{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.62);z-index:45}
+  #endCard{max-width:560px;margin:20px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(18,20,28,0.95);backdrop-filter:blur(10px);box-shadow:0 18px 60px rgba(0,0,0,0.55);padding:18px}
+  #endTitle{margin:0 0 6px 0;font-size:54px;font-weight:900;letter-spacing:.5px}
+  #endSub{margin:0 0 14px 0;color:#d9defc;line-height:1.5}
+  #endActions{display:flex;gap:10px;justify-content:flex-end}
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="wrap">
+<div id="topbar">
+<div class="title">cursorball</div>
+<div class="pill scorePill" id="score">Player 0 — Bot 0</div>
+<div class="spacer"></div>
+<div class="kbdHint" id="hintKeys">P: pause • Esc: settings • R: restart</div>
+<button aria-label="Pause" class="iconbtn" id="pause" title="Pause / Resume">⏸</button>
+<button aria-label="Settings" class="iconbtn" id="settings" title="Settings">⚙</button>
+</div>
+<canvas height="844" id="game" style="width: 1440px; height: 844px;" width="1440"></canvas>
+</div>
+<!-- Tutorial -->
+<div aria-modal="true" id="tutorial" role="dialog" style="display: flex;">
+<div id="tutorialCard">
+<h1>cursorball</h1>
+<p><b>Deflect</b> the ball with your cursor and keep it away from your <b>back wall</b>. The ball speeds up as rallies get longer.</p>
+<ul>
+<li><b>Move</b> your cursor (your real cursor is hidden) — you are the blue dot.</li>
+<li><b>Hit</b> the ball by touching it while it’s on <b>your side</b>.</li>
+<li>You can <b>hit multiple times</b> on your side as long as your timer isn’t 0.</li>
+<li>Your timer <b>only drains once the ball enters your zone</b>, and <b>recharges</b> while the ball is away.</li>
+<li>If the ball touches your <b>back wall</b> OR your timer hits <b>0</b>, you lose that rally.</li>
+</ul>
+<p><b>Win:</b> First to 7 points (win by 2). At 6–6, <b>Sudden Death</b>.</p>
+<div id="tutorialActions">
+<button class="btn" id="tutorialStart">Play</button>
+<button class="btn" id="tutorialSkip">Skip</button>
+</div>
+</div>
+</div>
+<!-- End -->
+<div aria-modal="true" id="end" role="dialog">
+<div id="endCard">
+<div id="endTitle">YOU WON!</div>
+<div id="endSub">Click <b>Play Again</b> to restart the match.</div>
+<div id="endActions">
+<button class="btn" id="endTutorial">How to play</button>
+<button class="btn" id="endPlay">Play Again</button>
+</div>
+</div>
+</div>
+<!-- Settings Modal -->
+<div aria-labelledby="settingsTitle" aria-modal="true" id="modalBack" role="dialog">
+<div id="modal">
+<div id="modalHeader">
+<div>
+<h2 id="settingsTitle">Settings</h2>
+<div class="sub">Game pauses while this is open</div>
+</div>
+<button aria-label="Close" class="iconbtn" id="modalClose" title="Close">✕</button>
+</div>
+<div class="row">
+<div>
+<div class="label">Sound</div>
+<div class="hint">Toggle sound effects</div>
+</div>
+<div class="control">
+<button class="toggle" id="soundToggle">Sound: On</button>
+</div>
+</div>
+<div class="row">
+<div>
+<div class="label">Volume</div>
+<div class="hint">Master SFX volume</div>
+</div>
+<div class="control">
+<input id="volume" max="100" min="0" type="range" value="60"/>
+<div class="pill" id="volumeV" style="padding:6px 8px;">60%</div>
+</div>
+</div>
+<div class="row">
+<div>
+<div class="label">Bot level</div>
+<div class="hint">Speed, reaction and accuracy</div>
+</div>
+<div class="control">
+<input id="diff" max="10" min="1" step="1" type="range" value="6"/>
+<div class="pill" id="diffv" style="padding:6px 8px;">6</div>
+</div>
+</div>
+<div class="row">
+<div>
+<div class="label">Prediction</div>
+<div class="hint">How much the bot reads your movement</div>
+</div>
+<div class="control">
+<input id="pred" max="100" min="0" type="range" value="65"/>
+<div class="pill" id="predV" style="padding:6px 8px;">65%</div>
+</div>
+</div>
+<div class="row">
+<div>
+<div class="label">Playstyle</div>
+<div class="hint">Defense ↔ Offense</div>
+</div>
+<div class="control">
+<input id="style" max="100" min="0" type="range" value="55"/>
+<div class="pill" id="styleV" style="padding:6px 8px;">Balanced</div>
+</div>
+</div>
+<div class="row">
+<div>
+<div class="label">Display</div>
+<div class="hint">Fullscreen and restart</div>
+</div>
+<div class="control">
+<button class="btn" id="fullscreen">Fullscreen</button>
+<button class="btn" id="restartKey">Restart</button>
+</div>
+</div>
+<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;">
+<button class="btn" id="resume">Resume</button>
+</div>
+</div>
+</div>
+<script>
+(()=>{
+  "use strict";
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const now=()=>performance.now();
+  const rand=(a,b)=>a+Math.random()*(b-a);
+  const v2=(x=0,y=0)=>({x,y});
+  const add=(a,b)=>({x:a.x+b.x,y:a.y+b.y});
+  const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y});
+  const mul=(a,s)=>({x:a.x*s,y:a.y*s});
+  const len=a=>Math.hypot(a.x,a.y);
+  const norm=a=>{const l=len(a);return l>1e-6?{x:a.x/l,y:a.y/l}:{x:0,y:0}};
+  const dot=(a,b)=>a.x*b.x+a.y*b.y;
+
+  function segDistSq(p,a,b){
+    const ab=sub(b,a);
+    const ap=sub(p,a);
+    const ab2=dot(ab,ab);
+    const t=ab2>1e-8?clamp(dot(ap,ab)/ab2,0,1):0;
+    const q=add(a,mul(ab,t));
+    const dx=p.x-q.x, dy=p.y-q.y;
+    return dx*dx+dy*dy;
+  }
+
+  const canvas=document.getElementById('game');
+  const ctx=canvas.getContext('2d',{alpha:false,desynchronized:true});
+  let W=0,H=0,DPR=1;
+
+  const $score=document.getElementById('score');
+  const $pause=document.getElementById('pause');
+  
+  
+
+  const $tutorial=document.getElementById('tutorial');
+  const $tutorialStart=document.getElementById('tutorialStart');
+  const $tutorialSkip=document.getElementById('tutorialSkip');
+
+  const $end=document.getElementById('end');
+  const $endTitle=document.getElementById('endTitle');
+  const $endSub=document.getElementById('endSub');
+  const $endPlay=document.getElementById('endPlay');
+  const $endTutorial=document.getElementById('endTutorial');
+
+  const $modalBack=document.getElementById('modalBack');
+  const $settings=document.getElementById('settings');
+  const $modalClose=document.getElementById('modalClose');
+  const $resume=document.getElementById('resume');
+
+  const $soundToggle=document.getElementById('soundToggle');
+  const $volume=document.getElementById('volume');
+  const $volumeV=document.getElementById('volumeV');
+  const $diff=document.getElementById('diff');
+  const $diffv=document.getElementById('diffv');
+  const $pred=document.getElementById('pred');
+  const $predV=document.getElementById('predV');
+  const $style=document.getElementById('style');
+  const $styleV=document.getElementById('styleV');
+  const $fullscreen=document.getElementById('fullscreen');
+  const $restartKey=document.getElementById('restartKey');
+
+  const CFG={
+    zoneMargin:22, zoneWidthFrac:0.34, zoneRound:16, midWallPad:6,
+    cursorR:9, ballR:16,
+    // hit assist: bigger radius + swept collision so you don't ghost through.
+    hitPad:14,
+
+    wallBounce:0.92, ballFriction:0.996,
+
+    // Timers: per-side energy
+    returnWindowBase:900, returnWindowMin:320, returnWindowRallyDecay:18,
+    pressureExtraTimerDecayPerRally:6,
+    rechargeTimeMs:320,
+
+    pressureSpeedPerRally:18, pressureMaxSpeedBonus:420,
+
+    returnSpeedBase:380, returnSpeedRamp:22, returnSpeedCap:1180,
+    cursorSpeedCap:1800, cursorSpeedToBall:0.55,
+
+    // keep it controllable
+    biasToTarget:0.50,
+    biasToContact:0.50,
+    biasContactBoostFromSpeed:0.10,
+    curveStrength:0.24,
+
+    hitCooldownMs:18,
+    countdownSeconds:3,
+
+    pointsToWin:7, winBy2:true,
+    suddenDeathAt:6, suddenDeathTimerMul:0.70, suddenDeathSpeedMul:1.12,
+
+    glow:12,
+    ringMs:140, ringMaxR:44,
+    trailMax:24,
+  };
+
+  const player={pos:v2(),prev:v2(),vel:v2(),color:'#bcd1ff'};
+  const bot={pos:v2(),prev:v2(),vel:v2(),target:v2(),nextThinkAt:0,color:'#ffc0d8'};
+  const ball={pos:v2(),vel:v2(),r:CFG.ballR,incomingTo:0,lastContactAt:-1,lastHitBy:-1};
+
+  const zones={player:{},bot:{},midX:0};
+  let paused=false, pausedBeforeModal=false;
+  let scores=[0,0];
+  let rallyCount=0;
+  let pointLive=false, roundPhase='countdown', countdownUntil=0;
+
+  // per-side energy remaining
+  let energy=[CFG.returnWindowBase, CFG.returnWindowBase];
+  let draining=false;
+
+  // settings
+  let muted=false; let volumeMul=0.60; let predictionMul=0.65; let styleMul=0.55;
+
+  // VFX lightweight
+  const trail=[]; // {x,y,s}
+  let ringUntil=0, ringAt=v2(0,0), ringColor='#fff';
+
+  // -------------------------
+  // UI helpers
+  // -------------------------
+  function refreshSettingsUI(){
+    $soundToggle.textContent = muted ? 'Sound: Off' : 'Sound: On';
+    $volumeV.textContent = Math.round(volumeMul*100)+'%';
+    $predV.textContent = Math.round(predictionMul*100)+'%';
+    $diffv.textContent = String($diff.value);
+    const pct=Math.round(styleMul*100);
+    if(pct<=33) $styleV.textContent='Defense';
+    else if(pct>=67) $styleV.textContent='Offense';
+    else $styleV.textContent='Balanced';
+  }
+
+  $soundToggle.addEventListener('click',()=>{ muted=!muted; refreshSettingsUI(); });
+  $volume.addEventListener('input',()=>{ volumeMul = clamp(Number($volume.value)/100,0,1); refreshSettingsUI(); });
+  $pred.addEventListener('input',()=>{ predictionMul = clamp(Number($pred.value)/100,0,1); refreshSettingsUI(); });
+  $style.addEventListener('input',()=>{ styleMul = clamp(Number($style.value)/100,0,1); refreshSettingsUI(); });
+  $diff.addEventListener('input',()=>{ refreshSettingsUI(); });
+
+  $fullscreen.addEventListener('click',async()=>{
+    try{ if(!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); }catch{}
+  });
+  $restartKey.addEventListener('click',()=>reset(true));
+
+  function openSettings(){ pausedBeforeModal = paused; paused = true; $pause.textContent = '▶'; $modalBack.style.display = 'flex'; refreshSettingsUI(); }
+  function closeSettings(){ $modalBack.style.display = 'none'; paused = pausedBeforeModal; $pause.textContent = paused ? '▶' : '⏸'; }
+  $settings.addEventListener('click',openSettings);
+  $modalClose.addEventListener('click',closeSettings);
+  $resume.addEventListener('click',closeSettings);
+  $modalBack.addEventListener('click',(e)=>{ if(e.target===$modalBack) closeSettings(); });
+
+  function togglePause(){ paused=!paused; $pause.textContent = paused ? '▶' : '⏸'; }
+  $pause.addEventListener('click',togglePause);
+
+  function showTutorial(force=false){
+    if(!force && localStorage.getItem('cursorball.tutorialSeen')) return;
+    paused=true;
+    $tutorial.style.display='flex';
+  }
+  function hideTutorial(markSeen=true){
+    if(markSeen) localStorage.setItem('cursorball.tutorialSeen','1');
+    $tutorial.style.display='none';
+    paused=false;
+  }
+  $tutorialStart.addEventListener('click',()=>hideTutorial(true));
+  $tutorialSkip.addEventListener('click',()=>hideTutorial(true));
+
+  function showEnd(won){
+    paused=true;
+    $end.style.display='flex';
+    $endTitle.textContent = won ? 'YOU WON!' : 'YOU LOST';
+    $endSub.innerHTML = won
+      ? 'Nice. Want another match?'
+      : 'You got clipped. Run it back?';
+  }
+  function hideEnd(){
+    $end.style.display='none';
+    paused=false;
+  }
+  $endPlay.addEventListener('click',()=>{ hideEnd(); reset(true); });
+  $endTutorial.addEventListener('click',()=>{ hideEnd(); showTutorial(true); });
+  $end.addEventListener('click',(e)=>{ if(e.target===$end) { hideEnd(); reset(true); } });
+
+  // -------------------------
+  // Resize & zones
+  // -------------------------
+  function computeZones(){
+    const m=CFG.zoneMargin;
+    const zoneW=Math.floor(W*CFG.zoneWidthFrac);
+    const zoneH=H-m*2;
+    zones.midX=W*0.5;
+    zones.player={x:m,y:m,w:zoneW-m,h:zoneH};
+    zones.bot={x:W-zoneW,y:m,w:zoneW-m,h:zoneH};
+  }
+
+  function resize(){
+    const topH=document.getElementById('topbar').offsetHeight;
+    W=Math.floor(innerWidth);
+    H=Math.floor(innerHeight-topH);
+    const raw=window.devicePixelRatio||1;
+    DPR=Math.max(1, Math.min(2, raw));
+    canvas.width=Math.floor(W*DPR);
+    canvas.height=Math.floor(H*DPR);
+    canvas.style.width=W+'px';
+    canvas.style.height=H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    computeZones();
+  }
+  addEventListener('resize',resize);
+
+  // -------------------------
+  // Input + midline restriction
+  // -------------------------
+  function toCanvasXY(e){
+    const rect=canvas.getBoundingClientRect();
+    return v2(clamp(e.clientX-rect.left,0,W), clamp(e.clientY-rect.top,0,H));
+  }
+
+  canvas.addEventListener('mousemove',(e)=>{
+    const p=toCanvasXY(e);
+    p.x = clamp(p.x, 0, zones.midX - CFG.midWallPad);
+    player.prev=v2(player.pos.x,player.pos.y);
+    player.pos=p;
+  });
+  canvas.addEventListener('mouseenter',(e)=>{
+    const p=toCanvasXY(e);
+    p.x = clamp(p.x, 0, zones.midX - CFG.midWallPad);
+    player.prev=v2(p.x,p.y);
+    player.pos=p;
+  });
+
+  // -------------------------
+  // Bot AI (same as your previous version)
+  // -------------------------
+  const botBrain={ yEma:0, vyEma:0, initialized:false };
+  function updateBotBrain(){
+    if(!botBrain.initialized){ botBrain.yEma=player.pos.y; botBrain.vyEma=player.vel.y; botBrain.initialized=true; return; }
+    botBrain.yEma = lerp(botBrain.yEma, player.pos.y, 0.04);
+    botBrain.vyEma = lerp(botBrain.vyEma, player.vel.y, 0.06);
+  }
+
+  function botParams(){
+    const d=Number($diff.value)||6;
+    const t=(d-1)/9;
+    const p=predictionMul;
+    const s=styleMul;
+    const predFactor = lerp(0.35, 1.75, Math.pow(p, 1.25));
+    const offense= lerp(0.35, 1.55, Math.pow(s, 1.15));
+    const defense= lerp(1.25, 0.92, Math.pow(s, 1.05));
+    const reactMsBase = lerp(235, 66,  t);
+    const maxSpeedBase= lerp(710, 1340, t);
+    const accelBase   = lerp(3600, 9200, t);
+    const aimNoiseBase= lerp(28, 2.5,  t);
+    const predictBase = lerp(0.12, 0.66, t);
+    const readBase    = lerp(0.10, 0.96, t);
+    const ctrlBase    = lerp(0.20, 0.98, t);
+    const mistakeBase = lerp(0.15, 0.013, t);
+    const lateBase    = lerp(0.10, 0.017, t);
+    const aggressionB = lerp(0.12, 0.86,  t);
+
+    const reactMs = reactMsBase * lerp(1.18, 0.78, predFactor/1.75);
+    const maxSpeed= maxSpeedBase* lerp(1.00, 1.10, predFactor/1.75) * defense;
+    const accel   = accelBase   * lerp(1.00, 1.12, predFactor/1.75) * defense;
+
+    const aimNoise= aimNoiseBase* lerp(1.35, 0.58, predFactor/1.75) * lerp(0.92, 1.12, offense);
+    const predict = predictBase * predFactor;
+    const readPlayer = readBase * predFactor * lerp(0.90, 1.22, offense);
+    const impactControl = ctrlBase * predFactor * lerp(0.80, 1.35, offense);
+
+    const mistakeChance = mistakeBase * lerp(1.10, 0.70, predFactor/1.75) * lerp(0.85, 1.22, offense);
+    const lateChance    = lateBase    * lerp(1.05, 0.72, predFactor/1.75);
+    const aggression    = aggressionB * offense;
+
+    const mirrorWeight  = lerp(0.62, 0.28, s);
+    return { t, reactMs, maxSpeed, accel, aimNoise, predict, readPlayer, impactControl, mistakeChance, lateChance, aggression, mirrorWeight };
+  }
+
+  function botThink(tNow){
+    const P=botParams();
+    if(!pointLive){ bot.target=v2(W*0.75,H*0.5); bot.nextThinkAt=tNow+P.reactMs; return; }
+    if(tNow<bot.nextThinkAt) return;
+    bot.nextThinkAt=tNow+P.reactMs+(Math.random()<P.lateChance?rand(25,90):0);
+
+    const bz=zones.bot;
+    const minX = zones.midX + CFG.midWallPad;
+
+    if(roundPhase==='countdown'){
+      bot.target=v2(Math.max(minX, bz.x+bz.w*0.33), clamp(H*0.5+rand(-38,38), bz.y+30, bz.y+bz.h-30));
+      return;
+    }
+
+    const botResponsible = (ball.pos.x >= zones.midX + CFG.midWallPad);
+
+    const mirrorY = clamp(lerp(H*0.5, player.pos.y, P.mirrorWeight), bz.y+28, bz.y+bz.h-28);
+    const idle = v2(Math.max(minX, bz.x+bz.w*0.32), mirrorY);
+    if(!botResponsible){ bot.target=idle; return; }
+
+    const tCross = clamp(P.predict, 0.08, 0.7);
+    const playerFutureY = clamp(
+      botBrain.yEma + botBrain.vyEma * clamp(tCross, 0.05, 0.55) * P.readPlayer,
+      ball.r, H-ball.r
+    );
+
+    const lanes=[H*0.22, H*0.50, H*0.78];
+    let aimY=H*0.5;
+    if(Math.random() < P.aggression){
+      const edge = (playerFutureY < H*0.5) ? H*0.86 : H*0.14;
+      aimY = clamp(lerp(H*0.5, edge, lerp(0.25, 0.72, clamp(P.readPlayer,0,1))), ball.r, H-ball.r);
+    } else {
+      let best=lanes[0], bestD=-1;
+      for(const y of lanes){
+        const d=Math.abs(y-playerFutureY);
+        if(d>bestD){bestD=d;best=y;}
+      }
+      aimY = clamp(best + rand(-14,14)*(1-P.readPlayer), ball.r, H-ball.r);
+    }
+
+    const aimPoint=v2(zones.player.x + zones.player.w*0.78, aimY);
+    const desiredDir=norm(sub(aimPoint, ball.pos));
+
+    const hitDist=(ball.r+CFG.cursorR+1.8);
+    const hitPos=sub(ball.pos, mul(desiredDir, hitDist));
+
+    const lateral=norm({x:-desiredDir.y, y:desiredDir.x});
+    const curveAmt=lerp(0, 16, clamp(P.impactControl,0,1));
+    const sideChoice = (aimY>playerFutureY)?+1:-1;
+
+    const noise = (Math.random() < P.mistakeChance) ? P.aimNoise*2.0 : P.aimNoise;
+    bot.target={
+      x: clamp(hitPos.x + lateral.x*sideChoice*curveAmt + rand(-noise,noise), bz.x, bz.x+bz.w),
+      y: clamp(hitPos.y + lateral.y*sideChoice*curveAmt + rand(-noise,noise), bz.y, bz.y+bz.h)
+    };
+    bot.target.x=Math.max(bot.target.x, minX);
+  }
+
+  function botMove(dt){
+    const P=botParams();
+    bot.prev=v2(bot.pos.x,bot.pos.y);
+    const toT=sub(bot.target,bot.pos);
+    const d=len(toT);
+    const desiredVel=d>1e-6?mul(norm(toT),P.maxSpeed):v2(0,0);
+
+    const dv=sub(desiredVel,bot.vel);
+    const dvLen=len(dv);
+    const maxDv=P.accel*dt;
+    const dvClamped=dvLen>maxDv?mul(norm(dv),maxDv):dv;
+
+    bot.vel=add(bot.vel,dvClamped);
+    bot.vel=mul(bot.vel, lerp(0.90, 0.94, P.t));
+
+    bot.pos=add(bot.pos,mul(bot.vel,dt));
+
+    const bz=zones.bot;
+    bot.pos.x=clamp(bot.pos.x,bz.x,bz.x+bz.w);
+    bot.pos.y=clamp(bot.pos.y,bz.y,bz.y+bz.h);
+    bot.pos.x = Math.max(bot.pos.x, zones.midX + CFG.midWallPad);
+
+    const inv=dt>1e-6?(1/dt):0;
+    bot.vel=mul(sub(bot.pos,bot.prev),inv);
+  }
+
+  // -------------------------
+  // Rules
+  // -------------------------
+  function isSuddenDeath(){ return scores[0] >= CFG.suddenDeathAt && scores[1] >= CFG.suddenDeathAt; }
+  function currentReturnWindowMs(){
+    let ms = CFG.returnWindowBase - rallyCount*CFG.returnWindowRallyDecay - rallyCount*CFG.pressureExtraTimerDecayPerRally;
+    if (isSuddenDeath()) ms *= CFG.suddenDeathTimerMul;
+    return clamp(ms, CFG.returnWindowMin, CFG.returnWindowBase);
+  }
+  function pressureSpeedBonus(){ return clamp(rallyCount*CFG.pressureSpeedPerRally, 0, CFG.pressureMaxSpeedBonus); }
+
+  function hasWinner(){
+    if(!CFG.winBy2) return scores[0] >= CFG.pointsToWin || scores[1] >= CFG.pointsToWin;
+    if(scores[0] >= CFG.pointsToWin || scores[1] >= CFG.pointsToWin) return Math.abs(scores[0]-scores[1]) >= 2;
+    return false;
+  }
+
+  function scorePoint(winner){
+    if(!pointLive) return;
+    scores[winner]++;
+
+    if(hasWinner()){
+      pointLive=false;
+      roundPhase='ended';
+      draining=false;
+      showEnd(scores[0] > scores[1]);
+      return;
+    }
+
+    beginPoint(winner);
+  }
+
+  function beginPoint(servedTo){
+    pointLive=true;
+    rallyCount=0;
+
+    ball.pos=v2(W*0.5,H*0.5);
+    ball.vel=v2(0,0);
+    ball.lastContactAt=-1;
+    ball.lastHitBy=-1;
+
+    // serve side determines who receives first (responsible once it enters zone)
+    ball.incomingTo=servedTo;
+
+    roundPhase='countdown';
+    countdownUntil=now()+CFG.countdownSeconds*1000;
+
+    draining=false;
+    const mx=currentReturnWindowMs();
+    energy[0]=mx;
+    energy[1]=mx;
+    trail.length=0;
+  }
+
+  function serveNow(){
+    // serve toward the receiver side
+    const toward = (ball.incomingTo===0) ? v2(-1,0) : v2(1,0);
+    const vy=rand(-0.25,0.25);
+    const dir=norm(v2(toward.x,vy));
+    ball.vel=mul(dir, CFG.returnSpeedBase);
+  }
+
+  // -------------------------
+  // Hits
+  // -------------------------
+  function sideOfBall(){
+    if(ball.pos.x <= zones.midX - CFG.midWallPad) return 0;
+    if(ball.pos.x >= zones.midX + CFG.midWallPad) return 1;
+    // near midline: decide by velocity
+    return (ball.vel.x>=0)?1:0;
+  }
+
+  function canHit(by){
+    if(!pointLive || roundPhase!=='live') return false;
+    if(energy[by] <= 0) return false;
+    // must be on your side
+    const s=sideOfBall();
+    if(s!==by) return false;
+    return true;
+  }
+
+  function didHitSegment(cur){
+    const hitRadius = ball.r + CFG.cursorR + CFG.hitPad;
+    const r2 = hitRadius*hitRadius;
+    return segDistSq(ball.pos, cur.prev, cur.pos) <= r2;
+  }
+
+  function registerHitFeedback(by){
+    ringUntil=now()+CFG.ringMs;
+    ringAt=v2(ball.pos.x, ball.pos.y);
+    ringColor=(by===0)?player.color:bot.color;
+  }
+
+  function applyHit(by, cur){
+    const tNow=now();
+    if(ball.lastContactAt>0 && (tNow-ball.lastContactAt)<CFG.hitCooldownMs && ball.lastHitBy===by) return;
+
+    ball.lastContactAt=tNow;
+    ball.lastHitBy=by;
+    rallyCount++;
+
+    // keep draining active once the ball has entered the responsible zone
+    draining = true;
+
+    const targetCenter = (by===0)
+      ? v2(zones.bot.x+zones.bot.w*0.38, zones.bot.y+zones.bot.h*0.5)
+      : v2(zones.player.x+zones.player.w*0.62, zones.player.y+zones.player.h*0.5);
+
+    // contact normal (ball away from cursor)
+    const away = norm(sub(ball.pos, cur.pos));
+
+    // slight bias to send toward opposite side
+    const toTarget = norm(sub(targetCenter, ball.pos));
+
+    const curSpeed=clamp(len(cur.vel),0,CFG.cursorSpeedCap);
+    const speedT=clamp(curSpeed/900,0,1);
+
+    const biasT = clamp(CFG.biasToTarget, 0.0, 0.70);
+    const biasC = 1 - biasT;
+
+    let dir = norm(add(
+      mul(toTarget, biasT),
+      mul(away, biasC + CFG.biasContactBoostFromSpeed*speedT)
+    ));
+
+    // Controlled curve based on where you hit relative to the desired direction.
+    const perpToTarget = norm({x:-toTarget.y, y:toTarget.x});
+    const side = clamp(dot(perpToTarget, away), -1, 1);
+    dir = norm(add(dir, mul(perpToTarget, side*CFG.curveStrength)));
+
+    let sp = CFG.returnSpeedBase + rallyCount*CFG.returnSpeedRamp + pressureSpeedBonus();
+    sp += curSpeed*CFG.cursorSpeedToBall;
+    if(isSuddenDeath()) sp *= CFG.suddenDeathSpeedMul;
+    sp = clamp(sp, CFG.returnSpeedBase*0.80, CFG.returnSpeedCap);
+
+    ball.vel = mul(dir, sp);
+
+    registerHitFeedback(by);
+  }
+
+  // -------------------------
+  // Physics
+  // -------------------------
+  function integrateBall(dt){
+    // trail
+    const sp=len(ball.vel);
+    trail.push({x:ball.pos.x,y:ball.pos.y,s:sp});
+    if(trail.length>CFG.trailMax) trail.shift();
+
+    const fr=Math.pow(CFG.ballFriction,dt*60);
+    ball.vel=mul(ball.vel, fr);
+    ball.pos=add(ball.pos, mul(ball.vel, dt));
+
+    // bounce top/bottom
+    const minY=ball.r, maxY=H-ball.r;
+    if(ball.pos.y<minY){ball.pos.y=minY;ball.vel.y=Math.abs(ball.vel.y)*CFG.wallBounce;}
+    if(ball.pos.y>maxY){ball.pos.y=maxY;ball.vel.y=-Math.abs(ball.vel.y)*CFG.wallBounce;}
+
+    // determine which side ball is on (responsibility)
+    const s=sideOfBall();
+    ball.incomingTo=s;
+
+    // score on back wall
+    const pBack = zones.player.x;
+    const bBack = zones.bot.x + zones.bot.w;
+    if(ball.pos.x <= pBack + ball.r){ scorePoint(1); return; }
+    if(ball.pos.x >= bBack - ball.r){ scorePoint(0); return; }
+
+    // keep inside play corridor
+    const minX=pBack+ball.r;
+    const maxX=bBack-ball.r;
+    ball.pos.x=clamp(ball.pos.x, minX, maxX);
+  }
+
+  function ballInResponsibleZone(){
+    const s=sideOfBall();
+    const zone = (s===0)?zones.player:zones.bot;
+    return ball.pos.x>=zone.x && ball.pos.x<=zone.x+zone.w && ball.pos.y>=zone.y && ball.pos.y<=zone.y+zone.h;
+  }
+
+  function updateEnergy(dt){
+    if(!pointLive || roundPhase!=='live') return;
+    const mx=currentReturnWindowMs();
+    energy[0]=clamp(energy[0],0,mx);
+    energy[1]=clamp(energy[1],0,mx);
+
+    const s=sideOfBall();
+    const zone = (s===0)?zones.player:zones.bot;
+    const inside = (ball.pos.x>=zone.x && ball.pos.x<=zone.x+zone.w && ball.pos.y>=zone.y && ball.pos.y<=zone.y+zone.h);
+
+    // recharge opposite side
+    const other = s===0 ? 1 : 0;
+    const rechargeRate = mx / Math.max(140, CFG.rechargeTimeMs);
+    energy[other] = clamp(energy[other] + dt*1000*rechargeRate, 0, mx);
+
+    // ONLY drain while ball is actually inside the responsible zone
+    draining = inside;
+    if(!inside) return;
+
+    energy[s] -= dt*1000;
+    if(energy[s] <= 0){ scorePoint(s===0?1:0); }
+  }
+
+  // -------------------------
+  // Rendering
+  // -------------------------
+  function clear(){
+    ctx.fillStyle='#0b0d12';
+    ctx.fillRect(0,0,W,H);
+    const g=ctx.createRadialGradient(W*0.5,H*0.5,Math.min(W,H)*0.12,W*0.5,H*0.5,Math.max(W,H)*0.95);
+    g.addColorStop(0,'rgba(255,255,255,0.025)');
+    g.addColorStop(1,'rgba(0,0,0,0.60)');
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  function roundRect(x,y,w,h,r){
+    const rr=Math.min(r,w*0.5,h*0.5);
+    ctx.beginPath();
+    ctx.moveTo(x+rr,y);
+    ctx.arcTo(x+w,y,x+w,y+h,rr);
+    ctx.arcTo(x+w,y+h,x,y+h,rr);
+    ctx.arcTo(x,y+h,x,y,rr);
+    ctx.arcTo(x,y,x+w,y,rr);
+    ctx.closePath();
+  }
+
+  function drawZones(){
+    const pz=zones.player, bz=zones.bot;
+
+    // zones
+    ctx.fillStyle='rgba(255,255,255,0.02)';
+    ctx.strokeStyle='rgba(255,255,255,0.10)';
+    ctx.lineWidth=1;
+    roundRect(pz.x,pz.y,pz.w,pz.h,CFG.zoneRound); ctx.stroke();
+    roundRect(bz.x,bz.y,bz.w,bz.h,CFG.zoneRound); ctx.stroke();
+
+    // midline
+    ctx.strokeStyle='rgba(255,255,255,0.10)';
+    ctx.beginPath();
+    ctx.moveTo(zones.midX, 12);
+    ctx.lineTo(zones.midX, H-12);
+    ctx.stroke();
+
+    // back wall highlight
+    const s=sideOfBall();
+    const leftMs=energy[s];
+    const under200 = leftMs < 200;
+    const wob = 0.5 + 0.5*Math.sin(now()*0.03);
+    const a = under200 ? (0.35 + 0.55*wob) : 0.28;
+
+    ctx.save();
+    ctx.lineWidth=6;
+    ctx.shadowBlur=CFG.glow;
+
+    ctx.globalAlpha = (s===0)?a:0.10;
+    ctx.shadowColor='rgba(188,209,255,0.85)';
+    ctx.strokeStyle='rgba(188,209,255,0.70)';
+    ctx.beginPath();
+    ctx.moveTo(pz.x, pz.y);
+    ctx.lineTo(pz.x, pz.y+pz.h);
+    ctx.stroke();
+
+    ctx.globalAlpha = (s===1)?a:0.10;
+    ctx.shadowColor='rgba(255,192,216,0.85)';
+    ctx.strokeStyle='rgba(255,192,216,0.70)';
+    ctx.beginPath();
+    ctx.moveTo(bz.x+bz.w, bz.y);
+    ctx.lineTo(bz.x+bz.w, bz.y+bz.h);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawTrail(){
+    if(trail.length<2) return;
+    const hot=(sideOfBall()===0)?player.color:bot.color;
+    ctx.save();
+    ctx.lineCap='round';
+    for(let i=1;i<trail.length;i++){
+      const a=trail[i-1], b=trail[i];
+      const t=i/(trail.length-1);
+      ctx.globalAlpha=lerp(0.02, 0.20, t);
+      ctx.lineWidth=lerp(1.1, 3.3, clamp(b.s/900,0,1));
+      ctx.strokeStyle=hot;
+      ctx.beginPath();
+      ctx.moveTo(a.x,a.y);
+      ctx.lineTo(b.x,b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawHitRing(){
+    if(ringUntil<=now()) return;
+    const t=1-((ringUntil-now())/CFG.ringMs);
+    const r=lerp(18, CFG.ringMaxR, t);
+    const a=(1-t)*0.18;
+    ctx.save();
+    ctx.globalAlpha=a;
+    ctx.shadowBlur=CFG.glow;
+    ctx.shadowColor=ringColor;
+    ctx.strokeStyle=ringColor;
+    ctx.lineWidth=1.7;
+    ctx.beginPath();
+    ctx.arc(ringAt.x, ringAt.y, r, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawBall(){
+    const hotColor=(sideOfBall()===0)?player.color:bot.color;
+    ctx.save();
+
+    ctx.fillStyle='#ffffff';
+    ctx.beginPath();
+    ctx.arc(ball.pos.x, ball.pos.y, ball.r, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.shadowBlur=CFG.glow;
+    ctx.shadowColor=hotColor;
+    ctx.strokeStyle=hotColor;
+    ctx.globalAlpha=0.78;
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.arc(ball.pos.x, ball.pos.y, ball.r+1, 0, Math.PI*2);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawCursor(pos,color){
+    ctx.save();
+    ctx.shadowBlur=CFG.glow;
+    ctx.shadowColor=color;
+    ctx.fillStyle=color;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, CFG.cursorR, 0, Math.PI*2);
+    ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.strokeStyle='rgba(255,255,255,0.14)';
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, CFG.cursorR+8, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ring timer only (NO number on ball)
+  function drawBallTimer(){
+    if(!pointLive||roundPhase!=='live') return;
+    if(!draining) return;
+    const mx=currentReturnWindowMs();
+    const s=sideOfBall();
+    const leftMs=clamp(energy[s],0,mx);
+    const frac=mx>0?clamp(leftMs/mx,0,1):0;
+    const r=ball.r+12;
+    const start=-Math.PI/2;
+    const end=start+Math.PI*2*frac;
+    const hot=(s===0)?player.color:bot.color;
+
+    const under200 = leftMs < 200;
+    const wob = 0.5 + 0.5*Math.sin(now()*0.03);
+    const alpha = under200 ? (0.38 + 0.48*wob) : 0.38;
+
+    ctx.save();
+    ctx.shadowBlur=CFG.glow;
+    ctx.shadowColor=hot;
+
+    ctx.globalAlpha=0.14;
+    ctx.strokeStyle='rgba(255,255,255,0.45)';
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.arc(ball.pos.x, ball.pos.y, r, 0, Math.PI*2);
+    ctx.stroke();
+
+    ctx.globalAlpha=alpha;
+    ctx.strokeStyle=hot;
+    ctx.lineWidth=3.4;
+    ctx.beginPath();
+    ctx.arc(ball.pos.x, ball.pos.y, r, start, end);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawHUD(){
+    ctx.save();
+    ctx.fillStyle='rgba(255,255,255,0.86)';
+    ctx.font='700 18px system-ui';
+    const s=`${scores[0]}   –   ${scores[1]}`;
+    const m=ctx.measureText(s);
+    ctx.fillText(s,(W-m.width)/2,24);
+    if(isSuddenDeath()){
+      ctx.font='800 12px system-ui';
+      ctx.fillStyle='rgba(255,255,255,0.80)';
+      const lab='SUDDEN DEATH';
+      const lm=ctx.measureText(lab);
+      ctx.fillText(lab,(W-lm.width)/2,44);
+    }
+    ctx.restore();
+  }
+
+  function drawCountdownOverlay(){
+    if(!pointLive) return;
+    if(roundPhase!=='countdown') return;
+    const left=Math.max(0,(countdownUntil-now())/1000);
+    const n=Math.ceil(left);
+    ctx.fillStyle='rgba(0,0,0,0.35)';
+    ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(255,255,255,0.92)';
+    ctx.font='800 86px system-ui';
+    const txt=(n<=0)?'GO':String(n);
+    const mt=ctx.measureText(txt);
+    ctx.fillText(txt,(W-mt.width)/2,H*0.52);
+  }
+
+  function syncUI(){
+    $score.textContent=`Player ${scores[0]} — Bot ${scores[1]}`;
+    
+    
+  }
+
+  // -------------------------
+  // Reset
+  // -------------------------
+  function reset(hard=false){
+    computeZones();
+    const pz=zones.player;
+    const bz=zones.bot;
+
+    player.pos=v2(Math.min(pz.x+pz.w*0.70, zones.midX-CFG.midWallPad-10), pz.y+pz.h*0.5);
+    player.prev=v2(player.pos.x,player.pos.y);
+    player.vel=v2(0,0);
+
+    bot.pos=v2(Math.max(bz.x+bz.w*0.30, zones.midX+CFG.midWallPad+10), bz.y+bz.h*0.5);
+    bot.prev=v2(bot.pos.x,bot.pos.y);
+    bot.vel=v2(0,0);
+    bot.target=v2(bot.pos.x,bot.pos.y);
+    bot.nextThinkAt=0;
+
+    if(hard){
+      scores=[0,0];
+      rallyCount=0;
+      const first=(Math.random()<0.5)?0:1;
+      beginPoint(first);
+    }else{
+      beginPoint(ball.incomingTo);
+    }
+
+    paused=false;
+    $pause.textContent='⏸';
+  }
+
+  // -------------------------
+  // Keyboard
+  // -------------------------
+  addEventListener('keydown',(e)=>{
+    if(e.key==='p'||e.key==='P') togglePause();
+    if(e.key==='r'||e.key==='R') reset(true);
+    if(e.key==='Escape'){
+      if($modalBack.style.display==='flex') closeSettings();
+      else openSettings();
+    }
+  });
+
+  // -------------------------
+  // Loop
+  // -------------------------
+  let last=now();
+  function tick(){
+    const t=now();
+    const dt=paused?0:clamp((t-last)/1000,0,0.032);
+    last=t;
+
+    if(!paused){
+      // player velocity
+      const dp=sub(player.pos,player.prev);
+      const inv=dt>1e-6?(1/dt):0;
+      player.vel=mul(dp,inv);
+      player.prev=v2(player.pos.x,player.pos.y);
+
+      // bot velocity is already computed in botMove
+      updateBotBrain();
+
+      if(pointLive && roundPhase==='countdown' && t>=countdownUntil){
+        roundPhase='live';
+        serveNow();
+      }
+
+      botThink(t);
+      botMove(dt);
+
+      // hits BEFORE integration (feels responsive)
+      if(canHit(0) && didHitSegment(player)) applyHit(0, player);
+      if(canHit(1) && didHitSegment(bot)) applyHit(1, bot);
+
+      if(roundPhase==='live'){
+        integrateBall(dt);
+        updateEnergy(dt);
+      }
+    }
+
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    clear();
+    drawZones();
+    drawTrail();
+    drawHitRing();
+    drawBall();
+    drawBallTimer();
+    drawCursor(player.pos, player.color);
+    drawCursor(bot.pos, bot.color);
+    drawHUD();
+    drawCountdownOverlay();
+    syncUI();
+
+    requestAnimationFrame(tick);
+  }
+
+  // Boot
+  resize();
+  $volume.value = String(Math.round(volumeMul*100));
+  $pred.value = String(Math.round(predictionMul*100));
+  $style.value = String(Math.round(styleMul*100));
+  refreshSettingsUI();
+  reset(true);
+  showTutorial(false);
+  requestAnimationFrame(tick);
+
+})();
+</script>
+</body></html>

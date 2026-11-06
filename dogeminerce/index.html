@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DogeminerCE</title>
+<!-- Favicon -->
+<link href="favicon_io/apple-touch-icon.webp" rel="apple-touch-icon" sizes="180x180"/>
+<link href="favicon_io/favicon-32x32.webp" rel="icon" sizes="32x32" type="image/png"/>
+<link href="favicon_io/favicon-16x16.webp" rel="icon" sizes="16x16" type="image/png"/>
+<link href="favicon_io/site.webmanifest" rel="manifest"/>
+<style>
+        @font-face {
+            font-family: 'DogeSans';
+            src: url('/_assets/a6166ef49a7fcd3e1c52.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'DogeSans';
+            src: url('play/dogesans/DogeSans-Italic.otf') format('opentype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'DogeSans';
+            src: url('/_assets/6436e62913263f64c155.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Prevent image dragging throughout the game */
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+            /* Prevent dragging but allow click events */
+        }
+
+        /* Re-enable pointer events for interactive images */
+        .helper-sprite,
+        .helper-tooltip,
+        .helper-name-tooltip,
+        button img,
+        .clickable img,
+        .draggable img,
+        .shop-helper img,
+        .helper-icon,
+        .pickaxe-icon,
+        .doge-character,
+        .character-sprite {
+            pointer-events: auto;
+        }
+
+        body {
+            font-family: 'DogeSans', sans-serif;
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Page Background - Full Screen */
+        #page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        #background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.9) contrast(1.1);
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .background-image.active {
+            opacity: 1;
+        }
+
+        .landing-container {
+            width: 95%;
+            max-width: 1000px;
+            height: calc(100vh - 40px);
+            margin: 20px auto;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            padding: 15px;
+            border-radius: 10px;
+            border: 8px solid #dea435;
+            background: linear-gradient(to bottom, rgba(255, 249, 229, 0.95) 0%, rgba(254, 238, 189, 0.95) 17%, rgba(254, 238, 189, 0.95));
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .landing-header {
+            text-align: center;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .landing-logo {
+            width: min(800px, 80vw);
+            max-height: 35vh;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .landing-title {
+            font-size: 2.2em;
+            color: #dea435;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .landing-subtitle {
+            font-size: 1em;
+            color: #8b4513;
+            margin-bottom: 15px;
+        }
+
+        .landing-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .landing-text {
+            flex: 1;
+            font-size: 0.95em;
+            line-height: 1.4;
+            overflow-y: auto;
+        }
+
+        .landing-text p {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .landing-text a {
+            color: #dea435;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .landing-text a:hover {
+            text-decoration: underline;
+        }
+
+        .landing-image {
+            flex: 0 0 200px;
+            text-align: center;
+        }
+
+        .landing-doge {
+            width: 180px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-button {
+            display: inline-block;
+            background: linear-gradient(to bottom, rgba(255, 220, 110, 1) 0%, rgba(255, 180, 70, 1) 100%);
+            color: white !important;
+            padding: 19px 54px;
+            font-size: 2.34em;
+            font-weight: 900;
+            text-decoration: none;
+            border-radius: 18px;
+            border: 7px solid rgb(220, 170, 60);
+            box-shadow: none;
+            transition: all 0.3s ease;
+            margin: 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            text-decoration: none;
+        }
+
+        /* Discord Section */
+        .discord-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .discord-button {
+            display: inline-block;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .discord-button:hover {
+            transform: scale(1.05);
+        }
+
+        .discord-image {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .discord-text {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #5865F2;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .play-button:active {
+            transform: scale(1.05);
+        }
+
+        .features {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #dea435;
+        }
+
+        .features h3 {
+            color: #dea435;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            color: #444;
+            font-size: 1.1em;
+        }
+
+        .features li:before {
+            content: "🐕 ";
+            margin-right: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #dea435;
+            color: #666;
+            font-size: 0.8em;
+            flex-shrink: 0;
+        }
+
+        /* Cookie Notice */
+        .cookie-notice {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.7em;
+            z-index: 1000;
+            max-width: 200px;
+        }
+
+        .cookie-text a {
+            color: #dea435;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .cookie-text a:hover {
+            color: #f0c040;
+        }
+
+        /* Cookie Modal */
+        .cookie-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .cookie-modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: #333;
+        }
+
+        .cookie-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cookie-close:hover,
+        .cookie-close:focus {
+            color: #000;
+        }
+
+        .cookie-modal-content h2 {
+            color: #dea435;
+            margin-bottom: 15px;
+        }
+
+        .cookie-modal-content h3 {
+            color: #dea435;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .cookie-modal-content p {
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1100px) {
+            .landing-container {
+                width: 95%;
+                margin: 10px auto;
+            }
+
+            .landing-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .landing-logo {
+                width: 300px;
+            }
+
+            .landing-title {
+                font-size: 2.5em;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .landing-logo {
+                max-height: 25vh;
+            }
+            .landing-header {
+                margin-bottom: 5px;
+            }
+        }
+
+        .landing-import-button{display:block;margin:14px auto 0;padding:10px 18px;border:1px solid #e7bf4c;border-radius:7px;background:#292313de;color:#ffe49a;font:inherit;cursor:pointer;}
+        #landing-import-status{max-width:360px;margin:10px auto;color:#ffe3a1;font-size:14px;}
+        #landing-save-review{width:min(560px,92vw);max-height:88vh;padding:24px;border:2px solid #c99b32;border-radius:12px;background:#fff0c2;color:#5b421e;font:16px/1.5 sans-serif;}
+        #landing-save-review::backdrop{background:#000a;}
+        #landing-save-title{margin:0 0 12px;font-size:22px;}
+        #landing-save-summary{white-space:pre-line;font-weight:bold;}
+        #landing-save-notes{max-height:35vh;overflow-y:auto;padding-left:22px;font-size:14px;}
+        #landing-save-review .landing-save-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:18px;}
+        #landing-save-review button{padding:10px 16px;border:1px solid #b58a29;border-radius:6px;background:#ffdf73;color:#61451e;font:inherit;cursor:pointer;}
+    </style>
+<script>window.CEParityTesting={active:['localhost','127.0.0.1','[::1]'].includes(location.hostname)&&/^checkpoint-(?:[1-9]|[1-5][0-9]|6[0-9])$/.test(new URLSearchParams(location.search).get('parityTest')),error:'Checkpoint test storage could not be loaded. Please refresh.'};</script>
+<script src="/_assets/0ed1b902b47357fa0fbf.js"></script>
+<script defer="" src="/_assets/dad68490db1a19ca6f70.js"></script>
+<script defer="" src="/_assets/36d9a065ea96af2a3483.js"></script>
+<script defer="" src="/_assets/0a6add65a1ed16a29b67.js"></script>
+<script defer="" src="/_assets/2952f84f834957576ad8.js"></script>
+<script defer="" src="/_assets/ee9f196395dc84f4756a.js"></script>
+<script defer="" src="/_assets/3633e5b390d0f9a430a6.js"></script>
+<script defer="" src="/_assets/2d351086d3f20649185f.js"></script>
+<script defer="" src="/_assets/50950c6d6405c42540b9.js"></script>
+<script defer="" src="/_assets/0ea1fd7c27c95c4363d9.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- Page Background (for ads) -->
+<div id="page-background">
+<!-- Background Images -->
+<div id="background-container">
+<img alt="Background" class="background-image active" id="background-image-1" src="/_assets/3a9d307bda4c9683e74b.webp"/>
+<img alt="Background" class="background-image" id="background-image-2" src="/_assets/8f83456cec2a55681933.webp"/>
+<img alt="Background" class="background-image" id="background-image-3" src="/_assets/d67f786a139b481213d5.webp"/>
+<img alt="Background" class="background-image" id="background-image-4" src="/_assets/c56ecb50eac672164555.webp"/>
+<img alt="Background" class="background-image" id="background-image-5" src="/_assets/33d0dd5c59d06914d871.webp"/>
+<img alt="Background" class="background-image" id="background-image-6" src="/_assets/6ae9f4d062992512f4e8.webp"/>
+<img alt="Background" class="background-image" id="background-image-7" src="/_assets/abc3f0241fb27aca816d.webp"/>
+<img alt="Background" class="background-image" id="background-image-8" src="/_assets/82ce58dae17223733c4e.webp"/>
+</div>
+</div>
+<div class="landing-container">
+<div class="landing-header">
+<img alt="DogeminerCE Logo" class="landing-logo" src="/_assets/c8cfb42a20f09798b10e.webp"/>
+</div>
+<div class="landing-content">
+<div style="text-align: center;">
+<a class="play-button" id="start-game" onclick="redirectToGame(); return false;">START</a>
+<button class="landing-import-button" id="landing-import" type="button">Import CE / DM2 Save</button>
+<input accept=".json,.doge,.txt" hidden="" id="landing-import-file" type="file"/>
+<p id="landing-import-status" role="status"></p>
+<div class="discord-section">
+<a class="discord-button" rel="noopener" target="_blank">
+<img alt="Discord" class="discord-image" src="/_assets/0d65955255d43a02f57d.webp"/>
+</a>
+<p class="discord-text">Join us on discord and chat<br/>with the rest of the community!</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>DogeminerCE - Built with ❤️ by the community</p>
+<p>Based on the original Dogeminer series by rkn</p>
+</div>
+<!-- Cookie Notice -->
+<div class="cookie-notice">
+<span class="cookie-text">This game uses cookies, <a href="#" id="cookie-info-link">click here if you want
+                    more info.</a></span>
+</div>
+<!-- Cookie Info Modal -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="cookie-modal-content">
+<span class="cookie-close">×</span>
+<h2>What Are Cookies</h2>
+<p>As is common practice with almost all websites, this site uses cookies, which are tiny files that are
+                    downloaded to your computer, to improve the user experience. This page describes what information
+                    they gather, how they are used and why we sometimes need to store these cookies. We will also share
+                    how you can prevent these cookies from being stored however this may downgrade or 'break' certain
+                    elements of the sites functionality, such as save games.</p>
+<p>For more general information on cookies see the Wikipedia article on HTTP Cookies...</p>
+<h3>How This Site Uses Cookies</h3>
+<p>This site uses cookies for a variety of reasons detailed below. Unfortunately in most cases there are
+                    no industry standard options for disabling cookies without completely disabling the functionality
+                    and features they add to this site. It is recommended that you leave on all cookies if you are not
+                    sure whether you need them or not in case they are used to provide a service that you use.</p>
+<h3>Disabling Cookies</h3>
+<p>You can prevent the setting of cookies by adjusting the settings on your browser (see your browser
+                    Help for how to do this). Be aware that disabling cookies will affect the functionality of this and
+                    many other websites that you visit. Disabling cookies will usually result in also disabling certain
+                    functionality and features of the this site. Therefore it is recommended that you do not disable
+                    cookies.</p>
+<h3>The Cookies This Site Sets</h3>
+<p>If you sign-in with Google, this site will use cookies for the management of the signup process and
+                    general administration. These cookies will usually be deleted when you log out however in some cases
+                    they may remain afterwards to remember your site preferences when logged out. This site also uses
+                    these Google products: Google Analytics, Google AdSense, Google Tag Manager. This page describes how
+                    Google's products use data.</p>
+<h3>Third Party Cookies</h3>
+<p>This site uses Google Analytics which is one of the most widespread and trusted analytics solution on
+                    the web for helping us to understand how you use the site and ways that we can improve your
+                    experience. A feature has been set to anonymize your IP that Analytics return, which means location
+                    tracking is less accurate but your privacy is protected.</p>
+<p>For more information on Google Analytics cookies, see the official Google Analytics page.</p>
+<p>The Google AdSense service this sites game uses to serve advertising uses their own cookies to serve
+                    more relevant ads across the web and limit the number of times that a given ad is shown to you. PS.
+                    If you're browsing from the EAA/EU, you will not see personalized ads until a consent management
+                    system can be put in place to properly comply with EU laws.</p>
+<p>For more information on Google AdSense see the official Google AdSense policy FAQs.</p>
+</div>
+</div>
+</div>
+<dialog aria-labelledby="landing-save-title" id="landing-save-review">
+<form method="dialog">
+<h2 id="landing-save-title">Import Save</h2>
+<p id="landing-save-summary"></p>
+<ul id="landing-save-notes" tabindex="0"></ul>
+<div class="landing-save-actions"><button value="cancel">Cancel</button><button id="landing-save-confirm" type="button">Import and play</button></div>
+</form>
+</dialog>
+<script>
+        // Background rotation system
+        class BackgroundRotator {
+            constructor() {
+                this.backgrounds = [
+                    '/_assets/3a9d307bda4c9683e74b.webp',
+                    '/_assets/8f83456cec2a55681933.webp',
+                    '/_assets/d67f786a139b481213d5.webp',
+                    '/_assets/c56ecb50eac672164555.webp',
+                    '/_assets/33d0dd5c59d06914d871.webp',
+                    '/_assets/6ae9f4d062992512f4e8.webp',
+                    '/_assets/abc3f0241fb27aca816d.webp',
+                    '/_assets/82ce58dae17223733c4e.webp'
+                ];
+                this.currentBackgroundIndex = 0;
+                this.backgroundRotationInterval = null;
+            }
+
+            startBackgroundRotation() {
+                // Start background rotation every 15 seconds
+                this.backgroundRotationInterval = setInterval(() => {
+                    this.rotateBackground();
+                }, 15000);
+            }
+
+            rotateBackground() {
+                // Remove active class from current background
+                const currentImage = document.getElementById(`background-image-${this.currentBackgroundIndex + 1}`);
+                if (currentImage) {
+                    currentImage.classList.remove('active');
+                }
+
+                // Move to next background
+                this.currentBackgroundIndex = (this.currentBackgroundIndex + 1) % this.backgrounds.length;
+
+                // Add active class to new background
+                const nextImage = document.getElementById(`background-image-${this.currentBackgroundIndex + 1}`);
+                if (nextImage) {
+                    nextImage.classList.add('active');
+                }
+
+                console.log(`Background rotated to: ${this.backgrounds[this.currentBackgroundIndex]}`);
+            }
+        }
+
+        // Redirect function for the play button
+        function redirectToGame() {
+            window.location.href = window.DogeMinerLandingSave?.gameUrl().href || new URL('play/',window.location.href).href;
+        }
+
+        // Initialize background rotation when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            const backgroundRotator = new BackgroundRotator();
+            backgroundRotator.startBackgroundRotation();
+
+            // Cookie modal functionality
+            const cookieModal = document.getElementById('cookie-modal');
+            const cookieLink = document.getElementById('cookie-info-link');
+            const cookieClose = document.querySelector('.cookie-close');
+
+            cookieLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                cookieModal.style.display = 'block';
+            });
+
+            cookieClose.addEventListener('click', function () {
+                cookieModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (event) {
+                if (event.target === cookieModal) {
+                    cookieModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>

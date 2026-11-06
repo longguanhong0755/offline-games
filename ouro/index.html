@@ -1,0 +1,2341 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
+<meta content="#070a12" name="theme-color"/>
+<!-- the online game lives at br8t.com/ouro: send visitors of the GitHub Pages copy there (offline.html stays) -->
+<script>if (location.hostname.endsWith("github.io")) location.replace("https://br8t.com/ouro/" + location.search + location.hash);</script>
+<title>Ouro – play now: free open-source slither.io-style snake game</title>
+<meta content="Play Ouro now at br8t.com/ouro: a free, open-source slither.io-style snake game in your browser. Play online with other people and 60 AI snakes in five difficulty tiers. Super efficient: WebAssembly and WebGPU, runs smoothly even on old laptops and phones. No download, no sign-up." name="description"/>
+<meta content="snake game, slither.io, slither io, slither.io clone, slither io unblocked, open source slither.io, io game, multiplayer snake, browser game, html5 game, free online game, snake io, webgpu game, webassembly game, lightweight game" name="keywords"/>
+<meta content="CatanCats" name="author"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+
+<meta content="Ouro" name="application-name"/>
+<meta content="Ouro" name="apple-mobile-web-app-title"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<!-- link previews (Discord, WhatsApp, X, Facebook...) -->
+<meta content="website" property="og:type"/>
+<meta content="https://br8t.com/ouro/" property="og:url"/>
+<meta content="Ouro – open-source slither.io-style snake game, play now" property="og:title"/>
+<meta content="Eat, grow and cut off other players and 60 AI snakes, from Rookie to Legend. Free, open source, instant in your browser, and light enough for any device." property="og:description"/>
+<meta content="Ouro" property="og:site_name"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Ouro – open-source slither.io-style snake game, play now" name="twitter:title"/>
+<meta content="Eat, grow and cut off other players and 60 AI snakes, from Rookie to Legend. Free, open source, instant in your browser, and light enough for any device." name="twitter:description"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%23070a12'/%3E%3Cpath d='M24 8a16 16 0 1 1-13.9 8' fill='none' stroke='%2334d399' stroke-width='7' stroke-linecap='round'/%3E%3Ccircle cx='14.8' cy='10.9' r='5.8' fill='%2338bdf8'/%3E%3C/svg%3E" rel="icon"/>
+<!-- structured data: lets search engines show it as a game -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"VideoGame","name":"Ouro","alternateName":["Ouro at br8t.com","Serpent.io"],
+ "url":"https://br8t.com/ouro/",
+ "description":"A free, open-source slither.io-style snake game that runs in any browser. Play online with other people and 60 AI snakes in five difficulty tiers, or offline on your own device. A WebAssembly simulation and WebGPU rendering (WebGL 2 as backup) keep it fast and light on CPU, GPU and memory.",
+ "genre":["Arcade","IO game","Snake"],"gamePlatform":["Web browser","PC","Mobile"],"applicationCategory":"GameApplication",
+ "operatingSystem":"Any","playMode":["MultiPlayer","SinglePlayer"],"isAccessibleForFree":true,"inLanguage":"en",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+ "license":"https://github.com/CatanCats/Serpent.io/blob/main/LICENCE",
+ "sameAs":["https://github.com/CatanCats/Serpent.io","https://catancats.github.io/Serpent.io/"],
+ "author":{"@type":"Organization","name":"CatanCats","url":"https://github.com/CatanCats"}}
+</script>
+
+
+
+<style>
+  :root {
+    --bg: #070a12;
+    --panel: rgba(12, 17, 30, .86);
+    --line: rgba(148, 163, 184, .14);
+    --text: #e6ebf5;
+    --dim: #8391aa;
+    --accent: #34d399;
+    --accent2: #38bdf8;
+    --danger: #fb7185;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text);
+    font-family: Outfit, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-user-select: none; user-select: none; touch-action: none; }
+  canvas#gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+
+  .glass { background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+
+  /* HUD */
+  .hud { position: fixed; pointer-events: none; transition: opacity .3s; }
+  body:not(.playing) .hud.game { opacity: 0; }
+  #stats { left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); padding: 14px 18px; min-width: 180px; }
+  #stats .label { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+  #stats .big { font-size: 36px; font-weight: 800; line-height: 1.05; font-variant-numeric: tabular-nums;
+    background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #stats .sub { font-size: 14px; color: var(--dim); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  #stats .sub b { color: var(--text); font-weight: 600; }
+
+  #board { right: max(16px, env(safe-area-inset-right)); top: max(16px, env(safe-area-inset-top)); min-width: 220px; padding: 12px 14px;
+    transform: scale(var(--lbs, 1)); transform-origin: top right; } /* size: the − / + buttons, remembered */
+  #board h3 { display: flex; align-items: center; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); font-weight: 600; margin-bottom: 8px; }
+  #board ol { list-style: none; padding: 0; font-size: 14px; font-variant-numeric: tabular-nums; }
+  #board li { display: flex; gap: 8px; align-items: center; padding: 2px 0; color: #c3cbe0; }
+  #board li .n { width: 18px; color: var(--dim); font-size: 12px; }
+  #board li .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  #board li .nm { flex: 1; white-space: nowrap; } /* whole names: the board grows to fit */
+  .lbsz { margin-left: auto; padding-left: 12px; display: flex; gap: 4px; pointer-events: auto; }
+  .lbsz button { width: 22px; height: 20px; padding: 0; border: none; border-radius: 6px; background: rgba(255,255,255,.08); color: var(--dim); font: 600 14px/20px inherit; font-family: inherit; cursor: pointer; }
+  .lbsz button:hover { color: var(--text); background: rgba(255,255,255,.14); }
+  #board li.me { color: #fff; font-weight: 600; }
+  #board li.me .nm::after { content: " •"; color: var(--accent); }
+  .tg { flex: none; font-size: 8.5px; font-weight: 600; letter-spacing: .08em; padding: 1px 5px; border-radius: 6px; } /* the level's name in its colour */
+  .tg::after { content: attr(data-l); }
+  /* phones / touch screens below full size: the level as one coloured letter, so whole snake names fit */
+  #board.short .tg { width: 16px; padding: 0; text-align: center; font-size: 10px; font-weight: 800; letter-spacing: 0; line-height: 15px; border-radius: 5px; }
+  #board.short .tg::after { content: attr(data-s); }
+  /* made narrow by hand (tgS, tgX): the same one letter, then no badge at all, so the names keep the room */
+  #board.tgS .tg { width: 16px; padding: 0; text-align: center; font-size: 10px; font-weight: 800; letter-spacing: 0; line-height: 15px; border-radius: 5px; }
+  #board.tgS .tg::after { content: attr(data-s); }
+  #board.tgX .tg { display: none; }
+  #board.tgX li .sc { min-width: 0; }
+  #board { z-index: 5; } /* above the start page: usable there too */
+  @media (max-width: 640px) { /* start page on a phone: the card starts below the open leaderboard */
+    body.lbOpen:not(.playing) .screen { overflow-y: auto; padding-top: 150px; place-items: start center; }
+  }
+  /* resize handles: left edge (width), bottom edge (height), bottom-left corner (both) */
+  .lbE { position: absolute; pointer-events: auto; touch-action: none; }
+  .lbE[data-rs="w"] { left: -5px; top: 34px; bottom: 16px; width: 12px; cursor: ew-resize; }
+  .lbE[data-rs="s"] { bottom: -5px; left: 16px; right: 10px; height: 12px; cursor: ns-resize; }
+  #board ol { overflow: hidden; }
+  #board:not(.closed) { padding-bottom: 2px; } /* the list runs to the bottom edge (the resize corner sits on top of it): no empty strip under the names */
+  #board.sized li .nm { overflow: hidden; text-overflow: ellipsis; } /* made narrower by hand: long names end in … */
+  #board.sized { min-width: 0; }
+  /* × folds it to the title bar */
+  #board.closed { min-width: 0; padding-bottom: 10px; }
+  #board.closed #lb, #board.closed .lbE, #board.closed #lbGrip { display: none; }
+  #board.closed h3 { margin-bottom: 0; }
+  #board.closed.sized { width: auto !important; }
+  #lbGrip { position: absolute; left: -2px; bottom: -2px; width: 22px; height: 22px; pointer-events: auto; cursor: nesw-resize; touch-action: none; }
+  #lbGrip::before { content: ""; position: absolute; left: 6px; bottom: 6px; width: 8px; height: 8px; border-left: 2px solid var(--dim); border-bottom: 2px solid var(--dim); border-radius: 0 0 0 3px; opacity: .7; }
+  .tg.t0 { color: #6ee7b7; background: rgba(52,211,153,.12); }
+  .tg.t1 { color: #7dd3fc; background: rgba(56,189,248,.12); }
+  .tg.t2 { color: #fbbf24; background: rgba(251,191,36,.12); }
+  .tg.t3 { color: #fb7185; background: rgba(251,113,133,.14); }
+  .tg.t4 { color: #1c1400; background: linear-gradient(90deg,#fde68a,#f59e0b); }
+  .tg.you { color: #04130d; background: linear-gradient(90deg,#34d399,#38bdf8); }
+  #board li .sc { min-width: 42px; text-align: right; }
+
+  /* the minimap itself is drawn on the game canvas, underneath this ring */
+  #mini { right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); width: 170px; height: 170px; border-radius: 50%;
+    border: 1px solid var(--line); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+
+  #perf { left: max(16px, env(safe-area-inset-left)); top: max(16px, env(safe-area-inset-top)); padding: 8px 12px; max-width: calc(100vw - 300px); font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--dim); border-radius: 10px; }
+  #perf b { color: var(--text); font-weight: 500; }
+  #perf.off { display: none; }
+  #perf { z-index: 60; } /* in front of the start page and the game-over card when on */
+  .overBtns { display: flex; gap: 10px; margin-top: 10px; }
+  .overBtns button { flex: 1; padding: 11px 10px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.06); color: var(--text);
+    font: 600 14px inherit; font-family: inherit; cursor: pointer; }
+  .overBtns button:hover { background: rgba(255,255,255,.12); }
+
+  /* Menus */
+  .screen { position: fixed; inset: 0; display: grid; place-items: center; padding: 16px; transition: opacity .35s, visibility .35s; }
+  .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .card { width: min(420px, 100%); padding: 32px 28px 26px; text-align: center; }
+  .logo { font-size: clamp(44px, 11vw, 64px); font-weight: 800; letter-spacing: -.03em; line-height: 1;
+    background: linear-gradient(100deg, #34d399 0%, #38bdf8 45%, #a78bfa 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .logo span { color: var(--text); -webkit-text-fill-color: var(--text); opacity: .9; }
+  .tag { margin: 10px 0 24px; color: var(--dim); font-size: 15px; }
+  input#name { width: 100%; font: inherit; font-size: 17px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line);
+    background: rgba(2,6,16,.55); color: var(--text); outline: none; text-align: center; transition: border-color .2s, box-shadow .2s; -webkit-user-select: text; user-select: text; }
+  input#name:focus { border-color: rgba(56,189,248,.6); box-shadow: 0 0 0 4px rgba(56,189,248,.15); }
+  .skins { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 18px 0 20px; }
+  .skin { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0;
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,.35); transition: transform .15s, border-color .15s; }
+  .skin:hover { transform: scale(1.12); }
+  .skin[aria-pressed="true"] { border-color: #fff; transform: scale(1.15); }
+  /* the last swatch: a colour picker (rainbow until a colour is chosen) */
+  .skin.pick { position: relative; display: inline-block; overflow: hidden; background: conic-gradient(#f43f5e, #f59e0b, #a3e635, #22d3ee, #818cf8, #e879f9, #f43f5e); }
+  .skin.pick input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: none; padding: 0; }
+  .skin.pick::after { content: "+"; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font: 700 15px/1 inherit; font-family: inherit; text-shadow: 0 1px 3px #000; pointer-events: none; }
+  button.play { width: 100%; font: inherit; font-weight: 800; font-size: 18px; letter-spacing: .04em; padding: 15px; border: 0; border-radius: 12px; cursor: pointer; color: #04130d;
+    background: linear-gradient(100deg, #34d399, #38bdf8); box-shadow: 0 8px 30px rgba(52,211,153,.3); transition: transform .12s, box-shadow .2s, filter .2s; }
+  button.play:hover { filter: brightness(1.08); box-shadow: 0 10px 36px rgba(56,189,248,.35); }
+  button.play:active { transform: scale(.98); }
+  .keys { margin-top: 18px; color: var(--dim); font-size: 13px; line-height: 1.9; }
+  kbd { font: 12px ui-monospace, monospace; padding: 2px 7px; border-radius: 6px; border: 1px solid var(--line); background: rgba(255,255,255,.04); color: #cbd5e1; }
+  .rsw { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; font-size: 12px; color: var(--dim); }
+  .rsw span { margin-right: 4px; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+  .rsw button { font: inherit; font-size: 12px; padding: 5px 10px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255,255,255,.03); color: #cbd5e1; cursor: pointer; }
+  .rsw button[aria-pressed="true"] { border-color: rgba(56,189,248,.7); color: #fff; background: rgba(56,189,248,.14); }
+  .slow { margin-top: 12px; padding: 10px 12px; border-radius: 10px; font-size: 12.5px; line-height: 1.5; color: #fde68a; background: rgba(251,191,36,.1); border: 1px solid rgba(251,191,36,.3); text-align: left; }
+  .tech { margin-top: 14px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #56627a; }
+
+  .over h2 { font-size: 34px; font-weight: 800; letter-spacing: -.02em; }
+  .over .by { color: var(--dim); margin: 6px 0 20px; min-height: 1.4em; }
+  .over .by b { color: var(--danger); font-weight: 600; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px; }
+  .grid3 div { padding: 12px 6px; border-radius: 12px; background: rgba(2,6,16,.45); border: 1px solid var(--line); }
+  .grid3 b { display: block; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .grid3 span { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  .new { color: var(--accent) !important; }
+  .tg.pl { color: #e0e7ff; background: rgba(129,140,248,.22); }
+  .net { margin-top: 12px; font-size: 13px; color: var(--dim); min-height: 1.3em; }
+  .net.ok::before { content: "● "; color: var(--accent); }
+  .net.bad { color: #fde68a; }
+  a.mode { display: inline-block; margin-top: 10px; font-size: 14px; color: var(--accent2); text-decoration: none; border-bottom: 1px solid rgba(56,189,248,.35); }
+  a.mode:hover { color: #fff; }
+  a.mode.dl { display: block; width: fit-content; margin: 8px auto 0; font-size: 13px; }
+  button.play:disabled { filter: grayscale(.8) brightness(.7); cursor: default; box-shadow: none; }
+
+  /* chat: small, bottom-left (above the length box while playing; lower on the start page).
+     The 💬 Chat button turns it on and off (greyed out when off; remembered). */
+  #chat, #chatBar { z-index: 5; }
+  #chat { left: max(16px, env(safe-area-inset-left)); bottom: calc(max(16px, env(safe-area-inset-bottom)) + 140px); width: 260px; pointer-events: none; }
+  #chat.hidden { display: none; }
+  #chatLog { display: flex; flex-direction: column; gap: 2px; margin-bottom: 4px; font-size: 13px; line-height: 1.3; }
+  #chatLog div { padding: 2px 8px; border-radius: 8px; background: rgba(8,12,22,.55); color: var(--text); overflow-wrap: anywhere;
+    transition: opacity 1s; text-shadow: 0 1px 2px #000; }
+  #chatLog div.old { opacity: 0; }
+  #chat.open #chatLog div.old, body:not(.playing) #chatLog div.old { opacity: .85; }
+  #chatLog b { font-weight: 600; color: var(--accent2); }
+  #chatLog div.sys { color: var(--dim); font-style: italic; }
+  /* the typing box: only while writing (➤ or Enter opens it, ➤ or Enter sends, Esc closes) */
+  #chatIn { display: none; width: 100%; pointer-events: auto; font: 13px inherit; font-family: inherit; color: var(--text);
+    background: rgba(8,12,22,.88); border: 1px solid rgba(56,189,248,.6); border-radius: 8px; padding: 5px 8px; outline: none; }
+  #chat.open #chatIn { display: block; }
+  /* under it: 💬 Chat (on/off, greyed out when off; remembered) and the small green ➤ */
+  #chatBar { position: fixed; left: max(16px, env(safe-area-inset-left)); bottom: calc(max(16px, env(safe-area-inset-bottom)) + 112px); display: flex; gap: 4px; }
+  #chatTog { pointer-events: auto; height: 22px; padding: 0 8px; border: none; border-radius: 7px; background: rgba(8,12,22,.65); color: var(--text); font: 12px inherit; font-family: inherit; cursor: pointer; }
+  #chatTog.off { opacity: .5; filter: grayscale(1); color: var(--dim); }
+  #chatSend { pointer-events: auto; width: 28px; height: 22px; padding: 0; border: none; border-radius: 7px; cursor: pointer; font-size: 12px; color: #04130d;
+    background: linear-gradient(90deg,#34d399,#38bdf8); }
+  #chatSend:hover { filter: brightness(1.1); }
+  #chatTog.off + #chatSend { display: none; } /* chat off: no send button */
+  body:not(.playing) #chat { bottom: calc(max(16px, env(safe-area-inset-bottom)) + 30px); }
+  body:not(.playing) #chatBar { bottom: max(16px, env(safe-area-inset-bottom)); }
+  /* in game: only the last 6 lines (the log keeps 100 for the start page) */
+  body.playing #chatLog > div:nth-last-child(n+7) { display: none; }
+  /* start page (and game over): the whole history, scrollable, nothing fades, the typing box always there */
+  body:not(.playing) #chat { pointer-events: auto; display: flex; flex-direction: column; max-height: 34vh; }
+  body:not(.playing) #chat.hidden { display: none; }
+  body:not(.playing) #chatLog { overflow-y: auto; min-height: 0; }
+  body:not(.playing) #chatLog > div:first-child { margin-top: auto; }
+  body:not(.playing) #chatLog div.old { opacity: 1; }
+  body:not(.playing) #chatIn { display: block; flex: none; }
+  @media (min-width: 980px) { /* wide screens: a big panel down the whole left side, beside the card */
+    body:not(.playing) #chat { top: max(16px, env(safe-area-inset-top)); bottom: calc(max(16px, env(safe-area-inset-bottom)) + 34px); max-height: none;
+      width: min(440px, calc(50vw - 250px)); padding: 14px; border-radius: 16px; background: rgba(8,12,22,.62); border: 1px solid var(--line); }
+    body:not(.playing) #chat::before { content: "Chat"; flex: none; margin-bottom: 10px; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+    body:not(.playing) #chatLog { flex: 1; font-size: 15px; line-height: 1.4; gap: 4px; }
+    body:not(.playing) #chatLog div { padding: 4px 10px; background: rgba(255,255,255,.04); }
+    body:not(.playing) #chatIn { font-size: 15px; padding: 9px 11px; margin-top: 6px; }
+  }
+
+  @media (max-width: 640px) {
+    #chat { width: min(280px, calc(100vw - 32px)); bottom: calc(max(16px, env(safe-area-inset-bottom)) + 118px); }
+    #chatBar { bottom: calc(max(16px, env(safe-area-inset-bottom)) + 90px); }
+    /* start page on a phone: the card scrolls clear of the chat */
+    body.chatOn:not(.playing) .screen { overflow-y: auto; padding-bottom: 170px; place-items: start center; }
+    #board { min-width: 0; padding: 10px 12px; }
+    #board li { font-size: 12px; }
+    #board:not(.sized) li:nth-child(n+6) { display: none; }
+    #mini { width: 112px; height: 112px; }
+    #stats { padding: 10px 14px; min-width: 0; }
+    #stats .big { font-size: 28px; }
+    #perf { display: none; }
+  }
+  /* Ouro look. All of it static (no animation, no blur, nothing drawn per frame), so it costs nothing while playing. */
+  .brand { display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .brand svg { width: clamp(52px, 13vw, 70px); height: clamp(52px, 13vw, 70px); flex: none; filter: drop-shadow(0 6px 16px rgba(56,189,248,.28)); }
+  .brand .logo { text-align: left; }
+  .brand .at { margin-top: 7px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .34em; text-transform: uppercase; color: var(--dim); }
+  .glass { box-shadow: 0 10px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06); }
+  .card { position: relative; background-image: linear-gradient(180deg, rgba(56,189,248,.07), rgba(56,189,248,0) 38%); }
+  .card::before { content: ""; position: absolute; left: 22%; right: 22%; top: -1px; height: 1px; background: linear-gradient(90deg, transparent, #38bdf8, #34d399, transparent); }
+  .screen { background: radial-gradient(ellipse at 50% 45%, rgba(7,10,18,.05), rgba(7,10,18,.55) 75%); }
+  #board h3 { color: #a5b1c9; }
+  #board li:nth-child(-n+3) .n { font-weight: 800; }
+  #board li:nth-child(1) .n { color: #fbbf24; }
+  #board li:nth-child(2) .n { color: #cbd5e1; }
+  #board li:nth-child(3) .n { color: #f59e0b; opacity: .8; }
+  .over h2 { background: linear-gradient(100deg, #fb7185, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<canvas id="gl"></canvas>
+<div class="hud glass off" id="perf"></div>
+<div class="hud game glass" id="stats">
+<div class="label">Length</div>
+<div class="big" id="len">10</div>
+<div class="sub">Rank <b id="rank">–</b> of <b id="total">–</b> · Kills <b id="kills">0</b></div>
+</div>
+<div class="hud glass" id="board"><h3>Leaderboard<span class="lbsz"><button aria-label="Smaller leaderboard" data-d="-1" title="Smaller leaderboard">−</button><button aria-label="Bigger leaderboard" data-d="1" title="Bigger leaderboard">+</button><button aria-label="Hide or show the leaderboard" id="lbX" title="Hide the leaderboard">×</button></span></h3><ol id="lb"></ol><div class="lbE" data-rs="w" title="Drag to resize (double-click: fit)"></div><div class="lbE" data-rs="s" title="Drag to resize (double-click: fit)"></div><div data-rs="ws" id="lbGrip" title="Drag to resize (double-click: fit)"></div></div>
+<div class="hud game" id="mini"></div>
+<div class="hud" id="chat"><div aria-live="polite" id="chatLog"></div><input autocomplete="off" enterkeyhint="send" id="chatIn" maxlength="160" placeholder="Say something… (Enter sends)" spellcheck="false" title="Enter sends, Esc closes"/></div>
+<div id="chatBar"><button aria-label="Chat on or off" id="chatTog" title="Chat on / off">💬 Chat</button><button aria-label="Write or send a message" id="chatSend" title="Write a message (Enter)">➤</button></div>
+<div class="screen" id="menu">
+<div class="card glass">
+<div class="brand"><svg aria-hidden="true" viewbox="0 0 48 48"><defs><lineargradient id="og" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#34d399"></stop><stop offset=".55" stop-color="#38bdf8"></stop><stop offset="1" stop-color="#a78bfa"></stop></lineargradient></defs><path d="M24 7a17 17 0 1 1-14.7 8.5" fill="none" stroke="url(#og)" stroke-linecap="round" stroke-width="7"></path><circle cx="14.2" cy="10.1" fill="#34d399" r="6.2"></circle><circle cx="16.3" cy="8.6" fill="#070a12" r="1.7"></circle></svg><div><div class="logo">ouro</div><div class="at">at br8t.com</div></div></div>
+<p class="tag">Online · eat, grow, cut them off.</p>
+<input autocomplete="off" id="name" maxlength="16" placeholder="Your nickname" spellcheck="false"/>
+<div aria-label="Skin" class="skins" id="skins" role="group"></div>
+<button class="play" id="play">PLAY ONLINE</button>
+<div class="net" id="net">Connecting…</div>
+<a class="mode" href="offline.html">Play offline instead (runs on this device) →</a>
+<a class="mode dl" download="ouro-offline.html" href="offline.html" title="One file: open it in a browser to play without internet">⬇ Download the offline game</a>
+<div class="keys"><kbd>Mouse</kbd> steer · <kbd>Click</kbd>/<kbd>Space</kbd> boost<br/><kbd>←</kbd><kbd>→</kbd> steer with keys · Touch: drag to steer, 2 fingers boost · <kbd>P</kbd> perf · <kbd>Enter</kbd> chat</div>
+<div aria-label="Quality" class="rsw" id="qsw" role="group">
+<span>Quality</span>
+<button data-q="sharp">Sharp</button><button data-q="balanced">Balanced</button><button data-q="fast">Fast</button>
+</div>
+<div aria-label="Renderer" class="rsw" id="rsw" role="group">
+<span>Renderer</span>
+<button data-r="auto">Auto</button><button data-r="webgpu">WebGPU</button><button data-r="webgl">WebGL</button>
+</div>
+<div class="tech">Server-run world · GPU-drawn · now: <span id="rnow">…</span></div>
+</div>
+</div>
+<div class="screen hidden" id="over">
+<div class="card glass over">
+<h2>You were eaten</h2>
+<p class="by" id="by"></p>
+<div class="grid3">
+<div><b id="oLen">0</b><span>Length</span></div>
+<div><b id="oKills">0</b><span>Kills</span></div>
+<div><b id="oBest">0</b><span>Best</span></div>
+</div>
+<button class="play" id="again">PLAY AGAIN</button>
+<div class="overBtns"><button id="toStart">Start screen</button><button id="sheet" title="A picture with this run's numbers and the moment you died">⬇ Information sheet</button></div>
+<div class="keys"><kbd>Enter</kbd> to respawn · <kbd>Esc</kbd> start screen</div>
+</div>
+</div>
+<script>
+"use strict";
+/* ============================================================================
+   WebGL 2 renderer (fallback when WebGPU is unavailable).
+   Interface shared with the WebGPU renderer:
+     name, passNames, canTime, gpuMs, passMs,
+     resize(vw, vh), placeMini(cx, cy, rPx), labelSlot(canvas, x, y), draw(frameNo, playing, timing)
+   ========================================================================== */
+/* Floor layout, shared by both renderers (this file is inlined before render-gpu.js). */
+const FLOOR_BASE = [.052, .065, .104];         // the floor colour: one colour everywhere inside the world
+const FLOOR_DARK = [.008, .009, .014];         // outside the world: darkness
+const FLOOR_RIM_COL = [.62, .17, .25];         // the world's edge: a thin red line
+// Honeycomb DOTS (one at each hex corner, 2 CSS px square): ~17x fewer pixels than lines, so
+// they can be brighter, and their colour tells where you are (free: worked out per dot).
+const FLOOR_DOT = [.21, .25, .37];             // dots: well lighter than the floor
+const FLOOR_DOT_MID = [.42, .35, .13];         // inside the middle zone (35% of the world radius): gold
+const FLOOR_DOT_EDGE = [.52, .14, .18];        // the last 1600 units before the edge: turning red
+const FOOD_GLOW = "1.7";                        // food halo radius, in pellet radii
+const FLOOR_RING_SEG = 512;                    // segments of the rings (the edge stays round)
+const FLOOR_HX = (46 * Math.sqrt(3)).toFixed(4), FLOOR_HY = "46.";  // hex lattice period (world units)
+/* The floor is one colour, so the screen is simply cleared to it (nearly free). The rest
+   is worked out by the vertex shaders from the Frame block (nothing extra is uploaded);
+   the CPU only picks the clear colour and the hex instance count
+   (from the Frame block [camX camY halfW halfH | px ...| .. WR]). */
+function floorPlan(fb, p) {
+  const cx = fb[0], cy = fb[1], hw = fb[2], hh = fb[3], px = fb[4], WR = fb[10];
+  p.out = Math.hypot(cx, cy) > WR;                              // camera centre outside the world: clear to darkness
+  const c = p.clear || (p.clear = [0, 0, 0, 1]), src = p.out ? FLOOR_DARK : FLOOR_BASE;
+  for (let i = 0; i < 3; i++) c[i] = src[i];
+  const fade = 1 - Math.min(1, Math.max(0, (px - 3) / 2));      // zoomed far out: lines fade, then are skipped
+  // columns and rows with a margin; the shader derives its own column count, which may
+  // differ by one through rounding: the margin keeps the screen covered either way
+  p.hexes = fade > 0 ? (Math.ceil((2 * hw) / (46 * Math.sqrt(3))) + 3) * (Math.ceil((2 * hh) / 46) + 4) * 2 : 0;
+  if (p.hexes > 30000) p.hexes = 0;                             // (only when zoomed out enormously, e.g. after death)
+  return p;
+}
+
+function createGL(canvas, E) {
+  const gl = canvas.getContext("webgl2", { antialias: false, alpha: false, depth: false, stencil: false,
+    premultipliedAlpha: true, powerPreference: "high-performance" });
+  if (!gl) return null;
+  const { NS, RING } = E;
+  // Skin palette in a uniform buffer, looked up once per VERTEX and handed to the pixels
+  // as flat colours. (Indexing a constant array per pixel is a slow path on Direct3D,
+  // which runs WebGL in Edge/Chrome on Windows.)
+  const PAL = `layout(std140) uniform Pal { vec4 uPal[256]; };`; // 128 main colours, then 128 stripe colours
+  // Per-frame values shared by every program: ONE uniform-buffer upload per frame.
+  // highp members: fragment shaders below default to mediump (half precision on mobile GPUs)
+  const FRAME = `layout(std140) uniform Frame { highp vec4 uCamHalf; highp vec4 uPxTime; highp vec4 uResWR; };`;
+
+  /* Floor: every part is ONE flat colour, and almost no pixels are drawn at all.
+     1. The screen is cleared to the floor colour (or to darkness when the camera is
+        outside the world). A clear is nearly free: GPUs mark whole blocks as "clear
+        colour" instead of writing every pixel.
+     2. Hex outlines: thin quads exactly one pixel wide in one flat colour.
+     3. Only when the world's edge is on screen: a thin red line along it, and the other
+        side of it (darkness, or the floor when the camera is outside) in one flat colour.
+     No floor pixel does any maths or blending: each shape's colour comes from its
+     vertex shader. Ring shapes (instance = kind):
+       0 inside the world, floor colour (camera outside)   1 thin dark ring past the edge (camera outside)
+       2 the red edge line                                   3 darkness outside the world (camera inside)
+     The dark rings also hide hex lines poking past the edge. A shape that is off screen
+     collapses to nothing in the vertex shader. */
+  const FLOOR_RIM = `
+  float rimHW(){ return max(2.,uPxTime.x*1.5); }                  // half width of the edge line (world units)
+  float lineFade(){ return 1.-clamp((uPxTime.x-3.)*.5,0.,1.); }  // zoomed far out: lines fade out`;
+  const RING_VS = `#version 300 es
+  ${FRAME}
+  ${FLOOR_RIM}
+  uniform int uFirst;                                           // kind of instance 0 (no base instance in WebGL)
+  flat out vec3 vCol;
+  void main(){
+    int q=gl_VertexID/6, k=gl_VertexID-q*6, kind=gl_InstanceID+uFirst;
+    int da=(k==1||k==4||k==5)?1:0, dr=(k==2||k==3||k==5)?1:0;
+    float d=length(uCamHalf.xy), reach=length(uCamHalf.zw), WRr=uResWR.z, hw=rimHW();
+    float rIn=WRr-hw, rOut=WRr+hw, rHide=WRr+32.;
+    vec2 R; bool vis;
+    if(kind==0){ R=vec2(0.,rIn); vis=d-reach<rIn; vCol=vec3(${FLOOR_BASE.join(",")}); }
+    else if(kind==1){ R=vec2(rOut,rHide); vis=d+reach>rOut && d-reach<rHide; vCol=vec3(${FLOOR_DARK.join(",")}); }
+    else if(kind==2){ R=vec2(rIn,rOut); vis=d+reach>rIn && d-reach<rOut; vCol=vec3(${FLOOR_RIM_COL.join(",")}); }
+    else { R=vec2(rOut,d+reach+8.); vis=d+reach>rOut; vCol=vec3(${FLOOR_DARK.join(",")}); }
+    float a=float(q+da)*${(2 * Math.PI / FLOOR_RING_SEG).toFixed(8)}, r=dr==1?R.y:R.x;
+    vec2 w=vec2(cos(a),sin(a))*r, c=(w-uCamHalf.xy)/uCamHalf.zw;
+    gl_Position=vis?vec4(c.x,-c.y,0,1):vec4(2,2,2,1);
+  }`;
+  const RING_FS = `#version 300 es
+  precision mediump float;
+  flat in vec3 vCol; out vec4 o;
+  void main(){ o=vec4(vCol,1); }`;                            // one flat colour: no maths per pixel
+  const HEX_VS = `#version 300 es
+  ${FRAME}
+  ${FLOOR_RIM}
+  flat out vec3 vCol;
+  // a dot at each hex corner: each hex owns 2 of its 6 (every corner is shared by 3 hexes:
+  // its right one and its upper-right one); unit hex: inradius .5
+  const vec2 DC[2]=vec2[2](vec2(.5774,0.),vec2(.2887,.5));
+  void main(){
+    vec2 S=vec2(${FLOOR_HX},${FLOOR_HY});
+    int nx=int(ceil(2.*uCamHalf.z/S.x))+3;                      // columns, first column and row: as floorPlan
+    ivec2 f0=ivec2(floor((uCamHalf.xy-uCamHalf.zw)/S))-1;
+    int lat=gl_InstanceID&1, cell=gl_InstanceID>>1;
+    vec2 ctr=(vec2(float(cell%nx+f0.x),float(cell/nx+f0.y))+float(lat)*.5)*S;
+    if(length(ctr)>uResWR.z){ gl_Position=vec4(2,2,2,1); return; } // outside the world: no dots
+    int e=gl_VertexID/6, k=gl_VertexID-e*6;
+    vec2 q=vec2((k==1||k==4||k==5)?1.:-1., (k==2||k==3||k==5)?1.:-1.);
+    vec2 P=ctr+DC[e]*46.;
+    vec2 c=(P+q*uPxTime.x*max(1.,uPxTime.z)-uCamHalf.xy)/uCamHalf.zw; // a square 2 CSS pixels wide
+    gl_Position=vec4(c.x,-c.y,0,1);
+    float d=length(P), WR=uResWR.z;
+    vec3 col=mix(vec3(${FLOOR_DOT.join(",")}), vec3(${FLOOR_DOT_MID.join(",")}), 1.-smoothstep(WR*.35-150.,WR*.35,d));
+    col=mix(col, vec3(${FLOOR_DOT_EDGE.join(",")}), smoothstep(WR-1600.,WR-200.,d));
+    vCol=mix(vec3(${FLOOR_BASE.join(",")}), col, lineFade());
+  }`;
+  const HEX_FS = `#version 300 es
+  precision mediump float;
+  flat in vec3 vCol; out vec4 o;
+  void main(){ o=vec4(vCol,1); }`;                            // one flat colour: no blending, no maths
+
+  // Food: instanced glowing orbs.
+  const VS = `#version 300 es
+  ${FRAME}
+  ${PAL}
+  layout(location=0) in ivec2 aP; layout(location=1) in uvec4 aB; // x, y (Q1) | value, skin, born lo, born hi
+  out vec2 vL; out float vR; flat out uvec4 vI; flat out vec3 vC;
+  // One instance per pellet, straight from memory. The list holds the pellets of the
+  // cells in view; the rest of the margin is culled here.
+  void main(){
+    vec2 p=vec2(aP)*.5, c0=p-uCamHalf.xy; float r=min(3.5+sqrt(float(aB.x)/16.)*2.6,15.);
+    if(aB.x==0u || any(greaterThan(abs(c0),uCamHalf.zw+r*${FOOD_GLOW}+uPxTime.x*1.5))){ gl_Position=vec4(2,2,2,1); return; }
+    vec2 q = vec2(float(gl_VertexID&1), float(gl_VertexID>>1))*2.-1.; // 4 corners: fewest vertices
+    bool tiny = r/uPxTime.x < 1.6;                          // pellet under ~1.6 px: no halo
+    vec2 l = q*(tiny ? r*.7+uPxTime.x*1.5 : r*${FOOD_GLOW});
+    vec2 c = (c0+l)/uCamHalf.zw;
+    gl_Position = vec4(c.x,-c.y,0,1);
+    // age in quarter-steps, smooth (the clock has fractions); a pellet "born in the future"
+    // (online: drawn slightly in the past) counts as just born, not wrapped round to fully grown
+    float age=mod(uPxTime.w-float(aB.z|(aB.w<<8)),65536.); if(age>60000.) age=0.;
+    vL=l; vR=r; vI=uvec4(0u,aB.y,((aB.z|(aB.w<<8))*37u+uint(aP.x&255))&255u,uint(min(age,255.)*16.)); vC=uPal[aB.y&127u].rgb; // pulse phase: from the pellet itself
+  }`;
+  const FS = `#version 300 es
+  precision mediump float;
+  ${FRAME}
+  in vec2 vL; in float vR; flat in uvec4 vI; flat in vec3 vC;
+  out vec4 o;
+  void main(){
+    float d=length(vL), r=vR, aa=uPxTime.x*1.2;
+    vec3 c=vC;
+    highp float ph=uPxTime.y*4.+float(vI.z)*.0245;
+    float pulse=.75+.25*sin(ph);
+    float born=smoothstep(0.,10.,float(vI.w)*.0625);   // fade in over ~0.6 s, smoothly every frame
+    float rr=r*(.4+.6*born);
+    if(d>=max(rr*${FOOD_GLOW},rr*.7+aa)) discard; // corner of the quad, outside the glow: nothing to blend
+    float core=(1.-smoothstep(rr*.7-aa,rr*.7+aa,d))*born;
+    float t=min(d/(rr*${FOOD_GLOW}),1.), g=1.-t*t;
+    float glow = r/uPxTime.x < 1.6 ? 0. : g*g*pulse*born; // fuller halo, still 0 at the quad edge
+    o=vec4(c*glow + mix(c,vec3(1),.55*(1.-d/(rr*.7)))*core, core);
+  }`;
+
+  // Snakes: the GPU builds the ribbons itself ("vertex pulling"). Each instance
+  // is one visible snake; its vertices read trail points straight out of an
+  // RG16I texture that is a byte copy of WebAssembly memory. CPU work per snake:
+  // one 48-byte header.
+  const RVS = `#version 300 es
+  precision highp float; precision highp int; precision highp isampler2D;
+  ${FRAME}
+  ${PAL}
+  uniform highp isampler2D uTrail;
+  layout(location=0) in vec4 aH0;  // head x, y, u, radius
+  layout(location=1) in vec4 aH1;  // spacing, stride, angle, width factor
+  layout(location=2) in uvec4 aH2; // row, newest trail index, segments, skin|flags<<8
+  out float vT, vV; out vec2 vDir; flat out uint vFl; flat out float vR, vNl; flat out vec3 vCA, vCB;
+  const float CR=1./.42;
+  vec2 T(int k){ return vec2(texelFetch(uTrail, ivec2((int(aH2.y)-k)&${RING - 1}, int(aH2.x)), 0).rg)*.5; }
+  vec2 fwd(){ return vec2(cos(aH1.z),sin(aH1.z)); }
+  // Strip order: tail cap, body samples tail->head, head, head cap. All snakes share
+  // one instanced draw sized for the longest, so spare vertices must be nearly free:
+  // they repeat the head cap (no texture reads) and form zero-area triangles.
+  void main(){
+    // body samples sit on trail points whose ring index is a multiple of the stride, so
+    // the same points stay sampled as the snake moves (no wobble when zoomed out)
+    int n=int(aH2.z), st=int(aH1.y), i0=n-1-((n-1-int(aH2.y))&(st-1)), K=i0>=1?(i0-1)/st+1:0;
+    int j=gl_VertexID>>1; bool side=(gl_VertexID&1)==0;
+    float W=aH1.w, hr=aH0.w*W;
+    vec2 p, tg; float t;
+    if(j<=0){                       // tail cap: 2 texture reads
+      vec2 a=T(n-2), b=T(n-1), d=b-a; float l=length(d);
+      d=l>1e-3?d/l:-fwd(); p=mix(a,b,aH0.z)+d*hr; tg=-d; t=float(n-1)+CR*W;
+    } else if(j<=K){                // body sample: 3 texture reads
+      int i=max(i0-(j-1)*st,1);
+      vec2 a=T(i-1), b=T(i), c=T(i+1), d=a-c; float l=length(d);
+      p=mix(a,b,aH0.z); tg=l>1e-3?d/l:fwd(); t=float(i);
+    } else if(j==K+1){ p=aH0.xy; tg=fwd(); t=0.; }                 // head
+    else { tg=fwd(); p=aH0.xy+tg*hr; t=-CR*W; }                      // head cap (and spares)
+    vec2 nrm=vec2(-tg.y,tg.x)*hr;
+    vec2 c=(p+(side?nrm:-nrm)-uCamHalf.xy)/uCamHalf.zw;
+    gl_Position=vec4(c.x,-c.y,0,1);
+    vT=t; vV=side?W:-W; vDir=tg;
+    uint sk=aH2.w&127u; vCA=uPal[sk].rgb; vCB=uPal[128u+sk].rgb;
+    vFl=(aH2.w>>8)|(aH2.y<<8); vR=aH0.w; vNl=float(n-1); // flags | newest ring index
+  }`;
+  const RFS = `#version 300 es
+  precision highp float;
+  ${FRAME}
+  in float vT, vV; in vec2 vDir; flat in uint vFl; flat in float vR, vNl; flat in vec3 vCA, vCB;
+  out vec4 o;
+  const float SP=.42, CR=1./.42;
+  vec3 shade(float k, vec2 l, float nd, vec2 f){
+    uint ki=uint(k);
+    // stripes follow each scale's fixed trail index (newest - k), not its count from the
+    // head, so they stay put as the snake moves instead of sliding and flickering
+    vec3 base = ki==0u || ((((vFl>>8)-ki)>>2u)&1u)==0u ? vCA : vCB;
+    vec3 c=base*(1.05-.55*nd*nd);
+    vec2 sp=l-vec2(-.28,-.36);
+    c+=vec3(.28)*exp(-dot(sp,sp)*7.);
+    c=mix(c*.55,c,1.-smoothstep(.82,1.,nd));
+    if(ki==0u){ // head: eyes
+      vec2 sd=vec2(-f.y,f.x); float aa=uPxTime.x*1.2/vR;
+      for(int e=0;e<2;e++){
+        vec2 ec=f*.32+sd*(e==0?.45:-.45);
+        c=mix(c,vec3(.97),1.-smoothstep(.3-aa,.3+aa,length(l-ec)));
+        c=mix(c,vec3(.03,.04,.07),1.-smoothstep(.16-aa,.16+aa,length(l-ec-f*.11)));
+      }
+    }
+    return c;
+  }
+  void main(){
+    float aa=uPxTime.x*1.2/vR, av=abs(vV);
+    if(av>1.+aa && (vFl&5u)==0u) discard; // outside the body and no glow: skip everything
+    vec2 f=normalize(vDir), side=vec2(-f.y,f.x);
+    float h=av<1. ? sqrt(1.-av*av)*CR : 0.;
+    float k0=clamp(av<1. ? ceil(vT-h) : floor(vT+.5), 0., vNl), k1=min(k0+1.,vNl);
+    vec2 l0=-f*(vT-k0)*SP+side*vV, l1=-f*(vT-k1)*SP+side*vV;
+    float n0=length(l0), n1=length(l1);
+    float e0=1.-smoothstep(1.-aa,1.+aa,n0), e1=(1.-smoothstep(1.-aa,1.+aa,n1))*(1.-e0);
+    float a=e0+e1, glow=0.;
+    vec3 gc=vCA*1.2;
+    float gd=min(n0,n1); // distance to the nearest scale circle: round glow, also at head and tail
+    if((vFl&1u)!=0u) glow=exp(-pow(max(gd-.8,0.)/.45,2.))*(.55+.25*sin(uPxTime.y*18.))*(1.-a);
+    else if((vFl&4u)!=0u){ glow=exp(-pow(max(gd-.85,0.)/.3,2.))*(.45+.15*sin(uPxTime.y*2.5+vT*.3))*(1.-a); gc=vec3(1.,.78,.3); }
+    if(a<=0. && glow<=.003) discard;
+    vec3 c=(e0>0. ? shade(k0,l0,n0,f)*e0 : vec3(0)) + (e1>0. ? shade(k1,l1,n1,f)*e1 : vec3(0));
+    if((vFl&2u)==0u){ // other snakes (not yours): a faint thin red outline, so they stand out
+      float rim=smoothstep(.9-aa,.9+aa,av);
+      if((k0==0. && dot(l0,f)>0.) || (k0==vNl && dot(l0,f)<0.)) rim=max(rim,smoothstep(.9-aa,.9+aa,n0)); // round head front, tail end
+      c=mix(c,vec3(.85,.18,.22)*a,rim*.5);
+    }
+    if((vFl&4u)!=0u) c+=vec3(1.,.85,.4)*.18*a*(.5+.5*sin(vT*.8-uPxTime.y*3.)); // shimmering scales
+    o=vec4(c+gc*glow, a);
+  }`;
+
+  // Name + level labels: pre-drawn once per snake into a texture atlas, drawn
+  // as one instanced quad per visible snake at a constant on-screen size.
+  const LVS = `#version 300 es
+  ${FRAME}
+  layout(location=0) in vec4 aH0; layout(location=2) in uvec4 aH2;
+  uniform vec2 uSlot, uCells; // slot size in CSS px, atlas grid
+  out vec2 vUV;
+  void main(){
+    vec2 q=vec2(float(gl_VertexID&1), float(gl_VertexID>>1));     // 0..1, y down
+    vec2 c=(aH0.xy-vec2(0.,aH0.w*1.25)-uCamHalf.xy)/uCamHalf.zw;   // anchor just above the head
+    vec2 off=vec2(q.x-.5, q.y-1.)*uSlot*uPxTime.z;                // screen px, y down
+    gl_Position=vec4(c.x+off.x*2./uResWR.x, -c.y-off.y*2./uResWR.y, 0, 1);
+    float slot=float(aH2.x);
+    vUV=(vec2(mod(slot,uCells.x), floor(slot/uCells.x))+q)/uCells;
+  }`;
+  const LFS = `#version 300 es
+  precision mediump float;
+  uniform sampler2D uAtlas; in vec2 vUV; out vec4 o;
+  void main(){ o=texture(uAtlas,vUV); }`;
+
+  // Minimap: one instanced draw in a corner of the same canvas (no Canvas2D).
+  const MVS = `#version 300 es
+  ${PAL}
+  layout(location=0) in vec3 aP; layout(location=1) in uint aI;
+  uniform vec3 uMini; // centre (clip) and radius in device px
+  uniform vec2 uRes;
+  out vec2 vL; out vec2 vS; flat out uint vI; flat out vec3 vC;
+  void main(){
+    uint kind=aI&255u; vC=uPal[(aI>>8)&127u].rgb;
+    vec2 q=vec2(float(gl_VertexID&1), float(gl_VertexID>>1))*2.-1.;
+    vec2 ext = kind==3u ? vec2(aP.z, float(aI>>8)/16777215.) + 6./uMini.z : vec2(aP.z*(kind==0u?1.03:1.) + 1.5/uMini.z);
+    vec2 m=aP.xy+q*ext;                       // minimap units (disc radius 1), y down
+    gl_Position=vec4(uMini.xy+vec2(m.x,-m.y)*uMini.z*2./uRes,0,1);
+    vL=q*ext; vS=ext; vI=aI;
+  }`;
+  const MFS = `#version 300 es
+  precision mediump float;
+  uniform highp vec3 uMini;
+  in vec2 vL; in vec2 vS; flat in uint vI; flat in vec3 vC; out vec4 o;
+  vec4 over(vec4 a, vec4 b){ return a+b*(1.-a.a); } // premultiplied "a over b"
+  void main(){
+    uint kind=vI&255u; float aa=1./uMini.z; vec4 c=vec4(0);
+    // pixels that would add nothing are discarded (no blending); flat areas skip the edge maths
+    if(kind==0u){ // backdrop + centre zone + rim
+      float d=length(vL); if(d>1.+aa) discard;
+      vec4 c0=vec4(vec3(.047,.066,.118)*.9,.9), cz=vec4(vec3(.98,.44,.52)*.07,.07);
+      if(abs(d-.35)>aa && d<1.-4.*aa) c = d<.35 ? over(cz,c0) : c0;
+      else {
+        c=c0*(1.-smoothstep(1.-aa,1.+aa,d));
+        c=over(cz*(1.-smoothstep(.35-aa,.35+aa,d)), c);
+        c=over(vec4(vec3(.98,.44,.52)*.5,.5)*(1.-smoothstep(0.,2.*aa,abs(d-(1.-2.*aa)))), c);
+      }
+    } else if(kind==1u){
+      float r=vS.x-1.5*aa, dd=length(vL); if(dd>r+aa) discard;
+      float a=(1.-smoothstep(r-aa,r+aa,dd))*float((vI>>16)&255u)/255.;
+      c=vec4(vC*a,a);
+    } else if(kind==2u){ // you
+      float d=length(vL), r=vS.x-1.5*aa; if(d>r+aa) discard;
+      c=over(vec4(vec3(1),1)*(1.-smoothstep(r*.55-aa,r*.55+aa,d)), vec4(vec3(.3),.3)*(1.-smoothstep(r-aa,r+aa,d)));
+    } else { // view rectangle outline
+      vec2 h=vS-6.*aa, e=abs(vL)-h; float d=abs(max(e.x,e.y)); if(d>1.5*aa) discard;
+      float a=(1.-smoothstep(.5*aa,1.5*aa,d))*.4; c=vec4(vec3(a),a);
+    }
+    o=c;
+  }`;
+
+
+  function prog(vs, fs, ubo = true) {
+    const p = gl.createProgram();
+    for (const [t, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) {
+      const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+      gl.attachShader(p, s);
+    }
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    if (ubo) gl.uniformBlockBinding(p, gl.getUniformBlockIndex(p, "Frame"), 0);
+    const pi = gl.getUniformBlockIndex(p, "Pal");
+    if (pi !== gl.INVALID_INDEX) gl.uniformBlockBinding(p, pi, 1);
+    return p;
+  }
+  const ringP = prog(RING_VS, RING_FS), hexP = prog(HEX_VS, HEX_FS), foodP = prog(VS, FS), ribP = prog(RVS, RFS), lblP = prog(LVS, LFS), miniP = prog(MVS, MFS, false);
+
+  // Textures live on fixed units for the whole run (no per-frame rebinding):
+  // unit 0 trail, unit 2 label atlas.
+  const atlas = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, atlas);
+  gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA8, E.AW, E.AH); // drawn ~1:1 with the screen: no mips needed
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.activeTexture(gl.TEXTURE0);
+
+  const firstU = gl.getUniformLocation(ringP, "uFirst");
+  const plan = {};
+  gl.useProgram(ribP); gl.uniform1i(gl.getUniformLocation(ribP, "uTrail"), 0);
+  gl.useProgram(lblP);
+  gl.uniform1i(gl.getUniformLocation(lblP, "uAtlas"), 2);
+  gl.uniform2f(gl.getUniformLocation(lblP, "uSlot"), E.SLOT_W, E.SLOT_H);
+  gl.uniform2f(gl.getUniformLocation(lblP, "uCells"), E.CELLS_X, E.CELLS_Y);
+
+  // ONE buffer per frame mirrors the WASM per-frame block (uniforms + all instance
+  // data), double-buffered so the CPU never waits for the GPU. The UBO is a range of it.
+  const A = E.arena, arena = [], foodVao = [], hdrVao = [], miniVao = [];
+  const inst = (loc, n, type, stride, off, int) => {
+    gl.enableVertexAttribArray(loc);
+    if (int) gl.vertexAttribIPointer(loc, n, type, stride, off); else gl.vertexAttribPointer(loc, n, type, false, stride, off);
+    gl.vertexAttribDivisor(loc, 1);
+  };
+  for (let i = 0; i < 2; i++) {
+    arena[i] = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, arena[i]);
+    gl.bufferData(gl.ARRAY_BUFFER, A.size, gl.DYNAMIC_DRAW);
+    foodVao[i] = gl.createVertexArray(); gl.bindVertexArray(foodVao[i]);
+    inst(0, 2, gl.SHORT, 8, A.food, true); inst(1, 4, gl.UNSIGNED_BYTE, 8, A.food + 4, true);
+    hdrVao[i] = gl.createVertexArray(); gl.bindVertexArray(hdrVao[i]);
+    inst(0, 4, gl.FLOAT, 48, A.hdr); inst(1, 4, gl.FLOAT, 48, A.hdr + 16); inst(2, 4, gl.UNSIGNED_INT, 48, A.hdr + 32, true);
+    miniVao[i] = gl.createVertexArray(); gl.bindVertexArray(miniVao[i]);
+    inst(0, 3, gl.FLOAT, 16, A.mini); inst(1, 1, gl.UNSIGNED_INT, 16, A.mini + 12, true);
+  }
+  // Trail: one RG16I texture; rows of on-screen snakes are kept in sync from WASM's upload list.
+  const trailTex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, trailTex); // unit 0
+  gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RG16I, RING, NS);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  const palBuf = gl.createBuffer();
+  gl.bindBuffer(gl.UNIFORM_BUFFER, palBuf);
+  gl.bufferData(gl.UNIFORM_BUFFER, E.palette, gl.STATIC_DRAW);
+  gl.bindBufferBase(gl.UNIFORM_BUFFER, 1, palBuf);
+  const emptyVao = gl.createVertexArray();
+  gl.bindVertexArray(null);
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); // premultiplied (enabled after the floor)
+
+  // GPU timing per pass (EXT_disjoint_timer_query_webgl2), read back without stalling.
+  const tq = gl.getExtension("EXT_disjoint_timer_query_webgl2");
+  const pending = []; // frames of 5 queries
+  const miniU = gl.getUniformLocation(miniP, "uMini"), miniRes = gl.getUniformLocation(miniP, "uRes");
+  let vw = 1, vh = 1;
+
+  const R = {
+    name: "WebGL 2", gpuMs: -1, passMs: null, canTime: !!tq, passNames: ["floor", "food", "snakes", "labels", "map"],
+    resize(w, h) { vw = w; vh = h; },
+    placeMini(cx, cy, r) { gl.useProgram(miniP); gl.uniform3f(miniU, cx, cy, r); gl.uniform2f(miniRes, vw, vh); },
+    labelSlot(src, x, y) {
+      gl.activeTexture(gl.TEXTURE2);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, gl.RGBA, gl.UNSIGNED_BYTE, src);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+      gl.activeTexture(gl.TEXTURE0);
+    },
+    draw(frameNo, playing, timing) {
+      const o = E.frameOut, nFood = o[0], nVis = o[1], maxK = o[2], nMini = playing ? o[4] : 0;
+      const f = frameNo & 1;
+      const qs = timing && tq && pending.length < 3 && (frameNo & 7) === 0 ? [] : null; // timed: 1 frame in 8 (see WebGPU)
+      const mark = () => { if (!qs) return; if (qs.length) gl.endQuery(tq.TIME_ELAPSED_EXT); const q = gl.createQuery(); gl.beginQuery(tq.TIME_ELAPSED_EXT, q); qs.push(q); };
+      // ONE upload: uniforms + snake headers + minimap + used food, from WASM memory
+      gl.bindBuffer(gl.ARRAY_BUFFER, arena[f]);
+      gl.bufferSubData(gl.ARRAY_BUFFER, 0, E.arenaBytes, 0, A.food + nFood * 8);
+      gl.bindBufferRange(gl.UNIFORM_BUFFER, 0, arena[f], 0, 48);
+
+      // trail: new points of snakes on screen only (runs listed by WASM), unit 0
+      for (let i = 0, n = o[3]; i < n; i++) {
+        const row = E.tup[i * 3], x = E.tup[i * 3 + 1];
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, x, row, E.tup[i * 3 + 2], 1, gl.RG_INTEGER, gl.SHORT, E.trail, (row * RING + x) * 2);
+      }
+      gl.viewport(0, 0, vw, vh);
+
+      mark(); // floor: clear (nearly free); flat inside area when outside; hex lines; edge band + darkness (see FLOOR_RIM)
+      floorPlan(E.frameBlk, plan);
+      gl.clearColor(plan.clear[0], plan.clear[1], plan.clear[2], 1); gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.disable(gl.BLEND); gl.bindVertexArray(emptyVao);
+      gl.useProgram(ringP);
+      if (plan.out) { gl.uniform1i(firstU, 0); gl.drawArrays(gl.TRIANGLES, 0, FLOOR_RING_SEG * 6); } // inside area
+      if (plan.hexes) { gl.useProgram(hexP); gl.drawArraysInstanced(gl.TRIANGLES, 0, 12, plan.hexes); gl.useProgram(ringP); }
+      gl.uniform1i(firstU, plan.out ? 1 : 2); gl.drawArraysInstanced(gl.TRIANGLES, 0, FLOOR_RING_SEG * 6, 2); // kinds 1+2 or 2+3
+      gl.enable(gl.BLEND);
+      mark(); // food
+      if (nFood) { gl.useProgram(foodP); gl.bindVertexArray(foodVao[f]); gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, nFood); }
+      mark(); // snakes
+      if (nVis) { gl.useProgram(ribP); gl.bindVertexArray(hdrVao[f]); gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 2 * (maxK + 3), nVis); }
+      mark(); // labels (same headers)
+      if (nVis) { gl.useProgram(lblP); gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, nVis); }
+      mark(); // minimap
+      if (nMini) { gl.useProgram(miniP); gl.bindVertexArray(miniVao[f]); gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, nMini); }
+      if (qs) { gl.endQuery(tq.TIME_ELAPSED_EXT); pending.push(qs); }
+      while (pending.length && gl.getQueryParameter(pending[0][4], gl.QUERY_RESULT_AVAILABLE)) {
+        const done = pending.shift(), ok = !gl.getParameter(tq.GPU_DISJOINT_EXT);
+        const ms = done.map((q) => { const v = gl.getQueryParameter(q, gl.QUERY_RESULT) / 1e6; gl.deleteQuery(q); return v; });
+        if (ok) { R.passMs = ms; R.gpuMs = ms.reduce((a, b) => a + b, 0); }
+      }
+    },
+  };
+  return R;
+}
+/* ============================================================================
+   WebGPU renderer (preferred). Same passes and same look as the WebGL one.
+   - One upload per frame (a byte copy of the WASM per-frame block), plus the
+     new trail points of snakes on screen.
+   - Five direct draws in one pass with one shared bind group (measured
+     cheaper than bundles + indirect draws for so few draws).
+   - Optional per-pass GPU timestamps (when the browser exposes them).
+   ========================================================================== */
+async function createGPU(canvas, E) {
+  if (!navigator.gpu) throw new Error("this browser has no WebGPU");
+  const adapter = await navigator.gpu.requestAdapter({ powerPreference: "high-performance" });
+  if (!adapter) throw new Error("no WebGPU adapter (graphics driver)");
+  const canTime = adapter.features.has("timestamp-query"), F16 = adapter.features.has("shader-f16");
+  const device = await adapter.requestDevice({ requiredFeatures: [...(canTime ? ["timestamp-query"] : []), ...(F16 ? ["shader-f16"] : [])] });
+  const ctx = canvas.getContext("webgpu");
+  if (!ctx) throw new Error("canvas has no webgpu context");
+  const format = navigator.gpu.getPreferredCanvasFormat();
+  ctx.configure({ device, format, alphaMode: "opaque" });
+  const { NS, RING } = E;
+  const q = device.queue, U = GPUBufferUsage, TU = GPUTextureUsage;
+  device.pushErrorScope("validation");
+
+  const WGSL = /* wgsl */ `${F16 ? "enable f16;" : ""}
+// colour maths in half precision where the GPU supports it (big win on mobile GPUs)
+alias hf = ${F16 ? "f16" : "f32"}; alias hv3 = vec3<hf>; alias hv4 = vec4<hf>;
+struct Frame { camHalf: vec4f, pxTime: vec4f, resWR: vec4f };
+struct Mini { c: vec4f };
+@group(0) @binding(0) var<uniform> F: Frame;
+@group(0) @binding(3) var<storage, read> trail: array<u32>; // x | y<<16, a byte copy of WASM memory
+@group(0) @binding(4) var atlasTex: texture_2d<f32>;
+@group(0) @binding(5) var linClamp: sampler;
+@group(0) @binding(6) var<uniform> M: Mini;
+// skin palette (128 main, then 128 stripe colours): read once per vertex, passed to pixels flat
+@group(0) @binding(7) var<uniform> PAL: array<vec4f, 256>;
+const RM: i32 = ${RING - 1};
+const CR: f32 = 2.38095238;   // 1 / 0.42: circle radius in segment units
+const SP: f32 = 0.42;
+
+fn quad(vi: u32) -> vec2f { return vec2f(f32(vi & 1u), f32(vi >> 1u)); }
+
+// ---------- floor (see render-gl.js: every part one flat colour; the shape kinds) ----------
+const FB = vec3f(${FLOOR_BASE.join(", ")}); const FD = vec3f(${FLOOR_DARK.join(", ")});
+fn rimHW() -> f32 { return max(2., F.pxTime.x * 1.5); }            // half width of the edge line (world units)
+fn lineFade() -> f32 { return 1. - clamp((F.pxTime.x - 3.) * .5, 0., 1.); } // zoomed far out: lines fade out
+fn corner(k: u32) -> vec2f { return vec2f(select(0., 1., k == 1u || k == 4u || k == 5u), select(0., 1., k == 2u || k == 3u || k == 5u)); } // 2 triangles
+struct RingO { @builtin(position) pos: vec4f, @location(0) @interpolate(flat) col: vec3f };
+// instance index = shape kind (the draw's first instance picks them)
+@vertex fn vsRing(@builtin(vertex_index) vi: u32, @builtin(instance_index) kind: u32) -> RingO {
+  let q = vi / 6u; let dk = corner(vi % 6u);
+  let d = length(F.camHalf.xy); let reach = length(F.camHalf.zw); let WR = F.resWR.z; let hw = rimHW();
+  let rIn = WR - hw; let rOut = WR + hw; let rHide = WR + 32.;
+  var R = vec2f(rOut, d + reach + 8.); var vis = d + reach > rOut; var col = FD;           // 3: darkness outside
+  if (kind == 0u) { R = vec2f(0., rIn); vis = d - reach < rIn; col = FB; }               // 0: inside (camera outside)
+  else if (kind == 1u) { R = vec2f(rOut, rHide); vis = d + reach > rOut && d - reach < rHide; } // 1: thin dark ring
+  else if (kind == 2u) { R = vec2f(rIn, rOut); vis = d + reach > rIn && d - reach < rOut; col = vec3f(${FLOOR_RIM_COL.join(", ")}); } // 2: edge line
+  let a = (f32(q) + dk.x) * ${(2 * Math.PI / FLOOR_RING_SEG).toFixed(8)}; let r = select(R.x, R.y, dk.y > .5);
+  let w = vec2f(cos(a), sin(a)) * r; let c = (w - F.camHalf.xy) / F.camHalf.zw;
+  var o: RingO; o.pos = select(vec4f(2., 2., 2., 1.), vec4f(c.x, -c.y, 0., 1.), vis); o.col = col; return o;
+}
+@fragment fn fsRing(i: RingO) -> @location(0) vec4f { return vec4f(i.col, 1.); } // one flat colour: no maths per pixel
+struct HexO { @builtin(position) pos: vec4f, @location(0) @interpolate(flat) col: vec3f };
+@vertex fn vsHex(@builtin(vertex_index) vi: u32, @builtin(instance_index) ii: u32) -> HexO {
+  // a dot at each hex corner: each hex owns 2 of its 6 (every corner is shared by 3 hexes:
+  // its right one and its upper-right one); unit hex: inradius .5
+  var dc = array<vec2f, 2>(vec2f(.5774, 0.), vec2f(.2887, .5));
+  let S = vec2f(${FLOOR_HX}, ${FLOOR_HY});
+  let nx = i32(ceil(2. * F.camHalf.z / S.x)) + 3;               // columns, first column and row: as floorPlan
+  let f0 = vec2i(floor((F.camHalf.xy - F.camHalf.zw) / S)) - 1;
+  let cell = i32(ii >> 1u);
+  let ctr = (vec2f(f32(cell % nx + f0.x), f32(cell / nx + f0.y)) + f32(ii & 1u) * .5) * S;
+  var o: HexO;
+  if (length(ctr) > F.resWR.z) { o.pos = vec4f(2., 2., 2., 1.); return o; } // outside the world: no dots
+  let e = vi / 6u; let k = corner(vi % 6u);
+  let P = ctr + dc[e] * 46.;
+  let c = (P + (k * 2. - 1.) * F.pxTime.x * max(1., F.pxTime.z) - F.camHalf.xy) / F.camHalf.zw; // a square 2 CSS pixels wide
+  o.pos = vec4f(c.x, -c.y, 0., 1.);
+  let d = length(P); let WR = F.resWR.z;
+  var col = mix(vec3f(${FLOOR_DOT.join(", ")}), vec3f(${FLOOR_DOT_MID.join(", ")}), 1. - smoothstep(WR * .35 - 150., WR * .35, d));
+  col = mix(col, vec3f(${FLOOR_DOT_EDGE.join(", ")}), smoothstep(WR - 1600., WR - 200., d));
+  o.col = mix(FB, col, lineFade());
+  return o;
+}
+@fragment fn fsHex(i: HexO) -> @location(0) vec4f { return vec4f(i.col, 1.); } // one flat colour: no blending, no maths
+
+// ---------- food ----------
+struct FoodO { @builtin(position) pos: vec4f, @location(0) l: vec2f,
+  @location(1) @interpolate(flat) r: f32, @location(2) @interpolate(flat) info: vec4u, @location(3) @interpolate(flat) col: vec3f };
+// One instance per pellet, straight from memory (x, y Q1 | value, skin, born lo, born hi).
+// The list holds the pellets of the cells in view; the rest of the margin is culled here.
+@vertex fn vsFood(@builtin(vertex_index) vi: u32,
+                  @location(0) pq: vec2i, @location(1) b: vec4u) -> FoodO {
+  var o: FoodO;
+  let p = vec2f(pq) * .5; let r = min(3.5 + sqrt(f32(b.x) / 16.) * 2.6, 15.);
+  let c0 = p - F.camHalf.xy;
+  if (b.x == 0u || any(abs(c0) > F.camHalf.zw + r * ${FOOD_GLOW} + F.pxTime.x * 1.5)) { o.pos = vec4f(2., 2., 2., 1.); return o; }
+  let q = quad(vi) * 2. - 1.;                               // 4 corners: fewest vertices
+  let tiny = r / F.pxTime.x < 1.6;                         // under ~1.6 px: no halo
+  let l = q * select(r * ${FOOD_GLOW}, r * .7 + F.pxTime.x * 1.5, tiny);
+  let c = (c0 + l) / F.camHalf.zw;
+  // age in quarter-steps, smooth (the clock has fractions); "born in the future" (online:
+  // drawn slightly in the past) counts as just born, not wrapped round to fully grown
+  var age = F.pxTime.w - f32(b.z | (b.w << 8u)); age = age - 65536. * floor(age / 65536.); if (age > 60000.) { age = 0.; }
+  o.pos = vec4f(c.x, -c.y, 0., 1.); o.l = l; o.r = r; o.info = vec4u(0u, b.y, (((b.z | (b.w << 8u)) * 37u + u32(pq.x & 255)) & 255u), u32(min(age, 255.) * 16.)); // pulse phase: from the pellet itself
+  o.col = PAL[b.y & 127u].rgb; return o;
+}
+@fragment fn fsFood(i: FoodO) -> @location(0) vec4f {
+  let d = length(i.l); let r = i.r; let aa = F.pxTime.x * 1.2;
+  let c = i.col;
+  let pulse = .75 + .25 * sin(F.pxTime.y * 4. + f32(i.info.z) * .0245);
+  let born = smoothstep(0., 10., f32(i.info.w) * .0625); // fade in, smoothly every frame
+  let rr = r * (.4 + .6 * born);
+  if (d >= max(rr * ${FOOD_GLOW}, rr * .7 + aa)) { discard; } // corner of the quad, outside the glow: nothing to blend
+  let core = hf((1. - smoothstep(rr * .7 - aa, rr * .7 + aa, d)) * born);
+  var glow = hf(0.);
+  if (r / F.pxTime.x >= 1.6) { let t = min(d / (rr * ${FOOD_GLOW}), 1.); let g = 1. - t * t; glow = hf(g * g * pulse * born); } // fuller halo, same quad
+  let ch = hv3(c);
+  let rgb = ch * glow + mix(ch, hv3(1.), hf(.55 * (1. - d / (rr * .7)))) * core;
+  return vec4f(vec3f(rgb), f32(core));
+}
+
+// ---------- snakes: ribbons built from the trail buffer ----------
+struct RibO { @builtin(position) pos: vec4f, @location(0) t: f32, @location(1) v: f32, @location(2) dir: vec2f,
+  @location(3) @interpolate(flat) ca: vec3f, @location(4) @interpolate(flat) fl: u32,
+  @location(5) @interpolate(flat) r: f32, @location(6) @interpolate(flat) nl: f32, @location(7) @interpolate(flat) cb: vec3f };
+fn T(h2: vec4u, k: i32) -> vec2f {
+  let v = trail[h2.x * ${RING}u + u32((i32(h2.y) - k) & RM)];
+  return vec2f(f32(bitcast<i32>(v << 16u) >> 16u), f32(bitcast<i32>(v) >> 16u)) * .5;
+}
+fn fwd(h1: vec4f) -> vec2f { return vec2f(cos(h1.z), sin(h1.z)); }
+// Strip order: tail cap, body samples tail->head, head, head cap. All snakes share
+// one instanced draw sized for the longest, so spare vertices must be nearly free:
+// they repeat the head cap (no texture reads) and form zero-area triangles.
+@vertex fn vsRib(@builtin(vertex_index) vi: u32, @location(0) h0: vec4f, @location(1) h1: vec4f, @location(2) h2: vec4u) -> RibO {
+  // body samples sit on trail points whose ring index is a multiple of the stride, so
+  // the same points stay sampled as the snake moves (no wobble when zoomed out)
+  let n = i32(h2.z); let st = i32(h1.y); let i0 = n - 1 - ((n - 1 - i32(h2.y)) & (st - 1));
+  let K = select(0, (i0 - 1) / st + 1, i0 >= 1);
+  let j = i32(vi >> 1u); let side = (vi & 1u) == 0u;
+  let W = h1.w; let hr = h0.w * W;
+  var p: vec2f; var tg: vec2f; var t: f32;
+  if (j <= 0) {                       // tail cap: 2 texture reads
+    let a = T(h2, n - 2); let b = T(h2, n - 1); var d = b - a; let l = length(d);
+    if (l > 1e-3) { d = d / l; } else { d = -fwd(h1); }
+    p = mix(a, b, h0.z) + d * hr; tg = -d; t = f32(n - 1) + CR * W;
+  } else if (j <= K) {                // body sample: 3 texture reads
+    let i = max(i0 - (j - 1) * st, 1);
+    let a = T(h2, i - 1); let b = T(h2, i); let d = a - T(h2, i + 1); let l = length(d);
+    p = mix(a, b, h0.z); if (l > 1e-3) { tg = d / l; } else { tg = fwd(h1); } t = f32(i);
+  } else if (j == K + 1) { p = h0.xy; tg = fwd(h1); t = 0.; }       // head
+  else { tg = fwd(h1); p = h0.xy + tg * hr; t = -CR * W; }           // head cap (and spares)
+  let nrm = vec2f(-tg.y, tg.x) * hr;
+  let c = (p + select(-nrm, nrm, side) - F.camHalf.xy) / F.camHalf.zw;
+  var o: RibO;
+  o.pos = vec4f(c.x, -c.y, 0., 1.); o.t = t; o.v = select(-W, W, side); o.dir = tg;
+  let sk = h2.w & 127u; o.ca = PAL[sk].rgb; o.cb = PAL[128u + sk].rgb;
+  o.fl = (h2.w >> 8u) | (h2.y << 8u); o.r = h0.w; o.nl = f32(n - 1); // flags | newest ring index
+  return o;
+}
+fn shade(k: f32, l: vec2f, nd: f32, f: vec2f, ca: vec3f, cb: vec3f, r: f32, newest: u32) -> vec3f {
+  let ki = u32(k);
+  // stripes follow each scale's fixed trail index (newest - k), not its count from the
+  // head, so they stay put as the snake moves instead of sliding and flickering
+  var base = ca; if (ki != 0u && (((newest - ki) >> 2u) & 1u) == 1u) { base = cb; }
+  var c = base * (1.05 - .55 * nd * nd);
+  let sp = l - vec2f(-.28, -.36);
+  c += vec3f(.28) * exp(-dot(sp, sp) * 7.);
+  c = mix(c * .55, c, 1. - smoothstep(.82, 1., nd));
+  if (ki == 0u) { // head: eyes
+    let sd = vec2f(-f.y, f.x); let aa = F.pxTime.x * 1.2 / r;
+    for (var e = 0; e < 2; e++) {
+      let ec = f * .32 + sd * select(-.45, .45, e == 0);
+      c = mix(c, vec3f(.97), 1. - smoothstep(.3 - aa, .3 + aa, length(l - ec)));
+      c = mix(c, vec3f(.03, .04, .07), 1. - smoothstep(.16 - aa, .16 + aa, length(l - ec - f * .11)));
+    }
+  }
+  return c;
+}
+@fragment fn fsRib(i: RibO) -> @location(0) vec4f {
+  let aa = F.pxTime.x * 1.2 / i.r; let av = abs(i.v);
+  if (av > 1. + aa && (i.fl & 5u) == 0u) { discard; } // outside the body and no glow: skip everything
+  let f = normalize(i.dir); let side = vec2f(-f.y, f.x);
+  var h = 0.; if (av < 1.) { h = sqrt(1. - av * av) * CR; }
+  let k0 = clamp(select(floor(i.t + .5), ceil(i.t - h), av < 1.), 0., i.nl); let k1 = min(k0 + 1., i.nl);
+  let l0 = -f * (i.t - k0) * SP + side * i.v; let l1 = -f * (i.t - k1) * SP + side * i.v;
+  let n0 = length(l0); let n1 = length(l1);
+  let e0 = 1. - smoothstep(1. - aa, 1. + aa, n0); let e1 = (1. - smoothstep(1. - aa, 1. + aa, n1)) * (1. - e0);
+  let a = e0 + e1;
+  var gc = i.ca * 1.2; var glow = 0.;
+  let gd = min(n0, n1); // distance to the nearest scale circle: round glow, also at head and tail
+  if ((i.fl & 1u) != 0u) { glow = exp(-pow(max(gd - .8, 0.) / .45, 2.)) * (.55 + .25 * sin(F.pxTime.y * 18.)) * (1. - a); }
+  else if ((i.fl & 4u) != 0u) { glow = exp(-pow(max(gd - .85, 0.) / .3, 2.)) * (.45 + .15 * sin(F.pxTime.y * 2.5 + i.t * .3)) * (1. - a); gc = vec3f(1., .78, .3); }
+  if (a <= 0. && glow <= .003) { discard; }
+  var c = vec3f(0.);
+  if (e0 > 0.) { c += shade(k0, l0, n0, f, i.ca, i.cb, i.r, i.fl >> 8u) * e0; }
+  if (e1 > 0.) { c += shade(k1, l1, n1, f, i.ca, i.cb, i.r, i.fl >> 8u) * e1; }
+  if ((i.fl & 2u) == 0u) { // other snakes (not yours): a faint thin red outline, so they stand out
+    var rim = smoothstep(.9 - aa, .9 + aa, av);
+    if ((k0 == 0. && dot(l0, f) > 0.) || (k0 == i.nl && dot(l0, f) < 0.)) { rim = max(rim, smoothstep(.9 - aa, .9 + aa, n0)); } // round head front, tail end
+    c = mix(c, vec3f(.85, .18, .22) * a, rim * .5);
+  }
+  if ((i.fl & 4u) != 0u) { c += vec3f(1., .85, .4) * .18 * a * (.5 + .5 * sin(i.t * .8 - F.pxTime.y * 3.)); } // shimmering scales
+  return vec4f(c + gc * glow, a);
+}
+
+// ---------- labels: one quad per visible snake, from the atlas ----------
+struct LblO { @builtin(position) pos: vec4f, @location(0) uv: vec2f };
+@vertex fn vsLbl(@builtin(vertex_index) vi: u32, @location(0) h0: vec4f, @location(2) h2: vec4u) -> LblO {
+  let q = quad(vi);
+  let c = (h0.xy - vec2f(0., h0.w * 1.25) - F.camHalf.xy) / F.camHalf.zw;
+  let off = vec2f(q.x - .5, q.y - 1.) * vec2f(${E.SLOT_W}., ${E.SLOT_H}.) * F.pxTime.z;
+  var o: LblO;
+  o.pos = vec4f(c.x + off.x * 2. / F.resWR.x, -c.y - off.y * 2. / F.resWR.y, 0., 1.);
+  let slot = h2.x;
+  o.uv = (vec2f(f32(slot % ${E.CELLS_X}u), f32(slot / ${E.CELLS_X}u)) + q) / vec2f(${E.CELLS_X}., ${E.CELLS_Y}.);
+  return o;
+}
+@fragment fn fsLbl(i: LblO) -> @location(0) vec4f { return textureSample(atlasTex, linClamp, i.uv); }
+
+// ---------- minimap ----------
+struct MiniO { @builtin(position) pos: vec4f, @location(0) l: vec2f, @location(1) s: vec2f, @location(2) @interpolate(flat) info: u32, @location(3) @interpolate(flat) col: vec3f };
+@vertex fn vsMini(@builtin(vertex_index) vi: u32, @location(0) p: vec3f, @location(1) info: u32) -> MiniO {
+  let kind = info & 255u;
+  let q = quad(vi) * 2. - 1.;
+  var ext = vec2f(p.z * select(1., 1.03, kind == 0u) + 1.5 / M.c.z);
+  if (kind == 3u) { ext = vec2f(p.z, f32(info >> 8u) / 16777215.) + 6. / M.c.z; }
+  let m = p.xy + q * ext;
+  var o: MiniO;
+  o.pos = vec4f(M.c.xy + vec2f(m.x, -m.y) * M.c.z * 2. / F.resWR.xy, 0., 1.);
+  o.l = q * ext; o.s = ext; o.info = info; o.col = PAL[(info >> 8u) & 127u].rgb; return o;
+}
+fn over(a: hv4, b: hv4) -> hv4 { return a + b * (hf(1.) - a.a); }
+@fragment fn fsMini(i: MiniO) -> @location(0) vec4f {
+  let kind = i.info & 255u; let aa = 1. / M.c.z;
+  var c = hv4(0.);
+  // pixels that would add nothing are discarded (no blending); flat areas skip the edge maths
+  if (kind == 0u) {
+    let d = length(i.l); if (d > 1. + aa) { discard; }
+    let c0 = hv4(hv3(.047, .066, .118) * hf(.9), hf(.9)); let cz = hv4(hv3(.98, .44, .52) * hf(.07), hf(.07));
+    if (abs(d - .35) > aa && d < 1. - 4. * aa) { c = select(c0, over(cz, c0), d < .35); }
+    else {
+      c = c0 * hf(1. - smoothstep(1. - aa, 1. + aa, d));
+      c = over(cz * hf(1. - smoothstep(.35 - aa, .35 + aa, d)), c);
+      c = over(hv4(hv3(.98, .44, .52) * hf(.5), hf(.5)) * hf(1. - smoothstep(0., 2. * aa, abs(d - (1. - 2. * aa)))), c);
+    }
+  } else if (kind == 1u) {
+    let r = i.s.x - 1.5 * aa; let dd = length(i.l); if (dd > r + aa) { discard; }
+    let a = hf((1. - smoothstep(r - aa, r + aa, dd)) * f32((i.info >> 16u) & 255u) / 255.);
+    c = hv4(hv3(i.col) * a, a);
+  } else if (kind == 2u) {
+    let d = length(i.l); let r = i.s.x - 1.5 * aa; if (d > r + aa) { discard; }
+    c = over(hv4(1.) * hf(1. - smoothstep(r * .55 - aa, r * .55 + aa, d)), hv4(hv3(.3), hf(.3)) * hf(1. - smoothstep(r - aa, r + aa, d)));
+  } else {
+    let h = i.s - 6. * aa; let e = abs(i.l) - h; let d = abs(max(e.x, e.y)); if (d > 1.5 * aa) { discard; }
+    let a = hf((1. - smoothstep(.5 * aa, 1.5 * aa, d)) * .4); c = hv4(hv3(a), a);
+  }
+  return vec4f(c);
+}
+`;
+  const mod = device.createShaderModule({ code: WGSL });
+  const info = await mod.getCompilationInfo();
+  const errs = info.messages.filter((m) => m.type === "error");
+  if (errs.length) throw new Error("WGSL: " + errs.map((m) => `${m.lineNum}:${m.linePos} ${m.message}`).join("\n"));
+
+  // ---- resources ----
+  const buf = (size, usage) => device.createBuffer({ size: Math.ceil(size / 4) * 4, usage });
+  // ONE buffer mirrors the WASM per-frame block: frame uniforms + all instance data
+  const A = E.arena, arenaBuf = buf(A.size, U.UNIFORM | U.VERTEX | U.COPY_DST);
+  const miniUBuf = buf(16, U.UNIFORM | U.COPY_DST);
+  const palBuf = buf(E.palette.byteLength, U.UNIFORM | U.COPY_DST);
+  q.writeBuffer(palBuf, 0, E.palette);
+  const trailBuf = buf(NS * RING * 4, U.STORAGE | U.COPY_DST);
+  q.writeBuffer(trailBuf, 0, E.mem, E.ptr.trail, NS * RING * 4); // all of it once: a renderer remade after a lost device starts in step
+  // trail copy on the GPU: rows of on-screen snakes are kept in sync by WASM's upload list
+  const plan = {}; // floor: clear colour, flat side, hex count (see floorPlan)
+  const atlasTex = device.createTexture({ size: [E.AW, E.AH], format: "rgba8unorm", // drawn ~1:1 with the screen: no mips
+    usage: TU.TEXTURE_BINDING | TU.RENDER_ATTACHMENT | TU.COPY_DST });
+  const linClamp = device.createSampler({ magFilter: "linear", minFilter: "linear" }); // the atlas has no mips
+
+  const V = GPUShaderStage.VERTEX, FR = GPUShaderStage.FRAGMENT;
+  const bgl = device.createBindGroupLayout({ entries: [
+    { binding: 0, visibility: V | FR, buffer: {} },
+    { binding: 3, visibility: V, buffer: { type: "read-only-storage" } },
+    { binding: 4, visibility: FR, texture: {} },
+    { binding: 5, visibility: FR, sampler: {} },
+    { binding: 6, visibility: V | FR, buffer: {} },
+    { binding: 7, visibility: V, buffer: {} },
+  ] });
+  const bind = device.createBindGroup({ layout: bgl, entries: [
+    { binding: 0, resource: { buffer: arenaBuf, offset: 0, size: 48 } }, { binding: 3, resource: { buffer: trailBuf } },
+    { binding: 4, resource: atlasTex.createView() }, { binding: 5, resource: linClamp },
+    { binding: 6, resource: { buffer: miniUBuf } },
+    { binding: 7, resource: { buffer: palBuf } },
+  ] });
+  const layout = device.createPipelineLayout({ bindGroupLayouts: [bgl] });
+  const PREMUL = { color: { srcFactor: "one", dstFactor: "one-minus-src-alpha" }, alpha: { srcFactor: "one", dstFactor: "one-minus-src-alpha" } };
+  const pipe = (vs, fs, buffers, blend, fmt = format, strip = true) => device.createRenderPipeline({
+    layout, vertex: { module: mod, entryPoint: vs, buffers },
+    fragment: { module: mod, entryPoint: fs, targets: [{ format: fmt, blend }] },
+    primitive: { topology: strip ? "triangle-strip" : "triangle-list" },
+  });
+  const inst = (stride, attrs) => [{ arrayStride: stride, stepMode: "instance", attributes: attrs.map(([l, o, f]) => ({ shaderLocation: l, offset: o, format: f })) }];
+  const foodL = inst(8, [[0, 0, "sint16x2"], [1, 4, "uint8x4"]]);
+  const hdrL = inst(48, [[0, 0, "float32x4"], [1, 16, "float32x4"], [2, 32, "uint32x4"]]);
+  const lblL = inst(48, [[0, 0, "float32x4"], [2, 32, "uint32x4"]]);
+  const miniL = inst(16, [[0, 0, "float32x3"], [1, 12, "uint32"]]);
+  const P = {
+    ring: pipe("vsRing", "fsRing", [], undefined, format, false),
+    hex: pipe("vsHex", "fsHex", [], undefined, format, false),
+    food: pipe("vsFood", "fsFood", foodL, PREMUL),
+    rib: pipe("vsRib", "fsRib", hdrL, PREMUL),
+    lbl: pipe("vsLbl", "fsLbl", lblL, PREMUL),
+    mini: pipe("vsMini", "fsMini", miniL, PREMUL),
+  };
+
+  // ---- the five draws: [pipeline, vertex-data offset in the arena] ----
+  const DRAWS = [[null, -1], [P.food, A.food], [P.rib, A.hdr], [P.lbl, A.hdr], [P.mini, A.mini]]; // 0: the floor (its own draws, in encodeDirect)
+  // reused every frame: no per-frame allocations
+  const counts = new Uint32Array([0, 0, 4, 0, 0, 0, 4, 0, 4, 0]); // (vertices, instances): floor (unused), food, snakes, labels, minimap
+  const mainAtt = { view: null, loadOp: "clear", storeOp: "store", clearValue: [0, 0, 0, 1] }; // clearValue: the floor colour (plan.clear)
+  const mainDesc = { colorAttachments: [mainAtt] };
+  const setCounts = (food, maxK, nVis, nMini) => { counts[3] = food; counts[4] = 2 * (maxK + 3); counts[5] = nVis; counts[7] = nVis; counts[9] = nMini; };
+  const encodeDirect = (pass, i) => {
+    if (i === 0) { // floor: the pass cleared (nearly free); flat inside area when outside; hex lines; edge band + darkness
+      pass.setPipeline(P.ring);
+      if (plan.out) pass.draw(FLOOR_RING_SEG * 6, 1, 0, 0);
+      if (plan.hexes) { pass.setPipeline(P.hex); pass.draw(12, plan.hexes); pass.setPipeline(P.ring); }
+      pass.draw(FLOOR_RING_SEG * 6, 2, 0, plan.out ? 1 : 2); // kinds 1+2 or 2+3
+      return;
+    }
+    const [p, off] = DRAWS[i], vc = counts[i * 2], ic = counts[i * 2 + 1];
+    if (!ic) return;
+    pass.setPipeline(p);
+    if (off >= 0) pass.setVertexBuffer(0, arenaBuf, off);
+    pass.draw(vc, ic);
+  };
+
+  // ---- GPU timestamps (optional) ----
+  let qset = null, resolveBuf = null, readBuf = null, reading = false, mapping = false;
+  if (canTime) {
+    qset = device.createQuerySet({ type: "timestamp", count: 12 });
+    resolveBuf = device.createBuffer({ size: 96, usage: U.QUERY_RESOLVE | U.COPY_SRC });
+    readBuf = device.createBuffer({ size: 96, usage: U.MAP_READ | U.COPY_DST });
+  }
+  const err = await device.popErrorScope();
+  if (err) throw new Error("WebGPU setup: " + err.message);
+
+  const R = {
+    name: "WebGPU" + (F16 ? " (f16)" : ""), gpuMs: -1, passMs: null, canTime, device,
+    passNames: ["clear", "floor", "food", "snakes", "labels", "map"],
+    resize() {},
+    placeMini(cx, cy, r) { q.writeBuffer(miniUBuf, 0, new Float32Array([cx, cy, r, 0])); },
+    labelSlot(src, x, y) {
+      q.copyExternalImageToTexture({ source: src }, { texture: atlasTex, origin: { x, y }, premultipliedAlpha: true }, [src.width, src.height]);
+    },
+    draw(frameNo, playing, timing) {
+      const o = E.frameOut, nFood = o[0], nVis = o[1], maxK = o[2], nMini = playing ? o[4] : 0;
+      // ONE upload for all per-frame data, straight from WebAssembly memory
+      q.writeBuffer(arenaBuf, 0, E.mem, A.base, A.food + nFood * 8);
+      // trail: new points of snakes on screen only (runs listed by WASM)
+      for (let i = 0, n = o[3]; i < n; i++) {
+        const off = (E.tup[i * 3] * RING + E.tup[i * 3 + 1]) * 4;
+        q.writeBuffer(trailBuf, off, E.mem, E.ptr.trail + off, E.tup[i * 3 + 2] * 4);
+      }
+      const enc = device.createCommandEncoder();
+      const view = ctx.getCurrentTexture().createView();
+      setCounts(nFood, maxK, nVis, nMini);
+      floorPlan(E.frameBlk, plan);
+      // GPU timing splits the frame into separately timed passes, which costs extra; only
+      // every 8th frame is measured, so the CPU figures show what normal frames cost
+      if (!(timing && canTime && !reading && (frameNo & 7) === 0)) {
+        mainAtt.view = view; mainAtt.clearValue = plan.clear;
+        const pass = enc.beginRenderPass(mainDesc);
+        pass.setBindGroup(0, bind);
+        for (let i = 0; i < 5; i++) encodeDirect(pass, i);
+        pass.end();
+      } else { // measuring: the clear, then one pass per draw, each timestamped
+        for (let i = 0; i < 6; i++) {
+          const pass = enc.beginRenderPass({ colorAttachments: [{ view, loadOp: i ? "load" : "clear", storeOp: "store", clearValue: plan.clear }],
+            timestampWrites: { querySet: qset, beginningOfPassWriteIndex: i * 2, endOfPassWriteIndex: i * 2 + 1 } });
+          if (i) { pass.setBindGroup(0, bind); encodeDirect(pass, i - 1); }
+          pass.end();
+        }
+        enc.resolveQuerySet(qset, 0, 12, resolveBuf, 0);
+        enc.copyBufferToBuffer(resolveBuf, 0, readBuf, 0, 96);
+        reading = true;
+      }
+      q.submit([enc.finish()]);
+      if (reading && !mapping) {
+        mapping = true;
+        readBuf.mapAsync(GPUMapMode.READ).then(() => {
+          const t = new BigUint64Array(readBuf.getMappedRange());
+          const ms = [0, 1, 2, 3, 4, 5].map((i) => Number(t[i * 2 + 1] - t[i * 2]) / 1e6);
+          readBuf.unmap(); reading = mapping = false;
+          if (ms.every((v) => v >= 0 && v < 1000)) { R.passMs = ms; R.gpuMs = ms.reduce((a, b) => a + b, 0); }
+        }, () => { reading = mapping = false; });
+      }
+    },
+  };
+  return R;
+}
+/* ============================================================================
+   Death information sheet (both pages; inlined by build.sh).
+   The picture is the moment of death as it looked on this screen, copied on the spot right
+   after that frame was drawn, while the canvas still holds it (WebGPU and WebGL keep a frame
+   until the end of the task that drew it), scaled to at most 960 px wide. Offline: the frame
+   where the death happens, drawn once more with the snake in (the sim's deathPose()). Online:
+   the frame where your head, as drawn, first touches a body or the edge (the page checks that
+   itself); if it never saw one, the server's crash step from the DEATH message. Nothing else
+   is copied while you play. "Download information sheet" then
+   draws a PNG card with the run's numbers and that picture on a 2D canvas: nothing is sent
+   anywhere.
+   ========================================================================== */
+const deathShot = { img: null };
+function copyCanvas(cv) {
+  try {
+    const w = Math.min(960, cv.width), h = Math.max(1, Math.round(cv.height * w / cv.width));
+    const c = document.createElement("canvas"); c.width = w; c.height = h;
+    c.getContext("2d").drawImage(cv, 0, 0, w, h); return c;
+  } catch (e) { return null; }
+}
+function grabDeathShot(cv) { deathShot.img = copyCanvas(cv); }
+// d: { name, mode, length, peak, best, kills, rankNow, rankBest, total, killer, seconds, colour }
+function downloadDeathSheet(d) {
+  const W = 1000, pad = 40, pic = deathShot.img;
+  const pw = W - pad * 2, ph = pic ? Math.round(pic.height * pw / pic.width) : 0;
+  const cells = [
+    ["Length when you died", d.length.toLocaleString()],
+    ["Longest this run", d.peak.toLocaleString()],
+    ["Your best ever (this device)", d.best.toLocaleString()],
+    ["Highest place this run", d.rankBest ? `#${d.rankBest}` : "–"],
+    ["Place when you died", d.rankNow ? `#${d.rankNow} of ${d.total}` : "–"],
+    ["Kills", String(d.kills)],
+    ["Time alive", d.seconds >= 60 ? `${Math.floor(d.seconds / 60)} min ${Math.round(d.seconds % 60)} s` : `${Math.round(d.seconds)} s`],
+    ["Killed by", d.killer],
+    ["Mode", d.mode],
+  ];
+  // online, for checking deaths against the screen: where the picture came from, and the connection
+  if (d.picture) cells.push(["Picture", d.picture]);
+  if (d.net) cells.push(["Connection", d.net]);
+  const cols = 3, cw = (pw - (cols - 1) * 14) / cols, chh = 84, rows = Math.ceil(cells.length / cols);
+  const H = 170 + rows * (chh + 14) + (pic ? ph + 60 : 0) + 50;
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const g = c.getContext("2d"), font = "system-ui, -apple-system, Segoe UI, Roboto, sans-serif";
+  g.fillStyle = "#070a12"; g.fillRect(0, 0, W, H);
+  const grad = g.createLinearGradient(pad, 0, pad + 300, 0); grad.addColorStop(0, "#34d399"); grad.addColorStop(1, "#38bdf8");
+  g.fillStyle = grad; g.font = `800 44px ${font}`; g.textBaseline = "alphabetic"; g.fillText("ouro", pad, 74);
+  g.fillStyle = "#93a0bd"; g.font = `500 18px ${font}`;
+  g.fillText(`Run report · ${new Date().toLocaleString()}`, pad, 104);
+  g.fillStyle = d.colour || "#34d399"; g.beginPath(); g.arc(pad + 9, 137, 9, 0, Math.PI * 2); g.fill();
+  g.fillStyle = "#e8edf8"; g.font = `700 24px ${font}`; g.fillText(d.name, pad + 28, 145);
+  let y = 170;
+  cells.forEach(([k, v], i) => {
+    const x = pad + (i % cols) * (cw + 14), yy = y + Math.floor(i / cols) * (chh + 14);
+    g.fillStyle = "rgba(255,255,255,.05)"; g.strokeStyle = "rgba(255,255,255,.10)";
+    g.beginPath(); g.roundRect(x, yy, cw, chh, 12); g.fill(); g.stroke();
+    let fs = 28; g.font = `700 ${fs}px ${font}`;
+    while (g.measureText(v).width > cw - 32 && fs > 18) g.font = `700 ${--fs}px ${font}`; // long values: smaller first
+    g.fillStyle = "#e8edf8";
+    let t = v; while (g.measureText(t).width > cw - 32 && t.length > 2) t = t.slice(0, -2) + "…";
+    g.fillText(t, x + 16, yy + 40);
+    g.fillStyle = "#93a0bd"; g.font = `600 13px ${font}`; g.fillText(k.toUpperCase(), x + 16, yy + 66);
+  });
+  y += rows * (chh + 14) + 10;
+  if (pic) {
+    g.fillStyle = "#93a0bd"; g.font = `600 14px ${font}`; g.fillText("THE MOMENT OF DEATH", pad, y + 22);
+    g.save(); g.beginPath(); g.roundRect(pad, y + 34, pw, ph, 14); g.clip(); g.drawImage(pic, pad, y + 34, pw, ph); g.restore();
+    g.strokeStyle = "rgba(255,255,255,.12)"; g.beginPath(); g.roundRect(pad, y + 34, pw, ph, 14); g.stroke();
+    y += ph + 60;
+  }
+  g.fillStyle = "#5d6a86"; g.font = `500 13px ${font}`; g.fillText("Play at br8t.com/ouro", pad, H - 22);
+  c.toBlob((b) => {
+    if (!b) return;
+    const a = document.createElement("a"), stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
+    a.href = URL.createObjectURL(b); a.download = `ouro-run-${stamp}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  }, "image/png");
+}
+"use strict";
+/* Ouro (formerly Serpent.io) ONLINE client. Based on src/app.js (offline), but the world comes
+   from the server (online/server): this page only draws it, with the same two
+   renderers as the offline game (src/render-gpu.js, src/render-gl.js, unchanged).
+
+   The renderers read one memory block laid out exactly like the offline
+   WebAssembly memory (frame uniforms | snake headers | minimap | food | trails).
+   Here that block is a plain ArrayBuffer that this file fills from the network:
+   snapshots bring only each snake's head and size (a body once, when it comes
+   into view) and changed food; this page lays the body points along the head's
+   path itself, like the simulation. Heads are interpolated ~70 ms in the past so
+   motion is smooth at any refresh rate. */
+
+const SKINS = [
+  ["#34d399", "#059669"], ["#38bdf8", "#0369a1"], ["#a78bfa", "#6d28d9"], ["#f472b6", "#be185d"],
+  ["#fbbf24", "#b45309"], ["#fb7185", "#be123c"], ["#a3e635", "#4d7c0f"], ["#22d3ee", "#0e7490"],
+  ["#fb923c", "#c2410c"], ["#818cf8", "#4338ca"], ["#f1f5f9", "#64748b"], ["#facc15", "#27272a"],
+];
+// Skins 12..127: the colour picker's choices (everyone builds the same list, so only the number is sent).
+// 24 hues x 4 lightnesses, 12 soft hues, 8 greys; the stripe colour is a darker shade of the same.
+{
+  const hsl = (h, s, l) => { const f = (n) => { const k = (n + h / 30) % 12, a = s * Math.min(l, 1 - l);
+    return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, "0"); }; return "#" + f(0) + f(8) + f(4); };
+  const add = (h, s, l) => SKINS.push([hsl(h, s, l), hsl(h, s, l * 0.55)]);
+  for (const l of [0.35, 0.5, 0.65, 0.8]) for (let h = 0; h < 360; h += 15) add(h, 0.85, l);
+  for (let h = 0; h < 360; h += 30) add(h, 0.35, 0.6);
+  for (let i = 0; i < 8; i++) add(0, 0, 0.12 + i * 0.115);
+}
+const nearestSkin = (hex) => { // the picker's colour → the closest skin from 12 on
+  const c = (h) => [1, 3, 5].map((o) => parseInt(h.substr(o, 2), 16)), [r, g, b] = c(hex);
+  let best = 12, bd = 1e9;
+  for (let i = 12; i < SKINS.length; i++) { const [R, G, B] = c(SKINS[i][0]), d = 2 * (R - r) ** 2 + 4 * (G - g) ** 2 + 3 * (B - b) ** 2; if (d < bd) { bd = d; best = i; } }
+  return best;
+};
+const BOT_NAMES = ["Noodle", "Slinky", "Viper", "Kaa", "Mamba", "Wiggles", "Nagini", "Zigzag", "Sir Hiss", "Boop", "Cobra Kai",
+  "Pythonista", "Rattler", "Sidewinder", "Jormungandr", "Ouroboros", "Danger Noodle", "Spaghetti", "Slithers", "Taipan",
+  "Adder", "Asp", "Basilisk", "Garter", "Krait", "Anaconda", "Boa", "Copperhead", "Hognose", "Kingsnake", "Milk Snake",
+  "Racer", "Whip", "Coral", "Sssam", "Hisssy", "Zero Cool", "Lil Fang", "Mr. Scales", "Big Tony", "Worm", "Longboi", "Snek", "Nope Rope", "Sneaky", "Wriggle", "Laces"];
+
+(async () => {
+  const $ = (id) => document.getElementById(id);
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+                  set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+  /* ---------------- the memory block the renderers read ---------------- */
+  const NS = 160, RING = 512, RMASK = RING - 1, MAXF = 8192, INTERP = 4; // INTERP: ticks behind the newest snapshot
+  const HDR = 48, MINI = HDR + NS * 48, FOOD = MINI + (NS + 4) * 16, TRAIL = (FOOD + MAXF * 8 + 15) & ~15;
+  const mem = new ArrayBuffer(TRAIL + NS * RING * 4);
+  const frameBlk = new Float32Array(mem, 0, 12), frameOut = new Int32Array(8);
+  const hdrF = new Float32Array(mem, HDR, NS * 12), hdrU = new Uint32Array(mem, HDR, NS * 12);
+  const miniF = new Float32Array(mem, MINI, (NS + 4) * 4), miniU = new Uint32Array(mem, MINI, (NS + 4) * 4);
+  const food32 = new Uint32Array(mem, FOOD, MAXF * 2);
+  const trail = new Int16Array(mem, TRAIL, NS * RING * 2);
+  const tup = new Uint32Array(8192 * 3); let ntup = 0;
+  const SLOT_W = 150, SLOT_H = 34, LS = Math.min(2, Math.max(1, window.devicePixelRatio || 1)), CELLS_X = 8, CELLS_Y = NS / CELLS_X;
+  const E = {
+    mem, NS, RING, SLOT_W, SLOT_H, CELLS_X, CELLS_Y, AW: SLOT_W * LS * CELLS_X, AH: SLOT_H * LS * CELLS_Y,
+    frameBlk, frameOut, trail, tup, ptr: { trail: TRAIL },
+    arena: { base: 0, hdr: HDR, mini: MINI, food: FOOD, size: FOOD + MAXF * 8 },
+  };
+  E.arenaBytes = new Uint8Array(mem, 0, E.arena.size);
+  E.palette = new Float32Array(SKINS.length * 8); // 128 main colours, then 128 stripe colours
+  SKINS.forEach(([a, b], i) => [a, b].forEach((h, k) => [1, 3, 5].forEach((o, c) => { E.palette[(k * SKINS.length + i) * 4 + c] = parseInt(h.substr(o, 2), 16) / 255; })));
+
+  /* ---------------- Renderer: WebGPU, or WebGL 2 when chosen ----------------
+     If WebGPU fails (at start or later: driver reset, GPU process restart) the game
+     stops and shows why, with "Try again" and "Use WebGL instead"; it never
+     switches silently. ?renderer=webgl (or the menu) picks WebGL directly. */
+  const canvas = $("gl");
+  const saved = store.get("serpent.renderer") || "auto";
+  const want = new URLSearchParams(location.search).get("renderer") || saved;
+  // Is this browser running the site with its JavaScript/WebAssembly optimizer off
+  // (Edge "Enhance your security on the web", Chrome "V8 optimizer" blocked)? That
+  // mode also turns WebGPU off and makes the game ~30x slower. A tight loop tells:
+  // a few ms with the optimizer, 10x more without it.
+  function optimizerOff() { // fastest of 3 runs: the first one includes compiling
+    let best = 1e9;
+    for (let k = 0; k < 3; k++) {
+      const t = performance.now(); let x = 0;
+      for (let i = 0; i < 3e6; i++) x = (x + i * 7) | 0;
+      best = Math.min(best, performance.now() - t + (x & 0));
+    }
+    return best > 25; // ~5 ms with the optimizer, 50+ without
+  }
+  const site = location.hostname || "this file";
+  const securityHint = () => `<p style="margin:0 0 14px;padding:10px;border-radius:10px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);font-size:14px;line-height:1.5">
+    <b>Likely cause:</b> your browser runs this site in a high-security mode (its JavaScript/WebAssembly optimizer is off here), which also turns off WebGPU and makes the game run about 30× slower.
+    <b>Edge:</b> Settings → Privacy, search and services → “Enhance your security on the web” → Exceptions → add <b>${site}</b> (or choose Basic).
+    <b>Chrome:</b> Settings → Privacy and security → Site settings → JavaScript optimization → allow <b>${site}</b>. Then reload.</p>`;
+  function gpuProblem(title, detail) { // resolves when the player picks WebGL
+    return new Promise((done) => {
+      const el = document.createElement("div");
+      el.className = "screen"; el.style.cssText = "z-index:50;background:rgba(4,6,12,.9)";
+      el.innerHTML = `<div class="card glass" style="text-align:left"><h2 style="font-size:24px;margin-bottom:10px">${title}</h2>
+        <p style="font:12.5px/1.5 ui-monospace,monospace;color:#fde68a;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:10px;word-break:break-word"></p>
+        <p style="margin:12px 0 18px;color:var(--dim);font-size:14px;line-height:1.5">Step-by-step fixes: <a href="https://developer.chrome.com/docs/web-platform/webgpu/troubleshooting-tips"
+        target="_blank" rel="noopener" style="color:var(--accent2)">WebGPU troubleshooting guide</a>.</p>
+        ${optimizerOff() ? securityHint() : ""}
+        <button class="play" data-a="retry">TRY AGAIN</button>
+        <button class="play" data-a="gl" style="margin-top:10px;background:rgba(255,255,255,.08);color:var(--text);box-shadow:none">Use WebGL instead</button></div>`;
+      el.querySelector("p").textContent = detail;
+      el.querySelector('[data-a="retry"]').onclick = () => { location.href = location.pathname; };
+      el.querySelector('[data-a="gl"]').onclick = () => { store.set("serpent.renderer", "webgl"); el.remove(); done(); }; // remembered; the menu switch changes it back
+      document.body.appendChild(el);
+    });
+  }
+  const toWebGL = () => { location.href = location.pathname + "?renderer=webgl"; };
+  let R = null, gpuDown = false, gpuRestarts = 0;
+  const touchDevice = matchMedia("(hover: none)").matches || navigator.maxTouchPoints > 0;
+  if (want !== "webgl") {
+    try { R = await createGPU(canvas, E); }
+    catch (e) {
+      console.warn("WebGPU failed:", e);
+      // a browser with no WebGPU at all has nothing to fix: Auto goes straight to WebGL
+      if (want !== "auto" || navigator.gpu) await gpuProblem("WebGPU isn't working", String(e && e.message || e));
+      R = null;
+      if (canvas.getContext("webgpu")) canvas.replaceWith(canvas.cloneNode()); // a failed WebGPU attempt holds the canvas
+    }
+    if (R) watchGPU(R);
+  }
+  // Phones and tablets drop the graphics device when you leave the page (another app, the
+  // home screen, a locked screen). There WebGPU is simply made again when you come back,
+  // with every snake's trail and name label sent anew; elsewhere a lost device is shown.
+  function watchGPU(r) {
+    r.device.lost.then((info) => {
+      if (info.reason === "destroyed" || R !== r) return;
+      if (touchDevice || document.hidden) restartGPU();
+      else gpuProblem("WebGPU stopped", `The graphics device was lost: ${info.message || "no reason given"}`).then(toWebGL);
+    });
+    let shown = false; // a WebGPU error while playing: show the first one (the rest are usually the same)
+    r.device.addEventListener("uncapturederror", (ev) => { if (!shown && R === r && !gpuDown) { shown = true; gpuProblem("WebGPU error", ev.error.message).then(toWebGL); } });
+  }
+  async function restartGPU() {
+    if (gpuDown) return;
+    gpuDown = true; // the main loop skips drawing meanwhile
+    if (document.hidden) await new Promise((ok) => { const f = () => { if (!document.hidden) { document.removeEventListener("visibilitychange", f); ok(); } }; document.addEventListener("visibilitychange", f); });
+    for (let i = 0; i < 4; i++) {
+      try {
+        const r = await createGPU(canvas, E);
+        R = r; watchGPU(r); resize(); slotKey.fill(""); gpuDown = false; gpuRestarts++;
+        return;
+      } catch (e) { console.warn("WebGPU restart failed:", e); await new Promise((ok) => setTimeout(ok, 400 * (i + 1))); }
+    }
+    gpuProblem("WebGPU stopped", "The graphics device was lost and could not be started again.").then(toWebGL);
+  }
+  if (!R) R = createGL($("gl"), E);
+  if (!R) { document.body.innerHTML = '<p style="padding:40px;font:18px system-ui;color:#fff">This game needs WebGPU or WebGL 2.</p>'; return; }
+  const cv = $("gl");
+  const QUAL = { sharp: 2, balanced: 1.25, fast: 1 };
+  let quality = store.get("serpent.quality") || "sharp";
+  for (const b of $("rsw").querySelectorAll("button")) {
+    b.setAttribute("aria-pressed", b.dataset.r === (store.get("serpent.renderer") || "auto")); // after any "Use WebGL instead"
+    b.onclick = () => { store.set("serpent.renderer", b.dataset.r); location.href = location.pathname; };
+  }
+  $("rnow").textContent = R.name;
+  const qEl = $("qsw");
+  const markQ = () => { for (const b of qEl.querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.q === quality); };
+  for (const b of qEl.querySelectorAll("button")) b.onclick = () => { quality = b.dataset.q; store.set("serpent.quality", quality); markQ(); resize(); };
+  markQ();
+
+  let vw = 0, vh = 0;
+  const miniEl = $("mini");
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, QUAL[quality] || 2);  // always full sharpness: never lowered automatically
+    vw = Math.max(1, Math.round(innerWidth * dpr)); vh = Math.max(1, Math.round(innerHeight * dpr)); // at least 1: a page opened in a background tab has no size yet, and a 0x0 canvas made WebGPU fail to start
+    if (cv.width !== vw || cv.height !== vh) { cv.width = vw; cv.height = vh; }
+    R.resize(vw, vh);
+    const r = miniEl.getBoundingClientRect();
+    R.placeMini(((r.left + r.width / 2) / innerWidth) * 2 - 1, 1 - ((r.top + r.height / 2) / innerHeight) * 2, (r.width / 2 - 3) * (vw / innerWidth));
+    sendView();
+  }
+  addEventListener("resize", resize);
+
+  /* ---------------- mirror of what the server told us ---------------- */
+  let WR = 8000, me = -1, spectate = 1;
+  const alive = new Uint8Array(NS), skin = new Uint8Array(NS), tier = new Uint8Array(NS), human = new Uint8Array(NS), boost = new Uint8Array(NS);
+  const segN = new Uint16Array(NS), pcOf = new Uint32Array(NS), mass = new Float32Array(NS), kills = new Uint16Array(NS);
+  const hist = Array.from({ length: NS }, () => []); // [{t, x, y, a}] newest last
+  const pnames = new Array(NS).fill("");
+  const botName = (s) => BOT_NAMES[(s * 7 + 3) % BOT_NAMES.length] + ["", " II", " III", " IV"][Math.min(3, Math.floor(s / BOT_NAMES.length))];
+  const nameOf = (s) => (human[s] || pnames[s] ? pnames[s] || "Player" : botName(s));
+  const radius = (m) => Math.min(10 + Math.sqrt(m) * 0.45, 40);
+  const segsFor = (m) => Math.min(14 + Math.floor(3.6 * Math.sqrt(m)), RING - 1);
+  const angOf = new Float32Array(NS);
+  const aimH = new Float32Array(NS), aimT = new Float32Array(NS), aimOk = new Uint8Array(NS); // heading and steering target from the server (flag 32)
+  const fixq = (v) => { v *= 2; return Math.max(-32767, Math.min(32767, Math.trunc(v + (v >= 0 ? 0.5 : -0.5)))); }; // as sim.c fix()
+  function uploadRun(s, a0, cnt) { const first = Math.min(cnt, RING - a0); upload(s, a0, first); if (first < cnt) upload(s, 0, cnt - first); }
+  // Lay body points toward the new head, one every `spacing`, exactly the way the
+  // simulation builds its trail: the server sends only the head, never the points.
+  function layTrail(s, x, y) {
+    const sp = radius(mass[s]) * 0.42; let pc = pcOf[s], cnt = 0;
+    for (; cnt < 8; cnt++) {
+      const j = (s * RING + ((pc - 1) & RMASK)) * 2, lx = trail[j] * 0.5, ly = trail[j + 1] * 0.5, dx = x - lx, dy = y - ly, d2 = dx * dx + dy * dy;
+      if (d2 < sp * sp) break;
+      const f = sp / Math.sqrt(d2), k = (s * RING + (pc & RMASK)) * 2;
+      trail[k] = fixq(lx + dx * f); trail[k + 1] = fixq(ly + dy * f); pc++;
+    }
+    if (cnt) uploadRun(s, (pcOf[s] & RMASK), cnt);
+    pcOf[s] = pc;
+  }
+
+  /* Your own snake, as splix.io does it. Every snake is drawn at the server's present (srvNow,
+     in steps: the drawn clock + the smoothing delay + the one-way delay), yours too. It moves
+     here one server step at a time, with the simulation's own turning and speed rules, and
+     each input is stamped with the step it takes effect at here (INPUT's last field). The
+     server applies it at that same step, replaying the few steps since (it arrives a one-way
+     delay later; main.rs input_meant, sim-server.c rescue). So the server's snake follows the
+     path shown here, and snapshots are compared step for step only to fix rounding, or a
+     replay the server refused (it would have crashed). Before, your snake was drawn a whole
+     round trip ahead of the server and the others had to be guessed that far ahead too. */
+  const PREDICT = new URLSearchParams(location.search).get("predict") !== "0"; // ?predict=0: off (for comparison)
+  const LAGTEST = new URLSearchParams(location.search).get("lagtest") === "1"; // ?lagtest=1: fake stalls (testing)
+  const pred = { on: false, x: 0, y: 0, a: 0, tick: 0, hist: [] }; // tick: the last step simulated; hist: {tk, x, y}, newest last
+  const pendIn = []; // inputs the server hasn't confirmed yet: [seq, the step they take effect at]
+  let srvNow = 0;    // the server's present, in steps (this frame)
+  const wrapA = (a) => { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; };
+  function predStart(x, y, a, tk) { pred.on = true; pred.x = x; pred.y = y; pred.a = a; pred.dx = Math.cos(a); pred.dy = Math.sin(a); pred.tick = tk; pred.m = mass[me]; pred.hist.length = 0; pendIn.length = 0; pred.corr = false; }
+  // One server step with exactly the simulation's maths (moveSnake): rotate the heading by
+  // at most the turn rate, then move. Run up to the server's present each frame.
+  const STEP = 1 / 60;
+  function predStep() {
+    const to = Math.floor(srvNow);
+    if (to - pred.tick > 30) pred.tick = to - 30; // a long stall: don't run a second of steps at once
+    while (pred.tick < to) {
+      pred.tick++;
+      const turn = 5.2 / (1 + (radius(mass[me]) - 12) * 0.045) * STEP;
+      let da = wrapA(sentAim - pred.a); da = Math.max(-turn, Math.min(turn, da));
+      if (da !== 0) {
+        pred.a = wrapA(pred.a + da);
+        const d2 = da * da, c = 1 - d2 * 0.5 + d2 * d2 / 24, sn = da * (1 - d2 / 6);
+        const x = pred.dx * c - pred.dy * sn, y = pred.dx * sn + pred.dy * c, f = 1.5 - 0.5 * (x * x + y * y);
+        pred.dx = x * f; pred.dy = y * f;
+      }
+      // boosting needs mass over 14 and uses it up (as moveSnake): predict that too, or the
+      // boost would run on here after the server has stopped it, and the snake jump back
+      const boosting = lastBoostSent > 0 && pred.m > 14;
+      if (boosting) pred.m -= (3 + pred.m * 0.003) * STEP;
+      const v = (boosting ? 430 : 195) * STEP;
+      pred.x += pred.dx * v; pred.y += pred.dy * v;
+      pred.hist.push({ tk: pred.tick, x: pred.x, y: pred.y }); if (pred.hist.length > 240) pred.hist.shift();
+    }
+  }
+  // where to draw the head: the last step, carried forward by the part of a step since
+  const predShown = () => { const v = (lastBoostSent > 0 && pred.m > 14 ? 430 : 195) * STEP * Math.max(0, Math.min(1, srvNow - pred.tick)); return [pred.x + pred.dx * v, pred.y + pred.dy * v]; };
+  function predCorrect(tick, ackSeq, sx, sy) { // the server's head (sx, sy) at step `tick`; it had our inputs up to ackSeq
+    while (pendIn.length && ((ackSeq - pendIn[0][0]) & 255) < 128) pendIn.shift(); // confirmed
+    if (!pred.on) return;
+    // Compare only a step for which the server had every input made for it. One still on its
+    // way means the server's head there is on the old course: it will replay that step when
+    // the input arrives, and "correcting" toward it now would pull the snake sideways and back.
+    for (const p of pendIn) if (p[1] <= tick) return;
+    const h = pred.hist, i = h.length ? tick - h[0].tk : -1;
+    if (i < 0 || i >= h.length || h[i].tk !== tick) return;
+    const ex = sx - h[i].x, ey = sy - h[i].y;
+    pred.err = Math.hypot(ex, ey);
+    if (window.__predLog) window.__predLog.push({ t: performance.now(), err: pred.err, tick, behind: pred.tick - tick, boost: lastBoostSent, mass: mass[me], aimGap: wrapA(sentAim - pred.a), hist: h.length });
+    // Only noted here; predApply closes it once per frame. Applied per snapshot, the burst that
+    // follows a network stall (a dozen at once) corrected a dozen times in one frame: a jump.
+    pred.cx = ex; pred.cy = ey; pred.ci = tick; pred.corr = true;
+  }
+  // 30% of the gap per 2 steps (by time, not by snapshots): smooth, settles in ~0.2 s. A big gap
+  // (the server refused a replay, e.g. it would have crashed) is closed at once.
+  function predApply(dt) {
+    if (!pred.corr) return;
+    pred.corr = false;
+    const h = pred.hist, i = h.length ? pred.ci - h[0].tk : -1;
+    if (i < 0 || i >= h.length) return;
+    const ex = pred.cx, ey = pred.cy, k = ex * ex + ey * ey > 60 * 60 ? 1 : 1 - Math.exp(-dt * 10.7), kx = ex * k, ky = ey * k;
+    pred.x += kx; pred.y += ky; for (let j = i; j < h.length; j++) { h[j].x += kx; h[j].y += ky; }
+  }
+  // food: server slot -> local slot (local slots stay dense so the GPU draws few)
+  const toLocal = new Int32Array(32768).fill(-1), freeL = []; let foodHigh = 0;
+  const miniList = []; // from the 4 Hz MINI message: [slot, skin, x, y, mass]
+  let board = { alive: 0, rank: 0, top: [] };
+  let estTick = -1, lastSnapAt = 0, bytesIn = 0;
+  /* Adaptive smoothing delay (a jitter buffer, as in most action games). Other snakes are
+     drawn between snapshots, a little in the past; the delay only has to cover one snapshot
+     interval, how late snapshots *usually* arrive, and a step of margin.
+     Measured Brisbane -> Kansas City (TCP over the Pacific): 95% of snapshots arrive within
+     ~9 ms of the fastest, but a lost packet stalls everything for 100-300 ms a few times a
+     minute. Sizing the delay for those stalls (the old 98% of the last 1.5 s, shrinking at
+     half a step a second) kept it at ~120 ms all the time, and the stalls still froze snakes.
+     Now: 95% of the last 10 s, at most 6 steps, back down within a couple of seconds; a stall
+     is bridged by carrying snakes on along their course (see interp) instead of waiting.
+     Arrivals are timed when the browser received them (msgAt), against the fastest. */
+  const ARR_N = 600, INTERP_MAX = 6, EXTRA_MAX = 10; // window (10 s of snapshots), steps
+  const arrOff = [], gaps = []; let arrLo = 0, interpGoal = INTERP, interpT = INTERP, interpSent = INTERP, rtS = -1, lastRt = 0, snapInt = 2, lastSnapTick = -1;
+  function noteArrival(t) {
+    arrOff.push((msgAt || performance.now()) - t * (1000 / 60)); if (arrOff.length > ARR_N) arrOff.shift();
+    if (lastSnapTick >= 0 && t > lastSnapTick && t - lastSnapTick < 8) { gaps.push(t - lastSnapTick); if (gaps.length > 30) gaps.shift(); }
+    lastSnapTick = t;
+    if (gaps.length >= 5) snapInt = [...gaps].sort((a, b) => a - b)[gaps.length >> 1]; // steps between snapshots (1 or 2)
+    if (arrOff.length < 10) return;
+    let lo = Infinity; for (const o of arrOff) if (o < lo) lo = o; arrLo = lo;
+    const late = arrOff.map((o) => (o - arrLo) * 0.06).sort((a, b) => a - b); // steps late, each
+    interpGoal = Math.min(INTERP_MAX, Math.max(snapInt + 1, snapInt + late[Math.floor(late.length * 0.95)] + 1)); // +1: margin
+  }
+
+  function clearWorld() {
+    alive.fill(0); for (const h of hist) h.length = 0;
+    food32.fill(0); toLocal.fill(-1); freeL.length = 0; foodHigh = 0;
+  }
+  function upload(s, first, count) { // trail range to (re)send to the GPU
+    if (ntup >= 8190) { ntup = 0; for (let i = 0; i < NS; i++) if (alive[i]) { tup[ntup * 3] = i; tup[ntup * 3 + 1] = 0; tup[ntup * 3 + 2] = RING; ntup++; } return; }
+    tup[ntup * 3] = s; tup[ntup * 3 + 1] = first; tup[ntup * 3 + 2] = count; ntup++;
+  }
+
+  function onSnap(d) {
+    let o = 1;
+    const tick = d.getUint32(o, true); o += 4;
+    me = d.getUint8(o) === 255 ? -1 : d.getUint8(o); spectate = d.getUint8(o + 1);
+    if (d.getUint8(o + 2) & 1) clearWorld(); // server resync
+    if (me >= 0) kills[me] = d.getUint16(o + 3, true);
+    const ackSeq = d.getUint8(o + 5), ackSteps = d.getUint8(o + 6);
+    o += 7;
+    const n = d.getUint8(o); o += 1;
+    const seen = new Uint8Array(NS);
+    for (let k = 0; k < n; k++) {
+      const s = d.getUint8(o), fl = d.getUint8(o + 1); o += 2;
+      boost[s] = fl & 1; human[s] = fl & 2 ? 1 : 0;
+      let x, y;
+      if (fl & 4) { // the whole body: when it comes into view (or after a resync)
+        skin[s] = d.getUint8(o) & 127; tier[s] = d.getUint8(o + 1); // 0..11 presets, 12..127 the colour picker's shades
+        x = d.getInt16(o + 2, true) * 0.5; y = d.getInt16(o + 4, true) * 0.5; mass[s] = d.getUint16(o + 6, true) / 4;
+        const cnt = d.getUint16(o + 8, true); o += 10;
+        const base = (pcOf[s] + RING) >>> 0; // a fresh stretch of the ring
+        let px = d.getInt16(o, true), py = d.getInt16(o + 2, true); o += 4;
+        for (let i = 0; i < cnt; i++) {
+          if (i) { px += d.getInt8(o); py += d.getInt8(o + 1); o += 2; }
+          const j = (s * RING + ((base + i) & RMASK)) * 2; trail[j] = px; trail[j + 1] = py;
+        }
+        pcOf[s] = (base + cnt) >>> 0; upload(s, 0, RING);
+        hist[s].length = 0;
+        const j = (s * RING + ((pcOf[s] - 1) & RMASK)) * 2;
+        if (x !== trail[j] * 0.5 || y !== trail[j + 1] * 0.5) angOf[s] = Math.atan2(y - trail[j + 1] * 0.5, x - trail[j] * 0.5);
+      } else { // only the head (and the size when it changed)
+        const h = hist[s], last = h[h.length - 1];
+        if (fl & 8) { x = d.getInt16(o, true) * 0.5; y = d.getInt16(o + 2, true) * 0.5; o += 4; }
+        else { x = (last ? last.x : 0) + d.getInt8(o) * 0.5; y = (last ? last.y : 0) + d.getInt8(o + 1) * 0.5; o += 2; }
+        if (fl & 16) { mass[s] = d.getUint16(o, true) / 4; o += 2;
+          if (s === me && pred.on) pred.m = mass[s] - (lastBoostSent > 0 && mass[s] > 14 ? (3 + mass[s] * 0.003) * Math.max(0, srvNow - tick) / 60 : 0); } // (that server mass is from step `tick`)
+        if (last && (x !== last.x || y !== last.y)) angOf[s] = Math.atan2(y - last.y, x - last.x);
+        if (s === me && pred.on) {
+          if (!(fl & 1) && lastBoostSent > 0 && ((ackSeq - boostSeq) & 255) < 128 && pred.m > 14) pred.m = 14; // it has our boost press but isn't boosting: too small
+          predCorrect(tick, ackSeq, x, y); // your body follows the prediction instead
+        }
+        else layTrail(s, x, y);
+      }
+      // flag 32: its heading and where it's steering, when either changed (sent to time-aligned pages)
+      if (fl & 32) { aimH[s] = d.getUint16(o, true) / 65536 * 2 * Math.PI - Math.PI; aimT[s] = d.getUint16(o + 2, true) / 65536 * 2 * Math.PI - Math.PI; aimOk[s] = 1; o += 4; } // 16 bits: at 8 (1.4 degrees) turning snakes were drawn shuffling sideways
+      else if (fl & 4) aimOk[s] = 0; // a new body without them: an older server
+      segN[s] = segsFor(mass[s]); alive[s] = 1; seen[s] = 1;
+      // Snakes far from every player move only every 4th step, 4 steps at once: a snapshot where
+      // the head didn't move is no new point, or it was drawn stop, stop, stop, jump. Between
+      // the points where it moved it now glides (and carries on at that speed after the last).
+      const h = hist[s], lh = h[h.length - 1];
+      if (s === me || !lh || lh.x !== x || lh.y !== y) { h.push({ t: tick, x, y, a: angOf[s], ha: aimOk[s] ? aimH[s] : NaN, ta: aimT[s] }); if (h.length > 24) h.shift(); } // 24: back to a crash before a grace wait
+      else if (aimOk[s]) { lh.ha = aimH[s]; lh.ta = aimT[s]; } // turned where it stands: keep the newest aim
+    }
+    for (let s = 0; s < NS; s++) if (!seen[s] && alive[s]) { alive[s] = 0; hist[s].length = 0; }
+    const m = d.getUint16(o, true); o += 2;
+    const bornNow = (tick >> 2) & 0xffff, bornOld = ((tick >> 2) - 255) & 0xffff;
+    for (let k = 0; k < m; k++) {
+      const v = d.getUint16(o, true), srv = v & 0x7fff; o += 2;
+      let j = toLocal[srv];
+      if (!(v & 0x8000)) { if (j >= 0) { food32[j * 2] = food32[j * 2 + 1] = 0; freeL.push(j); toLocal[srv] = -1; } continue; } // gone
+      const lo = d.getUint32(o, true), sk = d.getUint8(o + 5);
+      const hi = (d.getUint8(o + 4) | ((sk & 127) << 8) | ((sk & 128 ? bornNow : bornOld) << 16)) >>> 0; o += 6; // value, skin, born
+      if (j < 0) { j = freeL.length ? freeL.pop() : foodHigh < MAXF ? foodHigh++ : -1; if (j < 0) continue; toLocal[srv] = j; }
+      food32[j * 2] = lo; food32[j * 2 + 1] = hi;
+    }
+    while (foodHigh && !food32[(foodHigh - 1) * 2 + 1]) { // keep the drawn range tight
+      foodHigh--; const i = freeL.indexOf(foodHigh); if (i >= 0) freeL.splice(i, 1);
+    }
+    // server clock: advance smoothly, nudge toward what arrives
+    if (estTick < 0 || Math.abs(tick - estTick) > 30) estTick = tick; else estTick += (tick - estTick) * 0.08;
+    noteArrival(tick);
+    lastSnapAt = performance.now();
+  }
+
+  /* ---------------- network ---------------- */
+  const params = new URLSearchParams(location.search);
+  const DEFAULT_SERVER = "__SERVER_URL__";
+  const serverURL = params.get("server") ||
+    (/^https?:$/.test(location.protocol) && !location.hostname.endsWith("github.io") ? (location.protocol === "https:" ? "wss://" : "ws://") + location.host + location.pathname.replace(/[^/]*$/, "") + "ws"
+      : DEFAULT_SERVER.startsWith("__") ? "" : DEFAULT_SERVER);
+  let ws = null, connected = false, retry = 0;
+  const statusEl = $("net");
+  function setStatus(txt, cls) { statusEl.textContent = txt; statusEl.className = "net " + (cls || ""); }
+  function connect() {
+    if (!serverURL) { setStatus("", ""); $("play").disabled = true; return; } // no server set up for this copy of the page
+    setStatus("Connecting to server…");
+    try { ws = new WebSocket(serverURL); } catch { setStatus("Can't reach the server", "bad"); return; }
+    ws.binaryType = "arraybuffer";
+    ws.onopen = () => { connected = true; retry = 0; $("play").disabled = false; sendView(); startPings(); if (state !== "menu") join(); };
+    const take = (data, at) => { bytesIn += data.byteLength; msgAt = at; onMessage(new DataView(data)); };
+    let held = null; // ?lagtest=1: every 4 s, hold everything for 200 ms (what a lost packet does to TCP)
+    ws.onmessage = (e) => {
+      if (LAGTEST && (held || performance.now() % 4000 < 200)) {
+        if (!held) { held = []; setTimeout(() => { const q = held; held = null; for (const d of q) take(d, performance.now()); }, 200); }
+        held.push(e.data); return;
+      }
+      take(e.data, e.timeStamp || performance.now());
+    };
+    ws.onclose = () => {
+      connected = false; clearInterval(pingTimer); $("play").disabled = true; clearWorld(); me = -1;
+      if (state === "play") { state = "dead"; showOver("Lost connection to the server"); }
+      setStatus("Can't reach the server — retrying… (or play offline)", "bad");
+      setTimeout(connect, Math.min(10000, 1500 * ++retry));
+    };
+  }
+  const sendRaw = (bytes) => { if (connected && ws.readyState === 1) ws.send(bytes); };
+  /* Delay test: tiny PING messages, answered at once by the server. A burst of 5 when the
+     connection opens, then one every 4 s in the background. The fastest of the last 5
+     round trips goes to the server, which allows for it when judging your collisions. */
+  const pingAt = new Float64Array(256), rtts = []; let pingId = 0, rttMs = 0, rttSent = -1, pingTimer = 0;
+  let msgAt = 0; // when the browser received the last message (not when this page got to it)
+  function ping() { pingId = (pingId + 1) & 255; pingAt[pingId] = performance.now(); sendRaw(new Uint8Array([5, pingId])); }
+  function onPong(id) {
+    rtts.push(Math.max(0, msgAt - pingAt[id])); if (rtts.length > 5) rtts.shift();
+    rttMs = Math.min(...rtts); // the fastest recent round trip: the true delay plus as little extra as possible (never too high)
+    if (rtts.length >= 3 && Math.abs(rttMs - rttSent) > 8) sendDelay();
+  }
+  function sendDelay() { // round trip, the smoothing delay, and how far ahead others are drawn (tenths of a step): together, how late we see others
+    const b = new Uint8Array(6); b[0] = 6; new DataView(b.buffer).setUint16(1, Math.min(1000, Math.round(rttMs)), true); b[3] = Math.round(interpT * 10); b[4] = Math.round(aheadNow * 10); b[5] = PREDICT ? 3 : 0; // 1: time-aligned (everything drawn at the server present); 2: and reads flag 32; 3: at 16 bits
+    sendRaw(b); rttSent = rttMs; interpSent = interpT; aheadSent = aheadNow;
+  }
+  function startPings() {
+    rtts.length = 0; rttSent = -1; clearInterval(pingTimer);
+    for (let i = 0; i < 5; i++) setTimeout(ping, i * 150);
+    pingTimer = setInterval(ping, 4000);
+  }
+  function sendView() { const b = new Uint8Array(3); b[0] = 3; new DataView(b.buffer).setUint16(1, Math.round((vw / Math.max(1, vh)) * 1000), true); sendRaw(b); }
+  function join() {
+    const nm = new TextEncoder().encode(playerName()).slice(0, 48);
+    const b = new Uint8Array(5 + nm.length), dv = new DataView(b.buffer);
+    b[0] = 1; b[1] = skinSel; dv.setUint16(2, Math.round((vw / Math.max(1, vh)) * 1000), true); b[4] = nm.length; b.set(nm, 5);
+    sendRaw(b);
+    if (rtts.length >= 3) sendDelay(); // the server applies it to the new snake
+  }
+  let lastAimSent = 9, lastBoostSent = -1, lastInputAt = 0, sentAim = 0, inSeq = 0, boostSeq = 0; // boostSeq: the input that pressed boost
+  const sentAt = new Float64Array(256); // when each input (by its 8-bit number) was sent
+  function sendInput(now, aim, b) {
+    if (Math.abs(wrapA(aim - lastAimSent)) < 0.004 && b === lastBoostSent && now - lastInputAt < 250) return;
+    if (now - lastInputAt < 15 && b === lastBoostSent) return; // at most ~60/s
+    const u = new Uint8Array(pred.on ? 9 : 7), dv = new DataView(u.buffer);
+    let a = aim; while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI;
+    const q = Math.round(((a + Math.PI) / (2 * Math.PI)) * 65535);
+    inSeq = (inSeq + 1) & 255; sentAt[inSeq] = now;
+    if (b && lastBoostSent <= 0) boostSeq = inSeq;
+    u[0] = 2; dv.setUint16(1, q, true); u[3] = b; u[4] = inSeq;
+    dv.setUint16(5, Math.floor(now) & 0xffff, true); // when it was made (this page's clock, ms): the server sees how late each input arrives
+    if (pred.on) { dv.setUint16(7, (pred.tick + 1) & 0xffff, true); pendIn.push([inSeq, pred.tick + 1]); if (pendIn.length > 64) pendIn.shift(); } // the step it takes effect at, here and on the server
+    sendRaw(u); lastAimSent = aim; lastBoostSent = b; lastInputAt = now;
+    sentAim = q / 65535 * 2 * Math.PI - Math.PI; // exactly what the server will steer toward
+  }
+  function onMessage(d) {
+    switch (d.getUint8(0)) {
+      case 1: WR = d.getFloat32(4, true); setStatus(`Online · ${d.getUint8(9)} player${d.getUint8(9) === 1 ? "" : "s"} playing`, "ok"); break;
+      case 2: onSnap(d); break;
+      case 3: {
+        board = { alive: d.getUint16(1, true), rank: d.getUint16(3, true), top: [] };
+        for (let i = 0, k = d.getUint8(5), o = 6; i < k; i++, o += 8) board.top.push([d.getUint8(o), d.getUint8(o + 1), d.getUint8(o + 2), d.getUint8(o + 3), d.getFloat32(o + 4, true)]);
+        break;
+      }
+      case 4: { const s = d.getUint8(1), len = d.getUint8(2); pnames[s] = new TextDecoder().decode(new Uint8Array(d.buffer, d.byteOffset + 3, len)); human[s] = len ? 1 : human[s]; slotKey[s] = ""; break; }
+      case 5: // newer servers add the crash's step and head (Q1): the picture is drawn as at that moment
+        // the picture: what this screen showed when your head touched (taken on the spot), else
+        // the server's crash step (newer servers add its step and head, Q1)
+        deathPose = localShot && performance.now() - localShot.t < 1500 ? null :
+          d.byteLength >= 16 && me >= 0 ? { s: me, t: d.getUint32(8, true), x: d.getInt16(12, true) * 0.5, y: d.getInt16(14, true) * 0.5 } : null;
+        onDeath(d.getUint8(1), d.getUint16(2, true), d.getFloat32(4, true)); break;
+      case 6: {
+        miniList.length = 0;
+        for (let i = 0, k = d.getUint16(1, true), o = 3; i < k; i++, o += 5) { // slot, x, y (a byte each), skin, size
+          const sz = d.getUint8(o + 4) * 4;
+          miniList.push([d.getUint8(o), d.getUint8(o + 3) & 127, (d.getUint8(o + 1) / 255 * 2 - 1) * WR, (d.getUint8(o + 2) / 255 * 2 - 1) * WR, sz * sz]);
+        }
+        break;
+      }
+      case 8: onPong(d.getUint8(1)); break;
+      case 9: { // chat line: slot, name, text
+        const nl = d.getUint8(2), td = new TextDecoder();
+        const name = td.decode(new Uint8Array(d.buffer, d.byteOffset + 3, nl)), tl = d.getUint16(3 + nl, true);
+        const text = td.decode(new Uint8Array(d.buffer, d.byteOffset + 5 + nl, tl));
+        if (text === chatLast) clearTimeout(chatWait); // our own line came back: chat works
+        addChat(name || "Player", text);
+        break;
+      }
+      case 7: setStatus("The server is full right now — try again soon, or play offline", "bad"); state = "menu"; showMenu(); break;
+    }
+  }
+
+  /* ---------------- UI ---------------- */
+  let skinSel = (+(store.get("serpent.skin") ?? 0) | 0) & 127;
+  const skinsEl = $("skins");
+  const pickSkin = (i) => { skinSel = i; store.set("serpent.skin", i); [...skinsEl.children].forEach((c, j) => c.setAttribute("aria-pressed", j === Math.min(i, 12))); };
+  const stripes = ([a, b]) => `repeating-linear-gradient(135deg, ${a} 0 7px, ${b} 7px 14px)`;
+  SKINS.slice(0, 12).forEach((sk, i) => {
+    const el = document.createElement("button");
+    el.className = "skin"; el.title = `Skin ${i + 1}`; el.style.background = stripes(sk);
+    el.onclick = () => pickSkin(i);
+    skinsEl.appendChild(el);
+  });
+  { // last: any colour (a colour picker; the snake gets the nearest of 116 shades)
+    const el = document.createElement("label"), inp = document.createElement("input");
+    el.className = "skin pick"; el.title = "Pick your own colour"; inp.type = "color";
+    const show = () => { el.style.background = skinSel >= 12 ? stripes(SKINS[skinSel]) : ""; };
+    inp.value = SKINS[skinSel >= 12 ? skinSel : 12][0];
+    inp.addEventListener("input", () => { pickSkin(nearestSkin(inp.value)); show(); });
+    el.onclick = () => { if (skinSel < 12) { pickSkin(nearestSkin(inp.value)); show(); } };
+    el.appendChild(inp); skinsEl.appendChild(el); show();
+  }
+  pickSkin(skinSel);
+  const nameEl = $("name"); nameEl.value = store.get("serpent.name") ?? "";
+  let best = +(store.get("serpent.best.online") ?? 0);
+  const playerName = () => nameEl.value.trim() || "You";
+  let state = "menu"; // menu | play | dead
+
+  // this run's numbers, for the information sheet
+  const run = { t0: 0, peak: 0, rankBest: 0, rankNow: 0, total: 0 }; let lastRun = null, grabPending = false;
+  function start() {
+    if (!connected) return;
+    Object.assign(run, { t0: performance.now(), peak: 0, rankBest: 0, rankNow: 0, total: 0 }); localShot = null; touching = false;
+    store.set("serpent.name", nameEl.value.trim());
+    join();
+    state = "play"; document.body.classList.add("playing");
+    $("menu").classList.add("hidden"); $("over").classList.add("hidden");
+    nameEl.blur();
+  }
+  function showMenu() { document.body.classList.remove("playing"); $("over").classList.add("hidden"); $("menu").classList.remove("hidden"); requestAnimationFrame(() => { chatLog.scrollTop = chatLog.scrollHeight; }); }
+  function toMenu() { if (state !== "menu") sendRaw(new Uint8Array([4])); state = "menu"; showMenu(); }
+  function showOver(by) {
+    $("by").innerHTML = by;
+    setTimeout(() => { if (state === "dead") { $("over").classList.remove("hidden"); document.body.classList.remove("playing"); } }, 900);
+  }
+  const esc = (t) => t.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
+  /* The moment of death for the information sheet: every snake as at the server's crash step
+     (no smoothing), each body cut back to that head (its newer points were laid after: your
+     own ones by the prediction, ahead of the server). Undone after the one frame drawn so. */
+  let deathPose = null, localShot = null, touching = false, touchShot = false;
+  // Your head as drawn on this screen against the bodies as drawn (and the edge), with the
+  // server's front-of-head rule. When a contact starts, that frame is copied for the sheet.
+  function localHit() {
+    const s = me, R = radius(mass[s]), x = hx[s], y = hy[s];
+    if (x * x + y * y > (WR - R * 0.5) ** 2) return true;
+    const dx = Math.cos(ha[s]), dy = Math.sin(ha[s]);
+    for (let o = 0; o < NS; o++) {
+      if (o === s || !shown[o]) continue;
+      const r = radius(mass[o]), n = segN[o], ex = hx[o] - x, ey = hy[o] - y, reach = n * r * 0.42 + R + r + 40;
+      if (ex * ex + ey * ey > reach * reach) continue;
+      const a = Math.max(R * 0.5, R - r * 0.5), fx = x + dx * a, fy = y + dy * a, t2 = (r * 0.8) ** 2, base = o * RING, pc = pcOf[o];
+      for (let j = 0; j < n; j++) {
+        const i = (base + ((pc - 1 - j) >>> 0 & RMASK)) * 2, qx = trail[i] * 0.5 - fx, qy = trail[i + 1] * 0.5 - fy;
+        if (qx * qx + qy * qy < t2) return true;
+      }
+    }
+    return false;
+  }
+  function poseAt(p) {
+    const undo = [];
+    for (let s = 0; s < NS; s++) {
+      const h = hist[s]; let x = p.x, y = p.y; // yours: exactly where the server had your head (even if a snapshot already dropped you)
+      if (s !== p.s) {
+        if (!alive[s] || !h.length) continue;
+        let a = h[0], b = h[0];
+        if (p.t >= h[h.length - 1].t) a = b = h[h.length - 1];
+        else for (let i = 0; i < h.length - 1; i++) if (h[i + 1].t > p.t) { a = h[i]; b = h[i + 1]; break; }
+        const f = b.t > a.t ? Math.min(1, Math.max(0, (p.t - a.t) / (b.t - a.t))) : 1;
+        x = a.x + (b.x - a.x) * f; y = a.y + (b.y - a.y) * f;
+      }
+      let bj = 0, bd = 1e18;
+      for (let j = 0; j < Math.min(60, segN[s]); j++) { const [qx, qy] = TXY(s, j), d = (qx - x) ** 2 + (qy - y) ** 2; if (d < bd) { bd = d; bj = j; } }
+      undo.push([s, pcOf[s]]); pcOf[s] -= bj;
+      const [bx, by] = TXY(s, 1);
+      hx[s] = x; hy[s] = y; ha[s] = Math.atan2(y - by, x - bx); shown[s] = 1;
+    }
+    return undo;
+  }
+  function onDeath(killer, k, m) {
+    if (state !== "play") return;
+    state = "dead";
+    const len = Math.floor(m * 10), isBest = len > best;
+    if (isBest) { best = len; store.set("serpent.best.online", best); }
+    $("oLen").textContent = len; $("oKills").textContent = k; $("oBest").textContent = best; $("oBest").classList.toggle("new", isBest);
+    showOver(killer !== 255 ? `Crashed into <b>${esc(nameOf(killer))}</b>` : "You hit the edge of the world");
+    if (localShot && performance.now() - localShot.t < 1500) deathShot.img = localShot.img; // already taken: no new copy
+    lastRun = { name: playerName(), mode: "Online", length: len, peak: Math.max(run.peak, len), best, kills: k, rankNow: run.rankNow, rankBest: run.rankBest,
+      total: run.total, killer: killer !== 255 ? nameOf(killer) : "The edge of the world", seconds: (performance.now() - run.t0) / 1000, colour: SKINS[skinSel][0],
+      // for checking deaths: "Server's crash" means this screen never showed your head touching anything
+      picture: localShot && performance.now() - localShot.t < 1500 ? "Your screen" : deathPose ? "Server's crash" : "After the crash",
+      net: `Ping ${Math.round(rttMs)} ms · ahead ${Math.round(aheadNow * 1000 / 60)} ms` };
+    grabPending = !(localShot && performance.now() - localShot.t < 1500); // else the next frame drawn is copied
+  }
+  $("play").onclick = start; $("again").onclick = start;
+  $("toStart").onclick = toMenu;
+  $("sheet").onclick = () => { if (lastRun) downloadDeathSheet(lastRun); };
+  $("play").disabled = true;
+  nameEl.addEventListener("keydown", (e) => { if (e.key === "Enter") start(); e.stopPropagation(); });
+
+  /* ---------------- input (as offline) ---------------- */
+  let aim = 0, mouseBoost = false, keyBoost = false, touchBoost = false, keyTurn = 0, usingKeys = false; const keysDown = new Set();
+  let mx = innerWidth / 2 + 100, my = innerHeight / 2;
+  // The mouse takes over again only when it really moves: browsers also send "moves" when
+  // the page changes under a still cursor, which used to swing the snake toward it.
+  let keyAnchorX = 0, keyAnchorY = 0;
+  // Keys steer relative to where your snake is heading NOW (the prediction): aim a little to
+  // that side (it turns at its own top speed) or straight ahead. An aim that ran on by
+  // itself could get more than half a turn ahead of a slow-turning big snake, which then
+  // turned the other way. Called every frame, and also straight from input events, so a
+  // move goes out at once instead of at the next frame (sendInput limits it to ~60/s).
+  function steerNow(now) {
+    if (state !== "play") return;
+    if (usingKeys) aim = (pred.on ? pred.a : me >= 0 ? ha[me] : aim) + keyTurn * 0.6;
+    else aim = Math.atan2(my - innerHeight / 2, mx - innerWidth / 2);
+    sendInput(now, aim, mouseBoost || keyBoost || touchBoost ? 1 : 0);
+  }
+  const onMouseMove = (e) => {
+    if (e.pointerType !== "mouse") return;
+    mx = e.clientX; my = e.clientY;
+    if (usingKeys && Math.hypot(mx - keyAnchorX, my - keyAnchorY) > 6) usingKeys = false;
+    steerNow(performance.now());
+  };
+  // pointerrawupdate (Chrome, Edge; secure pages) arrives as the mouse moves; pointermove is
+  // held back to the next frame. Use the first where there is one.
+  cv.addEventListener("onpointerrawupdate" in window ? "pointerrawupdate" : "pointermove", onMouseMove);
+  cv.addEventListener("mousedown", () => { mouseBoost = true; steerNow(performance.now()); });
+  addEventListener("mouseup", () => { mouseBoost = false; steerNow(performance.now()); });
+  const touches = new Map();
+  const onTouch = () => { touchBoost = touches.size >= 2; const t = touches.values().next().value; if (t) { mx = t.clientX; my = t.clientY; usingKeys = false; } steerNow(performance.now()); };
+  cv.addEventListener("touchstart", (e) => { for (const t of e.changedTouches) touches.set(t.identifier, t); onTouch(); e.preventDefault(); }, { passive: false });
+  cv.addEventListener("touchmove", (e) => { for (const t of e.changedTouches) touches.set(t.identifier, t); onTouch(); e.preventDefault(); }, { passive: false });
+  const endT = (e) => { for (const t of e.changedTouches) touches.delete(t.identifier); onTouch(); };
+  cv.addEventListener("touchend", endT); cv.addEventListener("touchcancel", endT);
+  /* ---------------- chat (small, bottom-left; on the start page too) ----------------
+     The 💬 Chat button turns it on/off (greyed out when off; remembered). Next to it, while on,
+     the small green ➤: it opens a box to type in (so does Enter in game), and sends. */
+  const chatEl = $("chat"), chatLog = $("chatLog"), chatIn = $("chatIn"), chatTog = $("chatTog");
+  let chatHidden = store.get("serpent.chat") === "off", chatSentAt = -1e9, chatWait = 0, chatLast = "";
+  const showChatState = () => {
+    chatEl.classList.toggle("hidden", chatHidden); chatTog.classList.toggle("off", chatHidden);
+    chatTog.title = chatHidden ? "Chat is off: click to turn it on" : "Chat is on: click to turn it off";
+    document.body.classList.toggle("chatOn", !chatHidden);
+  };
+  showChatState();
+  for (const el of [chatTog, $("chatSend")]) el.addEventListener("pointerdown", (e) => e.preventDefault()); // keep the typing focus
+  chatTog.onclick = () => { chatHidden = !chatHidden; store.set("serpent.chat", chatHidden ? "off" : "on"); if (chatHidden) closeChat(); showChatState(); };
+  function addChat(name, text, sys) {
+    const el = document.createElement("div");
+    if (sys) el.className = "sys";
+    else { const b = document.createElement("b"); b.textContent = name + ": "; el.append(b); } // text only: nothing in a message is read as HTML
+    el.append(document.createTextNode(text));
+    const atEnd = chatLog.scrollHeight - chatLog.scrollTop - chatLog.clientHeight < 40;
+    chatLog.append(el);
+    while (chatLog.children.length > 100) chatLog.firstChild.remove(); // the start page shows them all (scrollable), the game the last 6
+    if (atEnd) chatLog.scrollTop = chatLog.scrollHeight;             // follow new lines unless scrolled back to read
+    setTimeout(() => el.classList.add("old"), 10000);                 // then they fade in game (still shown while typing)
+  }
+  function openChat() { if (chatHidden) return; chatEl.classList.add("open"); chatIn.focus(); }
+  function closeChat() { chatEl.classList.remove("open"); chatIn.value = ""; chatIn.blur(); }
+  function sendChat(t) {
+    const now = performance.now();
+    if (now - chatSentAt < 1250) { addChat("", "One message per second, please.", true); return; } // the server drops faster ones
+    if (!connected || ws.readyState !== 1) { addChat("", "Not connected to the server.", true); return; }
+    chatSentAt = now; chatLast = t;
+    // text, then the typed name (the server uses it only before you join)
+    const enc = new TextEncoder(), tb = enc.encode(t).slice(0, 480), nb = enc.encode(nameEl.value.trim()).slice(0, 48);
+    const m = new Uint8Array(4 + tb.length + nb.length); m[0] = 7; m[1] = tb.length & 255; m[2] = tb.length >> 8; m.set(tb, 3); m[3 + tb.length] = nb.length; m.set(nb, 4 + tb.length);
+    sendRaw(m);
+    // the server sends every line back to its writer too: no echo means it doesn't know chat (an older server)
+    clearTimeout(chatWait);
+    chatWait = setTimeout(() => addChat("", "The server didn't answer: it may need updating to the version with chat.", true), 3000);
+  }
+  const submitChat = () => { const t = chatIn.value.trim(); if (t) sendChat(t); closeChat(); };
+  $("chatSend").onclick = () => { if (chatIn.value.trim()) submitChat(); else openChat(); }; // ➤: write, then send
+  chatIn.addEventListener("focus", () => chatEl.classList.add("open"));
+  chatIn.addEventListener("keydown", (e) => {
+    e.stopPropagation(); // typing never steers or boosts
+    if (e.key === "Enter") submitChat();
+    else if (e.key === "Escape") closeChat();
+  });
+  chatIn.addEventListener("keyup", (e) => e.stopPropagation());
+  chatIn.addEventListener("blur", () => chatEl.classList.remove("open"));
+
+  addEventListener("keydown", (e) => {
+    if (e.repeat) return;
+    if (e.key === "Enter" && state === "play") { e.preventDefault(); openChat(); return; }
+    const k = e.key;
+    if (k === " " || k === "Shift" || k === "ArrowUp" || k === "w") { keyBoost = true; e.preventDefault(); }
+    else if (k === "ArrowLeft" || k === "a" || k === "ArrowRight" || k === "d") {
+      keysDown.add(k === "ArrowLeft" || k === "a" ? "L" : "R"); keyTurn = (keysDown.has("R") ? 1 : 0) - (keysDown.has("L") ? 1 : 0);
+      if (!usingKeys) { usingKeys = true; keyAnchorX = mx; keyAnchorY = my; }
+    }
+    else if (k === "p" || k === "P") $("perf").classList.toggle("off");
+    else if (k === "Enter" && state !== "play") start();
+    else if (k === "Escape" && state !== "menu") toMenu();
+    steerNow(performance.now()); // a key turn or boost goes out at once
+  });
+  addEventListener("keyup", (e) => {
+    const k = e.key;
+    if (k === " " || k === "Shift" || k === "ArrowUp" || k === "w") keyBoost = false;
+    else if (k === "ArrowLeft" || k === "a" || k === "ArrowRight" || k === "d") {
+      keysDown.delete(k === "ArrowLeft" || k === "a" ? "L" : "R"); keyTurn = (keysDown.has("R") ? 1 : 0) - (keysDown.has("L") ? 1 : 0);
+    }
+    steerNow(performance.now()); // a key turn or boost goes out at once
+  });
+  addEventListener("blur", () => { keyBoost = mouseBoost = false; keyTurn = 0; keysDown.clear(); });
+
+  /* ---------------- labels (as offline: one atlas slot per snake) ---------------- */
+  const TIERS = ["ROOKIE", "CASUAL", "HUNTER", "ELITE", "LEGEND"];
+  const TIER_COL = ["#6ee7b7", "#7dd3fc", "#fcd34d", "#fda4af", "#fbbf24"];
+  const slotKey = new Array(NS).fill("");
+  const slotCanvas = document.createElement("canvas");
+  slotCanvas.width = SLOT_W * LS; slotCanvas.height = SLOT_H * LS;
+  const sc = slotCanvas.getContext("2d");
+  const FONT = 'Outfit, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif';
+  function drawSlot(s, key) {
+    slotKey[s] = key;
+    sc.setTransform(LS, 0, 0, LS, 0, 0); sc.clearRect(0, 0, SLOT_W, SLOT_H);
+    sc.textAlign = "center"; sc.textBaseline = "alphabetic";
+    sc.shadowColor = "rgba(0,0,0,.6)"; sc.shadowBlur = 2.5; sc.shadowOffsetY = 0.5;
+    sc.font = `600 12px ${FONT}`; sc.fillStyle = "rgba(255,255,255,.92)";
+    if (human[s]) {
+      sc.fillText(s === me ? playerName() : nameOf(s), SLOT_W / 2, SLOT_H - 6);
+    } else {
+      const t = tier[s];
+      sc.fillText(nameOf(s), SLOT_W / 2, SLOT_H - 17);
+      sc.font = `600 9.5px ${FONT}`; sc.fillStyle = TIER_COL[t]; sc.letterSpacing = "0.6px";
+      sc.fillText(`LV ${t + 1} · ${TIERS[t]}`, SLOT_W / 2, SLOT_H - 6); sc.letterSpacing = "0px";
+    }
+    R.labelSlot(slotCanvas, (s % CELLS_X) * SLOT_W * LS, Math.floor(s / CELLS_X) * SLOT_H * LS);
+  }
+  document.fonts?.ready.then(() => slotKey.fill(""));
+
+  /* ---------------- HUD ---------------- */
+  const lbEl = $("lb");
+  // leaderboard text size: − / + in its title; remembered (phones start smaller).
+  // On phones and touch screens the level shows as one coloured letter until the board is made full size.
+  const boardEl = $("board"), smallScreen = matchMedia("(max-width: 640px), (hover: none)");
+  let lbScale = parseFloat(store.get("serpent.lbscale"));
+  if (!(lbScale >= 0.6 && lbScale <= 1.5)) lbScale = matchMedia("(max-width: 640px)").matches ? 0.8 : 1;
+  const setLbScale = (v, save) => {
+    lbScale = Math.round(Math.max(0.6, Math.min(1.5, v)) * 100) / 100;
+    boardEl.style.setProperty("--lbs", lbScale);
+    boardEl.classList.toggle("short", smallScreen.matches && lbScale < 1);
+    if (save) store.set("serpent.lbscale", lbScale);
+  };
+  setLbScale(lbScale);
+  smallScreen.addEventListener("change", () => setLbScale(lbScale));
+  for (const bt of document.querySelectorAll(".lbsz button[data-d]")) {
+    bt.addEventListener("pointerdown", (e) => e.stopPropagation());
+    bt.onclick = (e) => { setLbScale(lbScale + 0.1 * +bt.dataset.d, true); e.currentTarget.blur(); };
+  }
+  // Resize in any direction: the left edge sets the width, the bottom edge the height (rows
+  // past it are cut off), the bottom-left corner both. The board is pinned top-right, so
+  // dragging left/down grows it. × folds it to its title bar (▾ opens it). All remembered.
+  const lbOl = $("lb"), lbX = $("lbX");
+  let lbW = parseFloat(store.get("serpent.lbw")) || 0, lbH = parseFloat(store.get("serpent.lbh")) || 0; // 0: fit the content
+  const applyLbSize = () => {
+    boardEl.style.width = lbW ? lbW + "px" : ""; lbOl.style.maxHeight = lbH ? lbH + "px" : "";
+    boardEl.classList.toggle("sized", !!(lbW || lbH));
+    // made narrow by hand: the level badges shrink to one coloured letter, then go, so the room shows names
+    boardEl.classList.toggle("tgS", lbW > 0 && lbW < 250); boardEl.classList.toggle("tgX", lbW > 0 && lbW < 190);
+  };
+  const setLbClosed = (c) => { boardEl.classList.toggle("closed", c); document.body.classList.toggle("lbOpen", !c); lbX.textContent = c ? "▾" : "×"; lbX.title = c ? "Show the leaderboard" : "Hide the leaderboard"; };
+  applyLbSize(); setLbClosed(store.get("serpent.lbclosed") === "1");
+  lbX.addEventListener("pointerdown", (e) => e.stopPropagation());
+  lbX.onclick = (e) => { const c = !boardEl.classList.contains("closed"); setLbClosed(c); store.set("serpent.lbclosed", c ? "1" : "0"); e.currentTarget.blur(); };
+  for (const h of boardEl.querySelectorAll("[data-rs]")) h.addEventListener("pointerdown", (e) => {
+    e.preventDefault(); e.stopPropagation(); h.setPointerCapture(e.pointerId);
+    const dir = h.dataset.rs, x0 = e.clientX, y0 = e.clientY, w0 = boardEl.offsetWidth, h0 = lbOl.offsetHeight;
+    const move = (m) => { // screen pixels → the board's own (it may be scaled)
+      if (dir.includes("w")) lbW = Math.round(Math.max(150, Math.min(640, w0 + (x0 - m.clientX) / lbScale)));
+      if (dir.includes("s")) lbH = Math.round(Math.max(20, Math.min(lbOl.scrollHeight, h0 + (m.clientY - y0) / lbScale)));
+      applyLbSize();
+    };
+    const up = () => { h.removeEventListener("pointermove", move); h.removeEventListener("pointerup", up); h.removeEventListener("pointercancel", up); store.set("serpent.lbw", lbW); store.set("serpent.lbh", lbH); };
+    h.addEventListener("pointermove", move); h.addEventListener("pointerup", up); h.addEventListener("pointercancel", up);
+  });
+  // a double click on any edge goes back to fitting the content
+  for (const h of boardEl.querySelectorAll("[data-rs]")) h.addEventListener("dblclick", () => { lbW = lbH = 0; applyLbSize(); store.set("serpent.lbw", 0); store.set("serpent.lbh", 0); });
+  let lastLb = "";
+  function updateHud() {
+    let html = "";
+    board.top.forEach(([s, t, sk, hu, m], i) => {
+      const tag = s === me ? `<span class="tg you" data-l="YOU" data-s="Y"></span>` : hu ? `<span class="tg pl" data-l="PLAYER" data-s="P"></span>` : `<span class="tg t${t}" title="${TIERS[t]}" data-l="${TIERS[t]}" data-s="${TIERS[t][0]}"></span>`;
+      html += `<li class="${s === me ? "me" : ""}"><span class="n">${i + 1}</span><span class="dot" style="background:${SKINS[sk & 127][0]}"></span><span class="nm">${esc(s === me ? playerName() : hu ? pnames[s] || "Player" : botName(s))}</span>${tag}<span class="sc">${Math.floor(m * 10)}</span></li>`;
+    });
+    if (html !== lastLb) { lbEl.innerHTML = html; lastLb = html; }
+    for (let s = 0; s < NS; s++) {
+      if (!alive[s]) continue;
+      const key = human[s] ? "p:" + (s === me ? playerName() : pnames[s]) : "t" + tier[s];
+      if (key !== slotKey[s]) drawSlot(s, key);
+    }
+    if (connected && state === "menu") {
+      let players = 0; for (const e of miniList) players += human[e[0]] || pnames[e[0]] ? 1 : 0;
+      setStatus(`Online · ${players} player${players === 1 ? "" : "s"} playing`, "ok");
+    }
+    if (state !== "play" || me < 0) return;
+    $("len").textContent = Math.floor(mass[me] * 10);
+    run.peak = Math.max(run.peak, Math.floor(mass[me] * 10)); run.rankNow = board.rank; run.total = board.alive;
+    if (board.rank > 0) run.rankBest = run.rankBest ? Math.min(run.rankBest, board.rank) : board.rank;
+    $("rank").textContent = board.rank || "–";
+    $("total").textContent = board.alive;
+    $("kills").textContent = kills[me];
+  }
+
+  /* ---------------- per-frame: interpolate, cull, fill the GPU block ---------------- */
+  const hx = new Float32Array(NS), hy = new Float32Array(NS), ha = new Float32Array(NS), shown = new Uint8Array(NS);
+  // Stall bridging: when the drawn moment runs past the newest snapshot (a lost packet held
+  // the connection up), a snake carries on at its last speed and heading for up to EXTRA_MAX
+  // steps instead of freezing. When the real positions arrive, the difference from where it
+  // was drawn is blended away over ~0.1 s instead of jumping. (rx, ry: the unblended position.)
+  const rx = new Float32Array(NS), ry = new Float32Array(NS), vx = new Float32Array(NS), vy = new Float32Array(NS);
+  const offX = new Float32Array(NS), offY = new Float32Array(NS), wasEx = new Uint8Array(NS), seenR = new Uint8Array(NS);
+  const tauP = new Float64Array(NS); // the moment each snake was drawn at last frame
+  const haS = new Float32Array(NS), haSok = new Uint8Array(NS); // the drawn heading of a predicted snake (smoothed)
+  let interpRt = -1;
+  /* Dead reckoning (as splix.io does): while you play, your own snake is predicted, so it is
+     drawn a round trip ahead of the snapshots, and other snakes were drawn a round trip plus
+     the smoothing delay in the past: ~270 ms apart from Brisbane, several body widths. Now
+     other snakes are carried forward to your snake's moment from their speed and turning
+     (measured on live play, 284 ms ahead: median error 11 units instead of 55), their bodies
+     drawn along the predicted path, and the server told to stop allowing for that delay in
+     your collisions (DELAY's 5th byte). ?ahead=0 turns it off. */
+  const AHEAD_ON = new URLSearchParams(location.search).get("ahead") !== "0", AHEAD_MAX = 24;
+  let aheadNow = 0, aheadSent = 0;
+  const vext = []; // [snake, real pcOf] for the drawn-only body points, undone after drawing
+  const pathX = new Float32Array(AHEAD_MAX + EXTRA_MAX + 4), pathY = new Float32Array(AHEAD_MAX + EXTRA_MAX + 4);
+  function headAt(h, t) { // the head at step t, between the kept snapshots
+    if (t <= h[0].t) return h[0];
+    for (let i = h.length - 1; i > 0; i--) if (h[i - 1].t <= t) { const a = h[i - 1], b = h[i], f = b.t > a.t ? (t - a.t) / (b.t - a.t) : 1; return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f }; }
+    return h[0];
+  }
+  // Carry snake s on from its newest head L for H steps at its speed, turning as it was:
+  // fills pathX/Y (0 = L) and returns the number of points; the heading ends in predA.
+  let predA = 0, predSp = 0;
+  // Velocity and turning, averaged over the last few snapshots (fU, fW; fT: the snapshot step
+  // they were last updated at). Heads come rounded to half a unit, so one snapshot's turning
+  // is noisy, and 15+ steps ahead that noise swung the drawn head from frame to frame.
+  const fUx = new Float32Array(NS), fUy = new Float32Array(NS), fW = new Float32Array(NS), fT = new Float64Array(NS).fill(-1);
+  function reckon(s, h, L, H) {
+    if (!Number.isNaN(L.ha) && L.ha !== undefined) {
+      // The server sent its heading and where it's steering (as splix.io sends directions):
+      // carry it on with the simulation's own rule (moveSnake: turn toward the target at its
+      // top turning speed, then move at its exact speed). Wrong only if it changes its mind.
+      const sp = (boost[s] ? 430 : 195) / 60, turn = 5.2 / (1 + (radius(mass[s]) - 12) * 0.045) / 60;
+      let a = L.ha, x = L.x, y = L.y, n = 1;
+      pathX[0] = x; pathY[0] = y;
+      for (; H > 0; n++) {
+        const st = Math.min(1, H); H -= st;
+        let da = wrapA(L.ta - a); da = Math.max(-turn * st, Math.min(turn * st, da)); a = wrapA(a + da);
+        x += Math.cos(a) * sp * st; y += Math.sin(a) * sp * st; pathX[n] = x; pathY[n] = y;
+      }
+      predA = a; predSp = sp; fT[s] = -1; return n;
+    }
+    const K = 8, p1 = headAt(h, L.t - K), p2 = headAt(h, L.t - 2 * K); // 8 steps: whole moves of far snakes (they move every 4)
+    let ux = (L.x - p1.x) / K, uy = (L.y - p1.y) / K;
+    pathX[0] = L.x; pathY[0] = L.y; predA = L.a;
+    if (ux * ux + uy * uy > 100 || ux * ux + uy * uy < 0.09) { fT[s] = -1; return 1; } // a respawn jump, or standing still: don't guess
+    let w = 0;
+    const vx2 = p1.x - p2.x, vy2 = p1.y - p2.y;
+    if (L.t - h[0].t >= 2 * K && vx2 * vx2 + vy2 * vy2 > 0.01) {
+      w = Math.atan2(uy, ux) - Math.atan2(vy2, vx2); if (w > Math.PI) w -= 2 * Math.PI; if (w < -Math.PI) w += 2 * Math.PI;
+      const wmax = 5.2 / (1 + (radius(mass[s]) - 12) * 0.045) / 60; // its top turning speed per step (as the simulation)
+      w = Math.max(-wmax, Math.min(wmax, w / K));
+    }
+    if (fT[s] !== L.t) { // a new snapshot: fold it into the averages (40% new)
+      if (fT[s] < 0 || L.t - fT[s] > 30) { fUx[s] = ux; fUy[s] = uy; fW[s] = w; }
+      else { fUx[s] += (ux - fUx[s]) * 0.4; fUy[s] += (uy - fUy[s]) * 0.4; fW[s] += (w - fW[s]) * 0.4; }
+      fT[s] = L.t;
+    }
+    ux = fUx[s]; uy = fUy[s]; w = fW[s];
+    // the speed is known exactly (as moveSnake): measured, it lagged every boost start and stop,
+    // and 15+ steps ahead that threw the head ~60 units at once
+    const sp = (boost[s] ? 430 : 195) / 60;
+    predSp = sp;
+    let a = Math.atan2(uy, ux), x = L.x, y = L.y, n = 1;
+    for (let i = 1; H > 0; i++) { const st = Math.min(1, H); a += w * st; x += Math.cos(a) * sp * st; y += Math.sin(a) * sp * st; H -= st; pathX[n] = x; pathY[n] = y; n++; }
+    predA = a; return n;
+  }
+  // Drawn-only body points from the real body's newest point along the predicted path,
+  // written just past it in the ring (real points overwrite them as they arrive).
+  function extendBody(s, n) {
+    const sp = radius(mass[s]) * 0.42, pc = pcOf[s];
+    let j = (s * RING + ((pc - 1) & RMASK)) * 2, cx = trail[j] * 0.5, cy = trail[j + 1] * 0.5, cnt = 0;
+    for (let i = 0; i < n && cnt < 64; i++) {
+      let dx = pathX[i] - cx, dy = pathY[i] - cy, d = Math.hypot(dx, dy);
+      while (d >= sp && cnt < 64) {
+        cx += dx / d * sp; cy += dy / d * sp; dx = pathX[i] - cx; dy = pathY[i] - cy; d -= sp;
+        j = (s * RING + ((pc + cnt) & RMASK)) * 2; trail[j] = fixq(cx); trail[j + 1] = fixq(cy); cnt++;
+      }
+    }
+    if (cnt) { uploadRun(s, pc & RMASK, cnt); vext.push([s, pc]); pcOf[s] = (pc + cnt) >>> 0; }
+  }
+  function interp(rt, dt) {
+    let dSteps = interpRt < 0 ? 0 : rt - interpRt; interpRt = rt;
+    if (dSteps < 0 || dSteps > 30) { dSteps = 0; seenR.fill(0); wasEx.fill(0); } // the drawn clock was reset: start over
+    // Corrections blend in over ~80 ms along the snake, ~250 ms sideways: bots re-aim every couple
+    // of steps, and each re-aim moves the prediction a little sideways; blended as fast as along,
+    // that showed as a constant left-right shuffle (sideways is what the eye catches)
+    const decay = Math.exp(-dt * 12), decayLat = Math.exp(-dt * 4);
+    aheadNow = AHEAD_ON && pred.on ? Math.min(AHEAD_MAX, srvNow - rt) : 0; // others to the server present, like your snake
+    for (let s = 0; s < NS; s++) {
+      const h = hist[s];
+      shown[s] = alive[s] && h.length ? 1 : 0;
+      if (!shown[s]) { seenR[s] = 0; offX[s] = offY[s] = 0; wasEx[s] = 0; fT[s] = -1; haSok[s] = 0; continue; }
+      const L = h[h.length - 1];
+      let x, y, ex = 0, tau = rt, evx = 0, evy = 0, predicted = false; // tau: the moment drawn; ev: its velocity there (per step)
+      const ahead = s === me ? 0 : aheadNow;
+      if (ahead > 0 && rt + ahead > L.t) { // carried forward to your snake's moment (see reckon)
+        const n = reckon(s, h, L, Math.min(rt + ahead - L.t, AHEAD_MAX + EXTRA_MAX));
+        x = pathX[n - 1]; y = pathY[n - 1]; ha[s] = predA; ex = n > 1 ? 1 : 0; tau = rt + ahead; predicted = n > 1;
+        evx = Math.cos(predA) * predSp; evy = Math.sin(predA) * predSp;
+      } else if (rt >= L.t) {
+        x = L.x; y = L.y; ha[s] = L.a;
+        const P = h.length > 1 ? h[0] : null; // the oldest kept: snakes far from players move every few steps, so the last two can be equal
+        if (P && L.t > P.t) {
+          const ux = (L.x - P.x) / (L.t - P.t), uy = (L.y - P.y) / (L.t - P.t);
+          if (ux * ux + uy * uy < 100) { ex = Math.min(rt - L.t, EXTRA_MAX); x += ux * ex; y += uy * ex; evx = ux; evy = uy; } // not across a respawn jump
+        }
+      } else {
+        let a = h[0], b = h[0];
+        for (let i = 0; i < h.length - 1; i++) if (h[i + 1].t > rt) { a = h[i]; b = h[i + 1]; break; }
+        const f = b.t > a.t ? Math.min(1, Math.max(0, (rt - a.t) / (b.t - a.t))) : 1;
+        x = a.x + (b.x - a.x) * f; y = a.y + (b.y - a.y) * f;
+        if (b.t > a.t) { evx = (b.x - a.x) / (b.t - a.t); evy = (b.y - a.y) / (b.t - a.t); }
+        let da = b.a - a.a; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI;
+        ha[s] = a.a + da * f;
+      }
+      if (seenR[s] && wasEx[s]) {
+        // where it would be had nothing new arrived (last frame's position carried on at last frame's
+        // velocity: the model's, never one measured across a correction, which undid half of it a
+        // frame later and wobbled), against where it is now: blend the gap
+        const dT = tau - tauP[s], gx = rx[s] + vx[s] * dT - x, gy = ry[s] + vy[s] * dT - y;
+        if (gx * gx + gy * gy < 150 * 150) { offX[s] += gx; offY[s] += gy; } // (a bigger gap is a respawn or a lost track: jump)
+      }
+      { const c = Math.cos(ha[s]), sn = Math.sin(ha[s]), op = (offX[s] * c + offY[s] * sn) * decay, ol = (offY[s] * c - offX[s] * sn) * decayLat; offX[s] = op * c - ol * sn; offY[s] = op * sn + ol * c; }
+      vx[s] = evx; vy[s] = evy; tauP[s] = tau;
+      rx[s] = x; ry[s] = y; seenR[s] = 1; wasEx[s] = ex > 0 ? 1 : 0;
+      hx[s] = x + offX[s]; hy[s] = y + offY[s];
+      if (predicted) {
+        // The predicted heading swings whenever the snake re-aims (bots do every couple of steps):
+        // the head was drawn snapping up to ~30 degrees in a frame. Follow it, never faster than
+        // twice the snake's top turning speed.
+        if (!haSok[s]) haS[s] = ha[s];
+        else {
+          const maxT = 2 * 5.2 / (1 + (radius(mass[s]) - 12) * 0.045) * dt;
+          haS[s] = wrapA(haS[s] + Math.max(-maxT, Math.min(maxT, wrapA(ha[s] - haS[s]) * (1 - Math.exp(-dt * 15)))));
+        }
+        haSok[s] = 1; ha[s] = haS[s];
+        // The drawn-only front of the body: a smooth curve from the real body's newest point to the
+        // drawn head, leaving it along the drawn heading. (Laid along each new prediction, it bent
+        // left and right with every re-aim.)
+        const j = (s * RING + ((pcOf[s] - 1) & RMASK)) * 2, x0 = trail[j] * 0.5, y0 = trail[j + 1] * 0.5;
+        const dx = hx[s] - x0, dy = hy[s] - y0, D = Math.hypot(dx, dy), cx = Math.cos(ha[s]), cy = Math.sin(ha[s]);
+        if (D > 1) {
+          const bx = dx * cx + dy * cy > 0 ? hx[s] - cx * D * 0.5 : (x0 + hx[s]) / 2, by = dx * cx + dy * cy > 0 ? hy[s] - cy * D * 0.5 : (y0 + hy[s]) / 2; // control point (else straight)
+          const m = Math.min(pathX.length - 1, Math.max(2, Math.ceil(D / 4)));
+          for (let i = 0; i <= m; i++) { const t = i / m, u = 1 - t; pathX[i] = u * u * x0 + 2 * u * t * bx + t * t * hx[s]; pathY[i] = u * u * y0 + 2 * u * t * by + t * t * hy[s]; }
+          extendBody(s, m + 1);
+        }
+      } else haSok[s] = 0;
+    }
+  }
+  const TXY = (s, j) => { const i = (s * RING + ((pcOf[s] - 1 - j) >>> 0 & RMASK)) * 2; return [trail[i] * 0.5, trail[i + 1] * 0.5]; };
+  function renderPrep(cx, cy, hw, hh, px) { // port of the offline renderPrep (sim.c)
+    let nvis = 0, maxK = 0;
+    for (let o = 0; o <= NS; o++) {
+      const s = o === NS ? me : o === me ? -1 : o;   // the player is drawn last (on top)
+      if (s < 0 || !shown[s]) continue;
+      const x = hx[s], y = hy[s], r = radius(mass[s]), sp = r * 0.42, n = segN[s];
+      const legend = !human[s] && tier[s] === 4;
+      const W = boost[s] ? 1.9 : legend ? 1.5 : 1.08, m = r * W * 2 + 20;
+      const x0 = cx - hw - m, x1 = cx + hw + m, y0 = cy - hh - m, y1 = cy + hh + m;
+      let any = x > x0 && x < x1 && y > y0 && y < y1;
+      const reach = n * sp;
+      if (!any && (x < x0 - reach || x > x1 + reach || y < y0 - reach || y > y1 + reach)) continue;
+      for (let i = 0; i < n && !any; i += 16) { const [tx, ty] = TXY(s, i), g = sp * 15; any = tx > x0 - g && tx < x1 + g && ty > y0 - g && ty < y1 + g; } // every 16th point, margin 15 spacings
+      if (!any) continue;
+      // the head can be behind the newest points: attach to the newest one it is past, judged along
+      // the body there (from the point before it). Judged by the head's facing, a sharp turn or
+      // U-turn counted the points just behind as ahead, skipped up to 40, and the head was drawn
+      // cut off from its body.
+      let j0 = 0;
+      for (; j0 < 40; j0++) { const [tx, ty] = TXY(s, j0), [ux, uy] = TXY(s, j0 + 1); if ((x - tx) * (tx - ux) + (y - ty) * (ty - uy) >= 0) break; }
+      if (j0 === 40) j0 = 0;
+      const [tx, ty] = TXY(s, j0), dx = x - tx, dy = y - ty;
+      const spx = sp / px, stride = spx < 1.2 ? 4 : spx < 2.5 ? 2 : 1, nn = n;
+      const K = Math.floor((nn - 1 + stride - 1) / stride);
+      if (K > maxK) maxK = K;
+      const b = nvis++ * 12;
+      // The head faces its heading, but never more than 0.6 rad (35 degrees) off the body just behind
+      // it: further off, the ribbon between them twisted (a bow-tie) and part of the head went missing.
+      const [t2x, t2y] = TXY(s, j0 + 2), bx = tx - t2x, by = ty - t2y;
+      let hA = ha[s];
+      if (bx * bx + by * by > 0.01) { const bA = Math.atan2(by, bx); hA = bA + Math.max(-0.6, Math.min(0.6, wrapA(ha[s] - bA))); }
+      hdrF[b] = x; hdrF[b + 1] = y; hdrF[b + 2] = 1 - Math.min(Math.hypot(dx, dy) / sp, 1); hdrF[b + 3] = r;
+      hdrF[b + 4] = sp; hdrF[b + 5] = stride; hdrF[b + 6] = hA; hdrF[b + 7] = W;
+      hdrU[b + 8] = s; hdrU[b + 9] = (pcOf[s] - 1 - j0) >>> 0 & RMASK; hdrU[b + 10] = nn;
+      hdrU[b + 11] = skin[s] | ((boost[s] | (s === me ? 2 : 0) | (legend ? 4 : 0)) << 8);
+    }
+    frameOut[1] = nvis; frameOut[2] = maxK;
+  }
+  function miniPrep(camX, camY, hw, hh) {
+    let n = 0;
+    const put = (x, y, size, info) => { miniF[n * 4] = x; miniF[n * 4 + 1] = y; miniF[n * 4 + 2] = size; miniU[n * 4 + 3] = info; n++; };
+    put(0, 0, 1, 0);
+    for (const [s, sk, x, y, m] of miniList) {
+      if (s === me || n >= NS + 2) continue;
+      const near = shown[s];
+      put((near ? hx[s] : x) / WR, (near ? hy[s] : y) / WR, (2 + Math.sqrt(m) * 0.16) / 166, 1 | (sk << 8) | ((near ? 235 : 120) << 16));
+    }
+    put(camX / WR, camY / WR, hw / WR, (3 | (Math.floor(Math.min(hh / WR, 1) * 16777215) << 8)) >>> 0);
+    if (me >= 0 && shown[me]) put(hx[me] / WR, hy[me] / WR, 10 / 166, 2);
+    frameOut[4] = n;
+  }
+
+  /* ---------------- main loop ---------------- */
+  const perfEl = $("perf");
+  let camX = 0, camY = 0, camH = 900, frameNo = 0, last = performance.now(), hudT = 0, perfT = 0, fpsN = 0, prepMs = 0, drawMs = 0;
+
+  function frame(now) {
+    requestAnimationFrame(frame);
+    const playing = state === "play";
+    if (!playing && now - last < 30) return; // menu / game over: ~30 fps is plenty
+    const dt = Math.min((now - last) / 1000, 0.25); last = now;
+    if (playing) {
+      // Keys steer relative to where your snake is heading NOW (the prediction): aim a little to
+      // that side (it turns at its own top speed) or straight ahead. An aim that ran on by
+      // itself could get more than half a turn ahead of a slow-turning big snake, which then
+      // turned the other way.
+      steerNow(now);
+    }
+    const t0 = performance.now();
+    if (estTick >= 0) estTick += dt * 60;
+    let rt = estTick - INTERP;
+    if (arrOff.length >= 10) { // the adaptive delay (see noteArrival); the drawn clock warps by at most 10%, never jumps
+      interpT += Math.max(-dt * 2, Math.min(dt * 6, interpGoal - interpT)); // shrink in a couple of seconds, grow fast
+      const target = (now - arrLo) * 0.06 - interpT;
+      if (rtS < 0 || Math.abs(target - rtS) > 20) rtS = target;
+      else rtS += dt * 60 * (1 + Math.max(-0.1, Math.min(0.1, (target - rtS) * 0.3)));
+      rt = rtS;
+      if (rtts.length >= 3 && Math.abs(interpT - interpSent) > 0.5) sendDelay();
+    }
+    const mine = PREDICT && playing && me >= 0 && alive[me] && hist[me].length;
+    srvNow = rt + interpT + rttMs * 0.03; // the server's present: the drawn clock + smoothing + one-way delay
+    if (!mine) pred.on = false;
+    else {
+      if (!pred.on) { // start at the server's newest head and its step; predStep runs it on to the present
+        const l = hist[me][hist[me].length - 1];
+        predStart(l.x, l.y, l.a, l.t);
+      }
+      predApply(dt); predStep();
+    }
+    lastRt = rt; interp(rt, dt);
+    if (rtts.length >= 3 && Math.abs(aheadNow - aheadSent) > 0.5) sendDelay();
+    if (pred.on) { const [px, py] = predShown(); hx[me] = px; hy[me] = py; ha[me] = pred.a; shown[me] = 1; layTrail(me, pred.x, pred.y); }
+    // camera, exactly like offline
+    let tx = camX, ty = camY, tH = camH;
+    if (playing && me >= 0 && shown[me]) { tx = hx[me]; ty = hy[me]; tH = 560 + (radius(mass[me]) - 12) * 18; }
+    else if (state === "dead") tH = camH * (1 + 0.12 * dt);
+    else if (shown[spectate]) { tx = hx[spectate]; ty = hy[spectate]; tH = 900; }
+    const kp = 1 - Math.exp(-dt * (playing ? 14 : 2.5)), kz = 1 - Math.exp(-dt * 2);
+    if (Math.hypot(tx - camX, ty - camY) > 3000) { camX = tx; camY = ty; } // first frame / respawn: jump
+    camX += (tx - camX) * kp; camY += (ty - camY) * kp; camH += (tH - camH) * kz;
+    const hh = camH, hw = camH * vw / vh, px = hh * 2 / vh;
+    const poseUndo = grabPending && deathPose ? poseAt(deathPose) : null; // the moment of death (one frame)
+    if (playing && me >= 0 && shown[me]) { // a contact starting on this screen: copy this frame for the sheet
+      const hit = localHit();
+      if (hit && !touching && (!localShot || now - localShot.t > 300)) touchShot = true;
+      touching = hit;
+    }
+    renderPrep(camX, camY, hw, hh, px);
+    miniPrep(camX, camY, hw, hh);
+    frameOut[0] = foodHigh; frameOut[3] = ntup;
+    frameBlk[0] = camX; frameBlk[1] = camY; frameBlk[2] = hw; frameBlk[3] = hh;
+    frameBlk[4] = px; frameBlk[5] = (now / 1000) % 3600; frameBlk[6] = vw / innerWidth; frameBlk[7] = ((rt / 4) % 65536 + 65536) % 65536; // food clock in quarter-steps, smooth (fractions)
+    frameBlk[8] = vw; frameBlk[9] = vh; frameBlk[10] = WR; frameBlk[11] = 0;
+    const t1 = performance.now();
+    if (!gpuDown) { try { R.draw(frameNo++, playing, !perfEl.classList.contains("off")); } catch (e) { if (R.device && touchDevice) restartGPU(); else throw e; } }
+    if (grabPending && !gpuDown) { grabPending = false; grabDeathShot(cv); } // copied right after drawing, while the canvas holds it
+    if (touchShot) { touchShot = false; if (!gpuDown) { const img = copyCanvas(cv); if (img) localShot = { img, t: performance.now() }; } }
+    if (poseUndo) { for (const [s, pc] of poseUndo) pcOf[s] = pc; deathPose = null; }
+    for (let i = vext.length - 1; i >= 0; i--) pcOf[vext[i][0]] = vext[i][1]; vext.length = 0; // drop the drawn-only body points (see extendBody)
+    ntup = 0;
+    const t2 = performance.now();
+    prepMs += t1 - t0; drawMs += t2 - t1; fpsN++;
+    if ((hudT += dt) > 0.25) { hudT = 0; updateHud(); }
+    if ((perfT += dt) > 0.5) {
+      if (!perfEl.classList.contains("off")) {
+        const gpu = R.gpuMs >= 0 ? `<b>${R.gpuMs.toFixed(2)} ms</b>` + (R.passMs ? " (" + R.passMs.map((v, i) => `${R.passNames[i]} ${v.toFixed(2)}`).join(" · ") + ")" : "") : R.canTime ? "…" : "n/a";
+        const age = lastSnapAt ? Math.round(now - lastSnapAt) : -1;
+        perfEl.innerHTML = `<b>${Math.round(fpsN / perfT)}</b> fps · <b>${R.name}</b> · online · CPU/frame: prep <b>${(prepMs / fpsN).toFixed(2)}</b> · draw <b>${(drawMs / fpsN).toFixed(2)}</b> ms` +
+          `<br>GPU ${gpu}<br>${foodHigh} food slots · ${frameOut[1]} snakes drawn · ping <b>${Math.round(rttMs)} ms</b> · smoothing <b>${Math.round(interpT * 1000 / 60)} ms</b> · download <b>${(bytesIn / perfT / 1024).toFixed(1)} KB/s</b> · last update ${age} ms ago`;
+      }
+      perfT = 0; fpsN = 0; prepMs = drawMs = 0; bytesIn = 0;
+    }
+  }
+  resize();
+  connect();
+  window.__serpent = { renderer: () => R.name, get device() { return R.device; }, state: () => ({ connected, me, state, foodHigh, alive: [...alive].reduce((a, b) => a + b, 0) }),
+                      dbg: () => ({ me, hx, hy, ha, shown, trail, hdrF, hdrU, frameOut, pcOf, segN, mass, RING, interpT, estTick, hist, ahead: aheadNow, touching, board, mini: miniList, WR, newest: Math.max(...hist.map((h) => h.length ? h[h.length - 1].t : 0)), rt: lastRt }), // drawn state, for tests
+                      head: () => (me >= 0 ? { x: hx[me], y: hy[me], a: ha[me], pred: pred.on, err: pred.err } : null) };
+  requestAnimationFrame((t) => { last = t; frame(t); });
+})();
+</script>
+<div class="screen" style="z-index: 50; background: rgba(4, 6, 12, 0.9);"><div class="card glass" style="text-align:left"><h2 style="font-size:24px;margin-bottom:10px">WebGPU isn't working</h2>
+<p style="font:12.5px/1.5 ui-monospace,monospace;color:#fde68a;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:10px;word-break:break-word">no WebGPU adapter (graphics driver)</p>
+<p style="margin:12px 0 18px;color:var(--dim);font-size:14px;line-height:1.5">Step-by-step fixes: <a rel="noopener" style="color:var(--accent2)" target="_blank">WebGPU troubleshooting guide</a>.</p>
+<button class="play" data-a="retry">TRY AGAIN</button>
+<button class="play" data-a="gl" style="margin-top:10px;background:rgba(255,255,255,.08);color:var(--text);box-shadow:none">Use WebGL instead</button></div></div></body></html>

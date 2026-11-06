@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Minecraft Web Edition</title>
+<meta content="A feature-complete 3D voxel sandbox game built with WebGL and modern web technologies." name="description"/>
+
+
+
+<script src="/_assets/b3a0e533338cdf74423e.js" type="module"></script>
+<link href="/_assets/a479ef27c381a3d66f27.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- 3D Canvas Container -->
+<div id="game-container">
+<canvas data-engine="three.js r160" height="1080" id="webgl-canvas" style="width: 100vw; height: 100vh;" width="1920"></canvas>
+</div>
+<!-- In-Game HUD -->
+<div class="hidden" id="hud">
+<!-- Crosshair -->
+<div id="crosshair"></div>
+<!-- Held item label (fades out) -->
+<div class="item-label" id="item-label">Wooden Pickaxe</div>
+<!-- Status Bars: Health, Armor, Hunger, Air -->
+<div id="status-bars">
+<div class="bars-left">
+<div class="stat-bar hidden" id="armor-bar"></div>
+<div class="stat-bar" id="health-bar"></div>
+<div class="stat-bar hidden" id="air-bar"></div>
+</div>
+<div class="bars-right">
+<div class="stat-bar" id="hunger-bar"></div>
+</div>
+</div>
+<!-- Experience Bar -->
+<div id="exp-container">
+<div id="exp-bar-fill"></div>
+<div id="exp-level">0</div>
+</div>
+<!-- Hotbar -->
+<div id="hotbar-container">
+<div class="minecraft-bar" id="hotbar">
+<!-- 9 hotbar slots -->
+<div class="hotbar-slot active" data-slot="0"><img alt="Wooden Pickaxe" class="slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAxUlEQVR4AeyUwQnCMBRArdM4hjeX8OQcHp3Dk0t4cwy3qbzDAwktSVtK80sKj0/TBPLeocfDxk+7QCvQCuynwPN+6YfI/Wb2U0DT2+Pd/WMVv6czfgENtb6eTz1o6rr7XHfGLaCRhljD6/PtQEOn+3x3xi2gEdaANWhWOuMWwBqwhlLjdF+8AlgD1pAaTX2PUwBrwBqmmo7tr78A1oA1jJnMXa+3ANaANcw1zJ2rrwDWgDXkDJZ+r68A1rDUrPT86gVyF/kBAAD//1k1//sAAAAGSURBVAMAbVaAQS1H//8AAAAASUVORK5CYII="/></div>
+<div class="hotbar-slot" data-slot="1"><img alt="Oak Log" class="slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABkUlEQVR4AczSPUokURSG4aKjYRgQJp1wdiCGBoI7cAdGrsFNC4KIWcsbPFAcKDSR2w0vp87Pvf19p+p0f/PvHE8P1+d4frw9R89RL3qOevFw9/8c9aJaNLOnmagXPYeZ07b4d7r682uLv1e/t6Cn56gX6kfx5fV9C/3OhrxevL59bKG+fgOpCYpSuUc9NyHvTMjFZkLeTMhnXL+B3m9wnfo9qQ99sTN7nNEXzejLbWL9BnIXFIlHDjgx19mQi3POfc2G/voNTMWUqqc2jurmvhsv7xugiEPvRtSXT6f6zuvPXL1thv7lfAMUzpjamHXO1W1IVBdnXb5+A7kLSr0bOafqov5R5HD2533rN0DRVMxp2wlO5py66JzY2Zi5e9ZvgPIZKZz16SR3MeeOzptzz/oNpD4oolD0jcins6P+0X3uEddvgBJxOlT/buR83iO3MfnlbIAiTjmRz8jJrMudNyfvewtz6zdAIUWUzo3Mfi72OGdunpf7P/PrN8AFRRzMnAP9Gb/qu8//mf/xDUyhM/8EAAD//7Fg0eEAAAAGSURBVAMA9ya7SO4lwfMAAAAASUVORK5CYII="/><span class="slot-count">16</span></div>
+<div class="hotbar-slot" data-slot="2"><img alt="Torch" class="slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAApklEQVR4AeyTMQqEMBBFf7bebpstvIFH8RY2gngIL6G38h42dvYxIxhERUxE5MMEH5jJBPIfyQcvDz0ArwFbwq6JvUp8BpbUaCxmcpfd4etuGvLxGQhJd6WX2EBnAOFKzJMePgOmhRGyIoFQ1SkEqQknYQ+X+AwcxrhRVAP8Bv6/LwREDn4DkcH9Nn4D/TBC8JECf/gNBAbetasBNaAGHjewe3ebwgQAAP//CPBAGQAAAAZJREFUAwBG6yUz+oniPwAAAABJRU5ErkJggg=="/><span class="slot-count">16</span></div>
+<div class="hotbar-slot" data-slot="3"><img alt="Apple" class="slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAdElEQVR4AezV2wnAIAxAUdsNXKGdqTvZITtDRrD0T4IQ0IoRrpCP+IDkEHAPkxcFrCtwpSOX0TpK6wq0dqzf+Rd4Ysy1SLeEMmp3vj3dsc79C+iK/84RQAABBBBAwL/AKbL1hPV7+hewOug9RwCB4QLWkL4AAAD//0u7ApYAAAAGSURBVAMA8e1IQRD57VQAAAAASUVORK5CYII="/><span class="slot-count">8</span></div>
+<div class="hotbar-slot" data-slot="4"><img alt="Dirt" class="slot-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACEUlEQVR4AcSWMUoEQRBFm4lFcUEUwUgRDMRoQyONNTT1BAYewkt4FW9gJAYmGgnS0rCimI886AdDwYRSwqOmqqt7q371jjvcXZ+NU65OD0e4uViOU8wxpj9n728vR3B9bt9Qkv+GrcVagVjH8cFugZ3FegFy4PPruwDP4L6nt/cC+m31W0CfPUDOlMGELDs8v34UsIDtzY0CxMBq6QZYA56hrn4KnC+PCngOMdBnD5zs7xXgGfIVYL5gpTxPoSugG2COEPNbmLlnqOCcn6+AFWrtLFo7iPG4r/Y7EfOMM39wPV8BqplipXbW+mxr78zc6JvPuwPs0HxiYFybrwBvM7AiqgRuPrAG3gGeIfp2+vD4UkCFtK0r6edo8xWwMmeoH23td4DuIObbkUrooyboR5uvgJ3FymOlztw473HQ16qM+a3P3ri2dkXzFeC9DnbADQd9rRXzzQDmCq7bGWug73pUWIXyFbAyuobWZ2blxMCK+Y0wxTzPiT57QUVQB4hBvgJUAXZupVrjdqYS+rXf5pivr1pRodaVzleAtxpYsZVqa+/QjrUqoTXfdeYMfMPAuIqgOuQrQJVghXZMdUD1wDOYp2L60bY+Y84G9gLvDnA9XwFnYgfOlHsBztaK6QLMr/2OaI1rOQP0W1eGMyBfAeYBdkpVwNyAZ7ADFeM/IaiY69FyBth57YqZ9+8K+EFz9g8AAP//QLYxEAAAAAZJREFUAwANsEoDEsm7lgAAAABJRU5ErkJggg=="/><span class="slot-count">32</span></div>
+<div class="hotbar-slot" data-slot="5"></div>
+<div class="hotbar-slot" data-slot="6"></div>
+<div class="hotbar-slot" data-slot="7"></div>
+<div class="hotbar-slot" data-slot="8"></div>
+</div>
+</div>
+<!-- Underwater / Hurt screen tint overlays -->
+<div class="screen-overlay" id="hurt-overlay"></div>
+<div class="screen-overlay hidden" id="water-overlay"></div>
+<div class="screen-overlay" id="vignette-overlay"></div>
+</div>
+<!-- F3 Debug Screen -->
+<div class="hidden" id="debug-screen">
+<div class="debug-left" id="debug-info-left"></div>
+<div class="debug-right" id="debug-info-right"></div>
+</div>
+<!-- Chat / Commands Bar -->
+<div class="hidden" id="chat-container">
+<div id="chat-messages"></div>
+<div id="chat-input-row">
+<input autocomplete="off" id="chat-input" placeholder="Press Enter to send or / for commands..." type="text"/>
+</div>
+</div>
+<!-- Death Screen (You Died!) -->
+<div class="screen-modal hidden" id="death-screen">
+<div class="death-dialog">
+<h1 class="death-title">You Died!</h1>
+<div class="death-score" id="death-score">Score: 0</div>
+<div class="death-actions">
+<button class="mc-btn death-btn" id="respawn-btn">Respawn</button>
+<button class="mc-btn death-btn" id="death-title-btn">Title Screen</button>
+</div>
+</div>
+</div>
+<!-- Inventory & Crafting Screen (E) -->
+<div class="screen-modal hidden" id="inventory-screen">
+<div class="minecraft-window" id="inventory-window">
+<div class="window-header">
+<span>Crafting</span>
+<button class="close-btn" id="inventory-close-btn">×</button>
+</div>
+<!-- Player preview & 2x2 crafting or 3x3 table crafting -->
+<div class="crafting-section" id="crafting-2x2-section">
+<div class="player-avatar-box">
+<div class="armor-slots-column">
+<div class="slot armor-slot" data-armor-slot="0" title="Helmet"></div>
+<div class="slot armor-slot" data-armor-slot="1" title="Chestplate"></div>
+<div class="slot armor-slot" data-armor-slot="2" title="Leggings"></div>
+<div class="slot armor-slot" data-armor-slot="3" title="Boots"></div>
+</div>
+<div class="player-avatar-preview" id="player-avatar-preview">
+<svg height="96" style="image-rendering: pixelated; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));" viewbox="0 0 32 64" width="44">
+<!-- Head -->
+<rect fill="#c68642" height="16" width="16" x="8" y="4"></rect>
+<!-- Hair -->
+<rect fill="#4a2c11" height="4" width="16" x="8" y="4"></rect>
+<rect fill="#4a2c11" height="4" width="3" x="8" y="8"></rect>
+<rect fill="#4a2c11" height="4" width="3" x="21" y="8"></rect>
+<!-- Eyes -->
+<rect fill="#ffffff" height="2" width="3" x="10" y="10"></rect>
+<rect fill="#2b43a0" height="2" width="2" x="11" y="10"></rect>
+<rect fill="#ffffff" height="2" width="3" x="19" y="10"></rect>
+<rect fill="#2b43a0" height="2" width="2" x="19" y="10"></rect>
+<!-- Nose & Mouth -->
+<rect fill="#9c5f2b" height="2" width="4" x="14" y="13"></rect>
+<rect fill="#60371a" height="1" width="6" x="13" y="16"></rect>
+<!-- Torso / Cyan Shirt -->
+<rect fill="#00a299" height="22" width="16" x="8" y="20"></rect>
+<!-- Left Arm -->
+<rect fill="#00a299" height="22" width="5" x="3" y="20"></rect>
+<rect fill="#c68642" height="6" width="5" x="3" y="36"></rect>
+<!-- Right Arm -->
+<rect fill="#00a299" height="22" width="5" x="24" y="20"></rect>
+<rect fill="#c68642" height="6" width="5" x="24" y="36"></rect>
+<!-- Dark Blue Pants / Legs -->
+<rect fill="#2b3b84" height="20" width="7.5" x="8" y="42"></rect>
+<rect fill="#243270" height="20" width="7.5" x="16.5" y="42"></rect>
+<!-- Shoes -->
+<rect fill="#505050" height="4" width="7.5" x="8" y="58"></rect>
+<rect fill="#404040" height="4" width="7.5" x="16.5" y="58"></rect>
+</svg>
+</div>
+</div>
+<div class="crafting-area">
+<div class="crafting-grid grid-2x2" id="craft-grid-2x2">
+<div class="slot craft-slot" data-craft-slot="0"></div>
+<div class="slot craft-slot" data-craft-slot="1"></div>
+<div class="slot craft-slot" data-craft-slot="2"></div>
+<div class="slot craft-slot" data-craft-slot="3"></div>
+</div>
+<div class="craft-arrow">→</div>
+<div class="slot craft-output-slot" id="craft-output-2x2"></div>
+</div>
+</div>
+<!-- 3x3 Crafting Table Modal -->
+<div class="crafting-section hidden" id="crafting-3x3-section">
+<div class="crafting-area">
+<div class="crafting-grid grid-3x3" id="craft-grid-3x3">
+<div class="slot craft-slot" data-craft-slot="0"></div>
+<div class="slot craft-slot" data-craft-slot="1"></div>
+<div class="slot craft-slot" data-craft-slot="2"></div>
+<div class="slot craft-slot" data-craft-slot="3"></div>
+<div class="slot craft-slot" data-craft-slot="4"></div>
+<div class="slot craft-slot" data-craft-slot="5"></div>
+<div class="slot craft-slot" data-craft-slot="6"></div>
+<div class="slot craft-slot" data-craft-slot="7"></div>
+<div class="slot craft-slot" data-craft-slot="8"></div>
+</div>
+<div class="craft-arrow">→</div>
+<div class="slot craft-output-slot" id="craft-output-3x3"></div>
+</div>
+</div>
+<!-- Main 27 Inventory Slots (3 rows of 9) -->
+<div class="inventory-title">Inventory</div>
+<div class="slots-grid main-inventory" id="main-inventory-slots"><div class="slot" data-slot-index="9"></div><div class="slot" data-slot-index="10"></div><div class="slot" data-slot-index="11"></div><div class="slot" data-slot-index="12"></div><div class="slot" data-slot-index="13"></div><div class="slot" data-slot-index="14"></div><div class="slot" data-slot-index="15"></div><div class="slot" data-slot-index="16"></div><div class="slot" data-slot-index="17"></div><div class="slot" data-slot-index="18"></div><div class="slot" data-slot-index="19"></div><div class="slot" data-slot-index="20"></div><div class="slot" data-slot-index="21"></div><div class="slot" data-slot-index="22"></div><div class="slot" data-slot-index="23"></div><div class="slot" data-slot-index="24"></div><div class="slot" data-slot-index="25"></div><div class="slot" data-slot-index="26"></div><div class="slot" data-slot-index="27"></div><div class="slot" data-slot-index="28"></div><div class="slot" data-slot-index="29"></div><div class="slot" data-slot-index="30"></div><div class="slot" data-slot-index="31"></div><div class="slot" data-slot-index="32"></div><div class="slot" data-slot-index="33"></div><div class="slot" data-slot-index="34"></div><div class="slot" data-slot-index="35"></div></div>
+<!-- 9 Hotbar Slots in Inventory -->
+<div class="slots-grid hotbar-inventory" id="hotbar-inventory-slots"><div class="slot" data-slot-index="0"></div><div class="slot" data-slot-index="1"></div><div class="slot" data-slot-index="2"></div><div class="slot" data-slot-index="3"></div><div class="slot" data-slot-index="4"></div><div class="slot" data-slot-index="5"></div><div class="slot" data-slot-index="6"></div><div class="slot" data-slot-index="7"></div><div class="slot" data-slot-index="8"></div></div>
+</div>
+</div>
+<!-- Villager Trading Screen -->
+<div class="screen-modal hidden" id="trading-screen">
+<div class="minecraft-window trading-window">
+<div class="window-header">
+<span>Villager Trading</span>
+<button class="close-btn" id="trading-close-btn">×</button>
+</div>
+<div class="trading-status-bar" id="trading-emerald-count">
+        Your Emeralds: <strong>0</strong> | Wheat: <strong>0</strong>
+</div>
+<div class="trading-list" id="trading-list">
+<!-- Trade rows generated dynamically -->
+</div>
+</div>
+</div>
+<!-- Furnace Smelting Screen -->
+<div class="screen-modal hidden" id="furnace-screen">
+<div class="minecraft-window furnace-window">
+<div class="window-header">
+<span>Furnace</span>
+<button class="close-btn" id="furnace-close-btn">×</button>
+</div>
+<div class="furnace-body">
+<div class="furnace-left">
+<div class="slot furnace-slot" id="furnace-input-slot" title="Input Ore / Food"></div>
+<div class="furnace-flame-container">
+<div class="furnace-flame" id="furnace-flame-icon">🔥</div>
+</div>
+<div class="slot furnace-slot" id="furnace-fuel-slot" title="Fuel (Coal / Planks / Sticks)"></div>
+</div>
+<div class="furnace-arrow-container">
+<div class="furnace-arrow">→</div>
+<div class="furnace-progress-bar">
+<div class="furnace-progress-fill" id="furnace-cook-progress"></div>
+</div>
+</div>
+<div class="furnace-right">
+<div class="slot furnace-output-slot" id="furnace-output-slot" title="Smelted Output"></div>
+</div>
+</div>
+<div class="inventory-title">Inventory</div>
+<div class="slots-grid main-inventory" id="furnace-player-slots"><div class="slot" data-slot-index="9"></div><div class="slot" data-slot-index="10"></div><div class="slot" data-slot-index="11"></div><div class="slot" data-slot-index="12"></div><div class="slot" data-slot-index="13"></div><div class="slot" data-slot-index="14"></div><div class="slot" data-slot-index="15"></div><div class="slot" data-slot-index="16"></div><div class="slot" data-slot-index="17"></div><div class="slot" data-slot-index="18"></div><div class="slot" data-slot-index="19"></div><div class="slot" data-slot-index="20"></div><div class="slot" data-slot-index="21"></div><div class="slot" data-slot-index="22"></div><div class="slot" data-slot-index="23"></div><div class="slot" data-slot-index="24"></div><div class="slot" data-slot-index="25"></div><div class="slot" data-slot-index="26"></div><div class="slot" data-slot-index="27"></div><div class="slot" data-slot-index="28"></div><div class="slot" data-slot-index="29"></div><div class="slot" data-slot-index="30"></div><div class="slot" data-slot-index="31"></div><div class="slot" data-slot-index="32"></div><div class="slot" data-slot-index="33"></div><div class="slot" data-slot-index="34"></div><div class="slot" data-slot-index="35"></div></div>
+<div class="slots-grid hotbar-inventory" id="furnace-hotbar-slots"><div class="slot" data-slot-index="0"></div><div class="slot" data-slot-index="1"></div><div class="slot" data-slot-index="2"></div><div class="slot" data-slot-index="3"></div><div class="slot" data-slot-index="4"></div><div class="slot" data-slot-index="5"></div><div class="slot" data-slot-index="6"></div><div class="slot" data-slot-index="7"></div><div class="slot" data-slot-index="8"></div></div>
+</div>
+</div>
+<!-- Chest Storage Screen -->
+<div class="screen-modal hidden" id="chest-screen">
+<div class="minecraft-window chest-window">
+<div class="window-header">
+<span>Chest</span>
+<button class="close-btn" id="chest-close-btn">×</button>
+</div>
+<div class="slots-grid chest-grid" id="chest-storage-slots"><div class="slot" data-slot-index="0"></div><div class="slot" data-slot-index="1"></div><div class="slot" data-slot-index="2"></div><div class="slot" data-slot-index="3"></div><div class="slot" data-slot-index="4"></div><div class="slot" data-slot-index="5"></div><div class="slot" data-slot-index="6"></div><div class="slot" data-slot-index="7"></div><div class="slot" data-slot-index="8"></div><div class="slot" data-slot-index="9"></div><div class="slot" data-slot-index="10"></div><div class="slot" data-slot-index="11"></div><div class="slot" data-slot-index="12"></div><div class="slot" data-slot-index="13"></div><div class="slot" data-slot-index="14"></div><div class="slot" data-slot-index="15"></div><div class="slot" data-slot-index="16"></div><div class="slot" data-slot-index="17"></div><div class="slot" data-slot-index="18"></div><div class="slot" data-slot-index="19"></div><div class="slot" data-slot-index="20"></div><div class="slot" data-slot-index="21"></div><div class="slot" data-slot-index="22"></div><div class="slot" data-slot-index="23"></div><div class="slot" data-slot-index="24"></div><div class="slot" data-slot-index="25"></div><div class="slot" data-slot-index="26"></div></div>
+<div class="inventory-title">Inventory</div>
+<div class="slots-grid main-inventory" id="chest-player-slots"><div class="slot" data-slot-index="9"></div><div class="slot" data-slot-index="10"></div><div class="slot" data-slot-index="11"></div><div class="slot" data-slot-index="12"></div><div class="slot" data-slot-index="13"></div><div class="slot" data-slot-index="14"></div><div class="slot" data-slot-index="15"></div><div class="slot" data-slot-index="16"></div><div class="slot" data-slot-index="17"></div><div class="slot" data-slot-index="18"></div><div class="slot" data-slot-index="19"></div><div class="slot" data-slot-index="20"></div><div class="slot" data-slot-index="21"></div><div class="slot" data-slot-index="22"></div><div class="slot" data-slot-index="23"></div><div class="slot" data-slot-index="24"></div><div class="slot" data-slot-index="25"></div><div class="slot" data-slot-index="26"></div><div class="slot" data-slot-index="27"></div><div class="slot" data-slot-index="28"></div><div class="slot" data-slot-index="29"></div><div class="slot" data-slot-index="30"></div><div class="slot" data-slot-index="31"></div><div class="slot" data-slot-index="32"></div><div class="slot" data-slot-index="33"></div><div class="slot" data-slot-index="34"></div><div class="slot" data-slot-index="35"></div></div>
+<div class="slots-grid hotbar-inventory" id="chest-hotbar-slots"><div class="slot" data-slot-index="0"></div><div class="slot" data-slot-index="1"></div><div class="slot" data-slot-index="2"></div><div class="slot" data-slot-index="3"></div><div class="slot" data-slot-index="4"></div><div class="slot" data-slot-index="5"></div><div class="slot" data-slot-index="6"></div><div class="slot" data-slot-index="7"></div><div class="slot" data-slot-index="8"></div></div>
+</div>
+</div>
+<!-- Enchanting Table Screen -->
+<div class="screen-modal hidden" id="enchanting-screen">
+<div class="minecraft-window enchanting-window">
+<div class="window-header">
+<span>Enchant</span>
+<button class="close-btn" id="enchanting-close-btn">×</button>
+</div>
+<div class="enchanting-body">
+<div class="enchanting-left">
+<div class="slot enchant-slot" id="enchant-item-slot" title="Tool, Weapon, or Armor"></div>
+<div class="enchant-lapis-slot" title="Arcane Lapis Catalyst">💎</div>
+<div class="enchant-xp-badge" id="enchant-xp-badge">Your Level: 0</div>
+</div>
+<div class="enchanting-right">
+<div class="enchant-options-list" id="enchant-options-list">
+<!-- 3 tiered options populated dynamically -->
+</div>
+</div>
+</div>
+<div class="inventory-title">Inventory</div>
+<div class="slots-grid main-inventory" id="enchant-player-slots"><div class="slot" data-slot-index="9"></div><div class="slot" data-slot-index="10"></div><div class="slot" data-slot-index="11"></div><div class="slot" data-slot-index="12"></div><div class="slot" data-slot-index="13"></div><div class="slot" data-slot-index="14"></div><div class="slot" data-slot-index="15"></div><div class="slot" data-slot-index="16"></div><div class="slot" data-slot-index="17"></div><div class="slot" data-slot-index="18"></div><div class="slot" data-slot-index="19"></div><div class="slot" data-slot-index="20"></div><div class="slot" data-slot-index="21"></div><div class="slot" data-slot-index="22"></div><div class="slot" data-slot-index="23"></div><div class="slot" data-slot-index="24"></div><div class="slot" data-slot-index="25"></div><div class="slot" data-slot-index="26"></div><div class="slot" data-slot-index="27"></div><div class="slot" data-slot-index="28"></div><div class="slot" data-slot-index="29"></div><div class="slot" data-slot-index="30"></div><div class="slot" data-slot-index="31"></div><div class="slot" data-slot-index="32"></div><div class="slot" data-slot-index="33"></div><div class="slot" data-slot-index="34"></div><div class="slot" data-slot-index="35"></div></div>
+<div class="slots-grid hotbar-inventory" id="enchant-hotbar-slots"><div class="slot" data-slot-index="0"></div><div class="slot" data-slot-index="1"></div><div class="slot" data-slot-index="2"></div><div class="slot" data-slot-index="3"></div><div class="slot" data-slot-index="4"></div><div class="slot" data-slot-index="5"></div><div class="slot" data-slot-index="6"></div><div class="slot" data-slot-index="7"></div><div class="slot" data-slot-index="8"></div></div>
+</div>
+</div>
+<!-- Floating Custom Minecraft Item Tooltip -->
+<div class="mc-tooltip hidden" id="mc-tooltip">
+<div class="tooltip-title" id="tooltip-title">Item Name</div>
+<div class="tooltip-stat" id="tooltip-stat"></div>
+<div class="tooltip-enchant" id="tooltip-enchant"></div>
+<div class="tooltip-durability" id="tooltip-durability"></div>
+</div>
+<!-- Touch Corner Actions (Pause, Perspective, Inventory) -->
+<div class="touch-corner-actions" id="touch-corner-actions">
+<button class="touch-corner-btn" id="touch-btn-pause" title="Pause Game">⏸</button>
+<button class="touch-corner-btn" id="touch-btn-view" title="Change Perspective (C)">📷</button>
+<button class="touch-corner-btn" id="touch-btn-inv" title="Inventory (E)">🎒</button>
+</div>
+<!-- Virtual Touch Movement D-Pad & Jump (Toggled in Touch Settings) -->
+<div class="touch-movement-overlay hidden" id="touch-movement-overlay">
+<div class="touch-dpad">
+<button class="touch-dpad-btn" id="touch-btn-up">▲</button>
+<div class="touch-dpad-middle">
+<button class="touch-dpad-btn" id="touch-btn-left">◀</button>
+<button class="touch-dpad-btn" id="touch-btn-down">▼</button>
+<button class="touch-dpad-btn" id="touch-btn-right">▶</button>
+</div>
+</div>
+<div class="touch-actions-group">
+<button class="touch-action-btn" id="touch-btn-jump">JUMP</button>
+</div>
+</div>
+<!-- Floating Dragged Item Preview -->
+<div class="dragged-item hidden" id="dragged-item"></div>
+<!-- Pause Menu (ESC) -->
+<div class="screen-modal hidden" id="pause-menu">
+<div class="menu-dialog">
+<h2 class="menu-title">Game Paused</h2>
+<div class="menu-button-group">
+<button class="mc-btn" id="resume-game-btn">Back to Game</button>
+<button class="mc-btn" id="options-btn">Options...</button>
+<button class="mc-btn" id="controls-btn">Controls...</button>
+<button class="mc-btn" id="switch-gamemode-btn">Gamemode: Survival</button>
+<button class="mc-btn" id="save-quit-btn">Save and Quit to Title</button>
+</div>
+</div>
+</div>
+<!-- Options & Video Settings Modal -->
+<div class="screen-modal hidden" id="options-screen">
+<div class="menu-dialog options-dialog">
+<h2 class="menu-title">Game Options &amp; Settings</h2>
+<!-- Navigation Tabs -->
+<div class="options-tabs">
+<button class="mc-tab-btn active" data-tab="tab-graphics" id="tab-btn-graphics">Video &amp; Graphics</button>
+<button class="mc-tab-btn" data-tab="tab-audio" id="tab-btn-audio">Audio &amp; World</button>
+<button class="mc-tab-btn" data-tab="tab-touch" id="tab-btn-touch">Touch &amp; Controls</button>
+</div>
+<div class="options-sections-container">
+<!-- Tab 1: Video & Graphics -->
+<div class="tab-pane" id="tab-graphics">
+<div class="options-category-title">Display &amp; Resolution</div>
+<div class="options-grid">
+<div class="option-row">
+<label for="resolution-select">Resolution: <span class="res-badge" id="active-res-badge">1920x1080 (1080P)</span></label>
+<select class="mc-select" id="resolution-select">
+<option selected="" value="1080p">1920x1080 (1080p Full HD)</option>
+<option value="900p">1600x900 (900p HD+)</option>
+<option value="720p">1280x720 (720p HD)</option>
+<option value="540p">960x540 (540p qHD)</option>
+<option value="480p">854x480 (480p Performance)</option>
+<option value="360p">640x360 (360p Retro Performance)</option>
+<option value="native">Native (Match Window)</option>
+</select>
+</div>
+<div class="option-row">
+<label>Render Scale: <span id="render-scale-val">100%</span></label>
+<input class="mc-slider" id="render-scale-slider" max="100" min="50" step="10" type="range" value="100"/>
+</div>
+<div class="option-row">
+<label>Field of View (FOV): <span id="fov-val">75</span></label>
+<input class="mc-slider" id="fov-slider" max="110" min="50" type="range" value="75"/>
+</div>
+<div class="option-row">
+<label>Render Distance: <span id="render-dist-val">6</span> chunks</label>
+<input class="mc-slider" id="render-dist-slider" max="12" min="3" type="range" value="6"/>
+</div>
+<div class="option-row">
+<label for="fps-limit-select">Max Framerate:</label>
+<select class="mc-select" id="fps-limit-select">
+<option selected="" value="0">Unlimited (VSync)</option>
+<option value="144">144 FPS</option>
+<option value="120">120 FPS</option>
+<option value="60">60 FPS</option>
+<option value="30">30 FPS (Power Saver)</option>
+</select>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="toggle-fullscreen-btn">Fullscreen: OFF</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="toggle-fps-btn">Show FPS: ON</button>
+</div>
+</div>
+<div class="options-category-title" style="margin-top: 14px;">Graphics &amp; Visuals</div>
+<div class="options-grid">
+<div class="option-row">
+<button class="mc-btn" id="graphics-preset-btn">Graphics: RTX Ultra</button>
+</div>
+<div class="option-row">
+<label>Brightness: <span id="exposure-val">100%</span></label>
+<input class="mc-slider" id="exposure-slider" max="150" min="50" type="range" value="100"/>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="toggle-ao-btn">Smooth Lighting: ON</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="cloud-quality-btn">Clouds: Fancy 3D Volumetric</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="shadow-quality-btn" style="opacity: 1;">RTX Shadows: PCF Soft (2048)</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="toggle-bloom-btn" style="opacity: 1;">RTX Bloom: ON</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="toggle-godrays-btn" style="opacity: 1;">RTX God Rays: ON</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="toggle-water-refl-btn">Water Shimmer: ON</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="toggle-fog-btn">Fog: Fancy (ON)</button>
+</div>
+<!-- Retained hidden for backward compatibility -->
+<div class="option-row" style="display: none;">
+<button class="mc-btn" id="tone-mapping-btn">Tone Mapping: ACES Filmic</button>
+</div>
+</div>
+</div>
+<!-- Tab 2: Audio & Atmosphere -->
+<div class="tab-pane hidden" id="tab-audio">
+<div class="options-category-title">Sound &amp; Audio</div>
+<div class="options-grid">
+<div class="option-row">
+<label>Master Volume: <span id="volume-val">80%</span></label>
+<input class="mc-slider" id="volume-slider" max="100" min="0" type="range" value="80"/>
+</div>
+<div class="option-row">
+<label>Music Volume: <span id="music-volume-val">40%</span></label>
+<input class="mc-slider" id="music-volume-slider" max="100" min="0" type="range" value="40"/>
+</div>
+<div class="option-row">
+<label>Sound FX: <span id="sfx-volume-val">100%</span></label>
+<input class="mc-slider" id="sfx-volume-slider" max="100" min="0" type="range" value="100"/>
+</div>
+<div class="option-row">
+<label>Weather &amp; Ambience: <span id="weather-volume-val">80%</span></label>
+<input class="mc-slider" id="weather-volume-slider" max="100" min="0" type="range" value="80"/>
+</div>
+</div>
+<div class="options-category-title" style="margin-top: 14px;">World Timing &amp; Atmosphere</div>
+<div class="options-grid">
+<div class="option-row">
+<button class="mc-btn" id="weather-select-btn">Weather: Clear</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="day-length-btn">Day Length: 20 min (Extended)</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="fast-nights-btn">Fast Nights: ON (4x Speed)</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="reset-options-btn">Reset to Defaults</button>
+</div>
+</div>
+</div>
+<!-- Tab 3: Touch & Controls -->
+<div class="tab-pane hidden" id="tab-touch">
+<div class="options-category-title">Touch Screen Settings</div>
+<div class="options-grid">
+<div class="option-row">
+<button class="mc-btn" id="touch-controls-btn">Touch Controls: ON</button>
+</div>
+<div class="option-row">
+<label>Touch Sensitivity: <span id="touch-sensitivity-val">100%</span></label>
+<input class="mc-slider" id="touch-sensitivity-slider" max="300" min="20" step="10" type="range" value="100"/>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="touch-invert-pitch-btn">Invert Touch Pitch (Y): OFF</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="touch-tap-mode-btn">Touch Action: Tap Place / Hold Mine</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="touch-pinch-zoom-btn">Pinch to Zoom: ON</button>
+</div>
+<div class="option-row">
+<button class="mc-btn" id="touch-virtual-pad-btn">Touch D-Pad (Move): OFF</button>
+</div>
+</div>
+</div>
+</div>
+<button class="mc-btn full-width" id="options-done-btn">Done</button>
+</div>
+</div>
+<!-- Controls Screen Modal -->
+<div class="screen-modal hidden" id="controls-screen">
+<div class="menu-dialog controls-dialog">
+<h2 class="menu-title">Controls</h2>
+<div class="controls-list">
+<div class="control-item"><span>W / A / S / D</span><span>Move Forward / Left / Back / Right</span></div>
+<div class="control-item"><span>Space</span><span>Jump (Double-tap in Creative: Fly)</span></div>
+<div class="control-item"><span>Shift</span><span>Sneak / Descend in Fly</span></div>
+<div class="control-item"><span>Left Click (Hold)</span><span>Mine / Break Block</span></div>
+<div class="control-item"><span>Right Click</span><span>Place Block / Open Table</span></div>
+<div class="control-item"><span>1 - 9 / Wheel</span><span>Select Hotbar Slot</span></div>
+<div class="control-item"><span>E</span><span>Open Inventory / Crafting</span></div>
+<div class="control-item"><span>Q</span><span>Drop Held Item</span></div>
+<div class="control-item"><span>F</span><span>Toggle Flight (Creative)</span></div>
+<div class="control-item"><span>C</span><span>Change Perspective (1st / 3rd / Isometric)</span></div>
+<div class="control-item"><span>F3</span><span>Toggle Debug Info</span></div>
+<div class="control-item"><span>ESC</span><span>Pause Menu / Close Window</span></div>
+<div class="control-item" style="grid-column: 1 / -1; margin-top: 8px; font-weight: bold; color: #ffaa00;"><span>Touch Screen Gestures</span><span></span></div>
+<div class="control-item"><span>One-Finger Swipe</span><span>Look around / Orbit Camera</span></div>
+<div class="control-item"><span>Quick Tap (&lt;250ms)</span><span>Place Block / Open Containers</span></div>
+<div class="control-item"><span>Hold Touch (&gt;250ms)</span><span>Mine / Break Blocks</span></div>
+<div class="control-item"><span>Two-Finger Pinch</span><span>Zoom Camera (Isometric)</span></div>
+<div class="control-item"><span>Three-Finger Tap</span><span>Pause Menu</span></div>
+<div class="control-item"><span>Tap Hotbar Slot</span><span>Select Held Item</span></div>
+</div>
+<button class="mc-btn full-width" id="controls-done-btn">Done</button>
+</div>
+</div>
+<!-- Main Title Screen -->
+<div class="title-screen-container" id="title-screen">
+<div class="title-panorama-overlay"></div>
+<div class="title-content">
+<!-- Minecraft Logo & Splash Text -->
+<div class="logo-wrapper">
+<div class="minecraft-logo-text">MINECRAFT</div>
+<div class="splash-text" id="splash-text">Also try Terraria!</div>
+</div>
+<!-- Main Menu Buttons -->
+<div class="title-buttons">
+<button class="mc-btn title-btn" id="singleplayer-btn">Singleplayer</button>
+<button class="mc-btn title-btn" id="title-options-btn">Options...</button>
+<button class="mc-btn title-btn" id="title-controls-btn">Controls...</button>
+<button class="mc-btn title-btn" id="instructions-btn">How To Play</button>
+</div>
+<div class="title-footer">
+<span>Minecraft Web Edition 1.20</span>
+<span>Made with Three.js &amp; WebGL</span>
+</div>
+</div>
+</div>
+<!-- World Selection / Creation Screen -->
+<div class="screen-modal hidden" id="world-select-screen">
+<div class="menu-dialog world-select-dialog">
+<h2 class="menu-title">Select World</h2>
+<div class="world-list" id="world-list">
+<!-- Worlds populated dynamically -->
+</div>
+<div class="world-select-actions">
+<button class="mc-btn" disabled="" id="play-selected-world-btn">Play Selected World</button>
+<button class="mc-btn" id="create-new-world-btn">Create New World</button>
+<button class="mc-btn" id="cancel-world-select-btn">Cancel</button>
+</div>
+</div>
+</div>
+<!-- Create New World Modal -->
+<div class="screen-modal hidden" id="create-world-screen">
+<div class="menu-dialog create-world-dialog">
+<h2 class="menu-title">Create New World</h2>
+<div class="create-world-form">
+<div class="form-row">
+<label>World Name:</label>
+<input class="mc-input" id="new-world-name" type="text" value="New World"/>
+</div>
+<div class="form-row">
+<label>Seed (Optional):</label>
+<input class="mc-input" id="new-world-seed" placeholder="Leave blank for random" type="text"/>
+</div>
+<div class="form-row">
+<button class="mc-btn" id="gamemode-toggle-btn">Game Mode: Survival</button>
+<p class="form-hint" id="gamemode-hint">Search for resources, craft, gain levels, health and hunger.</p>
+</div>
+<div class="form-row">
+<button class="mc-btn" id="worldtype-toggle-btn">World Type: Default</button>
+</div>
+</div>
+<div class="create-world-actions">
+<button class="mc-btn" id="confirm-create-world-btn">Create New World</button>
+<button class="mc-btn" id="cancel-create-world-btn">Cancel</button>
+</div>
+</div>
+</div>
+<!-- How to Play Screen Modal -->
+<div class="screen-modal hidden" id="how-to-play-screen">
+<div class="menu-dialog">
+<h2 class="menu-title">How To Play</h2>
+<div class="instructions-content">
+<p><strong>Movement:</strong> Use <strong>WASD</strong> to walk, <strong>Space</strong> to jump, <strong>Shift</strong> to sneak.</p>
+<p><strong>Mining &amp; Building:</strong> Hold <strong>Left Click</strong> to mine blocks. <strong>Right Click</strong> to place blocks from your hotbar.</p>
+<p><strong>Inventory &amp; Crafting:</strong> Press <strong>E</strong> to open inventory. Place 4 wood logs to make planks, then craft a Crafting Table to unlock the 3x3 crafting grid!</p>
+<p><strong>Creative Mode:</strong> Press <strong>F</strong> or double-tap Space to fly. You have infinite blocks and break things instantly.</p>
+<p><strong>Sounds:</strong> All audio is generated in real-time with Web Audio API synthesizer. Click anywhere to activate audio!</p>
+</div>
+<button class="mc-btn full-width" id="close-how-to-play-btn">Back</button>
+</div>
+</div>
+<!-- Loading Screen -->
+<div class="screen-modal hidden" id="loading-screen">
+<div class="loading-content">
+<div class="loading-logo">MINECRAFT</div>
+<div class="loading-bar-border">
+<div id="loading-bar-fill"></div>
+</div>
+<div id="loading-status">Generating Terrain...</div>
+</div>
+</div>
+<!-- Main Game Script -->
+<div id="potion-effects-container" style="position: fixed; top: 18px; right: 18px; display: flex; flex-direction: column; gap: 8px; z-index: 500; pointer-events: none; font-family: Minecraft, Inter, monospace;"></div><div id="advancement-toast-container"></div><div id="sleep-overlay" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; background-color: rgb(0, 0, 0); opacity: 0; pointer-events: none; transition: opacity 1.2s ease-in-out; z-index: 900;"></div></body></html>

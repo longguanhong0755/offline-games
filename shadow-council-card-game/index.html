@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Copyright 2026 Ganeeeee. All rights reserved." name="copyright"/>
+<title>Shadow Council</title>
+
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#08080f;--bg2:#0e0e1a;--card:#13132a;--card-hover:#1a1a38;
+  --gold:#c9a84c;--gold-dim:#8a7030;--gold-glow:rgba(201,168,76,.2);
+  --red:#b83a3a;--green:#3a9a5a;--blue:#3a7ab8;
+  --purple:#7a5ab8;--cyan:#3a9a9a;--text:#d0d0dc;--dim:#606078;
+  --military:#b83a3a;--economy:#c9a84c;--strategy:#3a7ab8;--shadow:#7a5ab8;
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Serif SC','Georgia',serif;min-height:100vh;overflow-x:hidden}
+i[class^="ri-"]{font-style:normal;vertical-align:-.08em}
+
+/* ── screens ── */
+.screen{display:none;min-height:100vh;padding:28px 24px;max-width:1100px;margin:0 auto}
+.screen.active{display:flex;flex-direction:column;gap:24px}
+
+/* ── buttons ── */
+.btn{padding:14px 34px;border:1.5px solid var(--gold);background:transparent;color:var(--gold);font-size:.95em;border-radius:6px;cursor:pointer;transition:all .25s;font-family:inherit;letter-spacing:.06em;position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(201,168,76,.06),transparent);transition:left .4s}
+.btn:hover::before{left:100%}
+.btn:hover{background:rgba(201,168,76,.08);box-shadow:0 0 24px var(--gold-glow)}
+.btn.danger{border-color:var(--red);color:var(--red)}.btn.danger:hover{background:rgba(184,58,58,.12);box-shadow:0 0 20px rgba(184,58,58,.15)}
+.btn.small{padding:8px 18px;font-size:.8em;gap:5px}
+.btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
+
+/* ── title screen ── */
+#title-screen{justify-content:center;align-items:center;text-align:center;position:relative}
+#title-screen::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,.05) 0%,transparent 70%);pointer-events:none}
+.title-emblem{font-size:4.5em;color:var(--gold);filter:drop-shadow(0 0 40px rgba(201,168,76,.25));animation:float 5s ease-in-out infinite;margin-bottom:12px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+#title-screen h1{font-family:'Cinzel','Noto Serif SC',serif;font-size:3em;font-weight:900;letter-spacing:.1em;background:linear-gradient(180deg,#e8d48c,var(--gold),#8a6a2a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.title-sub{font-family:'Cinzel',serif;color:var(--dim);font-size:.9em;letter-spacing:.35em;text-transform:uppercase;margin-bottom:48px}
+.title-line{width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:0 auto 48px}
+.title-tagline{color:var(--dim);font-size:.95em;line-height:2.2;max-width:360px;margin:0 auto 56px;letter-spacing:.06em}
+
+/* ── setup ── */
+#setup-screen{padding-top:80px;align-items:center}
+#setup-screen h2{color:var(--gold);text-align:center;font-size:1.5em;letter-spacing:.12em;margin-bottom:12px}
+.setup-center{display:flex;flex-direction:column;align-items:center;gap:28px}
+.player-count{display:flex;gap:14px;align-items:center}
+.player-count .num{width:52px;height:52px;border:1.5px solid var(--gold-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3em;cursor:pointer;transition:all .25s;font-family:'Cinzel',serif}
+.player-count .num.selected{background:var(--gold);color:var(--bg);border-color:var(--gold);box-shadow:0 0 20px var(--gold-glow)}
+.player-count .num:hover{border-color:var(--gold)}
+.name-inputs{display:flex;flex-direction:column;gap:12px;width:100%;max-width:440px}
+.name-inputs .name-row{display:flex;gap:10px;align-items:center}
+.name-inputs input{padding:11px 16px;background:var(--bg2);border:1px solid #2a2a40;border-radius:6px;color:var(--text);font-size:.95em;font-family:inherit;flex:1;transition:border-color .2s}
+.name-inputs input:focus{outline:none;border-color:var(--gold-dim)}
+.name-inputs .ai-toggle{padding:7px 14px;border:1px solid var(--cyan);border-radius:6px;background:transparent;color:var(--cyan);cursor:pointer;font-size:.78em;font-family:inherit;transition:all .2s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.name-inputs .ai-toggle.active{background:rgba(58,154,154,.12)}
+
+/* ── pass screen ── */
+#pass-screen{justify-content:center;align-items:center;text-align:center}
+#pass-screen h2{color:var(--gold);font-size:1.3em;letter-spacing:.12em;display:flex;align-items:center;gap:10px;justify-content:center}
+#pass-screen .who{font-size:2.4em;margin:28px 0;color:#fff;font-weight:700}
+#pass-screen .hint{color:var(--dim);margin-bottom:36px;font-size:.9em}
+
+/* ── identity screen ── */
+#identity-screen{justify-content:center;align-items:center;text-align:center}
+.id-card{background:linear-gradient(145deg,#161630,#0e0e1e);border:1.5px solid var(--gold-dim);border-radius:16px;padding:44px 36px;max-width:400px;width:100%;position:relative;box-shadow:0 12px 50px rgba(0,0,0,.5)}
+.id-card::before{content:'';position:absolute;top:-1px;left:40px;right:40px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.id-label{font-size:.72em;color:var(--gold-dim);letter-spacing:.3em;text-transform:uppercase;margin-bottom:24px}
+.id-icon{font-size:3.8em;color:var(--gold);margin-bottom:10px;filter:drop-shadow(0 0 24px rgba(201,168,76,.2))}
+.id-name{font-size:2.2em;font-weight:900;color:var(--gold);letter-spacing:.12em;margin-bottom:20px}
+.id-ability{background:rgba(58,154,90,.06);border:1px solid rgba(58,154,90,.18);border-radius:10px;padding:14px 18px;font-size:.88em;color:var(--green);text-align:left;line-height:1.7;display:flex;align-items:flex-start;gap:10px}
+.id-ability i{font-size:1.2em;margin-top:2px;flex-shrink:0}
+.id-divider{width:60px;height:1px;background:var(--gold-dim);margin:28px auto;opacity:.3}
+.id-mystery{background:rgba(122,90,184,.05);border:1.5px dashed rgba(122,90,184,.22);border-radius:12px;padding:28px 22px;text-align:center}
+.id-mystery .qm{font-size:2.4em;color:var(--purple);margin-bottom:8px;opacity:.5;animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.7}}
+.id-mystery .mt{color:var(--purple);font-size:.9em;line-height:1.8}
+
+/* ── game screen ── */
+#game-screen{padding-bottom:20px}
+.top-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #1a1a2a;flex-wrap:wrap;gap:10px}
+.top-bar .round{color:var(--gold);font-weight:700;font-size:1.05em;letter-spacing:.06em}
+.top-bar .phase{color:var(--cyan);font-size:.92em;display:flex;align-items:center;gap:6px}
+.top-bar .turn-info{color:var(--dim);font-size:.85em;display:flex;align-items:center;gap:6px}
+
+.event-banner{background:linear-gradient(135deg,rgba(122,90,184,.05),rgba(58,122,184,.05));border:1px solid rgba(122,90,184,.12);border-radius:10px;padding:16px 22px;text-align:center}
+.event-banner .label{color:var(--purple);font-size:.68em;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px;justify-content:center}
+.event-banner .name{color:#fff;font-size:1.08em;font-weight:700}
+.event-banner .desc{color:var(--dim);font-size:.84em;margin-top:6px}
+
+/* zones */
+.zones{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.zone{background:var(--card);border-radius:10px;padding:14px 10px;text-align:center;border:1px solid transparent;transition:all .25s}
+.zone .z-name{font-size:.72em;color:var(--dim);margin-bottom:4px;letter-spacing:.06em;display:flex;align-items:center;gap:5px;justify-content:center}
+.zone .z-val{font-size:1.4em;font-weight:900;font-family:'Cinzel',serif}
+.zone.lead{border-color:var(--gold-dim);box-shadow:0 0 14px var(--gold-glow)}
+
+/* players grid */
+.players-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.player-area{background:var(--card);border-radius:12px;padding:18px;border:1.5px solid transparent;transition:all .25s;position:relative;overflow:hidden}
+.player-area.current{border-color:var(--gold-dim);box-shadow:0 0 24px var(--gold-glow)}
+.player-area.eliminated{opacity:.55;filter:grayscale(.3);border-color:rgba(184,58,58,.4);background:linear-gradient(135deg,rgba(184,58,58,.06),var(--card))}
+.player-area .p-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.player-area .p-name{font-weight:700;font-size:1em;letter-spacing:.04em;display:flex;align-items:center;gap:6px}
+.player-area .p-pub-id{font-size:.8em;padding:3px 10px;border-radius:5px;display:inline-flex;align-items:center;gap:5px;letter-spacing:.04em}
+.player-area .p-ability{font-size:.72em;color:var(--green);margin-top:6px;padding:6px 10px;background:rgba(58,154,90,.05);border-radius:6px;line-height:1.5;display:flex;align-items:flex-start;gap:6px}
+.player-area .p-ability i{flex-shrink:0;margin-top:1px}
+.player-area .p-sec-revealed{font-size:.78em;margin-top:8px;padding:5px 10px;border-radius:5px;display:inline-flex;align-items:center;gap:5px}
+.player-area .p-stats{display:flex;gap:18px;font-size:.85em;color:var(--dim);margin-top:10px}
+.player-area .p-stats span{display:flex;align-items:center;gap:5px}
+.player-area .p-stats span i{font-size:1.05em}
+.player-area .p-cards{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap}
+.player-area .mini-card{width:30px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.55em;border:1px solid #2a2a40;background:var(--bg2);color:var(--dim)}
+.player-area .ai-badge{font-size:.68em;color:var(--cyan);border:1px solid rgba(58,154,154,.25);padding:2px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:3px}
+.player-area .clue-list{margin-top:8px;font-size:.74em;color:var(--dim);line-height:1.6}
+.player-area .clue-list div{display:flex;align-items:flex-start;gap:5px;margin-bottom:2px}
+.player-area .clue-list i{color:var(--purple);flex-shrink:0;margin-top:2px}
+
+/* ── log positioning: mobile=top, desktop=bottom ── */
+#game-screen .top-bar{order:1}
+#game-screen .event-banner{order:2}
+#game-screen .zones{order:3}
+#game-screen .game-log{order:4}
+#game-screen .players-grid{order:5}
+#game-screen .my-hand{order:6}
+@media(min-width:769px){
+  #game-screen .game-log{order:9}
+  #game-screen .players-grid{order:5}
+  #game-screen .my-hand{order:10}
+}
+
+/* ── hand cards ── */
+.my-hand{background:linear-gradient(to top,var(--bg2),var(--bg));border-top:1px solid #1a1a2a;padding:20px 24px;position:sticky;bottom:0;z-index:10}
+.my-hand .hand-label{color:var(--dim);font-size:.84em;margin-bottom:14px;letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.hand-cards{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;-ms-overflow-style:none}
+.hand-cards::-webkit-scrollbar{display:none}
+
+.hand-card{
+  min-width:120px;height:168px;border-radius:10px;cursor:pointer;
+  border:1.5px solid transparent;transition:all .22s;display:flex;flex-direction:column;
+  flex-shrink:0;position:relative;overflow:hidden;
+  box-shadow:0 2px 10px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.03)
+}
+.hand-card:hover{transform:translateY(-8px);box-shadow:0 12px 28px rgba(0,0,0,.5)}
+.hand-card.military{background:linear-gradient(160deg,#2a1518,#180e12);border-color:rgba(184,58,58,.3)}
+.hand-card.economy{background:linear-gradient(160deg,#2a2510,#18140a);border-color:rgba(201,168,76,.3)}
+.hand-card.strategy{background:linear-gradient(160deg,#151828,#0e1018);border-color:rgba(58,122,184,.3)}
+.hand-card.shadow{background:linear-gradient(160deg,#201528,#140e18);border-color:rgba(122,90,184,.3)}
+.hand-card.blocked{opacity:.3;cursor:not-allowed;filter:grayscale(.7)}
+.hand-card .card-corner{position:absolute;top:7px;left:9px;font-size:.7em;color:rgba(255,255,255,.2);font-family:'Cinzel',serif;font-weight:700}
+.hand-card .card-corner-r{position:absolute;top:7px;right:9px;font-size:.8em;color:rgba(255,255,255,.2)}
+.hand-card .card-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 8px}
+.hand-card .card-suit-icon{font-size:1.8em;margin-bottom:6px;opacity:.6}
+.hand-card .card-name{font-size:1.05em;font-weight:900;letter-spacing:.1em;line-height:1.2}
+.hand-card .card-desc{font-size:.62em;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.4}
+.hand-card .card-bottom{padding:5px 10px 7px;text-align:center;font-size:.58em;color:rgba(255,255,255,.18);letter-spacing:.12em;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;gap:4px}
+.hand-card.military .card-name{color:var(--military)}
+.hand-card.economy .card-name{color:var(--economy)}
+.hand-card.strategy .card-name{color:var(--strategy)}
+.hand-card.shadow .card-name{color:var(--shadow)}
+
+.actions-panel{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+.game-log{background:var(--bg2);border:1px solid #1a1a2a;border-radius:10px;padding:14px;max-height:160px;overflow-y:auto;font-size:.8em;color:var(--dim);line-height:1.7;scrollbar-width:none;-ms-overflow-style:none}
+.game-log::-webkit-scrollbar{display:none}
+.game-log .log-entry{border-bottom:1px solid #111;padding:4px 0;display:flex;align-items:flex-start;gap:6px}
+.game-log .log-entry:last-child{border:none}
+.game-log .log-entry i{flex-shrink:0;margin-top:2px}
+.log-entry.good{color:var(--green)}.log-entry.bad{color:var(--red)}.log-entry.info{color:var(--cyan)}.log-entry.ai{color:#d4a040}
+.log-entry.clue{color:var(--purple)}.log-entry.private{color:#c8a0ff;font-style:italic}
+.log-entry.death{color:#ff5050;font-weight:700}
+.log-entry.guess{color:#e8c040;background:rgba(232,192,64,.06);border-left:3px solid var(--gold-dim);padding-left:10px;border-radius:4px}
+
+/* overlays */
+.ai-thinking{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
+.ai-thinking.show{opacity:1;pointer-events:all}
+.ai-thinking .box{background:var(--card);border:1.5px solid var(--cyan);border-radius:16px;padding:36px 48px;text-align:center;box-shadow:0 12px 50px rgba(0,0,0,.5)}
+.ai-thinking .box .name{font-size:1.3em;color:var(--cyan);margin-bottom:12px;letter-spacing:.06em;display:flex;align-items:center;gap:8px;justify-content:center}
+.ai-thinking .box .dots{color:var(--dim);font-size:1.2em}
+@keyframes dotPulse{0%,100%{opacity:.15}50%{opacity:1}}
+.ai-thinking .box .dots span{animation:dotPulse 1.2s infinite}
+.ai-thinking .box .dots span:nth-child(2){animation-delay:.2s}
+.ai-thinking .box .dots span:nth-child(3){animation-delay:.4s}
+
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal{background:var(--card);border:1.5px solid var(--gold-dim);border-radius:16px;padding:28px;max-width:520px;width:92%;max-height:85vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,.6);scrollbar-width:none;-ms-overflow-style:none}
+.modal::-webkit-scrollbar{display:none}
+.modal h3{color:var(--gold);margin-bottom:18px;text-align:center;letter-spacing:.08em;display:flex;align-items:center;gap:8px;justify-content:center}
+.modal .modal-body{margin-bottom:22px;line-height:1.7}
+.modal .modal-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.modal select{padding:10px 14px;background:var(--bg2);border:1px solid #2a2a40;border-radius:6px;color:var(--text);font-family:inherit;font-size:.92em;width:100%;margin:5px 0}
+.modal select:focus{outline:none;border-color:var(--gold-dim)}
+.modal .log-preview{background:var(--bg2);border:1px solid #1a1a2a;border-radius:8px;padding:12px;max-height:170px;overflow-y:auto;font-size:.74em;color:var(--dim);line-height:1.6;margin:12px 0;scrollbar-width:none;-ms-overflow-style:none}
+.modal .log-preview::-webkit-scrollbar{display:none}
+
+/* end screen */
+#end-screen{justify-content:center;align-items:center;text-align:center}
+.result-card{background:var(--card);border:1.5px solid var(--gold-dim);border-radius:16px;padding:36px;max-width:740px;width:100%;box-shadow:0 12px 50px rgba(0,0,0,.5)}
+.result-card h2{color:var(--gold);margin-bottom:22px;letter-spacing:.1em;display:flex;align-items:center;gap:10px;justify-content:center}
+.result-table{width:100%;border-collapse:collapse;margin:16px 0}
+.result-table th,.result-table td{padding:10px 12px;border-bottom:1px solid #1a1a2a;text-align:left;font-size:.9em}
+.result-table th{color:var(--gold);font-weight:600;letter-spacing:.04em}
+.result-table .winner{color:var(--gold);font-weight:700}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.fade-in{animation:fadeIn .35s ease}
+::-webkit-scrollbar{width:0;height:0}*{-ms-overflow-style:none;scrollbar-width:none}
+
+/* ══════════════════════════════════
+   RESPONSIVE — TABLET (768px–1024px)
+   ══════════════════════════════════ */
+@media(max-width:1024px){
+  .screen{padding:22px 18px;gap:20px}
+  #title-screen h1{font-size:2.6em}
+  .title-emblem{font-size:3.8em}
+  .title-tagline{max-width:340px;font-size:.9em}
+  .zones{grid-template-columns:repeat(3,1fr);gap:8px}
+  .zone .z-val{font-size:1.2em}
+  .players-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .player-area{padding:14px}
+  .hand-card{min-width:110px;height:156px}
+  .hand-card .card-suit-icon{font-size:1.5em}
+  .hand-card .card-name{font-size:.95em}
+  .modal{max-width:480px;padding:24px}
+  .result-card{padding:28px}
+  .result-table th,.result-table td{padding:8px 10px;font-size:.85em}
+  .id-card{padding:36px 28px}
+  #setup-screen{padding-top:60px}
+  .name-inputs{max-width:400px}
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE — MOBILE (<768px)
+   ══════════════════════════════════ */
+@media(max-width:768px){
+  /* global */
+  .screen{padding:14px 10px;gap:16px}
+
+  /* buttons */
+  .btn{padding:12px 24px;font-size:.88em;gap:6px}
+  .btn.small{padding:7px 14px;font-size:.75em}
+
+  /* title screen */
+  #title-screen{padding:20px 12px}
+  #title-screen h1{font-size:2em;letter-spacing:.06em}
+  .title-emblem{font-size:3em;margin-bottom:8px}
+  .title-sub{font-size:.72em;letter-spacing:.2em;margin-bottom:32px}
+  .title-line{width:100px;margin-bottom:32px}
+  .title-tagline{font-size:.84em;line-height:2;margin-bottom:40px;max-width:280px}
+
+  /* setup screen */
+  #setup-screen{padding-top:40px}
+  #setup-screen h2{font-size:1.2em;letter-spacing:.08em}
+  .player-count{gap:10px;flex-wrap:wrap;justify-content:center}
+  .player-count .num{width:44px;height:44px;font-size:1.1em}
+  .name-inputs{max-width:100%;gap:10px}
+  .name-inputs .name-row{gap:8px}
+  .name-inputs input{padding:10px 12px;font-size:.88em}
+  .name-inputs .ai-toggle{padding:6px 10px;font-size:.72em}
+
+  /* pass screen */
+  #pass-screen h2{font-size:1.1em}
+  #pass-screen .who{font-size:1.8em;margin:20px 0}
+  #pass-screen .hint{font-size:.82em;margin-bottom:28px}
+
+  /* identity screen */
+  .id-card{padding:28px 20px;border-radius:12px}
+  .id-label{font-size:.65em;margin-bottom:18px}
+  .id-icon{font-size:2.8em;margin-bottom:8px}
+  .id-name{font-size:1.7em;margin-bottom:16px}
+  .id-ability{padding:10px 14px;font-size:.8em;line-height:1.6}
+  .id-mystery{padding:20px 16px}
+  .id-mystery .qm{font-size:1.8em}
+
+  /* game screen */
+  .top-bar{padding:10px 0;gap:8px}
+  .top-bar .round{font-size:.92em}
+  .top-bar .phase{font-size:.82em}
+  .top-bar .turn-info{font-size:.78em}
+
+  .event-banner{padding:12px 14px}
+  .event-banner .label{font-size:.6em;letter-spacing:1.5px}
+  .event-banner .name{font-size:.95em}
+  .event-banner .desc{font-size:.76em;margin-top:4px}
+
+  /* zones */
+  .zones{grid-template-columns:repeat(2,1fr);gap:6px}
+  .zone{padding:10px 6px;border-radius:8px}
+  .zone .z-name{font-size:.64em;gap:3px}
+  .zone .z-val{font-size:1.1em}
+
+  /* players grid */
+  .players-grid{grid-template-columns:1fr;gap:10px}
+  .player-area{padding:12px;border-radius:10px}
+  .player-area .p-header{gap:4px}
+  .player-area .p-name{font-size:.9em}
+  .player-area .p-pub-id{font-size:.72em;padding:2px 8px}
+  .player-area .p-ability{font-size:.66em;padding:5px 8px}
+  .player-area .p-sec-revealed{font-size:.7em}
+  .player-area .p-stats{gap:12px;font-size:.78em}
+  .player-area .mini-card{width:24px;height:34px;font-size:.48em}
+  .player-area .ai-badge{font-size:.6em;padding:2px 6px}
+  .player-area .clue-list{font-size:.68em}
+
+  /* hand */
+  .my-hand{padding:14px 12px}
+  .my-hand .hand-label{font-size:.76em;margin-bottom:10px}
+  .hand-cards{gap:8px}
+  .hand-card{min-width:96px;height:140px;border-radius:8px}
+  .hand-card .card-corner{font-size:.6em;top:5px;left:7px}
+  .hand-card .card-corner-r{font-size:.65em;top:5px;right:7px}
+  .hand-card .card-suit-icon{font-size:1.4em;margin-bottom:4px}
+  .hand-card .card-name{font-size:.88em;letter-spacing:.06em}
+  .hand-card .card-desc{font-size:.56em;margin-top:5px}
+  .hand-card .card-bottom{font-size:.5em;padding:4px 8px 5px}
+  .hand-card:hover{transform:translateY(-5px)}
+
+  /* actions */
+  .actions-panel{gap:8px;margin-top:10px}
+  .actions-panel .btn{padding:10px 16px;font-size:.78em}
+
+  /* game log */
+  .game-log{max-height:120px;padding:10px;font-size:.72em}
+
+  /* modals */
+  .modal{padding:20px;border-radius:12px;max-width:94%}
+  .modal h3{font-size:1em;margin-bottom:14px}
+  .modal .modal-body{font-size:.85em}
+  .modal .modal-actions{gap:8px}
+  .modal .modal-actions .btn{padding:10px 18px;font-size:.82em}
+  .modal select{padding:8px 10px;font-size:.84em}
+  .modal .log-preview{max-height:130px;padding:10px;font-size:.68em}
+
+  /* ai thinking overlay */
+  .ai-thinking .box{padding:24px 28px;border-radius:12px}
+  .ai-thinking .box .name{font-size:1.1em}
+  #ai-think-action{font-size:.76em}
+
+  /* end screen */
+  .result-card{padding:22px;border-radius:12px}
+  .result-card h2{font-size:1.1em;margin-bottom:16px}
+  .result-table th,.result-table td{padding:7px 8px;font-size:.78em}
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE — SMALL MOBILE (<480px)
+   ══════════════════════════════════ */
+@media(max-width:480px){
+  .screen{padding:10px 8px;gap:12px}
+
+  #title-screen h1{font-size:1.6em}
+  .title-emblem{font-size:2.4em}
+  .title-sub{font-size:.6em;letter-spacing:.15em;margin-bottom:24px}
+  .title-line{width:70px;margin-bottom:24px}
+  .title-tagline{font-size:.76em;margin-bottom:32px;max-width:240px}
+  .btn{padding:11px 20px;font-size:.82em}
+
+  #setup-screen h2{font-size:1em}
+  .player-count .num{width:38px;height:38px;font-size:.95em}
+  .name-inputs input{padding:9px 10px;font-size:.82em}
+
+  .zones{grid-template-columns:repeat(2,1fr);gap:5px}
+  .zone{padding:8px 4px}
+  .zone .z-name{font-size:.58em}
+  .zone .z-val{font-size:.95em}
+
+  .hand-card{min-width:84px;height:124px;border-radius:7px}
+  .hand-card .card-suit-icon{font-size:1.2em}
+  .hand-card .card-name{font-size:.78em}
+  .hand-card .card-desc{display:none}
+  .hand-card .card-bottom{font-size:.45em}
+
+  .top-bar{flex-direction:column;align-items:flex-start;gap:4px}
+  .top-bar .round{font-size:.84em}
+  .top-bar .phase{font-size:.74em}
+  .top-bar .turn-info{font-size:.7em}
+
+  .id-card{padding:22px 16px}
+  .id-icon{font-size:2.2em}
+  .id-name{font-size:1.4em}
+  .id-ability{font-size:.74em;padding:8px 10px}
+  .id-mystery{padding:16px 12px}
+  .id-mystery .qm{font-size:1.4em}
+  .id-mystery .mt{font-size:.78em}
+
+  .modal{padding:16px;max-width:96%}
+  .modal h3{font-size:.9em}
+  .result-card{padding:16px}
+  .result-table th,.result-table td{padding:6px 6px;font-size:.72em}
+}
+
+/* ── touch-friendly helpers ── */
+@media(hover:none) and (pointer:coarse){
+  .hand-card:hover{transform:none;box-shadow:0 2px 10px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.03)}
+  .hand-card:active{transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,.5)}
+  .btn:hover{background:transparent;box-shadow:none}
+  .btn:active{background:rgba(201,168,76,.1);box-shadow:0 0 16px var(--gold-glow)}
+  .player-count .num:hover{border-color:var(--gold-dim)}
+  .player-count .num:active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+}
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- ═══ TITLE ═══ -->
+<div class="screen active" id="title-screen">
+<div class="title-emblem"><i class="ri-mask-3-fill"></i></div>
+<h1>Shadow Council</h1>
+<div class="title-sub">SHADOW COUNCIL</div>
+<div class="title-line"></div>
+<div class="title-tagline">
+    You don't know who you are.<br/>
+    But everyone wears a mask.
+  </div>
+<button class="btn" onclick="showScreen('setup-screen')"><i class="ri-door-open-fill"></i> Enter the Council</button>
+</div>
+<!-- ═══ SETUP ═══ -->
+<div class="screen" id="setup-screen">
+<h2>Council Initialization</h2>
+<div class="setup-center">
+<div>
+<div style="text-align:center;color:var(--dim);margin-bottom:12px;font-size:.88em">Choose number of players</div>
+<div class="player-count" id="player-count"></div>
+</div>
+<div style="color:var(--dim);font-size:.78em;text-align:center"><i class="ri-robot-2-line" style="color:var(--cyan)"></i> Click the AI button to set a player as computer</div>
+<div class="name-inputs" id="name-inputs"></div>
+<button class="btn" onclick="startGame()"><i class="ri-sword-fill"></i> Enter the Council</button>
+</div>
+</div>
+<!-- ═══ PASS ═══ -->
+<div class="screen" id="pass-screen">
+<h2><i class="ri-lock-fill"></i> Pass the Device</h2>
+<div class="who" id="pass-who"></div>
+<div class="hint">Please hand the device to this player to view their identity</div>
+<button class="btn" onclick="revealIdentity()"><i class="ri-check-line"></i> I'm Ready</button>
+</div>
+<!-- ═══ IDENTITY ═══ -->
+<div class="screen" id="identity-screen">
+<div class="id-card fade-in">
+<div class="id-label">YOUR IDENTITY</div>
+<div class="id-icon" id="my-id-icon"></div>
+<div class="id-name" id="my-id-name"></div>
+<div class="id-ability" id="my-id-ability"></div>
+<div class="id-divider"></div>
+<div class="id-mystery">
+<div class="qm"><i class="ri-question-fill"></i></div>
+<div class="mt">Your <strong>shadow identity</strong> has been randomly assigned<br/>Only you don't know it</div>
+</div>
+<button class="btn" onclick="afterIdentity()" style="margin-top:32px"><i class="ri-check-line"></i> Confirm</button>
+</div>
+</div>
+<!-- ═══ GAME ═══ -->
+<div class="screen" id="game-screen">
+<div class="top-bar">
+<div class="round" id="round-display"></div>
+<div class="phase" id="phase-display"></div>
+<div class="turn-info" id="turn-display"></div>
+</div>
+<div class="event-banner" id="event-banner"></div>
+<div class="zones" id="zones-display"></div>
+<div class="game-log" id="game-log"></div>
+<div class="players-grid" id="players-grid"></div>
+<div class="my-hand" id="my-hand">
+<div class="hand-label" id="hand-label"></div>
+<div class="hand-cards" id="hand-cards"></div>
+<div class="actions-panel" id="actions-panel"></div>
+</div>
+</div>
+<!-- ═══ END ═══ -->
+<div class="screen" id="end-screen">
+<div class="result-card fade-in" id="result-card"></div>
+</div>
+<!-- ═══ OVERLAYS ═══ -->
+<div class="modal-overlay" id="modal-overlay"><div class="modal" id="modal"></div></div>
+<div class="ai-thinking" id="ai-thinking">
+<div class="box">
+<div class="name" id="ai-think-name"></div>
+<div class="dots"><span>●</span><span>●</span><span>●</span></div>
+<div id="ai-think-action" style="color:var(--dim);font-size:.84em;margin-top:10px"></div>
+</div>
+</div>
+<script>
+// ============== ICONS ==============
+const IC = {
+  sword:'ri-sword-fill', gem:'ri-vip-diamond-fill', scroll:'ri-quill-pen-fill', moon:'ri-moon-fill',
+  skull:'ri-skull-fill', eye:'ri-eye-fill', flask:'ri-flask-fill', brain:'ri-brain-fill',
+  shield:'ri-shield-fill', coin:'ri-coin-fill', cards:'ri-stack-fill', fire:'ri-fire-fill',
+  flash:'ri-flashlight-fill', search:'ri-search-2-line', mirror:'ri-mirror-fill',
+  crosshair:'ri-crosshair-2-fill', trophy:'ri-trophy-fill', flag:'ri-flag-fill',
+  mask:'ri-mask-3-fill', lock:'ri-lock-fill', robot:'ri-robot-2-fill',
+  skull2:'ri-skull-2-fill', time:'ri-time-fill', megaphone:'ri-megaphone-fill',
+  lightbulb:'ri-lightbulb-fill', bar:'ri-bar-chart-fill', list:'ri-list-check',
+  door:'ri-door-open-fill', check:'ri-check-line', close:'ri-close-line',
+  arrow:'ri-arrow-right-line', question:'ri-question-fill', volume:'ri-volume-up-fill',
+  minus:'ri-subtract-line', plus:'ri-add-line', shuffle:'ri-shuffle-line',
+  spy:'ri-spy-fill', user:'ri-user-fill', quill:'ri-quill-pen-fill',
+  star:'ri-star-fill', danger:'ri-alarm-warning-fill', hint:'ri-lightbulb-flash-fill',
+};
+
+// ============== AUDIO ==============
+const AudioEngine = {
+  ctx:null, init(){if(!this.ctx)try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}},
+  // Crisp multi-layer sound synthesizer
+  _tone(type,freq,dur,vol,detune,delay){
+    if(!this.ctx)return;try{
+      const n=this.ctx.currentTime+(delay||0);
+      const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+      o.type=type;o.frequency.setValueAtTime(freq,n);
+      if(detune)o.detune.setValueAtTime(detune,n);
+      g.gain.setValueAtTime(vol,n);g.gain.exponentialRampToValueAtTime(.001,n+dur);
+      o.connect(g);g.connect(this.ctx.destination);o.start(n);o.stop(n+dur);
+    }catch(e){}
+  },
+  // Noise generator (for rustling/impact effects)
+  _noise(dur,vol,delay){
+    if(!this.ctx)return;try{
+      const n=this.ctx.currentTime+(delay||0);
+      const buf=this.ctx.createBuffer(1,this.ctx.sampleRate*dur,this.ctx.sampleRate);
+      const data=buf.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1);
+      const src=this.ctx.createBufferSource();src.buffer=buf;
+      const g=this.ctx.createGain();g.gain.setValueAtTime(vol,n);g.gain.exponentialRampToValueAtTime(.001,n+dur);
+      const filt=this.ctx.createBiquadFilter();filt.type='highpass';filt.frequency.setValueAtTime(2000,n);
+      src.connect(filt);filt.connect(g);g.connect(this.ctx.destination);src.start(n);src.stop(n+dur);
+    }catch(e){}
+  },
+  // Chord (multiple notes simultaneously)
+  _chord(type,freqs,dur,vol,delay){
+    freqs.forEach((f,i)=>{this._tone(type,f,dur,vol/(freqs.length||1),0,delay||0)});
+  },
+  // Ascending arpeggio
+  _arp(type,freqs,dur,vol,step){
+    freqs.forEach((f,i)=>{this._tone(type,f,dur,vol/(freqs.length||1),0,i*(step||0.06))});
+  },
+  play(t){
+    if(!this.ctx)this.init();if(!this.ctx)return;
+    switch(t){
+      // ★ Card click - crisp high-pitch tick
+      case'click':
+        this._tone('sine',1800,.04,.15);
+        this._tone('sine',2400,.03,.08,0,0.02);
+        break;
+      // ★ Card hover - soft notification sound
+      case'hover':
+        this._tone('sine',1200,.06,.04);
+        break;
+      // ★ Play card - crisp crystal sound
+      case'card':
+        this._tone('sine',800,.08,.12);
+        this._tone('sine',1200,.06,.1,0,0.03);
+        this._tone('triangle',1600,.05,.06,0,0.06);
+        this._noise(.03,.04,0.01);
+        break;
+      // ★ Gain gold - coin jingle
+      case'gold':
+        this._tone('sine',1400,.1,.12);
+        this._tone('sine',1800,.08,.1,0,0.05);
+        this._tone('sine',2200,.06,.06,0,0.1);
+        this._tone('triangle',2800,.04,.04,0,0.14);
+        break;
+      // ★ Attack - impact + metallic feel
+      case'attack':
+        this._tone('sawtooth',200,.15,.18);
+        this._noise(.08,.12,0);
+        this._tone('square',120,.12,.1,0,0.04);
+        this._tone('sine',600,.06,.06,0,0.08);
+        break;
+      // ★ Eliminate - falling + shattering
+      case'eliminate':
+        this._tone('sawtooth',400,.3,.2);
+        this._tone('sawtooth',300,.35,.15,0,0.05);
+        this._noise(.15,.15,0.1);
+        this._tone('sine',200,.2,.08,0,0.2);
+        this._tone('sine',100,.3,.06,0,0.3);
+        break;
+      // ★ Identity reveal - mysterious ascending
+      case'reveal':
+        this._arp('sine',[400,500,600,800],.25,.1,0.08);
+        this._tone('triangle',400,.4,.06,0,0.01);
+        break;
+      // ★ Prophecy success - ascending chord flash
+      case'prophecy_ok':
+        this._chord('sine',[600,750,900],.15,.2);
+        this._arp('sine',[1000,1200,1500],.12,.12,0.06);
+        this._tone('sine',2000,.2,.06,0,0.2);
+        break;
+      // ★ Prophecy fail - dissonant descending
+      case'prophecy_fail':
+        this._tone('square',300,.2,.1);
+        this._tone('square',280,.22,.08,10,0.05);
+        this._tone('sawtooth',200,.15,.06,0,0.12);
+        break;
+      // ★ Event occurs - fanfare + echo
+      case'event':
+        this._tone('triangle',350,.15,.12);
+        this._tone('sine',500,.2,.08,0,0.08);
+        this._tone('triangle',700,.15,.06,0,0.15);
+        this._tone('sine',350,.3,.04,0,0.2);
+        break;
+      // ★ Turn switch - crisp bell
+      case'turn':
+        this._tone('sine',1000,.08,.1);
+        this._tone('sine',1500,.06,.06,0,0.04);
+        this._tone('sine',2000,.04,.03,0,0.08);
+        break;
+      // ★ Game end - solemn chord
+      case'end':
+        this._chord('sine',[400,500,600,800],.4,.2);
+        this._chord('sine',[500,630,750,1000],.5,.15,0.3);
+        this._tone('sine',800,.8,.08,0,0.6);
+        break;
+      // ★ Reflect - water drop echo
+      case'reflect':
+        this._tone('sine',1200,.06,.1);
+        this._tone('sine',900,.12,.08,0,0.1);
+        this._tone('sine',700,.18,.06,0,0.22);
+        this._tone('sine',1200,.08,.04,0,0.35);
+        break;
+      // ★ Guess correct - victory fanfare
+      case'guess_correct':
+        this._arp('sine',[500,630,750,1000],.15,.15,0.08);
+        this._chord('sine',[750,1000,1200],.3,.12,0.3);
+        this._tone('sine',1500,.4,.08,0,0.45);
+        break;
+      // ★ Guess wrong - burst + falling
+      case'guess_wrong':
+        this._noise(.1,.2,0);
+        this._tone('sawtooth',300,.25,.15);
+        this._tone('sawtooth',200,.3,.1,0,0.1);
+        this._tone('sawtooth',100,.35,.06,0,0.2);
+        break;
+      // ★ Use ability - magic sparkle
+      case'ability':
+        this._arp('triangle',[600,800,1000,1200],.08,.1,0.04);
+        this._tone('sine',1200,.15,.06,0,0.15);
+        break;
+      // ★ Guard activate - shield clang
+      case'shield':
+        this._tone('sine',800,.06,.12);
+        this._tone('triangle',1200,.08,.1,0,0.04);
+        this._tone('sine',1600,.06,.06,0,0.08);
+        this._noise(.04,.06,0.02);
+        break;
+      // ★ Poison/Assassinate - sinister slide
+      case'poison':
+        this._tone('sawtooth',400,.15,.12);
+        this._tone('sawtooth',300,.15,.1,0,0.05);
+        this._tone('sine',200,.2,.06,0,0.12);
+        this._noise(.06,.08,0.08);
+        break;
+      // ★ Brainwash - rotating hum
+      case'mindwash':
+        this._tone('sine',300,.3,.1);
+        this._tone('sine',600,.25,.08,0,0.05);
+        this._tone('sine',900,.2,.06,0,0.1);
+        this._tone('triangle',450,.35,.05,50,0.15);
+        break;
+      // ★ Siege - heavy drum
+      case'siege':
+        this._tone('sine',80,.2,.2);
+        this._noise(.08,.12,0.05);
+        this._tone('sine',60,.3,.1,0,0.1);
+        break;
+      // ★ Scout - rapid beeps
+      case'scout':
+        this._tone('sine',1600,.04,.1);
+        this._tone('sine',2000,.04,.08,0,0.06);
+        break;
+      // ★ Disguise - buzzing morph
+      case'disguise':
+        this._tone('triangle',300,.2,.1);
+        this._tone('triangle',500,.18,.08,0,0.08);
+        this._tone('sine',800,.15,.06,0,0.15);
+        this._noise(.05,.06,0.1);
+        break;
+      // ★ Eavesdrop - low hum
+      case'eavesdrop':
+        this._tone('sine',200,.15,.1);
+        this._tone('sine',400,.12,.08,0,0.08);
+        this._tone('sine',800,.1,.06,0,0.14);
+        break;
+      // ★ Sow Discord - splitting sound
+      case'sow_discord':
+        this._tone('sawtooth',500,.1,.12);
+        this._tone('sawtooth',300,.12,.1,0,0.05);
+        this._noise(.06,.1,0.02);
+        break;
+      // ★ Chaos - noise burst
+      case'chaos':
+        this._noise(.15,.15,0);
+        this._tone('sawtooth',200,.2,.1,0,0.05);
+        this._tone('square',400,.1,.08,0,0.1);
+        this._noise(.1,.1,0.15);
+        break;
+      // ★ Zone increase - accumulation sound
+      case'zone_up':
+        this._tone('sine',600,.06,.08);
+        this._tone('sine',800,.06,.06,0,0.04);
+        break;
+      // ★ Draw card - paper shuffle
+      case'draw_card':
+        this._noise(.04,.08,0);
+        this._tone('sine',1400,.04,.05,0,0.02);
+        break;
+      // ★ Button hover
+      case'btn_hover':
+        this._tone('sine',1400,.03,.03);
+        break;
+      // ★ Countdown / tension
+      case'tension':
+        this._tone('sine',300,.3,.06);
+        this._tone('sine',320,.3,.04,5,0.15);
+        break;
+      // ★ Victory fanfare
+      case'victory':
+        this._arp('sine',[500,630,750,1000,1200],.2,.15,0.1);
+        this._chord('sine',[750,1000,1500],.6,.12,0.5);
+        this._tone('sine',2000,.5,.06,0,0.8);
+        break;
+      // ★ Defeat - dark tone
+      case'defeat':
+        this._tone('sawtooth',200,.4,.12);
+        this._tone('sawtooth',150,.5,.08,0,0.15);
+        this._tone('sine',80,.6,.06,0,0.3);
+        break;
+    }
+  }
+};
+document.addEventListener('click',()=>AudioEngine.init(),{once:true});
+// Button hover sound effect
+document.addEventListener('mouseover',e=>{if(e.target.closest('.btn,.hand-card,.num'))AudioEngine.play('btn_hover')});
+
+// ============== DATA ==============
+const IDENTITIES = {
+  general:   {name:'General',icon:IC.sword,camp:'order', color:'var(--military)',keywords:['blade','sword','halberd','armor'],
+    ability:'+1 Military Zone at the start of each round', abilityId:'mil_boost'},
+  merchant:  {name:'Merchant',icon:IC.gem,camp:'order', color:'var(--economy)',keywords:['scale','gold','coin','ledger'],
+    ability:'Gain 1 gold at the start of each round', abilityId:'gold_boost'},
+  prophet:   {name:'Prophet',icon:IC.scroll,camp:'order', color:'var(--strategy)',keywords:['eye','star','moon','dream'],
+    ability:'Draw 1 extra card at the start of each round', abilityId:'draw_boost'},
+  assassin:  {name:'Assassin',icon:IC.skull,camp:'chaos', color:'var(--military)',keywords:['poison','dagger','shadow','night'],
+    ability:'Discard 1 card to make 1 player discard 1 card', abilityId:'discard_peek'},
+  alchemist: {name:'Alchemist',icon:IC.flask,camp:'chaos',color:'var(--shadow)',keywords:['bottle','furnace','flame','mercury'],
+    ability:'+1 Economy Zone at the start of each round', abilityId:'econ_boost'},
+  spy:       {name:'Spy',icon:IC.eye,camp:'chaos',color:'var(--cyan)',keywords:['mask','mirror','veil','wind'],
+    ability:'Peek at 1 random player\'s shadow keyword each round', abilityId:'spy_peek'}
+};
+const ID_KEYS = Object.keys(IDENTITIES);
+
+const SUITS = {
+  military:{name:'Military',icon:IC.sword,color:'var(--military)',rank:'A'},
+  economy:{name:'Economy',icon:IC.gem,color:'var(--economy)',rank:'K'},
+  strategy:{name:'Strategy',icon:IC.scroll,color:'var(--strategy)',rank:'Q'},
+  shadow:{name:'Shadow',icon:IC.moon,color:'var(--shadow)',rank:'J'}
+};
+
+const CARDS = [
+  {suit:'military',name:'Rally',eff:'Military +3',action:'zone_military',val:3},
+  {suit:'military',name:'Assassinate',eff:'Target discards 1 card',action:'assassinate',val:0},
+  {suit:'military',name:'Siege',eff:'Military +2, target skips next turn',action:'siege',val:2},
+  {suit:'military',name:'Guard',eff:'Block 1 attack',action:'shield',val:0},
+  {suit:'military',name:'Conscript',eff:'Draw 2 cards',action:'draw',val:2},
+  {suit:'military',name:'Charge',eff:'Military +4',action:'zone_military',val:4},
+  {suit:'military',name:'Scout',eff:'Reveal 1 card suit from target',action:'scout',val:0},
+  {suit:'military',name:'Mutiny',eff:'Military +2, Economy -1',action:'mutiny',val:2},
+  {suit:'economy',name:'Tax',eff:'Gain 2 gold',action:'gain_gold',val:2},
+  {suit:'economy',name:'Bribe',eff:'Steal 1 gold from target',action:'steal_gold',val:1},
+  {suit:'economy',name:'Monopoly',eff:'Economy +3',action:'zone_economy',val:3},
+  {suit:'economy',name:'Invest',eff:'Economy +2, gain 1 gold',action:'invest',val:2},
+  {suit:'economy',name:'Bankrupt',eff:'Target loses 3 gold',action:'bankrupt',val:3},
+  {suit:'economy',name:'Trade',eff:'Both you and target draw 1 card',action:'trade_draw',val:0},
+  {suit:'economy',name:'Bounty',eff:'Gain 3 gold',action:'gain_gold',val:3},
+  {suit:'economy',name:'Thrift',eff:'Economy +1, draw 1 card',action:'frugal',val:1},
+  {suit:'strategy',name:'Peek',eff:'Reveal target\'s shadow keyword',action:'investigate',val:0},
+  {suit:'strategy',name:'Forge',eff:'Fake any suit, +2 to that zone',action:'forge',val:0},
+  {suit:'strategy',name:'Propaganda',eff:'Shadow +2',action:'zone_shadow',val:2},
+  {suit:'strategy',name:'Prophecy',eff:'Guess target\'s shadow identity',action:'prophecy',val:0},
+  {suit:'strategy',name:'Sow Discord',eff:'2 targets each discard 1 card',action:'sow_discord',val:0},
+  {suit:'strategy',name:'Insight',eff:'See all suits in target\'s hand',action:'insight',val:0},
+  {suit:'strategy',name:'Scheme',eff:'Strategy +3',action:'zone_strategy',val:3},
+  {suit:'strategy',name:'Secret Order',eff:'Strategy +2, draw 1 card',action:'secret_order',val:2},
+  {suit:'strategy',name:'Reflect',eff:'Gain 1 clue about your shadow identity',action:'self_reflect',val:0},
+  {suit:'shadow',name:'Disguise',eff:'Swap public identity with target (1 round)',action:'disguise',val:0},
+  {suit:'shadow',name:'Poison',eff:'Reveal keyword + target discards 1',action:'poison_reveal',val:0},
+  {suit:'shadow',name:'Chaos',eff:'All discard 1, then all draw 1',action:'chaos',val:0},
+  {suit:'shadow',name:'Dark Assassinate',eff:'Eliminate target (if no guard)',action:'dark_assassinate',val:0},
+  {suit:'shadow',name:'Eavesdrop',eff:'Reveal target\'s shadow identity',action:'eavesdrop',val:0},
+  {suit:'shadow',name:'Dark Alley',eff:'Shadow +3',action:'zone_shadow',val:3},
+  {suit:'shadow',name:'Conspiracy',eff:'Shadow +2, gain 1 gold',action:'conspiracy',val:2},
+  {suit:'shadow',name:'Brainwash',eff:'Swap target\'s public & shadow identity',action:'mindwash',val:0},
+];
+
+const SELF_CLUES = [
+  s=>`Your shadow identity's keyword is related to "${pick(IDENTITIES[s].keywords)}"`,
+  s=>`Your shadow faction is ${IDENTITIES[s].camp==='order'?'Order':'Chaos'}`,
+  s=>`Your shadow identity is NOT from the ${IDENTITIES[s].camp==='order'?'Chaos':'Order'} faction`,
+  s=>`Your shadow identity's symbol is "${pick(IDENTITIES[s].keywords)}"`,
+  s=>`Your shadow identity is related to "${IDENTITIES[s].name}", but your memory is hazy`,
+  s=>`One trait of your shadow identity is "${pick(IDENTITIES[s].keywords)}"`,
+];
+
+const EVENTS = [
+  {name:'Tax Collector',icon:IC.scroll,desc:'All players lose 1 gold (or Military -1 if broke)',effect:'tax'},
+  {name:'Dark Alley Riot',icon:IC.moon,desc:'Shadow cards have double effect this round',effect:'shadow_boost'},
+  {name:'Diplomatic Banquet',icon:IC.gem,desc:'Military cards cannot be used this round',effect:'diplomacy'},
+  {name:'Border Conflict',icon:IC.sword,desc:'Military Zone auto +2',effect:'auto_military'},
+  {name:'Market Boom',icon:IC.coin,desc:'All players gain 1 gold',effect:'prosperity'},
+  {name:'Divine Oracle',icon:IC.eye,desc:'Each player gets 1 free peek',effect:'free_investigate'},
+  {name:'Plague',icon:IC.flask,desc:'Player with most cards discards 2',effect:'plague'},
+  {name:'Arms Race',icon:IC.fire,desc:'Military cards +1 effect this round',effect:'arms_race'},
+  {name:'Donation Season',icon:IC.coin,desc:'All +1 gold, Economy +1',effect:'donation'},
+  {name:'Dark Night',icon:IC.moon,desc:'Assassination/Poison ignores guards',effect:'dark_night'},
+  {name:'Memory Fragments',icon:IC.mirror,desc:'Each player gets 1 free reflect',effect:'free_reflect'},
+  {name:'Judgment Day',icon:IC.skull,desc:'Player with fewest cards discards all, draws 3',effect:'trial'},
+];
+
+const AI_NAMES = ['Machiavelli','Merlin','Caesar','Morgana','Lancelot','Oberon','Circe','Loki'];
+
+// ============== STATE ==============
+let G = {
+  numPlayers:4, players:[], zones:{military:0,economy:0,strategy:0,shadow:0},
+  deck:[], discard:[], round:1, maxRounds:6,
+  currentPlayerIdx:0, actionsLeft:2, phase:'event',
+  currentEvent:null, log:[], prophecies:[],
+  freeInvestigate:false, freeReflect:false,
+  turnOrder:[], turnIndex:0, revealIndex:0, aiPlayers:new Set(),
+  guessPhase:false, guessOrder:[], guessIndex:0,
+  showFactions:false, disguiseSwaps:[], mindwashed:new Set(),
+  ended:false, // ★ Prevent duplicate ending
+  lastAction:0, // ★ Watchdog timestamp
+  humanPassivePending:false, // ★ Human passive ability awaiting selection
+};
+
+// ★ Global watchdog: detect stuck game and auto-recover (only triggers on AI turns or truly stuck)
+setInterval(()=>{
+  if(G.ended)return;
+  if(!G.lastAction)return;
+  const stuck=(Date.now()-G.lastAction)>8000; // 8 seconds no action
+  // Guess phase: only auto-advance when current guesser is AI
+  if(stuck&&G.guessPhase){
+    const guessPlayer=G.players[G.guessOrder[G.guessIndex]];
+    if(guessPlayer&&guessPlayer.isAI){
+      console.log('[watchdog] AI guess stuck, forcing advance');
+      G.guessIndex++;
+      if(G.guessIndex>=G.guessOrder.length){G.guessPhase=false;G.round++;startRound()}
+      else nextGuess();
+      G.lastAction=Date.now();
+    }
+    // Don't intervene on human player turns, wait for player action
+  } else if(stuck&&G.phase==='action'){
+    const curPlayer=G.players[G.currentPlayerIdx];
+    if(curPlayer&&curPlayer.isAI){
+      console.log('[watchdog] AI action stuck, forcing endTurn');
+      endTurn();
+      G.lastAction=Date.now();
+    }
+    // Don't intervene on human player turns
+  }
+},3000);
+
+function getCamp(p){return G.mindwashed.has(p.name)?(IDENTITIES[p.secId].camp==='order'?'chaos':'order'):IDENTITIES[p.secId].camp}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function ic(cls,size){return `<i class="${cls}" style="font-size:${size||1}em"></i>`}
+
+// ============== SETUP ==============
+function initSetup(){
+  const pc=document.getElementById('player-count');pc.innerHTML='';
+  for(let i=4;i<=6;i++){const d=document.createElement('div');d.className='num'+(i===G.numPlayers?' selected':'');d.textContent=i;d.onclick=()=>{AudioEngine.play('click');G.numPlayers=i;initSetup()};pc.appendChild(d)}
+  const ni=document.getElementById('name-inputs');ni.innerHTML='';
+  for(let i=0;i<G.numPlayers;i++){const row=document.createElement('div');row.className='name-row';const inp=document.createElement('input');inp.placeholder=`Player ${i+1}`;inp.id=`pname-${i}`;inp.value=i===0?'You':AI_NAMES[i-1]||`AI-${i}`;const tog=document.createElement('button');tog.className='ai-toggle'+(i>0?' active':'');tog.innerHTML=i>0?`${ic(IC.robot)} AI`:`${ic(IC.user)} Human`;tog.id=`aitoggle-${i}`;tog.onclick=()=>{AudioEngine.play('click');tog.classList.toggle('active');tog.innerHTML=tog.classList.contains('active')?`${ic(IC.robot)} AI`:`${ic(IC.user)} Human`};row.appendChild(inp);row.appendChild(tog);ni.appendChild(row)}
+}
+initSetup();
+
+// ============== START ==============
+function startGame(){
+  AudioEngine.play('reveal');G.players=[];G.aiPlayers=new Set();
+  for(let i=0;i<G.numPlayers;i++){const name=document.getElementById(`pname-${i}`).value.trim()||`Player${i+1}`;const isAI=document.getElementById(`aitoggle-${i}`).classList.contains('active');if(isAI)G.aiPlayers.add(i);G.players.push({name,pubId:null,secId:null,gold:4,hand:[],eliminated:false,shield:false,skipTurn:false,prophecies:[],clues:[],isAI})}
+  assignIdentities();buildDeck();for(let p of G.players)for(let i=0;i<7;i++){p.hand.push(drawCard());AudioEngine.play('draw_card')}
+  G.revealIndex=0;nextReveal();
+}
+
+function assignIdentities(){
+  // Classify by faction
+  const orderIds=ID_KEYS.filter(k=>IDENTITIES[k].camp==='order');
+  const chaosIds=ID_KEYS.filter(k=>IDENTITIES[k].camp==='chaos');
+  let ids=[];
+  if(G.numPlayers===4){
+    // 4 players: pick 2 from 3 Order, 2 from 3 Chaos → 2 Order + 2 Chaos
+    const pickO=[...orderIds];shuffle(pickO);const pickedO=pickO.slice(0,2);
+    const pickC=[...chaosIds];shuffle(pickC);const pickedC=pickC.slice(0,2);
+    ids=[...pickedO,...pickedC];
+  }else if(G.numPlayers===5){
+    // 5 players: randomly pick 5 from 6, ensure either 3 Order + 2 Chaos or 2 Order + 3 Chaos
+    // First decide allocation: 50% chance 3O+2C or 2O+3C
+    if(Math.random()<0.5){
+      // 3 Order + 2 Chaos
+      const pickO=[...orderIds];shuffle(pickO);const pickedO=pickO.slice(0,3);
+      const pickC=[...chaosIds];shuffle(pickC);const pickedC=pickC.slice(0,2);
+      ids=[...pickedO,...pickedC];
+    }else{
+      // 2 Order + 3 Chaos
+      const pickO=[...orderIds];shuffle(pickO);const pickedO=pickO.slice(0,2);
+      const pickC=[...chaosIds];shuffle(pickC);const pickedC=pickC.slice(0,3);
+      ids=[...pickedO,...pickedC];
+    }
+  }else{
+    // 6 players: use all
+    ids=[...ID_KEYS];
+  }
+  let pubIds=[...ids];shuffle(pubIds);
+  for(let i=0;i<G.numPlayers;i++)G.players[i].pubId=pubIds[i];
+  let secIds=[...ids];shuffle(secIds);
+  for(let tries=0;tries<100;tries++){let ok=true;for(let i=0;i<G.numPlayers;i++)if(G.players[i].pubId===secIds[i]){ok=false;break}if(ok)break;shuffle(secIds)}
+  for(let i=0;i<G.numPlayers;i++)G.players[i].secId=secIds[i];
+}
+
+function buildDeck(){G.deck=[];for(let c of CARDS){G.deck.push({...c,id:Math.random()});G.deck.push({...c,id:Math.random()})}shuffle(G.deck)}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function drawCard(){if(G.deck.length===0){G.deck=[...G.discard];G.discard=[];shuffle(G.deck)}return G.deck.pop()}
+
+// ============== IDENTITY REVEAL ==============
+function nextReveal(){if(G.revealIndex>=G.numPlayers){startRound();return}if(G.players[G.revealIndex].isAI){G.revealIndex++;nextReveal();return}document.getElementById('pass-who').textContent=G.players[G.revealIndex].name;showScreen('pass-screen')}
+
+function revealIdentity(){
+  AudioEngine.play('reveal');const p=G.players[G.revealIndex];const pub=IDENTITIES[p.pubId];
+  document.getElementById('my-id-icon').innerHTML=ic(pub.icon,1);
+  document.getElementById('my-id-icon').style.color=pub.color;
+  document.getElementById('my-id-name').textContent=pub.name;
+  document.getElementById('my-id-name').style.color=pub.color;
+  document.getElementById('my-id-ability').innerHTML=`${ic(IC.flash)} ${pub.ability}`;
+  showScreen('identity-screen');
+  // ★ Auto-skip after 1 second (prevent duplicates)
+  let advanced=false;
+  const advance=()=>{if(advanced)return;advanced=true;afterIdentity()};
+  setTimeout(advance,1000);
+  // Click confirm button also triggers
+  const btn=document.querySelector('#identity-screen .btn');
+  if(btn){btn.onclick=advance}
+}
+function afterIdentity(){AudioEngine.play('click');G.revealIndex++;nextReveal()}
+
+// ============== GAME LOOP ==============
+function startRound(){
+  G.lastAction=Date.now();
+  if(G.disguiseSwaps.length>0){
+    for(const sw of G.disguiseSwaps){const a=G.players[sw.aIdx],b=G.players[sw.bIdx];if(a&&b){const tmp=a.pubId;a.pubId=b.pubId;b.pubId=tmp;addLog(`${ic(IC.mask)} ${a.name} and ${b.name}'s disguise has ended`,'info')}}
+    G.disguiseSwaps=[];
+  }
+  if(G.round>G.maxRounds){endGame();return}
+  G.phase='event';G.currentEvent=EVENTS[Math.floor(Math.random()*EVENTS.length)];
+  for(let p of G.players)p.shield=false;
+  applyEvent();buildDeck();if(G.round>1){applyAbilities();return}else addLog(`${IC.flash} Round 1 — Passive abilities disabled for a fair start`,'info');
+  G.phase='action';G.turnOrder=[];
+  for(let i=0;i<G.numPlayers;i++){if(!G.players[i].eliminated&&!G.players[i].skipTurn)G.turnOrder.push(i);else if(G.players[i].skipTurn){G.players[i].skipTurn=false;addLog(`${ic(IC.time)} ${G.players[i].name} is besieged, skipping this round`,'bad')}}
+  G.turnIndex=0;if(G.turnOrder.length===0){endGame();return}
+  if(!G.humanPassivePending)startTurn();
+}
+
+function applyEvent(){
+  const ev=G.currentEvent;AudioEngine.play('event');let msg='';
+  switch(ev.effect){
+    case'tax':for(let p of G.players){if(p.eliminated)continue;if(p.gold>=1)p.gold--;else G.zones.military=Math.max(0,G.zones.military-1)}msg='All players lost 1 gold';break;
+    case'shadow_boost':msg='Shadow cards have double effect';break;case'diplomacy':msg='Military cards disabled';break;
+    case'auto_military':G.zones.military+=2;msg='Military +2';break;
+    case'prosperity':for(let p of G.players)if(!p.eliminated)p.gold+=1;msg='All players gained 1 gold';break;
+    case'free_investigate':G.freeInvestigate=true;msg='Each player gets 1 free peek';break;
+    case'free_reflect':G.freeReflect=true;msg='Each player gets 1 free reflect';break;
+    case'plague':{let m=0;for(let p of G.players)if(!p.eliminated)m=Math.max(m,p.hand.length);for(let p of G.players)if(!p.eliminated&&p.hand.length===m){for(let i=0;i<2&&p.hand.length>0;i++)p.hand.splice(Math.floor(Math.random()*p.hand.length),1)}msg='Player with most cards discarded 2';break}
+    case'arms_race':msg='Military cards +1 effect';break;case'dark_night':msg='Assassination/Poison ignores guards';break;
+    case'donation':for(let p of G.players)if(!p.eliminated)p.gold+=1;G.zones.economy+=1;msg='All +1 gold, Economy +1';break;
+    case'trial':{let m=Infinity;for(let p of G.players)if(!p.eliminated)m=Math.min(m,p.hand.length);for(let p of G.players)if(!p.eliminated&&p.hand.length===m){p.hand=[];for(let i=0;i<3;i++)p.hand.push(drawCard())}msg='Player with fewest cards discarded all, drew 3';break}
+    default:msg=ev.desc;
+  }
+  addLog(`${ic(ev.icon)} ${ev.name} — ${msg}`,'info');renderGame();
+}
+
+function applyAbilities(){
+  G._abilityIndex=0;
+  resumeAbilities();
+}
+
+function resumeAbilities(){
+  for(let i=G._abilityIndex;i<G.numPlayers;i++){
+    const p=G.players[i];if(p.eliminated)continue;
+    const id=IDENTITIES[p.pubId];
+    switch(id.abilityId){
+      case'mil_boost':G.zones.military+=1;AudioEngine.play('ability');addLog(`${ic(IC.flash)} ${p.name}（${id.name}）passive: Military +1`,'info');break;
+      case'gold_boost':p.gold+=1;AudioEngine.play('ability');addLog(`${ic(IC.flash)} ${p.name}（${id.name}）passive: +1 gold`,'info');break;
+      case'draw_boost':p.hand.push(drawCard());AudioEngine.play('draw_card');addLog(`${ic(IC.flash)} ${p.name}（${id.name}）passive: Draw 1 card`,'info');break;
+      case'econ_boost':G.zones.economy+=1;AudioEngine.play('ability');addLog(`${ic(IC.flash)} ${p.name}（${id.name}）passive: Economy +1`,'info');break;
+      case'spy_peek':{const alive=G.players.filter((pp,j)=>!pp.eliminated&&j!==i);if(alive.length>0){const t=alive[Math.floor(Math.random()*alive.length)];const tSec=IDENTITIES[t.secId];const kw=pick(tSec.keywords);p.clues.push(`Spy passive → ${t.name}'s shadow keyword: "${kw}"`);addLog(`${ic(IC.flash)} ${p.name}（${id.name}）passive: Peeked at 1 player's keyword`,'info')}break}
+      case'discard_peek':{if(p.hand.length>0){const alive=G.players.filter((pp,j)=>!pp.eliminated&&j!==i);if(alive.length>0){if(!p.isAI){G._abilityIndex=i+1;G.humanPassivePending=true;showAssassinPassiveModal(p,alive,ic,id);return}else{const discarded=p.hand.splice(Math.floor(Math.random()*p.hand.length),1)[0];G.discard.push(discarded);const t=alive[Math.floor(Math.random()*alive.length)];if(t.hand.length>0){const tDisc=t.hand.splice(Math.floor(Math.random()*t.hand.length),1)[0];G.discard.push(tDisc);addLog(`${ic(IC.flash)} ${p.name}（${id.name}）passive: Discard 1, ${t.name} discards 1`,'info')}else{addLog(`${ic(IC.flash)} ${p.name}（${id.name}）passive: Discard 1, but ${t.name} has no cards`,'info')}}}}break}
+    }
+  }
+  // All passives processed, start action phase
+  G.humanPassivePending=false;
+  G.phase='action';G.turnOrder=[];
+  for(let i=0;i<G.numPlayers;i++){if(!G.players[i].eliminated&&!G.players[i].skipTurn)G.turnOrder.push(i);else if(G.players[i].skipTurn){G.players[i].skipTurn=false;addLog(`${ic(IC.time)} ${G.players[i].name} is besieged, skipping this round`,'bad')}}
+  G.turnIndex=0;if(G.turnOrder.length===0){endGame();return}
+  startTurn();
+}
+
+function startTurn(){
+  G.lastAction=Date.now();
+  // ★ Skip already eliminated players
+  while(G.turnIndex<G.turnOrder.length&&G.players[G.turnOrder[G.turnIndex]].eliminated)G.turnIndex++;
+  if(G.turnIndex>=G.turnOrder.length){G.phase='shadow';shadowPhase();return}
+  G.currentPlayerIdx=G.turnOrder[G.turnIndex];G.actionsLeft=2;G.phase='action';
+  AudioEngine.play('turn');renderGame();
+  if(G.players[G.currentPlayerIdx].isAI)setTimeout(()=>aiPlayTurn(),1800);
+}
+function endTurn(){G.turnIndex++;startTurn()}
+
+function shadowPhase(){
+  addLog(`${IC.moon} Shadow Phase — Zone Settlement`,'info');
+  for(let p of G.players){if(p.eliminated||p.gold>0)continue;if(p.hand.length>0){p.hand.splice(Math.floor(Math.random()*p.hand.length),1);addLog(`${IC.coin} ${p.name} ran out of gold, forced to discard 1`,'bad')}else{addLog(`${IC.coin} ${p.name} has no gold and no cards`,'bad')}}
+  const oz=G.zones.military+G.zones.economy,cz=G.zones.strategy+G.zones.shadow;
+  if(oz>cz){for(let p of G.players)if(!p.eliminated)p.gold+=1;addLog(`${IC.sword} Order leads (${oz} vs ${cz}) → All +1 gold`,'info')}
+  else if(cz>oz){for(let p of G.players)if(!p.eliminated)p.hand.push(drawCard());addLog(`${IC.moon} Chaos leads (${cz} vs ${oz}) → All draw 1`,'info')}
+  else{addLog(`${IC.shield} Zones balanced`,'info')}
+  const eb=Math.floor(G.zones.economy/5);if(eb>0){for(let p of G.players)if(!p.eliminated)p.gold+=eb;addLog(`${IC.gem} Economy booming → All +${eb} gold`,'info')}
+  const sb=Math.floor(G.zones.strategy/5);if(sb>0){for(let p of G.players)if(!p.eliminated)for(let i=0;i<sb;i++)p.hand.push(drawCard());addLog(`${IC.scroll} Strategy flourishing → All draw ${sb}`,'info')}
+  // ★ Relief: players with 0 gold get 1 gold
+  for(let p of G.players){if(p.eliminated)continue;if(p.gold<=0){p.gold+=1;addLog(`${IC.coin} ${p.name} received 1 relief gold`,'info')}}
+  // ★ Re-check elimination (shadow phase may change gold/hand)
+  checkElim();renderGame();setTimeout(()=>startGuessPhase(),2500);
+}
+
+function startGuessPhase(){
+  addLog(`${IC.cards} Round over, each player draws 2 cards`,'info');
+  for(let p of G.players)if(!p.eliminated){p.hand.push(drawCard());p.hand.push(drawCard());AudioEngine.play('draw_card')}
+  // ★ 4-player game: guess every 2 rounds (skip odd rounds)
+  if(G.numPlayers===4 && G.round%2===1){
+    addLog(`${IC.crosshair} 4-player match · Round ${G.round} skips guessing (even rounds only)`,'guess');
+    renderGame();
+    G.round++;setTimeout(()=>startRound(),1500);
+    return;
+  }
+  G.guessPhase=true;G.guessOrder=[];G.guessIndex=0;
+  guessAnnouncements=[];
+  // Human players participate in guessing normally
+  const humans=[],ais=[];
+  for(let i=0;i<G.numPlayers;i++){
+    if(G.players[i].eliminated)continue;
+    if(G.players[i].isAI)ais.push(i);else humans.push(i);
+  }
+  G.guessOrder.push(...humans);
+  // AI: 50% chance 1 gets to guess, 50% none guess
+  const pickedAI=new Set();
+  if(ais.length>0 && Math.random()<0.5){
+    const picked=ais[Math.floor(Math.random()*ais.length)];
+    pickedAI.add(picked);
+  }
+  // All AI enter queue, runGuessPhase differentiates guess/skip
+  G.guessOrder.push(...ais);
+  G._pickedAI=pickedAI;
+  AudioEngine.play('tension');renderGame();setTimeout(()=>runGuessPhase(),1500);
+}
+
+// ★ Async flow for entire guess phase
+// ★ Scroll log to bottom
+function scrollLogToBottom(){
+  const el=document.getElementById('game-log');
+  if(el) el.scrollTop=99999;
+}
+
+async function runGuessPhase(){
+  const pickedAI=G._pickedAI||new Set();
+  for(let gi=0;gi<G.guessOrder.length;gi++){
+    const pi=G.guessOrder[gi];
+    const p=G.players[pi];
+    if(p.eliminated){addLog(`${IC.crosshair} ${p.name} eliminated, skipping guess`,'guess');renderGame();scrollLogToBottom();await sleep(800);continue}
+    G.guessIndex=gi;
+
+    // AI not selected → show as "skipped guessing"
+    if(p.isAI && !pickedAI.has(pi)){
+      addLog(`${IC.crosshair} ${ic(IC.robot)} ${p.name} passed on guessing`,'guess');
+      renderGame();scrollLogToBottom();
+      await sleep(1200);
+      continue;
+    }
+
+    if(!p.isAI) addLog(`${IC.crosshair} ${p.name}'s turn to guess`,'guess');
+    renderGame();scrollLogToBottom();
+
+    try{
+      if(p.isAI){
+        await sleep(1500);
+        await aiDoGuessAsync(p,pi);
+      } else {
+        await humanGuessAsync(p,pi);
+      }
+    }catch(e){console.error('[guess error]',e);addLog(`${IC.crosshair} ${p.name} guess error: ${e.message}`,'bad')}
+    renderGame();scrollLogToBottom();
+    // Pause between results for readability
+    await sleep(1200);
+    // Check game end after each guess
+    if(checkGameOver()){G.guessPhase=false;return}
+  }
+  // All guesses done
+  G.guessPhase=false;
+  if(checkGameOver())return;
+  await sleep(800);
+  G.round++;renderGame();setTimeout(()=>startRound(),500);
+}
+
+// ★ Human guess (async)
+function humanGuessAsync(player,playerIdx){
+  return new Promise(resolve=>{
+    const targets=G.players.filter((p,i)=>!p.eliminated&&i!==playerIdx);
+    if(targets.length===0){resolve();return}
+    const modal=document.getElementById('modal');
+    let logHtml=G.log.slice(-20).map(l=>`<div class="log-entry ${l.type||''}">${l.text}</div>`).join('');
+    let deadHtml=G.players.filter(p=>p.eliminated).map(p=>{const pub=IDENTITIES[p.pubId],sec=IDENTITIES[p.secId],effCamp=getCamp(p),cc=effCamp==='order'?'var(--blue)':'var(--red)',cl=effCamp==='order'?'Order':'Chaos';return `<span style="color:var(--red)">${p.name}: ${ic(pub.icon)}${pub.name} → ${ic(sec.icon)}${sec.name} <span style="color:${cc};font-weight:bold">（${cl}）</span></span>`}).join('<br>');
+    modal.innerHTML=`
+      <h3>${ic(IC.crosshair)} Guess Shadow Identity</h3>
+      <div class="modal-body">
+        <p style="margin-bottom:10px"><strong>${player.name}</strong>, guess a player's shadow identity:</p>
+        <p style="color:var(--dim);font-size:.82em;margin-bottom:12px">Correct → target eliminated &nbsp;|&nbsp; Wrong → you are eliminated</p>
+        <select id="guess-target">${targets.map(t=>`<option value="${t.name}">${t.name}（${ic(IDENTITIES[t.pubId].icon)}${IDENTITIES[t.pubId].name}）</option>`).join('')}</select>
+        <select id="guess-identity" style="margin-top:8px">${ID_KEYS.map(k=>`<option value="${k}">${ic(IDENTITIES[k].icon)} ${IDENTITIES[k].name}（${IDENTITIES[k].camp==='order'?'Order':'Chaos'}）</option>`).join('')}</select>
+        ${deadHtml?`<div style="margin-top:12px;padding:10px;background:#1a1010;border-radius:6px;font-size:.78em"><div style="color:#ff5050;margin-bottom:4px">${ic(IC.skull2)} Eliminated:</div>${deadHtml}</div>`:''}
+        <div style="margin-top:10px;font-size:.78em;color:var(--dim)">${ic(IC.scroll)} Recent log:</div>
+        <div class="log-preview">${logHtml}</div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn small" id="confirm-guess-btn">${ic(IC.check)} Confirm</button>
+        <button class="btn small danger" id="skip-guess-btn">${ic(IC.close)} Pass</button>
+      </div>`;
+    document.getElementById('modal-overlay').classList.add('show');
+
+    const cleanup=()=>{hideModal();resolve()};
+
+    document.getElementById('confirm-guess-btn').onclick=async()=>{
+      G.lastAction=Date.now();
+      const targetName=document.getElementById('guess-target')?.value,guessKey=document.getElementById('guess-identity')?.value;
+      if(!targetName||!guessKey){cleanup();return}
+      const target=G.players.find(p=>p.name===targetName);if(!target){cleanup();return}
+      const correct=guessKey===target.secId,guessed=IDENTITIES[guessKey];
+      if(correct){AudioEngine.play('guess_correct');target.eliminated=true;addLog(`${ic(IC.crosshair)} ${player.name} guessed ${target.name} is ${ic(guessed.icon)}${guessed.name} → ✅ Correct! ${target.name} eliminated!`,'guess')}
+      else{AudioEngine.play('guess_wrong');player.eliminated=true;addLog(`${ic(IC.crosshair)} ${player.name} guessed ${target.name} is ${ic(guessed.icon)}${guessed.name} → ❌ Wrong! ${player.name} eliminated!`,'guess')}
+      guessAnnouncements.push({guesser:player.name,target:target.name,guessedId:guessKey,correct,type:'human'});
+      hideModal();renderGame();
+      // Show result announcement
+      const rc=correct?'var(--green)':'var(--red)',ri=correct?IC.check:IC.close,rt=correct?'Correct!':'Wrong!';
+      const con=correct?`${target.name} has been eliminated`:`You have been eliminated`;
+      await showGuessAnnouncement(`<div style="text-align:center;padding:16px 0"><div style="margin-bottom:12px"><span style="color:var(--text)">You guessed </span><span style="color:var(--gold);font-weight:700">${target.name}</span><span style="color:var(--text)"> 's shadow identity is </span></div><div style="font-size:1.5em;margin-bottom:14px;color:${guessed.color}">${ic(guessed.icon)} ${guessed.name}</div><div style="font-size:1.3em;color:${rc};font-weight:700;margin-bottom:8px">${ic(ri,1.1)} ${rt}</div><div style="color:var(--dim);font-size:.85em">${con}</div></div>`,3000);
+      resolve();
+    };
+
+    document.getElementById('skip-guess-btn').onclick=async()=>{
+      G.lastAction=Date.now();
+      addLog(`${ic(IC.crosshair)} ${player.name} passed on guessing`,'guess');
+      guessAnnouncements.push({guesser:player.name,target:null,guessedId:null,correct:false,type:'skip'});
+      hideModal();renderGame();
+      await showGuessAnnouncement(`<div style="text-align:center;padding:16px 0"><div style="font-size:1.15em;color:var(--gold);margin-bottom:8px">${player.name}</div><div style="color:var(--dim);font-size:.95em">passed on guessing</div></div>`,2500);
+      resolve();
+    };
+  });
+}
+
+// ★ AI guess (async)
+async function aiDoGuessAsync(player,playerIdx){
+  G.lastAction=Date.now();
+  const targets=G.players.filter((p,i)=>!p.eliminated&&i!==playerIdx);
+  if(targets.length===0){addLog(`${ic(IC.robot)} ${player.name} has no valid guess targets`,'info');return}
+  const known=new Set();G.players.filter(p=>p.eliminated).forEach(p=>known.add(p.secId));
+  known.add(player.pubId);
+  const possible=ID_KEYS.filter(k=>!known.has(k));
+  let bestTarget=null,bestGuess=null,confidence=0;
+  for(const t of targets){
+    for(const clue of player.clues){
+      if(clue.includes(t.name)){
+        for(const k of possible){
+          const id=IDENTITIES[k];
+          if(id.keywords.some(kw=>clue.includes(kw))||clue.includes(id.name)){
+            if(confidence<3){bestTarget=t;bestGuess=k;confidence=3}
+          }
+        }
+      }
+      if(clue.includes('keyword')&&clue.includes(t.name)){
+        for(const k of possible){
+          if(IDENTITIES[k].keywords.some(kw=>clue.includes(kw))&&confidence<3){bestTarget=t;bestGuess=k;confidence=3}
+        }
+      }
+    }
+  }
+  if(confidence===0&&Math.random()<0.5){
+    addLog(`${ic(IC.crosshair)} ${ic(IC.robot)} ${player.name} passed on guessing`,'guess');
+    guessAnnouncements.push({guesser:player.name,target:null,guessedId:null,correct:false,type:'skip'});
+    renderGame();scrollLogToBottom();
+    return;
+  }
+  if(!bestTarget){bestTarget=targets[Math.floor(Math.random()*targets.length)];bestGuess=possible.length>0?possible[Math.floor(Math.random()*possible.length)]:ID_KEYS[Math.floor(Math.random()*ID_KEYS.length)]}
+  const correct=bestGuess===bestTarget.secId,guessed=IDENTITIES[bestGuess];
+  if(correct){AudioEngine.play('guess_correct');bestTarget.eliminated=true;addLog(`${ic(IC.crosshair)} ${ic(IC.robot)} ${player.name} guessed ${bestTarget.name} is ${ic(guessed.icon)}${guessed.name} → ✅ Correct! ${bestTarget.name} eliminated!`,'guess')}
+  else{AudioEngine.play('guess_wrong');player.eliminated=true;addLog(`${ic(IC.crosshair)} ${ic(IC.robot)} ${player.name} guessed ${bestTarget.name} is ${ic(guessed.icon)}${guessed.name} → ❌ Wrong! ${player.name} eliminated!`,'guess')}
+  guessAnnouncements.push({guesser:player.name,target:bestTarget.name,guessedId:bestGuess,correct,type:'ai'});
+  renderGame();scrollLogToBottom();
+}
+
+// ============== AI ==============
+function aiPlayTurn(){
+  G.lastAction=Date.now();
+  const p=G.players[G.currentPlayerIdx];if(p.eliminated||G.actionsLeft<=0){endTurn();return}
+  showAIThinking(p.name,'Thinking...');
+  setTimeout(()=>{
+    const d=aiDecide(p);hideAIThinking();
+    if(d.type==='play'){addLog(`${ic(IC.robot)} ${p.name} played ${d.card.name}`,'ai');AudioEngine.play('card');executeCard(d.card,p,d.idx,true)}
+    else if(d.type==='gold_draw'){
+      p.gold-=2;G.actionsLeft--;p.hand.push(drawCard());AudioEngine.play('draw_card');
+      addLog(`${ic(IC.robot)} ${ic(IC.coin)} ${p.name} spent 2 gold → drew 1 card`,'ai');
+      checkElim();renderGame();
+      if(G.actionsLeft<=0)endTurn();else setTimeout(()=>aiPlayTurn(),1200);
+    }else if(d.type==='gold_peek'){
+      const peekCost=getGoldPeekCost();
+      p.gold-=peekCost;G.actionsLeft--;
+      const sec=IDENTITIES[d.target.secId];const kw=pick(sec.keywords);
+      p.clues.push(`Gold peek → ${d.target.name}'s shadow keyword: "${kw}"`);
+      addLog(`${ic(IC.robot)} ${ic(IC.coin)} ${p.name} spent ${peekCost} gold to peek at ${d.target.name}`,'ai');
+      AudioEngine.play('scout');checkElim();renderGame();
+      if(G.actionsLeft<=0)endTurn();else setTimeout(()=>aiPlayTurn(),1200);
+    }else{addLog(`${ic(IC.robot)} ${p.name} ended turn`,'ai');endTurn()}
+  },1500+Math.random()*1000);
+}
+
+function aiDecide(p){
+  const targets=G.players.filter((pl,i)=>!pl.eliminated&&i!==G.currentPlayerIdx);
+  let best=null,bestScore=-1;
+  const dangerZone=p.gold<=2||p.hand.length<=3;
+  // ★ Gold cost: spend gold to peek (when rich and target unknown, price increases per round)
+  const aiPeekCost=getGoldPeekCost();
+  if(p.gold>=aiPeekCost&&targets.length>0){
+    const unknownTargets=targets.filter(t=>!p.clues.some(c=>c.includes(t.name)));
+    if(unknownTargets.length>0&&Math.random()<0.4){
+      const t=unknownTargets[Math.floor(Math.random()*unknownTargets.length)];
+      if(!best||3>bestScore){best={type:'gold_peek',target:t};bestScore=3}
+    }
+  }
+  // ★ Gold cost: spend 2 gold to draw (prioritize when hand is low)
+  if(p.gold>=2&&(p.hand.length<=2||dangerZone)){
+    if(!best||2.5>bestScore){best={type:'gold_draw'};bestScore=2.5}
+  }
+  for(let i=0;i<p.hand.length;i++){const c=p.hand[i];
+    if(G.currentEvent?.effect==='diplomacy'&&c.suit==='military')continue;
+    let score=0;
+    // Basic faction synergy
+    if(getCamp(p)==='order'){if(c.suit==='military'&&p.secId==='general')score+=3;if(c.suit==='economy'&&p.secId==='merchant')score+=3;if(c.suit==='strategy'&&p.secId==='prophet')score+=4}
+    else{if(c.suit==='shadow')score+=3;if(p.secId==='assassin'&&(c.action==='assassinate'||c.action==='dark_assassinate'))score+=5}
+    if(p.secId==='general'&&c.action==='zone_military')score+=4;if(p.secId==='merchant'&&(c.action==='gain_gold'||c.action==='steal_gold'))score+=4;
+    if(p.secId==='prophet'&&c.action==='prophecy')score+=5;if(c.action==='self_reflect')score+=2;
+    // ★ Survival priority: heavily weight economy/draw cards when gold or hand is low
+    if(dangerZone){
+      if(c.action==='gain_gold')score+=6;
+      if(c.action==='steal_gold')score+=5;
+      if(c.action==='draw')score+=5;
+      if(c.action==='frugal')score+=5;
+      if(c.action==='invest')score+=4;
+      if(c.action==='conspiracy')score+=4;
+      if(c.action==='secret_order')score+=4;
+      if(c.action==='trade_draw')score+=4;
+      if(c.action==='zone_economy')score+=3;
+      // Avoid costly attacks when in danger
+      if(c.action==='assassinate'||c.action==='dark_assassinate')score-=3;
+      if(c.action==='sow_discord')score-=2;
+    }
+    // Gold management
+    if(p.gold<=1&&c.action==='gain_gold')score+=3;
+    if(p.gold<=0&&(c.action==='steal_gold'||c.action==='gain_gold'))score+=4;
+    if(p.hand.length<=2&&c.action==='draw')score+=3;
+    // Moderate weight for scout/intelligence cards
+    if(c.action==='investigate'||c.action==='eavesdrop')score+=2;
+    if(c.action==='prophecy'&&targets.length>0)score+=3;
+    // Siege against strong enemies
+    if(c.action==='siege'&&targets.length>0){const strongest=targets.reduce((a,b)=>(a.gold+a.hand.length)>(b.gold+b.hand.length)?a:b);if(strongest.gold>=3||strongest.hand.length>=5)score+=3}
+    // Bankrupt against rich players
+    if(c.action==='bankrupt'&&targets.length>0){const richest=targets.reduce((a,b)=>a.gold>b.gold?a:b);if(richest.gold>=4)score+=4;else if(richest.gold>=2)score+=2}
+    // Guard prioritizes survival
+    if(c.action==='shield'&&dangerZone)score+=4;
+    // Brainwash against high-value targets
+    if(c.action==='mindwash'&&targets.length>0)score+=2;
+    score+=Math.random()*1.5;
+    if(score>bestScore){bestScore=score;best={card:c,idx:i,type:'play'}}
+  }
+  // Play cards even with low score when in danger
+  if(dangerZone&&best&&bestScore>=0)return best;
+  if(bestScore<2)return{type:'end'};return best;
+}
+
+function aiChooseTarget(p,action){
+  const targets=G.players.filter((pl,i)=>!pl.eliminated&&i!==G.currentPlayerIdx);if(targets.length===0)return null;
+  switch(action){
+    case'assassinate':case'dark_assassinate':case'siege':case'bankrupt':case'poison_reveal':case'mindwash':
+      // ★ Prioritize attacking strongest enemy faction player
+      if(getCamp(p)==='chaos'){const ot=targets.filter(t=>getCamp(t)==='order');if(ot.length>0)return ot.reduce((a,b)=>(a.gold+a.hand.length)>(b.gold+b.hand.length)?a:b)}
+      else{const ct=targets.filter(t=>getCamp(t)==='chaos');if(ct.length>0)return ct.reduce((a,b)=>(a.gold+a.hand.length)>(b.gold+b.hand.length)?a:b)}
+      return targets.reduce((a,b)=>(a.gold+a.hand.length)>(b.gold+b.hand.length)?a:b);
+    case'steal_gold':return targets.reduce((a,b)=>a.gold>b.gold?a:b);
+    case'investigate':case'eavesdrop':case'insight':case'scout':
+      // ★ Scout least known target (one with most cards)
+      return targets.reduce((a,b)=>a.hand.length>b.hand.length?a:b);
+    case'prophecy':
+      // ★ Prophecy targets you have clues about
+      for(const t of targets){for(const clue of p.clues){if(clue.includes(t.name))return t}}
+      return targets[Math.floor(Math.random()*targets.length)];
+    default:return targets[Math.floor(Math.random()*targets.length)];
+  }
+}
+
+function aiChooseGuess(target){const possible=ID_KEYS.filter(k=>k!==target.pubId);return possible[Math.floor(Math.random()*possible.length)]}
+function showAIThinking(n,a){document.getElementById('ai-think-name').innerHTML=`${ic(IC.robot,1.1)} ${n}`;document.getElementById('ai-think-action').textContent=a;document.getElementById('ai-thinking').classList.add('show')}
+function hideAIThinking(){document.getElementById('ai-thinking').classList.remove('show')}
+
+// ★ Guess announcement records (for settlement display)
+let guessAnnouncements=[];
+
+// ★ Async helper
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+
+// ★ Show guess announcement (display only, auto-close)
+function showGuessAnnouncement(bodyHtml,ms){
+  return new Promise(resolve=>{
+    const modal=document.getElementById('modal');
+    modal.innerHTML=`<h3>${ic(IC.crosshair)} Guess Announcement</h3><div class="modal-body">${bodyHtml}</div><div class="modal-actions"><button class="btn small" id="guess-ann-btn">${ic(IC.check)} Continue</button></div>`;
+    document.getElementById('modal-overlay').classList.add('show');
+    let resolved=false;
+    const done=()=>{if(resolved)return;resolved=true;hideModal();resolve()};
+    document.getElementById('guess-ann-btn').onclick=done;
+    setTimeout(done,ms||2500);
+  });
+}
+
+// ============== ASSASSIN PASSIVE MODAL ==============
+function showAssassinPassiveModal(player, aliveTargets, icFn, idObj){
+  const modal=document.getElementById('modal');
+  modal.innerHTML=`<h3>${ic(IC.skull)} ${player.name} — Assassin Passive</h3><div class="modal-body">
+    <p style="margin-bottom:12px">Choose 1 player to discard 1 card (you also discard 1):</p>
+    <select id="assassin-target">${aliveTargets.map(t=>`<option value="${t.name}">${t.name}（${t.hand.length} cards）</option>`).join('')}</select>
+  </div><div class="modal-actions">
+    <button class="btn small" id="confirm-assassin-btn">${ic(IC.check)} Confirm</button>
+    <button class="btn small danger" id="skip-assassin-btn">${ic(IC.close)} Skip</button>
+  </div>`;
+  document.getElementById('modal-overlay').classList.add('show');
+
+  document.getElementById('confirm-assassin-btn').onclick=()=>{
+    const tn=document.getElementById('assassin-target').value;
+    const target=G.players.find(p=>p.name===tn);
+    // First discard own cards
+    if(player.hand.length>0){
+      const myDisc=player.hand.splice(Math.floor(Math.random()*player.hand.length),1)[0];
+      G.discard.push(myDisc);
+    }
+    if(target&&target.hand.length>0){
+      const tDisc=target.hand.splice(Math.floor(Math.random()*target.hand.length),1)[0];
+      G.discard.push(tDisc);
+      addLog(`${icFn(IC.flash)} ${player.name}（${idObj.name}）passive: Discard 1, ${target.name} discards 1`,'info');
+    }else if(target){
+      addLog(`${icFn(IC.flash)} ${player.name}（${idObj.name}）passive: Discard 1, but ${target.name} has no cards`,'info');
+    }
+    G.humanPassivePending=false;hideModal();renderGame();
+    setTimeout(()=>resumeAbilities(),600);
+  };
+
+  document.getElementById('skip-assassin-btn').onclick=()=>{
+    // Skipped players also discard (passive cost)
+    if(player.hand.length>0){
+      const myDisc=player.hand.splice(Math.floor(Math.random()*player.hand.length),1)[0];
+      G.discard.push(myDisc);
+    }
+    addLog(`${icFn(IC.flash)} ${player.name}（${idObj.name}）passive: Discard 1, no target chosen`,'info');
+    G.humanPassivePending=false;hideModal();renderGame();
+    setTimeout(()=>resumeAbilities(),600);
+  };
+}
+
+// ============== GOLD COST ==============
+function getGoldPeekCost(){return 3+(G.round-1)*2}  // Round 1: 3 gold, +2 per round
+
+function spendGoldDraw(){
+  G.lastAction=Date.now();
+  const p=G.players[G.currentPlayerIdx];
+  if(p.eliminated||p.isAI||p.gold<2||G.actionsLeft<=0)return;
+  p.gold-=2;G.actionsLeft--;
+  p.hand.push(drawCard());AudioEngine.play('draw_card');
+  addLog(`${ic(IC.coin)} ${p.name} spent 2 gold → drew 1 card`,'guess');
+  checkElim();renderGame();
+  if(G.actionsLeft<=0)setTimeout(()=>endTurn(),600);
+}
+
+function spendGoldPeek(){
+  G.lastAction=Date.now();
+  const p=G.players[G.currentPlayerIdx];
+  const cost=getGoldPeekCost();
+  if(p.eliminated||p.isAI||p.gold<cost||G.actionsLeft<=0)return;
+  const targets=G.players.filter((pp,i)=>!pp.eliminated&&i!==G.currentPlayerIdx);
+  if(targets.length===0)return;
+  const modal=document.getElementById('modal');
+  modal.innerHTML=`
+    <h3>${ic(IC.search)} Spend ${cost} Gold to Peek</h3>
+    <div class="modal-body">
+      <p style="margin-bottom:12px">Choose a player, spend <strong style="color:var(--gold)">${cost} gold</strong> to see their shadow keyword</p>
+      <p style="font-size:.78em;color:var(--dim);margin-bottom:12px">Price increases each round (+2 gold), next round costs ${cost+2} gold</p>
+      <select id="peek-target">${targets.map(t=>`<option value="${t.name}">${t.name}</option>`).join('')}</select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn small" id="confirm-peek-btn">${ic(IC.check)} Confirm</button>
+      <button class="btn small danger" id="cancel-peek-btn">${ic(IC.close)} Cancel</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('show');
+  document.getElementById('confirm-peek-btn').onclick=()=>{
+    const tn=document.getElementById('peek-target')?.value;
+    const target=G.players.find(pp=>pp.name===tn);
+    if(!target||p.gold<cost){hideModal();return}
+    p.gold-=cost;G.actionsLeft--;
+    const sec=IDENTITIES[target.secId];
+    const kw=pick(sec.keywords);
+    p.clues.push(`Gold peek → ${target.name}'s shadow keyword: "${kw}"`);
+    addLog(`${ic(IC.coin)} ${p.name} spent ${cost} gold → ${target.name}'s shadow keyword: "${kw}"`,'private');
+    AudioEngine.play('scout');hideModal();checkElim();renderGame();
+    if(G.actionsLeft<=0)setTimeout(()=>endTurn(),600);
+  };
+  document.getElementById('cancel-peek-btn').onclick=()=>{hideModal()};
+}
+
+// ============== CARD ACTIONS ==============
+function playCard(cardIdx){
+  G.lastAction=Date.now();
+  const p=G.players[G.currentPlayerIdx];if(p.eliminated||G.actionsLeft<=0||p.isAI)return;
+  const card=p.hand[cardIdx];if(!card)return;
+  if(G.currentEvent?.effect==='diplomacy'&&card.suit==='military'){addLog('Military cards are disabled during Diplomatic Banquet','bad');renderGame();return}
+  AudioEngine.play('card');executeCard(card,p,cardIdx,false);
+}
+
+function executeCard(card,player,cardIdx,isAI){
+  let m=1;if(G.currentEvent?.effect==='shadow_boost'&&card.suit==='shadow')m=2;if(G.currentEvent?.effect==='arms_race'&&card.suit==='military')m+=1;
+  const vt=G.players.filter((p,i)=>!p.eliminated&&i!==G.currentPlayerIdx);
+  switch(card.action){
+    case'zone_military':G.zones.military+=card.val*m;AudioEngine.play('zone_up');logPub(player,card,`Military Zone +${card.val*m}`,isAI);fin(player,cardIdx);break;
+    case'zone_economy':G.zones.economy+=card.val*m;AudioEngine.play('zone_up');logPub(player,card,`Economy Zone +${card.val*m}`,isAI);fin(player,cardIdx);break;
+    case'zone_strategy':G.zones.strategy+=card.val*m;AudioEngine.play('zone_up');logPub(player,card,`Strategy Zone +${card.val*m}`,isAI);fin(player,cardIdx);break;
+    case'zone_shadow':G.zones.shadow+=card.val*m;AudioEngine.play('zone_up');logPub(player,card,`Shadow Alley +${card.val*m}`,isAI);fin(player,cardIdx);break;
+    case'gain_gold':player.gold+=card.val*m;AudioEngine.play('gold');logPub(player,card,`Gained ${card.val*m} gold`,isAI);fin(player,cardIdx);break;
+    case'draw':for(let i=0;i<card.val;i++){player.hand.push(drawCard());AudioEngine.play('draw_card')}logPub(player,card,`Drew ${card.val} cards`,isAI);fin(player,cardIdx);break;
+    case'invest':G.zones.economy+=card.val*m;player.gold+=1;AudioEngine.play('gold');logPub(player,card,`Economy Zone +${card.val*m}, Gold +1`,isAI);fin(player,cardIdx);break;
+    case'frugal':G.zones.economy+=card.val*m;player.hand.push(drawCard());logPub(player,card,`Economy Zone +${card.val*m}, Draw 1`,isAI);fin(player,cardIdx);break;
+    case'secret_order':G.zones.strategy+=card.val*m;player.hand.push(drawCard());logPub(player,card,`Strategy Zone +${card.val*m}, Draw 1`,isAI);fin(player,cardIdx);break;
+    case'conspiracy':G.zones.shadow+=card.val*m;player.gold+=1;AudioEngine.play('gold');logPub(player,card,`Shadow Alley +${card.val*m}, Gold +1`,isAI);fin(player,cardIdx);break;
+    case'mutiny':G.zones.military+=card.val*m;G.zones.economy=Math.max(0,G.zones.economy-1);logPub(player,card,`Military Zone +${card.val*m}, Economy Zone -1`,isAI);fin(player,cardIdx);break;
+    case'shield':player.shield=true;AudioEngine.play('shield');logPub(player,card,`Gained guard`,isAI);fin(player,cardIdx);break;
+    case'forge':if(isAI){const suits=['military','economy','strategy','shadow'];const rs=suits[Math.floor(Math.random()*suits.length)];G.zones[rs]+=2;logPub(player,card,`Forge ${SUITS[rs].name} Zone +2`,true);fin(player,cardIdx)}else{showForgeModal(player,cardIdx)}break;
+    case'chaos':AudioEngine.play('chaos');for(let p of G.players){if(p.eliminated)continue;if(p.hand.length>0)p.hand.splice(Math.floor(Math.random()*p.hand.length),1);p.hand.push(drawCard())}logPub(player,card,`All discard 1, draw 1`,isAI);fin(player,cardIdx);break;
+    case'self_reflect':doSelfReflect(player,isAI);fin(player,cardIdx);break;
+    case'assassinate':case'steal_gold':case'bankrupt':case'siege':case'scout':case'investigate':case'prophecy':case'sow_discord':case'insight':case'poison_reveal':case'eavesdrop':case'dark_assassinate':case'mindwash':case'disguise':case'trade_draw':
+      if(isAI){const t=aiChooseTarget(player,card.action);if(t)execTarget(card,player,cardIdx,t,true);else fin(player,cardIdx)}else showTargetModal(card,player,cardIdx,vt);break;
+    default:logPub(player,card,'',isAI);fin(player,cardIdx);
+  }
+}
+
+function logPub(p,c,detail,ai){const msg=detail?`${p.name} played ${c.name} → ${detail}`:`${p.name} played ${c.name}`;addLog(ai?`${ic(IC.robot)} ${msg}`:msg,ai?'ai':'good')}
+
+function doSelfReflect(player,isAI){
+  AudioEngine.play('reflect');const clue=SELF_CLUES[Math.floor(Math.random()*SELF_CLUES.length)](player.secId);player.clues.push(clue);
+  if(isAI)addLog(`${ic(IC.mirror)} ${player.name} performed Reflect`,'ai');else addLog(`${ic(IC.mirror)} Reflect clue: ${clue}`,'clue');
+}
+
+function fin(player,cardIdx){
+  if(cardIdx>=0&&cardIdx<player.hand.length){G.discard.push(player.hand.splice(cardIdx,1)[0])}
+  G.actionsLeft--;checkElim();renderGame();
+  // ★ If game already ended, stop
+  if(checkGameOver())return;
+  // ★ If current player eliminated, skip to next turn
+  if(G.players[G.currentPlayerIdx].eliminated){setTimeout(()=>endTurn(),800);return}
+  if(G.actionsLeft<=0)setTimeout(()=>endTurn(),player.isAI?1200:600);else if(player.isAI)setTimeout(()=>aiPlayTurn(),1500);
+}
+
+function checkElim(){
+  for(let i=0;i<G.numPlayers;i++){const p=G.players[i];if(p.eliminated)continue;
+    // Tension sound: when gold or hand is low
+    if(!p.isAI&&(p.gold<=1||p.hand.length<=2))AudioEngine.play('tension');
+    if(p.gold<=0&&p.hand.length===0){p.eliminated=true;AudioEngine.play('eliminate');const sec=IDENTITIES[p.secId],pub=IDENTITIES[p.pubId],effCamp=getCamp(p);addLog(`${ic(IC.skull2)} ${p.name}  eliminated! ${ic(pub.icon)}${pub.name} → ${ic(sec.icon)}${sec.name} (${effCamp==='order'?'Order':'Chaos'}) `,'death')}}
+  checkGameOver();
+}
+
+function checkGameOver(){
+  const alive=G.players.filter(p=>!p.eliminated);
+  if(alive.length<=1){addLog(`${ic(IC.flag)} Only ${alive.length} player(s) remain, game over!`,'info');setTimeout(()=>endGame(),800);return true}
+  // ★ Use getCamp (brainwash changes faction)
+  const oa=alive.filter(p=>getCamp(p)==='order').length;
+  const ca=alive.filter(p=>getCamp(p)==='chaos').length;
+  if(oa===0){addLog(`${ic(IC.flag)} Order faction wiped out! Chaos wins!`,'death');setTimeout(()=>endGame(),800);return true}
+  if(ca===0){addLog(`${ic(IC.flag)} Chaos faction wiped out! Order wins!`,'good');setTimeout(()=>endGame(),800);return true}
+  return false;
+}
+
+// ============== TARGET MODAL ==============
+function showTargetModal(card,player,cardIdx,targets){
+  const modal=document.getElementById('modal');const isP=card.action==='prophecy';
+  let html=`<h3>${ic(IDENTITIES[player.pubId].icon)} ${card.name}</h3><div class="modal-body">`;
+  if(isP){html+=`<p style="margin-bottom:10px">Guess target's shadow identity:</p><select id="modal-target">${targets.map(t=>`<option value="${t.name}">${t.name}</option>`).join('')}</select><select id="modal-guess" style="margin-top:8px">${ID_KEYS.map(k=>`<option value="${k}">${ic(IDENTITIES[k].icon)} ${IDENTITIES[k].name}</option>`).join('')}</select>`}
+  else{html+=`<p style="margin-bottom:10px">Select target:</p><select id="modal-target">${targets.map(t=>`<option value="${t.name}">${t.name}</option>`).join('')}</select>`}
+  html+=`</div><div class="modal-actions"><button class="btn small" id="confirm-target-btn">${ic(IC.check)} Confirm</button><button class="btn small danger" onclick="hideModal()">${ic(IC.close)} Cancel</button></div>`;
+  modal.innerHTML=html;
+  document.getElementById('confirm-target-btn').onclick=()=>confirmTarget(card.action,cardIdx,player.name);
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function confirmTarget(action,cardIdx,pn){
+  const player=G.players.find(p=>p.name===pn),tn=document.getElementById('modal-target')?.value,target=G.players.find(p=>p.name===tn);
+  if(!target||!player){hideModal();return}execTarget(player.hand[cardIdx],player,cardIdx,target,false);hideModal();
+}
+
+function execTarget(card,player,cardIdx,target,isAI){
+  const isDark=G.currentEvent?.effect==='dark_night';
+  switch(card.action){
+    case'assassinate':AudioEngine.play('attack');if(target.shield&&!isDark)addLog(`${player.name} Assassinate ${target.name} blocked by Guard`,'info');else if(target.hand.length>0){target.hand.splice(Math.floor(Math.random()*target.hand.length),1);addLog(`${player.name} Assassinate ${target.name} → discard 1`,'bad')}else addLog(`${player.name} Assassinate ${target.name}, no cards`,'info');break;
+    case'steal_gold':AudioEngine.play('gold');if(target.gold>0){target.gold--;player.gold++;addLog(`${player.name} Bribe ${target.name} → steal 1 gold`,isAI?'ai':'good')}else addLog(`${player.name} Bribe ${target.name}, no gold`,'info');break;
+    case'bankrupt':AudioEngine.play('attack');{const l=Math.min(target.gold,3);target.gold-=l;addLog(`${player.name} Bankrupt ${target.name} → -${l} gold`,'bad')}break;
+    case'siege':AudioEngine.play('siege');target.skipTurn=true;G.zones.military+=card.val;addLog(`${player.name} Siege ${target.name} → skip turn, Military Zone +${card.val}`,isAI?'ai':'good');break;
+    case'scout':AudioEngine.play('scout');if(target.hand.length>0)addLog(`${ic(IC.search)} Scout ${target.name} → a ${SUITS[target.hand[Math.floor(Math.random()*target.hand.length)].suit].name} card`,'private');break;
+    case'investigate':{AudioEngine.play('eavesdrop');const sec=IDENTITIES[target.secId];if(isAI){}else addLog(`${ic(IC.search)} You peeked at ${target.name} → shadow keyword: "${pick(sec.keywords)}"`,'private')}break;
+    case'eavesdrop':{AudioEngine.play('eavesdrop');const sec=IDENTITIES[target.secId],effCamp=getCamp(target);if(isAI){}else addLog(`${ic(IC.eye)} You eavesdropped on ${target.name} → shadow: ${ic(sec.icon)}${sec.name} (${effCamp==='order'?'Order':'Chaos'}) `,'private')}break;
+    case'poison_reveal':AudioEngine.play('poison');{const ps=IDENTITIES[target.secId];if(isAI){}else addLog(`${ic(IC.skull)} You poisoned ${target.name} → shadow keyword: "${pick(ps.keywords)}"`,'private');addLog(`${player.name} used Poison on ${target.name}`,'bad');if(target.hand.length>0){const discarded=target.hand.splice(Math.floor(Math.random()*target.hand.length),1)[0];G.discard.push(discarded);addLog(`  → ${target.name} forced to discard 1`,'bad')}}break;
+    case'prophecy':{let gk;if(isAI)gk=aiChooseGuess(target);else gk=document.getElementById('modal-guess')?.value;if(!gk)gk=ID_KEYS[Math.floor(Math.random()*ID_KEYS.length)];const ok=gk===target.secId,guessed=IDENTITIES[gk];G.prophecies.push({guesser:player.name,target:target.name,guessedId:gk,correct:ok});player.prophecies.push({target:target.name,guessedId:gk,correct:ok});if(ok){player.gold+=2;AudioEngine.play('prophecy_ok');addLog(`${ic(IC.scroll)} ${player.name} Prophecy ${target.name} → Correct! +2 gold`,'good')}else{player.gold=Math.max(0,player.gold-1);AudioEngine.play('prophecy_fail');addLog(`${ic(IC.scroll)} ${player.name} Prophecy ${target.name} → Wrong! -1 gold`,'bad')}}break;
+    case'sow_discord':AudioEngine.play('sow_discord');if(target.hand.length>0){target.hand.splice(Math.floor(Math.random()*target.hand.length),1);addLog(`${player.name} Sow Discord ${target.name} → discard 1`,'bad')}{const o=G.players.filter(p=>!p.eliminated&&p.name!==player.name&&p.name!==target.name);if(o.length>0){const t2=o[Math.floor(Math.random()*o.length)];if(t2.hand.length>0){t2.hand.splice(Math.floor(Math.random()*t2.hand.length),1);addLog(`  → ${t2.name} also discorded, discard 1`,'bad')}}}break;
+    case'insight':AudioEngine.play('scout');{const s=target.hand.map(c=>SUITS[c.suit].name).join(', ');addLog(`${player.name} Insight on ${target.name} → [${s||'none'}]`,'info')}break;
+    case'dark_assassinate':AudioEngine.play('eliminate');if(target.shield&&!isDark)addLog(`${player.name} Dark Assassinate ${target.name} blocked by Guard`,'info');else{target.eliminated=true;const pub=IDENTITIES[target.pubId],sec=IDENTITIES[target.secId];addLog(`${ic(IC.skull2)} ${player.name} Dark Assassinate ${target.name}! ${ic(pub.icon)}${pub.name} → ${ic(sec.icon)}${sec.name}`,'death')}break;
+    case'mindwash':AudioEngine.play('mindwash');if(G.mindwashed.has(target.name)){addLog(`${ic(IC.brain)} ${player.name} Brainwash ${target.name} → already brainwashed,invalid!`,'info')}else{G.mindwashed.add(target.name);addLog(`${ic(IC.brain)} ${player.name} Brainwash ${target.name} → public & shadow swapped!`,'bad')}break;
+    case'disguise':AudioEngine.play('disguise');{const tmpPub=player.pubId;player.pubId=target.pubId;target.pubId=tmpPub;G.disguiseSwaps.push({aIdx:G.currentPlayerIdx,bIdx:G.players.indexOf(target)});addLog(`${ic(IC.mask)} ${player.name}  swapped public identity with ${target.name}!`,isAI?'ai':'info');break}
+    case'trade_draw':AudioEngine.play('draw_card');player.hand.push(drawCard());target.hand.push(drawCard());addLog(`${player.name} and ${target.name} each draw 1 card`,isAI?'ai':'good');break;
+  }
+  fin(player,cardIdx);
+}
+
+function showForgeModal(player,cardIdx){
+  const modal=document.getElementById('modal');
+  modal.innerHTML=`<h3>${ic(IC.scroll)} Forge</h3><div class="modal-body"><p style="margin-bottom:10px">Choose a suit to forge (corresponding zone +2):</p><select id="forge-suit"><option value="military">${ic(IC.sword)} Military</option><option value="economy">${ic(IC.gem)} Economy</option><option value="strategy">${ic(IC.scroll)} Strategy</option><option value="shadow">${ic(IC.moon)} Shadow</option></select></div><div class="modal-actions"><button class="btn small" onclick="confirmForge(${cardIdx})">${ic(IC.check)} Confirm</button><button class="btn small danger" onclick="hideModal()">${ic(IC.close)} Cancel</button></div>`;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function confirmForge(cardIdx){
+  const p=G.players[G.currentPlayerIdx];const suit=document.getElementById('forge-suit').value;
+  G.zones[suit]+=2;AudioEngine.play('zone_up');hideModal();logPub(p,p.hand[cardIdx],`Forge ${SUITS[suit].name} Zone +2`,false);fin(p,cardIdx);
+}
+function hideModal(){document.getElementById('modal-overlay').classList.remove('show')}
+
+function doFreeInvestigate(){if(!G.freeInvestigate)return;const t=G.players.filter((pl,i)=>!pl.eliminated&&i!==G.currentPlayerIdx);if(t.length===0)return;document.getElementById('modal').innerHTML=`<h3>${ic(IC.search)} Free Peek</h3><div class="modal-body"><p>View one player's shadow keyword:</p><select id="modal-target">${t.map(x=>`<option value="${x.name}">${x.name}</option>`).join('')}</select></div><div class="modal-actions"><button class="btn small" onclick="confirmFreeInv()">${ic(IC.check)} Peek</button><button class="btn small danger" onclick="hideModal()">${ic(IC.close)} Skip</button></div>`;document.getElementById('modal-overlay').classList.add('show')}
+function confirmFreeInv(){const tn=document.getElementById('modal-target').value,t=G.players.find(p=>p.name===tn);if(t){AudioEngine.play('eavesdrop');const sec=IDENTITIES[t.secId];addLog(`${ic(IC.search)} Free Peek ${t.name} → Shadow keyword: "${pick(sec.keywords)}"`,'private')}G.freeInvestigate=false;hideModal();renderGame()}
+function doFreeReflect(){if(!G.freeReflect)return;const p=G.players[G.currentPlayerIdx];AudioEngine.play('reflect');const clue=SELF_CLUES[Math.floor(Math.random()*SELF_CLUES.length)](p.secId);p.clues.push(clue);addLog(`${ic(IC.mirror)} Free Reflect: ${clue}`,'clue');G.freeReflect=false;renderGame()}
+
+// ============== RENDER ==============
+function toggleFactions(){G.showFactions=!G.showFactions;AudioEngine.play('click');renderGame()}
+
+function renderGame(){
+  try{
+  showScreen('game-screen');const p=G.players[G.currentPlayerIdx];
+  // ★ Safety: if current player eliminated during action phase, auto-advance
+  if(p.eliminated&&G.phase==='action'&&!G.guessPhase){setTimeout(()=>endTurn(),300);return}
+  document.getElementById('round-display').innerHTML=`${ic(IC.list)} Round ${G.round} / ${G.maxRounds}`;
+  if(G.guessPhase){const gp=G.players[G.guessOrder[G.guessIndex]]||p;document.getElementById('phase-display').innerHTML=`${ic(IC.crosshair)} Guess Phase (${gp.name})`;document.getElementById('turn-display').textContent=`${G.guessIndex+1}/${G.guessOrder.length}`}
+  else{document.getElementById('phase-display').innerHTML=G.phase==='event'?`${ic(IC.megaphone)} Event Phase`:G.phase==='action'?`${ic(IC.sword)} ${p.name}${p.isAI?' '+ic(IC.robot):''}'s Turn`:`${ic(IC.moon)} Shadow Phase`;document.getElementById('turn-display').innerHTML=G.phase==='action'?`${ic(IC.cards)} Actions: ${G.actionsLeft}`:''}
+
+  document.getElementById('turn-display').innerHTML+=(G.phase!=='event'?` <button class="btn small" style="margin-left:8px;padding:4px 12px;font-size:.7em" onclick="toggleFactions()">${G.showFactions?ic(IC.eye)+' Hide':ic(IC.eye)+' Factions'}</button>`:'');
+
+  const eb=document.getElementById('event-banner');
+  if(G.currentEvent&&!G.guessPhase){eb.innerHTML=`<div class="label">${ic(IC.megaphone)} This Round's Event</div><div class="name">${G.currentEvent.name}</div><div class="desc">${G.currentEvent.desc}</div>`;eb.style.display=''}else{eb.style.display='none'}
+
+  const oz=G.zones.military+G.zones.economy,cz=G.zones.strategy+G.zones.shadow;
+  document.getElementById('zones-display').innerHTML=Object.entries(G.zones).map(([k,v])=>{const s=SUITS[k];const isOrder=k==='military'||k==='economy';const lead=isOrder?(oz>cz):(cz>oz);return`<div class="zone${lead?' lead':''}"><div class="z-name">${ic(s.icon)} ${s.name}</div><div class="z-val" style="color:${s.color}">${v}</div></div>`}).join('')+`<div class="zone" style="border:1px solid ${oz>cz?'var(--blue)':cz>oz?'var(--red)':'#2a2a40'}"><div class="z-name">${oz>cz?ic(IC.sword)+' Order':cz>oz?ic(IC.moon)+' Chaos':ic(IC.shield)+' tied'}</div><div class="z-val" style="font-size:.85em;color:var(--dim)">${oz}:${cz}</div></div>`;
+
+  const hi=G.players.findIndex(pp=>!pp.isAI);
+  document.getElementById('players-grid').innerHTML=G.players.map((pl,i)=>{
+    const pub=IDENTITIES[pl.pubId],sec=IDENTITIES[pl.secId];
+    const cur=i===G.currentPlayerIdx&&G.phase==='action'&&!G.guessPhase;
+    let extra='';
+    if(pl.eliminated){const effCamp=getCamp(pl),cc=effCamp==='order'?'var(--blue)':'var(--red)',cl=effCamp==='order'?'Order':'Chaos';extra=`<div class="p-sec-revealed" style="color:var(--red);border:1px solid var(--red)">${ic(IC.skull2)} Shadow: ${ic(sec.icon)}${sec.name} <span style="color:${cc};font-weight:bold">（${cl}）</span></div>`}
+    else if(pl.clues.length>0){extra=`<div class="clue-list">${pl.clues.map(c=>`<div>${ic(IC.mirror,0.9)} ${c}</div>`).join('')}</div>`}
+    let factionTag='';
+    if(G.showFactions&&!pl.eliminated){const effCamp=getCamp(pl),cl=effCamp==='order'?'Order':'Chaos',cc=effCamp==='order'?'var(--green)':'var(--red)';factionTag=`<span style="font-size:.72em;color:${cc};border:1px solid ${cc};padding:2px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:3px">${ic(effCamp==='order'?IC.sword:IC.moon,0.8)} ${cl}</span>`}
+    return`<div class="player-area ${cur?'current':''} ${pl.eliminated?'eliminated':''}">
+      <div class="p-header"><span class="p-name">${pl.name}${pl.eliminated?' '+ic(IC.skull2,0.9):''}${pl.shield?' '+ic(IC.shield,0.9):''}${pl.skipTurn?' '+ic(IC.time,0.9):''}${pl.isAI?'<span class="ai-badge">'+ic(IC.robot,0.8)+' AI</span>':''} ${factionTag}</span><span class="p-pub-id" style="color:${pub.color}">${ic(pub.icon)} ${pub.name}</span></div>
+      <div class="p-ability">${ic(IC.flash,0.9)} ${pub.ability}</div>
+      ${extra}
+      <div class="p-stats"><span>${ic(IC.coin)} ${pl.gold}</span><span>${ic(IC.cards)} ${pl.hand.length}</span></div>
+      <div class="p-cards">${pl.hand.map(()=>'<div class="mini-card">?</div>').join('')}</div>
+    </div>`}).join('');
+
+  const hc=document.getElementById('hand-cards');
+  if(G.phase==='action'&&!G.guessPhase&&!p.eliminated&&!p.isAI){
+    document.getElementById('hand-label').innerHTML=`${ic(IC.user)} ${p.name}'s Hand (${p.hand.length}) · ${ic(IC.coin)} ${p.gold} · ${ic(IC.sword)} Actions: ${G.actionsLeft}`;
+    hc.innerHTML=p.hand.map((c,i)=>{const s=SUITS[c.suit];const blocked=G.currentEvent?.effect==='diplomacy'&&c.suit==='military';return`<div class="hand-card ${c.suit}${blocked?' blocked':''}" onclick="playCard(${i})"><div class="card-corner">${s.rank}</div><div class="card-corner-r">${ic(s.icon)}</div><div class="card-center"><div class="card-suit-icon">${ic(s.icon,1.6)}</div><div class="card-name">${c.name}</div><div class="card-desc">${c.eff}${blocked?' (disabled)':''}</div></div><div class="card-bottom">${ic(s.icon,0.8)} ${s.name}</div></div>`}).join('');
+    let a='';if(G.freeInvestigate)a+=`<button class="btn small" onclick="doFreeInvestigate()">${ic(IC.search)} Free Peek</button>`;if(G.freeReflect)a+=`<button class="btn small" onclick="doFreeReflect()">${ic(IC.mirror)} Free Reflect</button>`;
+    if(p.gold>=2)a+=`<button class="btn small" onclick="spendGoldDraw()" style="border-color:var(--gold-dim);color:var(--gold)">${ic(IC.coin)} Pay 2 Gold to Draw</button>`;
+    const peekCost=getGoldPeekCost();
+    if(p.gold>=peekCost)a+=`<button class="btn small" onclick="spendGoldPeek()" style="border-color:var(--purple);color:var(--purple)">${ic(IC.search)} Pay ${peekCost} Gold to Peek</button>`;
+    a+=`<button class="btn small" onclick="endTurn()">${ic(IC.arrow)} End Turn</button>`;
+    document.getElementById('actions-panel').innerHTML=a;document.getElementById('my-hand').style.display='';
+  }else if(p.isAI&&G.phase==='action'&&!G.guessPhase){document.getElementById('hand-label').innerHTML=`${ic(IC.robot)} ${p.name} acting...`;hc.innerHTML='';document.getElementById('actions-panel').innerHTML='';document.getElementById('my-hand').style.display=''}
+  else{document.getElementById('hand-label').innerHTML=G.guessPhase?ic(IC.crosshair)+' Guess Phase...':G.phase==='shadow'?ic(IC.moon)+' Shadow...':'Waiting...';hc.innerHTML='';document.getElementById('actions-panel').innerHTML='';document.getElementById('my-hand').style.display='none'}
+
+  document.getElementById('game-log').innerHTML=G.log.map(l=>`<div class="log-entry ${l.type||''}">${l.text}</div>`).join('');
+  document.getElementById('game-log').scrollTop=99999;
+  }catch(e){console.error('[renderGame error]',e)}
+}
+
+// ============== END GAME ==============
+function endGame(){
+  G.ended=true;
+  AudioEngine.play('end');
+  // ★ Use getCamp (brainwash affects faction)
+  let oa=G.players.filter(p=>!p.eliminated&&getCamp(p)==='order').length;
+  let ca=G.players.filter(p=>!p.eliminated&&getCamp(p)==='chaos').length;
+  const oz=G.zones.military+G.zones.economy,cz=G.zones.strategy+G.zones.shadow;
+  let zoneBonus='';
+  if(oz>cz){oa+=1;zoneBonus=`${ic(IC.sword)} Order Zone Lead(${oz} vs ${cz}) → +1 Alive`}
+  else if(cz>oz){ca+=1;zoneBonus=`${ic(IC.moon)} Chaos Zone Lead(${cz} vs ${oz}) → +1 Alive`}
+  else{zoneBonus=`${ic(IC.shield)} Zones Tied(${oz} vs ${cz})`}
+  const og=G.players.filter(p=>!p.eliminated&&getCamp(p)==='order').reduce((s,p)=>s+p.gold,0);
+  const cg=G.players.filter(p=>!p.eliminated&&getCamp(p)==='chaos').reduce((s,p)=>s+p.gold,0);
+  let goldBonus='';
+  if(oa===ca&&og!==cg){if(og>cg){oa+=0.5;goldBonus=`${ic(IC.coin)} Order Gold Advantage(${og} vs ${cg})`}}
+  const ow=oa>ca,cw=ca>oa,dr=oa===ca;
+  const result=dr?'Draw! Order and Chaos are evenly matched':ow?'Order Faction Wins!':'Chaos Faction Wins!';
+  // ★ Use getCamp to determine player win/loss
+  const humanPlayer=G.players.find(p=>!p.isAI&&!p.eliminated);
+  const humanCamp=humanPlayer?getCamp(humanPlayer):null;
+  const humanWon=(humanCamp==='order'&&ow)||(humanCamp==='chaos'&&cw);
+  if(humanWon)setTimeout(()=>AudioEngine.play('victory'),800);
+  else setTimeout(()=>AudioEngine.play('defeat'),800);
+  // ★ Result table: show actual faction after brainwash, mark original faction for brainwashed
+  let res=G.players.map(p=>{const pub=IDENTITIES[p.pubId],sec=IDENTITIES[p.secId],origCamp=sec.camp==='order'?'Order':'Chaos',effCamp=getCamp(p),mindwashed=G.mindwashed.has(p.name),win=(effCamp==='order'&&ow)||(effCamp==='chaos'&&cw);return{name:p.name,pubId:p.pubId,secId:p.secId,gold:p.gold,hand:p.hand.length,elim:p.eliminated,win,camp:effCamp==='order'?'Order':'Chaos',mindwashed,origCamp,clues:p.clues,isAI:p.isAI}});
+  res.sort((a,b)=>(b.win-a.win)||(b.gold-a.gold));
+  document.getElementById('result-card').innerHTML=`
+    <h2>${ic(IC.mask)} Council Dissolved</h2>
+    <p style="color:var(--gold);font-size:1.35em;margin-bottom:12px">${result}</p>
+    <p style="color:var(--dim);margin-bottom:22px;font-size:.88em">Order Alive: ${Math.floor(oa)} · Chaos Alive: ${Math.floor(ca)}${zoneBonus?`<br><span style="font-size:.82em">${zoneBonus}</span>`:''}${goldBonus?`<br><span style="font-size:.82em">${goldBonus}</span>`:''}</p>
+    <div style="margin-bottom:16px;padding:12px;background:var(--bg2);border-radius:8px;font-size:.84em">
+      <div style="color:var(--gold);margin-bottom:8px">${ic(IC.bar)} Final Zones:</div>
+      <div>${ic(IC.sword)} ${G.zones.military} · ${ic(IC.gem)} ${G.zones.economy} · ${ic(IC.scroll)} ${G.zones.strategy} · ${ic(IC.moon)} ${G.zones.shadow}</div>
+      <div style="margin-top:4px">Order ${oz} vs Chaos ${cz}</div>
+    </div>
+    <table class="result-table"><tr><th></th><th>Player</th><th>Public</th><th>Shadow</th><th>Factions</th><th>${ic(IC.coin)}</th><th>${ic(IC.cards)}</th></tr>
+    ${res.map(r=>{const pub=IDENTITIES[r.pubId],sec=IDENTITIES[r.secId],es=r.elim?'color:var(--red)':'',cc=r.camp==='Order'?'var(--blue)':'var(--red)';const washTag=r.mindwashed?` <span style="font-size:.72em;color:var(--purple);opacity:.75">(orig ${r.origCamp}·${ic(IC.brain,0.7)}brainwashed）</span>`:'';return`<tr class="${r.win?'winner':''}" style="${es}"><td>${r.win?ic(IC.trophy):ic(IC.skull2)}${r.elim?' (elim)':''}</td><td>${r.name}${r.isAI?' '+ic(IC.robot,0.8):''}</td><td>${ic(pub.icon)} ${pub.name}</td><td style="color:var(--red)">${ic(sec.icon)} ${sec.name}</td><td style="color:${cc}">${r.camp}${washTag}</td><td>${r.gold}</td><td>${r.hand}</td></tr>`}).join('')}</table>
+    ${G.prophecies.length>0?`<div style="margin-top:16px"><div style="color:var(--cyan);font-size:.9em;margin-bottom:8px">${ic(IC.scroll)} Prophecy Records:</div>${G.prophecies.map(pr=>`<div style="font-size:.84em;color:var(--dim)">${pr.guesser} guessed ${pr.target} as ${ic(IDENTITIES[pr.guessedId].icon)}${IDENTITIES[pr.guessedId].name} → ${pr.correct?'✓':'✗'}</div>`).join('')}</div>`:''}
+    ${guessAnnouncements.length>0?`<div style="margin-top:16px;padding:14px;background:var(--bg2);border-radius:8px;text-align:left"><div style="color:var(--gold);font-size:.9em;margin-bottom:10px">${ic(IC.crosshair)} Guess Records:</div>${guessAnnouncements.map(ga=>{if(ga.type==='skip')return`<div style="font-size:.84em;color:var(--dim);margin:4px 0">${ga.guesser} skipped guessing</div>`;const guessed=IDENTITIES[ga.guessedId];const rc=ga.correct?'var(--green)':'var(--red)';const rt=ga.correct?'✓ correct':'✗ wrong';const tag=ga.type==='ai'?` ${ic(IC.robot,0.8)}`:'';return`<div style="font-size:.84em;margin:4px 0">${ga.guesser}${tag} guess <span style="color:var(--gold)">${ga.target}</span> as <span style="color:${guessed.color}">${ic(guessed.icon)}${guessed.name}</span> → <span style="color:${rc};font-weight:bold">${rt}</span></div>`}).join('')}</div>`:''}
+    <div style="margin-top:16px;padding:14px;background:var(--bg2);border-radius:8px;text-align:left">
+      <div style="color:var(--shadow);font-size:.9em;margin-bottom:8px">${ic(IC.mirror)} Reflect clue: </div>
+      ${res.map(r=>r.clues.length>0?`<div style="font-size:.84em;margin:4px 0"><strong>${r.name}</strong>: ${r.clues.join(' · ')}</div>`:'').join('')}
+    </div>
+    <div style="margin-top:16px;text-align:left">
+      <details open>
+        <summary style="color:var(--gold);font-size:.95em;cursor:pointer;padding:10px 0;display:flex;align-items:center;gap:8px">${ic(IC.list)} Full Log (${G.log.length} entries)</summary>
+        <div style="background:var(--bg2);border:1px solid #1a1a2a;border-radius:8px;padding:14px;max-height:400px;overflow-y:auto;font-size:.78em;line-height:1.7;scrollbar-width:none">
+          ${G.log.map(l=>`<div class="log-entry ${l.type||''}">${l.text}</div>`).join('')}
+        </div>
+      </details>
+    </div>
+    <button class="btn" style="margin-top:28px" onclick="location.reload()">${ic(IC.door)} Play Again</button>`;
+  showScreen('end-screen');
+}
+
+function addLog(t,type){G.log.push({text:t,type})}
+</script></body></html>

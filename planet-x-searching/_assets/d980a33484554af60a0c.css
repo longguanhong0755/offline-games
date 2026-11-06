@@ -1,0 +1,135 @@
+/* Copy Bootstrap's `bg-*`, but with purple instead */
+.bg-purple {
+  --bs-bg-opacity: 1;
+  /* This is slightly different because Bootstrap doesn't provide the RGB of
+     `--bs-purple`. */
+  background-color: var(--bs-purple) !important;
+}
+
+/* Copy Bootstrap's `btn-*`, but with purple instead */
+/* not used */
+.btn-purple {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--bs-purple);
+  --bs-btn-border-color: var(--bs-purple);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--bs-indigo);
+  --bs-btn-hover-border-color: var(--bs-indigo);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-indigo);
+  --bs-btn-active-border-color: var(--bs-indigo);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--bs-purple);
+  --bs-btn-disabled-border-color: var(--bs-purple);
+}
+
+/* Copy Bootstrap's `btn-outline-*`, but with purple instead */
+.btn-outline-purple {
+  --bs-btn-color: var(--bs-purple);
+  --bs-btn-border-color: var(--bs-purple);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--bs-purple);
+  --bs-btn-hover-border-color: var(--bs-purple);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-purple);
+  --bs-btn-active-border-color: var(--bs-purple);
+  --bs-btn-disabled-color: var(--bs-purple);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: var(--bs-purple);
+  --bs-gradient: none;
+}
+
+.game-settings-col {
+  min-width: 140px;
+}
+
+img {
+  width: 25px;
+  height: 25px;
+}
+
+img.small-object {
+  width: 20px;
+  height: 20px;
+}
+
+img.time {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  top: -2px;
+}
+
+.small-col {
+  width: 0;
+  white-space: nowrap;
+}
+
+/* Since we wanted to freeze the first two columns of `#hints-table`, we had to
+   make the background opaque. To make the table borders follow the frozen
+   columns, we had to separate the borders and make sure they didn't double up
+   between cells (so not using `.table-bordered`). */
+#hints-table {
+  --bs-table-bg: var(--bs-white);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+#hints-table > * > :first-child > :first-child {
+  /* First cell: full border */
+  border-width: 1px;
+}
+
+#hints-table > * > :first-child > :not(:first-child) {
+  /* Cells in the first row: right, top, and bottom border */
+  border-width: 1px 1px 1px 0;
+}
+
+#hints-table > * > :not(:first-child) > :first-child {
+  /* First cell of each row: left, right, and bottom border */
+  border-width: 0 1px 1px 1px;
+}
+
+#hints-table > * > :not(:first-child) > :not(:first-child) {
+  /* All cells: right and bottom border */
+  border-width: 0 1px 1px 0;
+}
+
+.freeze-col {
+  position: sticky;
+  left: 0;
+  /* Increase the z-index so that other elements don't appear over the frozen
+     columns. */
+  z-index: 1000;
+}
+
+/* First column of hints table */
+#hints-table > tbody > tr > :first-child {
+  text-align: left;
+}
+
+textarea {
+  resize: none;
+}
+
+[contenteditable] {
+  text-align: start;
+  width: 100%;
+  height: 100%;
+}
+
+[contenteditable]:empty:before {
+  content: attr(placeholder);
+  color: gray;
+  cursor: text;
+}
+
+.research-table-col {
+  /* Exactly enough so that the dropdowns fit with the perfect padding. */
+  min-width: 347px;
+}
+
+.moves-table-col {
+  /* Exactly enough to fix the survey objects with the perfect padding. */
+  min-width: 268px;
+}

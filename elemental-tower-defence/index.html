@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Elemental Tower Defense - Tactical Spellcraft Arcade</title>
+<meta content="A high-performance elemental tower defense game featuring continuous waves, auto ultimate meteor strikes, procedural audio synthesis, and glassmorphic UI." name="description"/>
+<link href="/_assets/0b06bdd62b30c3e516f6.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- Top Navigation & Dashboard Header -->
+<header class="app-header">
+<div class="brand">
+<div class="brand-icon">⚡</div>
+<h1>ELEMENTAL TD</h1>
+</div>
+<!-- Gameplay Stats Badges -->
+<div class="stats-bar">
+<div class="stat-badge gold" title="Gold Available">
+<span class="stat-icon">🪙</span>
+<span id="statGold">450</span> G
+      </div>
+<div class="stat-badge lives" title="Crystal Health / Lives">
+<span class="stat-icon">❤️</span>
+<span id="statLives">20</span> HP
+      </div>
+<div class="stat-badge wave" title="Current Wave">
+<span class="stat-icon">🌊</span>
+        Wave <span id="statWave">0/10</span>
+</div>
+</div>
+<!-- Global Game Controls & Auto Ultimate Gauge -->
+<div class="controls-bar">
+<button class="btn-ctrl" id="btnOpenInstructionsHeader" title="View How To Play Instructions">📜 Instructions</button>
+<div class="ultimate-wrapper" title="Auto-triggers Meteor Strike when 100% full!">
+<div class="ult-charge-fill" id="ultChargeFill" style="width: 0%;"></div>
+<div class="ult-text" id="ultText">🔥 ULTIMATE: <span id="ultPercent">0%</span></div>
+</div>
+<button class="btn-ctrl" id="btnSpeed" title="Toggle Game Speed">1x Speed</button>
+<button class="btn-ctrl" id="btnMute" title="Toggle Audio Synth">🔊 Audio</button>
+</div>
+</header>
+<!-- Main Application Wrapper -->
+<main class="main-wrapper">
+<!-- Interactive Game Canvas Container -->
+<div class="canvas-container">
+<!-- Top Overlay Bar on Canvas -->
+<div class="canvas-overlay-bar">
+<span class="map-name" id="mapName">Verdant Trail</span>
+<div class="wave-progress-bar" title="Wave Progress">
+<div class="wave-progress-fill" id="waveProgressFill" style="width: 100%;"></div>
+</div>
+</div>
+<!-- 60FPS Game Canvas -->
+<canvas height="804" id="gameCanvas" width="1068"></canvas>
+</div>
+<!-- Right Sidebar HUD Control Panel -->
+<aside class="sidebar-hud">
+<!-- Tower Shop Section -->
+<div class="shop-section">
+<div class="section-title">
+<span>Element Shop</span>
+</div>
+<div class="tower-shop-grid" id="towerShopGrid"><div class="tower-card" data-type="fire" style="--card-accent: #ff4500; --card-glow: rgba(255, 69, 0, 0.4);">
+<div class="tower-header">
+<div class="tower-icon" style="background: rgba(255, 69, 0, 0.4)">🔥</div>
+<div class="tower-cost">70 G</div>
+</div>
+<div class="tower-name">Pyro Cannon</div>
+<div class="tower-desc">Launches fiery bursts with Burn DOT. Lifespan: 15s.</div>
+<div class="card-cooldown-badge" id="cdBadge_fire" style="display: none;">🔒 20s</div>
+</div><div class="tower-card" data-type="ice" style="--card-accent: #00f3ff; --card-glow: rgba(0, 243, 255, 0.4);">
+<div class="tower-header">
+<div class="tower-icon" style="background: rgba(0, 243, 255, 0.4)">❄️</div>
+<div class="tower-cost">80 G</div>
+</div>
+<div class="tower-name">Cryo Emitter</div>
+<div class="tower-desc">Emits freezing rays slowing creeps by 45%. Lifespan: 15s.</div>
+<div class="card-cooldown-badge" id="cdBadge_ice" style="display: none;">🔒 20s</div>
+</div><div class="tower-card" data-type="lightning" style="--card-accent: #e0a96d; --card-glow: rgba(255, 215, 0, 0.4);">
+<div class="tower-header">
+<div class="tower-icon" style="background: rgba(255, 215, 0, 0.4)">⚡</div>
+<div class="tower-cost">90 G</div>
+</div>
+<div class="tower-name">Tesla Spire</div>
+<div class="tower-desc">Fires chain lightning bolts hitting up to 4 targets. Lifespan: 15s.</div>
+<div class="card-cooldown-badge" id="cdBadge_lightning" style="display: none;">🔒 20s</div>
+</div><div class="tower-card" data-type="earth" style="--card-accent: #10b981; --card-glow: rgba(16, 185, 129, 0.4);">
+<div class="tower-header">
+<div class="tower-icon" style="background: rgba(16, 185, 129, 0.4)">🪨</div>
+<div class="tower-cost">90 G</div>
+</div>
+<div class="tower-name">Tremor Hammer</div>
+<div class="tower-desc">Ground shockwaves hitting all ground creeps. Lifespan: 15s.</div>
+<div class="card-cooldown-badge" id="cdBadge_earth" style="display: none;">🔒 20s</div>
+</div></div>
+</div>
+<!-- Selected Tower Details & Upgrade Panel -->
+<div class="detail-panel" id="detailPanel" style="display: none;">
+<div class="detail-header">
+<div class="detail-title" id="detailTitle">Pyro Cannon (Tier 1)</div>
+</div>
+<!-- Target Priority Selector -->
+<div class="priority-selector">
+<button class="btn-prio active" data-prio="first">First</button>
+<button class="btn-prio" data-prio="last">Last</button>
+<button class="btn-prio" data-prio="strongest">Strong</button>
+<button class="btn-prio" data-prio="weakest">Weak</button>
+</div>
+<!-- Tower Stats Grid -->
+<div class="stats-grid">
+<div class="stat-row"><span>Damage:</span> <span id="detailDamage">35</span></div>
+<div class="stat-row"><span>Range:</span> <span id="detailRange">130</span></div>
+<div class="stat-row"><span>Rate:</span> <span id="detailRate">0.9s</span></div>
+<div class="stat-row"><span>Kills:</span> <span id="detailKills">0</span></div>
+</div>
+<!-- Upgrade / Sell Actions -->
+<div class="action-buttons">
+<button class="btn-action btn-upgrade" id="btnUpgrade">UPGRADE (120 G)</button>
+<button class="btn-action btn-sell" id="btnSell">SELL (70 G)</button>
+</div>
+</div>
+<!-- Elemental Reactions Synergies Guide -->
+<div class="synergies-section">
+<div class="section-title">Combo Reactions</div>
+<div class="synergy-list">
+<div class="synergy-item" style="border-color: #00f3ff;">
+<strong>Fire + Ice:</strong> Steam Blast (+150% Instant AOE)
+          </div>
+<div class="synergy-item" style="border-color: #e0a96d;">
+<strong>Lightning + Ice:</strong> Superconduct (-50% Armor)
+          </div>
+<div class="synergy-item" style="border-color: #b5179e;">
+<strong>Fire + Lightning:</strong> Plasma Shockwave (Chain AOE)
+          </div>
+</div>
+</div>
+</aside>
+<!-- DYNAMIC ANIMATED HAND POINTER TUTORIAL (First-Time Players Only) -->
+<div class="tutorial-overlay" id="tutorialOverlay" style="display: none;">
+<div class="tutorial-hand" id="tutorialHand">👆</div>
+<div class="tutorial-tooltip" id="tutorialTooltip">
+<div class="tutorial-step-title" id="tutorialStepTitle">STEP 1</div>
+<div class="tutorial-step-text" id="tutorialStepText">Click on the Pyro Cannon card to select your element!</div>
+</div>
+</div>
+</main>
+<!-- 1. START GAME MENU OVERLAY SCREEN -->
+<div class="screen-backdrop show" id="startScreenOverlay">
+<div class="start-card">
+<div class="start-brand">
+<div class="brand-badge">⚡</div>
+<h1>ELEMENTAL TOWER DEFENSE</h1>
+<p class="subtitle">CONTINUOUS SPELLCRAFT &amp; AUTO ULTIMATE</p>
+</div>
+<!-- Instructions Summary Cards -->
+<div class="instructions-grid">
+<div class="inst-card">
+<div class="inst-icon">🏰</div>
+<h3>1. BUILD &amp; REPAIR</h3>
+<p>Place 15s towers on green tiles. Upgrade towers to repair their HP &amp; reset lifespan!</p>
+</div>
+<div class="inst-card">
+<div class="inst-icon">💥</div>
+<h3>2. COMBO SYNERGIES</h3>
+<p>Mix elements on the same creep! <strong>Fire + Ice</strong> = Steam Blast (+150% AOE Dmg).</p>
+</div>
+<div class="inst-card">
+<div class="inst-icon">☄️</div>
+<h3>3. AUTO ULTIMATE</h3>
+<p>Charge 100% full hote hi <strong>METEOR STRIKE</strong> automatically unleash ho jayega!</p>
+</div>
+</div>
+<!-- Map Selector Buttons -->
+<div class="map-selector-group">
+<span class="map-label">SELECT BATTLEFIELD:</span>
+<div class="map-buttons">
+<button class="btn-map active" data-map="0">🌱 Verdant Trail</button>
+<button class="btn-map" data-map="1">❄️ Frostbyte Ridge</button>
+<button class="btn-map" data-map="2">🌋 Volcanic Core</button>
+</div>
+</div>
+<!-- Start Actions Buttons -->
+<div class="start-actions-group">
+<button class="btn-large btn-ctrl" id="btnOpenInstructionsModal">📜 FULL INSTRUCTIONS</button>
+<button class="btn-huge btn-accent" id="btnStartGame">ENTER BATTLEFIELD</button>
+</div>
+</div>
+</div>
+<!-- 2. DETAILED GAMEPLAY INSTRUCTIONS MODAL -->
+<div class="screen-backdrop" id="instructionsModalOverlay">
+<div class="instructions-modal-card">
+<div class="modal-header">
+<h2>📜 GAMEPLAY INSTRUCTIONS &amp; RULES</h2>
+<button class="btn-close" id="btnCloseInstructionsModal">×</button>
+</div>
+<div class="instructions-content">
+<!-- Step 1 -->
+<div class="guide-step">
+<div class="step-num">1</div>
+<div class="step-details">
+<h3>🏰 Building &amp; Tower Lifespan (15 Seconds)</h3>
+<p>Select any element card from the <strong>Element Shop</strong> on the right sidebar and click on any empty green tile on the map to place a tower. Every tower has a <strong>15-second lifespan timer</strong> (`15s`, `10s`, `3s`).</p>
+<p class="highlight-box">💡 <strong>Pro Tip:</strong> Upgrading a tower fully repairs its Health (HP) and resets its lifespan timer back to <strong>15 Seconds 100% Full</strong>!</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="guide-step">
+<div class="step-num">2</div>
+<div class="step-details">
+<h3>🎯 Tower Targeting &amp; Upgrades</h3>
+<p>Click on any active placed tower to open its <strong>Tower Detail Panel</strong>. You can customize target priority:</p>
+<ul>
+<li><strong>First:</strong> Shoots the creep furthest along the path.</li>
+<li><strong>Last:</strong> Shoots the creep trailing behind.</li>
+<li><strong>Strong:</strong> Targets high-HP Armored Tanks &amp; Bosses.</li>
+<li><strong>Weak:</strong> Finishes off low-HP creeps quickly.</li>
+</ul>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="guide-step">
+<div class="step-num">3</div>
+<div class="step-details">
+<h3>👾 Enemy Counter-Attacks &amp; Tower Health</h3>
+<p>Beware! Heavy enemies like <strong>Armored Juggernauts, Flying Sky Vipers, and OMEGA Titan Bosses</strong> will shoot EMP lasers and drop plasma bombs back at your towers to damage and destroy them! Keep an eye on your towers' HP bars under their base.</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="guide-step">
+<div class="step-num">4</div>
+<div class="step-details">
+<h3>💥 Elemental Combo Synergies</h3>
+<p>Combine multiple elemental types on the same enemy creep to trigger devastating combo explosions:</p>
+<ul>
+<li><strong>Fire 🔥 + Ice ❄️:</strong> <em>Steam Blast</em> (+150% Instant Area AOE Damage)</li>
+<li><strong>Lightning ⚡ + Ice ❄️:</strong> <em>Superconduct</em> (-50% Enemy Armor Reduction)</li>
+<li><strong>Fire 🔥 + Lightning ⚡:</strong> <em>Plasma Shockwave</em> (Chain Lightning AOE)</li>
+</ul>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="guide-step">
+<div class="step-num">5</div>
+<div class="step-details">
+<h3>☄️ Auto Ultimate Meteor Strike &amp; Restock Cooldowns</h3>
+<p>Every creep kill charges your <strong>Ultimate Meter</strong> in the header dashboard. Once it reaches 100%, an <strong>Auto Meteor Strike</strong> will rain down and obliterate all creeps on screen!</p>
+<p>Powerful towers like the <strong>Tesla Spire ⚡</strong> have a 20-second shop restock cooldown badge (`🔒 20s`).</p>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-huge btn-accent" id="btnGotItInstructions">GOT IT! LET'S PLAY</button>
+</div>
+</div>
+</div>
+<!-- 3. VICTORY RESULT BOARD -->
+<div class="screen-backdrop" id="victoryOverlay">
+<div class="result-card victory-theme">
+<div class="trophy-badge">🏆</div>
+<h2 class="result-title victory">VICTORY ACHIEVED!</h2>
+<div class="star-rating" id="victoryStars">⭐⭐⭐</div>
+<div class="rank-badge" id="victoryRank">RANK S</div>
+<div class="result-stats-grid" id="victoryStats">
+<!-- Dynamic Stats populated by JS -->
+</div>
+<div class="modal-actions">
+<button class="btn-large btn-accent" id="btnNextMap">NEXT BATTLEFIELD</button>
+<button class="btn-large btn-ctrl" id="btnReplayVictory">REPLAY</button>
+</div>
+</div>
+</div>
+<!-- 4. DEFEAT RESULT BOARD -->
+<div class="screen-backdrop" id="defeatOverlay">
+<div class="result-card defeat-theme">
+<div class="skull-badge">💀</div>
+<h2 class="result-title defeat">DEFENCE BREACHED</h2>
+<p class="defeat-subtitle">Your Crystal Core was destroyed by the enemy creep wave.</p>
+<div class="rank-badge defeat-rank" id="defeatRank">RANK D</div>
+<div class="result-stats-grid" id="defeatStats">
+<!-- Dynamic Stats populated by JS -->
+</div>
+<div class="pro-tip-box">
+        💡 <strong>PRO TIP:</strong> Combine <strong>Ice Towers</strong> with <strong>Fire Towers</strong> to trigger <em>Steam Blast Explosions</em> against heavy armored creeps!
+      </div>
+<div class="modal-actions">
+<button class="btn-large btn-danger" id="btnRetryDefeat">RETRY BATTLE</button>
+<button class="btn-large btn-ctrl" id="btnMenuDefeat">MAIN MENU</button>
+</div>
+</div>
+</div>
+<script src="/_assets/48ccc27d233aceec060c.js" type="module"></script>
+</body></html>

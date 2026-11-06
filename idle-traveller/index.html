@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>Idle Traveller</title>
+<link href="/_assets/9bf87f7140c085febf88.css" rel="stylesheet"/>
+<link href="/_assets/799aeb25cc0373fdee0e.css" rel="stylesheet"/>
+<link href="/_assets/d896e78b8bb662447a46.css" rel="stylesheet"/>
+<link href="/_assets/1db0de1d58b28ff62e42.css" rel="stylesheet"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','about:blank','ga');
+		ga('create', 'UA-38408823-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<audio autostart="false" id="sound-system" src="/_assets/0472f6d229552d15c661.mp3"></audio>
+<ul class="nav justify-content-center">
+<span class="navbar-brand">idle-traveller</span>
+<li class="nav-item">
+<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+<i class="fa fa-cogs"></i> Options
+	  	</a>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="javascript:void(0)" id="btn-save">
+<i class="fa fa-save"></i> Save game
+	      </a>
+<a class="dropdown-item" href="javascript:void(0)" id="btn-load">
+<i class="fa fa-tasks"></i> Load game
+	      </a>
+<a class="dropdown-item" href="javascript:void(0)" id="btn-export">
+<i class="fa fa-code-fork"></i> Export game
+	      </a>
+<a class="dropdown-item" data-target="#import-modal" data-toggle="modal" href="javascript:void(0)" id="btn-import">
+<i class="fa fa-terminal"></i> Import game
+	      </a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item text-danger" href="javascript:void(0)" id="btn-reset">
+<i class="fa fa-exclamation"></i> Reset</a>
+</div>
+</li>
+</ul>
+<div class="container">
+<div id="export-save" style="display:none;">
+<textarea class="form-control" cols="30" rows="10"></textarea>
+<button class="btn btn-dark close-export-save">Close</button>
+</div>
+<div id="import-save" style="display:none;">
+<textarea class="form-control" cols="30" rows="10"></textarea>
+<button class="btn btn-dark cancel-import-save">Cancel</button>
+<button class="btn btn-dark close-import-save">Import</button>
+</div>
+<div class="row">
+<div class="col-md-6 col-12 text-center">
+<h1 class="length-content"><span id="length">7.44 m</span></h1>
+<p>Currently traveling: <span class="text-success" id="current-upgrade">Bare foot</span></p>
+<div>
+<span class="text-muted" id="length-detail">1.00 m </span>
+<span class="text-info" id="megamultiplier" title="Megamultiplier"></span>
+</div>
+<div class="progress" data-max="15.00 m" style="margin-left:10px;margin-right:10px;">
+<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar bg-warning" data-length="49.63%" id="boostbar" role="progressbar" style="width: 49.6267%;"></div>
+</div>
+<button class="btn" id="btn-rest" type="button">Rest</button>
+</div>
+<div class="col-md-6 col-12">
+<div class="section">
+<p class="title">Info</p>
+<div class="content">
+<ul id="info">
+<li><strong>Game version: </strong><span id="game-version">1.0.46</span></li>
+<li><strong>Run start: </strong><span id="run-start">Fri Nov 06 2026 08:43:48 GMT+0800 (中国标准时间)</span></li>
+<li><strong>Actual session time: </strong><span id="session-time"> 07s</span></li>
+<li><strong>Rests: </strong><span id="rest-count">0</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6 col-12">
+<div class="section">
+<p class="title">Next upgrade</p>
+<div class="content row">
+<div class="col-8">
+<p class="low-margin">Next upgrade: <span class="text-info" id="next-upgrade-name">Walking Shoes</span></p>
+<p class="low-margin">Cost: <span class="text-info" id="next-upgrade-cost">10.00 m</span></p>
+<p class="low-margin" style="display: none;">Required: <span class="text-info" id="next-upgrade-required"></span></p>
+</div>
+<div class="col-4">
+<div id="upgrades"><button class="btn btn-primary upgrade" data-cost="10" disabled="true" id="walking-shoes">Buy</button></div>
+</div>
+</div>
+</div>
+<div class="section" id="studies-section" style="display: none;">
+<p class="title">Next Study</p>
+<div class="content row">
+<div class="col-8">
+<p class="low-margin">Next study: <span class="text-info" id="next-learning-name">Basic Math</span></p>
+<p class="low-margin">Cost: <span class="text-info" id="next-learning-cost">420.00 m</span></p>
+<p class="low-margin">Multiplier increment: <span class="text-info" id="next-learning-increment">0.5</span></p>
+</div>
+<div class="col-4">
+<div id="learnings"><button class="btn btn-primary shop-learning" data-cost="420" disabled="true" id="basicmath">Learn</button></div>
+</div>
+</div>
+</div>
+<div class="section" id="perks-section" style="display: none;">
+<p class="title">Perks</p>
+<div class="content">
+<div id="perks"><div class="row perk"><div class="col-8"><p class="low-margin">Name: <span class="text-info">Little Boosts</span></p><p class="low-margin">Description: <span class="text-info">Smaller boosts but more of them</span></p><p class="low-margin">Cost: <span class="text-info">2.70 km</span></p></div><div class="col-4"><button class="btn btn-primary shop-perk" data-cost="2700" disabled="true" id="littleboosts" title="Smaller boosts but more of them">Buy</button></div></div><div class="row perk"><div class="col-8"><p class="low-margin">Name: <span class="text-info">Aerodynamics</span></p><p class="low-margin">Description: <span class="text-info">Increases the current speed (100%) but deactivates the boost bar</span></p><p class="low-margin">Cost: <span class="text-info">14.40 km</span></p></div><div class="col-4"><button class="btn btn-primary shop-perk" data-cost="14400" disabled="true" id="aerodynamics" title="Increases the current speed (100%) but deactivates the boost bar">Buy</button></div></div><div class="row perk"><div class="col-8"><p class="low-margin">Name: <span class="text-info">Autopilot</span></p><p class="low-margin">Description: <span class="text-info">Reduces current speed (-30%) but you keep travelling (at 15% of the current speed) while the game is closed</span></p><p class="low-margin">Cost: <span class="text-info">1.30 Mm</span></p></div><div class="col-4"><button class="btn btn-primary shop-perk" data-cost="1296000" disabled="true" id="autopilot" title="Reduces current speed (-30%) but you keep travelling (at 15% of the current speed) while the game is closed">Buy</button></div></div><div class="row perk"><div class="col-8"><p class="low-margin">Name: <span class="text-info">Autopilot II</span></p><p class="low-margin">Description: <span class="text-info">Reduces current speed (-10%) but you keep travelling (at 100% of the current speed) while the game is closed</span></p><p class="low-margin">Cost: <span class="text-info">345.71 Mm</span></p></div><div class="col-4"><button class="btn btn-primary shop-perk" data-cost="345708000" disabled="true" id="autopilotii" title="Reduces current speed (-10%) but you keep travelling (at 100% of the current speed) while the game is closed">Buy</button></div></div><div class="row perk"><div class="col-8"><p class="low-margin">Name: <span class="text-info">Autoturbo</span></p><p class="low-margin">Description: <span class="text-info">Automatic boosts but boostbar is filled 10% slower</span></p><p class="low-margin">Cost: <span class="text-info">194.40 km</span></p></div><div class="col-4"><button class="btn btn-primary shop-perk" data-cost="194400" disabled="true" id="autoturbo" title="Automatic boosts but boostbar is filled 10% slower">Buy</button></div></div><div class="row perk"><div class="col-8"><p class="low-margin">Name: <span class="text-info">Sound system</span></p><p class="low-margin">Description: <span class="text-info">Boostbar sounds when full</span></p><p class="low-margin">Cost: <span class="text-info">480.00 m</span></p></div><div class="col-4"><button class="btn btn-primary shop-perk" data-cost="480" disabled="true" id="soundsystem" title="Boostbar sounds when full">Buy</button></div></div></div>
+</div>
+</div>
+<div class="section" id="achievements-section" style="display: none;">
+<p class="title">Achievements</p>
+<div class="content">
+<div id="achievements">
+<table class="table table-bordered table-hover"><tr class="achievement locked"><td title="Get an hot-air balloon (multiplier +5)"><strong>Fly like a bubble</strong><small class="achievement-description">Get an hot-air balloon (multiplier +5)</small></td></tr><tr class="achievement locked"><td title="Rebase the 61 m/s (multiplier +5)"><strong>Speed limit</strong><small class="achievement-description">Rebase the 61 m/s (multiplier +5)</small></td></tr><tr class="achievement locked"><td title="Reach the speed of light (299.79 Mm/s) (multiplier +50)"><strong>Speed of light</strong><small class="achievement-description">Reach the speed of light (299.79 Mm/s) (multiplier +50)</small></td></tr><tr class="achievement locked"><td title="Travel trough portals (multiplier +20)"><strong>Aperture Science</strong><small class="achievement-description">Travel trough portals (multiplier +20)</small></td></tr><tr class="achievement locked"><td title="Cross a wormhole (multiplier +50)"><strong>Like a worm</strong><small class="achievement-description">Cross a wormhole (multiplier +50)</small></td></tr><tr class="achievement locked"><td title="??? (multiplier +100)"><strong>Unleash the mind</strong><small class="achievement-description">??? (multiplier +100)</small></td></tr><tr class="achievement locked"><td title="Use the boost bar 5 times (multiplier +2)"><strong>Boosted x5</strong><small class="achievement-description">Use the boost bar 5 times (multiplier +2)</small></td></tr><tr class="achievement locked"><td title="Use the boost bar 15 times (multiplier +5)"><strong>Boosted x15</strong><small class="achievement-description">Use the boost bar 15 times (multiplier +5)</small></td></tr><tr class="achievement locked"><td title="Use the boost bar 50 times (multiplier +20)"><strong>Boosted x50</strong><small class="achievement-description">Use the boost bar 50 times (multiplier +20)</small></td></tr><tr class="achievement locked"><td title="Rest for the first time (multiplier +1)"><strong>Take a break</strong><small class="achievement-description">Rest for the first time (multiplier +1)</small></td></tr><tr class="achievement locked"><td title="Rest for the tenth time (multiplier +5)"><strong>Take a break 10 times</strong><small class="achievement-description">Rest for the tenth time (multiplier +5)</small></td></tr><tr class="achievement locked"><td title="Rest for the twentieth time (multiplier +10)"><strong>Take a break 20 times</strong><small class="achievement-description">Rest for the twentieth time (multiplier +10)</small></td></tr><tr class="achievement locked"><td title="Get in the Jonda (multiplier +50)"><strong>In da Jonda</strong><small class="achievement-description">Get in the Jonda (multiplier +50)</small></td></tr><tr class="achievement locked"><td title="Meet Fali"><strong>Meet Fali</strong><small class="achievement-description">Meet Fali</small></td></tr><tr class="achievement locked"><td title="Buy all runes in the game (multiplier +50)"><strong>Rune lover</strong><small class="achievement-description">Buy all runes in the game (multiplier +50)</small></td></tr><tr class="achievement locked"><td title="Buy all upgrades and learnings in the game"><strong>Now what?</strong><small class="achievement-description">Buy all upgrades and learnings in the game</small></td></tr></table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-12">
+<div class="section" id="perks-owned-section" style="display: none;">
+<p class="title">Perks owned</p>
+<div class="content">
+<div id="perks-owned"></div>
+</div>
+</div>
+<div class="section" id="stuff-section" style="display: none;">
+<p class="title">Relics</p>
+<div class="content">
+<div class="row">
+<div class="col-12" id="stuff-shelf"></div>
+</div>
+<div class="row" id="shop-stuff"><div class="col-6 col-sm-12 col-md-12 col-lg-6"><div class="shop-stuff-item"><div class="label">Stone of Knowledge</div><div class="description">Having this stone means all your study rewards are multiplied by 5</div><button class="btn btn-primary" disabled="">Buy (1.00 Gm)</button></div></div><div class="col-6 col-sm-12 col-md-12 col-lg-6"><div class="shop-stuff-item"><div class="label">Bracelet of speed</div><div class="description">A mystic bracelet that gives you the power of bending space to travel twice as faster</div><button class="btn btn-primary" disabled="">Buy (4.00 Mm)</button></div></div><div class="col-6 col-sm-12 col-md-12 col-lg-6"><div class="shop-stuff-item"><div class="label">Rune of the fastests</div><div class="description">A mystic rune that gives you the power of the ancestors from space to travel twice as faster</div><button class="btn btn-primary" disabled="">Buy (6.00 Mm)</button></div></div><div class="col-6 col-sm-12 col-md-12 col-lg-6"><div class="shop-stuff-item"><div class="label">Purple Stone</div><div class="description">The stone to rule the space-time. It gives you the ability to rest without losing your upgrades nor speed</div><button class="btn btn-primary" disabled="">Buy (9.00 Mm)</button></div></div></div>
+</div>
+</div>
+<div class="section" id="studies-done-section" style="display: none;">
+<p class="title">Studies</p>
+<div class="content">
+<div id="learnings-owned"></div>
+</div>
+</div>
+<div class="alert alert-info" style="margin: 10px;">
+					You are in a <strong>development version</strong>.
+					It is possible that the game version changes in a short time.
+					<hr/>
+					New things are coming!
+				</div>
+</div>
+</div>
+</div>
+<!-- Import/export modals -->
+<div class="modal fade" id="import-modal">
+<div class="modal-dialog">
+<div class="modal-content">
+<!-- Modal Header -->
+<div class="modal-header">
+<h4 class="modal-title">Import savegame</h4>
+<button class="close" data-dismiss="modal" type="button">×</button>
+</div>
+<!-- Modal body -->
+<div class="modal-body">
+<textarea id="import-savegame-textarea" style="width: 100%;height: 200px;"></textarea>
+</div>
+<!-- Modal footer -->
+<div class="modal-footer">
+<button class="btn btn-primary" id="import-save-confirm" type="button">Import</button>
+<button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="export-modal">
+<div class="modal-dialog">
+<div class="modal-content">
+<!-- Modal Header -->
+<div class="modal-header">
+<h4 class="modal-title">Export savegame</h4>
+<button class="close" data-dismiss="modal" type="button">×</button>
+</div>
+<!-- Modal body -->
+<div class="modal-body">
+<textarea id="export-savegame-textarea" style="width: 100%;height: 200px;"></textarea>
+</div>
+<!-- Modal footer -->
+<div class="modal-footer">
+<button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+</div>
+</div>
+</div>
+</div>
+<!-- End Import/export modals -->
+<script src="/_assets/87083882cc6015984eb0.js"></script>
+<script src="/_assets/5292e677fe712c808634.js"></script>
+<script src="/_assets/1dee43744a50d37e9bf6.js"></script>
+<script src="/_assets/0e25895d7caaf355a53d.js"></script>
+<!-- Game -->
+<script src="/_assets/ebd7a59fdadf8b8505d1.js"></script>
+<script src="/_assets/2fa855cfdc6b0b3634d8.js"></script>
+<script src="/_assets/c0be5fbc6d0b985ffb9d.js"></script>
+<script src="/_assets/2e11ac87abd90c0e8281.js"></script>
+<script src="/_assets/30b472332637765e25b5.js"></script>
+<script src="/_assets/de27eb7dfc076932ee2a.js"></script>
+</body></html>

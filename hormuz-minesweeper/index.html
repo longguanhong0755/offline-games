@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Classic Minesweeper laid across the Strait of Hormuz. Clear the water, flag the mines, and survive the shipping lane." name="description"/>
+<meta content="#0d7575" name="theme-color"/>
+
+<meta content="website" property="og:type"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Hormuz Minesweeper" property="og:site_name"/>
+<meta content="Hormuz Minesweeper" property="og:title"/>
+<meta content="Classic Minesweeper laid across the Strait of Hormuz. Clear the water, flag the mines, and survive the shipping lane." property="og:description"/>
+<meta content="https://hormuz.pythonic.ninja/" property="og:url"/>
+<meta content="https://hormuz.pythonic.ninja/og-preview.jpg" property="og:image"/>
+<meta content="image/jpeg" property="og:image:type"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Hormuz Minesweeper game board preview with a nautical map and Minesweeper cells across the Strait of Hormuz." property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Hormuz Minesweeper" name="twitter:title"/>
+<meta content="Classic Minesweeper laid across the Strait of Hormuz. Clear the water, flag the mines, and survive the shipping lane." name="twitter:description"/>
+<meta content="https://hormuz.pythonic.ninja/og-preview.jpg" name="twitter:image"/>
+<meta content="Hormuz Minesweeper game board preview with a nautical map and Minesweeper cells across the Strait of Hormuz." name="twitter:image:alt"/>
+<title>Trump | We're Going To Win So Much</title>
+<style>
+    :root {
+      --chrome: #c0c0c0;
+      --chrome-light: #ffffff;
+      --chrome-mid: #dfdfdf;
+      --chrome-dark: #808080;
+      --chrome-deep: #404040;
+      --digit-red: #ff2a2a;
+      --digit-bg: #160000;
+      --panel-shadow:
+        inset 2px 2px 0 var(--chrome-light),
+        inset -2px -2px 0 var(--chrome-dark),
+        inset 1px 1px 0 var(--chrome-mid),
+        inset -1px -1px 0 #000000;
+      --panel-inset:
+        inset 2px 2px 0 var(--chrome-dark),
+        inset -2px -2px 0 var(--chrome-light),
+        inset 1px 1px 0 var(--chrome-deep),
+        inset -1px -1px 0 var(--chrome-mid);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.14), transparent 24%),
+        linear-gradient(180deg, #008080 0%, #0d7575 58%, #0b5f5f 100%);
+      color: #111111;
+      font-family: Tahoma, "MS Sans Serif", sans-serif;
+    }
+
+    .window {
+      width: min(96vw, 1140px);
+      background: var(--chrome);
+      box-shadow: var(--panel-shadow), 0 28px 52px rgba(0, 0, 0, 0.28);
+    }
+
+    .titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 7px 8px;
+      background: linear-gradient(90deg, #0a2a97 0%, #2e7dd7 100%);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .titlebar-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .titlebar-actions span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: var(--chrome);
+      color: #111111;
+      font-size: 11px;
+      box-shadow: var(--panel-shadow);
+    }
+
+    .shell {
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hud,
+    .map-frame {
+      background: var(--chrome);
+      box-shadow: var(--panel-inset);
+    }
+
+    .hud {
+      display: grid;
+      grid-template-columns: 112px 72px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+    }
+
+    .counter {
+      min-height: 64px;
+      padding: 10px 10px 6px;
+      background: var(--digit-bg);
+      color: var(--digit-red);
+      box-shadow: var(--panel-inset);
+      font-family: "Courier New", monospace;
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-align: center;
+      user-select: none;
+    }
+
+    .reset {
+      width: 64px;
+      height: 64px;
+      padding: 0;
+      border: 0;
+      background: var(--chrome);
+      box-shadow: var(--panel-shadow);
+      cursor: pointer;
+    }
+
+    .reset:active {
+      box-shadow: var(--panel-inset);
+    }
+
+    .reset svg {
+      width: 72%;
+      height: 72%;
+      display: block;
+      margin: auto;
+    }
+
+    .status-panel {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+      align-content: center;
+    }
+
+    .status-text {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      color: #1a1a1a;
+    }
+
+    .status-note {
+      font-size: 13px;
+      color: #2c2c2c;
+    }
+
+    .map-frame {
+      padding: 8px;
+    }
+
+    .map-panel {
+      position: relative;
+      aspect-ratio: 12643 / 10050;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.04)),
+        url("/_assets/57306b9be9bca97f3ab1.svg") center / 100% 100% no-repeat;
+      box-shadow: inset 1px 1px 0 var(--chrome-dark), inset -1px -1px 0 var(--chrome-light);
+    }
+
+    .board {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+    }
+
+    .cell {
+      appearance: none;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      font: 700 clamp(12px, 1.2vw, 22px) / 1 Tahoma, "MS Sans Serif", sans-serif;
+      cursor: default;
+    }
+
+    .cell.blocked {
+      pointer-events: none;
+    }
+
+    .cell.playable.hidden {
+      background: rgba(192, 192, 192, 0.94);
+      box-shadow: var(--panel-shadow);
+      cursor: pointer;
+    }
+
+    .cell.playable.hidden:hover {
+      filter: brightness(1.04);
+    }
+
+    .cell.playable.hidden:active {
+      box-shadow: var(--panel-inset);
+      background: rgba(176, 176, 176, 0.96);
+    }
+
+    .board[data-touch-mode="flag"] .cell.playable.hidden {
+      cursor: crosshair;
+      box-shadow: var(--panel-shadow), inset 0 0 0 1px rgba(255, 42, 42, 0.3);
+    }
+
+    .cell.playable.revealed {
+      background: rgba(192, 192, 192, 0.38);
+      box-shadow: inset 1px 1px 0 rgba(110, 110, 110, 0.95);
+    }
+
+    .cell.playable.revealed.exploded {
+      background: rgba(211, 30, 30, 0.82);
+    }
+
+    .cell svg {
+      width: 70%;
+      height: 70%;
+      display: block;
+      pointer-events: none;
+    }
+
+    .digit {
+      display: inline-block;
+      transform: translateY(1px);
+    }
+
+    .digit-1 { color: #0000ff; }
+    .digit-2 { color: #007b00; }
+    .digit-3 { color: #ff0000; }
+    .digit-4 { color: #00007b; }
+    .digit-5 { color: #7b0000; }
+    .digit-6 { color: #007b7b; }
+    .digit-7 { color: #000000; }
+    .digit-8 { color: #7b7b7b; }
+
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 1px 6px;
+      background: var(--chrome);
+      color: #111111;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: var(--panel-shadow);
+    }
+
+    .github-link:hover {
+      filter: brightness(1.04);
+    }
+
+    .github-link:active {
+      box-shadow: var(--panel-inset);
+    }
+
+    .btn-wrap {
+      display: grid;
+      justify-items: center;
+      gap: 2px;
+    }
+
+    .btn-label {
+      display: none;
+      font-size: 10px;
+      font-weight: 700;
+      color: #555555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @media (pointer: coarse) {
+      .btn-label {
+        display: block;
+      }
+
+      .status-note {
+        display: none;
+      }
+    }
+
+    .flag-fab {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 50;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 0;
+      background: var(--chrome);
+      box-shadow: var(--panel-shadow), 0 4px 16px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .flag-fab-icon {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    .flag-fab-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .flag-fab-label {
+      font: 700 13px Tahoma, "MS Sans Serif", sans-serif;
+      color: #111111;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .flag-fab:active {
+      box-shadow: var(--panel-inset), 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .flag-fab.active {
+      box-shadow: var(--panel-inset), 0 2px 8px rgba(0, 0, 0, 0.2);
+      background: #e8d0d0;
+    }
+
+    @media (pointer: coarse) {
+      .flag-fab {
+        display: inline-flex;
+      }
+    }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .video-modal[hidden] {
+      display: none;
+    }
+
+    .video-modal-content {
+      background: var(--chrome);
+      box-shadow: var(--panel-shadow), 0 28px 52px rgba(0, 0, 0, 0.4);
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+      max-width: 94vw;
+    }
+
+    .video-modal-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #1a1a1a;
+      text-align: center;
+    }
+
+    .video-modal-content iframe {
+      display: block;
+      max-width: 100%;
+      max-height: 60vh;
+    }
+
+    .video-modal-close {
+      width: auto;
+      height: auto;
+      padding: 8px 24px;
+      border: 0;
+      background: var(--chrome);
+      box-shadow: var(--panel-shadow);
+      font: 700 15px Tahoma, "MS Sans Serif", sans-serif;
+      cursor: pointer;
+    }
+
+    .video-modal-close:active {
+      box-shadow: var(--panel-inset);
+    }
+
+    @media (max-width: 880px) {
+      body {
+        padding: 12px;
+      }
+
+      .hud {
+        grid-template-columns: 1fr auto;
+      }
+
+      .status-panel {
+        grid-column: 1 / -1;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .status-text {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      body {
+        padding: 4px;
+      }
+
+      .window {
+        width: 100vw;
+      }
+
+      .titlebar {
+        font-size: 13px;
+        padding: 5px 8px;
+      }
+
+      .titlebar-actions span {
+        display: none;
+      }
+
+      .shell {
+        padding: 6px;
+        gap: 6px;
+      }
+
+      .hud {
+        gap: 6px;
+        padding: 6px;
+      }
+
+      .counter {
+        min-height: 36px;
+        padding: 4px 8px 2px;
+        font-size: 24px;
+      }
+
+      .reset {
+        width: 36px;
+        height: 36px;
+      }
+
+      .btn-label {
+        font-size: 8px;
+      }
+
+      .status-panel {
+        grid-column: 1 / -1;
+      }
+
+      .status-text {
+        font-size: 16px;
+      }
+
+      .map-frame {
+        padding: 4px;
+      }
+
+      .cell {
+        font: 700 clamp(10px, 2.4vw, 18px) / 1 Tahoma, "MS Sans Serif", sans-serif;
+      }
+
+      .video-modal-content iframe {
+        width: 240px;
+        height: 427px;
+      }
+
+      .video-modal-title {
+        font-size: 22px;
+      }
+    }
+  </style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<main class="window">
+<div class="titlebar">
+<span>Hormuz Minesweeper</span>
+<div class="titlebar-actions">
+<a aria-label="Star on GitHub" class="github-link" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="12" viewbox="0 0 16 16" width="12"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          Star
+        </a>
+<span aria-hidden="true">−</span>
+<span aria-hidden="true">□</span>
+<span aria-hidden="true">×</span>
+</div>
+</div>
+<div class="shell">
+<section aria-label="Game status" class="hud">
+<div class="counter" id="mine-counter">052</div>
+<div class="btn-wrap">
+<button aria-label="Reset game" class="reset" id="reset-button" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="#ffd34d" r="9.2" stroke="#000000" stroke-width="1.2"></circle>
+<circle cx="8.2" cy="9.2" fill="#000000" r="1.15"></circle>
+<circle cx="15.8" cy="9.2" fill="#000000" r="1.15"></circle>
+<path d="M7.2 14.2c1.4 2 8.2 2 9.6 0" fill="none" stroke="#000000" stroke-linecap="round" stroke-width="1.3"></path>
+</svg>
+</button>
+<span class="btn-label">reset</span>
+</div>
+<div class="status-panel">
+<div class="status-text" id="status-text">READY to start winning!</div>
+<div class="status-note" id="status-note">Left-click reveal. Right-click flag. Double-click chord. Mines only spawn on water.</div>
+</div>
+</section>
+<section class="map-frame">
+<div class="map-panel">
+<div aria-label="Minesweeper board" class="board" data-touch-mode="dig" id="board" style="grid-template-columns: repeat(28, 1fr); grid-template-rows: repeat(22, 1fr);"><button aria-hidden="true" class="cell blocked" data-index="0" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="1" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="2" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="3" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="4" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="5" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="6" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="7" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="8" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="9" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="10" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="11" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="12" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="13" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="14" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="15" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="16" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="17" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="18" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="19" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="20" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="21" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="22" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="23" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="24" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="25" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="26" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="27" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="28" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="29" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="30" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="31" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="32" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="33" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="34" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="35" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="36" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="37" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="38" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="39" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="40" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="41" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="42" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="43" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="44" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="45" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="46" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="47" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="48" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="49" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="50" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="51" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="52" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="53" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="54" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="55" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="56" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="57" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="58" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="59" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="60" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="61" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="62" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="63" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="64" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="65" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="66" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="67" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="68" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="69" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="70" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="71" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="72" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="73" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="74" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="75" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="76" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="77" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="78" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="79" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="80" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="81" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="82" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="83" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="84" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="85" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="86" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="87" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="88" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="89" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="90" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="91" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="92" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="93" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="94" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="95" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="96" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="97" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="98" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="99" type="button"></button><button class="cell playable hidden" data-index="100" type="button"></button><button class="cell playable hidden" data-index="101" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="102" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="103" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="104" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="105" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="106" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="107" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="108" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="109" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="110" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="111" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="112" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="113" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="114" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="115" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="116" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="117" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="118" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="119" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="120" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="121" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="122" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="123" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="124" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="125" type="button"></button><button class="cell playable hidden" data-index="126" type="button"></button><button class="cell playable hidden" data-index="127" type="button"></button><button class="cell playable hidden" data-index="128" type="button"></button><button class="cell playable hidden" data-index="129" type="button"></button><button class="cell playable hidden" data-index="130" type="button"></button><button class="cell playable hidden" data-index="131" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="132" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="133" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="134" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="135" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="136" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="137" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="138" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="139" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="140" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="141" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="142" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="143" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="144" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="145" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="146" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="147" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="148" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="149" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="150" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="151" type="button"></button><button class="cell playable hidden" data-index="152" type="button"></button><button class="cell playable hidden" data-index="153" type="button"></button><button class="cell playable hidden" data-index="154" type="button"></button><button class="cell playable hidden" data-index="155" type="button"></button><button class="cell playable hidden" data-index="156" type="button"></button><button class="cell playable hidden" data-index="157" type="button"></button><button class="cell playable hidden" data-index="158" type="button"></button><button class="cell playable hidden" data-index="159" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="160" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="161" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="162" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="163" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="164" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="165" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="166" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="167" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="168" type="button"></button><button class="cell playable hidden" data-index="169" type="button"></button><button class="cell playable hidden" data-index="170" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="171" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="172" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="173" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="174" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="175" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="176" type="button"></button><button class="cell playable hidden" data-index="177" type="button"></button><button class="cell playable hidden" data-index="178" type="button"></button><button class="cell playable hidden" data-index="179" type="button"></button><button class="cell playable hidden" data-index="180" type="button"></button><button class="cell playable hidden" data-index="181" type="button"></button><button class="cell playable hidden" data-index="182" type="button"></button><button class="cell playable hidden" data-index="183" type="button"></button><button class="cell playable hidden" data-index="184" type="button"></button><button class="cell playable hidden" data-index="185" type="button"></button><button class="cell playable hidden" data-index="186" type="button"></button><button class="cell playable hidden" data-index="187" type="button"></button><button class="cell playable hidden" data-index="188" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="189" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="190" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="191" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="192" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="193" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="194" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="195" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="196" type="button"></button><button class="cell playable hidden" data-index="197" type="button"></button><button class="cell playable hidden" data-index="198" type="button"></button><button class="cell playable hidden" data-index="199" type="button"></button><button class="cell playable hidden" data-index="200" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="201" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="202" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="203" type="button"></button><button class="cell playable hidden" data-index="204" type="button"></button><button class="cell playable hidden" data-index="205" type="button"></button><button class="cell playable hidden" data-index="206" type="button"></button><button class="cell playable hidden" data-index="207" type="button"></button><button class="cell playable hidden" data-index="208" type="button"></button><button class="cell playable hidden" data-index="209" type="button"></button><button class="cell playable hidden" data-index="210" type="button"></button><button class="cell playable hidden" data-index="211" type="button"></button><button class="cell playable hidden" data-index="212" type="button"></button><button class="cell playable hidden" data-index="213" type="button"></button><button class="cell playable hidden" data-index="214" type="button"></button><button class="cell playable hidden" data-index="215" type="button"></button><button class="cell playable hidden" data-index="216" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="217" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="218" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="219" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="220" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="221" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="222" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="223" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="224" type="button"></button><button class="cell playable hidden" data-index="225" type="button"></button><button class="cell playable hidden" data-index="226" type="button"></button><button class="cell playable hidden" data-index="227" type="button"></button><button class="cell playable hidden" data-index="228" type="button"></button><button class="cell playable hidden" data-index="229" type="button"></button><button class="cell playable hidden" data-index="230" type="button"></button><button class="cell playable hidden" data-index="231" type="button"></button><button class="cell playable hidden" data-index="232" type="button"></button><button class="cell playable hidden" data-index="233" type="button"></button><button class="cell playable hidden" data-index="234" type="button"></button><button class="cell playable hidden" data-index="235" type="button"></button><button class="cell playable hidden" data-index="236" type="button"></button><button class="cell playable hidden" data-index="237" type="button"></button><button class="cell playable hidden" data-index="238" type="button"></button><button class="cell playable hidden" data-index="239" type="button"></button><button class="cell playable hidden" data-index="240" type="button"></button><button class="cell playable hidden" data-index="241" type="button"></button><button class="cell playable hidden" data-index="242" type="button"></button><button class="cell playable hidden" data-index="243" type="button"></button><button class="cell playable hidden" data-index="244" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="245" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="246" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="247" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="248" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="249" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="250" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="251" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="252" type="button"></button><button class="cell playable hidden" data-index="253" type="button"></button><button class="cell playable hidden" data-index="254" type="button"></button><button class="cell playable hidden" data-index="255" type="button"></button><button class="cell playable hidden" data-index="256" type="button"></button><button class="cell playable hidden" data-index="257" type="button"></button><button class="cell playable hidden" data-index="258" type="button"></button><button class="cell playable hidden" data-index="259" type="button"></button><button class="cell playable hidden" data-index="260" type="button"></button><button class="cell playable hidden" data-index="261" type="button"></button><button class="cell playable hidden" data-index="262" type="button"></button><button class="cell playable hidden" data-index="263" type="button"></button><button class="cell playable hidden" data-index="264" type="button"></button><button class="cell playable hidden" data-index="265" type="button"></button><button class="cell playable hidden" data-index="266" type="button"></button><button class="cell playable hidden" data-index="267" type="button"></button><button class="cell playable hidden" data-index="268" type="button"></button><button class="cell playable hidden" data-index="269" type="button"></button><button class="cell playable hidden" data-index="270" type="button"></button><button class="cell playable hidden" data-index="271" type="button"></button><button class="cell playable hidden" data-index="272" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="273" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="274" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="275" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="276" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="277" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="278" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="279" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="280" type="button"></button><button class="cell playable hidden" data-index="281" type="button"></button><button class="cell playable hidden" data-index="282" type="button"></button><button class="cell playable hidden" data-index="283" type="button"></button><button class="cell playable hidden" data-index="284" type="button"></button><button class="cell playable hidden" data-index="285" type="button"></button><button class="cell playable hidden" data-index="286" type="button"></button><button class="cell playable hidden" data-index="287" type="button"></button><button class="cell playable hidden" data-index="288" type="button"></button><button class="cell playable hidden" data-index="289" type="button"></button><button class="cell playable hidden" data-index="290" type="button"></button><button class="cell playable hidden" data-index="291" type="button"></button><button class="cell playable hidden" data-index="292" type="button"></button><button class="cell playable hidden" data-index="293" type="button"></button><button class="cell playable hidden" data-index="294" type="button"></button><button class="cell playable hidden" data-index="295" type="button"></button><button class="cell playable hidden" data-index="296" type="button"></button><button class="cell playable hidden" data-index="297" type="button"></button><button class="cell playable hidden" data-index="298" type="button"></button><button class="cell playable hidden" data-index="299" type="button"></button><button class="cell playable hidden" data-index="300" type="button"></button><button class="cell playable hidden" data-index="301" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="302" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="303" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="304" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="305" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="306" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="307" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="308" type="button"></button><button class="cell playable hidden" data-index="309" type="button"></button><button class="cell playable hidden" data-index="310" type="button"></button><button class="cell playable hidden" data-index="311" type="button"></button><button class="cell playable hidden" data-index="312" type="button"></button><button class="cell playable hidden" data-index="313" type="button"></button><button class="cell playable hidden" data-index="314" type="button"></button><button class="cell playable hidden" data-index="315" type="button"></button><button class="cell playable hidden" data-index="316" type="button"></button><button class="cell playable hidden" data-index="317" type="button"></button><button class="cell playable hidden" data-index="318" type="button"></button><button class="cell playable hidden" data-index="319" type="button"></button><button class="cell playable hidden" data-index="320" type="button"></button><button class="cell playable hidden" data-index="321" type="button"></button><button class="cell playable hidden" data-index="322" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="323" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="324" type="button"></button><button class="cell playable hidden" data-index="325" type="button"></button><button class="cell playable hidden" data-index="326" type="button"></button><button class="cell playable hidden" data-index="327" type="button"></button><button class="cell playable hidden" data-index="328" type="button"></button><button class="cell playable hidden" data-index="329" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="330" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="331" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="332" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="333" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="334" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="335" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="336" type="button"></button><button class="cell playable hidden" data-index="337" type="button"></button><button class="cell playable hidden" data-index="338" type="button"></button><button class="cell playable hidden" data-index="339" type="button"></button><button class="cell playable hidden" data-index="340" type="button"></button><button class="cell playable hidden" data-index="341" type="button"></button><button class="cell playable hidden" data-index="342" type="button"></button><button class="cell playable hidden" data-index="343" type="button"></button><button class="cell playable hidden" data-index="344" type="button"></button><button class="cell playable hidden" data-index="345" type="button"></button><button class="cell playable hidden" data-index="346" type="button"></button><button class="cell playable hidden" data-index="347" type="button"></button><button class="cell playable hidden" data-index="348" type="button"></button><button class="cell playable hidden" data-index="349" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="350" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="351" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="352" type="button"></button><button class="cell playable hidden" data-index="353" type="button"></button><button class="cell playable hidden" data-index="354" type="button"></button><button class="cell playable hidden" data-index="355" type="button"></button><button class="cell playable hidden" data-index="356" type="button"></button><button class="cell playable hidden" data-index="357" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="358" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="359" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="360" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="361" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="362" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="363" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="364" type="button"></button><button class="cell playable hidden" data-index="365" type="button"></button><button class="cell playable hidden" data-index="366" type="button"></button><button class="cell playable hidden" data-index="367" type="button"></button><button class="cell playable hidden" data-index="368" type="button"></button><button class="cell playable hidden" data-index="369" type="button"></button><button class="cell playable hidden" data-index="370" type="button"></button><button class="cell playable hidden" data-index="371" type="button"></button><button class="cell playable hidden" data-index="372" type="button"></button><button class="cell playable hidden" data-index="373" type="button"></button><button class="cell playable hidden" data-index="374" type="button"></button><button class="cell playable hidden" data-index="375" type="button"></button><button class="cell playable hidden" data-index="376" type="button"></button><button class="cell playable hidden" data-index="377" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="378" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="379" type="button"></button><button class="cell playable hidden" data-index="380" type="button"></button><button class="cell playable hidden" data-index="381" type="button"></button><button class="cell playable hidden" data-index="382" type="button"></button><button class="cell playable hidden" data-index="383" type="button"></button><button class="cell playable hidden" data-index="384" type="button"></button><button class="cell playable hidden" data-index="385" type="button"></button><button class="cell playable hidden" data-index="386" type="button"></button><button class="cell playable hidden" data-index="387" type="button"></button><button class="cell playable hidden" data-index="388" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="389" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="390" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="391" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="392" type="button"></button><button class="cell playable hidden" data-index="393" type="button"></button><button class="cell playable hidden" data-index="394" type="button"></button><button class="cell playable hidden" data-index="395" type="button"></button><button class="cell playable hidden" data-index="396" type="button"></button><button class="cell playable hidden" data-index="397" type="button"></button><button class="cell playable hidden" data-index="398" type="button"></button><button class="cell playable hidden" data-index="399" type="button"></button><button class="cell playable hidden" data-index="400" type="button"></button><button class="cell playable hidden" data-index="401" type="button"></button><button class="cell playable hidden" data-index="402" type="button"></button><button class="cell playable hidden" data-index="403" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="404" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="405" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="406" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="407" type="button"></button><button class="cell playable hidden" data-index="408" type="button"></button><button class="cell playable hidden" data-index="409" type="button"></button><button class="cell playable hidden" data-index="410" type="button"></button><button class="cell playable hidden" data-index="411" type="button"></button><button class="cell playable hidden" data-index="412" type="button"></button><button class="cell playable hidden" data-index="413" type="button"></button><button class="cell playable hidden" data-index="414" type="button"></button><button class="cell playable hidden" data-index="415" type="button"></button><button class="cell playable hidden" data-index="416" type="button"></button><button class="cell playable hidden" data-index="417" type="button"></button><button class="cell playable hidden" data-index="418" type="button"></button><button class="cell playable hidden" data-index="419" type="button"></button><button class="cell playable hidden" data-index="420" type="button"></button><button class="cell playable hidden" data-index="421" type="button"></button><button class="cell playable hidden" data-index="422" type="button"></button><button class="cell playable hidden" data-index="423" type="button"></button><button class="cell playable hidden" data-index="424" type="button"></button><button class="cell playable hidden" data-index="425" type="button"></button><button class="cell playable hidden" data-index="426" type="button"></button><button class="cell playable hidden" data-index="427" type="button"></button><button class="cell playable hidden" data-index="428" type="button"></button><button class="cell playable hidden" data-index="429" type="button"></button><button class="cell playable hidden" data-index="430" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="431" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="432" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="433" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="434" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="435" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="436" type="button"></button><button class="cell playable hidden" data-index="437" type="button"></button><button class="cell playable hidden" data-index="438" type="button"></button><button class="cell playable hidden" data-index="439" type="button"></button><button class="cell playable hidden" data-index="440" type="button"></button><button class="cell playable hidden" data-index="441" type="button"></button><button class="cell playable hidden" data-index="442" type="button"></button><button class="cell playable hidden" data-index="443" type="button"></button><button class="cell playable hidden" data-index="444" type="button"></button><button class="cell playable hidden" data-index="445" type="button"></button><button class="cell playable hidden" data-index="446" type="button"></button><button class="cell playable hidden" data-index="447" type="button"></button><button class="cell playable hidden" data-index="448" type="button"></button><button class="cell playable hidden" data-index="449" type="button"></button><button class="cell playable hidden" data-index="450" type="button"></button><button class="cell playable hidden" data-index="451" type="button"></button><button class="cell playable hidden" data-index="452" type="button"></button><button class="cell playable hidden" data-index="453" type="button"></button><button class="cell playable hidden" data-index="454" type="button"></button><button class="cell playable hidden" data-index="455" type="button"></button><button class="cell playable hidden" data-index="456" type="button"></button><button class="cell playable hidden" data-index="457" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="458" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="459" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="460" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="461" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="462" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="463" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="464" type="button"></button><button class="cell playable hidden" data-index="465" type="button"></button><button class="cell playable hidden" data-index="466" type="button"></button><button class="cell playable hidden" data-index="467" type="button"></button><button class="cell playable hidden" data-index="468" type="button"></button><button class="cell playable hidden" data-index="469" type="button"></button><button class="cell playable hidden" data-index="470" type="button"></button><button class="cell playable hidden" data-index="471" type="button"></button><button class="cell playable hidden" data-index="472" type="button"></button><button class="cell playable hidden" data-index="473" type="button"></button><button class="cell playable hidden" data-index="474" type="button"></button><button class="cell playable hidden" data-index="475" type="button"></button><button class="cell playable hidden" data-index="476" type="button"></button><button class="cell playable hidden" data-index="477" type="button"></button><button class="cell playable hidden" data-index="478" type="button"></button><button class="cell playable hidden" data-index="479" type="button"></button><button class="cell playable hidden" data-index="480" type="button"></button><button class="cell playable hidden" data-index="481" type="button"></button><button class="cell playable hidden" data-index="482" type="button"></button><button class="cell playable hidden" data-index="483" type="button"></button><button class="cell playable hidden" data-index="484" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="485" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="486" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="487" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="488" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="489" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="490" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="491" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="492" type="button"></button><button class="cell playable hidden" data-index="493" type="button"></button><button class="cell playable hidden" data-index="494" type="button"></button><button class="cell playable hidden" data-index="495" type="button"></button><button class="cell playable hidden" data-index="496" type="button"></button><button class="cell playable hidden" data-index="497" type="button"></button><button class="cell playable hidden" data-index="498" type="button"></button><button class="cell playable hidden" data-index="499" type="button"></button><button class="cell playable hidden" data-index="500" type="button"></button><button class="cell playable hidden" data-index="501" type="button"></button><button class="cell playable hidden" data-index="502" type="button"></button><button class="cell playable hidden" data-index="503" type="button"></button><button class="cell playable hidden" data-index="504" type="button"></button><button class="cell playable hidden" data-index="505" type="button"></button><button class="cell playable hidden" data-index="506" type="button"></button><button class="cell playable hidden" data-index="507" type="button"></button><button class="cell playable hidden" data-index="508" type="button"></button><button class="cell playable hidden" data-index="509" type="button"></button><button class="cell playable hidden" data-index="510" type="button"></button><button class="cell playable hidden" data-index="511" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="512" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="513" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="514" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="515" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="516" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="517" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="518" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="519" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="520" type="button"></button><button class="cell playable hidden" data-index="521" type="button"></button><button class="cell playable hidden" data-index="522" type="button"></button><button class="cell playable hidden" data-index="523" type="button"></button><button class="cell playable hidden" data-index="524" type="button"></button><button class="cell playable hidden" data-index="525" type="button"></button><button class="cell playable hidden" data-index="526" type="button"></button><button class="cell playable hidden" data-index="527" type="button"></button><button class="cell playable hidden" data-index="528" type="button"></button><button class="cell playable hidden" data-index="529" type="button"></button><button class="cell playable hidden" data-index="530" type="button"></button><button class="cell playable hidden" data-index="531" type="button"></button><button class="cell playable hidden" data-index="532" type="button"></button><button class="cell playable hidden" data-index="533" type="button"></button><button class="cell playable hidden" data-index="534" type="button"></button><button class="cell playable hidden" data-index="535" type="button"></button><button class="cell playable hidden" data-index="536" type="button"></button><button class="cell playable hidden" data-index="537" type="button"></button><button class="cell playable hidden" data-index="538" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="539" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="540" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="541" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="542" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="543" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="544" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="545" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="546" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="547" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="548" type="button"></button><button class="cell playable hidden" data-index="549" type="button"></button><button class="cell playable hidden" data-index="550" type="button"></button><button class="cell playable hidden" data-index="551" type="button"></button><button class="cell playable hidden" data-index="552" type="button"></button><button class="cell playable hidden" data-index="553" type="button"></button><button class="cell playable hidden" data-index="554" type="button"></button><button class="cell playable hidden" data-index="555" type="button"></button><button class="cell playable hidden" data-index="556" type="button"></button><button class="cell playable hidden" data-index="557" type="button"></button><button class="cell playable hidden" data-index="558" type="button"></button><button class="cell playable hidden" data-index="559" type="button"></button><button class="cell playable hidden" data-index="560" type="button"></button><button class="cell playable hidden" data-index="561" type="button"></button><button class="cell playable hidden" data-index="562" type="button"></button><button class="cell playable hidden" data-index="563" type="button"></button><button class="cell playable hidden" data-index="564" type="button"></button><button class="cell playable hidden" data-index="565" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="566" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="567" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="568" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="569" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="570" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="571" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="572" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="573" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="574" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="575" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="576" type="button"></button><button class="cell playable hidden" data-index="577" type="button"></button><button class="cell playable hidden" data-index="578" type="button"></button><button class="cell playable hidden" data-index="579" type="button"></button><button class="cell playable hidden" data-index="580" type="button"></button><button class="cell playable hidden" data-index="581" type="button"></button><button class="cell playable hidden" data-index="582" type="button"></button><button class="cell playable hidden" data-index="583" type="button"></button><button class="cell playable hidden" data-index="584" type="button"></button><button class="cell playable hidden" data-index="585" type="button"></button><button class="cell playable hidden" data-index="586" type="button"></button><button class="cell playable hidden" data-index="587" type="button"></button><button class="cell playable hidden" data-index="588" type="button"></button><button class="cell playable hidden" data-index="589" type="button"></button><button class="cell playable hidden" data-index="590" type="button"></button><button class="cell playable hidden" data-index="591" type="button"></button><button class="cell playable hidden" data-index="592" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="593" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="594" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="595" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="596" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="597" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="598" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="599" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="600" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="601" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="602" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="603" tabindex="-1" type="button"></button><button aria-hidden="true" class="cell blocked" data-index="604" tabindex="-1" type="button"></button><button class="cell playable hidden" data-index="605" type="button"></button><button class="cell playable hidden" data-index="606" type="button"></button><button class="cell playable hidden" data-index="607" type="button"></button><button class="cell playable hidden" data-index="608" type="button"></button><button class="cell playable hidden" data-index="609" type="button"></button><button class="cell playable hidden" data-index="610" type="button"></button><button class="cell playable hidden" data-index="611" type="button"></button><button class="cell playable hidden" data-index="612" type="button"></button><button class="cell playable hidden" data-index="613" type="button"></button><button class="cell playable hidden" data-index="614" type="button"></button><button class="cell playable hidden" data-index="615" type="button"></button></div>
+</div>
+</section>
+</div>
+</main>
+<button aria-label="Toggle flag mode" class="flag-fab" id="flag-toggle" type="button">
+<span class="flag-fab-icon" id="flag-fab-icon">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<line stroke="#000000" stroke-width="1.4" x1="12" x2="12" y1="1.8" y2="22.2"></line>
+<line stroke="#000000" stroke-width="1.4" x1="1.8" x2="22.2" y1="12" y2="12"></line>
+<line stroke="#000000" stroke-width="1.4" x1="4.1" x2="19.9" y1="4.1" y2="19.9"></line>
+<line stroke="#000000" stroke-width="1.4" x1="19.9" x2="4.1" y1="4.1" y2="19.9"></line>
+<circle cx="12" cy="12" fill="#000000" r="5.1"></circle>
+<circle cx="10.2" cy="9.8" fill="#ffffff" r="1.7"></circle>
+</svg>
+</span>
+<span class="flag-fab-label" id="flag-toggle-label">dig</span>
+</button>
+<div class="video-modal" hidden="" id="video-modal">
+<div class="video-modal-content">
+<div class="video-modal-title" id="video-modal-title"></div>
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="560" id="video-frame" playsinline="" src="" width="315"></iframe>
+<button class="video-modal-close" id="video-modal-close" type="button">Another win?</button>
+</div>
+</div>
+<script src="/_assets/342eb2a37e4ac2d98caf.js"></script>
+
+</body></html>

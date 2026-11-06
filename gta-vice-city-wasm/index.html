@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" name="viewport"/>
+<title>GTA：罪恶都市 — WASM 移植版</title>
+<link href="/gta-vice-city-wasm/icon.webp" rel="icon" type="image/webp"/>
+<link href="/gta-vice-city-wasm/manifest.json" rel="manifest"/>
+<link href="/gta-vice-city-wasm/icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="#05060a" name="theme-color"/>
+<script src="/_assets/d341d4e11fe5859dafd8.js" type="module"></script>
+<link href="/_assets/36ece366cf652d63bdc9.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body class="app-body" data-is-touch="0" data-state-bike="0" data-state-car="0" data-state-car-gun="0" data-state-car-with-weapon="0" data-state-cutscene="0" data-state-disable-controls="0" data-state-gun="0" data-state-hunter="0" data-state-job="0" data-state-menu="1" data-state-mobring="0" data-state-panzer="0" data-state-scope-gun="0" data-state-scope-mode="0">
+<div class="rotate-overlay">
+<span class="rotate-overlay-icon">↻</span>
+<span data-i18n="rotate">请旋转你的设备</span>
+</div>
+<div class="intro-container" hidden="">
+<video class="intro" src="/_assets/15244e090da2b7d12d0a.mp4"></video>
+<div class="loader-container">
+<div class="progress-bar-container" id="spinner">
+<div class="progress-bar-fill"></div>
+</div>
+<div data-i18n="loader.downloading" id="status">正在下载...</div>
+<div>
+<progress id="progress"></progress>
+</div>
+</div>
+</div>
+<div class="lang-switcher">
+<div class="lang-picker">
+<svg aria-hidden="true" class="lang-picker-icon" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+<path d="M2 12h20"></path>
+</svg>
+<select aria-label="语言" class="lang-select" data-i18n-aria-label="language.label" id="ui-lang"><option value="en">English</option><option value="es">Español</option><option value="pt-BR">Português (Brasil)</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ru">Русский</option><option value="hi">हिन्दी</option><option value="zh-CN">简体中文</option></select>
+<svg aria-hidden="true" class="lang-picker-chevron" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg">
+<path d="m6 9 6 6 6-6"></path>
+</svg>
+</div>
+</div>
+<div class="start-container">
+<div>
+<div>
+<h1>
+            Grand Theft Auto:<br/>Vice City
+          </h1>
+<p data-i18n-html="intro">只需导入一次 <code>game.tar.gz</code>：它通过 OPFS 保存在你的浏览器本地，并由 Service Worker 提供。没有 CDN，没有外部服务器，也不用重复下载。首次导入后即可完全离线运行。</p>
+<div id="setup-overlay">
+<div class="storage-status" data-i18n="setup.checking" id="storage-status">正在检查本地游戏文件…</div>
+<h2 data-i18n="setup.title">设置</h2>
+<p data-i18n="setup.note">导入的压缩包保存在此浏览器本地，之后回来无需重新导入，除非你想替换它。</p>
+<div class="setup-actions-panel">
+<a class="dl-btn" data-i18n="setup.download" download="" id="dl-link">下载 game.tar.gz</a>
+<label class="file-picker" for="game-file-input">
+<span class="file-picker-label" data-i18n="setup.select">选择 game.tar.gz</span>
+<span class="file-picker-name" data-i18n="setup.noFile" id="selected-file-name">未选择文件</span>
+</label>
+<input accept=".tar.gz,.gz,application/gzip" id="game-file-input" type="file"/>
+<button class="reset-btn" data-i18n="setup.resetFiles" id="reset-files-btn" type="button">删除游戏</button>
+</div>
+<div id="setup-progress">
+<div class="setup-progress-head">
+<span class="setup-progress-title" data-i18n="setup.importing">正在导入 game.tar.gz</span>
+<span class="setup-progress-percent" id="setup-progress-percent">0%</span>
+</div>
+<p data-i18n="setup.preparing" id="setup-progress-label">正在准备…</p>
+<div class="prog-bar-wrap">
+<div class="prog-bar-fill" id="setup-progress-bar"></div>
+</div>
+</div>
+<div id="setup-error"></div>
+</div>
+<div class="config-option cheats-toggle">
+<label for="enable-cheats">
+<span data-i18n="cheats.enable">启用作弊</span>
+<span class="switch">
+<input id="enable-cheats" type="checkbox"/>
+<span class="switch-track"></span>
+</span>
+</label>
+</div>
+<div class="click-to-play">
+<button class="disabled" data-i18n="play.start" disabled="" id="click-to-play-button">开始游戏</button>
+</div>
+<details class="userdata-panel" id="saves-panel">
+<summary><h2 data-i18n="saves.title">存档</h2></summary>
+<p class="userdata-note" data-i18n="saves.note">将 GTA 罪恶都市 PC 版存档（.b 或 .zip）导入到存档位。存档保存在此浏览器中；请在点击“开始游戏”前在这里完成修改。</p>
+<div class="userdata-status" hidden="" id="saves-status" role="status"></div>
+<ul class="userdata-list" id="save-slot-list"></ul>
+<input accept=".b,.zip" hidden="" id="save-file-input" type="file"/>
+</details>
+<details class="userdata-panel" id="skins-panel">
+<summary><h2 data-i18n="skins.title">皮肤</h2></summary>
+<p class="userdata-note" data-i18n="skins.note">更改 Tommy 的外观。启动游戏后，打开 Options → Player Skin Setup 选择皮肤。皮肤只会改变他的街头服装，不影响过场动画。</p>
+<div class="userdata-status" hidden="" id="skins-status" role="status"></div>
+<ul class="userdata-list" id="skin-list"></ul>
+<label class="file-picker userdata-drop" for="skin-file-input" id="skin-drop">
+<span class="file-picker-label" data-i18n="skins.importLabel">导入皮肤</span>
+<span class="file-picker-name" data-i18n="skins.dropHint">选择或拖入 .bmp、.png、.jpg 或 .zip 文件</span>
+</label>
+<input accept=".bmp,.png,.jpg,.jpeg,.zip,image/bmp,image/png,image/jpeg,application/zip" hidden="" id="skin-file-input" multiple="" type="file"/>
+</details>
+<details class="userdata-panel controller-option" id="controller-panel">
+<summary>
+<h2 data-i18n="controller.title">手柄</h2>
+<span class="controller-badge" data-i18n="controller.badge" hidden="" id="controller-badge">已连接</span>
+</summary>
+<p class="userdata-note" data-i18n="controller.note" id="controller-note">配对手柄并按任意按钮。</p>
+<button class="userdata-btn" data-i18n="controller.connect" hidden="" id="connect-controller" type="button">连接</button>
+<div aria-live="polite" class="userdata-status" hidden="" id="controller-status" role="status"></div>
+</details>
+<div id="config-panel">
+<div>
+<label for="config-cheats">
+<input id="config-cheats" type="checkbox"/>
+<span data-i18n="config.cheats" id="config-cheats-label">作弊（F3）</span>
+</label>
+</div>
+<div>
+<label for="config-fullscreen">
+<input checked="" id="config-fullscreen" type="checkbox"/>
+<span data-i18n="config.fullscreen" id="config-fullscreen-label">全屏</span>
+</label>
+</div>
+<div>
+<label for="config-max-fps">
+<span data-i18n="config.maxFps" id="config-max-fps-label">最大 FPS：</span>
+<input id="config-max-fps" max="240" min="0" type="number" value="0"/>
+<span data-i18n="config.unlimited" id="config-max-fps-unlimited">（0 = 不限制）</span>
+</label>
+</div>
+</div>
+</div>
+<div>
+<div class="cover-panel">
+<img alt="Grand Theft Auto Vice City 封面" class="cover-image" data-i18n-alt="cover.alt" src="/_assets/ae20d221a66ef249594e.png"/>
+</div>
+<div class="disclaimer">
+<span data-i18n="disclaimer.label" id="disclaimer-text">免责声明：</span>
+<span class="eula">
+<span data-i18n="disclaimer.text" id="disclaimer-sources">非官方粉丝项目，与 Rockstar Games 或 Take-Two Interactive 无关，也未获得其认可或赞助。本项目不包含游戏数据文件，你需要拥有自己的 Grand Theft Auto: Vice City 正版副本才能游玩。所有商标和版权归其各自所有者所有。</span>
+</span>
+</div>
+<div class="developed-by">
+<div>
+<span data-i18n="credits.port">浏览器移植：</span>
+<a target="_blank">@joncodeofficial</a>
+</div>
+<div>
+<span data-i18n="credits.basedOn">基于：</span>
+<a target="_blank">reVCDOS</a>
+<span data-i18n="credits.by">作者</span>
+<a target="_blank">@Lolendor</a>
+</div>
+<div>
+<span data-i18n="credits.engine" id="port-by">WASM 引擎：</span>
+<a target="_blank">@specialist003</a>,
+              <a target="_blank">@caiiiycuk</a>,
+              <a target="_blank">@SerGen</a>
+</div>
+</div>
+<section class="instructions-panel">
+<h2 data-i18n="howto.title">游玩方法</h2>
+<ol class="instructions-list">
+<li data-i18n="howto.step1">下载游戏：点击“下载 game.tar.gz”，把文件保存到你的电脑。没有这个文件，游戏无法运行。</li>
+<li data-i18n="howto.step2">加载文件：点击“选择 game.tar.gz”，选中你刚下载的文件。</li>
+<li data-i18n="howto.step3">等待导入完成，直到上方状态显示“可以开始游戏”。</li>
+<li data-i18n="howto.step4">点击“开始游戏”，等待游戏加载完成。</li>
+<li data-i18n="howto.step5">只需操作一次：游戏会保存在此浏览器中，并可离线运行。</li>
+</ol>
+</section>
+</div>
+</div>
+</div>
+<canvas class="emscripten" id="canvas"></canvas>
+<div class="touch-controls-wrapper">
+<div id="move"></div>
+<div id="look"></div>
+<div class="touch-control radio"></div>
+<div class="touch-control weapon"></div>
+<div class="touch-control menu"></div>
+<div class="touch-control fist"></div>
+<div class="touch-control drift"></div>
+<div class="touch-control run"></div>
+<div class="touch-control car getIn"></div>
+<div class="touch-control left"></div>
+<div class="touch-control right"></div>
+<div class="touch-control jump"></div>
+<div class="touch-control car getOut"></div>
+<div class="touch-control camera"></div>
+<div class="touch-control mobile"></div>
+<div class="touch-control job"></div>
+<div class="touch-control horn"></div>
+<div class="touch-control fireRight"></div>
+<div class="touch-control fireLeft"></div>
+</div>
+</body></html>

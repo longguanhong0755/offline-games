@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hans"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<!--
+      viewport-fit=cover 는 필수.
+      이게 없으면 CSS env(safe-area-inset-*) 가 전부 0 으로 나와서
+      토스 밖(브라우저/Capacitor APK) safe area 폴백이 통째로 죽는다.
+      user-scalable=no + maximum-scale=1 은 게임 중 더블탭 줌 방지.
+    -->
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="#0B1020" name="theme-color"/>
+<meta content="dark" name="color-scheme"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<title>Territory Clash</title>
+<script src="/_assets/9e6a868f64c7ebec8485.js" type="module"></script>
+<link href="/_assets/b1a9a4158efadc897de2.css" rel="stylesheet"/>
+<link href="./manifest.json" rel="manifest"/>
+<link href="./icons/icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="./icons/icon-512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="./icons/icon-192.png" rel="apple-touch-icon"/>
+<meta content="Territory Clash" name="application-name"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="app">
+<canvas height="900" id="stage" width="1440"></canvas>
+<!--
+        SDK 4종 부팅 진단 패널.
+        "번들에 들어갔다"와 "실기기에서 실제로 켜진다"는 다른 문제라서
+        실기기에서 눈으로 확인할 수단이 필요하다.
+        정식 게임 UI 가 붙으면 이 요소와 main.ts 의 renderProbe() 를 지워라.
+      -->
+<div hidden="" id="sdk-probe"><div>env: Browser/APK</div><div>userKey(getUserKeyForGame): fallback</div><div>safeArea(SafeAreaInsets): fallback</div><div>storage(native Storage): ok</div><div>navigationBar(graniteEvent): fallback</div><div>id: local-cbe7368b-7… (local)</div></div>
+<div class="tc-hud"><div class="tc-top"><div class="tc-chip"><b>5</b><span>名</span></div><div class="tc-pill"><div class="tc-score">18</div><div class="tc-rate" style="color: rgb(168, 178, 216);">+25/秒</div><div class="tc-gauge"><i style="width: 38.2%;"></i></div></div><div class="tc-chip tc-time"><b>60</b><span>秒</span></div></div><canvas class="tc-mini" height="274" width="156"></canvas><div class="tc-feed"></div><div class="tc-danger"></div><div class="tc-joy"><i></i></div><button aria-disabled="true" aria-label="三连弹射" class="tc-bounce" style="--g: 0.38200000000000045;" type="button"><u></u><b>弹射</b></button><div class="tc-center">Territory Clash</div><div class="tc-modal"><div class="tc-sheet"><h2>已暂停</h2><p>游戏已暂停。再按一次返回键，会弹出退出确认。</p><div class="tc-lang"><label class="tc-lang-label" for="tc-lang-1">语言</label><select class="tc-lang-select" id="tc-lang-1"><option value="en">English</option><option value="ko">한국어</option><option value="ja">日本語</option><option value="zh-Hans">简体中文</option><option value="es">Español</option><option value="pt-BR">Português (Brasil)</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="ru">Русский</option></select></div><div class="tc-actions"><button class="tc-cta" type="button">继续游戏</button></div></div></div><div class="tc-modal"><div class="tc-sheet"><h2>领地全部失守</h2><p>可以在空地上以5×5的范围复活。每局仅限<b>1次</b>。</p><div class="tc-actions"><button class="tc-ghost" type="button">查看结果</button><button class="tc-cta" type="button"><span>复活</span><i class="tc-cnt">5</i></button></div></div></div><div class="tc-modal tc-result"></div></div></div>
+<script>
+      // Injected by store/build_pwa.py - offline support for the PWA build.
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("./sw.js").catch(function (err) {
+            console.warn("[pwa] service worker registration failed:", err);
+          });
+        });
+      }
+    </script>
+</body></html>

@@ -1,6 +1,6 @@
 # 离线网页游戏合集
 
-这是一个集中存放可离线运行网页游戏的项目。当前共收录 **557 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
+这是一个集中存放可离线运行网页游戏的项目。当前共收录 **617 款**游戏，每款游戏使用独立子目录，由根目录的 `server.py` 读取 `games.json` 并提供本地静态服务。
 
 ## 运行方式
 
@@ -599,6 +599,66 @@ python -B server.py
 | 555 | Yahtzee | `yahtzee/` | <http://localhost:9535/> |
 | 556 | Yoalphabet | `yoalphabet/` | <http://localhost:9536/> |
 | 557 | Yt Rock Paper Scissors Game | `yt-rock-paper-scissors-game/` | <http://localhost:9537/> |
+| 558 | 3Dlightcycles | `3dlightcycles/` | <http://localhost:9538/> |
+| 559 | Aerosim | `aerosim/` | <http://localhost:9539/> |
+| 560 | Aetherwing | `aetherwing/` | <http://localhost:9540/> |
+| 561 | Arknights Guess | `arknights-guess/` | <http://localhost:9541/> |
+| 562 | Blackjack | `blackjack/` | <http://localhost:9542/> |
+| 563 | Blacktrigram | `blacktrigram/` | <http://localhost:9543/> |
+| 564 | Bloom Keeper | `bloom-keeper/` | <http://localhost:9544/> |
+| 565 | Bouncemaster | `bouncemaster/` | <http://localhost:9545/> |
+| 566 | Cartycoon | `cartycoon/` | <http://localhost:9546/> |
+| 567 | Chickens | `chickens/` | <http://localhost:9547/> |
+| 568 | Chuclone | `chuclone/` | <http://localhost:9548/> |
+| 569 | Cla Go | `cla-go/` | <http://localhost:9549/> |
+| 570 | Client | `warfrontio-client/` | <http://localhost:9550/> |
+| 571 | Cowabunga | `cowabunga/` | <http://localhost:9551/> |
+| 572 | Defend | `defend/` | <http://localhost:9552/> |
+| 573 | Dravins Game Hub | `dravins-game-hub/` | <http://localhost:9553/> |
+| 574 | Elemental Tower Defence | `elemental-tower-defence/` | <http://localhost:9554/> |
+| 575 | Feed Me Please | `feed-me-please/` | <http://localhost:9555/> |
+| 576 | Five Chess Game | `five-chess-game/` | <http://localhost:9556/> |
+| 577 | Gacha Game | `gacha-game/` | <http://localhost:9557/> |
+| 578 | Generatedgamesio | `generatedgamesio/` | <http://localhost:9558/> |
+| 579 | Html Games Code | `html-games-code/` | <http://localhost:9559/> |
+| 580 | Inner Tube Climber | `inner-tube-climber/` | <http://localhost:9560/> |
+| 581 | Invaders404 | `invaders404/` | <http://localhost:9561/> |
+| 582 | Javascript Tiny Platformer | `javascript-tiny-platformer/` | <http://localhost:9562/> |
+| 583 | Kotobade Asobou | `kotobade-asobou/` | <http://localhost:9563/> |
+| 584 | Kspweb | `kspweb/` | <http://localhost:9564/> |
+| 585 | Mario | `mario/` | <http://localhost:9565/> |
+| 586 | Mesto Resheniy Game | `mesto-resheniy-game/` | <http://localhost:9566/> |
+| 587 | Microcity | `microcity/` | <http://localhost:9567/> |
+| 588 | Minecraft Web | `muneeb-1o1-minecraft-web/` | <http://localhost:9568/> |
+| 589 | Multiminesweeper | `multiminesweeper/` | <http://localhost:9569/> |
+| 590 | Nelua Game2048 | `nelua-game2048/` | <http://localhost:9570/> |
+| 591 | Ouro | `ouro/` | <http://localhost:9571/> |
+| 592 | Peg Solitaire Web | `peg-solitaire-web/` | <http://localhost:9572/> |
+| 593 | Plinksy | `plinksy/` | <http://localhost:9573/> |
+| 594 | Progress Knight | `progress-knight/` | <http://localhost:9574/> |
+| 595 | Ragbar | `ragbar/` | <http://localhost:9575/> |
+| 596 | Senet | `senet/` | <http://localhost:9576/> |
+| 597 | Seriesoftubes | `seriesoftubes/` | <http://localhost:9577/> |
+| 598 | Shadow Council Card Game | `shadow-council-card-game/` | <http://localhost:9578/> |
+| 599 | Skate Scape | `skate-scape/` | <http://localhost:9579/> |
+| 600 | Snailbait | `snailbait/` | <http://localhost:9580/> |
+| 601 | Snake Bios | `snake-bios/` | <http://localhost:9581/> |
+| 602 | Snake Bites Two | `snake-bites-two/` | <http://localhost:9582/> |
+| 603 | Spinhook | `spinhook/` | <http://localhost:9583/> |
+| 604 | Sunlithollow | `sunlithollow/` | <http://localhost:9584/> |
+| 605 | Tahaddi Al Ayla | `tahaddi-al-ayla/` | <http://localhost:9585/> |
+| 606 | Tejagamehub | `tejagamehub/` | <http://localhost:9586/> |
+| 607 | Tetr.Js | `tetr-js/` | <http://localhost:9587/> |
+| 608 | Tetris Javascript | `tetris-javascript/` | <http://localhost:9588/> |
+| 609 | The Ares Horizon | `the-ares-horizon/` | <http://localhost:9589/> |
+| 610 | Thegoldfactory | `thegoldfactory/` | <http://localhost:9590/> |
+| 611 | Trw | `trw/` | <http://localhost:9591/> |
+| 612 | Twoplayergames | `twoplayergames/` | <http://localhost:9592/> |
+| 613 | Ularn | `ularn/` | <http://localhost:9593/> |
+| 614 | Warrior Empire | `warrior-empire/` | <http://localhost:9594/> |
+| 615 | Wave Incremental | `wave-incremental/` | <http://localhost:9595/> |
+| 616 | Wibbly | `wibbly/` | <http://localhost:9596/> |
+| 617 | Wyrmsun | `wyrmsun/` | <http://localhost:9597/> |
 
 ## 离线与安全说明
 

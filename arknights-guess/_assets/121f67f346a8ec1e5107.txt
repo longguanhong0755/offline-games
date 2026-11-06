@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[97367,["16d604f74409cd4a25ce.js","719abb888133bcdccdc8.js","f05dd43bb2fae6a5ef06.js","9498de132337b6fa9ac3.js"],"ViewportBoundary"]
+3:I[97367,["16d604f74409cd4a25ce.js","719abb888133bcdccdc8.js","f05dd43bb2fae6a5ef06.js","9498de132337b6fa9ac3.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+5:I[27201,["16d604f74409cd4a25ce.js","719abb888133bcdccdc8.js","f05dd43bb2fae6a5ef06.js","9498de132337b6fa9ac3.js"],"IconMark"]
+0:{"rsc":["$","$1","h",{"children":[null,["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"明日方舟 — 干员猜测游戏"}],["$","meta","1",{"name":"description","content":"猜明日方舟干员！基于 blast.tv/counter-strikle 灵感的角色猜测游戏。"}],["$","link","2",{"rel":"icon","href":"/favicon.ico?favicon.2_lrwr4_rupxp.ico","sizes":"256x256","type":"image/x-icon"}],["$","$L5","3",{}]]}]}]}],null]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"k6hSuBdOvH2FDlv29-Cbq"}

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="en-us"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><!--
+//=============================================================================
+//
+//
+//
+//
+//
+//
+//
+
+    {%- if cookiecutter.comment != "" -%}
+{{cookiecutter.comment}}
+    {% endif %}
+
+--><script type="application/javascript">
+// END BLOCK
+
+
+
+// this dict is available under PyConfig.config from __main__
+
+config = {
+    xtermjs : "1" ,
+    _sdl2 : "canvas",
+    user_canvas : 0,
+    user_canvas_managed : 0,
+    gui_divider : 1,
+    ume_block : 1,
+    can_close : 0,
+    archive : "aerosim",
+    gui_debug : 0,
+    cdn : "https://pygame-web.github.io/cdn/0.9.3/",
+    autorun : 0,
+    PYBUILD : "3.12",
+    fb_ar   :  1.42857,
+    fb_width : "1000",
+    fb_height : "700"
+}
+
+function show_infobox() {
+    infobox.style.display = "block";
+
+    // Measure box
+    const w = infobox.offsetWidth;
+    const h = infobox.offsetHeight;
+
+    // Center in viewport
+    const left = (window.innerWidth - w) / 2;
+    const top = (window.innerHeight - h) / 2;
+
+    infobox.style.left = left + "px";
+    infobox.style.top = top + "px";
+}
+
+</script>
+<title>aerosim</title>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="height=device-height, initial-scale=1.0" name="viewport"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<link href="favicon.png" rel="icon" sizes="16x16" type="image/png"/>
+<style>
+        #status {
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 20px;
+            margin-left: 30px;
+            font-weight: bold;
+            color: rgb(120, 120, 120);
+        }
+
+        #progress {
+            height: 20px;
+            width: 300px;
+        }
+
+        #infobox {
+            position: fixed;
+            background: #1f293a;
+            color: #ebb49b;
+            border: 2px solid #384c6b;
+            border-radius: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 14px 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            z-index: 999999;
+            cursor: pointer;
+        }
+        div.emscripten { text-align: center; }
+        div.emscripten_border { border: 1px solid black; }
+        div.thick_border { border: 4px solid black; }
+
+        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+        /* average size of droid screen 470dp x 320dp  */
+        canvas.emscripten {
+            border: 0px none;
+            background-color: transparent;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+
+            padding: 0;
+            margin: 0 auto;
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f11;
+        }
+
+        .topright{
+           position:absolute;
+           top:0px;
+           right:0px;
+        }
+
+        .bottomright {
+            position:absolute;
+            top: 40%;
+            right: 0px;
+        }
+
+        .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trinfo{
+           position: relative;
+           right: 0px;
+           border: 1px solid black;
+        }
+
+        .framed{
+           position: relative;
+           top: 150px;
+           right: 10px;
+           border: 1px solid black;
+        }
+    </style>
+<script>
+/*
+        if (navigator.serviceWorker)
+            navigator.serviceWorker.register("https://pygame-web.github.io/cdn/0.9.3/pygbag0.9.3.js")
+        else
+            console.warn("Service workers not supported")
+*/
+    </script>
+
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div align="center" id="transfer">
+<!--        <div class="spinner" id='spinner'></div> -->
+<div class="emscripten" id="status">Downloading...</div>
+<div class="emscripten">
+<progress id="progress" max="100" value="0"></progress>
+</div>
+</div>
+<canvas class="emscripten" height="700px" id="canvas" oncontextmenu="event.preventDefault()" tabindex="1" width="1000px">
+</canvas>
+<canvas class="emscripten" height="700px" hidden="" id="canvas3d" oncontextmenu="event.preventDefault()" tabindex="1" width="1000px">
+</canvas>
+<div id="infobox">Loading, please wait ...</div>
+<div id="html"></div>
+<div class="bottomright" id="crt">
+<div hidden="" id="system">
+<div class="button-container">
+<button disabled="" id="aiostop">AIO ⏏︎</button>
+<button disabled="" id="aiopaused_true">AIO ■</button>
+<button disabled="" id="aiopaused_false">AIO ▶</button>
+<button disabled="" id="pygame_mixer_music_pause">Music ■</button>
+</div>
+<div class="button-container">
+<div id="load_min">min</div>
+<div id="load_avg">avg</div>
+<div id="load_max">max</div>
+<button disabled="" id="load_rst">RESET</button>
+</div>
+<div id="level">(battery level unknown)</div>
+<div id="stateBattery">(charging state unknown)</div>
+</div>
+<div class="emscripten_border" hidden="true" id="box">
+<div class="trinfo" id="info"></div>
+
+</div>
+</div>
+<div hidden="" id="dlg">
+<input accept="image/*" id="dlg_multifile" multiple="" type="file"/>
+<label for="dlg_multifile">Select files</label>
+</div>
+<div id="pyconsole">
+<div align="left" id="terminal" tabindex="1"></div>
+</div>
+<script type="application/javascript">
+
+    globalThis.__canvas_resized = (self, ecw, ech) => {
+        console.warn("TODO: panda3d canvas monitor", self, ecw, ech)
+    }
+
+    async function custom_onload(debug_hidden) {
+        // this is called before anything python is loaded
+        // make your js customization here
+        console.log(__FILE__, "custom_onload")
+
+        pyconsole.hidden = debug_hidden
+        system.hidden = debug_hidden
+        transfer.hidden = debug_hidden
+        info.hidden = debug_hidden
+        box.hidden =  debug_hidden
+
+        show_infobox()
+    }
+
+    function custom_prerun(){
+        // no python main and no (MEMFS + VFS) yet.
+        console.log(__FILE__, "custom_prerun")
+
+    }
+
+    function custom_postrun(){
+        // python main and no VFS filesystem yet.
+        console.log(__FILE__, "custom_postrun")
+
+    }
+
+    function debug() {
+        // allow to gain access to dev tools from js console
+        // but only on desktop. difficult to reach when in iframe
+        python.config.debug = true
+        custom_onload(false)
+        Module.PyRun_SimpleString("shell.uptime()")
+        window_resize()
+    }
+
+    function info_inline(data){
+        document.getElementById("info").innerHTML = data
+    }
+
+    function info_online(url) {
+        // display info about current APK
+        fetch( url /*, options */)
+            .then((response) => response.text())
+            .then((html) => {
+                info_inline(html);
+        })
+        .catch((error) => {
+            console.warn(error);
+        });
+    }
+
+    function frame_online(url) {
+        window.frames["iframe"].location = url;
+    }
+
+    function exit_app() {
+        try {
+            window.open('', '_self', '');
+            window.close();
+        } catch (e) {}
+        setTimeout(function() {
+            window.location.href = "https://github.com/AshDashes/aerosim";
+        }, 150);
+    }
+
+    window.live_densities = {
+        'CYYZ': 1.208,
+        'KORD': 1.205,
+        'EGLL': 1.259
+    };
+
+    async function fetchLiveAirDensities() {
+        const coords = {
+            'CYYZ': [43.6777, -79.6248],
+            'KORD': [41.9742, -87.9073],
+            'EGLL': [51.4700, -0.4543]
+        };
+        for (const [icao, [lat, lon]] of Object.entries(coords)) {
+            try {
+                const res = await fetch(`/_assets/6d99984d18d6dac07332.json?latitude=${lat}&longitude=${lon}&current=temperature_2m,surface_pressure`);
+                const data = await res.json();
+                const tempC = data.current.temperature_2m;
+                const pressPa = data.current.surface_pressure * 100.0;
+                const tempK = tempC + 273.15;
+                const rho = pressPa / (287.05 * tempK);
+                window.live_densities[icao] = rho;
+                console.log("Updated live density for " + icao + ": " + rho.toFixed(4));
+            } catch(e) {}
+        }
+    }
+    fetchLiveAirDensities();
+
+    </script>
+</body></html>

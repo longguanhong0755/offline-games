@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>NEON MAYHEM — Costa Rosa, 1986 · play free in your browser</title>
+<meta content="Steal a ride and cruise a neon open world at night — race, deliver, evade the heat, or just drive. A free, fan-made, browser-playable open-world game set in Costa Rosa, 1986." name="description"/>
+<meta content="#0b0714" name="theme-color"/>
+<!-- iPhone has no fullscreen for pages: from the home screen it runs as a
+     full-screen app instead (main.js toggleFullscreen says so) -->
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Neon Mayhem" name="apple-mobile-web-app-title"/>
+<!-- Open Graph / social link preview -->
+<meta content="website" property="og:type"/>
+<meta content="Neon Mayhem" property="og:site_name"/>
+<meta content="NEON MAYHEM — Costa Rosa, 1986" property="og:title"/>
+<meta content="Steal a ride and cruise a neon open world at night — race, deliver, evade the heat, or just drive. Free, in your browser." property="og:description"/>
+<meta content="https://pranshuparmar.github.io/neon-mayhem/" property="og:url"/>
+<meta content="https://pranshuparmar.github.io/neon-mayhem/media/social-card.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Neon Mayhem — a night drive down a neon-lit boulevard in Costa Rosa, 1986" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="NEON MAYHEM — Costa Rosa, 1986" name="twitter:title"/>
+<meta content="Steal a ride and cruise a neon open world at night — race, deliver, evade the heat, or just drive. Free, in your browser." name="twitter:description"/>
+<meta content="https://pranshuparmar.github.io/neon-mayhem/media/social-card.png" name="twitter:image"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231b0b33'/%3E%3Ccircle cx='8' cy='7' r='4' fill='%23ff4fa3'/%3E%3Crect y='11' width='16' height='2' fill='%2338e8ff'/%3E%3C/svg%3E" rel="icon"/>
+<style>
+  html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#0b0714; }
+  /* the whole page, not just the HUD: the title, pause, map and WASTED
+     screens set no face of their own and came up in Times New Roman */
+  body { font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; }
+  * { box-sizing:border-box; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+  #game-canvas { display:block; width:100%; height:100%; }
+  .font80s { font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; }
+
+  /* inside the notch and the home bar (viewport-fit=cover hands us the
+     whole screen, rounded corners and all) */
+  #hud { position:fixed; pointer-events:none; z-index:10; font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px); }
+  #hud .panel { position:absolute; }
+
+  #minimap-wrap { left:14px; bottom:14px; width:180px; height:180px; border-radius:50%;
+    border:3px solid rgba(255,105,180,.75); box-shadow:0 0 14px rgba(255,105,180,.5), inset 0 0 20px rgba(0,0,0,.6);
+    overflow:hidden; background:#0d0a18; }
+  #minimap { width:100%; height:100%; }
+
+  #stat-block { right:16px; top:12px; text-align:right; }
+  /* the town clock: a bedside-radio readout above the money */
+  #clock { font-size:15px; font-weight:800; letter-spacing:3px; color:#9df3ff;
+    text-shadow:0 0 8px rgba(60,220,255,.75), 1px 1px 0 #0a2030; }
+  #cash { font-size:26px; font-weight:800; font-style:italic; color:#8dffd8; text-shadow:0 0 8px rgba(70,255,190,.8), 2px 2px 0 #06281c; letter-spacing:1px; }
+  #wanted-stars { font-size:24px; letter-spacing:3px; color:rgba(255,255,255,.22); text-shadow:none; margin-top:2px; }
+  #wanted-stars .lit { color:#ffd24a; text-shadow:0 0 10px rgba(255,190,40,.9); }
+  #weapon-row { display:flex; align-items:center; justify-content:flex-end; gap:6px; margin-top:4px; }
+  #weapon-icon { width:34px; height:34px; line-height:0; filter:drop-shadow(0 0 4px rgba(255,80,170,.7)); }
+  #weapon-icon:empty { display:none; }
+  #weapon-icon svg, .wslot svg { width:100%; height:100%; }
+  /* the weapon wheel (arsenal.js): the slots round a ring, the world slowed behind it */
+  #weapon-wheel { position:fixed; inset:0; z-index:30; display:none; align-items:center; justify-content:center; pointer-events:auto;
+    background:radial-gradient(circle at 50% 50%, rgba(10,4,20,.25) 0, rgba(10,4,20,.25) 100px, rgba(10,4,20,.55) 200px, rgba(10,4,20,.15) 60%); }
+  #wheel-ring { position:absolute; left:50%; top:50%; width:0; height:0; }
+  .wslot { position:absolute; width:64px; height:64px; margin:-32px 0 0 -32px; border-radius:50%; background:rgba(16,6,30,.86);
+    border:2px solid rgba(255,150,210,.4); display:flex; align-items:center; justify-content:center; box-sizing:border-box; padding:9px; cursor:pointer; }
+  .wslot span { position:absolute; bottom:-16px; left:0; right:0; text-align:center; font:700 11px 'Segoe UI', Arial, sans-serif; color:#ffe8f6; text-shadow:0 1px 2px #000; }
+  .wslot.empty { opacity:.35; }
+  .wslot.cur { border-color:rgba(141,255,216,.7); }
+  .wslot.sel { border-color:#ff4fa3; background:rgba(255,79,163,.3); transform:scale(1.15); box-shadow:0 0 18px rgba(255,79,163,.6); }
+  #wheel-name { position:relative; font:900 18px 'Segoe UI', Arial, sans-serif; letter-spacing:3px; color:#ffe8f6; text-shadow:0 0 10px rgba(255,79,163,.9); }
+  /* the cheat list (cheats.js): every code as a card to pick, over a still game */
+  #cheat-box { position:fixed; inset:0; z-index:70; display:none; align-items:center; justify-content:center; padding:16px; background:rgba(6,2,14,.72);
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif; }
+  #cheat-card { width:min(1000px,100%); max-height:calc(100vh - 32px); display:flex; flex-direction:column; box-sizing:border-box; background:rgba(10,4,20,.97);
+    border:1px solid rgba(255,79,163,.85); border-radius:10px; padding:14px 14px 10px; box-shadow:0 0 26px rgba(255,79,163,.4); }
+  #cheat-head { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; padding:0 4px 8px; border-bottom:1px solid rgba(255,79,163,.25); }
+  #cheat-title { color:#ffe8f6; font-weight:900; font-style:italic; letter-spacing:3px; font-size:20px; text-shadow:0 0 10px rgba(255,79,163,.7); }
+  #cheat-sub { color:#9fd8ff; font-size:12.5px; flex:1; min-width:200px; }
+  #cheat-find { color:#8dffd8; font:800 13px 'Segoe UI', Arial, sans-serif; letter-spacing:2px; min-height:16px; }
+  #cheat-list { overflow-y:auto; flex:1; padding:4px 4px 6px; -webkit-overflow-scrolling:touch; }
+  .cgroup h4 { margin:12px 2px 6px; color:#ff8fc8; font-size:11.5px; letter-spacing:3px; font-weight:900; }
+  .cgrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:8px; }
+  .ccard { position:relative; display:flex; gap:10px; align-items:flex-start; padding:9px 10px; border-radius:8px; cursor:pointer; user-select:none;
+    background:rgba(24,10,40,.92); border:1px solid rgba(255,79,163,.28); color:#ffe8f6; -webkit-tap-highlight-color:transparent; }
+  .ccard:hover { border-color:rgba(255,79,163,.7); }
+  .ccard.sel { border-color:#ff4fa3; background:rgba(255,79,163,.2); box-shadow:0 0 14px rgba(255,79,163,.55); }
+  .ccard.on { border-color:rgba(141,255,216,.75); }
+  .ccard.grim .cn { color:#ff9a9a; }
+  .ccard .ci { font-size:22px; line-height:1; flex:0 0 26px; text-align:center; padding-top:2px; }
+  .ccard .cb { min-width:0; flex:1; }
+  .ccard .cn { font-weight:800; font-size:13.5px; letter-spacing:.5px; }
+  .ccard.on .cn { padding-right:30px; }
+  .ccard .cw { color:#b9c6e0; font-size:11.5px; margin-top:2px; line-height:1.3; }
+  .ccard .cc { color:#8dffd8; font:700 10.5px Consolas, 'Courier New', monospace; letter-spacing:1px; margin-top:5px; word-break:break-all; }
+  .ccard .cp { color:#ffd36a; font-size:10.5px; margin-top:2px; letter-spacing:.5px; }
+  .ccard .con { position:absolute; top:7px; right:8px; font:900 10px 'Segoe UI', Arial, sans-serif; letter-spacing:1px; padding:1px 5px; border-radius:4px;
+    background:#8dffd8; color:#0a1a14; display:none; }
+  .ccard.on .con { display:block; }
+  .ccard.hide, .cgroup.hide { display:none; }
+  #cheat-foot { display:flex; align-items:center; gap:10px; padding-top:8px; border-top:1px solid rgba(255,79,163,.25); }
+  #cheat-keys { flex:1; color:#9fb0d0; font-size:11.5px; }
+  @media (max-width:520px) { .cgrid { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); } .ccard .cp { display:none; }
+    .ccard .cc { font-size:9.5px; letter-spacing:.5px; } .ccard .ci { font-size:19px; flex-basis:22px; } #cheat-card { padding:10px 8px 8px; } }
+  @media (max-height:520px) { .ccard .cw { display:none; } #cheat-card { max-height:calc(100vh - 16px); } #cheat-box { padding:8px; } }
+  /* while the list is up the pause screen under it keeps out of sight */
+  body.cheats-up #pause-screen { visibility:hidden; }
+  /* down the sniper's scope */
+  #scope { position:fixed; inset:0; z-index:9; display:none; pointer-events:none;
+    background:radial-gradient(circle at 50% 50%, transparent 0, transparent min(36vh,36vw), #000 calc(min(36vh,36vw) + 2px)); }
+  #scope .scope-x, #scope .scope-y { position:absolute; background:rgba(0,0,0,.85); }
+  #scope .scope-x { left:calc(50% - min(36vh,36vw)); right:calc(50% - min(36vh,36vw)); top:50%; height:1px; }
+  #scope .scope-y { top:calc(50% - min(36vh,36vw)); bottom:calc(50% - min(36vh,36vw)); left:50%; width:1px; }
+  #weapon-line { margin-top:4px; font-size:15px; font-weight:700; color:#ffb3e2; text-shadow:0 0 8px rgba(255,80,170,.8); }
+  #vehicle-line { margin-top:2px; font-size:13px; font-weight:800; letter-spacing:1px; display:none;
+    text-shadow:0 0 8px rgba(0,0,0,.7); }
+
+  .bar { width:170px; height:11px; margin-top:5px; margin-left:auto; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.35); border-radius:6px; overflow:hidden; }
+  .bar > div { height:100%; transition:width .15s; }
+  #health-fill { background:linear-gradient(90deg,#ff4d88,#ff8fb8); width:100%; }
+  #armor-fill { background:linear-gradient(90deg,#39c8ff,#a8ecff); width:0%; }
+
+  #radio-popup { left:50%; top:16%; transform:translateX(-50%); font-size:22px; font-weight:800; font-style:italic;
+    color:#9df3ff; text-shadow:0 0 12px rgba(60,220,255,.9); opacity:0; transition:opacity .4s; }
+  #radio-popup .rsub { font-size:12px; font-style:normal; letter-spacing:2px; margin-top:2px; text-align:center; }
+  /* the DJ or an ad, under the station (dj.js) */
+  #radio-talk { left:50%; top:calc(16% + 52px); transform:translateX(-50%); width:min(560px, 80vw); text-align:center; font-size:14px; color:#f4ecff;
+    text-shadow:0 1px 3px #000; opacity:0; transition:opacity .4s; pointer-events:none; line-height:1.35;
+    background:rgba(10,4,20,.62); padding:6px 12px; border-radius:6px; box-sizing:border-box; }
+  #radio-talk.on { opacity:.95; }
+  #radio-talk b { letter-spacing:1px; }
+  #zone-popup { left:50%; top:12px; transform:translateX(-50%); text-align:center; font-size:22px; font-weight:800; font-style:italic; color:#ffd9f2;
+    text-shadow:0 0 12px rgba(255,100,200,.9), 2px 2px 0 #3a0f33; opacity:0; transition:opacity .6s; }
+
+  /* names the marker/garage you're standing next to, and what it needs */
+  /* "F — get in the Cadenza" (player.js enterHint) */
+  #enter-hint { left:50%; bottom:36%; transform:translateX(-50%); font-size:15px; font-weight:800; letter-spacing:1px;
+    color:#e8f6ff; background:rgba(10,4,20,.6); padding:3px 10px; border-radius:4px; text-shadow:0 1px 3px #000;
+    opacity:0; transition:opacity .2s; white-space:nowrap; pointer-events:none; }
+  #poi-hint { left:50%; bottom:31%; transform:translateX(-50%); text-align:center; font-size:16px; font-weight:800;
+    letter-spacing:1px; color:#ffe08a; text-shadow:0 0 12px rgba(255,190,60,.85), 0 2px 5px rgba(0,0,0,.9);
+    opacity:0; transition:opacity .25s; white-space:nowrap; }
+
+  /* a short stack of messages, newest at the bottom (hud.js pushMessage) */
+  #msg-line { left:50%; bottom:24%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center;
+    gap:3px; text-align:center; width:max-content; max-width:70vw; }
+  #msg-line .msg { font-size:19px; font-weight:700; color:#fff; line-height:1.35; white-space:normal;
+    text-shadow:0 0 10px rgba(255,120,220,.9), 0 2px 4px rgba(0,0,0,.85); transition:opacity .3s; }
+  #msg-line .msg.old { font-size:16px; opacity:.75; }
+  #msg-line .msg.out { opacity:0; }
+  /* the mission-start countdown: one huge numeral, dead centre, gone on GO */
+  #count-big { left:50%; top:34%; transform:translate(-50%,-50%); font-size:clamp(64px,15vh,116px); font-weight:900;
+    font-style:italic; color:#8dffd8; text-shadow:0 0 26px rgba(60,255,190,.9), 4px 4px 0 #0a2a20;
+    opacity:0; transition:opacity .2s; text-align:center; letter-spacing:6px; }
+  #mission-hud { left:50%; top:12px; transform:translateX(-50%); text-align:center; display:none; }
+  /* Lola's pager (hud.js pager): top left, clear of the mission title */
+  #pager { left:16px; top:14px; max-width:min(380px,40vw); padding:8px 12px 10px; background:rgba(10,4,20,.84);
+    border:1px solid rgba(255,79,163,.85); border-radius:6px; box-shadow:0 0 16px rgba(255,79,163,.4);
+    opacity:0; transform:translateY(-8px); transition:opacity .35s, transform .35s; pointer-events:none; }
+  #pager.on { opacity:1; transform:none; }
+  /* the sender's face (cast.js), left of what they paged */
+  #pager { display:flex; align-items:flex-start; gap:10px; }
+  #pager-face { flex:0 0 52px; width:52px; height:52px; border-radius:5px; overflow:hidden; border:1px solid rgba(255,255,255,.35); line-height:0; }
+  #pager-face:empty { display:none; }
+  #pager-face svg, #lola-face svg, #scene-face svg { width:100%; height:100%; display:block; }
+  #pager-body { min-width:0; }
+  /* the morning paper's front page (herald.js): newsprint, a little askew */
+  #herald { position:fixed; left:50%; top:62px; z-index:8; width:min(460px,74vw); padding:10px 14px 12px;
+    background:#ece5d3; color:#1a1814; font-family:Georgia,"Times New Roman",serif; border:1px solid #b8ae98;
+    box-shadow:0 10px 30px rgba(0,0,0,.55); opacity:0; transform:translate(-50%,-30px) rotate(-1.2deg);
+    transition:opacity .45s, transform .45s; pointer-events:none; cursor:pointer; }
+  #herald.on { opacity:1; transform:translate(-50%,0) rotate(-1.2deg); pointer-events:auto; }
+  #herald .hd-mast { font-size:26px; font-weight:900; text-align:center; letter-spacing:1px; border-bottom:3px double #1a1814; padding-bottom:3px; font-family:"Old English Text MT",Georgia,serif; }
+  #herald .hd-date { font-size:10px; letter-spacing:1px; text-align:center; text-transform:uppercase; border-bottom:1px solid #1a1814; padding:3px 0; }
+  #herald .hd-head { font-size:24px; font-weight:900; line-height:1.05; text-align:center; margin:8px 0 7px; text-transform:uppercase; }
+  #herald .hd-body { display:flex; gap:10px; align-items:flex-start; }
+  #herald .hd-photo { flex:0 0 46%; border:1px solid #1a1814; line-height:0; }
+  #herald .hd-photo canvas { width:100%; height:auto; display:block; }
+  #herald .hd-sub { font-size:13px; line-height:1.35; text-align:justify; }
+  @media (max-height: 520px) { #herald { top:40px; width:min(420px,62vw); } #herald .hd-head { font-size:19px; } #herald .hd-mast { font-size:20px; } #herald .hd-sub { font-size:12px; } }
+  #pager-from { font-size:12px; font-weight:800; letter-spacing:2px; color:#ff8fc8; }
+  #pager-text { font-size:15px; color:#f4ecff; line-height:1.38; margin-top:3px; text-shadow:0 1px 2px #000; }
+  #mission-title { font-size:18px; font-weight:800; font-style:italic; color:#ffe08a; text-shadow:0 0 10px rgba(255,190,60,.8); }
+  #mission-obj { font-size:15px; color:#e8f6ff; text-shadow:0 1px 3px #000; margin-top:2px; }
+  #mission-timer { font-size:22px; font-weight:800; color:#8dffd8; text-shadow:0 0 8px rgba(60,255,190,.8); margin-top:2px; }
+
+  /* which way the hit came from: an arc on a ring round the centre, turned
+     toward the source (hud.js hitFrom) */
+  #hit-dir { left:50%; top:50%; width:min(48vh,380px); height:min(48vh,380px); border-radius:50%;
+    border:7px solid transparent; border-top-color:rgba(255,40,90,.92); transform:translate(-50%,-50%);
+    filter:drop-shadow(0 0 8px rgba(255,40,90,.85)); opacity:0; transition:opacity .45s; }
+  /* low health: the edges of the screen pulse red for ten seconds, then
+     fade (.spent) — a pulse with no end got to be a nag. A fresh hit while
+     you are still low brings it back (hud.js). The pulse is on the inside
+     layer so the fade can own the element's opacity */
+  #low-health { position:fixed; inset:0; pointer-events:none; z-index:9; display:none; opacity:1; transition:opacity 1.5s ease-out; }
+  #low-health::before { content:''; position:absolute; inset:0;
+    box-shadow:inset 0 0 140px 30px rgba(255,10,60,.5); animation:lowPulse 1.1s ease-in-out infinite; }
+  #low-health.spent { opacity:0; }
+  @keyframes lowPulse { 0%,100% { opacity:.35; } 50% { opacity:1; } }
+  /* desktop, playing, and the mouse is not captured: say what gets it back */
+  #lock-hint { left:50%; top:58%; transform:translateX(-50%); display:none; font-size:14px; font-weight:800;
+    letter-spacing:2px; color:#9df3ff; background:rgba(8,4,20,.55); border:1px solid rgba(90,220,255,.4);
+    border-radius:8px; padding:6px 14px; text-shadow:0 0 8px rgba(60,220,255,.7); }
+  #crosshair { left:50%; top:50%; transform:translate(-50%,-50%); width:26px; height:26px; display:none; }
+  #crosshair::before, #crosshair::after { content:""; position:absolute; background:#8dffd8; box-shadow:0 0 5px #46ffbe; }
+  #crosshair::before { left:50%; top:0; width:2px; height:100%; transform:translateX(-50%); }
+  #crosshair::after { top:50%; left:0; height:2px; width:100%; transform:translateY(-50%); }
+
+  /* full-screen outcome cards. Solid text + glow (no background-clip:text —
+     it rasterizes to a solid block on some engines when filtered). */
+  .big-screen { position:fixed; inset:0; display:none; align-items:center; justify-content:center; flex-direction:column;
+    z-index:30; text-align:center; padding:24px;
+    background:radial-gradient(120% 90% at 50% 45%, rgba(120,10,50,.55) 0%, rgba(10,3,16,.88) 55%, rgba(6,2,12,.96) 100%);
+    animation:bigFade .45s ease-out; }
+  #busted-screen { background:radial-gradient(120% 90% at 50% 45%, rgba(10,50,120,.55) 0%, rgba(4,8,26,.88) 55%, rgba(3,5,16,.96) 100%); }
+  @keyframes bigFade { from { opacity:0 } to { opacity:1 } }
+  /* over every menu it can be raised from (shop 36 … map, Lola 38): a car
+     bought in the showroom shows its card over the shop. Under the confirm
+     dialog (70) and the shutter */
+  #share-screen { position:fixed; inset:0; display:none; align-items:center; justify-content:safe center; flex-direction:column;
+    z-index:42; padding:18px; gap:14px; background:rgba(5,2,12,.9); animation:bigFade .3s ease-out;
+    font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; overflow-y:auto; }
+  /* both caps, so a short landscape phone shrinks the card instead of pushing
+     the buttons off the bottom; the intrinsic ratio is kept either way */
+  #share-canvas { width:auto; height:auto; max-width:min(92vw,860px); max-height:62vh; border-radius:14px;
+    box-shadow:0 0 0 2px rgba(255,77,157,.55), 0 18px 60px rgba(0,0,0,.7); }
+  #share-actions { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  #share-note { color:#9fd8ff; font-size:13px; min-height:16px; letter-spacing:1px; }
+  @media (max-height:460px) {
+    #share-screen { padding:8px; gap:8px; }
+    #share-canvas { max-height:58vh; }
+    #share-screen .mbtn { padding:6px 12px; font-size:12px; }
+    #share-note { font-size:11px; min-height:12px; }
+  }
+  .big-rule { width:min(78vw,520px); height:2px; margin:14px 0 0;
+    background:linear-gradient(90deg,transparent,#ff4d9d,transparent); opacity:.85; }
+  #busted-screen .big-rule { background:linear-gradient(90deg,transparent,#4da3ff,transparent); }
+  .big-word { font-size:min(15vw,110px); font-weight:900; font-style:italic; letter-spacing:6px; line-height:1;
+    color:#fff;
+    text-shadow:0 0 26px rgba(255,70,160,.95), 0 0 70px rgba(255,50,140,.6), 4px 6px 0 rgba(45,0,32,.95); }
+  #busted-screen .big-word {
+    text-shadow:0 0 26px rgba(70,160,255,.95), 0 0 70px rgba(50,130,255,.6), 4px 6px 0 rgba(0,12,45,.95); }
+  .big-sub { color:#ffe3f4; font-size:clamp(14px,2.2vw,18px); margin-top:14px; max-width:min(86vw,560px);
+    line-height:1.45; text-shadow:0 2px 6px rgba(0,0,0,.95); }
+  #busted-screen .big-sub { color:#dcecff; }
+  .big-hint { margin-top:22px; font-size:14px; font-weight:800; letter-spacing:3px; color:#8dffd8;
+    text-shadow:0 0 12px rgba(60,255,190,.85); animation:blink 1.2s step-end infinite; }
+  @media (max-width:560px) { .big-word { letter-spacing:3px; } }
+
+  /* translucent so the live attract-mode city shows through */
+  #title-screen { position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center; flex-direction:column;
+    background:radial-gradient(120% 90% at 50% 110%, rgba(61,17,85,.62) 0%, rgba(27,11,51,.66) 45%, rgba(11,7,20,.78) 100%); }
+  #title-screen > * { position:relative; z-index:1; }
+  #title-screen .sun { width:220px; height:220px; border-radius:50%; position:absolute; top:12%; z-index:0;
+    background:linear-gradient(180deg,#ffe27a 0%,#ff9d5c 45%,#ff4d9d 100%); filter:blur(1px);
+    box-shadow:0 0 80px rgba(255,120,80,.55);
+    -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 56%,transparent 60%,#000 61%,#000 68%,transparent 69%,transparent 74%,#000 75%,#000 84%,transparent 85%);
+    mask-image:linear-gradient(180deg,#000 55%,transparent 56%,transparent 60%,#000 61%,#000 68%,transparent 69%,transparent 74%,#000 75%,#000 84%,transparent 85%); }
+  #title-logo { position:relative; font-size:min(14vw,96px); font-weight:900; font-style:italic; letter-spacing:6px; line-height:.95;
+    background:linear-gradient(180deg,#e8fbff 0%,#9df3ff 30%,#3ec7f0 48%,#173a66 52%,#9df3ff 60%,#ff7ac2 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 0 16px rgba(80,220,255,.6)) drop-shadow(4px 6px 0 rgba(150,20,90,.85)); }
+  #title-sub { color:#ffb3e2; font-weight:700; letter-spacing:5px; font-size:15px; margin-top:6px;
+    text-shadow:0 0 10px rgba(255,80,170,.8), 0 2px 6px rgba(10,4,20,.95); }
+  #press-enter { margin-top:30px; font-size:22px; font-weight:800; color:#8dffd8; letter-spacing:3px;
+    text-shadow:0 0 12px rgba(60,255,190,.9); animation:blink 1.2s step-end infinite; pointer-events:auto; cursor:pointer;
+    background:rgba(8,4,20,.6); border:1px solid rgba(90,255,200,.35); border-radius:10px; padding:10px 26px; }
+  /* short landscape screens (phones): shrink the sun and tighten the stack */
+  @media (max-height: 560px) {
+    #title-screen .sun { width:120px; height:120px; top:3%; }
+    #title-logo { font-size:min(9vw,60px); }
+    #title-sub { font-size:12px; margin-top:2px; }
+    #press-enter { margin-top:12px; font-size:17px; padding:8px 20px; }
+    #controls-card { margin-top:10px; font-size:10.5px; line-height:1.55; padding:6px 14px; max-height:26vh; }
+    #title-best { margin-top:4px; font-size:12px; }
+    #title-footer { font-size:9.5px; bottom:4px; }
+  }
+  @keyframes blink { 50% { opacity:.25; } }
+  /* the city builds before anything can answer a press: say so, rather than
+     blinking PRESS ENTER at someone for four seconds it cannot hear */
+  #press-enter.loading { animation:loadPulse 0.9s ease-in-out infinite alternate; cursor:progress;
+    color:rgba(141,255,216,.6); border-style:dashed; text-shadow:none; }
+  @keyframes loadPulse { from { opacity:.45; } to { opacity:.9; } }
+  #controls-card { margin-top:22px; color:#cfe6ff; font-size:12.5px; line-height:1.75; background:rgba(8,4,20,.55);
+    border:1px solid rgba(120,200,255,.3); border-radius:10px; padding:10px 22px; max-height:34vh; overflow:auto; }
+  #controls-card b { color:#9df3ff; }
+  #title-footer { position:absolute; bottom:10px; width:100%; text-align:center; color:rgba(210,220,255,.55); font-size:11.5px; padding:0 12px; }
+  #title-best { margin-top:10px; color:#ffe08a; font-size:14px; text-shadow:0 0 8px rgba(255,190,60,.6); }
+
+  /* overlay screens center their content, but when a short screen makes it
+     overflow, `safe center` + overflow-y lets it scroll instead of clipping
+     both ends off (centered flex overflow is unreachable — no scrollbar can
+     reach above the top edge) */
+  #pause-screen { position:fixed; inset:0; z-index:35; display:none; flex-direction:column; align-items:center; justify-content:safe center;
+    overflow-y:auto; padding:calc(28px + env(safe-area-inset-top,0px)) 16px 14px;
+    background:linear-gradient(100deg, rgba(10,3,22,.94) 0%, rgba(10,3,22,.86) 38%, rgba(10,3,22,.66) 100%); }
+  /* a menu down the left in big italic type, the chosen section in a card
+     beside it — the way the classic mobile ports laid out their pause */
+  #pause-frame { display:flex; gap:clamp(18px,4vw,56px); align-items:flex-start; width:min(1040px,100%); }
+  #pause-side { flex:0 0 auto; display:flex; flex-direction:column; min-width:200px; }
+  #pause-title h2 { font-size:clamp(26px,7vh,48px); font-weight:900; font-style:italic; color:#ff7fd0; letter-spacing:4px; margin:0;
+    text-shadow:0 0 18px rgba(255,60,170,.75); }
+  #pause-place { color:#9df3ff; font-size:12.5px; font-weight:700; letter-spacing:3px; margin:2px 0 12px; opacity:.85; }
+  #pause-tabs { display:flex; flex-direction:column; align-items:flex-start; }
+  #pause-screen .ptab { display:block; margin:2px 0; padding:6px 22px 6px 14px; background:none; border:none; border-left:4px solid transparent;
+    border-radius:0; font-size:clamp(18px,4.2vh,28px); font-weight:900; font-style:italic; letter-spacing:2px; color:#cfe6ff;
+    text-shadow:0 0 10px rgba(80,200,255,.35); box-shadow:none; transition:color .12s, border-color .12s, transform .12s; }
+  #pause-screen .ptab:hover, #pause-screen .ptab.kfocus { color:#fff; border-left-color:#ff4fb0; transform:translateX(6px);
+    text-shadow:0 0 14px rgba(255,80,190,.9); outline:none; box-shadow:none; background:linear-gradient(90deg, rgba(255,60,170,.22), transparent); }
+  #pause-screen .ptab.open { color:#ff9fdc; border-left-color:#ff4fb0; }
+  #pause-screen #pause-abandon { color:#ffb0b0; }
+  #pause-screen #pause-abandon.danger { color:#fff; background:rgba(255,60,60,.28); }
+  #pause-panel { flex:1 1 auto; min-width:0; background:rgba(14,6,30,.78); border:1px solid rgba(255,105,200,.35); border-radius:12px;
+    padding:16px 20px 18px; box-shadow:0 0 30px rgba(255,60,170,.18), inset 0 0 40px rgba(60,20,120,.25); }
+  .ppanel { display:none; }
+  .ppanel.on { display:block; }
+  .ppanel h3 { margin:0 0 10px; color:#9df3ff; font-size:15px; letter-spacing:5px; font-weight:900; font-style:italic; text-shadow:0 0 10px rgba(60,220,255,.6); }
+  .pgroup { margin:0 0 10px; }
+  .pgroup h4 { margin:0 0 2px; color:#ff9fdc; font-size:11px; letter-spacing:3px; font-weight:800; opacity:.9; }
+  #pause-screen .ppanel .mbtn { margin:5px 6px 0 0; padding:6px 14px; font-size:13px; }
+  #pause-stats { display:grid; grid-template-columns:1fr auto; gap:6px 18px; margin-bottom:10px; }
+  #pause-stats .k { color:#cfe6ff; font-size:13px; font-weight:800; letter-spacing:2px; }
+  #pause-stats .v { color:#8dffd8; font-size:15px; font-weight:900; text-align:right; text-shadow:0 0 8px rgba(60,255,190,.5); }
+  #pause-stats .v.gold { color:#ffe08a; text-shadow:0 0 8px rgba(255,190,60,.55); }
+  .pstat-note { color:#bcd0ee; font-size:12px; line-height:1.5; letter-spacing:1px; }
+  #pause-controls { margin-top:8px; color:#cfe6ff; font-size:12px; line-height:1.7; }
+  #pause-link { margin-top:5px; font-size:11.5px; text-align:center; flex-shrink:0; }
+  #pause-link a { color:#9fd8ff; }
+  #pause-hint { margin-top:12px; color:#8dffd8; font-weight:700; font-size:12.5px; text-align:center; flex-shrink:0; }
+  /* a phone held upright, or anything narrow: the menu runs across the top
+     and the card goes under it */
+  @media (max-width:640px) {
+    #pause-frame { flex-direction:column; gap:10px; }
+    #pause-side { min-width:0; width:100%; }
+    #pause-place { margin-bottom:6px; }
+    #pause-tabs { flex-direction:row; flex-wrap:wrap; gap:2px 4px; }
+    #pause-screen .ptab { font-size:16px; padding:5px 10px; border-left:none; border-bottom:3px solid transparent; }
+    #pause-screen .ptab:hover, #pause-screen .ptab.kfocus, #pause-screen .ptab.open { transform:none; border-bottom-color:#ff4fb0; }
+    #pause-panel { width:100%; padding:12px 14px; }
+  }
+  /* short landscape phones: tighter type, and the controls card (on the title
+     screen and under H) makes way */
+  @media (max-height:460px) {
+    #pause-screen { padding-top:calc(14px + env(safe-area-inset-top,0px)); }
+    #pause-title h2 { font-size:clamp(18px,6vh,30px); }
+    #pause-place { margin-bottom:4px; }
+    #pause-screen .ptab { font-size:15px; padding:3px 16px 3px 10px; margin:1px 0; }
+    #pause-screen .ppanel .mbtn { margin:3px 4px 0 0; padding:4px 10px; font-size:11.5px; }
+    #pause-controls { display:none; }
+    .pgroup { margin-bottom:5px; }
+    #pause-hint { margin-top:6px; }
+  }
+
+  #fs-btn { position:fixed; right:calc(14px + env(safe-area-inset-right,0px)); bottom:calc(14px + env(safe-area-inset-bottom,0px)); z-index:65; width:36px; height:36px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    background:rgba(8,4,20,.55); border:1px solid rgba(120,200,255,.35); color:#9df3ff; font-size:19px;
+    text-shadow:0 0 8px rgba(60,220,255,.7); }
+  #fs-btn:active { background:rgba(60,220,255,.3); }
+
+  #controls-bar { position:fixed; left:50%; bottom:8px; transform:translateX(-50%); z-index:12; display:none;
+    color:#cfe6ff; font-size:13.5px; background:rgba(8,4,20,.6); border:1px solid rgba(120,200,255,.25);
+    border-radius:8px; padding:4px 14px; pointer-events:none; white-space:nowrap; }
+  #controls-bar b { color:#9df3ff; }
+
+  #map-screen { position:fixed; inset:0; z-index:38; display:none; align-items:center; justify-content:safe center;
+    flex-direction:column; background:rgba(8,4,18,.9); overflow-y:auto; padding:10px 0; }
+  #map-title { font-size:clamp(17px,4.5vh,26px); font-weight:900; font-style:italic; color:#9df3ff; letter-spacing:4px;
+    text-shadow:0 0 14px rgba(60,220,255,.8); margin-bottom:6px; flex-shrink:0; }
+  @media (max-height:460px) {
+    #map-hint { display:none; }
+    #map-legend { font-size:11px; gap:2px 10px; margin-top:5px; }
+    #map-screen .mbtn { margin:6px 6px 0; padding:5px 14px; font-size:12.5px; }
+  }
+  #bigmap { border:2px solid rgba(255,105,180,.7); border-radius:10px; box-shadow:0 0 20px rgba(255,105,180,.4);
+    cursor:crosshair; touch-action:none; }
+  #map-hint { color:#cfe6ff; font-size:13px; margin-top:8px; }
+  #map-legend { display:flex; flex-wrap:wrap; gap:3px 16px; justify-content:center; max-width:86vw; margin-top:8px;
+    color:#cfe6ff; font-size:12.5px; }
+  #map-legend .lgd { display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+    padding:1px 6px; border-radius:6px; }
+  #map-legend .lgd:hover { background:rgba(255,255,255,.08); }
+  #map-legend .lgd i { width:10px; height:10px; border-radius:50%; display:inline-block; border:1px solid rgba(255,255,255,.5); }
+  #map-legend .lgd.off { opacity:.32; text-decoration:line-through; }
+  #map-legend .lgd.sel { background:rgba(255,255,255,.14); box-shadow:0 0 0 1px rgba(255,255,255,.45) inset; }
+  /* fingers need bigger targets than mouse pointers do */
+  @media (pointer:coarse) { #map-legend .lgd { padding:6px 10px; } }
+  /* CONTROLS (controls.js): over the pause screen */
+  /* the camera (photo.js): the mirror's blink, the print that slides in, the album */
+  #shutter { position:fixed; inset:0; z-index:60; background:#000; opacity:0; pointer-events:none; }
+  #shutter.blink { animation:shutterBlink .16s ease-out; }
+  @keyframes shutterBlink { 0% { opacity:0; } 25% { opacity:1; } 100% { opacity:0; } }
+  /* calling Lola (lola.js): her pager, grown into a card you can answer */
+  #lola-screen { position:fixed; inset:0; z-index:38; display:none; align-items:center; justify-content:center; padding:16px;
+    background:rgba(6,2,14,.6); font-family:'Segoe UI', Arial, Helvetica, sans-serif; }
+  #lola-card { width:min(560px, 100%); max-height:calc(100vh - 32px); display:flex; flex-direction:column; background:rgba(10,4,20,.95);
+    border:1px solid rgba(255,79,163,.85); border-radius:10px; box-shadow:0 0 26px rgba(255,79,163,.4); padding:14px 16px 12px; }
+  #lola-head { display:flex; gap:12px; align-items:flex-start; }
+  #lola-face { flex:0 0 64px; width:64px; height:64px; border-radius:6px; overflow:hidden; border:1px solid rgba(255,150,210,.6); line-height:0; }
+  #lola-face:empty { display:none; }
+  #lola-words { min-width:0; flex:1; }
+  #lola-from { font-size:12px; font-weight:800; letter-spacing:2px; color:#ff8fc8; }
+  #lola-say { font-size:16px; color:#f4ecff; line-height:1.45; margin:6px 0 12px; text-shadow:0 1px 2px #000; }
+  #lola-opts { overflow-y:auto; display:flex; flex-direction:column; gap:6px; min-height:0; }
+  .lola-opt { padding:9px 12px; border-radius:7px; border:1px solid rgba(255,150,210,.35); background:rgba(255,105,180,.08);
+    color:#ffe8f6; font-weight:700; font-size:14px; letter-spacing:.5px; cursor:pointer; user-select:none; }
+  .lola-opt.sel, .lola-opt:hover { background:rgba(255,105,180,.28); border-color:rgba(255,150,210,.85); }
+  #lola-hint { margin-top:8px; font-size:11.5px; color:#9fd8ff; letter-spacing:1px; text-align:center; }
+  @media (max-height:460px) { #lola-say { font-size:14px; margin:4px 0 8px; } .lola-opt { padding:6px 10px; font-size:13px; } }
+  /* the glass lift's ride (interiors.js): letterbox in, HUD out, a tap skips */
+  #cine { position:fixed; inset:0; z-index:24; pointer-events:none; }
+  #cine .cine-bar { position:absolute; left:0; right:0; width:auto; height:0; background:#000; transition:height .6s ease; }
+  #cine .cine-top { top:0; }
+  #cine .cine-bot { bottom:0; display:flex; align-items:center; justify-content:flex-end; overflow:hidden; }
+  #cine-skip { color:#e4e9ff; font-size:15px; font-weight:700; letter-spacing:2px; margin-right:22px; opacity:0; transition:opacity .5s .9s; }
+  body.cine #cine { pointer-events:auto; }
+  body.cine #cine .cine-bar { height:11vh; }
+  body.cine #cine-skip { opacity:.95; }
+  /* a talking-head scene (scenes.js): who is talking, their face, the words typing out */
+  #scene-sub { position:absolute; left:50%; bottom:calc(11vh + 14px); transform:translate(-50%, 8px); width:min(720px, calc(100% - 32px));
+    display:flex; gap:14px; align-items:flex-start; padding:10px 14px 12px; border-radius:8px; background:linear-gradient(90deg, rgba(10,4,20,.88), rgba(10,4,20,.72));
+    border:1px solid #ff6fb8; box-shadow:0 0 22px rgba(0,0,0,.5); opacity:0; transition:opacity .25s, transform .25s; pointer-events:none;
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif; }
+  #scene-sub.on { opacity:1; transform:translate(-50%, 0); }
+  #scene-face { flex:0 0 76px; width:76px; height:76px; border-radius:6px; overflow:hidden; border:1px solid rgba(255,255,255,.4); line-height:0; }
+  #scene-words { min-width:0; flex:1; }
+  #scene-name { font-size:13px; font-weight:900; letter-spacing:3px; }
+  #scene-text { font-size:18px; color:#f4ecff; line-height:1.4; margin-top:4px; min-height:3.1em; text-shadow:0 1px 2px #000; }
+  #cine-skip { pointer-events:auto; cursor:pointer; padding:8px 0; white-space:pre; }
+  /* a ride's camera button, on the bottom bar's left (hud.cine) */
+  #cine-photo { display:none; position:absolute; left:calc(18px + env(safe-area-inset-left,0px)); top:50%; transform:translateY(-50%);
+    width:46px; height:46px; line-height:46px; text-align:center; font-size:22px; border-radius:50%; cursor:pointer; pointer-events:auto;
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.35); opacity:0; transition:opacity .5s .9s; }
+  body.cine #cine-photo { opacity:.9; }
+  .talk .face .mo { display:inline !important; }
+  .talk .face .mc { display:none; }
+  @media (max-height:520px) { #scene-sub { bottom:calc(11vh + 6px); padding:7px 10px 8px; gap:10px; } #scene-face { flex-basis:56px; width:56px; height:56px; }
+    #scene-text { font-size:15px; min-height:2.8em; } }
+  body.cine #hud, body.cine #controls-bar, body.cine #touch-layer, body.cine #fs-btn, body.cine #pager, body.cine #herald, body.cine #derby-tv {
+    opacity:0 !important; pointer-events:none !important; transition:opacity .4s; }
+  /* your race at Gull Downs (derby.js), on a set of your own while it runs */
+  #derby-tv { position:fixed; left:50%; top:calc(64px + env(safe-area-inset-top,0px)); transform:translateX(-50%); z-index:16; display:none;
+    width:min(50vw, 420px, 100vh); border:3px solid #ffd24a; border-radius:8px; background:#0b1f16; overflow:hidden;
+    box-shadow:0 6px 28px rgba(0,0,0,.55); pointer-events:none; }
+  #derby-tv canvas { display:block; width:100%; height:auto; }
+  /* IMPORT SAVE on a phone: a page of its own, with no city behind it (main.js importScreen) */
+  #import-screen { position:fixed; inset:0; z-index:90; display:flex; align-items:center; justify-content:center; padding:16px;
+    background:radial-gradient(circle at 50% 30%, #2a1040, #0a0714); font-family:'Segoe UI', Arial, Helvetica, sans-serif; }
+  #import-card { max-width:420px; width:100%; background:rgba(16,8,30,.97); border:1px solid rgba(255,150,210,.65); border-radius:14px;
+    padding:20px 18px; text-align:center; box-shadow:0 0 30px rgba(255,79,163,.35); }
+  #import-title { color:#ffe8f6; font-weight:900; font-size:20px; letter-spacing:2px; }
+  #import-body { color:#cfe6ff; font-size:14px; line-height:1.5; margin:10px 0 14px; }
+  #import-screen .ibtn { display:block; width:100%; margin:8px 0 0; padding:12px 14px; font:inherit; font-weight:800; font-size:15px; letter-spacing:1px;
+    color:#f4ecff; background:rgba(255,105,180,.16); border:1px solid rgba(255,150,210,.65); border-radius:10px; }
+  #import-screen .ibtn.danger { background:rgba(255,80,80,.2); border-color:rgba(255,120,120,.7); color:#ffd9d9; }
+  #import-msg { min-height:20px; margin-top:10px; font-size:14px; color:#cfe6ff; }
+  #import-msg.bad { color:#ff9a9a; }
+  #import-msg.good { color:#8dffd8; }
+  #photo-toast { position:fixed; right:calc(18px + env(safe-area-inset-right,0px)); top:150px; z-index:33; width:172px; padding:7px 7px 6px;
+    background:#f4efe4; border-radius:3px; box-shadow:0 6px 22px rgba(0,0,0,.55); transform:translateX(130%) rotate(4deg);
+    transition:transform .35s cubic-bezier(.2,.9,.3,1.2); pointer-events:none; }
+  #photo-toast.on { transform:translateX(0) rotate(2deg); pointer-events:auto; cursor:pointer; }
+  #photo-toast img { display:block; width:100%; height:auto; background:#222; }
+  #photo-toast-text { font:600 11px "Segoe UI",Arial,sans-serif; color:#3a3040; margin-top:5px; text-align:center; }
+  #photo-album { position:fixed; inset:0; z-index:38; display:none; align-items:center; justify-content:safe center;
+    flex-direction:column; background:#08040f; overflow-y:auto; padding:14px 10px; color:#cfe6ff; }
+  #photo-album h2 { margin:4px 0 4px; color:#ffd27a; letter-spacing:4px; font-style:italic; }
+  /* an empty album says so big, not in the small print */
+  #photo-empty { margin:40px 0 34px; text-align:center; }
+  #photo-empty .pe-big { font-size:30px; font-weight:900; font-style:italic; letter-spacing:2px; color:#ffd27a; text-shadow:0 0 14px rgba(255,180,80,.45); }
+  #photo-empty .pe-sub { font-size:17px; color:#cfe6ff; margin-top:10px; }
+  #photo-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; width:min(94vw,900px); margin:10px 0; }
+  .ph-card { position:relative; width:190px; background:#f4efe4; padding:6px 6px 8px; border-radius:3px; box-shadow:0 4px 14px rgba(0,0,0,.5); cursor:pointer; }
+  .ph-card img { display:block; width:100%; height:auto; }
+  .ph-when { font:600 11px "Courier New",monospace; color:#7a5030; margin:4px 0 2px; }
+  .ph-card .mbtn { margin:2px 2px 0 0; padding:3px 9px; font-size:11.5px; }
+  .ph-card .ph-save { background:#2e2240; border-color:#2e2240; color:#ffe7b0; }
+  .ph-card.kfocus { outline:3px solid #ffd27a; outline-offset:2px; }
+  .ph-card .ph-del { position:absolute; top:10px; right:10px; padding:1px 7px; background:rgba(10,4,20,.7); }
+  /* one photo at full size, from the print that slides in or the album */
+  #photo-view { position:fixed; inset:0; z-index:40; display:none; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px; padding:12px; background:rgba(6,3,12,.95); }
+  #photo-view-img { box-sizing:border-box; max-width:min(96vw,1600px); max-height:calc(100vh - 112px); object-fit:contain;
+    background:#f4efe4; padding:8px; border-radius:3px; box-shadow:0 10px 40px rgba(0,0,0,.7); }
+  #photo-view-name { font:600 12px "Courier New",Courier,monospace; color:#ffd27a; text-align:center; }
+  #photo-view-bar { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; }
+  #photo-view-save { background:#2e2240; border-color:#ffd27a; color:#ffe7b0; }
+  #controls-screen { position:fixed; inset:0; z-index:37; display:none; align-items:center; justify-content:safe center;
+    flex-direction:column; background:#08040f; overflow-y:auto; padding:14px 10px; color:#cfe6ff; }
+  #controls-screen h2 { margin:4px 0 6px; color:#9df3ff; letter-spacing:4px; font-style:italic; }
+  #ctl-pad { font-size:13px; color:#8dffd8; margin-bottom:4px; }
+  #controls-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:2px 18px; width:min(94vw,820px); margin-top:8px; }
+  #controls-list .crow { display:flex; justify-content:space-between; align-items:center; font-size:13.5px; padding:1px 0; }
+  #controls-list .ckey { margin:2px 0; padding:3px 12px; min-width:80px; text-align:center; font-size:13px; }
+  #controls-list .ckey.wait { color:#ffe08a; border-color:#ffe08a; }
+  .ctl-hint { font-size:12.5px; margin-top:8px; color:#9fb4cc; }
+  /* the button the arrow keys are on (pause screen) */
+  .mbtn.kfocus { outline:2px solid #8dffd8; outline-offset:2px; box-shadow:0 0 14px rgba(60,255,190,.65); }
+  .mbtn { display:inline-block; margin:10px 8px 0; padding:8px 22px; border-radius:8px; cursor:pointer;
+    background:rgba(255,105,180,.18); border:1px solid rgba(255,150,210,.6); color:#ffd9f2; font-weight:800; font-size:14px; }
+  .mbtn:active { background:rgba(255,105,180,.45); }
+
+  /* shop / property / casino browser — same family as the pause and map screens */
+  #shop-screen { position:fixed; inset:0; z-index:36; display:none; align-items:center; justify-content:safe center;
+    flex-direction:column; background:rgba(8,4,18,.88); font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    overflow-y:auto; padding:12px 0; }
+  #shop-title { font-size:clamp(20px,5.5vh,30px); font-weight:900; font-style:italic; color:#ffd9f2; letter-spacing:4px;
+    text-shadow:0 0 16px rgba(255,100,200,.8); flex-shrink:0; }
+  #shop-tag { color:#9fd8ff; font-size:13px; letter-spacing:2px; margin-top:2px; }
+  #shop-cash { color:#8dffd8; font-size:clamp(15px,3.8vh,20px); font-weight:800; margin-top:6px; text-shadow:0 0 10px rgba(60,255,190,.8); }
+  #shop-body { display:flex; gap:18px; align-items:flex-start; margin-top:12px; }
+  #shop-items { position:relative; width:min(60vw,470px); max-height:min(50vh,480px); overflow-y:auto;
+    scrollbar-width:none; -ms-overflow-style:none; }
+  #shop-items::-webkit-scrollbar { display:none; }
+  /* the pane scales with the screen height; the render buffer stays 300x340 */
+  #shop-preview { display:block; height:min(340px,42vh); width:auto; aspect-ratio:300/340;
+    border-radius:12px; background:linear-gradient(180deg, #b8b4c8 0%, #9692aa 52%, #57536b 100%);
+    border:1px solid rgba(255,150,210,.4); box-shadow:0 0 18px rgba(255,105,180,.25); }
+  #shop-preview-tag { color:#9fd8ff; font-size:11.5px; letter-spacing:2px; text-align:center; margin-top:6px; }
+  @media (max-width:760px) { #shop-body { flex-direction:column-reverse; align-items:center; } #shop-items { width:88vw; max-height:34vh; } }
+  @media (max-height:460px) {
+    #shop-tag { display:none; }
+    #shop-body { margin-top:6px; gap:12px; }
+    #shop-items { max-height:44vh; }
+    #shop-preview { height:34vh; }
+    #shop-hint { display:none; }
+    #shop-note { margin-top:4px; min-height:14px; font-size:12px; }
+    .shop-row { padding:6px 12px; margin:4px 0; }
+  }
+  .shop-row { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:9px 16px; margin:5px 0;
+    border-radius:9px; cursor:pointer; background:rgba(255,105,180,.08); border:1px solid rgba(255,150,210,.28); }
+  .shop-row .nm { color:#ffe8f6; font-weight:800; font-size:15px; }
+  .shop-row .ds { color:#bcd4ee; font-size:12px; margin-top:1px; }
+  .shop-row .pr { color:#8dffd8; font-weight:800; font-size:15px; white-space:nowrap; }
+  .shop-row .pr.buychip { background:rgba(141,255,216,.16); border:1px solid rgba(141,255,216,.75);
+    border-radius:7px; padding:5px 12px; text-shadow:0 0 8px rgba(60,255,190,.6); }
+  .shop-row .sw { display:inline-block; width:13px; height:13px; border-radius:3px; margin-right:8px;
+    border:1px solid rgba(255,255,255,.6); vertical-align:-2px; }
+  .shop-row.sel { background:rgba(255,105,180,.26); border-color:rgba(255,170,220,.85); }
+  .shop-row.off { opacity:.45; cursor:default; }
+  .shop-row.owned .pr { color:#ffe08a; }
+  #shop-note { color:#ffe08a; font-size:14px; font-weight:700; margin-top:10px; min-height:18px;
+    text-shadow:0 0 8px rgba(255,190,60,.6); }
+  /* the purchase gate: nothing is bought without walking through this */
+  #shop-confirm { position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+    background:rgba(5,2,12,.72); z-index:2; }
+  #shop-confirm-card { background:rgba(16,8,30,.97); border:1px solid rgba(255,150,210,.65); border-radius:14px;
+    padding:20px 28px; text-align:center; max-width:min(86vw,420px); box-shadow:0 12px 44px rgba(0,0,0,.6); }
+  #shop-confirm-name { color:#ffe8f6; font-weight:900; font-size:19px; letter-spacing:1px; }
+  #shop-confirm-price { color:#8dffd8; font-weight:800; font-size:17px; margin-top:6px;
+    text-shadow:0 0 8px rgba(60,255,190,.6); }
+  #shop-confirm-hint { color:#9fd8ff; font-size:11.5px; margin-top:10px; letter-spacing:1px; }
+  #shop-hint { color:#cfe6ff; font-size:12.5px; margin-top:6px; }
+
+  /* in-game dialog — the game never throws browser popups */
+  #game-modal { position:fixed; inset:0; z-index:70; display:none; align-items:center; justify-content:center;
+    background:rgba(5,2,12,.72); font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; }
+  #game-modal-card { background:rgba(16,8,30,.97); border:1px solid rgba(255,150,210,.65); border-radius:14px;
+    padding:20px 26px; text-align:center; max-width:min(88vw,440px); box-shadow:0 12px 44px rgba(0,0,0,.6); }
+  #game-modal-title { color:#ffe8f6; font-weight:900; font-size:19px; letter-spacing:1px; }
+  #game-modal-body { color:#cfe6ff; font-size:13.5px; line-height:1.55; margin-top:10px; white-space:pre-line; }
+  #game-modal-hint { color:#9fd8ff; font-size:11.5px; margin-top:10px; letter-spacing:1px; }
+  #game-modal .mbtn.danger { background:rgba(255,80,80,.18); border-color:rgba(255,120,120,.65); color:#ffd9d9; }
+  #game-modal .mbtn.danger:active { background:rgba(255,80,80,.45); }
+  #pause-abandon.danger { background:rgba(255,80,80,.18); border-color:rgba(255,120,120,.65); color:#ffd9d9; }
+
+  #fade-layer { position:fixed; inset:0; background:#000; opacity:0; pointer-events:none; z-index:25; transition:opacity .5s; }
+  #crt-layer { position:fixed; inset:0; pointer-events:none; z-index:20; display:none;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px);
+    mix-blend-mode:multiply; }
+  #crt-layer::after { content:""; position:absolute; inset:0;
+    background:radial-gradient(ellipse at center, transparent 55%, rgba(10,0,25,.5) 100%); }
+
+  #touch-layer { position:fixed; z-index:15; display:none; pointer-events:none; font-family:inherit;
+    inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px); }
+  .tbtn { position:absolute; pointer-events:auto; min-width:60px; min-height:60px; border-radius:50%;
+    background:rgba(255,105,180,.16); border:2px solid rgba(255,150,210,.55); color:#ffd9f2; font-size:13px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; text-shadow:0 1px 3px #000; touch-action:none; }
+  .tbtn:active, .tbtn.held { background:rgba(255,105,180,.42); }
+  #tstick-zone { position:absolute; left:0; bottom:0; width:45%; height:70%; pointer-events:auto; touch-action:none; }
+  #tstick-base { position:absolute; width:120px; height:120px; border-radius:50%; border:2px solid rgba(120,220,255,.45);
+    background:rgba(30,60,90,.25); display:none; }
+  #tstick-nub { position:absolute; width:52px; height:52px; border-radius:50%; background:rgba(140,230,255,.55); display:none; }
+  #rotate-hint { position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center;
+    background:rgba(10,5,22,.94); color:#ffd9f2; font-size:22px; font-weight:800; text-align:center; }
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<canvas height="900" id="game-canvas" style="width: 1440px; height: 900px;" width="1440"></canvas>
+<div id="low-health"></div>
+<div id="hud" style="display:none">
+<div class="panel" id="minimap-wrap"><canvas height="180" id="minimap" width="180"></canvas></div>
+<div class="panel" id="stat-block">
+<div id="clock">00:00</div>
+<div id="cash">$250</div>
+<div id="wanted-stars"><span class="">★</span><span class="">★</span><span class="">★</span><span class="">★</span><span class="">★</span><span class="">★</span></div>
+<div class="bar"><div id="health-fill"></div></div>
+<div class="bar"><div id="armor-fill"></div></div>
+<div id="weapon-row"><div data-w="FISTS" id="weapon-icon"><svg class="wicon" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g fill="#ffd24a" stroke="#ffd24a" stroke-linejoin="round"><g stroke="#1a0c2a" stroke-width="2.4"><rect height="25" rx="8" width="30" x="15" y="21"></rect><rect height="14" rx="5" width="11" x="40" y="27"></rect><path d="M23 21v11M30 21v11M37 21v11" fill="none" stroke="#1a0c2a" stroke-width="2"></path></g></g></svg></div><div id="weapon-line">FISTS</div></div>
+<div id="vehicle-line"></div>
+</div>
+<div class="panel" id="radio-popup"></div>
+<div class="panel" id="radio-talk"></div>
+<div class="panel" id="zone-popup"></div>
+<div class="panel" id="poi-hint"></div>
+<div class="panel" id="msg-line"></div>
+<div class="panel" id="enter-hint"></div>
+<div class="panel" id="pager"><div id="pager-face"></div><div id="pager-body"><div id="pager-from"></div><div id="pager-text"></div></div></div>
+<div id="herald"><div class="hd-mast">The Costa Rosa Herald</div><div class="hd-date"></div><div class="hd-head"></div><div class="hd-body"><div class="hd-photo"></div><div class="hd-sub"></div></div></div>
+<div class="panel" id="count-big"></div>
+<div class="panel" id="mission-hud">
+<div id="mission-title"></div>
+<div id="mission-obj"></div>
+<div id="mission-timer"></div>
+</div>
+<div class="panel" id="crosshair"></div>
+<div class="panel" id="lock-hint">CLICK TO LOOK AROUND</div>
+<div class="panel" id="hit-dir"></div>
+</div>
+<div class="big-screen" id="wasted-screen"><div class="big-word">WASTED</div><div class="big-rule"></div><div class="big-sub"></div><div class="big-hint">PRESS R TO CONTINUE</div></div>
+<div class="big-screen" id="busted-screen"><div class="big-word">BUSTED</div><div class="big-rule"></div><div class="big-sub"></div><div class="big-hint">PRESS R TO CONTINUE</div></div>
+<div id="share-screen">
+<canvas height="0" id="share-canvas" width="0"></canvas>
+<div id="share-actions">
+<span class="mbtn" id="share-send" style="display: none;">SHARE</span>
+<span class="mbtn" id="share-save">SAVE IMAGE</span>
+<span class="mbtn" id="share-copy">COPY</span>
+<span class="mbtn" id="share-close">CLOSE</span>
+</div>
+<div id="share-note"></div>
+</div>
+<div id="pause-screen">
+<div id="pause-frame">
+<div id="pause-side">
+<div id="pause-title"><h2>PAUSED</h2><div id="pause-place"></div></div>
+<div id="pause-tabs">
+<span class="mbtn ptab act" id="pause-resume">RESUME</span>
+<span class="mbtn ptab act" id="pause-abandon" style="display:none">✖ ABANDON MISSION</span>
+<span class="mbtn ptab act" id="pause-map">MAP</span>
+<span class="mbtn ptab" data-panel="pp-stats" id="ptab-stats">STATS</span>
+<span class="mbtn ptab act" id="pause-lola">ASK LOLA</span>
+<span class="mbtn ptab act" id="pause-photos">PHOTOS</span>
+<span class="mbtn ptab" data-panel="pp-settings" id="ptab-settings">SETTINGS</span>
+<span class="mbtn ptab" data-panel="pp-game" id="ptab-game">GAME</span>
+</div>
+</div>
+<div id="pause-panel">
+<div class="ppanel" id="pp-stats">
+<h3>STATS</h3>
+<div id="pause-stats"></div>
+<div class="pstat-note" id="pause-missions"></div>
+<div class="pstat-note" id="pause-stunts"></div>
+</div>
+<div class="ppanel" id="pp-settings">
+<h3>SETTINGS</h3>
+<div class="pgroup"><h4>SOUND</h4>
+<span class="mbtn" id="pause-mute">🔊 SOUND</span>
+<span class="mbtn" id="pause-music">🎵 MUSIC: ON</span>
+<span class="mbtn" id="pause-sfx">💥 SFX: ON</span></div>
+<div class="pgroup"><h4>DISPLAY</h4>
+<span class="mbtn" id="pause-gfx">🖥 GFX: HIGH</span>
+<span class="mbtn" id="pause-crt">📺 CRT</span>
+<span class="mbtn" id="pause-shake">🎥 SHAKE: ON</span>
+<span class="mbtn" id="pause-hintbar">💡 HINT BAR: ON</span>
+<span class="mbtn" id="pause-fs">⛶ FULL SCREEN: OFF</span></div>
+<div class="pgroup"><h4>CONTROLS</h4>
+<span class="mbtn" id="pause-keys">🎮 CONTROLS</span>
+<span class="mbtn" id="pause-lefty" style="display: none;">🎮 CONTROLS: RIGHT</span>
+<span class="mbtn" id="pause-haptic" style="display: none;">📳 RUMBLE: ON</span>
+<span class="mbtn" id="pause-tips">💬 LOLA'S TIPS: ON</span>
+<div id="pause-controls"><b>WASD</b> move / drive  ·  <b>Mouse</b> camera  ·  <b>RMB / Tab</b> aim lock-on  ·  <b>LMB</b> fire<br/><b>Q / E</b> cycle target · drive-by · plane roll  ·  <b>Space</b> jump · climb / handbrake  ·  <b>F</b> enter / exit car  ·  <b>Shift</b> sprint<br/><b>1–9</b> weapons  ·  <b>, / .</b> radio  ·  <b>G</b> horn / siren  ·  <b>J</b> job  ·  <b>X</b> abandon mission  ·  <b>C</b> photo · <b>V</b> see it  ·  <b>L</b> Lola  ·  <b>P</b> map  ·  <b>`</b> cheats  ·  <b>M</b> mute  ·  <b>H</b> hide help  ·  <b>Esc</b> pause</div></div>
+<div class="pgroup"><h4>WORLD</h4>
+<span class="mbtn" id="pause-chaos">🌆 CITY: LIVELY</span>
+<span class="mbtn" id="pause-day">🕓 TIME: AUTO</span>
+<span class="mbtn" id="pause-weather">🌧 WEATHER: AUTO</span></div>
+</div>
+<div class="ppanel" id="pp-game">
+<h3>GAME</h3>
+<div class="pgroup"><h4>YOUR SAVE</h4>
+<span class="mbtn" id="pause-export">💾 EXPORT SAVE</span>
+<span class="mbtn" id="pause-import">📂 IMPORT SAVE</span>
+<span class="mbtn" id="pause-reset">🗑 RESET PROGRESS</span></div>
+<div class="pgroup"><h4>EXTRAS</h4>
+<span class="mbtn" id="pause-cheats">🕹 CHEATS</span></div>
+<div class="pgroup"><h4>LEAVE</h4>
+<span class="mbtn" id="pause-exit">EXIT TO TITLE</span></div>
+</div>
+</div>
+</div>
+<input accept=".json,application/json" id="save-file" style="display:none" type="file"/>
+<div id="pause-hint">ESC, RESUME or a click off the menu to carry on  ·  ↑ ↓ pick · → / Enter open · ← back</div>
+<!-- always there, whichever card is open -->
+<div id="pause-link"><a onclick="event.stopPropagation()" ontouchend="event.stopPropagation()" rel="noopener" target="_blank">github.com/pranshuparmar/neon-mayhem</a></div>
+</div>
+<div id="shutter"></div>
+<div id="derby-tv"></div>
+<div id="lola-screen"><div id="lola-card"><div id="lola-head"><div id="lola-face"></div><div id="lola-words"><div id="lola-from">📟 LOLA</div><div id="lola-say"></div></div></div><div id="lola-opts"></div><div id="lola-hint"></div></div></div>
+<div id="weapon-wheel"><div id="wheel-ring"></div><div id="wheel-name"></div></div>
+<div id="scope"><div class="scope-x"></div><div class="scope-y"></div></div>
+<div id="cheat-box"><div id="cheat-card">
+<div id="cheat-head"><div id="cheat-title">🕹 CHEATS</div><div id="cheat-sub"></div><div id="cheat-find"></div></div>
+<div id="cheat-list"></div>
+<div id="cheat-foot"><div id="cheat-keys"></div><span class="mbtn" id="cheat-close">CLOSE</span></div></div></div>
+<div id="cine"><div class="cine-bar cine-top"></div><div class="cine-bar cine-bot"><span id="cine-photo">📷</span><span id="cine-skip"></span></div><div id="scene-sub"><div id="scene-face"></div><div id="scene-words"><div id="scene-name"></div><div id="scene-text"></div></div></div></div>
+<div id="photo-toast"><img alt="" id="photo-toast-img"/><div id="photo-toast-text"></div></div>
+<div id="photo-view">
+<img alt="" id="photo-view-img"/>
+<div id="photo-view-name"></div>
+<div id="photo-view-bar"><span class="mbtn" id="photo-view-prev">‹ NEWER</span><span class="mbtn" id="photo-view-save">⤓ DOWNLOAD</span><span class="mbtn" id="photo-view-close">✕ CLOSE</span><span class="mbtn" id="photo-view-next">OLDER ›</span></div>
+</div>
+<div id="photo-album">
+<h2>📷 PHOTOS</h2>
+<div style="font-size:12.5px;color:#9fb0c8;max-width:560px;text-align:center">Every shot you take with the camera. Click or tap one to see it full size. Save the ones you want to keep — they are kept here for you between visits, up to the last thirty-six.</div>
+<div id="photo-empty"><div class="pe-big">No photos yet</div><div class="pe-sub">Press the camera key (or 📷) while you play.</div></div>
+<div id="photo-grid"></div>
+<div><span class="mbtn" id="photo-auto">AUTO-DOWNLOAD: OFF</span><span class="mbtn" id="photo-all">⤓ SAVE ALL</span><span class="mbtn" id="photo-close">DONE</span></div>
+</div>
+<div id="controls-screen">
+<h2>CONTROLS</h2>
+<div id="ctl-pad"></div>
+<div><span class="mbtn" id="ctl-sens">MOUSE: 1.00×</span><span class="mbtn" id="ctl-invert">INVERT Y: OFF</span><span class="mbtn" id="ctl-fov">FIELD OF VIEW: 62°</span></div>
+<div id="controls-list"></div>
+<div class="ctl-hint">Click a key, then press the one you want. A key that is already in use swaps over.</div>
+<div><span class="mbtn" id="ctl-reset">RESET ALL</span><span class="mbtn" id="ctl-close">DONE</span></div>
+</div>
+<div id="game-modal">
+<div id="game-modal-card">
+<div id="game-modal-title"></div>
+<div id="game-modal-body"></div>
+<div>
+<span class="mbtn" id="game-modal-ok">CONFIRM</span>
+<span class="mbtn" id="game-modal-cancel">CANCEL</span>
+</div>
+<div id="game-modal-hint">Enter — confirm  ·  Esc — cancel</div>
+</div>
+</div>
+<div id="fs-btn" style="display: flex;" title="Fullscreen">⛶</div>
+<div id="title-screen">
+<div class="sun"></div>
+<div id="title-logo">NEON MAYHEM</div>
+<div id="title-sub">COSTA ROSA  ·  1986</div>
+<div class="" id="press-enter">PRESS ENTER</div>
+<div id="title-best"></div>
+<div id="controls-card"><b>WASD</b> move / drive  ·  <b>Mouse</b> camera  ·  <b>RMB / Tab</b> aim lock-on  ·  <b>LMB</b> fire<br/><b>Q / E</b> cycle target · drive-by · plane roll  ·  <b>Space</b> jump · climb / handbrake  ·  <b>F</b> enter / exit car  ·  <b>Shift</b> sprint<br/><b>1–9</b> weapons  ·  <b>, / .</b> radio  ·  <b>G</b> horn / siren  ·  <b>J</b> job  ·  <b>X</b> abandon mission  ·  <b>C</b> photo · <b>V</b> see it  ·  <b>L</b> Lola  ·  <b>P</b> map  ·  <b>`</b> cheats  ·  <b>M</b> mute  ·  <b>H</b> hide help  ·  <b>Esc</b> pause</div>
+<div id="title-footer">Fan-made tribute. Not affiliated with Rockstar Games or Take-Two Interactive. No original game assets used.
+     ·  <!-- the whole title screen is a start button, so the link must
+      stop its events short of it — same pattern as the pause screen's link -->
+<a onclick="event.stopPropagation()" ontouchend="event.stopPropagation()" rel="noopener" style="color:#9df3ff;pointer-events:auto;" target="_blank">github.com/pranshuparmar/neon-mayhem</a></div>
+</div>
+<div id="controls-bar"></div>
+<div id="map-screen">
+<div id="map-title">COSTA ROSA</div>
+<canvas height="0" id="bigmap" width="0"></canvas>
+<div id="map-legend"><span class="lgd" data-k="race"><i style="background:#ff8a3d"></i>Race</span><span class="lgd" data-k="courier"><i style="background:#38e8ff"></i>Courier</span><span class="lgd" data-k="rampage"><i style="background:#ff4fa3"></i>Rampage</span><span class="lgd" data-k="takedown"><i style="background:#ff3b3b"></i>Takedown</span><span class="lgd" data-k="respray"><i style="background:#c86bff"></i>S — Respray</span><span class="lgd" data-k="hospital"><i style="background:#f2f4f8"></i>H — Hospital</span><span class="lgd" data-k="police"><i style="background:#5aa0ff"></i>P — Police</span><span class="lgd" data-k="weapon"><i style="background:#eef0ff"></i>Weapon</span><span class="lgd" data-k="health"><i style="background:#ff4d6a"></i>Health</span><span class="lgd" data-k="armor"><i style="background:#4a6cff"></i>Armour</span><span class="lgd" data-k="airport"><i style="background:#8de0ff"></i>✈ Airport · Ⓗ Helipad · ⚓ Boats</span><span class="lgd" data-k="shops"><i style="background:#8de8b0"></i>$ Shops &amp; property · ☀ Depot</span><span class="lgd" data-k="home"><i style="background:#5dff9e"></i>⌂ Your safehouse</span><span class="lgd" data-k="dest"><i style="background:#c6ff3d"></i>Destination</span><span class="lgd" data-k="objective"><i style="background:#ffe14f"></i>Objective</span></div>
+<div id="map-hint">Click to set a destination  ·  scroll or + / − to zoom, drag to move  ·  tap a legend entry (or ← →) to show only that family  ·  C clear  ·  P / Esc close</div>
+<div><span class="mbtn" id="map-zin">＋</span><span class="mbtn" id="map-zout">−</span><span class="mbtn" id="map-clear">CLEAR ROUTE</span><span class="mbtn" id="map-close">CLOSE</span></div>
+</div>
+<div id="shop-screen">
+<div id="shop-title"></div>
+<div id="shop-tag"></div>
+<div id="shop-cash"></div>
+<div id="shop-body">
+<div id="shop-items"></div>
+<div id="shop-side" style="display:none">
+<canvas height="340" id="shop-preview" width="300"></canvas>
+<div id="shop-preview-tag"></div>
+</div>
+</div>
+<div id="shop-note"></div>
+<div id="shop-hint">W/S select  ·  Enter buy  ·  Esc leave  ·  or click</div>
+<div><span class="mbtn" id="shop-close">LEAVE</span></div>
+<div id="shop-confirm">
+<div id="shop-confirm-card">
+<div id="shop-confirm-name"></div>
+<div id="shop-confirm-price"></div>
+<div style="margin-top:6px;">
+<span class="mbtn" id="shop-confirm-yes">CONFIRM</span>
+<span class="mbtn" id="shop-confirm-no">CANCEL</span>
+</div>
+<div id="shop-confirm-hint">Enter — confirm  ·  Esc — cancel</div>
+</div>
+</div>
+</div>
+<div id="fade-layer"></div>
+<div id="crt-layer"></div>
+<div id="touch-layer">
+<div id="tstick-zone"></div>
+<div id="tstick-base"></div>
+<div id="tstick-nub"></div>
+</div>
+<div id="rotate-hint">Rotate your device to landscape<br/>to play NEON MAYHEM</div>
+<script>
+// Inline watchdog: external scripts can fail when the page is opened through a
+// file manager (Android content:// URLs block sibling-file loads). Inline code
+// still runs, so surface the problem instead of a dead title screen.
+window.addEventListener('load', function () {
+  setTimeout(function () {
+    if (window.GAME && window.THREE) return;
+    var pe = document.getElementById('press-enter');
+    if (!pe) return;
+    pe.textContent = 'GAME FILES DID NOT LOAD';
+    pe.style.animation = 'none';
+    pe.style.color = '#ff5d7a';
+    pe.style.borderColor = 'rgba(255,90,120,.6)';
+    pe.style.textShadow = '0 0 12px rgba(255,60,100,.8)';
+    var d = document.createElement('div');
+    d.style.cssText = 'position:relative;z-index:1;margin-top:12px;color:#cfe6ff;font-size:13px;line-height:1.6;max-width:620px;text-align:center;padding:0 18px;';
+    d.innerHTML = 'The browser could not load the <b>js/</b> folder. This happens when index.html is opened directly from a file manager or downloads app.<br>Play it over HTTP instead: host the folder (e.g. GitHub Pages) or run a local web-server app and open its URL.';
+    pe.parentNode.insertBefore(d, pe.nextSibling);
+  }, 2500);
+});
+</script>
+<script src="/_assets/9274bbcec8d96168626c.js"></script>
+<script src="/_assets/7b4cfbb5aa76e9b1f959.js"></script>
+<script src="/_assets/e65ce666c90dafe47a96.js"></script>
+<script src="/_assets/d8850b0c7cdf64b178c7.js"></script>
+<script src="/_assets/3916d25cd5ed017ce032.js"></script>
+<script src="/_assets/a2221c747f972e5138f6.js"></script>
+<script src="/_assets/c97ae04c92cd5ed90bc0.js"></script>
+<script src="/_assets/e090b8ac163cf97decb0.js"></script>
+<script src="/_assets/1d7668584734162573ee.js"></script>
+<script src="/_assets/10a48e7ecf2384943a40.js"></script>
+<script src="/_assets/be40ea12fa424870df9c.js"></script>
+<script src="/_assets/043861c0304d1b5b7c1d.js"></script>
+<script src="/_assets/ba17645bfd582afb8080.js"></script>
+<script src="/_assets/05549cbf653ae9dfaab6.js"></script>
+<script src="/_assets/6219b04b6045915773a7.js"></script>
+<script src="/_assets/8ceab99db104cd98b010.js"></script>
+<script src="/_assets/ffba718ce5cb2127bf03.js"></script>
+<script src="/_assets/9da9d20c37c282fa5690.js"></script>
+<script src="/_assets/d05e95798955763b0474.js"></script>
+<script src="/_assets/91887f88e4b62cec5c1d.js"></script>
+<script src="/_assets/1ea3eb3126c4d6db062d.js"></script>
+<script src="/_assets/bb154ef2573f7279b6eb.js"></script>
+<script src="/_assets/dd99026366d9c219b2b3.js"></script>
+<script src="/_assets/c77d07fdfca9becdc7b3.js"></script>
+<script src="/_assets/efa6243259cd6b28e087.js"></script>
+<script src="/_assets/b96339a75ce9a6450d62.js"></script>
+<script src="/_assets/33cef747cdbfd3cf602c.js"></script>
+<script src="/_assets/7e1148cb7bc62725853d.js"></script>
+<script src="/_assets/e0c9fd08a8bd86e7e8dd.js"></script>
+<script src="/_assets/200efbb0d40118541718.js"></script>
+<script src="/_assets/b36ed8092828ae88575d.js"></script>
+<script src="/_assets/1fba441b294498986839.js"></script>
+<script src="/_assets/5c300d5427bef216bafb.js"></script>
+<script src="/_assets/e149adb54513f9b45ab6.js"></script>
+<script src="/_assets/7015f335dfeeff6408b8.js"></script>
+<script src="/_assets/b919bb3301ef6b8338b5.js"></script>
+<script src="/_assets/f0d5c28c56f17ec98425.js"></script>
+<script src="/_assets/21bd5c59e2a48ef007f2.js"></script>
+<script src="/_assets/a510e6aa04db68ad97f9.js"></script>
+<script src="/_assets/3379325f2c421595cc38.js"></script>
+<script src="/_assets/5be9e13c7bbe4cbacb86.js"></script>
+<script src="/_assets/0f05b37db6668d87e2ca.js"></script>
+<script src="/_assets/c21efcc1221ab3732cb0.js"></script>
+<script src="/_assets/366a092079f8a29ad185.js"></script>
+<script src="/_assets/199cd2fa37bc7aa01ed6.js"></script>
+<script src="/_assets/13aca26108258f256c2c.js"></script>
+<div style="position: fixed; inset: 0px; pointer-events: none; z-index: 22; background: radial-gradient(transparent 55%, rgba(255, 30, 60, 0.45) 100%); opacity: 0; transition: opacity 0.35s;"></div></body></html>

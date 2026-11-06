@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html style="font-size: 26px;"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><meta charset="utf-8"/>
+<title>Tetr.js</title>
+<link href="/_assets/2ad8220890f7f8e1b11f.css" rel="stylesheet"/>
+<!--<canvas id=bg></canvas>-->
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head><body><video autoplay="" id="bg" loop="" src="/_assets/b0feb5abdb37744344cb.html" style="width: auto; height: 900px; left: 0px; top: 0px;"></video>
+<div id="content" style="padding: 19px 0px;">
+<!-- Canvases -->
+<div id="d">
+<h3 style="line-height: 86px; font-size: 39px;">Hold</h3>
+<div id="a" style="padding: 0px 0.5rem 21px; width: 172px; height: 86px;">
+<canvas height="86" id="hold" width="172"></canvas>
+</div>
+<ul id="replay" style="display:none">
+<li><a onclick="replay(-1)">prev</a>
+</li><li><a onclick="replay()">Play/Pause</a>
+</li><li><a onclick="replay(1)">next</a>
+</li></ul>
+<table id="stats" style="bottom: 19px; font-size: 39px; width: 172px;">
+<tbody><tr><td id="line">0</td><th>Line
+      </th></tr><tr><td id="piece">0</td><th>Piece
+      </th></tr><tr><th id="time">00:00.00
+    </th></tr></tbody></table>
+</div>
+<div id="b" style="width: 430px; height: 860px;">
+<canvas height="860" id="bgStack" width="430"></canvas>
+<canvas height="860" id="stack" width="430"></canvas>
+<canvas height="860" id="active" width="430"></canvas>
+<p id="msg" style="line-height: 860px; font-size: 71px;">
+</p><nav class="menu on">
+<h1>Tetr.js</h1>
+<ul>
+<li><a onclick="init(0)">Play Sprint</a>
+<!--<li><a onclick=init(1)>Play Marathon</a>
+        <li><a onclick=init(2)>Play Ultra</a>-->
+</li><li><a onclick="init(3)">Play Dig Race</a>
+</li><li><a onclick="menu(2)"><i class=""></i>Controls</a>
+</li><li><a onclick="menu(1)"><i class="icon-cog"></i>Settings</a>
+</li></ul>
+</nav>
+<div class="menu">
+<h2>Settings</h2>
+<div id="settings">
+<div id="DAS"><b>DAS:</b><i class="left"></i><span>10</span><i class="right"></i></div><div id="ARR"><b>ARR:</b><i class="left"></i><span>1</span><i class="right"></i></div><div id="Gravity"><b>Gravity:</b><i class="left"></i><span>Auto</span><i class="right"></i></div><div id="Soft Drop"><b>Soft Drop:</b><i class="left"></i><span>32/64G</span><i class="right"></i></div><div id="Lock Delay"><b>Lock Delay:</b><i class="left"></i><span>30</span><i class="right"></i></div><div id="Size"><b>Size:</b><i class="left"></i><span>Auto</span><i class="right"></i></div><div id="Sound"><b>Sound:</b><i class="left"></i><span>Off</span><i class="right"></i></div><div id="Volume"><b>Volume:</b><i class="left"></i><span>100</span><i class="right"></i></div><div id="Block"><b>Block:</b><i class="left"></i><span>Shaded</span><i class="right"></i></div><div id="Ghost"><b>Ghost:</b><i class="left"></i><span>Normal</span><i class="right"></i></div><div id="Grid"><b>Grid:</b><i class="left"></i><span>Off</span><i class="right"></i></div><div id="Outline"><b>Outline:</b><i class="left"></i><span>Off</span><i class="right"></i></div></div>
+<div style="clear:both"><a class="button" onclick="menu(0)">Done</a></div>
+</div>
+<div class="menu">
+<h2>Controls</h2>
+<p>Click on the control you want to change, then press any key.
+      </p><table id="controls">
+<tbody><tr> <th>Move Left:    </th><td id="moveLeft">←
+        </td></tr><tr> <th>Move Right:   </th><td id="moveRight">→
+        </td></tr><tr> <th>Move Down:    </th><td id="moveDown">↓
+        </td></tr><tr> <th>Hard Drop:    </th><td id="hardDrop">Space
+        </td></tr><tr> <th>Hold:         </th><td id="holdPiece">C
+        </td></tr><tr> <th>Spin Right:   </th><td id="rotRight">X
+        </td></tr><tr> <th>Spin Left:    </th><td id="rotLeft">Z
+        </td></tr><tr> <th>Spin 180:     </th><td id="rot180">Shift
+        </td></tr><tr> <th>Retry:        </th><td id="retry">R
+        </td></tr><tr> <th>Pause:        </th><td id="pause">Esc
+      </td></tr></tbody></table>
+<div style="clear:both"><a class="button" onclick="menu(0)">Done</a></div>
+</div>
+<nav class="menu" id="go">
+<ul>
+<li><a onclick="init(gametype)">Retry</a>
+</li><li><a onclick="init('replay')">Watch Replay</a>
+</li><li><a onclick="menu(0)">Main Menu</a>
+</li></ul>
+</nav>
+<nav class="menu" id="pause">
+<ul>
+<li><a onclick="unpause()">Return</a>
+</li><li><a onclick="init(gametype)">Retry</a>
+</li><li><a onclick="menu(0)">Main Menu</a>
+</li></ul>
+</nav>
+</div>
+<div id="c" style="width: 172px; height: 860px;">
+<h3 style="line-height: 86px; font-size: 39px;">Next</h3>
+<canvas height="860" id="preview" width="172"></canvas>
+</div>
+</div>
+<canvas height="43" id="sprite" width="387"></canvas>
+<script src="/_assets/61b0de1593d4e34055fc.js"></script>
+<script src="/_assets/f7da62abba89e181a4fb.js"></script>
+<script src="/_assets/91135585220ba40a97df.js"></script>
+<script src="/_assets/36e01e30f6488e3faff1.js"></script>
+<script src="/_assets/10a20130266f79d9cb4c.js"></script>
+<script src="/_assets/86153163d87298468def.js"></script>
+<script src="/_assets/1eb20f1cecb687af95cd.js"></script>
+<script>_gaq=[['_setAccount','UA-30472693-1'],['_trackPageview']];(function(d){var g=d.createElement('script'),s=d.scripts[0];g.src='about:blank';s.parentNode.insertBefore(g,s)})(document)</script>
+
+</body></html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Death by Hamster</title>
+<style>
+    body {
+        background:rgb(22, 22, 22);
+    }
+#gameCanvas {
+display: block;
+margin: auto;
+width: 1200px;
+height: 800px;
+image-rendering: -moz-crisp-edges;
+image-rendering: -webkit-crisp-edges;
+image-rendering: pixelated;
+cursor: none;
+}
+/* if the canvas can't fit the screen, shrink it, maintaining the aspect ratio */
+
+    aside {
+        float:left;
+    }
+    aside pre {
+        color: white;
+    }
+
+@media screen and (max-height: 800px) {
+    #gameCanvas {
+        width: auto;
+        height: 100%;
+    }
+}
+
+</style>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head><body><aside>
+<pre id="leveltext"></pre>
+<p id="levelLink"></p>
+</aside>
+<canvas height="400" id="gameCanvas" width="600">
+</canvas>
+<script id="fontScript" src="/_assets/4a77947a279b154fcdaa.js"></script>
+<script src="/_assets/1036d41f2b1044113c82.js"></script>
+<script src="/_assets/c6ea1ea4759a572294f0.js"></script></body></html>

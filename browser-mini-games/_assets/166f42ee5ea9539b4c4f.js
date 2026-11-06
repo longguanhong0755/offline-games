@@ -1,0 +1,1 @@
+import{n as e}from"/_assets/fe565d48933416cd3328.js";document.getElementById(`theme-toggle`)?.addEventListener(`click`,()=>{e(`theme_change`,{theme:document.documentElement.getAttribute(`data-theme`)||`dark`})});

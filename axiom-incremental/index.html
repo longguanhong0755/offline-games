@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Axiom</title>
+
+
+<link href="/_assets/551504062682dbc2e536.css" rel="stylesheet"/>
+<link href="/_assets/717bc9ae7853b61f0f76.css" rel="stylesheet"/>
+<script src="/_assets/1df3ca7013e352a66587.js"></script>
+<script src="/_assets/e6bfe5deebd4c7ccd272.js"></script>
+<script src="/_assets/58cfae13fbb06b8c20fc.js" type="module"></script>
+<script src="/_assets/5942a36a3a9187f990b6.js" type="module"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<canvas height="900" id="particles-canvas" style="width: 1440px; height: 900px; opacity: 0.351;" width="1440"></canvas>
+<div id="grid-layer"></div>
+<!-- Top bar: N value + rate -->
+<div id="topbar">
+<span id="topbar-n">N: 6.733</span>
+<div id="topbar-divider"></div>
+<span id="topbar-rate">+1.000 / s</span>
+<div class="topbar-divider" id="topbar-seq-divider" style="display:none"></div>
+<span id="topbar-seq" style="display:none"></span>
+<div class="topbar-divider" id="topbar-iter-divider" style="display:none"></div>
+<span id="topbar-iter" style="display:none"></span>
+</div>
+<!-- Tab bar -->
+<div id="tabbar">
+<button class="tab active" data-tab="main">main</button>
+<button class="tab" data-tab="sequences" id="tab-sequences" style="display:none">sequences</button>
+<button class="tab" data-tab="iteration" id="tab-iteration" style="display:none">iteration</button>
+<button class="tab" data-tab="primes" id="tab-primes" style="display:none">primes</button>
+<button class="tab" data-tab="misc">misc</button>
+</div>
+<!-- Main panel -->
+<div class="panel active" id="panel-main">
+<div id="upgrade-column"><div class="section-header">UPGRADES</div><div class="upgrade-card first-in-group" data-scaling-tier="" data-upg-id="successor"><div class="upgrade-icon"><svg height="36" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#666" stroke-width="1.5" x1="18" x2="18" y1="8" y2="28"></line>
+<line stroke="#666" stroke-width="1.5" x1="8" x2="28" y1="18" y2="18"></line>
+</svg></div><div class="upgrade-info"><div class="upgrade-name">Successor <span class="level-badge" data-lvl="successor">lv.0</span></div><div class="upgrade-desc" data-desc="successor">n → n+1   adds +1 N/s per level</div></div><div class="upgrade-right"><div class="upgrade-cost cannot-afford" data-cost="successor">10.000 N</div><div class="upgrade-btn-row"><button class="buy-btn" data-buy="successor" disabled="">buy</button><button class="auto-toggle-btn" data-auto-toggle="successor" style="display: none;"></button></div></div></div></div>
+<div id="prestige-column"></div>
+</div>
+<!-- Sequences panel -->
+<div class="panel" id="panel-sequences">
+<div id="sequences-column"><div class="section-header">SEQUENCE RESET</div><div class="seq-panel-card first-in-group"><div class="seq-panel-label seq-reset-warning">resets run (N, axioms, upgrades, theorems)  ·  earns sequence points</div><div class="seq-pts-preview" data-seq-pts-preview=""></div><div class="seq-pts-cap-row"><span class="seq-ref-label">reserve</span><div class="seq-pts-cap-bar-wrap"><div class="seq-pts-cap-bar-fill" data-pts-cap-fill=""></div></div><span class="seq-pts-cap-count" data-pts-cap-count=""></span></div><button class="seq-panel-btn" id="seq-reset-btn">sequence reset</button></div></div>
+</div>
+<!-- Primes panel -->
+<div class="panel" id="panel-primes">
+<div id="primes-column"><div class="section-header">PRIMES</div><div class="prime-max-row" id="prime-max-row"></div><div class="prime-attempt-section"><button class="prime-attempt-btn" id="prime-attempt-btn">ATTEMPT</button><div class="prime-cooldown-track"><div class="prime-cooldown-bar" id="prime-cooldown-bar"></div></div><div class="prime-cooldown-label" id="prime-cooldown-label"></div><div class="prime-roll-result" id="prime-roll-result"></div></div><div class="prime-strip-header"><span class="prime-strip-label">FOUND PRIMES</span><div class="prime-filter-row"><button class="prime-filter-btn prime-filter-active" data-strip-filter="all">ALL</button><button class="prime-filter-btn" data-strip-filter="common">COMMON</button><button class="prime-filter-btn" data-strip-filter="uncommon">UNCOMMON</button><button class="prime-filter-btn" data-strip-filter="rare">RARE</button><button class="prime-filter-btn" data-strip-filter="epic">EPIC</button><button class="prime-filter-btn" data-strip-filter="legendary">LEGENDARY</button></div></div><div class="prime-strip" id="prime-strip" style="font-size: 12px; gap: 5px;"><span class="prime-strip-empty">no primes found yet</span></div><div class="prime-bonus-row" id="prime-bonus-row"></div><div class="section-header">UPGRADES</div><div class="prime-upgrade-list" id="prime-upgrade-list"><div class="prime-upgrade-row" data-prime-upg="attempt"><div class="prime-upg-left"><div class="prime-upg-name-row"><svg class="prime-upg-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 16 16"><rect height="12" rx="2" width="12" x="2" y="2"></rect><circle cx="5.5" cy="5.5" fill="currentColor" r="0.9" stroke="none"></circle><circle cx="10.5" cy="5.5" fill="currentColor" r="0.9" stroke="none"></circle><circle cx="8" cy="8" fill="currentColor" r="0.9" stroke="none"></circle><circle cx="5.5" cy="10.5" fill="currentColor" r="0.9" stroke="none"></circle><circle cx="10.5" cy="10.5" fill="currentColor" r="0.9" stroke="none"></circle></svg><span class="prime-upg-name">Trial Division</span><span class="prime-upg-badge" data-prime-badge="attempt"></span></div><div class="prime-upg-effect" data-prime-effect="attempt"></div></div><div class="prime-upg-right"><div class="prime-upg-cost" data-prime-cost="attempt"></div><button class="prime-upg-buy" data-prime-buy="attempt">+</button></div></div><div class="prime-upgrade-row" data-prime-upg="nBoost"><div class="prime-upg-left"><div class="prime-upg-name-row"><svg class="prime-upg-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" viewbox="0 0 16 16"><line x1="3" x2="3" y1="14" y2="9"></line><line x1="7" x2="7" y1="14" y2="5"></line><line x1="11" x2="11" y1="14" y2="2"></line><line x1="1" x2="14" y1="14" y2="14"></line></svg><span class="prime-upg-name">Euler Product</span><span class="prime-upg-badge" data-prime-badge="nBoost"></span></div><div class="prime-upg-effect" data-prime-effect="nBoost"></div></div><div class="prime-upg-right"><div class="prime-upg-cost" data-prime-cost="nBoost"></div><button class="prime-upg-buy" data-prime-buy="nBoost">+</button></div></div><div class="prime-upgrade-row" data-prime-upg="iBoost"><div class="prime-upg-left"><div class="prime-upg-name-row"><svg class="prime-upg-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 16 16"><polyline points="10,2 6,9 9,9 6,14"></polyline></svg><span class="prime-upg-name">Dirichlet</span><span class="prime-upg-badge" data-prime-badge="iBoost"></span></div><div class="prime-upg-effect" data-prime-effect="iBoost"></div></div><div class="prime-upg-right"><div class="prime-upg-cost" data-prime-cost="iBoost"></div><button class="prime-upg-buy" data-prime-buy="iBoost">+</button></div></div><div class="prime-upgrade-row" data-prime-upg="batch"><div class="prime-upg-left"><div class="prime-upg-name-row"><svg class="prime-upg-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" viewbox="0 0 16 16"><rect height="7" rx="1" width="7" x="1" y="7"></rect><rect height="7" rx="1" width="7" x="4" y="4"></rect><rect height="7" rx="1" width="7" x="8" y="2"></rect></svg><span class="prime-upg-name">Batch</span><span class="prime-upg-badge" data-prime-badge="batch"></span></div><div class="prime-upg-effect" data-prime-effect="batch"></div></div><div class="prime-upg-right"><div class="prime-upg-cost" data-prime-cost="batch"></div><button class="prime-upg-buy" data-prime-buy="batch">+</button></div></div><div class="prime-upgrade-row" data-prime-upg="elimination"><div class="prime-upg-left"><div class="prime-upg-name-row"><svg class="prime-upg-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" viewbox="0 0 16 16"><path d="M2,2 L14,2 L12,14 L4,14 Z"></path><line x1="3.5" x2="12.5" y1="6" y2="6"></line><line x1="4.5" x2="11.5" y1="10" y2="10"></line></svg><span class="prime-upg-name">Elimination</span><span class="prime-upg-badge" data-prime-badge="elimination"></span></div><div class="prime-upg-effect" data-prime-effect="elimination"></div></div><div class="prime-upg-right"><div class="prime-upg-cost" data-prime-cost="elimination"></div><button class="prime-upg-buy" data-prime-buy="elimination">+</button></div></div><div class="prime-upgrade-row" data-prime-upg="tauBoost"><div class="prime-upg-left"><div class="prime-upg-name-row"><svg class="prime-upg-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 16 16"><path d="M13,8 A5,5 0 1,1 10.5,3.5"></path><polyline points="9.5,1.5 11,4 14,3"></polyline></svg><span class="prime-upg-name">τ Boost</span><span class="prime-upg-badge" data-prime-badge="tauBoost"></span></div><div class="prime-upg-effect" data-prime-effect="tauBoost"></div></div><div class="prime-upg-right"><div class="prime-upg-cost" data-prime-cost="tauBoost"></div><button class="prime-upg-buy" data-prime-buy="tauBoost">+</button></div></div></div><div class="prime-expand-card" id="prime-expand-card"><div class="prime-expand-card-header"><span class="prime-expand-card-title">EXPAND SEARCH RANGE</span><span class="prime-expand-card-count" id="prime-expand-card-count"></span></div><div class="prime-expand-maxes"><span class="prime-expand-cur" id="prime-expand-cur"></span><span class="prime-expand-new" id="prime-expand-new"></span></div><div class="prime-expand-bar-track"><div class="prime-expand-bar-fill" id="prime-expand-bar-fill"></div></div><div class="prime-expand-count-label" id="prime-expand-count-label"></div><button class="prime-expand-btn" id="prime-expand-btn"><svg class="prime-expand-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 16 16"><polyline points="1,5 1,1 5,1"></polyline><polyline points="11,1 15,1 15,5"></polyline><polyline points="15,11 15,15 11,15"></polyline><polyline points="5,15 1,15 1,11"></polyline></svg><span class="prime-expand-text">EXPAND  —  sacrifice all primes</span></button></div><div class="prime-milestone-section"><div class="prime-milestone-header">MILESTONES</div><div class="prime-milestone-row"><span class="prime-milestone-dot">○</span><span class="prime-milestone-thresh">≥ 300</span><span class="prime-milestone-label">Batch</span><span class="prime-milestone-sub">upgrade unlock</span></div><div class="prime-milestone-row"><span class="prime-milestone-dot">○</span><span class="prime-milestone-thresh">≥ 400</span><span class="prime-milestone-label">Catalyst</span><span class="prime-milestone-sub">upgrade unlock</span></div><div class="prime-milestone-row"><span class="prime-milestone-dot">○</span><span class="prime-milestone-thresh">≥ 1,000</span><span class="prime-milestone-label">Elimination</span><span class="prime-milestone-sub">upgrade unlock</span></div><div class="prime-milestone-row"><span class="prime-milestone-dot">○</span><span class="prime-milestone-thresh">≥ 5,000</span><span class="prime-milestone-label">τ Boost</span><span class="prime-milestone-sub">upgrade unlock</span></div><div class="prime-milestone-row"><span class="prime-milestone-dot">○</span><span class="prime-milestone-thresh">≥ 20,000</span><span class="prime-milestone-label">Proliferate</span><span class="prime-milestone-sub">N/s ×1.5</span></div></div><div class="prime-catalyst-section" id="prime-catalyst-section" style="display: none;"><div class="section-header">CATALYST</div><div class="upgrade-card first-in-group" id="prime-catalyst-card"><div class="upgrade-icon"><svg fill="none" height="36" stroke="#666" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg"><polyline points="4.5,9 31.5,9 20.25,20.25 20.25,29.25 15.75,29.25 15.75,20.25 4.5,9"></polyline></svg></div><div class="upgrade-info"><div class="upgrade-name">Catalyst <span class="level-badge" id="prime-catalyst-badge">lv.0</span></div><div class="upgrade-desc" id="prime-catalyst-desc">inactive</div></div><div class="upgrade-right"><div class="upgrade-cost" id="prime-catalyst-cost"></div><div class="upgrade-btn-row"><button class="buy-btn" id="prime-catalyst-btn">buy</button></div></div></div></div></div>
+</div>
+<!-- Iteration subtab bar (shown only when iteration panel is active) -->
+<div id="iter-subtabbar">
+<button class="iter-subtab active" data-iter-subtab="main">iterate</button>
+<button class="iter-subtab" data-iter-subtab="sigma" style="display:none">sigma automation</button>
+<button class="iter-subtab" data-iter-subtab="orbit" style="display:none">orbit</button>
+<button class="iter-subtab" data-iter-subtab="lemma" style="display:none">lemma</button>
+<button class="iter-subtab" data-iter-subtab="residue" style="display:none">residue  <span id="residue-tab-rho"></span></button>
+</div>
+<!-- Misc subtab bar (shown only when misc panel is active) -->
+<div id="misc-subtabbar">
+<button class="misc-subtab active" data-misc-subtab="settings">settings</button>
+<button class="misc-subtab" data-misc-subtab="manual">manual</button>
+<button class="misc-subtab" data-misc-subtab="changelog">changelog</button>
+<button class="misc-subtab" data-misc-subtab="scaling">scaling</button>
+</div>
+<!-- Iteration panel -->
+<div class="panel" id="panel-iteration">
+<div class="iter-subpanel active" id="iter-subpanel-main">
+<div id="iteration-column"><div class="section-header">ITERATION</div><div class="iteration-card first-in-group"><div class="iteration-icon"><svg height="52" viewbox="0 0 52 52" width="52" xmlns="http://www.w3.org/2000/svg">
+<circle cx="26" cy="26" fill="none" r="22" stroke="#5a3e08" stroke-width="1.2"></circle>
+<circle cx="26" cy="26" fill="none" r="14" stroke="#6e4e10" stroke-width="1.2"></circle>
+<circle cx="26" cy="26" fill="none" r="6" stroke="#826018" stroke-width="1.2"></circle>
+<line stroke="#826018" stroke-width="1.6" x1="26" x2="26" y1="4" y2="10"></line>
+<line stroke="#826018" stroke-width="1.6" x1="26" x2="26" y1="42" y2="48"></line>
+<line stroke="#826018" stroke-width="1.6" x1="4" x2="10" y1="26" y2="26"></line>
+<line stroke="#826018" stroke-width="1.6" x1="42" x2="48" y1="26" y2="26"></line>
+<line stroke="#5a3e08" stroke-width="1" x1="10" x2="14" y1="10" y2="14"></line>
+<line stroke="#5a3e08" stroke-width="1" x1="42" x2="38" y1="10" y2="14"></line>
+<line stroke="#5a3e08" stroke-width="1" x1="10" x2="14" y1="42" y2="38"></line>
+<line stroke="#5a3e08" stroke-width="1" x1="42" x2="38" y1="42" y2="38"></line>
+</svg></div><div class="iteration-label">ℐ  ·  iterate</div><div class="iter-divider"></div><div class="iter-stat-row"><span class="iter-stat-label">earn</span><span class="iter-stat-val" data-iter-earn=""></span></div><div class="iter-stat-row"><span class="iter-stat-label">next ℐ at</span><span class="iter-stat-val iter-val-dim" data-iter-next-at=""></span></div><div class="iter-stat-row"><span class="iter-stat-label">total ℐ</span><span class="iter-stat-val" data-iter-total=""></span></div><div class="iter-stat-row"><span class="iter-stat-label">production</span><span class="iter-stat-val iter-val-mult" data-iter-mult=""></span></div><div class="iter-divider"></div><div class="iter-warning">costs everything  ·  all progress resets  ·  a new layer begins</div><button class="iterate-btn" data-iter-btn="">[ iterate ]</button></div></div>
+<div id="epoch-column"><div class="section-header">EPOCH</div><div class="epoch-card first-in-group"><div class="epoch-card-header"><span class="epoch-card-num">epoch 1</span><span class="epoch-card-cost">cost  1 ℐ</span></div><div class="epoch-divider"></div><div class="epoch-effects"><div class="epoch-effect-row"><span class="epoch-effect-dot">·</span><div class="epoch-effect-body"><span class="epoch-effect-name">sigma automation</span><span class="epoch-effect-sub">subtab unlock</span></div></div><div class="epoch-effect-row"><span class="epoch-effect-dot">·</span><div class="epoch-effect-body"><span class="epoch-effect-name">Acceleration</span><span class="epoch-effect-sub">N  ×3</span></div></div><div class="epoch-effect-row"><span class="epoch-effect-dot">·</span><div class="epoch-effect-body"><span class="epoch-effect-name">ℐ boost</span><span class="epoch-effect-sub" data-epoch-iter-boost-val=""></span></div></div><div class="epoch-effect-row"><span class="epoch-effect-dot">·</span><div class="epoch-effect-body"><span class="epoch-effect-name">reserve pts cap  500 → 750</span></div></div></div><div class="epoch-divider"></div><button class="epoch-btn" data-epoch-btn="">[ epoch 1 ]</button></div><div class="epoch-card epoch-card-locked"><div class="epoch-card-header"><span class="epoch-card-num">epoch 2</span><span class="epoch-locked-label">locked</span></div></div><div class="epoch-card epoch-card-locked"><div class="epoch-card-header"><span class="epoch-card-num">epoch 3</span><span class="epoch-locked-label">locked</span></div></div><div class="epoch-card epoch-card-locked"><div class="epoch-card-header"><span class="epoch-card-num">epoch 4</span><span class="epoch-locked-label">locked</span></div></div><div class="epoch-card epoch-card-locked"><div class="epoch-card-header"><span class="epoch-card-num">epoch 5</span><span class="epoch-locked-label">locked</span></div></div></div>
+</div>
+<div class="iter-subpanel" id="iter-subpanel-sigma">
+<div id="iter-sigma-column"><div class="section-header">SIGMA AUTOMATION</div><div class="sigma-exchange-card first-in-group"><div class="sigma-freq-card-label">freq  ·  sigma</div><div class="sigma-exch-row"><div class="sigma-exch-cell"><span class="sigma-exch-cell-label">ℐ</span><span class="sigma-exch-cell-val" data-sigma-exch-iter=""></span></div><span class="sigma-exch-arrow">→</span><div class="sigma-exch-cell"><span class="sigma-exch-cell-label">freq</span><span class="sigma-exch-cell-val" data-sigma-exch-freq=""></span></div></div><div class="sigma-freq-divider"></div><div class="sigma-exch-bottom"><span class="sigma-exch-cost" data-sigma-freq-cost=""></span><button class="sigma-freq-btn" data-sigma-freq-btn="">[ + freq ]</button></div></div><div class="sigma-main-card"><div class="sigma-formula-row"><span class="sigma-katex-wrap" data-sigma-katex=""><span class="katex-display"><span class="katex"><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height: 3.2393em; vertical-align: -1.4382em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.8011em;"><span class="" style="top: -1.8479em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right: 0.0315em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">1</span><span class="mpunct mtight">,</span><span class="mord mtight">2</span><span class="mpunct mtight">,</span><span class="mord mtight">3</span></span></span></span><span class="" style="top: -3.05em;"><span class="pstrut" style="height: 3.05em;"></span><span class=""><span class="mop op-symbol large-op">∑</span></span></span><span class="" style="top: -4.3em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.4382em;"><span class=""></span></span></span></span></span></span></span></span></span></span><div class="sigma-slots-row"><div class="sigma-slot" data-slot-index="0"><span class="sigma-slot-empty">empty</span></div><div class="sigma-slot" data-slot-index="1"><span class="sigma-slot-empty">empty</span></div><div class="sigma-slot" data-slot-index="2"><span class="sigma-slot-empty">empty</span></div></div></div><div class="sigma-main-divider"></div><div class="sigma-status" data-sigma-status=""></div></div><div class="sigma-items-card"><div class="sigma-items-header">automations  ·  drag to slot</div><div class="sigma-item" data-auto-id="auto-successor" draggable="true"><span class="sigma-item-handle">⠿</span><div class="sigma-item-body"><span class="sigma-item-label">upgrade auto-buy (Successor)</span><span class="sigma-item-desc">buys one level when affordable</span></div></div><div class="sigma-item" data-auto-id="auto-addition" draggable="true"><span class="sigma-item-handle">⠿</span><div class="sigma-item-body"><span class="sigma-item-label">upgrade auto-buy (Addition)</span><span class="sigma-item-desc">buys one level when affordable</span></div></div><div class="sigma-item" data-auto-id="auto-multiplication" draggable="true"><span class="sigma-item-handle">⠿</span><div class="sigma-item-body"><span class="sigma-item-label">upgrade auto-buy (Multiplication)</span><span class="sigma-item-desc">buys one level when affordable</span></div></div><div class="sigma-item" data-auto-id="auto-exponentiation" draggable="true"><span class="sigma-item-handle">⠿</span><div class="sigma-item-body"><span class="sigma-item-label">upgrade auto-buy (Exponentiation)</span><span class="sigma-item-desc">buys one level when affordable</span></div></div></div><div class="sigma-amp-card"><div class="sigma-amp-header"><div class="sigma-amp-icon"><svg height="36" viewbox="0 0 52 36" width="52" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#3a2808" stroke-width="1" x1="2" x2="50" y1="18" y2="18"></line>
+<path d="M2,18 C8,10 16,10 22,18 C28,26 36,26 42,18 C46,14 48,14 50,18" fill="none" stroke="#5a3e08" stroke-width="1.2"></path>
+<path d="M2,18 C8,4 16,4 22,18 C28,32 36,32 42,18 C46,10 48,10 50,18" fill="none" stroke="#826018" stroke-width="1.5"></path>
+</svg></div><div class="sigma-amp-info"><span class="sigma-amp-name">Harmonic Amplifier</span><span class="sigma-amp-desc" data-sigma-amp-desc=""></span></div></div><div class="sigma-amp-stat-row"><span class="sigma-amp-stat-label">level</span><span class="sigma-amp-stat-val" data-sigma-amp-level=""></span></div><div class="sigma-amp-stat-row"><span class="sigma-amp-stat-label">cost</span><span class="sigma-amp-stat-val" data-sigma-amp-cost=""></span></div><div class="sigma-amp-divider"></div><button class="sigma-freq-btn sigma-amp-btn" data-sigma-amp-btn="">[ + amplifier ]</button></div></div>
+</div>
+<div class="iter-subpanel" id="iter-subpanel-orbit">
+<div id="iter-orbit-column"><div class="section-header">ORBIT</div><div class="orbit-canvas-card first-in-group"><canvas class="orbit-canvas" height="220" id="orbit-canvas" width="220"></canvas><div class="orbit-stats-row"><span class="orbit-stat" data-orbit-tau=""></span><span class="orbit-stat-dim" data-orbit-rate=""></span></div></div><div class="orbit-layer-header section-header" style="color: rgb(34, 211, 238);">CYCLE 1</div><div class="upgrade-card first-in-group" data-orbit-speed-layer="0" data-scaling-tier=""><div class="upgrade-icon"><svg height="36" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#666" stroke-width="1.5" x1="4" x2="28" y1="10" y2="10"></line>
+<polyline fill="none" points="24,7 28,10 24,13" stroke="#666" stroke-width="1.5"></polyline>
+<line stroke="#666" stroke-width="1.5" x1="9" x2="28" y1="18" y2="18"></line>
+<polyline fill="none" points="24,15 28,18 24,21" stroke="#666" stroke-width="1.5"></polyline>
+<line stroke="#666" stroke-width="1.5" x1="14" x2="28" y1="26" y2="26"></line>
+<polyline fill="none" points="24,23 28,26 24,29" stroke="#666" stroke-width="1.5"></polyline>
+</svg></div><div class="upgrade-info"><div class="upgrade-name">Rotation Speed <span class="level-badge">lv.0</span></div><div class="upgrade-desc">rev/s ×1.000</div></div><div class="upgrade-right"><div class="upgrade-cost">10.000 τ</div><button class="buy-btn">buy</button></div></div><div class="upgrade-card" data-orbit-gain-layer="0" data-scaling-tier=""><div class="upgrade-icon"><svg height="36" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+<circle cx="18" cy="18" fill="none" r="11" stroke="#666" stroke-width="1.2"></circle>
+<circle cx="18" cy="7" fill="#666" r="2.5"></circle>
+<line stroke="#555" stroke-width="0.8" x1="18" x2="18" y1="7" y2="18"></line>
+<line opacity="0.35" stroke="#555" stroke-width="0.8" x1="18" x2="18" y1="18" y2="29"></line>
+</svg></div><div class="upgrade-info"><div class="upgrade-name">τ per Revolution <span class="level-badge">lv.0</span></div><div class="upgrade-desc">τ/rev ×1.000</div></div><div class="upgrade-right"><div class="upgrade-cost">15.000 τ</div><button class="buy-btn">buy</button></div></div><div class="orbit-reset-warning" style="color: rgba(31, 184, 212, 0.55);">adds outer orbit  ·  resets τ and orbit upgrades</div><div class="orbit-new-row"><svg class="orbit-progress-ring" height="44" viewbox="0 0 44 44" width="44"><circle cx="22" cy="22" fill="none" r="19" stroke="rgba(31,184,212,0.18)" stroke-width="1.5"></circle><circle cx="22" cy="22" data-orbit-progress-arc="" fill="none" r="19" stroke="#1fb8d4" stroke-dasharray="119.38 119.38" stroke-dashoffset="119.38" stroke-width="1.5" style="transform: rotate(-90deg); transform-origin: 22px 22px;"></circle><text data-orbit-progress-pct="" dominant-baseline="central" fill="#1fb8d4" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle" x="22" y="22">0%</text></svg><button class="orbit-reset-btn" data-orbit-reset-btn="" style="color: rgba(31, 184, 212, 0.6); border-color: rgba(31, 184, 212, 0.25);"><svg height="20" style="vertical-align:middle;margin-right:5px;opacity:0.75" viewbox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" fill="none" r="3" stroke="currentColor" stroke-width="1"></circle><circle cx="10" cy="10" fill="none" opacity="0.6" r="6" stroke="currentColor" stroke-width="1"></circle><path d="M10,1 A9,9 0 1,1 1,10" fill="none" stroke="currentColor" stroke-width="1"></path><polyline fill="none" points="-1,8 1,11 3,8" stroke="currentColor" stroke-width="1"></polyline></svg>[ new orbit ]</button></div><div class="section-header orbit-ext-header">EXTERNAL EFFECTS</div><div class="upgrade-card first-in-group" data-orbit-n-layer="" data-scaling-tier=""><div class="upgrade-icon"><svg height="36" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+<circle cx="18" cy="18" fill="none" r="4" stroke="#666" stroke-width="1.2"></circle>
+<circle cx="18" cy="18" fill="none" opacity="0.6" r="9" stroke="#666" stroke-width="1"></circle>
+<circle cx="18" cy="18" fill="none" opacity="0.3" r="14" stroke="#666" stroke-width="0.8"></circle>
+</svg></div><div class="upgrade-info"><div class="upgrade-name">N Amplifier <span class="level-badge">lv.0</span></div><div class="upgrade-desc">N × τ^k  [k = +0.15/lv]</div></div><div class="upgrade-right"><div class="upgrade-cost">100.000 τ</div><button class="buy-btn">buy</button></div></div><div class="upgrade-card" data-orbit-seq-layer="" data-scaling-tier=""><div class="upgrade-icon"><svg height="36" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+<line stroke="#666" stroke-width="1.2" x1="5" x2="5" y1="30" y2="22"></line>
+<line stroke="#666" stroke-width="1.2" x1="11" x2="11" y1="30" y2="22"></line>
+<line stroke="#666" stroke-width="1.2" x1="17" x2="17" y1="30" y2="22"></line>
+<line stroke="#666" stroke-width="1.2" x1="23" x2="23" y1="30" y2="22"></line>
+<line stroke="#666" stroke-width="1.2" x1="29" x2="29" y1="30" y2="22"></line>
+<path d="M3,16 C5,8 9,8 11,16 C13,24 17,24 19,16 C21,8 25,8 27,16 C29,24 33,24 33,20" fill="none" stroke="#666" stroke-width="1.2"></path>
+</svg></div><div class="upgrade-info"><div class="upgrade-name">Sequence Resonance <span class="level-badge">lv.0</span></div><div class="upgrade-desc">seq ×(1 + lv × 0.02 × τ)</div></div><div class="upgrade-right"><div class="upgrade-cost">200.000 τ</div><button class="buy-btn">buy</button></div></div></div>
+</div>
+<div class="iter-subpanel" id="iter-subpanel-lemma">
+<div id="iter-lemma-column"><div class="section-header">LEMMA</div><div class="lemma-info-panel" id="lemma-info-panel"><div class="lemma-info-empty">hover an upgrade to preview</div><div class="lemma-info-detail" style="display: none;"><div class="lemma-info-name"></div><div class="lemma-info-line"></div><div class="lemma-info-line lemma-info-next"></div><div class="lemma-info-line lemma-info-cost"></div></div></div><div class="lemma-section-label">N</div><div class="lemma-grid"><div class="lemma-icon-card" data-lemma-card="0"><div class="lemma-icon-wrap"><svg height="36" viewbox="0 0 48 48" width="36" xmlns="http://www.w3.org/2000/svg">
+<line opacity="0.3" stroke="currentColor" stroke-width="0.6" x1="6" x2="42" y1="40" y2="40"></line>
+<line opacity="0.3" stroke="currentColor" stroke-width="0.6" x1="6" x2="6" y1="8" y2="40"></line>
+<path d="M6,10 C10,10 16,14 22,24 C28,34 36,38 42,38" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+<polyline fill="none" points="37,38 42,38 42,33" stroke="currentColor" stroke-width="1.5"></polyline>
+<line opacity="0.4" stroke="currentColor" stroke-dasharray="2,3" stroke-width="0.5" x1="14" x2="14" y1="8" y2="40"></line>
+<line opacity="0.25" stroke="currentColor" stroke-dasharray="2,3" stroke-width="0.5" x1="28" x2="28" y1="8" y2="40"></line>
+</svg></div></div><div class="lemma-icon-card" data-lemma-card="1"><div class="lemma-icon-wrap"><svg height="36" viewbox="0 0 48 48" width="36" xmlns="http://www.w3.org/2000/svg">
+<circle cx="24" cy="26" fill="none" r="5" stroke="currentColor" stroke-width="1.3"></circle>
+<circle cx="24" cy="26" fill="none" opacity="0.65" r="11" stroke="currentColor" stroke-width="1.0"></circle>
+<circle cx="24" cy="26" fill="none" opacity="0.35" r="18" stroke="currentColor" stroke-width="0.7"></circle>
+<line stroke="currentColor" stroke-width="1.2" x1="24" x2="24" y1="21" y2="8"></line>
+<line stroke="currentColor" stroke-width="1.2" x1="35" x2="44" y1="26" y2="26"></line>
+<circle cx="24" cy="8" fill="currentColor" r="1.8"></circle>
+<circle cx="44" cy="26" fill="currentColor" r="1.8"></circle>
+<circle cx="24" cy="44" fill="currentColor" opacity="0.4" r="1.4"></circle>
+<circle cx="4" cy="26" fill="currentColor" opacity="0.4" r="1.4"></circle>
+</svg></div></div><div class="lemma-icon-card" data-lemma-card="2"><div class="lemma-icon-wrap"><svg height="36" viewbox="0 0 48 48" width="36" xmlns="http://www.w3.org/2000/svg">
+<line opacity="0.3" stroke="currentColor" stroke-width="0.6" x1="6" x2="42" y1="40" y2="40"></line>
+<line opacity="0.3" stroke="currentColor" stroke-width="0.6" x1="6" x2="6" y1="8" y2="40"></line>
+<polyline fill="none" points="6,38 6,30 14,30 14,22 22,22 22,14 34,14 34,10 42,10" stroke="currentColor" stroke-width="1.5"></polyline>
+<line opacity="0.5" stroke="currentColor" stroke-dasharray="2,3" stroke-width="0.7" x1="22" x2="22" y1="14" y2="40"></line>
+<line opacity="0.3" stroke="currentColor" stroke-dasharray="2,3" stroke-width="0.7" x1="34" x2="34" y1="10" y2="40"></line>
+</svg></div></div><div class="lemma-icon-card" data-lemma-card="3"><div class="lemma-icon-wrap"><svg height="36" viewbox="0 0 48 48" width="36" xmlns="http://www.w3.org/2000/svg">
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="6" y="8"></rect>
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="14" y="8"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="22" y="8"></rect>
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="30" y="8"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="38" y="8"></rect>
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="6" y="17"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="14" y="17"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="22" y="17"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="30" y="17"></rect>
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="38" y="17"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="6" y="26"></rect>
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="14" y="26"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="22" y="26"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="30" y="26"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="38" y="26"></rect>
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="6" y="35"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="14" y="35"></rect>
+<rect fill="currentColor" height="5" opacity="0.9" width="5" x="22" y="35"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="30" y="35"></rect>
+<rect fill="currentColor" height="5" opacity="0.2" width="5" x="38" y="35"></rect>
+</svg></div></div><div class="lemma-icon-card" data-lemma-card="4"><div class="lemma-icon-wrap"><svg height="36" viewbox="0 0 48 48" width="36" xmlns="http://www.w3.org/2000/svg">
+<path d="M8,24 C8,18 12,13 18,13 C24,13 24,24 24,24 C24,24 24,35 30,35 C36,35 40,30 40,24 C40,18 36,13 30,13 C24,13 24,24 24,24 C24,24 24,35 18,35 C12,35 8,30 8,24 Z" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+<line opacity="0.2" stroke="currentColor" stroke-width="0.5" x1="6" x2="42" y1="40" y2="40"></line>
+<path d="M6,38 C8,35 12,28 18,26 C24,24 30,20 36,12" fill="none" opacity="0.35" stroke="currentColor" stroke-width="0.6"></path>
+</svg></div></div></div><div class="lemma-section-label">ℐ</div><div class="lemma-grid"><div class="lemma-icon-card" data-lemma-card="5"><div class="lemma-icon-wrap"><svg height="36" viewbox="0 0 48 48" width="36" xmlns="http://www.w3.org/2000/svg">
+<rect fill="none" height="6" stroke="currentColor" stroke-width="1.3" width="36" x="6" y="11"></rect>
+<rect fill="none" height="6" opacity="0.65" stroke="currentColor" stroke-width="1.3" width="36" x="6" y="21"></rect>
+<rect fill="none" height="6" opacity="0.35" stroke="currentColor" stroke-width="1.3" width="36" x="6" y="31"></rect>
+<line opacity="0.25" stroke="currentColor" stroke-width="1" x1="6" x2="42" y1="40" y2="40"></line>
+</svg></div></div></div></div>
+</div>
+<div class="iter-subpanel" id="iter-subpanel-residue">
+<div id="iter-residue-column"><div class="section-header">RESIDUE</div><div class="residue-body"><div class="residue-panel"><div class="residue-head-row"><span class="residue-header-label"><span class="residue-header-icon"><svg height="15" viewbox="0 0 16 16" width="15" xmlns="http://www.w3.org/2000/svg">
+<rect fill="none" height="3.2" stroke="currentColor" stroke-width="1.1" width="14" x="1" y="2"></rect>
+<rect fill="none" height="3.2" opacity="0.6" stroke="currentColor" stroke-width="1.1" width="14" x="1" y="6.4"></rect>
+<rect fill="none" height="3.2" opacity="0.28" stroke="currentColor" stroke-width="1.1" width="14" x="1" y="10.8"></rect>
+</svg></span>ρ  ·  balance</span><span class="residue-balance-val" data-residue-bal=""></span></div><div class="residue-divider"></div><div class="residue-section-label">convert  N → ρ</div><div class="residue-preset-row"><button class="residue-preset-btn" data-residue-preset="0.25">25%</button><button class="residue-preset-btn residue-preset-active" data-residue-preset="0.5">50%</button><button class="residue-preset-btn" data-residue-preset="0.75">75%</button><button class="residue-preset-btn" data-residue-preset="1">all</button></div><div class="residue-conv-preview" data-residue-conv-preview=""></div><button class="residue-convert-btn" data-residue-conv-btn="">[ convert ]</button><div class="residue-divider"></div><div class="residue-gain-desc" data-residue-gain-desc=""></div></div><div class="residue-panel"><div class="residue-section-label residue-section-label-icon"><span class="residue-header-icon"><svg height="14" viewbox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg">
+<polyline fill="none" points="1,15 1,11 5,11 5,7 9,7 9,3 13,3 13,1" stroke="currentColor" stroke-linejoin="miter" stroke-width="1.3"></polyline>
+<line stroke="currentColor" stroke-width="1.3" x1="13" x2="15" y1="1" y2="1"></line>
+<line stroke="currentColor" stroke-width="1.3" x1="1" x2="1" y1="15" y2="15"></line>
+</svg></span>upgrade floors</div><div class="residue-columns-row"><div class="residue-floor-col" data-residue-floor-col="0"><span class="residue-floor-col-name" title="Successor">Succ</span><div class="residue-blocks"><div class="residue-block" data-residue-block="0-4"></div><div class="residue-block" data-residue-block="0-3"></div><div class="residue-block" data-residue-block="0-2"></div><div class="residue-block" data-residue-block="0-1"></div><div class="residue-block" data-residue-block="0-0"></div></div><span class="residue-floor-lvl-num" data-residue-floor-lvl="0"></span><span class="residue-floor-cost" data-residue-floor-cost="0"></span><button class="residue-floor-btn" data-residue-floor-btn="0">+</button></div><div class="residue-floor-col" data-residue-floor-col="1"><span class="residue-floor-col-name" title="Addition">Add</span><div class="residue-blocks"><div class="residue-block" data-residue-block="1-4"></div><div class="residue-block" data-residue-block="1-3"></div><div class="residue-block" data-residue-block="1-2"></div><div class="residue-block" data-residue-block="1-1"></div><div class="residue-block" data-residue-block="1-0"></div></div><span class="residue-floor-lvl-num" data-residue-floor-lvl="1"></span><span class="residue-floor-cost" data-residue-floor-cost="1"></span><button class="residue-floor-btn" data-residue-floor-btn="1">+</button></div><div class="residue-floor-col" data-residue-floor-col="2"><span class="residue-floor-col-name" title="Multiplication">Mult</span><div class="residue-blocks"><div class="residue-block" data-residue-block="2-4"></div><div class="residue-block" data-residue-block="2-3"></div><div class="residue-block" data-residue-block="2-2"></div><div class="residue-block" data-residue-block="2-1"></div><div class="residue-block" data-residue-block="2-0"></div></div><span class="residue-floor-lvl-num" data-residue-floor-lvl="2"></span><span class="residue-floor-cost" data-residue-floor-cost="2"></span><button class="residue-floor-btn" data-residue-floor-btn="2">+</button></div><div class="residue-floor-col" data-residue-floor-col="3"><span class="residue-floor-col-name" title="Exponentiation">Exp</span><div class="residue-blocks"><div class="residue-block" data-residue-block="3-4"></div><div class="residue-block" data-residue-block="3-3"></div><div class="residue-block" data-residue-block="3-2"></div><div class="residue-block" data-residue-block="3-1"></div><div class="residue-block" data-residue-block="3-0"></div></div><span class="residue-floor-lvl-num" data-residue-floor-lvl="3"></span><span class="residue-floor-cost" data-residue-floor-cost="3"></span><button class="residue-floor-btn" data-residue-floor-btn="3">+</button></div></div></div></div></div>
+</div>
+</div>
+<!-- Misc panel -->
+<div class="panel" id="panel-misc">
+<!-- Settings subpanel -->
+<div class="misc-subpanel active" id="misc-subpanel-settings">
+<div id="settings-column">
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">autosave interval</div>
+<div class="settings-desc">how often the game saves automatically</div>
+</div>
+<button class="settings-btn" id="btn-autosave-interval">1m</button>
+</div>
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">export save</div>
+<div class="settings-desc">copy current save data to clipboard</div>
+</div>
+<button class="settings-btn" id="btn-export">copy</button>
+</div>
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">import save</div>
+<div class="settings-desc">paste save data to restore a previous state</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="import-input" placeholder="paste save data..." type="text"/>
+<button class="settings-btn" id="btn-import">load</button>
+</div>
+</div>
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">offline production</div>
+<div class="settings-desc">accumulate N while the game is closed</div>
+</div>
+<button class="settings-btn" id="btn-offline">enabled</button>
+</div>
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">notation</div>
+<div class="settings-desc">number display format (suffix / scientific)</div>
+</div>
+<button class="settings-btn" id="btn-notation">suffix</button>
+</div>
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">reset confirmation</div>
+<div class="settings-desc">show confirmation dialog before any reset</div>
+</div>
+<button class="settings-btn" id="btn-confirm-toggle">enabled</button>
+</div>
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">buy max</div>
+<div class="settings-desc">buy button purchases as many levels as affordable</div>
+</div>
+<button class="settings-btn" id="btn-buy-max">disabled</button>
+</div>
+<div class="settings-row">
+<div class="settings-info">
+<div class="settings-name">reset</div>
+<div class="settings-desc">clear all progress and start over</div>
+</div>
+<button class="settings-btn danger" id="btn-reset">reset game</button>
+</div>
+<div class="settings-row" id="dev-password-row">
+<div class="settings-info">
+<div class="settings-name">dev</div>
+<div class="settings-desc">enter password to unlock developer tools</div>
+</div>
+<form class="dev-input-group" onsubmit="return false">
+<input autocomplete="off" class="dev-input" id="dev-password-input" placeholder="password" type="password"/>
+<button class="settings-btn" id="btn-dev-password" type="submit">unlock</button>
+</form>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  N ×2</div>
+<div class="settings-desc">multiply current N by 2 for testing</div>
+</div>
+<button class="settings-btn" id="btn-dev-double">×2 N</button>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  production boost</div>
+<div class="settings-desc">multiply production rate (e.g. 1e6). set 1 to disable</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-boost-input" placeholder="1e6" type="text"/>
+<button class="settings-btn" id="btn-dev-boost">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  set N</div>
+<div class="settings-desc">accepts plain numbers or scientific (e.g. 1e50)</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-n-input" placeholder="1e10" type="text"/>
+<button class="settings-btn" id="dev-n-btn">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  axiom count</div>
+<div class="settings-desc">set axiomCount for current run</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-ax-input" min="0" placeholder="0" type="number"/>
+<button class="settings-btn" id="dev-ax-btn">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  theorem count</div>
+<div class="settings-desc">set theoremCount and force-unlock theorem</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-thm-input" min="0" placeholder="0" type="number"/>
+<button class="settings-btn" id="dev-thm-btn">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  reserve pts</div>
+<div class="settings-desc">set sequence reserve pts (capped at current pts cap)</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-pts-input" min="0" placeholder="0" type="number"/>
+<button class="settings-btn" id="dev-pts-btn">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  set τ</div>
+<div class="settings-desc">set current τ (tau) for orbit testing</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-tau-input" min="0" placeholder="0" type="number"/>
+<button class="settings-btn" id="dev-tau-btn">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  τ boost</div>
+<div class="settings-desc">multiply τ/s rate (e.g. 1e6). set 1 to disable</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-tau-boost-input" placeholder="1e6" type="text"/>
+<button class="settings-btn" id="dev-tau-boost-btn">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  set ℐ</div>
+<div class="settings-desc">set iteration count directly</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-iter-input" min="0" placeholder="0" type="number"/>
+<button class="settings-btn" id="dev-iter-btn">set</button>
+</div>
+</div>
+<div class="settings-row settings-dev">
+<div class="settings-info">
+<div class="settings-name">[ dev ]  orbit cycles</div>
+<div class="settings-desc">set number of orbit layers (1 = innermost only)</div>
+</div>
+<div class="dev-input-group">
+<input class="dev-input" id="dev-orbit-layers-input" min="1" placeholder="1" type="number"/>
+<button class="settings-btn" id="dev-orbit-layers-btn">set</button>
+</div>
+</div>
+</div>
+<div class="settings-footer">
+<span>axiom  ·  v0.3.0</span>
+<span id="settings-playtime">playtime: 00:00:06</span>
+</div>
+<div class="settings-logo">
+<img alt="Red Nebula" class="settings-logo-img" src="/_assets/d64f65dae5a2a14da9a8.png" style="cursor: pointer;" title="?"/>
+</div>
+<div id="easter-egg-panel" style="display:none"></div>
+</div>
+<!-- Manual subpanel -->
+<div class="misc-subpanel" id="misc-subpanel-manual">
+<div id="manual-column">
+<div id="manual-spoiler-warning">
+<div class="manual-spoiler-line"></div>
+<p class="manual-spoiler-label"><svg class="manual-spoiler-icon" height="16" style="vertical-align:middle;margin-right:6px;position:relative;top:-1px" viewbox="0 0 22 22" width="16" xmlns="http://www.w3.org/2000/svg"><polygon fill="none" points="11,2 21,20 1,20" stroke="currentColor" stroke-linejoin="round" stroke-width="1.4"></polygon><line stroke="currentColor" stroke-linecap="round" stroke-width="1.5" x1="11" x2="11" y1="8" y2="14"></line><circle cx="11" cy="17.5" fill="currentColor" r="1.1"></circle></svg>this manual contains spoilers</p>
+<p class="manual-spoiler-sub">progress may be more rewarding without it.</p>
+<div class="manual-spoiler-line"></div>
+</div>
+<div id="manual-section-ops">
+<div class="section-header">OPERATIONS</div>
+<div class="manual-block first-in-group">
+<p class="manual-p"><span class="manual-hl">N</span> is the core resource. It accumulates automatically every second and is shown in the top bar. Everything in the game is built around producing N faster and reaching the thresholds required for prestige resets.</p>
+<p class="manual-p">Base production starts at 1 N/s. Upgrades form a multiplicative chain — each upgrade amplifies the one before it.</p>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">Successor</div>
+<div class="manual-entry-sub">Adds +1 N/s to base production per level. The starting upgrade, available from the beginning.</div>
+<div class="manual-entry-sub manual-dim">cost: 10 N · scales ×1.8 per level</div>
+</div>
+<div class="manual-entry">
+<div class="manual-entry-name">Addition  <span class="manual-unlock">unlocks at Successor lv.3</span></div>
+<div class="manual-entry-sub">Introduces base value A = (level+1)<sup>1.2</sup>. Production multiplied by A raised to a power set by Multiplication.</div>
+<div class="manual-entry-sub manual-dim">cost: 100 N · scales ×2.5 per level</div>
+</div>
+<div class="manual-entry">
+<div class="manual-entry-name">Multiplication  <span class="manual-unlock">unlocks at Addition lv.2</span></div>
+<div class="manual-entry-sub">Sets the exponent M applied to A. M = 1 + log₁₀(level+1) × 2.02. Production becomes base × A<sup>M</sup>.</div>
+<div class="manual-entry-sub manual-dim">cost: 1,500 N · scales ×6 per level</div>
+</div>
+<div class="manual-entry">
+<div class="manual-entry-name">Exponentiation  <span class="manual-unlock">unlocks later</span></div>
+<div class="manual-entry-sub">Raises M to exponent E = 1 + log₁₀(level+1) × 0.3. Production becomes base × A<sup>(M<sup>E</sup>)</sup>.</div>
+<div class="manual-entry-sub manual-dim">cost: 5,000 N · scales ×95 per level</div>
+</div>
+</div>
+<div class="manual-block">
+<p class="manual-p">Upgrade costs rise exponentially with each level. <span class="manual-hl">Buy Max</span> mode (Settings) purchases as many levels as affordable in a single click.</p>
+</div>
+</div>
+<div id="manual-section-prestige">
+<div class="section-header manual-section-gap">PRESTIGE</div>
+<div class="manual-block first-in-group">
+<p class="manual-p">Prestige resets sacrifice current run progress in exchange for permanent multipliers that carry across all future runs. Each layer resets everything from the layer below it.</p>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">AXIOM  <span class="manual-unlock">first prestige layer</span></div>
+<div class="manual-entry-sub">Resets N and all upgrade levels. Grants ×1.75 permanent production multiplier per axiom.</div>
+<div class="manual-entry-sub manual-dim">req: 10,000 N for the first axiom · scales as 10K × 2<sup>(n × 1.09<sup>n</sup>)</sup></div>
+</div>
+<div class="manual-kv-group">
+<div class="manual-kv"><span class="manual-kv-key">ax.3</span><span class="manual-kv-val">base production gains +2 N/s per total axiom (e.g. +8 N/s at ax.4)</span></div>
+<div class="manual-kv"><span class="manual-kv-key">ax.5</span><span class="manual-kv-val">all upgrade costs permanently reduced by 25%</span></div>
+<div class="manual-kv"><span class="manual-kv-key">ax.7</span><span class="manual-kv-val">multiplier retroactively becomes ×1.62 per axiom for all past and future axioms</span></div>
+</div>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">THEOREM  <span class="manual-unlock">unlocks at ax.10</span></div>
+<div class="manual-entry-sub">Resets N, all upgrade levels, and all axioms. Axiom multipliers are lost. Grants ×1.5 permanent production multiplier per theorem.</div>
+<div class="manual-entry-sub manual-dim">req: 100B N for the first theorem · scales much faster than axiom</div>
+</div>
+<p class="manual-p">Each theorem unlocks new mechanics. The axiom multiplier is gone after a theorem reset, but the theorem multiplier replaces it at a different scale.</p>
+</div>
+</div>
+<div id="manual-section-sequences">
+<div class="section-header manual-section-gap">SEQUENCES</div>
+<div class="manual-block first-in-group">
+<p class="manual-p">Sequences unlock at th.3. They provide a multiplier to all production and operate as the top-level prestige loop — a sequence reset resets everything below it.</p>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">Points (pts)</div>
+<div class="manual-entry-sub">Performing a sequence reset earns pts based on current N, then resets N, axioms, upgrades, and theorems.</div>
+<div class="manual-entry-sub manual-dim">formula: floor( log₃(N ÷ 500,000) )  ·  first pt at 500K N, each next needs 3× more</div>
+</div>
+<p class="manual-p">Pts accumulate in a reserve pool and are never reset by any action. Allocate them to sequence variables via sliders to boost the active sequence's multiplier.</p>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">Arithmetic Sequence  (a, a+d, a+2d, ...)</div>
+<div class="manual-entry-sub">Buy 5 terms to complete one cycle. Each completion multiplies production by a growing factor.</div>
+<div class="manual-entry-sub manual-dim">term cost: 50M N × 5<sup>total terms bought</sup>  ·  completion mult: ×1.3 base, increasing by step each cycle</div>
+</div>
+<div class="manual-kv-group">
+<div class="manual-kv"><span class="manual-kv-key">var  a</span><span class="manual-kv-val">+10% to base multiplier per pt</span></div>
+<div class="manual-kv"><span class="manual-kv-key">var  d</span><span class="manual-kv-val">+0.025 to per-completion step per pt  (base step: 0.1)</span></div>
+</div>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">Reformulate  <span class="manual-unlock">costs 100 pts</span></div>
+<div class="manual-entry-sub">Switches the active sequence from Arithmetic to Geometric. Resets completions. Refunds allocated pts to reserve first.</div>
+<div class="manual-entry-sub">Each reformulate earns <span class="manual-hl">ref pts</span> equal to your reformulate count: 1st = 1 pt, 2nd = 2 pts, 3rd = 3 pts, ...</div>
+</div>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">Geometric Sequence  (a, a·r, a·r², ...)</div>
+<div class="manual-entry-sub">Same 5-term cycle structure as arithmetic, but the multiplier scales exponentially with completions.</div>
+<div class="manual-entry-sub manual-dim">term cost: 5B N × 4<sup>total terms bought</sup></div>
+</div>
+<div class="manual-kv-group">
+<div class="manual-kv"><span class="manual-kv-key">var  a</span><span class="manual-kv-val">+8% to flat multiplier per pt</span></div>
+<div class="manual-kv"><span class="manual-kv-key">var  r</span><span class="manual-kv-val">+0.05 to ratio per pt  (base ratio: 1.5)  ·  mult = (1 + a×0.08) × ratio<sup>completions</sup></span></div>
+</div>
+</div>
+<div class="manual-block">
+<div class="manual-entry">
+<div class="manual-entry-name">Ref multiplier</div>
+<div class="manual-entry-sub">ref pts accumulate as triangular numbers: after n reformulates, total = 1+2+...+n = n(n+1)/2.</div>
+<div class="manual-entry-sub">ref mult = 2<sup>ref pts</sup> · applied to all sequence production · never resets under any condition.</div>
+<div class="manual-entry-sub manual-dim">example: 3 reformulates → 6 ref pts → ×2<sup>6</sup> = ×64 on top of sequence mult</div>
+</div>
+</div>
+</div>
+<div id="manual-section-unknown">
+<div class="section-header manual-section-gap manual-unknown-header">???</div>
+<div class="manual-block first-in-group manual-unknown-block">
+<p class="manual-p manual-dim">???</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Changelog subpanel -->
+<div class="misc-subpanel" id="misc-subpanel-changelog">
+<div id="changelog-column">
+<div class="cl-version">
+<div class="cl-version-tag">v0.3.0</div>
+<div class="cl-divider">─────────────────────────────</div>
+<div class="cl-entry"><span class="cl-add">+</span> primes tab (prime finding, expand, 7 upgrades, milestones)</div>
+<div class="cl-entry"><span class="cl-add">+</span> residue (ρ) system — persistent upgrade floors that survive resets</div>
+<div class="cl-entry"><span class="cl-add">+</span> lemma upgrades L0–L5 (L5 unlocks residue, costs ℐ)</div>
+<div class="cl-entry"><span class="cl-add">+</span> offline production modal (ΔN, Δτ, sigma gains on login)</div>
+<div class="cl-entry"><span class="cl-add">+</span> upgrade scaling tiers (prime → eternal) with card decorations</div>
+<div class="cl-entry"><span class="cl-add">+</span> misc subtab bar (settings / manual / changelog / scaling)</div>
+<div class="cl-entry"><span class="cl-mod">~</span> offline production now shown as modal instead of silent apply</div>
+<div class="cl-entry"><span class="cl-mod">~</span> axiom reset now floors upgrade levels at residue values instead of resetting to 0</div>
+</div>
+<div class="cl-version">
+<div class="cl-version-tag">v0.2.0</div>
+<div class="cl-divider">─────────────────────────────</div>
+<div class="cl-entry"><span class="cl-add">+</span> orbit system (iteration tab)</div>
+<div class="cl-entry"><span class="cl-add">+</span> epoch 2, 3, 4</div>
+<div class="cl-entry"><span class="cl-add">+</span> ax.20 dual milestone display</div>
+<div class="cl-entry"><span class="cl-add">+</span> sequence reset cost scaling</div>
+<div class="cl-entry"><span class="cl-mod">~</span> sigma automation slot layout fixed</div>
+<div class="cl-entry"><span class="cl-mod">~</span> various balance adjustments</div>
+</div>
+<div class="cl-version">
+<div class="cl-version-tag">v0.1.0</div>
+<div class="cl-divider">─────────────────────────────</div>
+<div class="cl-entry"><span class="cl-add">+</span> initial release</div>
+<div class="cl-entry"><span class="cl-add">+</span> main tab (hyperoperation upgrades, axiom prestige)</div>
+<div class="cl-entry"><span class="cl-add">+</span> sequences tab (arithmetic, geometric, reformulate, ref)</div>
+<div class="cl-entry"><span class="cl-add">+</span> iteration tab (ℐ reset, sigma automation, epoch 1)</div>
+<div class="cl-entry"><span class="cl-add">+</span> settings, manual tabs</div>
+</div>
+<div class="cl-legend">
+<span class="cl-add">+</span> added  
+          <span class="cl-mod">~</span> changed  
+          <span class="cl-del">-</span> removed
+        </div>
+</div>
+</div>
+<div class="misc-subpanel" id="misc-subpanel-scaling">
+<div id="scaling-column"></div>
+</div>
+</div>
+<div id="autosave-toast">autosaved</div>
+</body></html>

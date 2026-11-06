@@ -1,0 +1,1 @@
+import{i as e,n as t}from"/_assets/fe565d48933416cd3328.js";var n=document.documentElement.lang===`en`?`en`:`ru`;for(let r of document.querySelectorAll(`.nav-role[data-persona]`))r.addEventListener(`click`,()=>{let i=r.dataset.persona;e(i),t(`persona_selected`,{persona:i,lang:n,source:r.dataset.source||`header`})});

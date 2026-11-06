@@ -1,0 +1,1 @@
+function e(e,t,n=2){if(e===t)return!0;if(Math.abs(e.length-t.length)>n)return!1;let r=Array.from({length:t.length+1},(e,t)=>t);for(let i=1;i<=e.length;i++){let a=[i],o=i;for(let n=1;n<=t.length;n++)a[n]=Math.min(r[n]+1,a[n-1]+1,r[n-1]+(e[i-1]===t[n-1]?0:1)),a[n]<o&&(o=a[n]);if(o>n)return!1;r=a}return r[t.length]<=n}export{e as t};

@@ -3346,6 +3346,559 @@
       "directory": "gz-zurbo",
       "port": 9458,
       "enabled": true
+    },
+    {
+      "name": "Aaagario",
+      "slug": "aaagario",
+      "directory": "aaagario",
+      "port": 9459,
+      "enabled": true
+    },
+    {
+      "name": "Afterglow",
+      "slug": "afterglow",
+      "directory": "afterglow",
+      "port": 9460,
+      "enabled": true
+    },
+    {
+      "name": "Alwaysfreshaqua",
+      "slug": "alwaysfreshaqua",
+      "directory": "alwaysfreshaqua",
+      "port": 9461,
+      "enabled": true
+    },
+    {
+      "name": "Anno2018",
+      "slug": "anno2018",
+      "directory": "anno2018",
+      "port": 9462,
+      "enabled": true
+    },
+    {
+      "name": "Ball Game",
+      "slug": "ball-game",
+      "directory": "ball-game",
+      "port": 9463,
+      "enabled": true
+    },
+    {
+      "name": "Binding Of Isaac Webgame",
+      "slug": "binding-of-isaac-webgame",
+      "directory": "binding-of-isaac-webgame",
+      "port": 9464,
+      "enabled": true
+    },
+    {
+      "name": "Bitcoin Clicker",
+      "slug": "bitcoin-clicker",
+      "directory": "bitcoin-clicker",
+      "port": 9465,
+      "enabled": true
+    },
+    {
+      "name": "Blockcatcher",
+      "slug": "blockcatcher",
+      "directory": "blockcatcher",
+      "port": 9466,
+      "enabled": true
+    },
+    {
+      "name": "Candyclicker Web",
+      "slug": "candyclicker-web",
+      "directory": "candyclicker-web",
+      "port": 9467,
+      "enabled": true
+    },
+    {
+      "name": "Canvas Td",
+      "slug": "canvas-td",
+      "directory": "canvas-td",
+      "port": 9468,
+      "enabled": true
+    },
+    {
+      "name": "Chain Drop Lab",
+      "slug": "chain-drop-lab",
+      "directory": "chain-drop-lab",
+      "port": 9469,
+      "enabled": true
+    },
+    {
+      "name": "Chromacoil",
+      "slug": "chromacoil",
+      "directory": "chromacoil",
+      "port": 9470,
+      "enabled": true
+    },
+    {
+      "name": "Clickerultimate.Github.Io",
+      "slug": "clickerultimate-github-io",
+      "directory": "clickerultimate-github-io",
+      "port": 9471,
+      "enabled": true
+    },
+    {
+      "name": "Contra Remake",
+      "slug": "contra-remake",
+      "directory": "contra-remake",
+      "port": 9472,
+      "enabled": true
+    },
+    {
+      "name": "Crossy Road",
+      "slug": "crossy-road",
+      "directory": "crossy-road",
+      "port": 9473,
+      "enabled": true
+    },
+    {
+      "name": "Cube Composer",
+      "slug": "cube-composer",
+      "directory": "cube-composer",
+      "port": 9474,
+      "enabled": true
+    },
+    {
+      "name": "Cursorball",
+      "slug": "cursorball",
+      "directory": "cursorball",
+      "port": 9475,
+      "enabled": true
+    },
+    {
+      "name": "Dogeminerce",
+      "slug": "dogeminerce",
+      "directory": "dogeminerce",
+      "port": 9476,
+      "enabled": true
+    },
+    {
+      "name": "Drone Simulator",
+      "slug": "drone-simulator",
+      "directory": "drone-simulator",
+      "port": 9477,
+      "enabled": true
+    },
+    {
+      "name": "Eightqueens",
+      "slug": "eightqueens",
+      "directory": "eightqueens",
+      "port": 9478,
+      "enabled": true
+    },
+    {
+      "name": "Fazenda Inteligente Cbr",
+      "slug": "fazenda-inteligente-cbr",
+      "directory": "fazenda-inteligente-cbr",
+      "port": 9479,
+      "enabled": true
+    },
+    {
+      "name": "Flopsed",
+      "slug": "flopsed",
+      "directory": "flopsed",
+      "port": 9480,
+      "enabled": true
+    },
+    {
+      "name": "Frogmania",
+      "slug": "frogmania",
+      "directory": "frogmania",
+      "port": 9481,
+      "enabled": true
+    },
+    {
+      "name": "Gddemo",
+      "slug": "gddemo",
+      "directory": "gddemo",
+      "port": 9482,
+      "enabled": true
+    },
+    {
+      "name": "Giantshaftenterprises",
+      "slug": "giantshaftenterprises",
+      "directory": "giantshaftenterprises",
+      "port": 9483,
+      "enabled": true
+    },
+    {
+      "name": "Glorr",
+      "slug": "glorr",
+      "directory": "glorr",
+      "port": 9484,
+      "enabled": true
+    },
+    {
+      "name": "Google Chrome Dino",
+      "slug": "google-chrome-dino",
+      "directory": "google-chrome-dino",
+      "port": 9485,
+      "enabled": true
+    },
+    {
+      "name": "Gravitywell",
+      "slug": "gravitywell",
+      "directory": "gravitywell",
+      "port": 9486,
+      "enabled": true
+    },
+    {
+      "name": "Gta Vice City Wasm",
+      "slug": "gta-vice-city-wasm",
+      "directory": "gta-vice-city-wasm",
+      "port": 9487,
+      "enabled": true
+    },
+    {
+      "name": "Hexsweep",
+      "slug": "hexsweep",
+      "directory": "hexsweep",
+      "port": 9488,
+      "enabled": true
+    },
+    {
+      "name": "Hormuz Minesweeper",
+      "slug": "hormuz-minesweeper",
+      "directory": "hormuz-minesweeper",
+      "port": 9489,
+      "enabled": true
+    },
+    {
+      "name": "Idle Traveller",
+      "slug": "idle-traveller",
+      "directory": "idle-traveller",
+      "port": 9490,
+      "enabled": true
+    },
+    {
+      "name": "Incremental V2.0.0",
+      "slug": "incremental-v2-0-0",
+      "directory": "incremental-v2-0-0",
+      "port": 9491,
+      "enabled": true
+    },
+    {
+      "name": "Inert",
+      "slug": "inert",
+      "directory": "inert",
+      "port": 9492,
+      "enabled": true
+    },
+    {
+      "name": "Invaders",
+      "slug": "invaders",
+      "directory": "invaders",
+      "port": 9493,
+      "enabled": true
+    },
+    {
+      "name": "Isocitysim",
+      "slug": "isocitysim",
+      "directory": "isocitysim",
+      "port": 9494,
+      "enabled": true
+    },
+    {
+      "name": "Js Hero",
+      "slug": "js-hero",
+      "directory": "js-hero",
+      "port": 9495,
+      "enabled": true
+    },
+    {
+      "name": "Konterball",
+      "slug": "konterball",
+      "directory": "konterball",
+      "port": 9496,
+      "enabled": true
+    },
+    {
+      "name": "Librecorsa",
+      "slug": "librecorsa",
+      "directory": "librecorsa",
+      "port": 9497,
+      "enabled": true
+    },
+    {
+      "name": "Maimai Restaurant Huiyan",
+      "slug": "maimai-restaurant-huiyan",
+      "directory": "maimai-restaurant-huiyan",
+      "port": 9498,
+      "enabled": true
+    },
+    {
+      "name": "Material Snake",
+      "slug": "material-snake",
+      "directory": "material-snake",
+      "port": 9499,
+      "enabled": true
+    },
+    {
+      "name": "Mazebert Simulation",
+      "slug": "mazebert-simulation",
+      "directory": "mazebert-simulation",
+      "port": 9500,
+      "enabled": true
+    },
+    {
+      "name": "Mineworld",
+      "slug": "mineworld",
+      "directory": "mineworld",
+      "port": 9501,
+      "enabled": true
+    },
+    {
+      "name": "Neon Mayhem",
+      "slug": "neon-mayhem",
+      "directory": "neon-mayhem",
+      "port": 9502,
+      "enabled": true
+    },
+    {
+      "name": "Neon Serpent",
+      "slug": "neon-serpent",
+      "directory": "neon-serpent",
+      "port": 9503,
+      "enabled": true
+    },
+    {
+      "name": "Ngx Snake",
+      "slug": "ngx-snake",
+      "directory": "ngx-snake",
+      "port": 9504,
+      "enabled": true
+    },
+    {
+      "name": "Parachuting Robots",
+      "slug": "parachuting-robots",
+      "directory": "parachuting-robots",
+      "port": 9505,
+      "enabled": true
+    },
+    {
+      "name": "Pawpaw Arena",
+      "slug": "pawpaw-arena",
+      "directory": "pawpaw-arena",
+      "port": 9506,
+      "enabled": true
+    },
+    {
+      "name": "Petripals",
+      "slug": "petripals",
+      "directory": "petripals",
+      "port": 9507,
+      "enabled": true
+    },
+    {
+      "name": "Phaser Catch The Cat",
+      "slug": "phaser-catch-the-cat",
+      "directory": "phaser-catch-the-cat",
+      "port": 9508,
+      "enabled": true
+    },
+    {
+      "name": "Ping Pong Game",
+      "slug": "ping-pong-game",
+      "directory": "ping-pong-game",
+      "port": 9509,
+      "enabled": true
+    },
+    {
+      "name": "Pk2",
+      "slug": "pk2",
+      "directory": "pk2",
+      "port": 9510,
+      "enabled": true
+    },
+    {
+      "name": "Quick Dungeon Crawler Rpg Od",
+      "slug": "quick-dungeon-crawler-rpg-od",
+      "directory": "quick-dungeon-crawler-rpg-od",
+      "port": 9511,
+      "enabled": true
+    },
+    {
+      "name": "Quickclick",
+      "slug": "quickclick",
+      "directory": "quickclick",
+      "port": 9512,
+      "enabled": true
+    },
+    {
+      "name": "Rbg",
+      "slug": "rbg",
+      "directory": "rbg",
+      "port": 9513,
+      "enabled": true
+    },
+    {
+      "name": "Retroflightsim",
+      "slug": "retroflightsim",
+      "directory": "retroflightsim",
+      "port": 9514,
+      "enabled": true
+    },
+    {
+      "name": "Roguelike Idle",
+      "slug": "roguelike-idle",
+      "directory": "roguelike-idle",
+      "port": 9515,
+      "enabled": true
+    },
+    {
+      "name": "Rubiks Cube",
+      "slug": "rubiks-cube",
+      "directory": "rubiks-cube",
+      "port": 9516,
+      "enabled": true
+    },
+    {
+      "name": "Server Survival",
+      "slug": "server-survival",
+      "directory": "server-survival",
+      "port": 9517,
+      "enabled": true
+    },
+    {
+      "name": "Snack Hole Game",
+      "slug": "snack-hole-game",
+      "directory": "snack-hole-game",
+      "port": 9518,
+      "enabled": true
+    },
+    {
+      "name": "Snake Remake",
+      "slug": "snake-remake",
+      "directory": "snake-remake",
+      "port": 9519,
+      "enabled": true
+    },
+    {
+      "name": "Snakeball",
+      "slug": "snakeball",
+      "directory": "snakeball",
+      "port": 9520,
+      "enabled": true
+    },
+    {
+      "name": "Sokoban",
+      "slug": "sokoban",
+      "directory": "sokoban",
+      "port": 9521,
+      "enabled": true
+    },
+    {
+      "name": "Stalker Clicker",
+      "slug": "stalker-clicker",
+      "directory": "stalker-clicker",
+      "port": 9522,
+      "enabled": true
+    },
+    {
+      "name": "Star Battle",
+      "slug": "star-battle",
+      "directory": "star-battle",
+      "port": 9523,
+      "enabled": true
+    },
+    {
+      "name": "Summer Cycle",
+      "slug": "summer-cycle",
+      "directory": "summer-cycle",
+      "port": 9524,
+      "enabled": true
+    },
+    {
+      "name": "Tactix Mind Game",
+      "slug": "tactix-mind-game",
+      "directory": "tactix-mind-game",
+      "port": 9525,
+      "enabled": true
+    },
+    {
+      "name": "Territory Clash",
+      "slug": "territory-clash",
+      "directory": "territory-clash",
+      "port": 9526,
+      "enabled": true
+    },
+    {
+      "name": "Threecraft",
+      "slug": "threecraft",
+      "directory": "threecraft",
+      "port": 9527,
+      "enabled": true
+    },
+    {
+      "name": "Tictactoe",
+      "slug": "tictactoe",
+      "directory": "tictactoe",
+      "port": 9528,
+      "enabled": true
+    },
+    {
+      "name": "Tinydefence2",
+      "slug": "tinydefence2",
+      "directory": "tinydefence2",
+      "port": 9529,
+      "enabled": true
+    },
+    {
+      "name": "Top Trumps",
+      "slug": "top-trumps",
+      "directory": "top-trumps",
+      "port": 9530,
+      "enabled": true
+    },
+    {
+      "name": "Tower Bloxx",
+      "slug": "tower-bloxx",
+      "directory": "tower-bloxx",
+      "port": 9531,
+      "enabled": true
+    },
+    {
+      "name": "Typer",
+      "slug": "typer",
+      "directory": "typer",
+      "port": 9532,
+      "enabled": true
+    },
+    {
+      "name": "Village Of Chaos",
+      "slug": "village-of-chaos",
+      "directory": "village-of-chaos",
+      "port": 9533,
+      "enabled": true
+    },
+    {
+      "name": "Webtetris",
+      "slug": "webtetris",
+      "directory": "webtetris",
+      "port": 9534,
+      "enabled": true
+    },
+    {
+      "name": "Yahtzee",
+      "slug": "yahtzee",
+      "directory": "yahtzee",
+      "port": 9535,
+      "enabled": true
+    },
+    {
+      "name": "Yoalphabet",
+      "slug": "yoalphabet",
+      "directory": "yoalphabet",
+      "port": 9536,
+      "enabled": true
+    },
+    {
+      "name": "Yt Rock Paper Scissors Game",
+      "slug": "yt-rock-paper-scissors-game",
+      "directory": "yt-rock-paper-scissors-game",
+      "port": 9537,
+      "enabled": true
     }
   ]
 }

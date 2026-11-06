@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vale dos Casos</title>
+<script src="/_assets/8e62dae0da81b6b9e73d.js" type="module"></script>
+<link href="/_assets/574031c91e2d1de7e8c5.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div aria-hidden="true" class="sky-layer" id="sky-layer">
+<span class="sun-disk"></span>
+<span class="moon-disk"></span>
+<span class="cloud cloud-a"></span>
+<span class="cloud cloud-b"></span>
+<span class="cloud cloud-c"></span>
+<span class="cloud cloud-d"></span>
+<span class="cloud cloud-e"></span>
+<span class="cloud cloud-f"></span>
+</div>
+<section aria-label="Abertura de Vale dos Casos" class="intro-screen" id="intro-screen">
+<div aria-hidden="true" class="intro-landscape">
+<span class="intro-sun"></span>
+<span class="intro-cloud intro-cloud-a"></span>
+<span class="intro-cloud intro-cloud-b"></span>
+<span class="intro-cloud intro-cloud-c"></span>
+<span class="intro-fence"></span>
+<span class="intro-house"></span>
+<span class="intro-flowers"></span>
+<span class="intro-field"></span>
+<span class="intro-leaf intro-leaf-a"></span>
+<span class="intro-leaf intro-leaf-b"></span>
+<span class="intro-leaf intro-leaf-c"></span>
+</div>
+<div class="intro-title-card">
+<span class="intro-vine intro-vine-left"></span>
+<span class="intro-vine intro-vine-right"></span>
+<span class="brand-badge">CBR</span>
+<div>
+<h1>Vale dos Casos</h1>
+<p>Farming game com IA baseada em casos</p>
+</div>
+</div>
+<button class="intro-skip" id="intro-skip" type="button">Clique, Enter ou Espaço para pular</button>
+</section>
+<section aria-label="Menu principal" class="main-menu is-hidden" id="main-menu">
+<div class="menu-card">
+<div class="menu-title">
+<span class="brand-badge">CBR</span>
+<div>
+<p>Vale dos Casos</p>
+<strong>Um jogo de fazenda com Raciocínio Baseado em Casos</strong>
+</div>
+</div>
+<div class="menu-actions">
+<button class="primary-button" id="menu-play" type="button">Jogar</button>
+<button id="menu-continue" type="button">Continuar</button>
+<button id="menu-how" type="button">Como jogar</button>
+<button id="menu-fullscreen" type="button">Tela cheia</button>
+<button class="danger-button" id="menu-reset" type="button">Resetar progresso</button>
+</div>
+<div aria-label="Controles básicos" class="menu-controls">
+<p>Controles rápidos</p>
+<ul>
+<li><kbd>WASD</kbd>/<kbd>setas</kbd> mover</li>
+<li><kbd>E</kbd>/<kbd>Espaço</kbd> interagir</li>
+<li>Clique esquerdo usa ferramenta no canteiro</li>
+<li>Clique direito ou <kbd>Q</kbd> consulta CBR</li>
+<li><kbd>TAB</kbd> troca semente</li>
+<li><kbd>1-7</kbd> troca ferramenta</li>
+</ul>
+</div>
+<div class="custom-card">
+<h2>Seu personagem</h2>
+<label>Nome <input id="custom-name" maxlength="24" value="Morador do Vale"/></label>
+<div class="custom-grid">
+<div class="color-field">
+<span>Pele</span>
+<input id="custom-skin" type="hidden" value="#f1b77a"/>
+<div aria-label="Cores de pele" class="color-palette" data-color-field="custom-skin">
+<button aria-label="Pele clara" class="color-swatch" data-color="#f3cfaa" style="--swatch:#f3cfaa" type="button"></button>
+<button aria-label="Pele dourada" class="color-swatch" data-color="#f1b77a" style="--swatch:#f1b77a" type="button"></button>
+<button aria-label="Pele media" class="color-swatch" data-color="#d6a06f" style="--swatch:#d6a06f" type="button"></button>
+<button aria-label="Pele bronzeada" class="color-swatch" data-color="#c98b5d" style="--swatch:#c98b5d" type="button"></button>
+<button aria-label="Pele escura" class="color-swatch" data-color="#8b5a3c" style="--swatch:#8b5a3c" type="button"></button>
+<button aria-label="Pele retinta" class="color-swatch" data-color="#6f4634" style="--swatch:#6f4634" type="button"></button>
+</div>
+</div>
+<div class="color-field">
+<span>Cor do cabelo</span>
+<input id="custom-hair" type="hidden" value="#7a4a24"/>
+<div aria-label="Cores de cabelo" class="color-palette" data-color-field="custom-hair">
+<button aria-label="Cabelo preto" class="color-swatch" data-color="#263027" style="--swatch:#263027" type="button"></button>
+<button aria-label="Cabelo castanho" class="color-swatch" data-color="#7a4a24" style="--swatch:#7a4a24" type="button"></button>
+<button aria-label="Cabelo ruivo" class="color-swatch" data-color="#c47a35" style="--swatch:#c47a35" type="button"></button>
+<button aria-label="Cabelo loiro" class="color-swatch" data-color="#f4cc58" style="--swatch:#f4cc58" type="button"></button>
+<button aria-label="Cabelo vinho" class="color-swatch" data-color="#8f3d44" style="--swatch:#8f3d44" type="button"></button>
+<button aria-label="Cabelo azul" class="color-swatch" data-color="#4d6fb3" style="--swatch:#4d6fb3" type="button"></button>
+</div>
+</div>
+<div class="color-field">
+<span>Cor da roupa</span>
+<input id="custom-outfit" type="hidden" value="#4d6fb3"/>
+<div aria-label="Cores de roupa" class="color-palette" data-color-field="custom-outfit">
+<button aria-label="Roupa azul" class="color-swatch" data-color="#4d6fb3" style="--swatch:#4d6fb3" type="button"></button>
+<button aria-label="Roupa verde" class="color-swatch" data-color="#3f9a49" style="--swatch:#3f9a49" type="button"></button>
+<button aria-label="Roupa vermelha" class="color-swatch" data-color="#b95234" style="--swatch:#b95234" type="button"></button>
+<button aria-label="Roupa roxa" class="color-swatch" data-color="#8d5fb8" style="--swatch:#8d5fb8" type="button"></button>
+<button aria-label="Roupa amarela" class="color-swatch" data-color="#d68b3a" style="--swatch:#d68b3a" type="button"></button>
+<button aria-label="Roupa azul clara" class="color-swatch" data-color="#5fa8d3" style="--swatch:#5fa8d3" type="button"></button>
+</div>
+</div>
+<label>Estilo do cabelo
+              <select id="custom-style">
+<option value="curto">Curto</option>
+<option value="medio">Médio</option>
+<option value="longo">Longo</option>
+<option value="rabo">Rabo de cavalo</option>
+<option value="cacheado">Cacheado</option>
+<option value="tranca">Trança simples</option>
+<option value="femininoA">Feminino A</option>
+<option value="femininoB">Feminino B</option>
+<option value="neutroA">Neutro A</option>
+<option value="bone">Boné</option>
+<option value="chapeu">Chapéu de campo</option>
+<option value="chapeuPalha">Chapéu de palha</option>
+</select>
+</label>
+<label>Estilo da roupa
+              <select id="custom-outfit-style">
+<option value="avental">Avental</option>
+<option value="macacao">Macacão</option>
+<option value="camisa">Camisa</option>
+<option value="jardineira">Jardineira</option>
+<option value="casaco">Casaco</option>
+<option value="vestido">Roupa longa</option>
+<option value="alca">Camiseta com alça</option>
+<option value="fazenda">Roupa de fazenda</option>
+</select>
+</label>
+</div>
+<div aria-hidden="true" class="custom-preview" id="custom-preview">
+<span class="preview-hair"></span>
+<span class="preview-head"></span>
+<span class="preview-body"></span>
+</div>
+</div>
+<p class="menu-help is-hidden" id="menu-help">Ande com WASD/setas. Use E ou Espaço para interagir. Clique esquerdo usa ferramenta no canteiro e clique direito consulta CBR. TAB troca sementes.</p>
+</div>
+</section>
+<div class="app-shell" id="app-shell">
+<header aria-label="HUD do jogo" class="game-hud">
+<div class="brand-block">
+<span class="brand-badge">CBR</span>
+<div>
+<p>Vale dos Casos</p>
+<strong>Fazenda top-down com IA baseada em casos</strong>
+</div>
+</div>
+<div class="hud-grid">
+<div class="hud-chip"><span>Dia</span><strong><i>☀</i><b id="hud-day">1</b></strong></div>
+<div class="hud-chip"><span>Clima</span><strong><i>☁</i><b id="hud-weather">ensolarado</b></strong></div>
+<div class="hud-chip"><span>Moedas</span><strong><i>¤</i><b id="hud-coins">0</b></strong></div>
+<div class="hud-chip"><span>Sementes</span><strong><i>•</i><b id="hud-seeds">10</b></strong></div>
+<div class="hud-chip"><span>Semente atual</span><strong><i id="hud-crop-icon">C</i><b id="hud-selected-crop">cenoura</b></strong></div>
+<div class="hud-chip"><span>Peixes</span><strong><i>≈</i><b id="hud-fish">0</b></strong></div>
+<div class="hud-chip"><span>Colheitas</span><strong><i>▣</i><b id="hud-harvests">0</b></strong></div>
+<div class="hud-chip tool-chip"><span>Ferramenta</span><strong><i>◆</i><b id="hud-tool">enxada</b></strong></div>
+</div>
+</header>
+<main class="game-layout">
+<section class="play-column">
+<section aria-label="Jogo Phaser" class="game-frame">
+<button class="game-menu-button" id="game-menu" type="button">Menu</button>
+<div class="game-container" id="game-container"><canvas height="576" style="image-rendering: pixelated; width: 740px; height: 555px; margin-left: 0px; margin-top: 0px;" width="768"></canvas></div>
+<div class="game-message is-hidden" id="game-message"></div>
+</section>
+<section class="learn-panel">
+<details>
+<summary>Como o CBR funciona neste jogo</summary>
+<div>
+<p>O CBR é um sistema interno de gameplay. O assistente observa o canteiro, recupera casos parecidos, reaproveita uma ação, revisa a recomendação e aprende quando o jogador avança o dia.</p>
+<ul>
+<li><strong>Retrieve:</strong> compara o canteiro atual com casos da memória.</li>
+<li><strong>Reuse:</strong> reaproveita a ação aplicada no caso recuperado.</li>
+<li><strong>Revise:</strong> adapta por regras agrícolas fortes.</li>
+<li><strong>Retain:</strong> salva nova experiência no LocalStorage.</li>
+</ul>
+</div>
+</details>
+</section>
+</section>
+<aside aria-label="Painéis de jogo" class="side-stack">
+<section class="assistant-panel" id="assistant-panel">
+<div class="panel-title">
+<div>
+<p>Assistente CBR</p>
+<h1>Espantalho inteligente</h1>
+</div>
+<button id="ask-cbr" title="Pedir recomendação" type="button">Q</button>
+</div>
+<div class="assistant-text" id="assistant-text">Chegue perto de um canteiro e pressione Q para pedir uma recomendação.</div>
+<dl class="assistant-stats">
+<div><dt>Caso parecido</dt><dd id="assistant-similarity">--</dd></div>
+<div><dt>Ação</dt><dd id="assistant-action">--</dd></div>
+<div><dt>Ciclo</dt><dd id="assistant-cycle">aguardando</dd></div>
+</dl>
+</section>
+<section class="tools-panel">
+<h2>Ferramentas</h2>
+<div class="tool-buttons" id="tool-buttons">
+<button data-tool="hoe" type="button"><kbd>1</kbd><span>Enxada</span></button>
+<button data-tool="seed" type="button"><kbd>2</kbd><span>Semente</span></button>
+<button data-tool="water" type="button"><kbd>3</kbd><span>Regador</span></button>
+<button data-tool="fertilizer" type="button"><kbd>4</kbd><span>Adubo</span></button>
+<button data-tool="pesticide" title="Controle de pragas" type="button"><kbd>5</kbd><span>Inseticida</span></button>
+<button data-tool="harvest" title="Colher plantas prontas" type="button"><kbd>6</kbd><span>Cesta</span></button>
+<button data-tool="fishingRod" type="button"><kbd>7</kbd><span>Vara de pesca</span></button>
+</div>
+</section>
+<section class="seeds-panel">
+<h2>Sementes <kbd>TAB</kbd></h2>
+<div class="seed-buttons" id="seed-buttons"></div>
+</section>
+</aside>
+</main>
+<section aria-label="Loja" class="game-modal is-hidden" id="shop-modal">
+<div class="modal-card">
+<button class="modal-close" id="shop-close" type="button">x</button>
+<h2>Loja da Vila</h2>
+<p id="market-event">Mercado local estável.</p>
+<h3>Comprar sementes</h3>
+<div class="shop-grid" id="shop-seeds"></div>
+<h3>Vender colheitas</h3>
+<div class="shop-grid" id="shop-harvests"></div>
+<h3>Vender peixes</h3>
+<div class="shop-grid" id="shop-fish"></div>
+</div>
+</section>
+<section aria-label="Caixa de venda" class="game-modal is-hidden" id="sellbox-modal">
+<div class="modal-card sellbox-card">
+<button class="modal-close" id="sellbox-close" type="button">x</button>
+<h2>Caixa de Venda</h2>
+<p id="sellbox-event">Venda colheitas e peixes pelo preço atual do mercado.</p>
+<h3>Vender colheitas</h3>
+<div class="shop-grid" id="sellbox-harvests"></div>
+<h3>Vender peixes</h3>
+<div class="shop-grid" id="sellbox-fish"></div>
+</div>
+</section>
+<section aria-label="Estatísticas das plantas" class="game-modal is-hidden" id="crop-guide-modal">
+<div class="modal-card crop-guide-card">
+<button class="modal-close" id="crop-guide-close" type="button">x</button>
+<h2>Estatísticas das Plantas</h2>
+<p>Guia rápido das culturas do Vale, usando os dados reais do jogo.</p>
+<div class="crop-guide-grid" id="crop-guide-list"></div>
+</div>
+</section>
+<section aria-label="Casa" class="game-modal is-hidden" id="house-modal">
+<div class="modal-card house-card">
+<button class="modal-close" id="house-close" type="button">x</button>
+<h2>Casa</h2>
+<div aria-hidden="true" class="house-room">
+<span class="room-window"></span>
+<span class="room-bed"></span>
+<span class="room-rug"></span>
+<span class="room-table"></span>
+<span class="room-chest"></span>
+<span class="room-calendar"></span>
+</div>
+<p>Uma cama quentinha, calendário, baú e mesa. Dormir salva o jogo, avança o dia, muda clima e atualiza economia.</p>
+<button class="primary-button" id="house-sleep" type="button">Dormir e avançar o dia</button>
+</div>
+</section>
+<section aria-label="Pausa" class="game-modal is-hidden" id="pause-modal">
+<div class="modal-card pause-card">
+<button class="modal-close" id="pause-close" type="button">x</button>
+<h2>Menu do jogo</h2>
+<button class="primary-button" id="next-day" type="button">Dormir / Próximo dia <kbd>N</kbd></button>
+<button id="mute-audio" type="button">Som: ligado</button>
+<button id="save-game" type="button">Salvar jogo</button>
+<button id="pause-fullscreen" type="button">Tela cheia</button>
+<button id="pause-save" type="button">Salvar e continuar</button>
+<button class="danger-button" id="reset-game" type="button">Resetar progresso</button>
+<details class="menu-details">
+<summary>Controles</summary>
+<p>WASD/setas movem. E/Espaço usam ferramenta ou interagem. Clique esquerdo usa ferramenta no canteiro. Clique direito consulta CBR. TAB troca sementes e já equipa Semente.</p>
+</details>
+<button id="pause-main-menu" type="button">Voltar ao menu principal</button>
+</div>
+</section>
+</div>
+</body></html>

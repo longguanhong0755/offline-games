@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Drone Simulator — Preflight</title>
+<meta content="Browser drone simulator: a seven-sortie story campaign, free-flight modes, and two-player battle rooms." name="description"/>
+<meta content="#0a0c0b" name="theme-color"/>
+<link href="/_assets/0c792652aea76cba89d5.svg" rel="icon" type="image/svg+xml"/>
+<link href="/_assets/57b6c439f9361240464c.css" rel="stylesheet"/>
+
+
+<link href="/_assets/938fc61f661b914a8700.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="app">
+<header class="top">
+<a class="wordmark" href="./index.html">
+<img alt="" height="24" src="/_assets/0c792652aea76cba89d5.svg" width="24"/>
+<span>Drone Simulator</span>
+</a>
+<div class="top-right">
+<span class="tag"><i class="dot"></i>WebGL ready</span>
+<a aria-label="Source on GitHub" class="ghost" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" height="15" viewbox="0 0 24 24" width="15"><path d="M9 19c-5 1-5-2-7-3M15 22v-4a3 3 0 0 0-1-2c3 0 6-1 6-6a5 5 0 0 0-1-3 4 4 0 0 0 0-3s-1 0-3 1a10 10 0 0 0-6 0C8 4 7 4 7 4a4 4 0 0 0 0 3 5 5 0 0 0-1 3c0 5 3 6 6 6a3 3 0 0 0-1 2v4"></path></svg>
+<span class="hide-sm">Source</span>
+</a>
+</div>
+</header>
+<main class="stage">
+<!-- ── left: live-looking readout, all values derived from the sim config ── -->
+<section class="viz">
+<div aria-label="Andromeda Harbor Grid — operations area" class="scope">
+<div class="scope-label"><i class="dot"></i>ANDROMEDA HARBOR GRID<b>500 m</b></div>
+<svg aria-label="Map of the operations area" class="scope-svg" role="img" viewbox="0 0 200 200">
+<defs>
+<radialgradient cx="50%" cy="50%" id="scopeGlow">
+<stop offset="0%" stop-color="#63ff9c" stop-opacity=".10"></stop>
+<stop offset="100%" stop-color="#63ff9c" stop-opacity="0"></stop>
+</radialgradient>
+<lineargradient id="sweep" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="#63ff9c" stop-opacity=".38"></stop>
+<stop offset="100%" stop-color="#63ff9c" stop-opacity="0"></stop>
+</lineargradient>
+<clippath id="scopeClip"><circle cx="100" cy="100" r="94"></circle></clippath>
+</defs>
+<circle cx="100" cy="100" fill="url(#scopeGlow)" r="94"></circle>
+<g clip-path="url(#scopeClip)">
+<!-- city block lattice: 84 m blocks across a 500 m grid -->
+<g class="grid-lines">
+<path d="M66 0V200M100 0V200M134 0V200M0 66H200M0 100H200M0 134H200"></path>
+</g>
+<!-- waterways, from CITY_MAP -->
+<rect class="water" height="14" rx="2" width="200" x="0" y="57"></rect>
+<rect class="water" height="156" rx="2" width="9" x="132" y="22"></rect>
+<rect class="bridge" height="18" rx="1" width="6" x="112" y="55"></rect>
+<!-- landmarks -->
+<rect class="pad" height="4" rx="1" width="23" x="49" y="174"></rect>
+<rect class="pad" height="11" rx="1" width="23" x="145" y="182"></rect>
+<!-- districts -->
+<g class="district">
+<circle cx="24" cy="168" r="17"></circle>
+<circle cx="68" cy="96" r="23"></circle>
+<circle cx="136" cy="52" r="18"></circle>
+<circle cx="168" cy="144" r="20"></circle>
+</g>
+<g class="sweep-g"><path d="M100 100 L100 6 A94 94 0 0 1 194 100 Z" fill="url(#sweep)"></path></g>
+</g>
+<circle class="ring" cx="100" cy="100" r="94"></circle>
+<circle class="ring faint" cx="100" cy="100" r="63"></circle>
+<circle class="ring faint" cx="100" cy="100" r="32"></circle>
+<!-- spawn: SPAWN vector is (0, 30, 0) — dead centre, 30 m up -->
+<g class="blip"><circle cx="100" cy="100" r="3.4"></circle><circle class="pulse" cx="100" cy="100" r="3.4"></circle></g>
+</svg>
+<div class="scope-legend">
+<span><i class="sw district"></i>Districts</span>
+<span><i class="sw water"></i>Waterways</span>
+<span><i class="sw pad"></i>Airstrip · Harbor</span>
+</div>
+</div>
+<div class="stats">
+<div class="stat">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"></path><path d="M21 3v6h-6"></path></svg>
+<b><span data-count="173">173</span><em>km/h</em></b>
+<span>Top speed</span>
+</div>
+<div class="stat">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 20V4M6 10l6-6 6 6"></path></svg>
+<b><span data-count="4.3" data-dec="1">4.3</span><em>: 1</em></b>
+<span>Thrust / weight</span>
+</div>
+<div class="stat">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 18h16"></path><path d="M4 18L16 6"></path><path d="M9 18a7 7 0 0 1 2-5"></path></svg>
+<b><span data-count="45">45</span><em>°</em></b>
+<span>Max bank</span>
+</div>
+<div class="stat">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 21s7-5 7-11a7 7 0 1 0-14 0c0 6 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
+<b><span data-count="7">7</span><em>sorties</em></b>
+<span>Story campaign</span>
+</div>
+</div>
+</section>
+<!-- ── right: the actual form ── -->
+<section class="panel">
+<div class="lead">
+<h1>Preflight</h1>
+<p id="brief">Balanced solo sortie with hostiles, waypoints, fuel, weather, and scoring.</p>
+</div>
+<div class="group">
+<h2>Mode</h2>
+<div aria-label="Game mode" class="modes" id="mode-grid" role="radiogroup">
+<button aria-pressed="false" class="opt" data-mode="campaign" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 21V4a6 6 0 0 1 8 0 6 6 0 0 0 8 0v9a6 6 0 0 1-8 0 6 6 0 0 0-8 0"></path></svg>
+<b>Campaign</b><span>7 story sorties</span>
+</button>
+<button aria-pressed="true" class="opt active" data-mode="single" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path></svg>
+<b>Single</b><span>Solo combat</span>
+</button>
+<button aria-pressed="false" class="opt" data-mode="training" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 4l9 4-9 4-9-4z"></path><path d="M6 11v4c2 2 10 2 12 0v-4"></path></svg>
+<b>Training</b><span>No hostiles</span>
+</button>
+<button aria-pressed="false" class="opt" data-mode="freeflight" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 15l18-9-8 17-2-7z"></path></svg>
+<b>Free Flight</b><span>Open city</span>
+</button>
+<button aria-pressed="false" class="opt wide" data-mode="multiplayer" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="7" cy="8" r="3"></circle><circle cx="17" cy="8" r="3"></circle><path d="M2 20a5 5 0 0 1 10 0M12 20a5 5 0 0 1 10 0"></path></svg>
+<b>Online Battle</b><span>Two-player room<i>beta</i></span>
+</button>
+</div>
+</div>
+<div class="group">
+<h2>Airframe</h2>
+<div aria-label="Aircraft" class="crafts" id="aircraft-grid" role="radiogroup">
+<button aria-pressed="true" class="opt active" data-aircraft="drone" type="button">
+<svg aria-hidden="true" class="rotors" viewbox="0 0 24 24"><path d="M8 8L16 16M16 8L8 16"></path><circle class="r" cx="6" cy="6" r="3"></circle><circle class="r" cx="18" cy="6" r="3"></circle><circle class="r" cx="6" cy="18" r="3"></circle><circle class="r" cx="18" cy="18" r="3"></circle><rect height="5" rx="1.5" width="5" x="9.5" y="9.5"></rect></svg>
+<b>MQ-9 Reaper</b><span>Racing quad</span>
+</button>
+<button aria-pressed="false" class="opt" data-aircraft="helicopter" type="button">
+<svg aria-hidden="true" class="rotors" viewbox="0 0 24 24"><path class="r" d="M3 6h18"></path><path d="M12 6v3"></path><path d="M7 15a4 4 0 0 1 4-4h2l5 4v3H9z"></path><path d="M18 16l4-2"></path></svg>
+<b>MQ-8B Fire Scout</b><span>Rotorcraft</span>
+</button>
+</div>
+<!-- flight envelope: multipliers straight out of VEHICLE_PROFILES -->
+<div aria-label="Flight envelope" class="envelope" id="envelope">
+<div class="bar"><span>Speed</span><i><u style="width:100%"></u></i><b>48 m/s</b></div>
+<div class="bar"><span>Climb</span><i><u style="width:100%"></u></i><b>20 m/s</b></div>
+<div class="bar"><span>Bank</span><i><u style="width:100%"></u></i><b>45°</b></div>
+<div class="bar"><span>Hover</span><i><u style="width:50%"></u></i><b>drifts</b></div>
+</div>
+</div>
+<div class="group room" id="room-panel">
+<h2>Battle room</h2>
+<div class="room-row">
+<input aria-label="Battle code" autocomplete="off" id="room-code" maxlength="24" placeholder="DRN-482K" spellcheck="false" type="text"/>
+<button id="btn-room-code" type="button">New</button>
+<button id="btn-join-room" type="button">Check</button>
+<button id="btn-copy-room" type="button">Invite</button>
+</div>
+<p id="room-status">Create a code, or paste the one you were sent.</p>
+</div>
+<button class="launch" id="btn-launch" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+<span class="launch-txt">Launch</span>
+<span class="launch-note" id="launch-note">Single · MQ-9 Reaper</span>
+</button>
+</section>
+</main>
+<footer class="foot">
+<div class="keys">
+<span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>move</span>
+<span><kbd>Q</kbd><kbd>E</kbd>yaw</span>
+<span><kbd>Space</kbd>climb</span>
+<span><kbd>Shift</kbd>descend</span>
+<span><kbd>F</kbd>fire</span>
+<span><kbd>Tab</kbd>boost</span>
+</div>
+<p class="note">Gamepad &amp; touch auto-detected · progress stays in this browser</p>
+</footer>
+</div>
+<script src="/_assets/399485accced95cb5e94.js" type="module"></script>
+</body></html>

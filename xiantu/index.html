@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>仙途 · 文字修仙</title>
+<link href="src/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="src/assets/favicon.ico" rel="icon" sizes="any"/>
+<link href="/_assets/f0bb33149faf98f747ed.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div class="app" id="app">
+<!-- ==================== 顶栏 ==================== -->
+<header class="topbar">
+<div class="topbar-brand">
+<h1 class="brand-title">仙 途</h1>
+<span class="brand-sub">文字修仙 · 放置悟道</span>
+</div>
+<div class="topbar-stats" id="topbarStats">
+<div class="ts-item" title="当前境界">
+<span class="ts-label">境界</span>
+<span class="ts-value" id="tsRealm">炼气一层</span>
+</div>
+<div class="ts-item" title="寿元">
+<span class="ts-label">寿元</span>
+<span class="ts-value" id="tsLifespan">100 载</span>
+</div>
+<div class="ts-item" title="灵石">
+<span class="ts-label">灵石</span>
+<span class="ts-value" id="tsStones">50 下品</span>
+</div>
+<div class="ts-item" title="当前修炼速率">
+<span class="ts-label">速率</span>
+<span class="ts-value" id="tsSpeed">7/息</span>
+</div>
+</div>
+<div class="topbar-actions">
+<button class="btn btn-sm" id="btnSettings" title="设置与存档">设置</button>
+</div>
+</header>
+<!-- ==================== 三栏主体 ==================== -->
+<div class="layout">
+<aside class="col col-left">
+<section class="panel" id="panelChar">
+<div class="panel-title">道 者<span class="pt-extra" id="cpRoot">杂灵根 ×0.7</span></div>
+<div class="center mb-1">
+<div id="cpName" style="font-family:var(--font-display);font-size:1.28em;font-weight:bold;
+           color:var(--accent-dark);letter-spacing:3px;">无名散修</div>
+<span class="realm-badge" id="cpRealm">炼气一层</span>
+<span class="tag tag-gold" id="cpTitle" style="display:none;margin-left:5px;"></span>
+</div>
+<div class="small muted center mb-2" id="cpRealmDesc">初引灵气入体，如溪流初通，几不可察</div>
+<div class="info-row"><span class="label">寿元</span><span class="value" id="cpLife">100 载</span></div>
+<div class="info-row"><span class="label">气运</span><span class="value highlight" id="cpLuck">80 ★</span></div>
+<div class="info-row"><span class="label">灵石</span><span class="value gold" id="cpStones">50 下品</span></div>
+<hr class="divider"/>
+<div class="small muted row-between"><span>修为</span><span class="num" id="cpCultText">42 / 900</span></div>
+<div class="bar"><div class="bar-fill" id="cpCultBar" style="width: 4.66667%;"></div><div class="bar-text" id="cpCultPct">4.7%</div></div>
+<div class="small muted row-between"><span>气血</span><span class="num" id="cpHpText">103 / 140</span></div>
+<div class="bar"><div class="bar-fill hp" id="cpHpBar" style="width: 73.8286%;"></div><div class="bar-text" id="cpHpPct">74%</div></div>
+<div class="small muted row-between"><span>灵力</span><span class="num" id="cpMpText">61 / 62</span></div>
+<div class="bar"><div class="bar-fill mp" id="cpMpBar" style="width: 98.6452%;"></div><div class="bar-text" id="cpMpPct">99%</div></div>
+<hr class="divider"/>
+<div class="info-row"><span class="label">攻击</span><span class="value" id="cpAtk">13</span></div>
+<div class="info-row"><span class="label">防御</span><span class="value" id="cpDef">8</span></div>
+<div class="info-row"><span class="label">身法</span><span class="value" id="cpSpd">10</span></div>
+<div class="info-row"><span class="label">暴击</span><span class="value" id="cpCrit">5%</span></div>
+<hr class="divider"/>
+<div class="info-row"><span class="label">悟性</span><span class="value jade" id="cpComp">10</span></div>
+<div class="info-row"><span class="label">道心</span><span class="value jade" id="cpDao">10</span></div>
+<div class="info-row"><span class="label">神识</span><span class="value jade" id="cpSense">10</span></div>
+<hr class="divider"/>
+<div class="info-row"><span class="label">修炼速率</span><span class="value highlight" id="cpSpeed">7/息</span></div>
+<div class="small muted center mt-1" id="cpEta">约 2分 后圆满</div>
+</section>
+<section class="panel" id="panelBuffs">
+<div class="panel-title">加 持<span class="pt-extra" id="buffCount"></span></div>
+<div id="buffList"></div>
+</section>
+</aside>
+<main class="col col-center">
+<nav class="tabs" id="mainTabs"><button class="tab active" data-tab="cultivate" type="button">修炼</button><button class="tab" data-tab="technique" type="button">功法</button><button class="tab" data-tab="talent" type="button">天赋</button><button class="tab" data-tab="cave" type="button">洞府</button><button class="tab" data-tab="beast" type="button">灵兽</button><button class="tab" data-tab="inventory" type="button">背包</button><button class="tab" data-tab="achievement" type="button">成就</button><button class="tab" data-tab="codex" type="button">图鉴</button><button class="tab" data-tab="world" type="button">天象</button><button class="tab" data-tab="shop" type="button">坊市</button><button class="tab" data-tab="reincarnation" type="button">轮回</button><button class="tab" data-tab="info" type="button">信息</button></nav>
+<div id="guideBar">
+<div class="guide-tip">
+<span class="guide-mark">❖</span>
+<span class="guide-body">
+<b>修炼</b>　修行是根本。修为满了就能冲击境界，境界越高，一切都会变强。
+      </span>
+<button class="btn btn-sm guide-close" data-guide-close="cultivate" type="button">知道了</button>
+</div>
+</div>
+<div class="tab-body" id="tabBody">
+<section class="tab-pane active" id="pane-cultivate">
+<div class="panel-title">修 炼<span class="pt-extra">炼气一层</span></div>
+<button class="btn btn-primary btn-block" disabled="" id="btnBreak" type="button">
+      冲 击 境 界
+    </button>
+<div class="small center mt-1 muted" id="breakHint">
+      修为不足，还需 900
+    </div>
+<div class="row mt-2" style="gap:6px;">
+<button class="btn btn-gold" id="btnExplore" style="flex:1;" type="button">外出探险</button>
+<button class="btn btn-jade" id="btnMeditate" style="flex:1;" type="button">打坐调息</button>
+</div>
+<div class="small muted center mt-1" id="exploreHint">外出游历，或遇机缘，或逢凶险（耗气血 17）</div>
+<hr class="divider"/>
+<div class="sub-title">突破成功率明细</div>
+<div id="breakDetail">
+<div class="info-row">
+<span class="label">境界基础</span>
+<span class="value jade num">+100.0%</span>
+</div>
+<div class="info-row" style="border-top:1px solid var(--border-light);margin-top:3px;padding-top:5px;">
+<span class="label"><b>合计</b></span>
+<span class="value highlight num"><b>100%</b></span>
+</div></div>
+<hr class="divider"/>
+<div class="sub-title">修炼速率明细</div>
+<div id="speedDetail"><div class="info-row"><span class="label">境界基础</span>
+<span class="value num">10/息</span></div><div class="info-row"><span class="label">灵根 · 杂灵根</span>
+<span class="value num">×0.7</span></div><div class="info-row"><span class="label">功法</span>
+<span class="value num">×1.1</span></div><div class="info-row"><span class="label">洞府聚灵阵</span>
+<span class="value num">×1</span></div>
+<div class="info-row" style="border-top:1px solid var(--border-light);margin-top:3px;padding-top:5px;">
+<span class="label"><b>当前速率</b></span>
+<span class="value highlight num"><b>7/息</b></span>
+</div>
+<div class="small muted center mt-1" id="cultEta">距圆满约 2分2秒</div>
+</div>
+</section>
+<section class="tab-pane" id="pane-technique"></section>
+<section class="tab-pane" id="pane-talent"></section>
+<section class="tab-pane" id="pane-cave"></section>
+<section class="tab-pane" id="pane-sect"></section>
+<section class="tab-pane" id="pane-beast"></section>
+<section class="tab-pane" id="pane-companion"></section>
+<section class="tab-pane" id="pane-alchemy"></section>
+<section class="tab-pane" id="pane-forge"></section>
+<section class="tab-pane" id="pane-inventory"></section>
+<section class="tab-pane" id="pane-achievement"></section>
+<section class="tab-pane" id="pane-codex"></section>
+<section class="tab-pane" id="pane-world"></section>
+<section class="tab-pane" id="pane-shop"></section>
+<section class="tab-pane" id="pane-tower"></section>
+<section class="tab-pane" id="pane-reincarnation"></section>
+<section class="tab-pane" id="pane-info"></section>
+</div>
+</main>
+<aside class="col col-right">
+<section class="panel panel-grow" id="panelLog">
+<div class="panel-title">修 行 日 志<span class="pt-extra" id="logCount">7 条</span></div>
+<div class="row row-wrap mb-1" id="logFilters"><button class="tag tag-gold" data-filter="all" type="button">全部</button><button class="tag" data-filter="cultivate" type="button">修行</button><button class="tag" data-filter="battle" type="button">战报</button><button class="tag" data-filter="system" type="button">系统</button></div>
+<div class="log-scroll" id="logScroll"><div class="log-entry event-special"><span class="log-time">[00:48]</span>【启程】你踏上修仙之路，前路茫茫，且行且悟。</div><div class="log-entry event-bad"><span class="log-time">[00:48]</span>灵根觉醒：杂灵根（灵根驳杂，修行艰难，唯有苦熬）</div><div class="log-entry event-good"><span class="log-time">[00:48]</span>初始气运：80</div><div class="log-entry event-good"><span class="log-time">[00:48]</span>赠予新人灵石五十，聊作路资。</div><div class="log-entry event-special"><span class="log-time">[00:48]</span>本世功课：八幕共 20 门必修，另有余课任选 2 项。详见「轮回」页。</div><div class="log-entry event-special"><span class="log-time">[00:48]</span>拍卖行换了一批新货</div><div class="log-entry event-bad"><span class="log-time">[00:48]</span>【天象】当前为「大道压制」——大道高悬、天劫难度 +25%，然劫后所得翻倍——险中求道者，此时最宜冲关</div></div>
+<div class="row-between mt-1">
+<label class="small muted row" style="cursor:pointer;">
+<input checked="" id="logAutoScroll" type="checkbox"/> 自动滚动
+        </label>
+<button class="btn btn-sm" id="btnClearLog" type="button">清空</button>
+</div>
+</section>
+<section class="panel" id="panelSystem">
+<div class="panel-title">道 途 自 动</div>
+<div class="row-between mb-1">
+<span class="small">自动突破</span>
+<button class="btn btn-sm btn-danger" id="btnAutoBreak" type="button">已关闭</button>
+</div>
+<div class="small muted mb-2" id="autoBreakHint">当前成功率 100%，点击开启</div>
+<div class="row-between mb-1">
+<span class="small">战报播放</span>
+<button class="btn btn-sm btn-jade" id="btnBattleReport" type="button">已开启</button>
+</div>
+<div class="small muted mb-2" id="battleReportHint">战斗后弹窗逐条播放战报</div>
+<hr class="divider"/>
+<button class="btn btn-sm btn-block" id="btnSaveNow" type="button">手动存档</button>
+<button class="btn btn-sm btn-block" id="btnOpenSettings" type="button">设置 · 存档管理</button>
+<div class="small muted center mt-1" id="saveHint">上次存档：00:48</div>
+</section>
+</aside>
+</div>
+<!-- 移动端底部导航 -->
+<nav class="mobile-nav" id="mobileNav"><button class="tab active" data-tab="cultivate" type="button">修炼</button><button class="tab" data-tab="technique" type="button">功法</button><button class="tab" data-tab="talent" type="button">天赋</button><button class="tab" data-tab="cave" type="button">洞府</button><button class="tab" data-tab="beast" type="button">灵兽</button><button class="tab" data-tab="inventory" type="button">背包</button><button class="tab" data-tab="achievement" type="button">成就</button><button class="tab" data-tab="codex" type="button">图鉴</button><button class="tab" data-tab="world" type="button">天象</button><button class="tab" data-tab="shop" type="button">坊市</button><button class="tab" data-tab="reincarnation" type="button">轮回</button><button class="tab" data-tab="info" type="button">信息</button></nav>
+</div>
+<!-- 弹窗层：奇遇 / 天劫 / 离线结算 / 确认框 -->
+<div class="modal-root" id="modalRoot"></div>
+<!-- 飘字层 -->
+<div aria-live="polite" class="toast-root" id="toastRoot"></div>
+<script src="/_assets/05a5651be82b3a016100.js" type="module"></script>
+</body></html>

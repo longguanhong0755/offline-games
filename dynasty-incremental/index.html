@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>$15.00 - Dynasty Incremental</title>
+<link href="/_assets/c915e7e08581730686e8.css" rel="stylesheet"/>
+<script src="/_assets/62c236cefcb401e9e514.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body style="background-color:rgb(50,50,50)">
+<div class="sectionLeft">
+<div class="resourcesContainer">
+<div class="resources">
+<span style="font-weight:bold;font-size:18px">Resources</span><br/>
+<span id="money">15.00</span> money (+<span id="moneyPS">0.00</span>/s)<br/>
+<span id="wheat">0.00</span> wheat (+<span id="wheatPS">0.00</span>/s)<br/>
+<span id="cotton">0.00</span> cotton (+<span id="cottonPS">0.00</span>/s)<br/>
+<span id="stone">0.00</span> stone (+<span id="stonePS">0.00</span>/s)<br/>
+<span id="metal">0.00</span> metal (+<span id="metalPS">0.00</span>/s)<br/>
+<span id="coal">0.00</span> coal (+<span id="coalPS">0.00</span>/s)<br/>
+<button id="sellButton" onclick="lib.sellResources()">Sell Resources for $</button>
+</div>
+</div>
+<div class="buildingsContainer">
+<button class="buildings" id="farm" onclick="lib.buyBuilding('farm')">Farm  (<span id="farms">0</span>)</button><span id="farmHover"><span id="farmCost">15.00 Money</span></span>
+<button class="buildings" id="mine" onclick="lib.buyBuilding('mine')">Mine  (<span id="mines">0</span>)</button><span id="mineHover"><span id="mineCost">100.00 Money</span></span>
+<div class="workerChangeButtonContainer">
+<button class="workerChangeButton" onclick="lib.changeWorkerAmount('farm',-1)">-</button> <button class="workerChangeButton" onclick="lib.changeWorkerAmount('farm',1)">+</button><span class="workersAssigned"><span id="farmWorkerAssigned"> 0</span>/<span id="maxFarmWorkers">0</span> </span><br/>
+<button class="workerChangeButton" onclick="lib.changeWorkerAmount('mine',-1)">-</button> <button class="workerChangeButton" onclick="lib.changeWorkerAmount('mine',1)">+</button><span class="workersAssigned"><span id="mineWorkerAssigned"> 0</span>/<span id="maxMineWorkers">0</span> </span>
+</div>
+</div>
+</div>
+<div class="sectionMiddle">
+<div class="workersContainer">
+<div class="workers">
+<span style="font-weight:bold;font-size:18px">Workers</span><br/>
+                        Amount: <span id="workersAmt">0</span><br/>
+<button id="workerButton" onclick="lib.hireWorker()">Hire Worker [<span id="workerCost">50 money/min</span>]</button>
+</div>
+</div>
+</div>
+<div class="sectionRight">
+</div>
+</body></html>

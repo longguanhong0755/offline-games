@@ -1,0 +1,149 @@
+@font-face {
+    font-family: 'JBMono';
+    src: url("a0bf60ef0f83c5ed4d7a.ttf");
+}
+.sectionLeft{
+    float:left;
+    position:fixed;
+    top:10px;
+    left:10px;
+    width:900px;
+}
+.sectionMiddle{
+    float:left;
+    position:fixed;
+    left:855px;
+    top:10px;
+    width:640px;
+}
+.sectionRight{
+    float:left;
+    position:fixed;
+    width:640px;
+}
+.buildings{
+    float:left;
+    text-align: center;
+    font-size:15px;
+    text-wrap:auto;
+    width:40%;
+    height:49px;
+    display: block;
+    margin-left:8px;
+    margin-bottom:8px;
+}
+.buildings:hover{
+    background-color: rgb(200,200,200)
+}
+#farmHover{
+    display:none;
+    position:fixed;
+    padding:10px;
+    background-color:rgb(240,240,240);
+    left:567px;
+    top:24px;
+    outline:black solid 2px;
+}
+#farm:hover + #farmHover{
+    display:block;
+}
+#mineHover{
+    display:none;
+}
+.buildingsContainer{
+    background-color: darkgray;
+    width:54%;
+    margin-left:1%;
+    float:left;
+    max-height:100%;
+}
+.resourcesContainer{
+    background-color: darkgray;
+    width:38%;
+    font-size:15px;
+    text-wrap:auto;
+    text-align:left;
+    max-height:100%;
+    float:left;
+    margin:auto;
+}
+#sellButton{
+    font-size:12px;
+    text-wrap:auto;
+    margin-top:3%;
+    width:68%;
+    height: 36px;
+}
+#sellButton:hover{
+    background-color:rgb(200,200,200)
+}
+#farm{
+    position:fixed;
+    top:22px;
+    width:150px;
+    height:40px;
+}
+#mine{
+    position:fixed;
+    top:70px;
+    width:150px;
+    height:40px;
+}
+.resources {
+    margin-top:8px;
+    margin-left:8px;
+    margin-bottom:8px;
+}
+
+.workersContainer{
+    background-color: darkgray;
+    width:50%;
+    float:left;
+    font-size:15px;
+    text-wrap:auto;
+    text-align:left;
+}
+.workers {
+    margin-top:8px;
+    margin-left:8px;
+    margin-bottom:8px;
+}
+#workerButton{
+    margin-top:8px;
+    height:36px;
+    width:68%;
+    font-size:12px;
+    text-wrap:auto;
+}
+#workerButton:hover{
+    background-color: rgb(200,200,200)
+}
+.workerChangeButtonContainer{
+    margin-top:24px;
+    font-size:15px;
+    text-align: left;
+    float:right;
+}
+.workerChangeButton{
+    margin-bottom:35px;
+    font-size:12px;
+    height:23px;
+    width:23px;
+    margin-left:5px;
+}
+.workerChangeButton:hover{
+     background-color: rgb(200,200,200)
+ }
+.workersAssigned{
+    text-align:center;
+    background-color:rgb(200,200,200);
+    border: black solid 2px;
+    margin-left:10px;
+}
+html{
+    font-family:"JBMono";
+}
+button{
+    font-family:"JBMono";
+}
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0" name="viewport"/>
+<link href="/_assets/09c6a2a15a3c82e175a5.css" rel="stylesheet"/>
+<title>Dress Up Test</title>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<main class="game-container">
+<div id="game-bg">
+<div id="base"></div>
+<div id="hair"></div>
+<div id="top"></div>
+<div id="bottom"></div>
+<div id="shoes"></div>
+</div>
+<form>
+<div class="color-section">
+<label for="hue">Hue Change: </label>
+<input id="hue" max="360" min="0" type="range" value="0"/>
+<label for="saturate">Saturation Change: </label>
+<input id="saturate" max="100" min="0" type="range" value="100"/>
+<label for="brightness">Brightness Change: </label>
+<input id="brightness" max="200" min="0" type="range" value="100"/>
+</div>
+<div id="warning">
+<p class="text">
+						No item type selected to change filters of! Select
+						circle below.
+					</p>
+</div>
+<!-- HAIR -->
+<input id="next-hair" onclick="itemSelector(this)" type="button" value="Hair"/>
+<input id="hair-color" name="item-color" onchange="itemTypetoColor(this)" type="radio" value="hair"/>
+<input id="prev-hair" onclick="itemSelector(this)" type="button" value="Hair"/>
+<!-- TOP -->
+<input id="next-top" onclick="itemSelector(this)" type="button" value="Top"/>
+<input id="top-color" name="item-color" onchange="itemTypetoColor(this)" type="radio" value="top"/>
+<input id="prev-top" onclick="itemSelector(this)" type="button" value="Top"/>
+<!-- BASE -->
+<input id="next-base" onclick="itemSelector(this)" type="button" value="base"/>
+<input id="base-color" name="item-color" onchange="itemTypetoColor(this)" type="radio" value="base"/>
+<input id="prev-base" onclick="itemSelector(this)" type="button" value="base"/>
+<!-- BOTTOM -->
+<input id="next-bottom" onclick="itemSelector(this)" type="button" value="Bottom"/>
+<input id="bottom-color" name="item-color" onchange="itemTypetoColor(this)" type="radio" value="bottom"/>
+<input id="prev-bottom" onclick="itemSelector(this)" type="button" value="Bottom"/>
+<!-- SHOE -->
+<input id="next-shoe" onclick="itemSelector(this)" type="button" value="Shoe"/>
+<input id="shoes-color" name="item-color" onchange="itemTypetoColor(this)" type="radio" value="shoes"/>
+<input id="prev-shoe" onclick="itemSelector(this)" type="button" value="Shoes"/>
+</form>
+</main>
+<footer>
+<p>
+				Credit:
+				<a rel="noopener noreferrer" target="_blank">Developer: 90sPixelDev</a>
+				|
+				<a rel="noopener noreferrer" target="_blank">Artist: AshariaArts</a>
+</p>
+</footer>
+<script src="/_assets/85e7d00be9ffc6b471e0.js"></script>
+</body></html>

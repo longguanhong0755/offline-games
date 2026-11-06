@@ -1,0 +1,52 @@
+body {
+  background-color : #303050;
+  color : #ffffff;
+  font-family : "Consolas", Monaco, monospace;
+  font-size: 20px;
+}
+
+button {
+  background-color : #808080
+  border: none;
+  color: #00d1d1;
+  font-size: 20px;
+  padding: 0px 0px;
+  border-radius: 8px;
+  font-family : "Consolas", Monaco, monospace;
+}
+
+#UpgradeButtons {
+    border: 2px solid black;
+    width: 400px;
+    height: auto;
+}
+
+#UpgradeButtons Button {
+    margin: 5px;
+    padding: 10px;
+}
+
+#Cheats {
+    border: 2px solid red;
+    color: red;
+    width: 250px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+}
+
+p1 {
+
+}
+
+p2 {
+    font-size: 10px;
+}
+
+#infcoin {
+    width: 200px;
+    border-color: crimson;
+    color: crimson;
+    text-align: center;
+}

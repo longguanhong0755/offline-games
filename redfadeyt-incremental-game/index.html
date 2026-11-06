@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<link href="/_assets/8270aa8067dbf841967c.css" rel="stylesheet" type="text/css"/>
+<title>Incremental</title>
+<script src="/_assets/c8b262b9af1ce8e25510.js" type="text/javascript"></script>
+<script src="/_assets/fdf1cccd3b33610d46cd.js" type="text/javascript"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<p id="Title">Incremental Game V1.0.1</p>
+<p id="coins">0.0 coins</p>
+<button onclick="coinClick()">Get coins</button>
+<br/>
+<p id="CPS">0.0 Coins Per Second</p>
+<br/>
+<p>Upgrades</p>
+<div id="UpgradeButtons">
+<!-- TODO: Make the Init() function generate all these upgrade button as that adds much more readability
+	        The important thing to think about is that the Id must be the same as the argument passed into the buy function
+	        Those two should also be the same as the name the arrays in incrFunction.js-->
+<button id="Tenant" onclick="buy('Tenant')">Buy Tenant Cost: 10.0</button>
+<p id="OTenant">Tenants Owned: 0</p>
+<p id="OApartment">Apartments Owned: 0</p>
+<button id="Apartment" onclick="buy('Apartment')" value="Test">Buy Apartment Cost: 100.0</button>
+</div>
+<div id="Cheats">
+<p1>Debug Cheats</p1>
+<br/>
+<p2>(WILL BE DELETED WHEN GAME IS FULLY FINISHED)</p2>
+<button id="infcoin" onclick="infCoins()">+1 Million Coins</button>
+</div>
+<script>
+	        window.onload = init();
+	    </script>
+</body></html>

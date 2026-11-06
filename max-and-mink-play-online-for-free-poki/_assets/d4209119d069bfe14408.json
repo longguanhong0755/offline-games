@@ -1,0 +1,44 @@
+{"frames": {
+
+"bar-progress":
+{
+	"frame": {"x":599,"y":141,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"logo":
+{
+	"frame": {"x":6,"y":6,"w":586,"h":387},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":97,"y":60,"w":586,"h":387},
+	"sourceSize": {"w":750,"h":486}
+},
+"poki-logo":
+{
+	"frame": {"x":6,"y":400,"w":600,"h":283},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":600,"h":283},
+	"sourceSize": {"w":600,"h":283}
+},
+"pokilogobg":
+{
+	"frame": {"x":599,"y":6,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "preroll.png",
+	"format": "RGBA8888",
+	"size": {"w":733,"h":733},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9bc8afee5281c170d6fbb3a88647409f:53faf5d102fd6d72944d9be15600d423:2847c32e49e7a0dcc74527bfc4556e0a$"
+}
+}

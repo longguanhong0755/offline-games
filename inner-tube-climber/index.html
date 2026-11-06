@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>💤🐈</title>
+<meta content="Snoring Cat makes pixel-art 2D platformer games using Godot." name="description"/>
+
+<link href="/_assets/3235175eefe2c0e2b61e.png" rel="icon" sizes="32x32" type="image/png"/>
+
+<link href="/_assets/840d4c1dea87012df1c4.css" rel="stylesheet" type="text/css"/>
+<!-- Asynchronously load the large font files. -->
+
+
+<noscript>
+
+
+</noscript>
+<script>
+</script>
+<script defer="" src="/_assets/7c70c536d75b17f59af1.js" type="text/javascript"></script>
+<script defer="" src="/_assets/abbe2ea64cef2c24d6f7.js" type="text/javascript"></script>
+<script defer="" src="/_assets/e168f3baa36c67d24cd3.js" type="text/javascript"></script>
+<script defer="" src="/_assets/d4da5626dacda898dfef.js" type="text/javascript"></script>
+<script><!-- Google tag (gtag.js) --></script><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<div id="main" style="display: none; visibility: hidden;">
+<h1>Snoring Cat</h1>
+<div id="cat">
+<img alt="A pixel-art image of a sleeping cat rolled up around itself." src="/_assets/9d43f52658ae9d44133d.png"/>
+</div>
+<!-- TODO: Update Squirrel Away and Momma Duck screenshots, videos, logos; move squirrel-away to itch.io. -->
+<div id="cards">
+<div class="card" id="surfacer">
+<button class="card-header-wrapper">
+<h2>
+<img alt="The Surfacer icon." class="logo" src="/_assets/c84a1fc4f31a821fe592.png"/>
+          Surfacer
+        </h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<img alt="A screenshot from Squirrel Away illustrating an annotated platform graph." class="screenshot"/>
+<p><b>Point-and-click platformers</b>!</p>
+<p>An <b>AI and pathfinding</b> 2D-platformer framework for <a>Godot</a>.</p>
+<p>
+<b>tl;dr:</b> Surfacer works by <b>pre-parsing</b> a level into a<b>"platform graph"</b>.
+            The <b>nodes</b> are represented by points along the different surfaces in the level
+            (floors, walls, and ceilings). The <b>edges</b> are represented by possible movement
+            trajectories between points along surfaces. There are different types of edges for
+            different types of movement (e.g., jumping from a floor to a floor, falling from a wall,
+            walking along a floor). At run time,
+            <b><a>A* search</a></b>
+            is used to calculate a path to a given destination.
+          </p>
+<p>Some features include:</p>
+<ul class="bulleted-list">
+<li>Surfacer includes a powerful **character-behavior system** for easily creating a character AI with high-level behaviors like "wander", "follow", "run-away", "return".</li>
+<li>Easy-to-use point-and-click navigation for player-controlled characters.</li>
+<li><a>Configurable movement parameters</a> on a per-character basis (e.g., horizontal acceleration, jump power, gravity, collision boundary shape and size, which types of edge movement are allowed).</li>
+<li>Level creation using Godot's standard pattern with a <a>TileMap in the 2D scene editor</a>.</li>
+<li>Preparsing the level into a platform graph, and using A* search for efficient path-finding at runtime.</li>
+<li>A powerful inspector for analyzing the platform graph, in order to debug and better understand how edges were calculated.</li>
+<li>Walking on floors, climbing on walls, climbing on ceilings, jumping and falling from anywhere.</li>
+<li><a>Variable-height jump and fast-fall</a>.</li>
+<li>Adjusting movement trajectories to move around intermediate surfaces (such as jumping over a wall or around a floor).</li>
+</ul>
+<p>See <a>more details in the library's README</a>.</p>
+<p>You can also read more about how Surfacer's AI and movement works in <a>this series of devlog posts on devlog.levi.dev</a>.</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="The Godot icon." class="icon" src="/_assets/ee83ec8d4e699cb01733.png"/>
+                Godot Asset Library package
+              </a>
+</li>
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                Source Code
+              </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card" id="scaffolder">
+<button class="card-header-wrapper">
+<h2>
+<img alt="The Scaffolder icon." class="logo" src="/_assets/4e342ceec952fd2cfa8d.png"/>
+          Scaffolder
+        </h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<p>This is an opinionated framework that provides a bunch of general-purpose application scaffolding and utility functionality for games in Godot.</p>
+<p>Some features include:</p>
+<ul class="bulleted-list">
+<li>Configurable UI and camera scaling to adapt to the current viewport.</li>
+<li>Optional analytics based on the proprietary third-party Google Analytics service.</li>
+<li>Optional automatic crash log reporting based on the proprietary third-party Google Cloud Storage service.</li>
+<li>Screen layout and navigation.</li>
+<li>Lots of useful utility functions (e.g., Time, Geometry, DrawUtils, Audio).</li>
+<li>A widget library (e.g., AccordionPanel, LabeledControlList)</li>
+</ul>
+<p>See <a>more details in the library's README</a>.</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="The Godot icon." class="icon" src="/_assets/ee83ec8d4e699cb01733.png"/>
+                Godot Asset Library package
+              </a>
+</li>
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                Source Code
+              </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card" id="surface-tiler">
+<button class="card-header-wrapper">
+<h2>
+<img alt="The Surface Tiler icon." class="logo" src="/_assets/773692b62dff369ef042.png"/>
+          Surface Tiler
+        </h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<p>Next-level autotiling.</p>
+<p>Some features include:</p>
+<ul class="bulleted-list">
+<li>90° and 45° surfaces.</li>
+<li>Exterior-to-interior art transitions spanning two subtiles.</li>
+<li>Dynamically constructed subtiles from individual constituent quadrants according to the local topography of the corresponding cell in the TileMap.</li>
+<li>A corner-type annotation system for defining the shapes of each quadrant in the tileset.</li>
+</ul>
+<p>See <a>more details in the library's README</a>.</p>
+<ul class="buttons">
+<!--            TODO: Add to the Asset Library-->
+<!--            <li>-->
+<!--              <a href="https://godotengine.org/asset-library/asset/969">-->
+<!--                <img class="icon"-->
+<!--                     src="/_assets/ee83ec8d4e699cb01733.png"-->
+<!--                     alt="The Godot icon.">-->
+<!--                Godot Asset Library package-->
+<!--              </a>-->
+<!--            </li>-->
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                Source Code
+              </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card" id="hop-n-bop">
+<button class="card-header-wrapper">
+<h2>
+<img alt="The Hop 'n Bop placeholder icon." class="logo" src="/_assets/9d43f52658ae9d44133d.png"/>
+          Hop 'n Bop
+        </h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<p><b>4-player platform-fighter party game!</b></p>
+<p>Bunny against bunny. Hop on heads, bump opponents
+          off platforms, last bunny standing wins. Cross-play
+          between desktop and browser. Built in
+          <a>Godot 4</a> with
+          deterministic <b>rollback netcode</b> for
+          competitive online play.</p>
+<p>Currently in development. Web playtest builds
+          posted regularly to our Discord.</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="The Hop 'n Bop icon." class="icon" src="/_assets/3235175eefe2c0e2b61e.png"/>
+                Play in browser
+              </a>
+</li>
+<li>
+<a>
+<img alt="The Discord icon." class="icon" src="/_assets/3235175eefe2c0e2b61e.png"/>
+                Join our Discord
+              </a>
+</li>
+</ul>
+<p style="margin-top: 1em; font-size: 0.85em;">
+<a>Privacy</a>
+            ·
+            <a>Terms</a>
+            ·
+            <a>Data deletion</a>
+</p>
+</div>
+</div>
+</div>
+<div class="card" id="inner-tube-climber">
+<button class="card-header-wrapper">
+<h2>
+<img alt="The Inner-Tube Climber icon." class="logo" src="/_assets/d53b44ff5e6f47591c12.png"/>
+<img alt="A pixel-art logo that says 'Inner-Tube Climber'." class="logo" src="/_assets/1d07ddf89dd81003878d.png"/>
+</h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<img alt="A screenshot from Inner-Tube Climber, showing the player jumping between platforms." class="screenshot" src="/_assets/191e2c3d5fb16c325a42.png"/>
+<p><em>Oh no! The player is stuck inside their inner-tube from a tragic accident, which also left them trapped in the bottom of an endless crevasse!</em></p>
+<p>Inner-Tube Climber is a free endless climber mobile game with fun wall bouncing and polished platforming controls!</p>
+<p>Inner-Tube Climber was originally created as a <a>"Compo" submission</a> for the <a>Ludum Dare</a> 47 game jam.</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="The Google Play Store badge." class="badge" src="/_assets/8fefcab9b86ae1497971.png"/>
+</a>
+</li>
+<li>
+<a>
+<img alt="The Apple App Store badge." class="badge" src="/_assets/41a1f3d3706d844dc1b3.png"/>
+</a>
+</li>
+<li>
+<a>
+<img alt="The YouTube icon." class="icon" src="/_assets/4777b7ac11928da8f217.png"/>
+                Trailer
+              </a>
+</li>
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                Source Code
+              </a>
+</li>
+<li>
+<a>
+<img alt="The Ludum Dare icon." class="icon" src="/_assets/600d457a5f8864f51e57.png"/>
+                Original game-jam version
+              </a>
+</li>
+</ul>
+<h3>Reviews:</h3>
+<ul class="reviews">
+<li>"The game is very fun, the music is also good"</li>
+<li>"This game is very good, you guys did incredible work"</li>
+<li>"When I [...] heard voiceacting I knew that the game had some effort put into it unlike those games that are just ads"</li>
+<li>"The game is pretty cool so download it if you like games that are pretty hard lol"</li>
+<li>"The game can make u rage but have fun at the same time which is great"</li>
+<li>"A great game for speed running!"</li>
+</ul>
+<h3>In the news:</h3>
+<ul class="buttons">
+<li>
+<a>GameKeys: "Amazing Android Games to Tryout in 2021"</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card" id="meteor-power">
+<button class="card-header-wrapper">
+<h2>
+<img alt="The Meteor Power icon." class="logo" src="/_assets/806ba0f4b82100754cc6.png"/>
+<img alt="A pixel-art logo that says 'Meteor Power'." class="logo" src="/_assets/2c02d0e080321e3ec630.png"/>
+</h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<!--TODO-->
+<!--          <img class="screenshot"-->
+<!--               src="https://s3-us-west-2.amazonaws.com/snoringcat.games/meteor-power-screenshot.png"-->
+<!--               alt="A screenshot from Meteor Power, showing TODO.">-->
+<!--TODO-->
+<p><em>Meteor Power is currently a prototype release.</em></p>
+<p>☄️🤖 <em>Build solar stations, connect power, avoid meteors!</em></p>
+<p>Meteor Power is a mobile RTS point-and-click 2D platformer.</p>
+<p>Meteor Power was originally created as a <a>"Compo" submission</a> for the <a>Ludum Dare</a> 50 game jam.</p>
+<p>Quite a few post-jam improvements were made. Unfortunately, other projects took priority before we had time to finish this.</p>
+<p>Some features of the game:</p>
+<ul class="bulleted-list">
+<li>2D platforming AI and navigation.</li>
+<li>High-level commands:</li>
+<ul class="bulleted-list">
+<li>You click on a station site and choose an action that should be taken.</li>
+<li>That action is then queued, and the next appropriate bot performs it.</li>
+</ul>
+<li>Many types of bots, with different abilities and movement mechanics.</li>
+<li>Many different types of actions:</li>
+<ul class="bulleted-list">
+<li>Building new stations</li>
+<li>Running powerlines between stations</li>
+<li>Repairing stations</li>
+<li>Building barriers to block incoming meteors</li>
+</ul>
+<li>A polished radial menu for performing actions on target bots or target stations.</li>
+</ul>
+<ul class="buttons">
+<!--TODO-->
+<!--            <li>-->
+<!--              <a href="https://play.google.com/store/apps/details?id=dev.levi.inner_tube_climber">-->
+<!--                <img class="badge"-->
+<!--                     src="/_assets/8fefcab9b86ae1497971.png"-->
+<!--                     alt="The Google Play Store badge.">-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="https://apps.apple.com/us/app/inner-tube-climber/id1553158659">-->
+<!--                <img class="badge"-->
+<!--                     src="/_assets/41a1f3d3706d844dc1b3.png"-->
+<!--                     alt="The Apple App Store badge.">-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="https://www.youtube.com/watch?v=5ambx7K7Rjg">-->
+<!--                <img class="icon"-->
+<!--                     src="/_assets/4777b7ac11928da8f217.png"-->
+<!--                     alt="The YouTube icon.">-->
+<!--                Trailer-->
+<!--              </a>-->
+<!--            </li>-->
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                Source Code
+              </a>
+</li>
+<li>
+<a>
+<img alt="The Ludum Dare icon." class="icon" src="/_assets/600d457a5f8864f51e57.png"/>
+                Original game-jam version
+              </a>
+</li>
+</ul>
+<!--TODO-->
+<!--          <h3>Reviews:</h3>-->
+<!--          <ul class="reviews">-->
+<!--            <li>"The game is very fun, the music is also good"</li>-->
+<!--            <li>"This game is very good, you guys did incredible work"</li>-->
+<!--            <li>"When I [...] heard voiceacting I knew that the game had some effort put into it unlike those games that are just ads"</li>-->
+<!--            <li>"The game is pretty cool so download it if you like games that are pretty hard lol"</li>-->
+<!--            <li>"The game can make u rage but have fun at the same time which is great"</li>-->
+<!--            <li>"A great game for speed running!"</li>-->
+<!--          </ul>-->
+</div>
+</div>
+</div>
+<div class="card" id="squirrel-away">
+<button class="card-header-wrapper">
+<h2>
+<img alt="The Squirrel Away icon." class="logo" src="/_assets/69363a1c240ec064642f.png"/>
+          Squirrel Away
+        </h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<img alt="A screenshot from Squirrel Away." class="screenshot"/>
+<p>This <b>point-and-click platformer</b> game showcases procedural pathfinding using the <a>Surfacer</a> framework.</p>
+<p>In this game, the user can click anywhere in the level, and the cat character will then jump, walk, and climb across platforms in order to reach that target destination.</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="The itch.io icon." class="icon" src="/_assets/750e5871a0c0bddbf6c1.png"/>
+                Play the game!
+              </a>
+</li>
+<!--TODO-->
+<!--<li>-->
+<!--<a href="https://www.youtube.com/watch?v=">-->
+<!--<img class="icon"-->
+<!--src="/_assets/4777b7ac11928da8f217.png"-->
+<!--alt="The YouTube icon.">-->
+<!--Gameplay video-->
+<!--</a>-->
+<!--</li>-->
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                Source Code
+              </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card" id="dark-time">
+<button class="card-header-wrapper">
+<h2>
+<img alt="A logo of a analog clock." class="logo" src="/_assets/e4e7595ff5de2b4c4e4f.png"/>
+          Dark Time
+        </h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<img alt="A screenshot from of the Dark Time new-tab page." class="screenshot" src="/_assets/a4592f5112af1bb9aee3.png"/>
+<p>Replaces the new tab page in Chrome. Shows the current time, with configurable background and text colors.</p>
+<p>Dark Time provides a new-tab experience that shows your local time with dark background color and low-contract font. A non-jarring look is especially important for new-tab content, since this is shown every time you open a new tab!</p>
+<p>If you'd instead prefer to customize the colors, Dark Time let's you do that! Just open up extension settings in the usual way through Chrome's UI.</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="The Chrome Web Store icon." class="icon" src="/_assets/7fffcd1b927a229df216.png"/>
+                Chrome Web Store
+              </a>
+</li>
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                Source Code
+              </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card" id="about">
+<button class="card-header-wrapper">
+<h2>About</h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<p>Snoring Cat creates video games! We currently specialize in 2D platformer games, pixel art, and the <a>Godot game engine</a>.</p>
+<p>Snoring Cat is owned and managed by <a>Levi Lindsey</a>.</p>
+<p>Follow us on social media to hear about our latest updates!</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="The Twitter icon." class="icon" src="/_assets/e34e75841b32da8306e3.png"/>
+                Twitter
+              </a>
+</li>
+<li>
+<a>
+<img alt="The Facebook icon." class="icon" src="/_assets/f3a629fa997be54882fb.png"/>
+                Facebook
+              </a>
+</li>
+<li>
+<a>
+<img alt="The GitHub icon." class="icon" src="/_assets/8ee9773c9b2fd4028e36.png"/>
+                GitHub
+              </a>
+</li>
+</ul>
+<p>Or if you are instead looking for other things Levi has created, check out the following links:</p>
+<ul class="buttons">
+<li>
+<a>
+<img alt="A game-dev icon." class="icon" src="/_assets/c11e5615c662dd044cbe.png"/>
+                Levi's devlog
+              </a>
+</li>
+<li>
+<a>
+<img alt="A pixel-art image of Levi." class="icon" src="/_assets/a1d214450360cfff166f.png"/>
+                Levi's portfolio
+              </a>
+</li>
+<li>
+<a>
+<img alt="The Twitter icon." class="icon" src="/_assets/e34e75841b32da8306e3.png"/>
+                Levi's Twitter
+              </a>
+</li>
+<li>
+<a>
+<img alt="The Facebook icon." class="icon" src="/_assets/f3a629fa997be54882fb.png"/>
+                Levi's Facebook
+              </a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card" id="contact">
+<button class="card-header-wrapper">
+<h2>Contact</h2>
+<img alt="A chevron symbol." class="dropdown-arrow" src="/_assets/3c0a16e6594060d545e9.png"/>
+</button>
+<div class="card-body-wrapper">
+<div class="card-body">
+<div id="email">
+<a href="mailto:contact@snoringcat.games">contact@snoringcat.games</a>
+</div>
+<div id="address">
+<div>4730 University Way NE Suite 104 PMB 2852</div>
+<div>Seattle, WA 98105</div>
+</div>
+<div id="phone">(206) 657-7717</div>
+</div>
+</div>
+</div>
+</div>
+<footer style="margin-top: 2em; padding: 1em; text-align: center; font-size: 0.85em; opacity: 0.8;">
+<a href="/privacy/">Privacy Policy</a>
+    ·
+    <a href="/terms/">Terms of Service</a>
+    ·
+    <a href="/data-deletion/">Data Deletion</a>
+    ·
+    <a href="/support">Support</a>
+<div style="margin-top: 0.5em;">
+      © Snoring Cat LLC
+    </div>
+</footer>
+<audio autoplay="autoplay" id="cat-snores-sound" loop="">
+<source/>
+</audio>
+<audio id="konami-code-confirmation-sound" preload="" src="/_assets/f20da27328cd8f6107d4.mp3"></audio>
+</div>
+
+</body></html>

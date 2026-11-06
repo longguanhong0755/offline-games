@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<title>CodePen - Mastermind (Interactive Game) </title>
+<link href="/_assets/32cab6cbc69ef64037ca.css" rel="stylesheet"/>
+<link href="/_assets/9c099acc093abd2df85e.css" rel="stylesheet"/>
+<link href="/_assets/5db4139f478a41c321f7.css" rel="stylesheet"/>
+<link href="/_assets/d87ddf917b7a1449ab45.css" rel="stylesheet"/>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="game">
+<div style="text-align:left;margin-top: 20px;margin-left: 40px;
+  font-size: 30px; "><a><i class="fas fa-home home-icon" style="color:white;"></i></a></div>
+<h1 class="header">Mastermind</h1>
+<div class="top">
+<div class="code">
+<span class="color-one" style="background-color: rgb(255, 255, 0);"></span>
+<span class="color-two" style="background-color: rgb(255, 255, 0);"></span>
+<span class="color-three" style="background-color: rgb(0, 128, 0);"></span>
+<span class="color-four" style="background-color: rgb(255, 255, 0);"></span>
+</div>
+</div>
+<div class="middle">
+<div class="grid">
+<div class="dots1">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="one-1" id="space"></span></div>
+<div><span class="one-2" id="space"></span></div>
+<div><span class="one-3" id="space"></span></div>
+<div><span class="one-4" id="space"></span></div>
+<div class="dots2">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="two-1" id="space"></span></div>
+<div><span class="two-2" id="space"></span></div>
+<div><span class="two-3" id="space"></span></div>
+<div><span class="two-4" id="space"></span></div>
+<div class="dots3">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="three-1" id="space"></span></div>
+<div><span class="three-2" id="space"></span></div>
+<div><span class="three-3" id="space"></span></div>
+<div><span class="three-4" id="space"></span></div>
+<div class="dots4">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="four-1" id="space"></span></div>
+<div><span class="four-2" id="space"></span></div>
+<div><span class="four-3" id="space"></span></div>
+<div><span class="four-4" id="space"></span></div>
+<div class="dots5">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="five-1" id="space"></span></div>
+<div><span class="five-2" id="space"></span></div>
+<div><span class="five-3" id="space"></span></div>
+<div><span class="five-4" id="space"></span></div>
+<div class="dots6">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="six-1" id="space"></span></div>
+<div><span class="six-2" id="space"></span></div>
+<div><span class="six-3" id="space"></span></div>
+<div><span class="six-4" id="space"></span></div>
+<div class="dots7">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="seven-1" id="space"></span></div>
+<div><span class="seven-2" id="space"></span></div>
+<div><span class="seven-3" id="space"></span></div>
+<div><span class="seven-4" id="space"></span></div>
+<div class="dots8">
+<div class="one1"></div>
+<div class="one2"></div>
+<div class="one3"></div>
+<div class="one4"></div>
+</div>
+<div><span class="eight-1" id="space"></span></div>
+<div><span class="eight-2" id="space"></span></div>
+<div><span class="eight-3" id="space"></span></div>
+<div><span class="eight-4" id="space"></span></div>
+</div>
+</div>
+<div class="bottom">
+<span class="red" id="color"></span>
+<span class="yellow" id="color"></span>
+<span class="green" id="color"></span>
+<span class="blue" id="color"></span>
+<span class="black" id="color"></span>
+<span class="delete">X</span>
+<span class="submit">√</span>
+</div>
+</div>
+<div class="rules">
+<h1 class="rules-header">Rules</h1>
+<div class="content">
+<p><span class="obj">Objective:</span> Crack the hidden code</p>
+<p><span class="how">How to Play:</span> The code is a four color code containing the colored buttons displayed. The code may contain multiples of the same color. Try to guess the correct code (color and order) by clicking on the colored buttons and then hitting the submit button. Your guess will then be compared to the code. For every correct color that is in the correct position, a black peg will  be displayed. However, for every correct color that is in the wrong position, a white peg will be displayed. Use this feedback to determine the correct code.</p>
+</div>
+</div>
+<!-- partial -->
+<script src="/_assets/160a426ff2894252cd7c.js"></script>
+<script src="/_assets/28ce75d953678c4942df.js"></script><script src="/_assets/ce9835817ca373927ccb.js"></script>
+</body></html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="en" style="background: black"><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<link href="favicon.ico" rel="shortcut icon"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<meta content="#000000" name="theme-color"/>
+<link href="manifest.webmanifest" rel="manifest"/>
+<link href="/_assets/59bb9e171c3fc68d209b.css" rel="stylesheet"/>
+<title>EmuDevz</title>
+<meta content="EmuDevz: A game about building emulators!" name="description"/>
+<meta content="EmuDevz" property="og:title"/>
+<meta content="A game about building emulators!" property="og:description"/>
+<meta content="/_assets/0a67c5c1ba82a87da676.png" property="og:image"/>
+<meta content="https://afska.github.io/emudevz" property="og:url"/>
+<meta content="website" property="og:type"/>
+<script src="/_assets/9d3bed542606f06cb454.js" type="module"></script>
+<link href="/_assets/e63a574e5633804f237a.css" rel="stylesheet"/>
+<style>/**
+ * Copyright (c) 2014 The xterm.js authors. All rights reserved.
+ * Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
+ * https://github.com/chjj/term.js
+ * @license MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * Originally forked from (with the author's permission):
+ *   Fabrice Bellard's javascript vt100 for jslinux:
+ *   http://bellard.org/jslinux/
+ *   Copyright (c) 2011 Fabrice Bellard
+ *   The original design remains. The terminal itself
+ *   has been extended to include xterm CSI codes, among
+ *   other features.
+ */
+
+/**
+ *  Default styles for xterm.js
+ */
+
+.xterm {
+    cursor: text;
+    position: relative;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.xterm.focus,
+.xterm:focus {
+    outline: none;
+}
+
+.xterm .xterm-helpers {
+    position: absolute;
+    top: 0;
+    /**
+     * The z-index of the helpers must be higher than the canvases in order for
+     * IMEs to appear on top.
+     */
+    z-index: 5;
+}
+
+.xterm .xterm-helper-textarea {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    /* Move textarea out of the screen to the far left, so that the cursor is not visible */
+    position: absolute;
+    opacity: 0;
+    left: -9999em;
+    top: 0;
+    width: 0;
+    height: 0;
+    z-index: -5;
+    /** Prevent wrapping so the IME appears against the textarea at the correct position */
+    white-space: nowrap;
+    overflow: hidden;
+    resize: none;
+}
+
+.xterm .composition-view {
+    /* TODO: Composition position got messed up somewhere */
+    background: #000;
+    color: #FFF;
+    display: none;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.xterm .composition-view.active {
+    display: block;
+}
+
+.xterm .xterm-viewport {
+    /* On OS X this is required in order for the scroll bar to appear fully opaque */
+    background-color: #000;
+    overflow-y: scroll;
+    cursor: default;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.xterm .xterm-screen {
+    position: relative;
+}
+
+.xterm .xterm-screen canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.xterm .xterm-scroll-area {
+    visibility: hidden;
+}
+
+.xterm-char-measure-element {
+    display: inline-block;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: -9999em;
+    line-height: normal;
+}
+
+.xterm.enable-mouse-events {
+    /* When mouse events are enabled (eg. tmux), revert to the standard pointer cursor */
+    cursor: default;
+}
+
+.xterm.xterm-cursor-pointer,
+.xterm .xterm-cursor-pointer {
+    cursor: pointer;
+}
+
+.xterm.column-select.focus {
+    /* Column selection mode */
+    cursor: crosshair;
+}
+
+.xterm .xterm-accessibility,
+.xterm .xterm-message {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    color: transparent;
+}
+
+.xterm .live-region {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.xterm-dim {
+    opacity: 0.5;
+}
+
+.xterm-underline-1 { text-decoration: underline; }
+.xterm-underline-2 { text-decoration: double underline; }
+.xterm-underline-3 { text-decoration: wavy underline; }
+.xterm-underline-4 { text-decoration: dotted underline; }
+.xterm-underline-5 { text-decoration: dashed underline; }
+
+.xterm-strikethrough {
+    text-decoration: line-through;
+}
+
+.xterm-screen .xterm-decoration-container .xterm-decoration {
+	z-index: 6;
+	position: absolute;
+}
+
+.xterm-decoration-overview-ruler {
+    z-index: 7;
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.xterm-decoration-top {
+    z-index: 2;
+    position: relative;
+}
+</style><style id="_goober"> @keyframes go2264125279{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go3020080000{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}@keyframes go463499852{from{transform:scale(0) rotate(90deg);opacity:0;}to{transform:scale(1) rotate(90deg);opacity:1;}}@keyframes go1268368563{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}@keyframes go1310225428{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go651618207{0%{height:0;width:0;opacity:0;}40%{height:0;width:6px;opacity:1;}100%{opacity:1;height:10px;}}@keyframes go901347462{from{transform:scale(0.6);opacity:0.4;}to{transform:scale(1);opacity:1;}}.go4109123758{z-index:9999;}.go4109123758 > *{pointer-events:auto;}</style><style type="text/css">.marquee-container {
+  overflow-x: hidden !important;
+  display: flex !important;
+  flex-direction: row !important;
+  position: relative;
+  width: 100%;
+}
+.marquee-container:hover div {
+  animation-play-state: var(--pause-on-hover);
+}
+.marquee-container:active div {
+  animation-play-state: var(--pause-on-click);
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.overlay::before, .overlay::after {
+  background: linear-gradient(to right, var(--gradient-color));
+  content: "";
+  height: 100%;
+  position: absolute;
+  width: var(--gradient-width);
+  z-index: 2;
+}
+.overlay::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+.overlay::before {
+  left: 0;
+  top: 0;
+}
+
+.marquee {
+  flex: 0 0 auto;
+  min-width: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  animation: scroll var(--duration) linear var(--delay) var(--iteration-count);
+  animation-play-state: var(--play);
+  animation-delay: var(--delay);
+  animation-direction: var(--direction);
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}</style><style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body style="display: block;">
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<script src="/_assets/62f17a2cd801e6f2e4df.js"></script>
+<script src="/_assets/c1f0a3dcac7ef8663443.js"></script>
+<script src="/_assets/b8773e0083ffa1f1caf5.js"></script>
+<script src="/_assets/b9d289fc9e0553f41358.js"></script>
+<div id="container">
+<div class="screen">
+<div class="crt" id="root"><div class="toaster-wrapper" id="_rht_toaster" style="position: fixed; z-index: 9999; inset: 16px; pointer-events: none;"></div><div class="_container_jr5ly_1"><canvas height="900" style="touch-action: none; cursor: inherit;" width="1440"></canvas></div><div class="_ui_jr5ly_5" id="ui" style="display: flex; transform: translate(-50%, 0px) scale(1); top: 508.5px;"><div class="_box_jr5ly_32">In the year 32767, the world suffered a massive cyber attack which <b>destroyed</b> the entire Internet. Since then, you and an online friend are trying to understand the sparse pieces of documentation about the NEEES, an ancient game console released in 1983. With your programming skills, you'll have to build an emulator that runs those old games, helping preserve video game history.</div><div class="_buttons_jr5ly_18"><div class="_button_jr5ly_18"><div class="_toggableButton_13via_1"><div class="_buttonGroup_13via_7"><div class="dropdown btn-group" role="group"><button class="btn btn-primary" type="button">✨ Play</button><button aria-expanded="false" class="dropdown-toggle dropdown-toggle-split btn btn-primary" id="toggable-button" type="button"><span class="visually-hidden">Toggle dropdown</span></button><div aria-labelledby="toggable-button" class="dropdown-menu" data-popper-escaped="true" data-popper-placement="bottom-start" data-popper-reference-hidden="true" style="position: absolute; inset: 0px auto auto 0px; transform: translate(0px, 2px);" x-placement="bottom-start"><a class="dropdown-item" data-rr-ui-dropdown-item="" href="#" role="button" tabindex="0">✨ Play</a><a class="dropdown-item" data-rr-ui-dropdown-item="" href="#" role="button" tabindex="0">🔭 Free mode</a></div></div></div></div></div><div class="_button_jr5ly_18"><button class="_button_qk6r4_1">💜 Support my work</button></div><div class="_button_jr5ly_18"><button class="_button_qk6r4_1">⚙️ Settings</button></div></div><div class="_footer_jr5ly_51">🧪 Created by <a rel="noreferrer" target="_blank">[r]labs</a> ❓ <button class="link-button" type="button">FAQ</button> 🎥 <a rel="noreferrer" target="_blank">Trailer</a> 🎶 <a rel="noreferrer" target="_blank">Soundtrack</a> 🌐 <a rel="noreferrer" target="_blank">Community</a> 💻 <a rel="noreferrer" target="_blank">Steam</a> 📜 <button class="link-button" type="button">Credits</button></div></div></div>
+<!-- class="crt" -->
+</div>
+</div>
+<div> </div>
+<!-- // HACK: Force browser to download the default font -->
+<div class="_overlay" id="too-small-overlay" style="display: none;">
+<div class="_overlay_content">
+				❌ Window too small!
+				<div class="_overlay_subtitle">
+					This is a desktop-only experience!<br/>Press Ctrl- to zoom out.
+				</div>
+</div>
+</div>
+<div class="_overlay" id="webgl-overlay">
+<div class="_overlay_content">
+				❌ WebGL is disabled!
+				<div class="_overlay_subtitle">
+					Please enable it and reload the page.
+				</div>
+</div>
+</div>
+</body></html>

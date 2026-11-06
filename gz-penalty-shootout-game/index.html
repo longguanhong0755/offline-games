@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths" style=""><!--<![endif]--><head><meta content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self' data: blob:; frame-src 'self' data: blob:; worker-src 'self' blob:; child-src 'self' blob:; object-src 'none'; base-uri 'self'" http-equiv="Content-Security-Policy"/><script src="./_offline-bootstrap.js"></script>
+<meta charset="utf-8"/>
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+<title>Penalty Shootout</title>
+<meta content="" name="description"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="/_assets/da0866a52cd0fc21f38c.css" rel="stylesheet"/>
+<link href="/_assets/71a85b1e4398e6a63842.css" rel="stylesheet"/>
+<!-- favicon -->
+<link href="img/favicons/zee-ball-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="img/favicons/zee-ball-43x43.png" rel="apple-touch-icon" sizes="152x152" type="image/png"/>
+<script src="/_assets/cf25ec18f223f4c51ce1.js"></script>
+<style>[id^='aswift_'],#google_esf,.adsbygoogle,ins.adsbygoogle,.ad,.ads,.advert,.advertisement,[class*='ad-container'],[class*='ad-slot'],[class*='advert'],[data-ad-client],[data-ad-slot]{display:none!important;visibility:hidden!important}</style></head>
+<body>
+<!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+<div id="zee-game">
+<!-- game objects -->
+<div class="goal-keeper standing" id="goal-keeper-state-1"></div>
+<div class="goal-keeper left-jump" id="goal-keeper-state-2"></div>
+<div class="goal-keeper right-jump" id="goal-keeper-state-3"></div>
+<img height="43" id="zee-ball" src="/_assets/00c6bf4367f6b402612f.png" width="43"/>
+<canvas id="kickAnimation"></canvas>
+<!-- modals -->
+<div class="modal" id="modal-1">Click to fix vertical direction</div>
+<div class="modal" id="modal-2">Click to fix horizontal direction</div>
+<div class="modal" id="modal-3">Click to adjust power and kick</div>
+<div class="modal" id="modal-4">Click to try again</div>
+<div class="modal" id="modal-5">Goal!</div>
+<div class="modal" id="modal-6">Go on, give it another shot</div>
+<div class="modal" id="modal-7">Congrats! You won!</div>
+<!-- control meters -->
+<div id="vertical-direction"></div>
+<div class="small-ball one-end" id="vertical-direction-indicator"></div>
+<div id="horizontal-direction"></div>
+<div class="small-ball one-end" id="horizontal-direction-indicator"></div>
+<div id="power-level"></div>
+<div class="small-ball one-end" id="power-level-indicator"></div>
+<!-- scoring -->
+<ul id="score-board">
+<li><img height="32" src="/_assets/00c6bf4367f6b402612f.png" width="32"/></li>
+<li><img height="32" src="/_assets/00c6bf4367f6b402612f.png" width="32"/></li>
+<li><img height="32" src="/_assets/00c6bf4367f6b402612f.png" width="32"/></li>
+<li><img height="32" src="/_assets/00c6bf4367f6b402612f.png" width="32"/></li>
+<li><img height="32" src="/_assets/00c6bf4367f6b402612f.png" width="32"/></li>
+</ul>
+</div>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script> -->
+<script src="/_assets/eb91f6126af3e2906535.js"></script>
+<script src="/_assets/cd85c2d1cb1ab74120d7.js"></script>
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script> -->
+</body></html>

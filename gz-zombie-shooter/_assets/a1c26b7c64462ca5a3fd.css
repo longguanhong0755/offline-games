@@ -1,0 +1,9 @@
+@import url("b137049fd942e4da552f.css");
+@import url("32cab6cbc69ef64037ca.css");
+html, body {
+  margin: 0;
+  overflow: hidden;
+}
+canvas {
+  background: radial-gradient(rgb(171, 123, 1), rgb(168, 4, 4));
+}

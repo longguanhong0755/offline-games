@@ -133,4 +133,4 @@ export const LEVELS = [
 ];
 
 export const FIREBASE_PROJECT = "snake-a82fa";
-export const FIREBASE_API_KEY = "AIzaSyArefU28EHOllP0yttIKUZSME8lOGoSr4o";
+export const FIREBASE_API_KEY = "";
